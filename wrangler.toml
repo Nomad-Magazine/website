@@ -1,0 +1,8 @@
+name = "nomad-magazine"
+main = "dist/_worker.js"
+compatibility_date = "2025-06-17"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"

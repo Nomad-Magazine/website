@@ -1,0 +1,78 @@
+---
+import Layout from '~/layouts/Layout.astro'
+import About from '~/components/About.astro'
+import Bridge from '~/components/Bridge.astro'
+import CheckIcon from '~icons/ic/baseline-check'
+import OurTeam from '~/components/OurTeam.astro'
+import Welcome from '~/components/Welcome.astro'
+import Mission from '~/components/Mission.astro'
+import Partners from '~/components/Partners.astro'
+import Subscribe from '~/components/Subscribe.astro'
+import GetInvolved from '~/components/GetInvolved.astro'
+import FooterLinks from '~/components/FooterLinks.astro'
+import Testimonials from '~/components/Testimonials.astro'
+import EditionsHero from '~/components/EditionsHero.astro'
+import ThirdEdition from '~/components/ThirdEdition.astro'
+import PastEditions from '~/components/PastEditions.astro'
+import BrandPlacement from '~/components/BrandPlacement.astro'
+import MagazinePreview from '~/components/MagazinePreview.astro'
+import GrowingCommunity from '~/components/GrowingCommunity.astro'
+---
+
+<Layout title="Nomad Magazine">
+  <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
+      <div class="space-y-8">
+        <div class="space-y-6">
+          <p class="font-justme text-3xl text-gray-800">the first global digital nomad magazine</p>
+          <h1 class="text-4xl font-semibold text-gray-900 md:text-6xl xl:text-6xl xl:leading-18">This magazine will show you the Digital Nomad World 🌴</h1>
+          <div class="space-y-3 text-lg text-gray-700">
+            <p class="flex items-center">
+              <CheckIcon class="mr-2 h-6 w-6 flex-shrink-0 text-black" />
+              <span>For people who work and live everywhere (or dream of it)</span>
+            </p>
+            <p class="flex items-center">
+              <CheckIcon class="mr-2 h-6 w-6 flex-shrink-0 text-black" />
+              <span>Inspiring stories from nomads around the world</span>
+            </p>
+            <p class="flex items-center">
+              <CheckIcon class="mr-2 h-6 w-6 flex-shrink-0 text-black" />
+              <span>Updates on trends shaping the future of work and living</span>
+            </p>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <a href="/third-edition" class="inline-block rounded-md bg-black px-6 py-3 font-semibold text-white">
+            NEW EDITION {'>>'}
+          </a>
+          <p class="text-sm font-semibold text-gray-600">P.S. It's nice to get away from screens once in a while!</p>
+        </div>
+      </div>
+      <div>
+        <img src="/images/187987f5-e9fc-4a74-b6ef-304b3d4a92e2.webp" alt="Person holding Nomad Magazine issues" class="w-full rounded-lg object-cover" />
+      </div>
+    </div>
+  </div>
+  <div class="bg-hoverw text-white">
+    <EditionsHero />
+    <ThirdEdition />
+    <PastEditions />
+    <MagazinePreview />
+    <Partners />
+    <Testimonials />
+    <About />
+    <GrowingCommunity />
+    <Mission />
+    <Bridge />
+    <Welcome />
+  </div>
+  <OurTeam />
+  <div class="bg-hoverw text-white">
+    <BrandPlacement />
+    <Subscribe tag="Home_form" />
+  </div>
+  <div class="bg-gray-50">
+    <GetInvolved />
+    <FooterLinks />
+  </div>
+</Layout>

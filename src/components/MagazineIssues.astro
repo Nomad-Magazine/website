@@ -1,0 +1,49 @@
+---
+const issues = [
+  {
+    title: "New Edition: See What's Inside",
+    imageUrl: '/images/c0748317-78e6-489b-b760-ff009840dc3b.webp',
+    alt: 'Mind, Body, Tech for Nomad Life',
+    link: '/third-edition',
+    linkText: "New Edition: See What's Inside",
+  },
+  {
+    title: 'Available in print & digital',
+    imageUrl: '/images/f9ff651e-c538-4127-b263-72c4a66b4c3f.webp',
+    alt: 'Inside Remote Communities',
+    link: '/products/issue-002',
+    linkText: 'Download Sample',
+    sampleUrl: 'https://mailchi.mp/nomadgossip/free-weekly-articles',
+  },
+  {
+    title: 'Print Available on MagCulture',
+    imageUrl: '/images/14befc54-828c-44dd-9086-1b18f8ee937c.webp',
+    alt: 'Digital Nomadism',
+    link: '/products/issue-001',
+    linkText: 'Download Sample',
+    sampleUrl: 'https://mailchi.mp/nomadgossip/free-article-what-not-to-do-on-first-date',
+  },
+]
+---
+
+<section class="magazine-issues px-4 py-20 md:px-8">
+  <div class="container mx-auto">
+    <div class="grid grid-cols-1 gap-12 md:grid-cols-3">
+      {
+        issues.map((issue) => (
+          <div class="issue-card text-center">
+            <a href={issue.link}>
+              <img src={issue.imageUrl} alt={issue.alt} class="mb-6 aspect-[3/4] h-auto w-full max-w-full rounded-lg object-cover" />
+              <h3 class="text-lg font-semibold text-yellow-400">{issue.title}</h3>
+            </a>
+            {issue.sampleUrl && (
+              <a href={issue.sampleUrl} class="mt-2 inline-block text-white underline">
+                {issue.linkText}
+              </a>
+            )}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

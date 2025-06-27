@@ -1,0 +1,21 @@
+---
+const imageUrl = '/images/13ee7cb1-95cb-4a73-961c-6b585a9e37cb.webp'
+const balloonUrl = '/images/7da23ba4-d6d2-4588-9871-1e227e49d956.webp'
+const buttonUrl = '/third-edition'
+---
+
+<section class="py-20">
+  <div class="container mx-auto px-4 text-center">
+    <div class="mb-8 flex justify-center">
+      <div class="relative inline-block">
+        <img src={imageUrl} alt="Nomad Magazine Issue 2 covers" class="w-full max-w-md" loading="lazy" />
+        <img src={balloonUrl} alt="Hot air balloon" class="absolute -top-16 -right-2 h-auto w-40" />
+      </div>
+    </div>
+    <h2 class="mb-4 text-5xl font-bold">Welcome to the family, Nomad!</h2>
+    <p class="mx-auto mb-8 max-w-2xl text-lg text-neutral-400">
+      Nomad Gossip Magazine aspires to unravel the hacks, secrets and whereabouts of this daring tribe that has transformed the very essence of modern work and travel.
+    </p>
+    <a href={buttonUrl} class="inline-block rounded-lg bg-yellow-400 px-8 py-3 font-bold text-black"> Buy Now </a>
+  </div>
+</section>

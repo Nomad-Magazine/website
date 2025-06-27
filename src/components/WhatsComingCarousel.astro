@@ -1,0 +1,137 @@
+---
+interface Slide {
+  image: string
+  srcset?: string
+  alt: string
+  quote: string
+  name: string
+  role: string
+}
+
+interface Props {
+  heading: string
+  subtitle: string
+  slides: Slide[]
+}
+
+const { heading, subtitle, slides }: Props = Astro.props
+---
+
+<section class="bg-gray-50 py-16">
+  <div class="mx-auto mb-10 max-w-3xl text-center">
+    <h2 class="mb-2 text-4xl font-bold">{heading}</h2>
+    <div class="mx-auto max-w-xl text-lg text-gray-600">{subtitle}</div>
+  </div>
+  <div class="relative flex items-center justify-center">
+    <button
+      id="wc-left"
+      type="button"
+      aria-label="Previous"
+      class="absolute left-12 z-10 hidden -translate-x-1/2 rounded-full bg-white/80 p-3 shadow transition hover:bg-white md:block"
+    >
+      <img src="/images/a5e2143b-fe3a-49e4-b93d-c6f500b4bb9d.svg" alt="Prev" class="h-7 w-7" />
+    </button>
+    <div class="mx-auto w-full max-w-4xl">
+      <div class="flex min-h-[340px] flex-col items-center rounded-2xl bg-white p-6 shadow-lg transition-all duration-300 md:flex-row md:p-10" id="wc-card">
+        <img
+          id="wc-img"
+          src={slides[0].image}
+          srcset={slides[0].srcset}
+          alt={slides[0].alt}
+          class="mb-6 h-56 w-56 rounded-lg bg-gray-100 object-contain md:mr-8 md:mb-0"
+          loading="lazy"
+        />
+        <div class="flex-1 text-left">
+          <div id="wc-quote" class="mb-6 text-lg font-medium md:text-xl">{slides[0].quote}</div>
+          <div id="wc-name" class="mb-1 text-xl font-semibold">{slides[0].name}</div>
+          <div id="wc-role" class="text-base text-gray-400 italic">{slides[0].role}</div>
+        </div>
+      </div>
+      <div class="mt-6 flex justify-center gap-2">
+        {slides.map((_, i) => <span class="inline-block h-2 w-2 rounded-full bg-gray-300" id={`wc-dot-${i}`} />)}
+      </div>
+    </div>
+    <button
+      id="wc-right"
+      type="button"
+      aria-label="Next"
+      class="absolute right-12 z-10 hidden translate-x-1/2 rounded-full bg-white/80 p-3 shadow transition hover:bg-white md:block"
+    >
+      <img src="/images/50b78176-ece1-49f1-95cb-1ae03044b766.svg" alt="Next" class="h-7 w-7" />
+    </button>
+  </div>
+</section>
+
+<script define:vars={{ slides }}>
+  let current = 0
+  const img = document.getElementById('wc-img')
+  const quote = document.getElementById('wc-quote')
+  const name = document.getElementById('wc-name')
+  const role = document.getElementById('wc-role')
+  const left = document.getElementById('wc-left')
+  const right = document.getElementById('wc-right')
+  const dots = slides.map((_, i) => document.getElementById(`wc-dot-${i}`))
+
+  let autoPlayInterval = null
+  let autoPlayTimeout = null
+  const AUTO_PLAY_DELAY = 3000 // 3s
+  const AUTO_PLAY_RESUME = 2000 // 2s after interaction
+
+  function update() {
+    img.src = slides[current].image
+    img.srcset = slides[current].srcset || ''
+    img.alt = slides[current].alt
+    quote.textContent = slides[current].quote
+    name.textContent = slides[current].name
+    role.textContent = slides[current].role
+    dots.forEach((dot, i) => {
+      if (dot) dot.classList.toggle('bg-gray-800', i === current)
+      if (dot) dot.classList.toggle('bg-gray-300', i !== current)
+    })
+  }
+
+  function next() {
+    current = (current + 1) % slides.length
+    update()
+  }
+  function prev() {
+    current = (current - 1 + slides.length) % slides.length
+    update()
+  }
+
+  function startAutoPlay() {
+    if (autoPlayInterval) clearInterval(autoPlayInterval)
+    autoPlayInterval = setInterval(() => {
+      next()
+    }, AUTO_PLAY_DELAY)
+  }
+
+  function pauseAutoPlayAndResume() {
+    if (autoPlayInterval) clearInterval(autoPlayInterval)
+    if (autoPlayTimeout) clearTimeout(autoPlayTimeout)
+    autoPlayTimeout = setTimeout(() => {
+      startAutoPlay()
+    }, AUTO_PLAY_RESUME)
+  }
+
+  left.addEventListener('click', () => {
+    prev()
+    pauseAutoPlayAndResume()
+  })
+  right.addEventListener('click', () => {
+    next()
+    pauseAutoPlayAndResume()
+  })
+  // Dots click
+  dots.forEach((dot, i) => {
+    if (dot)
+      dot.addEventListener('click', () => {
+        current = i
+        update()
+        pauseAutoPlayAndResume()
+      })
+  })
+  // Initial
+  update()
+  startAutoPlay()
+</script>

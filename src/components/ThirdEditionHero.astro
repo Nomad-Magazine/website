@@ -1,0 +1,50 @@
+---
+interface Props {
+  printUrl: string
+  digitalUrl: string
+  waitlistUrl: string
+}
+
+const { printUrl, digitalUrl, waitlistUrl }: Props = Astro.props
+---
+
+<div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+  <div class="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
+    <div class="space-y-8">
+      <div class="space-y-6">
+        <div class="text-lg font-semibold text-gray-800">Nomad Magazine: Edition #3</div>
+        <h1 class="mb-4 text-4xl leading-tight font-bold md:text-6xl">Real-world knowledge for your <br />nomad life in 100+ pages.</h1>
+        <div class="text-lg font-semibold text-gray-700">Read by 1000+ nomads worldwide</div>
+      </div>
+      <div class="space-y-4">
+        <div class="mb-2 flex flex-col gap-4 sm:flex-row">
+          <a
+            href={printUrl}
+            data-event="reserve magazine"
+            target="_blank"
+            class="inline-block rounded bg-black px-6 py-3 text-center text-lg font-semibold text-yellow-400 transition hover:bg-gray-900">PRINT MAGAZINE</a
+          >
+          <a
+            href={digitalUrl}
+            data-event="reserve magazine"
+            target="_blank"
+            class="inline-block rounded bg-black px-6 py-3 text-center text-lg font-semibold text-yellow-400 transition hover:bg-gray-900">DIGITAL MAGAZINE</a
+          >
+        </div>
+        <div class="mt-2 text-sm text-gray-700">
+          *Or join <a href={waitlistUrl} target="_blank" class="text-blue-700 underline">waiting list</a>. It will be available in June-July 2025.
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-center lg:justify-end">
+      <img
+        src="/images/ea3a6840-f2a2-42c6-adef-50ae3427ba96.webp"
+        srcset="/images/a4089a7b-7502-4dfc-9ff7-b9ea742e9338.webp 500w, /images/420bd1b8-eaad-4c29-806f-ceb572dec79c.webp 800w, /images/4e07cbad-00e0-4a4b-851f-e07e373b366a.webp 1080w, /images/844cafa1-f939-4e39-8c9e-8c14172f183c.webp 1600w, /images/943e6875-6bc2-4f5a-8249-6b6a807101fb.webp 2000w, /images/0bbedefe-df04-4de2-9b07-f105cd9bd8b4.webp 2600w, /images/ea3a6840-f2a2-42c6-adef-50ae3427ba96.webp 2672w"
+        sizes="100vw"
+        alt="a woman holding a magazine covering her face. Nomad Magazine - the first independent publication about digital nomad trend"
+        class="h-auto max-w-full rounded-lg shadow-lg"
+        loading="lazy"
+      />
+    </div>
+  </div>
+</div>

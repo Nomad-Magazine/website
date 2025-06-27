@@ -1,0 +1,114 @@
+---
+import FAQ from '~/components/FAQ.astro'
+import Layout from '~/layouts/Layout.astro'
+import FAQContact from '~/components/FAQContact.astro'
+import PaymentPlan from '~/components/PaymentPlan.astro'
+import Testimonials from '~/components/Testimonials.astro'
+import ProductCarousel from '~/components/ProductCarousel.astro'
+import MagazineReadyBanner from '~/components/MagazineReadyBanner.astro'
+
+const slides = [
+  {
+    src: '/images/0f686bbe-be95-4550-bdd8-4cd0cb9c7fcf.webp',
+  },
+  {
+    src: '/images/8dd5549d-aea9-43c4-a934-3f8eba8fdabc.webp',
+  },
+  {
+    src: '/images/80035492-77cd-4583-bff1-c29f5b452f7d.webp',
+  },
+  {
+    src: '/images/8346f3ee-18d2-4ae4-b315-7fb6672a396f.webp',
+  },
+  {
+    src: '/images/70b48c2a-bc81-4a29-9a2a-ac87165dd840.webp',
+  },
+  {
+    src: '/images/52f6d130-1b90-4458-b32f-6c366a02b1e8.webp',
+  },
+  {
+    src: '/images/c9334c1e-a429-4b2a-a90f-a44e9197cd11.webp',
+  },
+  {
+    src: '/images/17474833-3722-43b2-afc6-a14cb7d29f51.webp',
+  },
+  {
+    src: '/images/a1be3185-3c10-4af2-97c2-c00f879a62d5.webp',
+  },
+  {
+    src: '/images/b047fd1f-b737-4179-b5d7-97715aac1586.webp',
+  },
+]
+---
+
+<Layout title="Issue 002">
+  <MagazineReadyBanner text="NEW MAGAZINE IS LIVE!" />
+  <section class="my-12 flex flex-col items-start justify-center gap-8 md:flex-row">
+    <!-- Carousel/Slider -->
+    <div class="w-full flex-shrink-0 px-8 md:w-1/2 md:px-0">
+      <ProductCarousel {slides} firstSlideMaxWidth={false} />
+    </div>
+    <!-- Product Info -->
+    <div class="w-full max-w-md px-8 md:w-1/2 lg:px-0">
+      <PaymentPlan
+        issueNumber="ISSUE 002"
+        issueDescription="Your guide into digital nomad communities in 110-page masterpiece."
+        digitalPlans={[
+          {
+            id: 'single-purchase',
+            title: 'Single Purchase',
+            subtitle: 'Pay for one issue',
+            features: [
+              { text: 'Personal NGM account' },
+              { text: 'Exclusive NGM newsletters' },
+              { text: 'First to unlock the new NGM issue' },
+              { text: 'Lifetime access to digital magazine' },
+            ],
+            price: '€9',
+            url: 'https://buy.stripe.com/aEUbLOcE4d4ZcqQ146',
+            defaultUrl: 'https://buy.stripe.com/5kA5nqcE4ghb2Qg9AB',
+            defaultChecked: false,
+          },
+        ]}
+        printPlan={{
+          id: 'print',
+          title: 'Single Purchase',
+          subtitle: 'Pay for one issue',
+          features: [{ text: 'Printed NGM issue' }, { text: 'Exclusive NGM newsletters' }],
+          price: '€22',
+          priceNote: "It's almost shipment cost - €17-20 (included)",
+          url: 'https://buy.stripe.com/fZe7vygUk3upfD2bIL',
+        }}
+        orderButtonText="Order Now"
+      />
+      <div class="mt-2 text-xs text-gray-500">
+        While the digital version works on both mobile and desktop, we recommend the desktop for a more enjoyable reading experience.<br />
+        All payments will be securely processed through MediaPath OÜ, the business entity of Nomad Gossip Magazine.
+      </div>
+    </div>
+  </section>
+  <div class="mx-auto my-8 max-w-3xl px-4 text-left">
+    <p><strong>We turned nomad life into a 100-page masterpiece.</strong></p>
+    <p><strong>In focus: Nomad Communities and Japan as a new destination.</strong></p>
+    <p>
+      This edition of <strong>NGM</strong> takes you deeper into the heart of the digital nomad lifestyle, with a special focus on <em>the communities that shape it</em> and getting
+      to know the digital nomad scene of <em>Japan</em>.
+    </p>
+    <p>In this issue, you'll get:</p>
+    <ul role="list" class="list-disc pl-6">
+      <li>An official introduction to the seven dynamic nomad communities.a</li>
+      <li>Exclusive interview with Kiki about Japan and its top travel destinations.</li>
+      <li>Photo story showcasing Japanese cuisine.</li>
+      <li>Insights from a law firm on the truth behind Japan's Digital Nomad Visa.</li>
+      <li>"7 Secrets to a Thriving Nomadic Love Relationship" from a couple who has traveled together for 32 years.</li>
+      <li>Exclusive book recommendations from the Mindvalley Book Club.</li>
+      <li>10-year digital nomad reflections by Sergio Sala.</li>
+      <li>Top 6 accommodation booking platforms to explore.</li>
+      <li>A calendar of digital nomad events in 2025.</li>
+    </ul>
+    <p>And much more!</p>
+  </div>
+  <Testimonials sectionClass="bg-hoverw [&_h2]:text-white" />
+  <FAQ />
+  <FAQContact />
+</Layout>

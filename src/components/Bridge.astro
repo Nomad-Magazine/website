@@ -1,0 +1,40 @@
+---
+const mainImageUrl = '/images/5ea9641e-e952-4570-b281-e0a29b9753f2.webp'
+const stampImageUrl = '/images/365b0ceb-376b-445d-9f65-cef882cd05e9.webp'
+---
+
+<section class="py-20">
+  <div class="container mx-auto">
+    <div class="grid grid-cols-1 items-center gap-16 md:grid-cols-2">
+      <!-- Text content -->
+      <div class="order-2 space-y-8 px-4 text-center md:order-1 md:text-left">
+        <h2 class="text-3xl leading-tight font-semibold md:text-5xl">We bridge the gap between individual digital nomads and the wider world</h2>
+        <div class="text-md space-y-6 text-neutral-400 md:text-lg">
+          <p>NGM is pioneering the movement towards sustainable, non-linear lifestyle choices, bringing together nomads with locals and fostering respect for every way of life.</p>
+          <p>From the best places to meet like-minded wanderers, to tried-and-tested techniques to make a living online, NGM is written for the nomad in all of us.</p>
+        </div>
+      </div>
+      <!-- Image content -->
+      <div class="relative order-1 flex justify-center md:order-2 md:justify-end">
+        <div class="relative w-full">
+          <img src={mainImageUrl} alt="Abstract graphic representing community" class="w-full" loading="lazy" />
+          <div class="stamp-globe-group group absolute bottom-12 left-1/2 w-1/2 -translate-x-1/2">
+            <img src={stampImageUrl} alt="Stamp with a globe and text 'not all who wander are lost'" class="h-auto w-full" loading="lazy" />
+            <img
+              alt="Rotating globe"
+              src="https://cdn.prod.website-files.com/64ec95e0eddd7b775369e9e7/64ecdf0ed6d5e8116c55e117_Mask%20group%20(12).webp"
+              class="absolute top-1/2 left-2/3 z-10 aspect-square w-[75%] max-w-[140px] -translate-x-1/2 -translate-y-1/2 transition-transform duration-700 ease-in-out group-hover:rotate-360"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Custom rotate-360 utility for Tailwind (since rotate-360 is not default) */
+  .group:hover .group-hover\\:rotate-360 {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+</style>

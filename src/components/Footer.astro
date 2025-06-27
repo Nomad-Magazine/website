@@ -1,0 +1,64 @@
+---
+import xIcon from '~icons/mdi/twitter?raw&width=24px'
+import youtubeIcon from '~icons/mdi/youtube?raw&width=24px'
+import linkedInIcon from '~icons/mdi/linkedin?raw&width=24px'
+import facebookIcon from '~icons/mdi/facebook?raw&width=24px'
+import instagramIcon from '~icons/mdi/instagram?raw&width=24px'
+
+const socialLinks = [
+  { name: 'X', href: 'https://twitter.com/nomadgossipmag', icon: xIcon },
+  { name: 'Facebook', href: 'https://www.facebook.com/nomadgossip/', icon: facebookIcon },
+  { name: 'Youtube', href: 'https://www.youtube.com/@Nomad-Magazine', icon: youtubeIcon },
+  { name: 'Instagram', href: 'https://www.instagram.com/nomadmagazinecom/', icon: instagramIcon },
+  { name: 'LinkedIn', href: 'https://www.linkedin.com/company/ngm-nomad-gossip-magazine/', icon: linkedInIcon },
+]
+---
+
+<footer class="bg-gray-50 px-4 py-8 font-sans">
+  <div class="mx-auto hidden max-w-7xl md:block">
+    <div class="mb-8 flex items-center justify-between">
+      <img decoding="async" loading="lazy" src="/logo.svg" alt="n::.m" class="h-4" />
+      <div class="flex gap-2">
+        {
+          socialLinks.map((link) => (
+            <a href={link.href} set:html={link.icon} aria-label={link.name} class="bg-gray-100 px-1 py-1.5 text-black transition-colors duration-200 hover:bg-gray-200" />
+          ))
+        }
+      </div>
+    </div>
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-4 text-gray-600">
+        <span>© 2025 MediaPath OÜ</span>
+        <a href="/privacy-policy" class="text-gray-600 hover:underline">Privacy Policy</a>
+        <a href="/terms-and-conditions" class="text-gray-600 hover:underline">Terms&Conditions</a>
+        <a href="/blog" class="text-gray-600 hover:underline">Blog</a>
+      </div>
+      <div>
+        <a target="_blank" href="https://curves.digital" class="text-gray-600 hover:underline"> design by CURVES (~.~) </a>, <a
+          target="_blank"
+          href="https://rishi.app"
+          class="text-gray-600 hover:underline"
+        >
+          dev by Rishi
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="mx-auto flex max-w-6xl flex-col items-start gap-6 text-left md:hidden">
+    <span class="text-2xl font-bold tracking-wider">n::.m</span>
+    <div class="flex gap-3">
+      {
+        socialLinks.map((link) => (
+          <a href={link.href} set:html={link.icon} aria-label={link.name} class="bg-gray-300 text-gray-700 transition-colors duration-200 hover:bg-gray-400" />
+        ))
+      }
+    </div>
+    <span class="text-gray-600">design & dev by CURVES (~.~)</span>
+    <div class="flex flex-col items-start gap-3">
+      <a href="#" class="text-gray-600 hover:underline">Privacy Policy</a>
+      <a href="#" class="text-gray-600 hover:underline">Terms&Conditions</a>
+      <a href="#" class="text-gray-600 hover:underline">Blog</a>
+    </div>
+    <span>© 2025 MediaPath OÜ</span>
+  </div>
+</footer>

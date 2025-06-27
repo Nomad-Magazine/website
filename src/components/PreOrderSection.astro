@@ -1,0 +1,20 @@
+---
+interface Props {
+  name?: string
+  preOrderUrl: string
+  waitlistUrl: string
+}
+
+const { name = 'PRE-ORDER SIGNED COPY', preOrderUrl, waitlistUrl }: Props = Astro.props
+---
+
+<div class="bg-gray-50 py-20">
+  <div class="flex flex-col items-center justify-center">
+    <a href={preOrderUrl} target="_blank" class="mb-6 block rounded-2xl bg-black px-12 py-6 text-center text-lg font-semibold text-yellow-400 transition hover:bg-gray-900">
+      {name}
+    </a>
+    <div class="text-center text-xl font-semibold text-gray-400">
+      *Or join <a href={waitlistUrl} target="_blank" class="text-blue-700 underline">waiting list</a>. It will be available in June-July 2025.
+    </div>
+  </div>
+</div>

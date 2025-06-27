@@ -1,0 +1,65 @@
+---
+const team = [
+  {
+    name: 'Val',
+    location: 'in Madeira',
+    img: '/images/a159fe0c-3f98-43df-9b37-b03d5fa01c67.webp',
+  },
+  {
+    name: 'Amy',
+    location: 'in Sheffield',
+    img: '/images/2d6fb3fb-ff71-4275-8156-a9595e93c50d.webp',
+  },
+  {
+    name: 'Feride',
+    location: 'in Vienna',
+    img: '/images/7930b126-b7cc-4788-a55c-19639af762f8.webp',
+  },
+  {
+    name: 'Anna',
+    location: 'in Yerevan',
+    img: '/images/87dc0a5b-d4d6-4448-b592-6ef737c75931.webp',
+  },
+]
+---
+
+<section id="team" class="bg-gray-50 bg-[url(/images/bb7a7ae4-64eb-483e-9571-7047202d4380.webp)] py-20 break-all">
+  <div class="container mx-auto px-4">
+    <div class="text-center">
+      <h2 class="font-justme text-5xl">Our team</h2>
+    </div>
+    <div class="font-inter mx-auto mt-4 flex max-w-3xl flex-col items-center space-y-12">
+      {
+        team.map((member, index) => (
+          <div class="w-full">
+            {/* --- MOBILE VIEW --- */}
+            <div class="group flex flex-col items-center space-y-4 text-center text-3xl font-bold sm:hidden">
+              <img src={member.img} alt={`${member.name}'s eyes`} class="w-full max-w-xs object-contain grayscale transition group-hover:grayscale-0" />
+              <p>
+                {member.name} {member.location}
+              </p>
+            </div>
+            {/* --- DESKTOP VIEW --- */}
+            <div class="group hidden items-center justify-start space-x-6 text-7xl font-bold sm:flex">
+              {index % 2 === 0 ? (
+                <>
+                  <img src={member.img} alt={`${member.name}'s eyes`} class="h-16 object-contain grayscale transition group-hover:grayscale-0" />
+                  <p>
+                    {member.name} {member.location}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <span>{member.name}</span>
+                  <img src={member.img} alt={`${member.name}'s eyes`} class="h-16 object-contain grayscale transition group-hover:grayscale-0" />
+                  <span>{member.location}</span>
+                </>
+              )}
+            </div>
+          </div>
+        ))
+      }
+      <div class="pt-8 text-5xl font-bold sm:text-7xl">We are in ngm</div>
+    </div>
+  </div>
+</section>

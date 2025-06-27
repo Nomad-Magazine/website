@@ -1,0 +1,30 @@
+---
+interface Sponsor {
+  link: string
+  image: string
+  alt: string
+  width: string
+  srcset?: string
+}
+
+interface Props {
+  sponsors: Sponsor[]
+}
+
+const { sponsors }: Props = Astro.props
+---
+
+<div class="bg-black py-16">
+  <div class="mx-auto max-w-5xl px-4">
+    <p class="mb-10 text-center text-2xl font-semibold text-white">Vol. 3 Sponsored By</p>
+    <div class="grid grid-cols-2 items-center justify-center gap-8 md:grid-cols-3 lg:grid-cols-6">
+      {
+        sponsors.map((s) => (
+          <a href={s.link} target="_blank" class="flex justify-center">
+            <img width={s.width} alt={s.alt} src={s.image} loading="lazy" srcset={s.srcset} />
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</div>

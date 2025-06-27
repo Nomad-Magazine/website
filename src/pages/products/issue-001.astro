@@ -1,0 +1,97 @@
+---
+import FAQ from '~/components/FAQ.astro'
+import Layout from '~/layouts/Layout.astro'
+import FAQContact from '~/components/FAQContact.astro'
+import PaymentPlan from '~/components/PaymentPlan.astro'
+import Testimonials from '~/components/Testimonials.astro'
+import ProductCarousel from '~/components/ProductCarousel.astro'
+import MagazineReadyBanner from '~/components/MagazineReadyBanner.astro'
+
+const slides = [
+  {
+    src: 'https://cdn.prod.website-files.com/6565d74ea60dc4215c4cfaa4/6759859a5bd8b818aa437a77_656ef0ead73cdb6963e31c42_telegram-cloud-photo-size-2-5436047159616197300-y%201.avif',
+  },
+  { src: 'https://cdn.prod.website-files.com/6565d74ea60dc4215c4cfaa4/67597ee72349cde08c9048dd_668665483876259f5136cf59_DSC00499%20(2).avif' },
+  { src: 'https://cdn.prod.website-files.com/6565d74ea60dc4215c4cfaa4/67597eeaf0641e9edf27f70c_6686654da629b02a1ea0f354_DSC00542.avif' },
+  { src: 'https://cdn.prod.website-files.com/6565d74ea60dc4215c4cfaa4/67597eec57f936d824393eb7_66866551a774c9b17e123d14_DSC00525.avif' },
+  { src: 'https://cdn.prod.website-files.com/6565d74ea60dc4215c4cfaa4/67597eee34d32d00f09efd03_6686655753b877eefb18abca_DSC00514.avif' },
+  { src: 'https://cdn.prod.website-files.com/6565d74ea60dc4215c4cfaa4/67597ef1a3d981702b7c8f41_6686655bd7bbc380dd9c07e9_DSC00518.avif' },
+  { src: 'https://cdn.prod.website-files.com/6565d74ea60dc4215c4cfaa4/67597ef4d1d177936628993f_66866560eee0505a03f58aa3_DSC00503.avif' },
+]
+---
+
+<Layout title="Issue 001">
+  <MagazineReadyBanner text="The magazine is ready! We can't wait for you to read it!" />
+  <section class="my-12 flex flex-col items-center justify-center gap-8 lg:flex-row">
+    <!-- Carousel/Slider -->
+    <div class="w-full flex-shrink-0 px-8 md:w-1/2 md:px-0">
+      <ProductCarousel slides={slides} firstSlideMaxWidth={true} />
+    </div>
+    <!-- Product Info -->
+    <div class="w-full px-8 lg:w-1/2 lg:max-w-md lg:px-0">
+      <PaymentPlan
+        issueNumber="ISSUE 001"
+        issueDescription="The first issue of Nomad Gossip Magazine. 100 pages of unique content, Yellow Pages, and more."
+        digitalPlans={[
+          {
+            id: 'single-purchase',
+            title: 'Single Purchase',
+            subtitle: 'Pay for one issue',
+            features: [
+              { text: 'Personal NGM account' },
+              { text: 'Exclusive NGM newsletters' },
+              { text: 'First to unlock the new NGM issue' },
+              { text: 'Lifetime access to digital magazine' },
+            ],
+            price: '€14',
+            url: 'https://myaccount.nomadgossip.com/registration-issue',
+          },
+          {
+            id: 'annual-subscription',
+            title: 'Annual Subscription',
+            subtitle: 'Lock your special price for 4 issues',
+            features: [
+              { text: 'Everything that a single purchase includes' },
+              { text: 'Lock your special price for 4 issues' },
+              { text: 'Special offers from nomad brands and services' },
+            ],
+            price: '€48',
+            priceNote: '€12 price per issue',
+            url: 'https://myaccount.nomadgossip.com/registration-year',
+            defaultChecked: true,
+          },
+        ]}
+        printPlan={{
+          id: 'print',
+          title: 'Single Purchase',
+          subtitle: 'Pay for one issue',
+          features: [{ text: 'Printed NGM issue' }, { text: 'Exclusive NGM newsletters' }],
+          price: '€22',
+          priceNote: '* Delivery cost included',
+          url: 'https://buy.stripe.com/5kA3fA9vH3yd1Ko6ou',
+        }}
+        orderButtonText="Read Now!"
+      />
+      <div class="mt-2 text-xs text-gray-500">
+        While the digital version works on both mobile and desktop, we recommend the desktop for a more enjoyable reading experience.<br />
+        All payments will be securely processed through MediaPath OÜ, the business entity of Nomad Gossip Magazine.
+      </div>
+    </div>
+  </section>
+  <div class="mx-auto my-8 max-w-3xl px-4 text-left">
+    <p>
+      Welcome to the first issue of Nomad Gossip Magazine (NGM). Inside, you'll find everything from the hottest nomad gossip, which destinations to hit in 2024 and how to truly
+      make a positive impact wherever you plant your laptop.
+    </p>
+    <p>What's Coming:</p>
+    <ul role="list" class="list-disc pl-6">
+      <li>100 pages of unique content crafted by our editors and guest writers</li>
+      <li>Yellow Pages: Digital Nomad Directory</li>
+      <li>Exclusive NGM newsletters</li>
+    </ul>
+    <p><a href="https://mailchi.mp/nomadgossip/free-article-what-not-to-do-on-first-date" target="_blank" class="font-medium underline">Download sample</a></p>
+  </div>
+  <Testimonials sectionClass="bg-hoverw [&_h2]:text-white" />
+  <FAQ />
+  <FAQContact />
+</Layout>

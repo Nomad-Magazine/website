@@ -1,0 +1,62 @@
+---
+const links = [
+  {
+    text: 'Issues',
+    url: '#order',
+    imageUrl: '/underline.svg',
+  },
+  {
+    text: 'Testimonials',
+    url: '/#Testimonials',
+    imageUrl: '/images/1ceec489-3480-49ac-beb7-924dfafe85e5.svg',
+  },
+  {
+    text: 'About',
+    url: '#About',
+    imageUrl: '/underline.svg',
+  },
+  {
+    text: 'Nomad Directory',
+    url: '/nomad_directory',
+    imageUrl: '/images/ea57d9f8-abcc-4ba7-8a62-a58a40c65b2b.svg',
+  },
+  {
+    text: 'Media-kit',
+    url: '#Media_kit',
+    imageUrl: '/images/5e85532e-de5b-41e7-8d55-2990e9daf3ed.svg',
+  },
+  {
+    text: 'Team',
+    url: '#team',
+    imageUrl: '/underline.svg',
+  },
+  {
+    text: 'Newsletter',
+    url: '#subscribe',
+    imageUrl: '/images/1ceec489-3480-49ac-beb7-924dfafe85e5.svg',
+  },
+  {
+    text: 'For partners',
+    url: '#Involved',
+    imageUrl: '/images/1ceec489-3480-49ac-beb7-924dfafe85e5.svg',
+  },
+  {
+    text: 'Blog',
+    url: '/blog',
+    imageUrl: '/images/fcb51b36-bff8-4484-9711-3f176a95f177.svg',
+  },
+]
+---
+
+<div class="mx-auto px-4 py-8">
+  <div class="flex flex-wrap justify-center gap-x-8 gap-y-4">
+    {
+      links.map((link) => (
+        <a href={link.url} class="group relative inline-block">
+          <span class="font-justme text-2xl">{link.text}</span>
+          <img src={link.imageUrl} alt="" class="absolute bottom-[-10px] left-0 hidden w-full group-hover:block" loading="lazy" />
+        </a>
+      ))
+    }
+  </div>
+</div>

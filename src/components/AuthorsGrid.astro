@@ -1,0 +1,33 @@
+---
+interface Author {
+  image: string
+  name: string
+  bio: string // HTML string
+}
+
+interface Props {
+  authors: Author[]
+}
+
+const { authors }: Props = Astro.props
+---
+
+<div class="bg-gray-50 py-16">
+  <div class="mx-auto max-w-7xl px-4">
+    <h2 class="mb-2 text-center text-4xl font-semibold text-gray-800">Vol. 3 Authors</h2>
+    <p class="mx-auto mb-12 max-w-2xl text-center text-lg text-gray-600">
+      Explore our work to see the transformative power of creative solutions and envision what we can accomplish together.
+    </p>
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+      {
+        authors.map((author) => (
+          <div class="flex flex-col items-start rounded-lg bg-white p-6 shadow-sm">
+            <img src={author.image} alt={author.name} class="mb-4 h-64 w-full rounded-md object-cover" loading="lazy" />
+            <h3 class="mb-2 text-2xl font-bold text-gray-900">{author.name}</h3>
+            <div class="text-base text-gray-700" set:html={author.bio} />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</div>

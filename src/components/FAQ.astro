@@ -1,0 +1,47 @@
+---
+const faqs = [
+  {
+    question: 'What formats are available?',
+    answer: 'Both printed and digital versions are available, offering 104 pages of unique and experts content.',
+  },
+  {
+    question: 'Why do I need access to a digital edition?',
+    answer: `Once you\'ve made your purchase (whether it\'s a single issue or an annual subscription), you\'ll gain entry to your exclusive account, securing both instant and lifelong access to the issue. This means you can dive into the content at your convenience, whether you\'re on the go or in the comfort of your favorite digital space. Read it anytime, anywhere, and on any device - your digital nomad experience just got more flexible.`,
+  },
+  {
+    question: 'When and where will print editions be available?',
+    answer: 'Printed editions already available. Meanwhile, our print edition distributed to the coworkings and colivings at the best locations for nomads.',
+  },
+  {
+    question: 'How can I get a printed version?',
+    answer: 'You can order print or digital on this page by choosing the options available above.',
+  },
+  {
+    question: 'How can I spread the word?',
+    answer:
+      'Want Nomad Gossip Magazine in your hotel, co-working space, co-living, or office? Fantastic! Reach out to us at <a href="mailto:hey@nomadgossip.com">hey@nomadgossip.com</a> for details.',
+  },
+]
+---
+
+<div class="bg-[#f8f8f8] py-24">
+  <div class="mx-auto grid max-w-7xl grid-cols-1 items-start gap-12 px-4 md:grid-cols-2">
+    <h2 class="mb-8 text-5xl leading-tight font-bold md:mb-0 md:text-6xl">Frequently Asked<br />Questions</h2>
+    <div class="flex w-full flex-col gap-2">
+      {
+        faqs.map((faq, i) => (
+          <details class="group border-b border-gray-200">
+            <summary class="flex cursor-pointer list-none items-center justify-between py-6 text-xl font-semibold outline-none">
+              <span>{faq.question}</span>
+              <span class="ml-4 flex size-6 items-center justify-center rounded border border-black transition-transform">
+                <span class="block h-0.5 w-2 bg-black" />
+                <span class="absolute block h-2 w-0.5 bg-black group-open:hidden" />
+              </span>
+            </summary>
+            <div class="pb-6 text-sm text-gray-600" set:html={faq.answer} />
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</div>

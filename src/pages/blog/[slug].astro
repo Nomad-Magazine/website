@@ -1,0 +1,131 @@
+---
+import Layout from '~/layouts/Layout.astro'
+import SidebarSubscribe from '~/components/SidebarSubscribe.astro'
+import { getCollection, type CollectionEntry } from 'astro:content'
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog')
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: post,
+  }))
+}
+
+type Props = CollectionEntry<'blog'>
+
+const post = Astro.props
+const { Content } = await post.render()
+
+const allPosts = await getCollection('blog')
+const currentPostTags = post.data.tag ? post.data.tag.split(',').map((t) => t.trim()) : []
+
+// Find posts with at least one common tag
+let relatedPosts = allPosts
+  .filter((p) => {
+    if (p.slug === post.slug || !p.data.tag || !currentPostTags.length) return false
+    const otherPostTags = p.data.tag.split(',').map((t) => t.trim())
+    return otherPostTags.some((tag) => currentPostTags.includes(tag))
+  })
+  .sort((a, b) => (b.data.pubDate || new Date(0)).valueOf() - (a.data.pubDate || new Date(0)).valueOf())
+
+// If we need more posts, get the latest ones (that are not already included)
+if (relatedPosts.length < 3) {
+  const latestPosts = allPosts
+    .filter((p) => p.slug !== post.slug && !relatedPosts.find((rp) => rp.slug === p.slug))
+    .sort((a, b) => (b.data.pubDate || new Date(0)).valueOf() - (a.data.pubDate || new Date(0)).valueOf())
+  const needed = 9 - relatedPosts.length
+  relatedPosts.push(...latestPosts.slice(0, needed))
+}
+
+// Ensure we only have 3 posts
+const finalRelatedPosts = relatedPosts.slice(0, 3)
+---
+
+<Layout title={post.data.title}>
+  <main>
+    {
+      post.data.heroImage ? (
+        <section class="relative h-[560px]">
+          <img src={post.data.heroImage} alt={post.data.heroImageAlt || post.data.title} class="absolute inset-0 h-full w-full object-cover" />
+          <div class="absolute inset-0 bg-black/50" />
+          <div class="relative mx-auto flex h-full max-w-4xl flex-col items-center justify-center px-8 text-center text-white">
+            <h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">{post.data.title}</h1>
+            {post.data.pubDate && (
+              <time datetime={post.data.pubDate.toISOString()} class="mt-4 text-lg">
+                {post.data.pubDate.toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </time>
+            )}
+          </div>
+        </section>
+      ) : (
+        <div class="mx-auto max-w-2xl px-8 pt-16 text-center">
+          <h1 class="text-4xl font-semibold tracking-tight text-white sm:text-5xl">{post.data.title}</h1>
+        </div>
+      )
+    }
+
+    <div class="px-8 py-16">
+      <div class="mx-auto grid max-w-7xl grid-cols-1 lg:grid-cols-3 lg:gap-16">
+        <div class="lg:col-span-2">
+          <article class="prose mx-auto max-w-none">
+            <Content />
+          </article>
+          {
+            finalRelatedPosts.length > 0 && (
+              <section class="mt-16">
+                <h2 class="text-3xl font-semibold">Related posts</h2>
+                <ul class="mt-8 list-disc space-y-2 pl-5">
+                  {finalRelatedPosts.map((relatedPost) => (
+                    <li>
+                      <a href={`/blog/${relatedPost.slug}`} class="text-xl text-blue-600 hover:underline">
+                        {relatedPost.data.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )
+          }
+          {/* Next blog link */}
+          <!-- {post.data.nextBlog && (
+            <div class="mt-12 text-center">
+              <p class="text-neutral-400">
+                Next: <a href={post.data.nextBlog} class="text-blue-400 hover:underline">
+                  Continue reading
+                </a>
+              </p>
+            </div>
+          )} -->
+        </div>
+        <aside>
+          <div class="sticky top-24 mt-8 space-y-8 lg:mt-0">
+            <div class="relative">
+              <img src="/images/041ff422-b910-402f-9fd9-33e20d30055e.webp" alt="Discover the nomad trend" class="w-full rounded-lg" />
+            </div>
+            <SidebarSubscribe tag="Blog_form" />
+            {
+              relatedPosts.length > 0 && (
+                <section class="mt-16">
+                  <h2 class="text-lg font-bold">Related posts</h2>
+                  <ul class="mt-4 list-none space-y-2">
+                    {relatedPosts.slice(0, 9).map((relatedPost) => (
+                      <li>
+                        <a href={`/blog/${relatedPost.slug}`} class="font-semibold hover:underline">
+                          {relatedPost.data.title}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )
+            }
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+</Layout>

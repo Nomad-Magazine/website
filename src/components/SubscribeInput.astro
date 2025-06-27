@@ -1,0 +1,119 @@
+---
+const { formClass, tag } = Astro.props
+
+// Generate unique IDs for this component instance
+const formId = crypto.randomUUID()
+const emailInputId = crypto.randomUUID()
+const subscribeButtonId = crypto.randomUUID()
+const loadingStateId = crypto.randomUUID()
+const successMessageId = crypto.randomUUID()
+const errorMessageId = crypto.randomUUID()
+---
+
+<section class="space-y-4">
+  <!-- Loading State -->
+  <div id={loadingStateId} class="hidden rounded-lg border border-blue-400 bg-blue-100 p-4 text-blue-700">
+    <div class="flex items-center">
+      <div class="mr-2 h-4 w-4 animate-spin rounded-full border-b-2 border-blue-700"></div>
+      Subscribing to newsletter...
+    </div>
+  </div>
+  <!-- Success Message -->
+  <div id={successMessageId} class="hidden rounded-lg border border-green-400 bg-green-100 p-4 text-green-700"></div>
+  <!-- Error Message -->
+  <div id={errorMessageId} class="hidden rounded-lg border border-red-400 bg-red-100 p-4 text-red-700"></div>
+  <form class:list={['flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:gap-2', formClass]} id={formId}>
+    <input
+      required
+      type="email"
+      id={emailInputId}
+      placeholder="Enter your email"
+      class="flex-1 rounded-lg border border-gray-300 px-4 py-3 text-lg focus:border-transparent focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+    />
+    <button
+      type="submit"
+      id={subscribeButtonId}
+      class="w-full rounded-lg bg-yellow-400 px-8 py-3 text-lg font-semibold whitespace-nowrap text-black transition-all duration-200 hover:bg-yellow-500 sm:w-auto"
+    >
+      Subscribe
+    </button>
+  </form>
+  <p class="font-semibold text-gray-600">Join now and be part of something bigger—your nomad family is waiting!</p>
+</section>
+
+<script define:vars={{ tag, formId, emailInputId, subscribeButtonId, loadingStateId, successMessageId, errorMessageId }}>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById(formId)
+    const emailInput = document.getElementById(emailInputId)
+    const subscribeButton = document.getElementById(subscribeButtonId)
+    const loadingState = document.getElementById(loadingStateId)
+    const successMessage = document.getElementById(successMessageId)
+    const errorMessage = document.getElementById(errorMessageId)
+
+    function resetStates() {
+      loadingState.classList.add('hidden')
+      successMessage.classList.add('hidden')
+      errorMessage.classList.add('hidden')
+      subscribeButton.disabled = false
+      subscribeButton.textContent = 'Subscribe'
+    }
+
+    function showLoading() {
+      resetStates()
+      loadingState.classList.remove('hidden')
+      subscribeButton.disabled = true
+      subscribeButton.textContent = 'Subscribing...'
+    }
+
+    function showSuccess(message) {
+      resetStates()
+      successMessage.textContent = message
+      successMessage.classList.remove('hidden')
+      form.style.display = 'none'
+    }
+
+    function showError(message) {
+      resetStates()
+      errorMessage.textContent = message
+      errorMessage.classList.remove('hidden')
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault()
+
+      const email = emailInput.value.trim()
+
+      if (!email) {
+        showError('Please enter your email address.')
+        return
+      }
+
+      showLoading()
+
+      fetch('/api/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, tag }),
+      })
+        .then(function (response) {
+          if (!response.ok) {
+            throw new Error('Network response was not ok')
+          }
+          return response.json()
+        })
+        .then(function (data) {
+          if (data.success === 1) {
+            showSuccess(data.message)
+          } else {
+            showError(data.message)
+          }
+        })
+        .catch(function (error) {
+          console.error('Subscription error:', error)
+          showError('Something went wrong. Please try again later.')
+        })
+    })
+  })
+</script>

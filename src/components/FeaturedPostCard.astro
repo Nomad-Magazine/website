@@ -1,0 +1,51 @@
+---
+import { Image } from 'astro:assets'
+import type { CollectionEntry } from 'astro:content'
+
+type Props = {
+  post: CollectionEntry<'blog'>
+}
+
+const { post } = Astro.props
+---
+
+<a href={`/blog/${post.slug}`} class="group mb-12 block text-white">
+  <div class="grid grid-cols-1 items-center gap-8 md:grid-cols-2">
+    {
+      post.data.heroImage && (
+        <div class="overflow-hidden rounded-2xl">
+          <Image
+            src={post.data.heroImage}
+            alt={post.data.heroImageAlt || post.data.title}
+            width={800}
+            height={450}
+            class="aspect-video w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
+      )
+    }
+    <div class="flex flex-col gap-2">
+      <div class="flex items-center gap-4 text-sm text-neutral-400">
+        {
+          post.data.pubDate && (
+            <time datetime={post.data.pubDate.toISOString()}>
+              {post.data.pubDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </time>
+          )
+        }
+        {post.data.tag && <span class="rounded-full bg-neutral-700 px-2 py-1 text-xs">{post.data.tag.split(', ')[0]}</span>}
+      </div>
+      <h2 class="text-3xl font-semibold">
+        {post.data.title}
+      </h2>
+      <p class="text-neutral-300">
+        {post.data.description}
+      </p>
+      <p class="mt-2 font-medium underline-offset-4 group-hover:underline">Read More</p>
+    </div>
+  </div>
+</a>

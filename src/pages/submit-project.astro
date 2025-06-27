@@ -1,0 +1,79 @@
+---
+import Layout from '~/layouts/Layout.astro'
+
+const collageRow1 = [
+  {
+    src: 'https://cdn.prod.website-files.com/64ec95e0eddd7b775369e9e7/64ecc1ac4d19097aeaac3fc4_Mask%20group%20(2).webp',
+    alt: "A collage of people's eyes",
+  },
+  {
+    src: 'https://cdn.prod.website-files.com/64ec95e0eddd7b775369e9e7/64ecc1adbefc57bba9ddc46f_Mask%20group%20(3).webp',
+    alt: "A collage of people's eyes",
+  },
+  {
+    src: '/images/3f4dcd9a-3576-46ec-b910-56039a2ea937.webp',
+    alt: "A collage of people's eyes",
+  },
+  {
+    src: '/images/d250af11-f77b-4198-baea-c01eb056397d.webp',
+    alt: "A collage of people's eyes",
+  },
+]
+
+const collageRow2 = [
+  {
+    src: '/images/204687c3-be22-459f-8c53-d1397ee5f459.webp',
+    alt: "A collage of people's eyes",
+  },
+  {
+    src: 'https://cdn.prod.website-files.com/64ec95e0eddd7b775369e9e7/64ecc1add525f103420f671e_Mask%20group%20(5).webp',
+    alt: "A collage of people's eyes",
+  },
+  {
+    src: '/images/6d61d9dc-0cca-4225-8e46-324c6c3ef10c.webp',
+    alt: "A collage of people's eyes",
+  },
+  {
+    src: 'https://cdn.prod.website-files.com/64ec95e0eddd7b775369e9e7/64ecc1ac7b14ff765d370576_Mask%20group%20(6).webp',
+    alt: "A collage of people's eyes",
+  },
+]
+
+// Placeholder URLs for "Seen at" logos
+const seenAtLogos = [
+  {
+    name: 'Running Remote',
+    url: '/images/815db8c6-7353-4b12-9a93-f0a728562953.svg',
+  },
+  {
+    name: 'Nomad Cruise',
+    url: 'https://cdn.prod.website-files.com/64ec95e0eddd7b775369e9e7/6671b75af213e30559f1bf19_Mask%20group%20(1).svg',
+  },
+  {
+    name: 'Island Tribe',
+    url: '/images/f20cb1d6-f04c-41f5-bc71-da13beb5ec18.webp',
+  },
+]
+---
+
+<Layout title="Add Testimonial - Nomad Magazine">
+  <!-- Collage and Title -->
+  <div class="flex w-full flex-row justify-center gap-6 overflow-x-hidden">
+    {collageRow1.map((image) => <img src={image.src} alt={image.alt} class="h-[90px] w-auto" loading="lazy" decoding="async" />)}
+  </div>
+  <div class="mt-12 flex flex-row justify-center gap-6 overflow-x-hidden">
+    {collageRow2.map((image) => <img src={image.src} alt={image.alt} class="h-[90px] w-auto" loading="lazy" decoding="async" />)}
+  </div>
+  <h1 class="font-justme mt-4 text-center text-5xl md:text-6xl">Just a Few questions about your company</h1>
+  <!-- Form Container -->
+  <div class="mt-12 rounded-2xl bg-gray-50 py-24">
+    <iframe src="https://tally.so/embed/3Nb8kl?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" height="200px" class="mx-auto" title="Testimonial Form"></iframe>
+  </div>
+  <!-- Seen At Section -->
+  <div
+    class="flex flex-row flex-wrap items-end justify-center gap-4 bg-[url('https://cdn.prod.website-files.com/64ec95e0eddd7b775369e9e7/652fbc20671bc02c2d3be4e4_Mask%20group%20(1).webp')] bg-cover py-4 pt-24"
+  >
+    <span class="text-neutral-400">Seen at:</span>
+    {seenAtLogos.map((logo) => <img src={logo.url} alt={logo.name} class="h-8 object-contain" />)}
+  </div>
+</Layout>

@@ -1,0 +1,11 @@
+---
+import SubscribeInput from './SubscribeInput.astro'
+
+const { tag } = Astro.props
+---
+
+<div class="rounded-2xl bg-white px-8 pb-8 shadow-lg">
+  <img loading="lazy" decoding="async" src="/newsletter/paper-fly-circle.png" alt="Paper fly circle" class="-mx-6 w-24" />
+  <h3 class="my-4 text-2xl font-semibold text-gray-900">Subscribe to our newsletter</h3>
+  <SubscribeInput formClass="sm:!flex-col sm:!items-start" {tag} />
+</div>

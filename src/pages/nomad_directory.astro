@@ -1,0 +1,37 @@
+---
+import Layout from '~/layouts/Layout.astro'
+import { fetchReportRecords } from '~/utils/smartsuite'
+import NomadDirectoryCard from '~/components/NomadDirectoryCard.astro'
+import ListYourProjectFooter from '~/components/ListYourProjectFooter.astro'
+
+const { records = [] } = await fetchReportRecords('6857167d82358a0f5e038c3f')
+---
+
+<Layout title="Nomad Directory">
+  <section class="bg-hoverw flex w-full flex-col items-center py-16">
+    <div class="mx-auto w-full max-w-4xl px-4 text-center">
+      <h1 class="mb-6 text-4xl leading-tight font-bold text-white sm:text-5xl md:text-6xl">
+        <span>The </span>
+        <span class="text-yellow-400">Nomad Directory</span>
+        <br />
+        Because Google Doesn't Get Our Lifestyle
+      </h1>
+      <p class="mb-8 text-lg font-medium text-gray-200 sm:text-xl">
+        We're building the ultimate Nomad Directory, gathering the best services, communities, and organizations that support digital nomads. Your company can be part of it! Join
+        us in shaping the go-to resource for remote workers worldwide.
+      </p>
+      <a href="/submit-project" class="inline-flex items-center gap-2 rounded-xl bg-yellow-400 px-8 py-4 text-lg font-bold text-black shadow transition-colors hover:bg-yellow-300">
+        <svg width="20" height="20" fill="none" viewBox="0 0 14 14" class="inline-block">
+          <path
+            d="M8.06167 1.75002C8.06167 1.63309 7.99184 1.52746 7.88428 1.48166C7.77665 1.43586 7.65211 1.45873 7.56782 1.53978L6.53071 2.53703C4.98649 4.02185 3.68167 5.73697 2.66269 7.62132C2.6387 7.66373 2.625 7.71267 2.625 7.76488C2.625 7.92594 2.75559 8.05654 2.91667 8.05654H5.43083V12.25C5.43083 12.3655 5.49899 12.4702 5.60464 12.5168C5.71029 12.5635 5.83351 12.5434 5.91891 12.4656L6.38295 12.0429C8.00736 10.5632 9.38595 8.83436 10.4669 6.92126L10.7539 6.41329C10.805 6.32299 10.8042 6.21239 10.7519 6.12279C10.6996 6.03319 10.6037 5.97813 10.5 5.97813H8.06167V1.75002Z"
+            fill="currentColor"></path>
+        </svg>
+        List Your Project
+      </a>
+    </div>
+    <div id="directory-container" class="container mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      {records.filter((i) => i.sf4ad525dd).map((record) => <NomadDirectoryCard {...record} />)}
+    </div>
+    <ListYourProjectFooter />
+  </section>
+</Layout>

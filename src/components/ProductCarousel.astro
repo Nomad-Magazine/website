@@ -1,0 +1,91 @@
+---
+interface Slide {
+  src: string
+}
+
+interface Props {
+  slides: Slide[]
+  firstSlideMaxWidth?: boolean
+}
+
+const { slides, firstSlideMaxWidth = true }: Props = Astro.props
+---
+
+<div class="relative w-full overflow-hidden rounded-lg">
+  <div class="flex flex-col items-center transition-transform duration-500" style="width: 100%;">
+    <img id="product-img" src={slides[0].src} alt="Product Preview" class={['w-full object-cover', firstSlideMaxWidth ? 'max-w-md' : ''].join(' ')} loading="lazy" />
+  </div>
+  <button id="product-left" type="button" aria-label="Previous" class="absolute top-1/2 left-2 z-10 -translate-y-1/2 rounded-full bg-white/80 p-2 shadow hover:bg-white">
+    <img src="/images/a5e2143b-fe3a-49e4-b93d-c6f500b4bb9d.svg" alt="Prev" class="h-6 w-6" />
+  </button>
+  <button id="product-right" type="button" aria-label="Next" class="absolute top-1/2 right-2 z-10 -translate-y-1/2 rounded-full bg-white/80 p-2 shadow hover:bg-white">
+    <img src="/images/50b78176-ece1-49f1-95cb-1ae03044b766.svg" alt="Next" class="h-6 w-6" />
+  </button>
+  <div class="absolute bottom-2 left-1/2 flex -translate-x-1/2 gap-2">
+    {Array.from({ length: slides.length }).map((_, i) => <span id={`product-dot-${i}`} class="inline-block h-2 w-2 rounded-full bg-gray-300" />)}
+  </div>
+</div>
+
+<script define:vars={{ slides, firstSlideMaxWidth }}>
+  let current = 0
+  const img = document.getElementById('product-img')
+  const left = document.getElementById('product-left')
+  const right = document.getElementById('product-right')
+  const dots = Array.from({ length: slides.length }).map((_, i) => document.getElementById(`product-dot-${i}`))
+  let autoPlayInterval = null
+  let autoPlayTimeout = null
+  const AUTO_PLAY_DELAY = 3000
+  const AUTO_PLAY_RESUME = 2000
+  function update() {
+    if (img) {
+      img.setAttribute('src', slides[current].src)
+      img.classList.remove('max-w-md')
+      if (current === 0 && firstSlideMaxWidth) {
+        img.classList.add('max-w-md')
+      }
+    }
+    dots.forEach((dot, i) => {
+      if (dot) dot.classList.toggle('bg-gray-800', i === current)
+      if (dot) dot.classList.toggle('bg-gray-300', i !== current)
+    })
+  }
+  function next() {
+    current = (current + 1) % slides.length
+    update()
+  }
+  function prev() {
+    current = (current - 1 + slides.length) % slides.length
+    update()
+  }
+  function startAutoPlay() {
+    if (autoPlayInterval) clearInterval(autoPlayInterval)
+    autoPlayInterval = setInterval(() => {
+      next()
+    }, AUTO_PLAY_DELAY)
+  }
+  function pauseAutoPlayAndResume() {
+    if (autoPlayInterval) clearInterval(autoPlayInterval)
+    if (autoPlayTimeout) clearTimeout(autoPlayTimeout)
+    autoPlayTimeout = setTimeout(() => {
+      startAutoPlay()
+    }, AUTO_PLAY_RESUME)
+  }
+  left?.addEventListener('click', () => {
+    prev()
+    pauseAutoPlayAndResume()
+  })
+  right?.addEventListener('click', () => {
+    next()
+    pauseAutoPlayAndResume()
+  })
+  dots.forEach((dot, i) => {
+    if (dot)
+      dot.addEventListener('click', () => {
+        current = i
+        update()
+        pauseAutoPlayAndResume()
+      })
+  })
+  update()
+  startAutoPlay()
+</script>

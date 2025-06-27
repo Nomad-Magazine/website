@@ -1,0 +1,83 @@
+---
+import SubmitIcon from '~icons/mdi/pencil'
+import BiQuote from '~icons/gridicons/quote'
+
+const testimonials = [
+  {
+    text: 'I love the magazine! The print quality is excellent, the paper feels great, and the graphics are truly stunning. Congratulations on creating such a fantastic publication! It was truly needed in our industry, and I wish you many more successes ahead.',
+    author: 'Teresa Zielonka',
+    title: 'CO-FOUNDER, TRIPOFFICE.COM',
+  },
+  {
+    text: "Nomad Gossip is like having that well-traveled, fascinating friend who always knows the best places to go, how to settle in, and how to avoid common expat headaches—whether it's picking the right health insurance or figuring out the dating scene in a new country. The magazine saves me hours of searching online, wrapping up useful tips in a design so beautiful, I actually want to hold it in my hands. In a world where everything is digital, Nomad Gossip reminds me that the most thrilling journeys — and the most captivating stories—are still best enjoyed offline. Don't just read about the nomad life—live it, and take this gem along for the ride!",
+    author: 'Francesco Silicani',
+    title: 'BUSINESS DEVELOPER @ SILICANI INNOVATIVE PARTNERS',
+    avatar: '/images/d652d14f-87a6-4161-95bf-58b3e712d5b1.webp',
+  },
+  {
+    text: "I love the Founder's passion and vision behind this magazine - her desire to share the real and inspiring stories of nomads. Not just all the fluff and IG gloss - but what really makes this community and it's members special. The true behind the scenes that tells a story - one of adventure, discovery, and success through many trial & errors. Her vision and approach to storytelling is inspiring, and I look forward to many more nomad magazine issues and newsletters to come.",
+    author: 'Anna Shcherbyna',
+    title: 'CEO @ REMOTIVATE',
+    avatar: '/images/34e844bf-c6e0-459e-9c34-3f0dd9ea2609.webp',
+  },
+  {
+    text: "NomadGossip is the digital nomad's inside scoop—raw, real, and refreshingly unfiltered. It's not just another travel blog; it's a space where remote workers find stories that resonate, from productivity hacks to the untold realities of nomadic life. This magazine feels like a conversation with someone who gets it. A must-read for anyone living (or dreaming of) the nomadic life!",
+    author: 'NY',
+    title: 'DELIVERY MANAGER',
+    avatar: '/images/4275ff4d-e9e5-4380-8827-efdcf6902e00.webp',
+  },
+  {
+    text: "I've loved this project since the very beginning—its values, the idea of discussing important topics, the openness to different opinions, and of course, the brand and design we created together!",
+    author: 'Anna Egorova',
+    title: 'CO-OWNER AT CURVES.DIGITAL',
+    avatar: '/images/f38056c4-6cdc-428d-8176-f53db6b8ca1a.webp',
+  },
+  {
+    text: 'I love the deep insights has the magazine brings from the people, communities, cities and our lifestyle in general. More people should read this articles if you want to get inspired to keep being a digital nomad!',
+    author: 'Sergio Sala',
+    title: 'YOUTUBER',
+    avatar: '/images/ed3d39f1-d29f-422b-a24f-77c2e3d8fb70.webp',
+  },
+  {
+    text: 'I love NGM as it embodies everything about me—a nomad looking for connection, understanding, information and advice. From travel destinations and inspirational stories, to relationship and business advice, NGM covers everything for us digital nomads, making us feel seen and understood.',
+    author: 'Jessica Holmes',
+    title: 'WRITER & EDITOR',
+    avatar: '/images/415bab2a-b9f1-4daa-98f4-599321f71cae.webp',
+  },
+]
+
+interface Props {
+  sectionClass?: string
+}
+
+const { sectionClass }: Props = Astro.props
+---
+
+<section id="Testimonials" class:list={['py-20', sectionClass]}>
+  <div class="container mx-auto px-4">
+    <div class="mb-16 text-center">
+      <h2 class="text-5xl font-bold">Testimonials</h2>
+      <a href="/add-testimonials" class="mt-6 inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-6 py-3 font-bold text-black">
+        <SubmitIcon class="h-5 w-5" />
+        <span>Submit Review</span>
+      </a>
+    </div>
+    <div class="columns-1 gap-8 md:columns-2 xl:columns-3">
+      {
+        testimonials.map((testimonial) => (
+          <div class="mb-8 break-inside-avoid rounded-xl bg-white p-8 text-left text-black">
+            <BiQuote class="h-12 w-12 text-yellow-400" />
+            <p class="mt-4 mb-6 text-neutral-600">{testimonial.text}</p>
+            <div class="flex items-center">
+              {testimonial.avatar && <img src={testimonial.avatar} alt={testimonial.author} class="mr-4 h-12 w-12 rounded-full object-cover" />}
+              <div>
+                <p class="font-bold">{testimonial.author}</p>
+                <p class="text-sm tracking-wide text-neutral-500 uppercase">{testimonial.title}</p>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

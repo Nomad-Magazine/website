@@ -1,0 +1,39 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Image from '~/components/Image.astro'
+import CheckIcon from '~icons/ic/baseline-check'
+import SubscribeInput from '~/components/SubscribeInput.astro'
+---
+
+<Layout title="Nomad Newsletter">
+  <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+    <div class="grid grid-cols-1 items-start gap-8 lg:grid-cols-2 lg:gap-16">
+      <div class="space-y-6 sm:space-y-8">
+        <div class="space-y-4 sm:space-y-6">
+          <p class="font-justme text-2xl text-gray-800 sm:text-3xl">Nomad Newsletter</p>
+          <h1 class="text-3xl leading-tight font-extrabold tracking-tighter text-gray-900 sm:text-4xl lg:text-5xl xl:text-6xl">
+            Remote Work, Nomadic Trends, Events, Industry Updates and More
+          </h1>
+          <div class="space-y-3 text-base text-gray-700 sm:text-lg">
+            <p class="flex items-start sm:items-center">
+              <CheckIcon class="mt-0.5 mr-2 h-5 w-5 flex-shrink-0 text-black sm:mt-0 sm:h-6 sm:w-6" />
+              <span>Exclusive articles on remote work trends</span>
+            </p>
+            <p class="flex items-start sm:items-center">
+              <CheckIcon class="mt-0.5 mr-2 h-5 w-5 flex-shrink-0 text-black sm:mt-0 sm:h-6 sm:w-6" />
+              <span>Inspiring stories from nomads around the world</span>
+            </p>
+            <p class="flex items-start sm:items-center">
+              <CheckIcon class="mt-0.5 mr-2 h-5 w-5 flex-shrink-0 text-black sm:mt-0 sm:h-6 sm:w-6" />
+              <span>Updates on trends shaping the future of work and living</span>
+            </p>
+          </div>
+        </div>
+        <SubscribeInput tag="Newsletter_form" />
+      </div>
+      <div class="order-first lg:order-last">
+        <Image />
+      </div>
+    </div>
+  </main>
+</Layout>

@@ -1,0 +1,295 @@
+---
+import Layout from '~/layouts/Layout.astro'
+import Sponsors from '~/components/Sponsors.astro'
+import AuthorsGrid from '~/components/AuthorsGrid.astro'
+import EditionStats from '~/components/EditionStats.astro'
+import PreOrderSection from '~/components/PreOrderSection.astro'
+import MagazinePreview from '~/components/MagazinePreview.astro'
+import ThirdEditionHero from '~/components/ThirdEditionHero.astro'
+import ThirdEditionWelcome from '~/components/ThirdEditionWelcome.astro'
+import WhatsComingCarousel from '~/components/WhatsComingCarousel.astro'
+
+const sponsors = [
+  {
+    link: 'https://www.globaltaxmastery.com/',
+    image: 'https://cdn.prod.website-files.com/64ec95e0eddd7b775369e9e7/68055190d56cac735aa1bc12_2dcbaa5-81e4-1888-e6d2-1668ee83f1c3_Logo_Fresh_Global%20(1).webp',
+    alt: 'Fresh Global',
+    width: '120',
+  },
+  {
+    link: 'https://www.outsite.co/',
+    image: '/images/c135132c-74e3-438b-8260-8b1592e7a48f.svg',
+    alt: 'Outsite',
+    width: '120',
+  },
+  {
+    link: 'https://nomadtrain.co/',
+    image: '/images/a3a85544-ef2c-4771-b79d-f56fbb04acfc.svg',
+    alt: 'Nomad Train Logo',
+    width: '100',
+  },
+  {
+    link: 'https://nomads.insure/',
+    image: '/images/b5a18d61-7148-40c5-ba44-3b1e9baf792c.webp',
+    alt: 'Nomads Insure',
+    width: '100',
+  },
+  {
+    link: 'http://nosolo.co/',
+    image: '/images/dcc34a47-d4ed-49a2-9964-195fdd48d898.webp',
+    alt: 'NoSolo',
+    width: '100',
+    srcset:
+      '/images/f2f4b3ca-60cb-423a-9c40-c6dc968590f8.webp 500w, /images/3c19d210-ccd3-4da6-bff1-38f7c179f235.webp 800w, /images/dcc34a47-d4ed-49a2-9964-195fdd48d898.webp 1018w',
+  },
+  {
+    link: 'https://nomadnest.com/',
+    image: '/images/bb7b2ad2-0628-40ce-9eab-3348b65cabdb.webp',
+    alt: 'NomadNest',
+    width: '100',
+    srcset:
+      '/images/bf6699d8-00c6-4d54-8233-05fa15ef738d.webp 500w, /images/32f3c98a-5181-4c4c-9a60-c89778b15997.webp 800w, /images/4a82a9e3-b02f-4807-9a13-d3bd5905a5c7.webp 1080w, /images/bb7b2ad2-0628-40ce-9eab-3348b65cabdb.webp 2425w',
+  },
+]
+
+const authors = [
+  {
+    image: '/images/8f6e2741-4ede-4119-a694-7ae7870cc6e3.webp',
+    name: 'Jimmy Naraine',
+    bio: `Jimmy Naraine has spent 12 years exploring 90 countries while helping over 500,000 people upgrade their mindset, resilience and confidence through platforms like Mindvalley and Udemy. Blending adventure with education, he has swum in Antarctica, raced in Spartan and Oceanman events, trained Muay Thai with world champions, explored the Himalayas and Karakoram, and even jumped from frozen waterfalls with Wim Hof. They've deeply shaped his understanding of courage and mental strength, which he now channels into mentoring elite performers, including entrepreneurs, authors, and public figures. Together with a former UK Special Forces soldier and star of the TV show <em>SAS: Who Dares Wins</em>, Jimmy co-leads BreakPoint Crucible—an invite-only expedition series for high-caliber men.<br/>IG: <a href="https://www.instagram.com/jimmynaraine">@jimmynaraine</a>`,
+  },
+  {
+    image: '/images/775936ee-e852-47e2-a75e-9989fa1a77c5.webp',
+    name: 'Paul Gotel',
+    bio: `Paul Gotel is a life coach, author, inspirational speaker, and ecstatic dance DJ. After a successful career in the global music industry, he realized that power, money, and fame didn't hold the answers he sought. Leaving the Western world behind, he embarked on a five-year spiritual journey across 75 countries, living with Aborigines, Bedouins, and Buddhist monks while exploring the world's sacred sites. After 15 years of deep self-work, he settled in Hawaii to distill his experiences into his book, The Big U, a "small book with a BIG message."<br/>🌐 <a href="https://www.paulgotel.com/">www.paulgotel.com</a>`,
+  },
+  {
+    image: '/images/833b97e1-5ad6-4f83-825f-3bb33f7a28c7.webp',
+    name: 'Loretta Breuning',
+    bio: `Loretta Graziano Breuning, PhD, is the author of Habits of a Happy Brain: Retrain Your Brain to Boost Your Serotonin, Dopamine, Oxytocin and Endorphin Levels. She's Founder of the Inner Mammal Institute and Professor Emerita of Management at California State University, East Bay. Dr. Breuning's many books, videos and podcasts explain the brain chemistry we've inherited from earlier mammals. Our brain is not designed to produce constant happiness, yet Dr. Breuning's work explains the natural way to enhance our power over these chemicals. Her nine books have been translated into sixteen languages.`,
+  },
+  {
+    image: '/images/245921e2-5e3e-4410-a780-885ca3654664.webp',
+    name: 'Bianca Bonilla',
+    bio: `Bianca Bonilla is a dynamic entrepreneur known for launching several successful online ventures. Her latest project "Ola" is a co-living space in El Paredón, Guatemala—a tranquil surf town on the Pacific coast. Ola offers thoughtful suites with modern amenities, aiming to foster a sense of community and connection among guests. This venture reflects Bianca's commitment to creating spaces that blend comfort, community, and a deep appreciation for local culture.<br/>🌐 Coliving <a href="https://www.instagram.com/ola_elparedon/">in Guatemala IG&nbsp;@ola_elparedon</a>`,
+  },
+  {
+    image: '/images/195709b0-6b69-47c2-ac03-4bed668b418d.webp',
+    name: 'Toks Coyle',
+    bio: `Toks Coyle runs her own virtual assistant business, <a href="https://www.toks.rocks/">Toks.Rocks</a>, remotely from wherever she and her laptop goes. She provides marketing admin and tech VA support to small businesses and organizations, including creatives, coaches, trainers, social enterprises, and charities. Toks also writes a travel blog at ToksTravels.com, where she indulges in her two loves of writing and travel by documenting her trips and experiences of exploring the world, particularly coliving spaces and digital nomad experiences, giving out a few tips along the way.`,
+  },
+  {
+    image: '/images/7eacb21f-b5f2-434c-8642-6e45bc4ff4a6.webp',
+    name: 'Jana Meerman',
+    bio: `Jana Meerman is a traveler, photographer and storyteller passionate about documenting the world around her. She's been writing the travel blog JanaMeerman.com for over a decade where she shares tips, insights, photographs and stories from her adventures around the globe with hundreds of thousands of readers. She's lived in six countries so far, holds three passports, speaks two languages and her dream is to visit every country in the world.<br/>🌐 <a href="http://www.janameerman.com/"><em>www.JanaMeerman.com</em></a> <em>IG: @janameerman</em>`,
+  },
+  {
+    image: '/images/a5ce04a4-0f48-4070-b8ee-8966a772901f.webp',
+    name: 'Simon Watson',
+    bio: `Simon Watson is a photographer specializing in travel and documentary, lifestyle, food and portraiture. Originally from Ireland, he relocated to Cape Town and was immediately captivated by the diversity and beauty of South Africa. This passion has shaped both his work and worldview and shines through in his imagery. Whether he's working on editorial projects, personal portraits, or brand storytelling, his aim is always to create imagery that feels honest, engaging, and human. Website: <a href="https://www.simonwatsonimages.com/">simonwatsonimages.com</a> IG: @simon_watson_photo`,
+  },
+  {
+    image: '/images/a16c5d79-31a2-435e-93ee-0e82da2683be.webp',
+    name: 'Anna Maria Kochanska',
+    bio: `Anna Maria Kochanska is a Remote Work Thought Leader and Public Speaker, specialized in Future of Work and Travel topics. She is also a Founder & CEO @The Remote Impact and R- MAP EU Board Member. Through her work at <a href="https://www.linkedin.com/company/the-remote-impact/">The Remote Impact</a>, she helps Governments, brands, and organizations attract, integrate, and retain digital nomads and remote workers following core values such as sustainability and social impact. Was featured in multiple podcasts and various renowned media as <a href="https://youtu.be/FNMrzoCHP6w?si=aayBFPjSKmPRbz-i">TEDx</a>, Forbes, Sifted.eu, Index.hr, Bloomberg, TV National de Cape Verde, TV Bosnia and Herzegovina and TV Slovenia etc<br/>LD: <a href="https://www.linkedin.com/in/anna-maria-kochanska/">@anna-maria-kochanska/</a>`,
+  },
+  {
+    image: '/images/079360a8-849f-4abd-8cc6-65213a77df31.webp',
+    name: 'Shelley Doyle',
+    bio: `Shelley Doyle is The Social Wealth Strategist, Founder of The Communiverse and host of the Rediscovering Connection podcast. Shelley empowers those living a nomadic lifestyle or working remotely to build their social wealth, so they can feel deeply trusted, connected, and supported, online, offline, and within.`,
+  },
+  {
+    image: '/images/e9bda284-0fa8-4425-a5ca-081f876db26c.webp',
+    name: 'Ramon Morcillo',
+    bio: `Ramon is a co-founder of Mapmelon, which is the platform for finding and booking colivings designed for remote workers and digital nomads worldwide. We focus on real community, curating spaces that mix quality work setups with vibrant social connections. You can filter by location, price, or vibe, read honest reviews, and book your stay directly. Whether you're already a nomad or just starting out, Mapmelon helps you find your next adventure-friendly home.<br/>🌐 <a href="https://www.mapmelon.com/">www.mapmelon.com</a>`,
+  },
+  {
+    image: '/images/2298554c-2a27-4697-971f-51417fb484b3.webp',
+    name: 'Safir Jamal',
+    bio: `Safir is the founder of Global Nomad Pass, the membership that rewards you for supporting local businesses around the world. A seasoned entrepreneur, Safir has successfully built multiple ventures in Silicon Valley and was previously the Head of Global Strategy for the iconic Gillette brand. He is passionate about leveraging the economic impact of travelers to be a force for good and created Global Nomad Pass to make conscious spending effortless. Originally from Toronto, Canada, Safir has traveled to 70+ countries, speaks five languages, and has been a digital nomad for the past four years.<br/>🌐 <a href="https://globalnomadpass.com/">www.globalnomadpass.com</a>`,
+  },
+  {
+    image: '/images/7de2cc58-d48c-4a1c-a71c-520344a1cf1f.webp',
+    name: 'Kate Guner',
+    bio: `Kate Guner is a certified nutritionist, holistic health coach, and yoga teacher passionate about making wellness accessible. She helps clients not only create sustainable habits, boost energy and overall health but also transform it on the unconscious level by addressing root causes through interactive meditation sessions to uncover and shift limiting beliefs.<br/>🌐 <a href="https://kateguner.com/">www.kateguner.com</a> IG: <a href="http://instagram.com/kate.holistic/">@kate.holistic</a>`,
+  },
+  {
+    image: '/images/2282ddb1-1379-4f69-915c-091700b25ed1.webp',
+    name: 'Jessica Holmes',
+    bio: `Jess is a writer, editor, and public speaker. Her strong affinity with animals and nature inspired her to travel the world full-time looking after peoples' homes and pets through house-sitting. Having lived nomadically for long periods she's an expert on all things digital nomad, backpacking, van life and house-sitting. Her book The Housesitter's Guide to the Galaxy is a guide on how to use housesitting when traveling whilst being mindful of your environmental impact.<br/>IG: <a href="https://www.instagram.com/hitchedhikingandhousesitting/">@hitchedhikingandhousesitting</a> 🌐 <a href="http://www.hitchedandhiking.com/">www.hitchedandhiking.com</a>`,
+  },
+  {
+    image: '/images/3ba5620f-f5b9-4223-89af-7f1c40a822ce.webp',
+    name: 'Alina Crown',
+    bio: `Alina Crown is a professional energy coach, astrologer, and healer from Latvia, has spent years helping nomads tap into the cosmic side of travel. She is a holistic healer and biohacker who blends the wisdom of celestial energies, crystals, and cutting-edge wellness strategies to guide people through life's pivotal moments. If you'd like more tailored advice, or have any questions about astrocartography, you can contact Alina on Instagram @intimnature or Telegram @criolocuracao.`,
+  },
+  {
+    image: '/images/b3b51446-6c71-4e39-9115-88afd0e535da.webp',
+    name: 'Martin Donadieu',
+    bio: `Martin creates his freedom by making open-source SaaS in solo without fundraising, and share it all in a podcast: <a href="https://t.co/m1dX2xPHcc" target="_blank">solos.ventures</a>. Maker of <a href="https://t.co/wJHNrd8VaF" target="_blank">capgo.app</a>`,
+  },
+  {
+    image: '/images/5cd950ec-0c22-41fc-9bde-950369b892f5.webp',
+    name: 'Lera Pitiakova',
+    bio: `Lera has been living the digital nomad lifestyle since 2015 and recently found a haven in Madeira, Portugal. 10 years ago, she took a leap, bidding farewell to her glamorous job at Nike in Ukraine adventured into a new chapter as a community manager in a coworking space in Thailand, initially for just a winter break. But destiny had other plans, and there was no turning back to her previous life. Now publishing Nomad Gossip Magazine to support the growing community (and industry).`,
+  },
+]
+---
+
+<Layout title="Nomad Magazine: Edition #3">
+  <ThirdEditionHero
+    printUrl="https://buy.stripe.com/28EdR9c2x4npdsO6tP8bS08"
+    digitalUrl="https://buy.stripe.com/8x27sL4A51bdewS6tP8bS0b"
+    waitlistUrl="https://form.smartsuite.com/s4tmc086/VD8BBVMq11"
+  />
+  <EditionStats
+    stats={[
+      { value: '1000', label: 'Limited Print Copies' },
+      { value: '112', label: 'Pages' },
+      { value: '17', label: 'Articles' },
+    ]}
+  />
+  <Sponsors {sponsors} />
+  <ThirdEditionWelcome
+    heading="Welcome to our third edition, dear reader."
+    bodyHtml={`<p>Three editions might not sound like much, but for our team—and for me especially as its founder—it's a huge milestone. And yet, here we are, delivering our third baby into the world—thanks to our friends, partners, and to you, our readers.</p><p>I often reflect on the value this magazine brings, especially in a world where you can ask ChatGPT almost anything. But AI will never replace personal experiences, values, or the topics we deeply care about. We curate stories you might never search for on Google, but hope that, while flipping through the pages, you'll find something that resonates, teaches, or even inspires you. We invite experts we trust—people who share from the heart. And then we carefully edit their words by hand, not with AI.</p><p>In this edition, we allowed ourselves to explore more around wellness, therapy, building relationships, and digital health products. But we also made sure to keep a balance—with articles on AI trends for online entrepreneurs, AI and Virtual Assistants, overtourism issues, supporting local economies, and new trending ways of solving affordable living housesitting. And of course, we want to inspire your travels with our experience in Buenos Aires, a photostory from Cape Town, and my personal favorite: a hidden gem in Guatemala. I'm not overselling—it really is still a hidden paradise, and we're in a hurry to tell you about it.</p><p>And the cherry on top? <br>An exclusive piece by Mindvalley author, course creator, and dear friend Jimmy Narraine. You might know Jimmy from Nomad Cruise, where he's become a regular speaker and a core part of the community. He's also known for his highly-rated courses on Mindvalley and Udemy, which have impacted over 300,000 students worldwide.</p><p>Jimmy is passionate about confidence, entrepreneurship, and mental health—often drawing from his own journey of overcoming self-doubt, imposter syndrome, and a non-linear path through life. Despite his packed schedule, he took the time to write a deeply personal piece for us, reflecting on the hard-earned lessons from years on the road as a digital nomad—and how those experiences shaped who he is today.</p><p>Finally, we've gone a bit more experimental with the design. This edition was shaped in collaboration with a new design studio based in Brazil—making our magazine even more global, as we continue to print in Prague and ship from Slovakia to more than 100 coworking spaces, communities, and major events in Europe but also in Latin America and in Asia.</p><p>It will land in <strong>Bansko</strong> first, and then it's off to the first people who <strong>pre-ordered</strong>, and to our<strong> </strong><a href="https://www.nomad-magazine.com/distribution-list" target="_blank"><strong>trusted partners</strong></a> in Lisbon, London, Berlin, Barcelona, Porto, Madeira, and Amsterdam. You'll be able to visit one of our partners in July (stay tuned for the exact date). Or, if you order a print copy, I will send you personally a signed copy straight from Bulgaria. Digital is great—but print is so much more special. </p><p><em>Lera P., the founder of Nomad-Magazine.com (renamed from Nomad Gossip Magazine)</em></p>`}
+    images={[
+      {
+        src: '/images/794fcea8-e90a-424c-a02b-50c4b69100f7.webp',
+        alt: '',
+      },
+      {
+        src: '/images/5a191684-9c02-4666-9da3-e32d9fa65cee.webp',
+        alt: '',
+      },
+      {
+        src: '/images/dd581da0-5372-452b-bd40-cb549bdc6ce9.webp',
+        alt: '',
+      },
+      {
+        src: '/images/cbbc9f20-b4e8-464d-a695-c8e264cea5c6.webp',
+        alt: '',
+      },
+      {
+        src: '/images/5e2a5732-26a4-459b-a22f-ac4ede61289e.webp',
+        alt: '',
+      },
+      {
+        src: '/images/29b96f1f-3a5b-4f36-966a-4f7e94f32562.webp',
+        alt: '',
+      },
+      {
+        src: '/images/3c8085b7-56a7-437d-acc0-02b76524c2d2.webp',
+        alt: '',
+      },
+      {
+        src: '/images/65b0df23-fbe3-407e-ad09-241b28dd70aa.webp',
+        alt: '',
+      },
+    ]}
+  />
+  <WhatsComingCarousel
+    heading="What's Coming"
+    subtitle="Our next articles will dive deep into the evolving world of remote lifestyles — uncovering emerging spaces, hidden stories, and new ways to move and grow across the globe."
+    slides={[
+      {
+        image: '/images/b3cb6367-c316-4c29-a85a-516c6794fa4d.webp',
+        alt: '',
+        quote:
+          "You will learn why meeting new people can feel so awkward — and how understanding your brain's ancient instincts can help you break the ice with more ease and confidence. This article unpacks the surprising science behind our social fears and offers practical ways to connect without letting your inner mammal run the show.",
+        name: 'Loretta Graziano Breuning',
+        role: 'PhD, is the author of Habits of a Happy Brain',
+      },
+      {
+        image: '/images/0dab67fc-3c68-4f74-a295-06b574753934.webp',
+        alt: '',
+        quote:
+          "You'll learn the implications of AI on the virtual assistant (VA) profession, highlighting both the challenges and opportunities that AI presents. While AI can automate many tasks traditionally performed by human VAs—such as diary management, customer service, and data entry—human skills like strategic thinking, relationship-building, and creative work remain irreplaceable.",
+        name: 'Toks Coyle',
+        role: 'Founder of Toks Rocks Virtual Assistant Services',
+      },
+      {
+        image: '/images/37f66762-3b99-4304-8bd2-d962961fde16.webp',
+        alt: '',
+        quote:
+          "You will learn how two nomads, Valeria and Martin, found love and tied the knot in a truly modern way — through an online wedding that defied borders, traditions, and timelines. This heartwarming story shows that real commitment can happen anywhere, even over Zoom, when it's with the right person.",
+        name: 'Lera Pitiakova',
+        role: 'CEO & Visionary of NGM',
+      },
+      {
+        image: '/images/531d0509-ced5-4978-98db-fcf4b434a2b2.webp',
+        alt: '',
+        quote:
+          'You will learn how every purchase you make as a digital nomad can strengthen—or weaken—the local communities you visit. This article explores the real economic influence nomads have and introduces Global Nomad Pass, a new way to support hidden gems while making your travels more meaningful.',
+        name: 'Safir Jamal',
+        role: 'Founder of Global Nomad Pass',
+      },
+      {
+        image: '/images/c54e3577-d79e-47b9-87e2-96b4704203e1.webp',
+        alt: '',
+        quote:
+          "As demand for preventive and proactive healthcare grows, venture capital is heavily investing in wearable wellness products. Whether you're in back-to-back meetings or out on an adventure, these smart tools make it easier to stay on top of your well-being.",
+        name: 'Jessica Holmes',
+        role: 'Senior Editor & Writer at NGM',
+      },
+      {
+        image: '/images/06a73673-1181-4d49-8df7-06a4c166788d.webp',
+        alt: '',
+        quote:
+          'You will learn how to build meaningful, lasting relationships as a digital nomad—without sacrificing your freedom or authenticity. This article reveals how self-love, emotional independence, and four key pillars create stronger connections, no Wi-Fi (or drama) required.',
+        name: 'Paul Gotel',
+        role: "Life Coach, Ecstatic Dance DJ, Author of 'The BIG U' book",
+      },
+      {
+        image: '/images/d2c731af-1c81-43af-8410-4bfa530dcb69.webp',
+        alt: '',
+        quote:
+          'You will learn why digital nomads have been unfairly blamed for overtourism — and how the real issues run much deeper than headlines suggest. This article explores how nomads can shift the narrative by supporting sustainable travel, empowering local communities, and becoming part of the solution.',
+        name: 'Anna Maria Kochanska',
+        role: 'Founder & CEO @The Remote Impact',
+      },
+      {
+        image: '/images/e649dc7c-65c1-4fc6-b092-b845453e3f01.webp',
+        alt: '',
+        quote:
+          'Come with us as we touch down in South Africa for a shot of energy and good vibes. This photostory by a photographer specializing in travel and documentary, lifestyle, food and portraiture.',
+        name: 'Simon Watson',
+        role: 'Photographer',
+      },
+      {
+        image: '/images/01eb9c51-0cc7-45e4-9772-c61eb393661a.webp',
+        alt: '',
+        quote:
+          'You will learn how one former police investigator traded solving crimes for caring for pets, building a fulfilling nomadic lifestyle through house and pet sitting. This inspiring story shows how embracing flexibility, trust, and a love for animals can unlock a whole new way to travel the world sustainably.',
+        name: 'Jessica Holmes',
+        role: "Author of the book The Housesitter's Guide to the Galaxy.",
+      },
+      {
+        image: '/images/c1cfbe15-a89b-49df-8d84-24ae39094892.webp',
+        alt: '',
+        quote:
+          "You will learn why Buenos Aires is quickly becoming one of the most vibrant hubs for digital nomads, offering a unique mix of European charm, Latin American energy, and an affordable lifestyle. This article uncovers how the city's rhythm, resilience, and growing remote work community create a magnetic experience for those ready to live—and connect—more deeply.",
+        name: 'Lera Pitiakova',
+        role: 'CEO & Visionary @NGM',
+      },
+      {
+        image: '/images/f207a783-5253-4384-9a06-1a75a8a1b9bf.webp',
+        alt: '',
+        quote:
+          'You will learn how astrocartography—a cosmic map of your personal energy—can guide you to places that align with your goals, passions, and growth as a digital nomad. This article uncovers how tapping into the stars can turn your travels into a deeper, more intentional journey across the globe.',
+        name: 'Alina Crown',
+        role: 'Professional energy coach, astrologer, and healer',
+      },
+    ]}
+  />
+  <PreOrderSection name="👀  RESERVE MY MAGAZINE" preOrderUrl="https://buy.stripe.com/28EdR9c2x4npdsO6tP8bS08" waitlistUrl="https://form.smartsuite.com/s4tmc086/VD8BBVMq11" />
+  <AuthorsGrid {authors} />
+  <MagazinePreview
+    titleClass="mt-4"
+    sectionClass="bg-gray-50"
+    title="Previous Editions"
+    subTitle="Magazine Preview"
+    subTitleClass="font-justme !text-black !text-2xl !font-medium"
+  />
+  <PreOrderSection preOrderUrl="https://buy.stripe.com/28EdR9c2x4npdsO6tP8bS08" waitlistUrl="https://form.smartsuite.com/s4tmc086/VD8BBVMq11" />
+</Layout>

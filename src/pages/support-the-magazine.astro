@@ -1,0 +1,43 @@
+---
+import Layout from '~/layouts/Layout.astro'
+import MagazineIssues from '~/components/MagazineIssues.astro'
+import MagazinePreview from '~/components/MagazinePreview.astro'
+---
+
+<Layout title="Support the Magazine | Nomad Magazine">
+  <div class="bg-hoverw text-white">
+    <!-- Support Hero Section -->
+    <section class="py-24">
+      <div class="mx-auto px-4 text-center">
+        <p class="font-justme text-4xl text-yellow-400">Support the Magazine</p>
+        <h1 class="mt-4 text-5xl font-bold sm:text-6xl">
+          Support Independent Publishing<br />Keep the Magazine Going
+        </h1>
+        <p class="mx-auto mt-6 max-w-2xl text-lg text-neutral-300">
+          By becoming a supporter, you get closer access to us. Whether you're a digital nomad looking for tips or recommendations, or a brand hoping to get featured — we've got
+          your back. Supporters are our first priority, just like our advertisers. It's a way to say:
+          <br />"Hey, I believe in what you're building" — and we'll return the favor.
+        </p>
+        <div class="mt-10">
+          <a
+            href="https://buy.stripe.com/fZubJ17Mh7zBbkG9G18bS0c"
+            target="_blank"
+            class="rounded-md bg-red-600 px-8 py-3 text-lg font-semibold text-white transition-colors hover:bg-red-700"
+          >
+            Subscribe
+          </a>
+          <p class="mt-8 text-sm text-neutral-400">
+            Or support with a one-time contribution —
+            <a href="https://donate.stripe.com/5kQdR9eaFg67bkG05r8bS09" target="_blank" class="font-semibold text-yellow-400 underline hover:text-yellow-500"
+              >choose any amount you like HERE</a
+            >.
+          </p>
+        </div>
+      </div>
+    </section>
+    <!-- Published Editions Section -->
+    <h2 class="font-justme text-center text-5xl font-bold text-white">Published Editions</h2>
+    <MagazineIssues />
+    <MagazinePreview />
+  </div>
+</Layout>

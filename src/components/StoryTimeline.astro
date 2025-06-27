@@ -1,0 +1,195 @@
+---
+const timelineEvents = [
+  {
+    date: 'February 2025',
+    title: 'We shipped the second edition of our printed magazine to our readers (second edition was distributed digital-first).',
+    image: '/images/df8ac619-27db-4875-b9d8-b70d9a5e25a1.webp',
+  },
+  {
+    date: 'January 2025',
+    title: 'Chiang Mai, Thailand. We filmed an episode about why this city keeps ranking as a top destination while attending Nomad Summit.',
+    content: 'Interviewed by: Lazar Dimitrijevicc<br>Filmed by: Telard Aaby<br>Location: Punspace, Chiang Mai.<br>Сreative support: Anna Egorova, Curves.Digital',
+    image: '/images/a693e4e1-aa5d-4493-9d87-95358afa475e.webp',
+    youtubeLink: '#',
+  },
+  {
+    date: 'December 2024',
+    title: 'Captured epic conversations with top speakers while attending Nomad Island Fest in stunning Madeira, Portugal.',
+    content:
+      "Interviewed by: Lera Pitiakova (Founder)<br>Filmed by: Ilya Madeira<br><br>It's our second time at Nomad Island Fest, organized by Michelle Maree of The Nomad Escape.",
+    image: '/images/6e4f04ea-3709-4f9e-b627-a513abfd224f.webp',
+    youtubeLink: '#',
+  },
+  {
+    date: 'November 2024',
+    title: 'Released the Second Edition of NGM in digital format.',
+    content:
+      'Design by Dominik Fodora<br>Art-Direction by Bára Tabačková and Tatiana Illarionova<br>Illustrators by Helga Pavelková, Barbora Dzadík Kmecová, Nataly Sheveleva<br>Comics by Giang Gao<br>Marketing by Feride Mustafaieva<br><br>Authors: Kristina Mänd-Lakhiani, Jessica Holmes, Lulu Lundt, Akina Shu, CarouLLou and Michel, Derek Smith, Sergio Sala, Tomas Mrva, Francesco Silicani, Flor Dosreis, Johannes Voelkner, Guilia & Andreas, Emmelie Steentjes, Marelin Goncalves and Luis Calado, Manon Jongejan and Robin Steyverd.<br><br>Sponsored by Nomads.Insure, Tulsa Remote, Inventum International (online school), Global Nomad Pass, Safety Wing.',
+    image: '/images/ed30277f-bb9f-41da-bb6c-13bb6c290ae8.webp',
+    link: '#',
+    linkText: 'HEre',
+  },
+  {
+    date: 'October 2024',
+    title: 'While in Japan, we attended Colive Fukuoka in Fukuoka City and left with a few recorded interviews. Our favorite? The Japanese nomad family👇 .',
+    image: '/images/9aec131a-eeba-40d5-8934-f892cd8684c9.webp',
+    youtubeLink: 'https://www.youtube.com/watch?v=VIDEO_ID',
+  },
+  {
+    date: 'September 2024',
+    title: 'Buenos Aires, Argentina—invited by Visit BUE to share why this city is a great fit for digital nomads.',
+    content:
+      'Buenos Aires. We came back with a recorded YouTube episode that made us realize we should take YouTube more seriously. The video got 8K views while our account was still very young. Thanks to the help of Visit BUE, we invited expats and nomads to discover what makes Buenos Aires, Argentina, so special.',
+    image: '/images/6ed37473-ceca-48ca-b09e-2b2572c71389.webp',
+    youtubeLink: 'https://www.youtube.com/watch?v=VIDEO_ID',
+  },
+  {
+    date: 'September 2024',
+    title: 'Canada to Japan with Nomad Cruise. Epic two weeks cruise with 300 nomads and entrepreneurs.',
+    content: 'We could also share how Nomad Gossip Magazine was created, starting from the startup pitch at previous Nomad Cruise.',
+    image: '/images/f1aca43b-49a2-4638-be72-5be3bb482a20.webp',
+  },
+  {
+    date: 'August 2024',
+    title: 'Jessica Holmes joined our team as writer and editor. Later in December she took over all communication with writers and planning the third edition. 🎉',
+    image: '/images/dddf5e17-3942-4e94-8004-ea048b174aea.webp',
+    link: '#',
+    linkText: 'Check out her blog',
+  },
+  {
+    date: 'June 2024',
+    content: 'Bansko Nomad Fest. Magazines were available at Nomad Cruise booth.',
+    image: '/images/952e211f-8106-49a7-8cb7-be6652b78d06.webp',
+  },
+  {
+    date: 'April 2024',
+    title: 'We presented the magazine at Running Remote in Lisbon, Portugal. Yep, we had our own stand!',
+    image: '/images/56b07cd0-47fe-4189-95da-e56256232d1b.webp',
+    link: '#',
+    linkText: 'Watch series of short interviews on IG',
+  },
+  {
+    date: 'February 2024',
+    title: '🚀 launch',
+    content: 'On February 11 we released the very first edition of Nomad Gossip Magazine.',
+    image: '/images/817068dc-9f11-4cac-83dd-c50e0bea35d2.webp',
+  },
+]
+---
+
+<section class="story-timeline-section bg-hoverw px-4 py-20 text-white md:px-8">
+  <div class="relative mx-auto flex" style="max-width: 900px">
+    <!-- Left Column for Sticky Date (Desktop) -->
+    <div class="hidden w-1/2 pr-16 text-right md:block">
+      <div class="sticky top-1/2 -translate-y-1/2">
+        <p id="sticky-date" class="text-4xl font-bold text-white"></p>
+      </div>
+    </div>
+    <!-- Center Timeline Bar -->
+    <div class="absolute h-full w-0.5" style="left: 50%; transform: translateX(-50%)">
+      <div class="h-full w-full bg-gray-700"></div>
+      <div id="timeline-progress" class="absolute top-0 w-full" style="height: 0; background: linear-gradient(#ff7448, #ff4848 51%, #6248ff)"></div>
+      <!-- Dynamic Dot -->
+      <div id="timeline-dot" class="absolute top-0 z-10 w-full" style="transform: translateY(-50%)">
+        <div class="flex size-4 items-center justify-center rounded-full border-2 bg-white shadow-xl" style="transform: translateX(-50%)"></div>
+      </div>
+    </div>
+    <!-- Right Column for Content -->
+    <div class="w-full md:w-1/2 md:pl-16">
+      {
+        timelineEvents.map((event) => (
+          <div class="timeline-item-content min-h-[60vh] py-16" data-date={event.date}>
+            <p class="mb-4 text-4xl font-bold text-white md:hidden">{event.date}</p>
+            {event.title && <h3 class="mb-4 text-xl font-bold text-white">{event.title}</h3>}
+            {event.content && <p class="text-md mb-4 font-semibold text-gray-400" set:html={event.content} />}
+            {event.image && <img src={event.image} alt={event.date} class="mt-8 mb-4 w-full rounded-lg" />}
+            {event.youtubeLink && (
+              <a href={event.youtubeLink} class="mt-2 inline-block text-yellow-400 underline">
+                COMING SOON On YOUTUBE
+              </a>
+            )}
+            {event.link && (
+              <a href={event.link} class="mt-2 inline-block text-yellow-400 underline">
+                {event.linkText}
+              </a>
+            )}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+  <div class="px-4 pt-20 text-center md:px-8">
+    <h2 class="mb-8 text-4xl font-bold md:text-5xl">Today</h2>
+    <p class="mx-auto mb-8 max-w-3xl text-xl leading-relaxed text-white md:text-2xl">
+      NGM is driven by its founder, investor, and a powerhouse team that shares the same passion, work ethic, and love for the project, its supporters, and partners. This wouldn't
+      exist without them. We do what we love—telling stories, sparking conversations, and building meaningful relationships with the industry's game-changers.
+    </p>
+    <p class="mx-auto max-w-3xl text-lg text-gray-300 md:text-xl">You've heard our story, it's now time for the world to hear yours.</p>
+  </div>
+</section>
+
+<style is:global>
+  .timeline-item-content {
+    opacity: 0.3;
+    transition: opacity 0.4s ease-in-out;
+  }
+  .timeline-item-content.is-active {
+    opacity: 1;
+  }
+  @media (max-width: 768px) {
+    .timeline-item-content {
+      opacity: 1;
+    }
+    .story-timeline-section .md\:pl-16 {
+      padding-left: 4rem;
+    }
+    .story-timeline-section .absolute.h-full {
+      left: 2rem !important;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const timelineProgress = document.getElementById('timeline-progress') as HTMLElement
+    const timelineDot = document.getElementById('timeline-dot') as HTMLElement
+    const timelineContainer = document.querySelector('.story-timeline-section') as HTMLElement
+    const stickyDateEl = document.getElementById('sticky-date') as HTMLElement
+    const contentItems = document.querySelectorAll('.timeline-item-content')
+    if (!timelineProgress || !timelineContainer || !stickyDateEl || !timelineDot) return
+    const onScroll = () => {
+      const { top, height } = timelineContainer.getBoundingClientRect()
+      const screenHeight = window.innerHeight
+      const scrollProgress = -top / (height - screenHeight)
+      const progress = Math.max(0, Math.min(1, scrollProgress))
+      const progressPercent = progress * 100
+      timelineProgress.style.height = `${progressPercent}%`
+      timelineDot.style.top = `${progressPercent}%`
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const el = entry.target as HTMLElement
+          if (entry.isIntersecting) {
+            const date = el.dataset.date
+            if (date) {
+              stickyDateEl.textContent = date
+            }
+            el.classList.add('is-active')
+          } else {
+            el.classList.remove('is-active')
+          }
+        })
+      },
+      {
+        rootMargin: '-50% 0px -50% 0px',
+        threshold: 0,
+      },
+    )
+    contentItems.forEach((item) => {
+      observer.observe(item)
+    })
+  })
+</script>

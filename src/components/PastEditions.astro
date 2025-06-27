@@ -1,0 +1,45 @@
+---
+import EditionCard from './EditionCard.astro'
+
+const editions = [
+  {
+    title: 'Second Edition',
+    imageUrl: '/images/f9ff651e-c538-4127-b263-72c4a66b4c3f.webp',
+    storeUrl: 'https://brot.sk/products/nomad-gossip-magazine-2?_pos=3&_psq=nomad&_ss=e&_v=1.0',
+    storeText: 'Print also available to order at Brot.sk store!',
+    buttons: [
+      {
+        text: 'Buy Now',
+        url: 'https://www.nomadgossip.com/products/issue-002',
+        primary: true,
+      },
+      {
+        text: 'Download Sample',
+        url: 'https://mailchi.mp/nomadgossip/free-weekly-articles',
+        primary: false,
+      },
+    ],
+  },
+  {
+    title: 'First Edition',
+    imageUrl: '/images/14befc54-828c-44dd-9086-1b18f8ee937c.webp',
+    storeUrl: 'https://brot.sk/products/nomad-gossip-magazine-1?_pos=3&_psq=nomad&_ss=e&_v=1.0',
+    storeText: 'Print also available to order at Brot.sk store!',
+    buttons: [
+      {
+        text: 'Buy now at MagCulture →',
+        url: 'https://magculture.com/products/nomad-gossip-magazine-1?_pos=1&_sid=3d6e3a7cf&_ss=r',
+        primary: false,
+      },
+    ],
+  },
+]
+---
+
+<section class="py-20">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 items-start gap-16 md:grid-cols-2">
+      {editions.map((edition) => <EditionCard {...edition} />)}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,16 @@
+---
+import EditionCard from './EditionCard.astro'
+
+const edition = {
+  title: 'Third Edition',
+  imageUrl: '/images/c0748317-78e6-489b-b760-ff009840dc3b.webp',
+  imageMaxWidth: 'max-w-xl',
+  buttons: [{ text: 'Buy Now', url: '/third-edition', primary: false }],
+}
+---
+
+<section class="py-20">
+  <div class="container mx-auto flex justify-center px-4">
+    <EditionCard {...edition} />
+  </div>
+</section>

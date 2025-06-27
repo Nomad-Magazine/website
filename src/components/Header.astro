@@ -1,0 +1,127 @@
+---
+import IsIconDownOutline from '~icons/lsicon/down-outline'
+import CloseIcon from '~icons/material-symbols-light/close'
+import MenuIcon from '~icons/material-symbols-light/menu-rounded'
+
+const navLinks = [
+  {
+    text: 'Magazine',
+    url: '/editions',
+    imageUrl: '/underline.svg',
+  },
+  {
+    text: 'Newsletter',
+    url: '/newsletter',
+    imageUrl: '/images/1ceec489-3480-49ac-beb7-924dfafe85e5.svg',
+  },
+  {
+    text: 'Our Story',
+    url: '/our-story',
+    imageUrl: '/underline.svg',
+  },
+]
+---
+
+<header class="bg-white">
+  <div class="mx-auto max-w-7xl px-4">
+    <div class="flex items-center justify-between py-6">
+      <!-- Logo and Navigation -->
+      <div class="flex items-center space-x-8">
+        <a href="/" class="text-3xl font-bold tracking-tighter text-gray-900">
+          <img decoding="async" loading="lazy" src="/logo.svg" alt="n::.m" class="h-4" />
+        </a>
+        <nav class="hidden space-x-8 lg:flex">
+          {
+            navLinks.map((link) => (
+              <a href={link.url} class="group relative inline-block text-gray-600 transition-colors hover:text-gray-900">
+                <span>{link.text}</span>
+                <img src={link.imageUrl} alt="underline design" class="absolute left-0 hidden w-full group-hover:block" loading="lazy" />
+              </a>
+            ))
+          }
+          <div class="relative">
+            <button id="more-button" class="flex cursor-pointer items-center text-gray-600 transition-colors hover:text-gray-900">
+              More
+              <IsIconDownOutline class="ml-1 h-4 w-4" />
+            </button>
+            <div id="more-dropdown" class="absolute z-10 mt-2 hidden w-48 rounded-md bg-white py-1 shadow-lg">
+              <a href="/nomad_directory" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Nomad Directory</a>
+              <a href="/nomad-events" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Events</a>
+              <a href="/blog" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Blog</a>
+              <a href="/distribution-list" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Distribution Partners</a>
+              <a href="/support-the-magazine" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Become a supporter</a>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <!-- Buttons -->
+      <div class="hidden items-center space-x-4 lg:flex">
+        <a href="/support-the-magazine" class="rounded-lg border border-gray-300 px-4 py-2 text-gray-700 transition-colors hover:bg-gray-100"> Become a Supporter 👋 </a>
+        <a
+          href="https://www.nomad-magazine.com/products/issue-002"
+          target="_blank"
+          class="rounded-lg border border-yellow-400 bg-yellow-400 px-4 py-2 font-semibold text-black transition-colors hover:bg-yellow-500"
+        >
+          Buy Latest Edition 🤓
+        </a>
+      </div>
+      <!-- Mobile menu button -->
+      <div class="lg:hidden">
+        <button id="mobile-menu-button" type="button" class="text-gray-600 hover:text-gray-900">
+          <MenuIcon class="h-6 w-6" />
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Mobile Menu Overlay -->
+  <div id="mobile-menu-overlay" class="fixed inset-0 z-50 hidden bg-black text-white">
+    <div class="flex items-center justify-between p-4">
+      <a href="/" class="text-3xl font-bold tracking-tighter">N:.M</a>
+      <button id="close-menu-button">
+        <CloseIcon class="h-8 w-8" />
+      </button>
+    </div>
+    <nav class="flex flex-col items-start space-y-6 p-4 text-2xl">
+      <a href="/editions">Magazine</a>
+      <a href="/nomad-events">Events</a>
+      <a target="_blank" href="https://pitch.com/v/media-kit-ngm-issue-3-jzm47w/d51b3011-5765-4553-81e8-67b598a755f8">Advertise</a>
+      <a href="/#Involved">For partners</a>
+      <a href="/blog">Blog</a>
+      <a href="/newsletter">Newsletter</a>
+      <a href="/add-testimonials">Submit Review</a>
+    </nav>
+    <div class="absolute right-4 bottom-4 left-4 space-y-4">
+      <a target="_blank" href="https://pitch.com/v/nomad-gossip-magazine-media-kit-2024-kcpz6g" class="block w-full rounded-lg border border-white py-3 text-center">
+        Advertise with us
+      </a>
+      <a href="/products/issue-002" class="block w-full rounded-lg bg-yellow-400 py-3 text-center font-semibold text-black">Order Now</a>
+    </div>
+  </div>
+</header>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const moreButton = document.getElementById('more-button')
+    const moreDropdown = document.getElementById('more-dropdown')
+    if (moreButton && moreDropdown) {
+      moreButton.addEventListener('click', (event) => {
+        event.stopPropagation()
+        moreDropdown.classList.toggle('hidden')
+      })
+      document.addEventListener('click', (event) => {
+        if (!moreDropdown.contains(event.target as Node) && !moreButton.contains(event.target as Node)) moreDropdown.classList.add('hidden')
+      })
+    }
+    const mobileMenuButton = document.getElementById('mobile-menu-button')
+    const mobileMenuOverlay = document.getElementById('mobile-menu-overlay')
+    const closeMenuButton = document.getElementById('close-menu-button')
+    if (mobileMenuButton && mobileMenuOverlay && closeMenuButton) {
+      mobileMenuButton.addEventListener('click', () => {
+        mobileMenuOverlay.classList.remove('hidden')
+      })
+      closeMenuButton.addEventListener('click', () => {
+        mobileMenuOverlay.classList.add('hidden')
+      })
+    }
+  })
+</script>

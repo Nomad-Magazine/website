@@ -1,0 +1,30 @@
+---
+import Layout from '~/layouts/Layout.astro'
+import { getCollection } from 'astro:content'
+import FeaturedPostCard from '~/components/FeaturedPostCard.astro'
+
+// Get all blog posts and filter for published ones
+const allPosts = await getCollection('blog')
+const posts = allPosts
+  .filter((post) => post.data.published !== false) // Only show published posts
+  .sort((a, b) => {
+    // Sort by pubDate (falling back to created_at if pubDate is not available)
+    const dateA = a.data.pubDate || new Date(0)
+    const dateB = b.data.pubDate || new Date(0)
+    return dateB.valueOf() - dateA.valueOf()
+  })
+---
+
+<Layout title="Nomad Gossip Blog">
+  <div class="bg-hoverw mx-auto flex flex-col items-center px-4 sm:px-6 lg:px-8">
+    <main class="py-16">
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 class="text-4xl font-semibold tracking-tight text-white sm:text-5xl">Nomad Gossip Blog</h2>
+        <p class="mt-4 text-lg text-neutral-400">In-depth articles and useful tips on how to improve your nomadic journey.</p>
+      </div>
+      <section class="mt-12 max-w-7xl">
+        {posts.map((post) => <FeaturedPostCard post={post} />)}
+      </section>
+    </main>
+  </div>
+</Layout>

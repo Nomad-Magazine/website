@@ -1,0 +1,61 @@
+---
+interface Button {
+  text: string
+  url: string
+  primary: boolean
+}
+
+interface Props {
+  title: string
+  imageUrl: string
+  imageMaxWidth?: string
+  storeUrl?: string
+  storeText?: string
+  buttons?: Button[]
+  subtitle?: {
+    text: string
+    url: string
+  }
+}
+
+const { title, imageUrl, imageMaxWidth = 'max-w-md', storeUrl, storeText, buttons = [], subtitle } = Astro.props
+---
+
+<div class="flex flex-col items-center text-center">
+  <img src={imageUrl} alt={`${title} cover of Nomad Magazine`} class:list={['mb-8 w-full rounded-lg shadow-lg', imageMaxWidth]} loading="lazy" />
+  <h3 class="text-4xl font-bold">{title}</h3>
+
+  {
+    subtitle && (
+      <a href={subtitle.url} target="_blank" rel="noopener noreferrer" class="mt-2 text-neutral-400 hover:underline">
+        {subtitle.text}
+      </a>
+    )
+  }
+
+  {
+    storeUrl && storeText && (
+      <a href={storeUrl} target="_blank" rel="noopener noreferrer" class="mt-2 text-neutral-400 hover:underline">
+        {storeText}
+      </a>
+    )
+  }
+
+  <div class="mt-6 flex flex-col items-center gap-4 sm:flex-row">
+    {
+      buttons.map((button) => (
+        <a
+          href={button.url}
+          target={button.url.startsWith('http') ? '_blank' : '_self'}
+          rel="noopener noreferrer"
+          class:list={[
+            'inline-block rounded-lg px-8 py-3 font-bold transition-colors',
+            button.primary ? 'bg-yellow-400 text-black hover:bg-yellow-300' : 'border border-white hover:bg-white hover:text-black',
+          ]}
+        >
+          {button.text}
+        </a>
+      ))
+    }
+  </div>
+</div>
