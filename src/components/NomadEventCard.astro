@@ -5,7 +5,7 @@ interface Props {
   scea90e502?: string
   startingPrice: string
   sb788c266b?: string[]
-  discountCode?: string
+  s9c0ff01ed?: string
   s651faa5bd?: {
     from_date: {
       date: string
@@ -18,7 +18,7 @@ interface Props {
   }
 }
 
-const { image, title, scea90e502, startingPrice, sb788c266b, discountCode, s651faa5bd }: Props = Astro.props
+const { image, title, scea90e502, startingPrice, sb788c266b, s9c0ff01ed: discountCode, s651faa5bd }: Props = Astro.props
 const website = sb788c266b?.[0]
 
 // Format dates for display
@@ -42,19 +42,19 @@ const endDate = s651faa5bd?.to_date?.date ? formatDate(s651faa5bd.to_date.date) 
   <div class="flex flex-1 flex-col p-8">
     <div class="space-y-2 rounded-2xl text-sm text-neutral-200">
       <h3 class="mb-2 text-lg font-semibold text-white">{title}</h3>
-      {scea90e502 && <div class="flex flex-col">{scea90e502}</div>}
+      {scea90e502 && <span>{scea90e502}</span>}
       <div class="flex flex-col">
-        <span class="font-medium text-white">Start Date</span>
-        <span>{startDate}</span>
+        <span>Start Date</span>
+        <span class="font-medium text-white">{startDate}</span>
       </div>
       <div class="flex flex-col">
-        <span class="font-medium text-white">End Date</span>
-        <span>{startDate}</span>
+        <span>End Date</span>
+        <span class="font-medium text-white">{endDate}</span>
       </div>
       {
         website && (
           <div class="mt-2 flex flex-col">
-            <span class="font-medium text-white">Website</span>
+            <span>Website</span>
             <a href={website} target="_blank" rel="noopener noreferrer" class="break-all text-blue-300 underline">
               {website}
             </a>
@@ -64,8 +64,9 @@ const endDate = s651faa5bd?.to_date?.date ? formatDate(s651faa5bd.to_date.date) 
     </div>
     {
       discountCode && (
-        <div class="mt-auto text-sm text-neutral-200">
-          <span class="font-medium text-white">Discount Code:</span> {discountCode}
+        <div class="mt-2 flex flex-col">
+          <span>Discount Code</span>
+          <span class="font-medium text-white">{discountCode}</span>
         </div>
       )
     }
