@@ -66265,16 +66265,7 @@
     }
   ],
   "related_records": [],
-  "fields": [
-    "s43a4b2808",
-    "s79382cca7",
-    "s9744d6c51",
-    "sb685ab800",
-    "sc584fdf36",
-    "scea90e502",
-    "sed1a49986",
-    "title"
-  ],
+  "fields": ["s43a4b2808", "s79382cca7", "s9744d6c51", "sb685ab800", "sc584fdf36", "scea90e502", "sed1a49986", "title"],
   "filter": {
     "operator": "and",
     "fields": []
