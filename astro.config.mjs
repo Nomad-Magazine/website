@@ -5,6 +5,7 @@ import cloudflare from '@astrojs/cloudflare'
 import { defineConfig, envField } from 'astro/config'
 
 export default defineConfig({
+  site: 'https://nomad-magazine.com',
   adapter: cloudflare(),
   env: {
     schema: {
