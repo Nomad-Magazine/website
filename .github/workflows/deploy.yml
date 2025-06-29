@@ -64,7 +64,7 @@ jobs:
           script: |
             const deploymentUrl = '${{ steps.deploy.outputs.deployment_url }}';
             if (deploymentUrl) {
-              const body = `🚀 Preview deployed: [${deploymentUrl}](${deploymentUrl})`;
+              const body = `Preview:\n[${deploymentUrl}](${deploymentUrl})`;
               await github.rest.issues.createComment({
                 body,
                 repo: context.repo.repo,
