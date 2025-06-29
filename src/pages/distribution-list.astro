@@ -1,0 +1,42 @@
+---
+import Layout from '~/layouts/Layout.astro'
+import { fetchReportRecords } from '~/utils/smartsuite'
+import NomadEventCard from '~/components/NomadEventCard.astro'
+import ListYourProjectFooter from '~/components/ListYourProjectFooter.astro'
+import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
+
+const { records = [] } = await fetchReportRecords('655f749c8779ef70a3a1735e')
+---
+
+<Layout title="Nomad Directory">
+  <section class="bg-hoverw flex w-full flex-col items-center py-16">
+    <div class="mx-auto w-full max-w-4xl px-4 text-center">
+      <h1 class="mb-6 text-4xl leading-tight font-bold text-white sm:text-5xl md:text-6xl">
+        <span>Where To Find</span><br />
+        <span class="text-yellow-400">Nomad Gossip</span><br />
+        <span>Magazine</span>
+      </h1>
+      <p class="mb-8 text-lg font-medium text-gray-200 sm:text-xl">
+        Nomad Gossip Magazine is circulating globally! Find a copy at coworking spaces and nomad hubs for inspiration and insights into remote work.
+      </p>
+      <a
+        target="_blank"
+        href="https://form.smartsuite.com/s4tmc086/Gp752OEElk"
+        class="inline-flex items-center gap-2 rounded-xl bg-yellow-400 px-8 py-4 text-lg font-bold text-black shadow transition-colors hover:bg-yellow-300"
+      >
+        <MaterialSymbolsElectricBolt width="20" height="20" />
+        List an event
+      </a>
+    </div>
+    <div id="directory-container" class="container mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <!-- @ts-ignore -->
+      {records.filter((i) => i.s188096926).map((record) => <NomadEventCard {...record} />)}
+    </div>
+    <ListYourProjectFooter
+      buttonText="Get in touch"
+      href="https://form.smartsuite.com/s4tmc086/0nmLI1htHD"
+      title="Host <span class='text-yellow-400'>Nomad Gossip</span> Magazine<br />at Your Space – For Free!"
+      description={"Give your community a fresh dose of nomad insights! Offer your guests inspiring stories, industry trends, and valuable resources—all at no cost to you.<br /><br />Perfect for: Stores, Coworking Spaces, Cafes, Colivings, Hostels etc."}
+    />
+  </section>
+</Layout>

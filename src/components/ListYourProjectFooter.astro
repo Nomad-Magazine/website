@@ -10,11 +10,9 @@ import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
 ---
 
 <section class="mt-16 mb-8 flex w-full justify-center px-8">
-  <div class="flex w-full max-w-4xl flex-col items-center rounded-[3rem] border border-white/50 px-6 py-16 text-center shadow-lg">
-    <h2 class="mb-4 text-4xl font-bold text-white sm:text-5xl md:text-6xl">{title}</h2>
-    <p class="mx-auto mb-8 max-w-2xl text-lg text-gray-400 sm:text-xl">
-      {description}
-    </p>
+  <div class="flex w-full max-w-7xl flex-col items-center rounded-[3rem] border border-white/50 px-6 py-16 text-center shadow-lg">
+    <span class="mb-4 text-4xl font-bold text-white sm:text-5xl md:text-6xl" set:html={title} />
+    <p class="mx-auto mt-4 mb-8 max-w-2xl text-lg text-gray-400 sm:text-xl" set:html={description} />
     <a {href} class="inline-flex items-center gap-2 rounded-xl bg-yellow-400 px-8 py-4 text-lg font-bold text-black shadow transition-colors hover:bg-yellow-300">
       <MaterialSymbolsElectricBolt width="20" height="20" />
       {buttonText}
