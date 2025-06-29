@@ -2,55 +2,12 @@ import path from 'path'
 import fs from 'fs/promises'
 import { SMART_SUITE_APIKEY, SMART_SUITE_ACCOUNT_ID, SMART_SUITE_TABLE_ID_COMPANY } from 'astro:env/server'
 
-interface SmartSuiteRecord {
-  title: string
-  description: {
-    data: Record<string, any>
-    html: string
-  }
-  assigned_to: string[]
-  status: {
-    value: string
-  }
-  due_date?: {
-    from_date: {
-      date: string
-      include_time: boolean
-    }
-    to_date: {
-      date: string
-      include_time: boolean
-    }
-    is_overdue: boolean
-  }
-  priority: string
-  first_created: {
-    on: string
-    by: string
-  }
-  last_updated: {
-    on: string
-    by: string
-  }
-  followed_by: string[]
-  comments_count: number
-  autonumber: number
-  [key: string]: any // For additional custom fields
-}
-
-interface SmartSuiteResponse {
-  total: number
-  offset: number
-  limit: number
-  items: SmartSuiteRecord[]
-}
-
 const CACHE_PATH = (suffix: string = '') => path.resolve(process.cwd(), `src/utils/nomad_cache_table_${suffix}.json`)
 
 /**
  * Fetches a single page of records from SmartSuite API
  */
-export async function fetchRecordsPage(offset: number, limit: number = 100): Promise<SmartSuiteResponse> {
+export async function fetchRecordsPage(offset: number, limit: number = 100) {
   const response = await fetch(`https://app.smartsuite.com/api/v1/applications/${SMART_SUITE_TABLE_ID_COMPANY}/records/list/?offset=${offset}&limit=${limit}`, {
     method: 'POST',
     headers: {
@@ -64,22 +21,7 @@ export async function fetchRecordsPage(offset: number, limit: number = 100): Pro
   return await response.json()
 }
 
-export interface ReportRecord {
-  link?: string
-  image?: string
-  title?: string
-  sf4ad525dd?: boolean
-  scea90e502?: string
-  sb788c266b?: string[]
-  sc584fdf36?: { handle?: string }[]
-}
-
-interface ReportRecordsResponse {
-  total_records_count?: number
-  records?: ReportRecord[]
-}
-
-export async function fetchReportRecords(reportID: string): Promise<ReportRecordsResponse> {
+export async function fetchReportRecords(reportID: string) {
   // Try to read from cache first
   try {
     const cache = await fs.readFile(CACHE_PATH(reportID), 'utf-8')
@@ -98,7 +40,7 @@ export async function fetchReportRecords(reportID: string): Promise<ReportRecord
   // Fetch images in parallel for all records
   if (responseJSON.records) {
     await Promise.all(
-      responseJSON.records.map(async (record: ReportRecord) => {
+      responseJSON.records.map(async (record: any) => {
         const handle = record.sc584fdf36?.[0]?.handle
         if (handle) {
           try {
@@ -141,8 +83,8 @@ async function fetchImageUrlFromHandle(handle: string): Promise<string | undefin
  * Fetches all records from SmartSuite API by handling pagination and fetching images in parallel
  * Caches the result in a JSON file. If the cache exists, returns its contents.
  */
-export async function fetchAllRecords(): Promise<SmartSuiteRecord[]> {
-  const allRecords: SmartSuiteRecord[] = []
+export async function fetchAllRecords() {
+  const allRecords: any[] = []
   let offset = 0
   const limit = 100 // Maximum records per request
   let hasMoreRecords = true
