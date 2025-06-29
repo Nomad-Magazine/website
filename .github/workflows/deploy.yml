@@ -22,9 +22,6 @@ jobs:
       - run: bun install
       - run: bun run build
         env:
-          BENTO_SITE_UUID: ${{ secrets.BENTO_SITE_UUID }}
-          BENTO_SECRET_KEY: ${{ secrets.BENTO_SECRET_KEY }}
-          BENTO_PUBLISHABLE_KEY: ${{ secrets.BENTO_PUBLISHABLE_KEY }}
           SMART_SUITE_APIKEY: ${{ secrets.SMART_SUITE_APIKEY }}
           SMART_SUITE_ACCOUNT_ID: ${{ secrets.SMART_SUITE_ACCOUNT_ID }}
           SMART_SUITE_TABLE_ID_COMPANY: ${{ secrets.SMART_SUITE_TABLE_ID_COMPANY }}
@@ -46,9 +43,6 @@ jobs:
         run: |
           echo "" >> wrangler.toml
           echo "[vars]" >> wrangler.toml
-          echo "BENTO_SITE_UUID = \"${{ secrets.BENTO_SITE_UUID }}\"" >> wrangler.toml
-          echo "BENTO_SECRET_KEY = \"${{ secrets.BENTO_SECRET_KEY }}\"" >> wrangler.toml
-          echo "BENTO_PUBLISHABLE_KEY = \"${{ secrets.BENTO_PUBLISHABLE_KEY }}\"" >> wrangler.toml
           echo "SMART_SUITE_APIKEY = \"${{ secrets.SMART_SUITE_APIKEY }}\"" >> wrangler.toml
           echo "SMART_SUITE_ACCOUNT_ID = \"${{ secrets.SMART_SUITE_ACCOUNT_ID }}\"" >> wrangler.toml
           echo "SMART_SUITE_TABLE_ID_COMPANY = \"${{ secrets.SMART_SUITE_TABLE_ID_COMPANY }}\"" >> wrangler.toml
@@ -57,9 +51,6 @@ jobs:
           url=$(echo "$output" | grep -o 'https://[^[:space:]]*\.workers\.dev' | head -1)
           echo "deployment_url=$url" >> $GITHUB_OUTPUT
         env:
-          BENTO_SITE_UUID: ${{ secrets.BENTO_SITE_UUID }}
-          BENTO_SECRET_KEY: ${{ secrets.BENTO_SECRET_KEY }}
-          BENTO_PUBLISHABLE_KEY: ${{ secrets.BENTO_PUBLISHABLE_KEY }}
           SMART_SUITE_APIKEY: ${{ secrets.SMART_SUITE_APIKEY }}
           SMART_SUITE_ACCOUNT_ID: ${{ secrets.SMART_SUITE_ACCOUNT_ID }}
           SMART_SUITE_TABLE_ID_COMPANY: ${{ secrets.SMART_SUITE_TABLE_ID_COMPANY }}

@@ -23,9 +23,6 @@ jobs:
       - name: Build project (regenerate cache)
         run: bun run build
         env:
-          BENTO_SITE_UUID: ${{ secrets.BENTO_SITE_UUID }}
-          BENTO_SECRET_KEY: ${{ secrets.BENTO_SECRET_KEY }}
-          BENTO_PUBLISHABLE_KEY: ${{ secrets.BENTO_PUBLISHABLE_KEY }}
           SMART_SUITE_APIKEY: ${{ secrets.SMART_SUITE_APIKEY }}
           SMART_SUITE_ACCOUNT_ID: ${{ secrets.SMART_SUITE_ACCOUNT_ID }}
           SMART_SUITE_TABLE_ID_COMPANY: ${{ secrets.SMART_SUITE_TABLE_ID_COMPANY }}
