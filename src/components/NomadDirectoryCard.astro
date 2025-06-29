@@ -23,9 +23,8 @@ const link = itemLink || sb788c266b?.[0]
 
 <script define:vars={{ randomId, link }}>
   const element = document.getElementById(randomId)
-  if (link) {
+  if (link)
     element.addEventListener('click', () => {
       window.open(link, '_blank')
     })
-  }
 </script>
