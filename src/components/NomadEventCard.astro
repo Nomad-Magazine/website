@@ -39,9 +39,9 @@ const endDate = s651faa5bd?.to_date?.date ? formatDate(s651faa5bd.to_date.date) 
   <div class="p-4 pb-0">
     <img src={image || '/logo.svg'} decoding="async" alt={title} class="h-48 w-full rounded-3xl bg-white object-contain" loading="lazy" />
   </div>
-  <div class="flex flex-1 flex-col p-8">
-    <div class="space-y-2 rounded-2xl text-sm text-neutral-200">
-      <h3 class="mb-2 text-lg font-semibold text-white">{title}</h3>
+  <div class="flex flex-1 flex-col p-8 text-neutral-200">
+    <div class="space-y-4 rounded-2xl text-sm">
+      <h3 class="text-lg font-semibold text-white">{title}</h3>
       {scea90e502 && <span>{scea90e502}</span>}
       <div class="flex flex-col">
         <span>Start Date</span>
@@ -53,7 +53,7 @@ const endDate = s651faa5bd?.to_date?.date ? formatDate(s651faa5bd.to_date.date) 
       </div>
       {
         website && (
-          <div class="mt-2 flex flex-col">
+          <div class="flex flex-col">
             <span>Website</span>
             <a href={website} target="_blank" rel="noopener noreferrer" class="break-all text-blue-300 underline">
               {website}
@@ -61,14 +61,14 @@ const endDate = s651faa5bd?.to_date?.date ? formatDate(s651faa5bd.to_date.date) 
           </div>
         )
       }
+      {
+        discountCode && (
+          <div class="flex flex-col">
+            <span>Discount Code</span>
+            <span class="font-medium text-white">{discountCode}</span>
+          </div>
+        )
+      }
     </div>
-    {
-      discountCode && (
-        <div class="mt-2 flex flex-col">
-          <span>Discount Code</span>
-          <span class="font-medium text-white">{discountCode}</span>
-        </div>
-      )
-    }
   </div>
 </div>
