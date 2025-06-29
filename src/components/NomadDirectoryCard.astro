@@ -1,8 +1,7 @@
 ---
 import { randomUUID } from 'node:crypto'
-import type { ReportRecord } from '~/utils/smartsuite'
 
-const { image, title, link: itemLink, sb788c266b, scea90e502 }: ReportRecord = Astro.props
+const { image, title, link: itemLink, sb788c266b, scea90e502 } = Astro.props
 
 const randomId = randomUUID()
 
