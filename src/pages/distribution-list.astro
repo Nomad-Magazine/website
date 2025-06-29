@@ -32,6 +32,11 @@ const { records = [] } = await fetchReportRecords('68614a111208586bd05d3c3a')
       <!-- @ts-ignore -->
       {records.filter((i) => i.s43a4b2808 && !i.s9744d6c51).map((record) => <DistributionCard {...record} />)}
     </div>
+    <h2 class="mt-24 text-4xl font-bold text-white sm:text-5xl md:text-6xl">Coming Soon</h2>
+    <div id="coming-soon-container" class="container mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <!-- @ts-ignore -->
+      {records.filter((i) => i.s43a4b2808 && i.s9744d6c51).map((record) => <DistributionCard {...record} />)}
+    </div>
     <ListYourProjectFooter
       buttonText="Get in touch"
       href="https://form.smartsuite.com/s4tmc086/0nmLI1htHD"
