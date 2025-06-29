@@ -12,7 +12,7 @@ const link = itemLink || sb788c266b?.[0]
 {
   title && (
     <div id={randomId} class:list={['flex w-full flex-col rounded-3xl border border-white/10 p-4 shadow-lg transition-transform', link && 'cursor-pointer']}>
-      <img src={image} decoding="async" alt={title} class="h-48 w-full rounded-3xl bg-white object-contain" loading="lazy" />
+      <img src={image || '/logo.svg'} decoding="async" alt={title} class="h-48 w-full rounded-3xl bg-white object-contain" loading="lazy" />
       <div class="flex flex-1 flex-col p-4">
         <h3 class="mb-2 text-lg font-bold break-all text-white">{title}</h3>
         <div class="mb-1 text-xs text-gray-400">Description</div>
