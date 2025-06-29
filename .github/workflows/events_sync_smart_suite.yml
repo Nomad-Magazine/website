@@ -6,7 +6,7 @@ permissions:
 on:
   workflow_dispatch:
   repository_dispatch:
-    types: [sync-event]
+    types: [sync_event]
 
 jobs:
   update-cache:
