@@ -104,10 +104,8 @@ export async function fetchReportRecords(reportID: string): Promise<ReportRecord
           try {
             const imageUrl = await fetchImageUrlFromHandle(handle)
             if (imageUrl) record.image = imageUrl
-          } catch (error) {
-            record.image = '/logo.svg'
-          }
-        } else record.image = '/logo.svg'
+          } catch (error) {}
+        }
       }),
     )
   }
