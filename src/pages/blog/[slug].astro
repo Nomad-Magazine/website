@@ -41,7 +41,7 @@ if (relatedPosts.length < 3) {
 const finalRelatedPosts = relatedPosts.slice(0, 3)
 ---
 
-<Layout title={post.data.title}>
+<Layout ogImage={post.data.heroImage} title={post.data.title}>
   <main>
     {
       post.data.heroImage ? (

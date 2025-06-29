@@ -1,10 +1,11 @@
 ---
 interface Props {
   title: string
+  ogImage?: string
   description?: string
 }
 
-const { title, description = 'Remote Work, Nomadic Trends, Events, Industry Updates and More. Join the Nomad Newsletter for exclusive articles and inspiring stories.' } =
+const { title, ogImage, description = 'Remote Work, Nomadic Trends, Events, Industry Updates and More. Join the Nomad Newsletter for exclusive articles and inspiring stories.' } =
   Astro.props
 
 import '../styles/global.css'
@@ -21,6 +22,7 @@ import Footer from '~/components/Footer.astro'
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/favicon.png" />
+    {ogImage && <meta property="og:image" content={ogImage} />}
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <!-- Astro Fonts -->
