@@ -45,7 +45,7 @@ interface SmartSuiteResponse {
   items: SmartSuiteRecord[]
 }
 
-const CACHE_PATH = (suffix: string = '') => path.resolve(process.cwd(), `src/utils/nomad_directory_cache_${suffix}.json`)
+const CACHE_PATH = (suffix: string = '') => path.resolve(process.cwd(), `src/utils/nomad_cache_table_${suffix}.json`)
 
 /**
  * Fetches a single page of records from SmartSuite API

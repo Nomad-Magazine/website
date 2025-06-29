@@ -1,0 +1,82 @@
+---
+interface Props {
+  image: string
+  title: string
+  scea90e502?: string
+  startingPrice: string
+  sb788c266b?: string[]
+  discountCode?: string
+  s651faa5bd?: {
+    from_date: {
+      date: string
+      include_time: boolean
+    }
+    to_date: {
+      date: string
+      include_time: boolean
+    }
+  }
+}
+
+const { image, title, scea90e502, startingPrice, sb788c266b, discountCode, s651faa5bd }: Props = Astro.props
+const website = sb788c266b?.[0]
+
+// Format dates for display
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString)
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  })
+}
+
+const startDate = s651faa5bd?.from_date?.date ? formatDate(s651faa5bd.from_date.date) : 'TBD'
+const endDate = s651faa5bd?.to_date?.date ? formatDate(s651faa5bd.to_date.date) : 'TBD'
+---
+
+<div class="mx-auto flex h-full w-full max-w-xs flex-col rounded-3xl bg-neutral-900 shadow-lg">
+  <div class="p-4 pb-0">
+    <img src={image || '/logo.svg'} decoding="async" alt={title} class="h-48 w-full rounded-3xl bg-white object-contain" loading="lazy" />
+  </div>
+  <div class="flex flex-1 flex-col p-8">
+    <div class="space-y-2 rounded-2xl text-sm text-neutral-200">
+      <h3 class="mb-2 text-lg font-semibold text-white">{title}</h3>
+      <div class="flex flex-wrap gap-x-4 gap-y-1">
+        {
+          scea90e502 && (
+            <div>
+              <br />
+              {scea90e502}
+            </div>
+          )
+        }
+        <div><span class="font-medium text-white">Start Date</span><br />{startDate}</div>
+      </div>
+      <div class="mt-2 flex flex-wrap gap-x-4 gap-y-1">
+        <div><span class="font-medium text-white">End Date</span><br />{endDate}</div>
+      </div>
+      {
+        website && (
+          <div class="mt-2">
+            <>
+              <span class="font-medium text-white">Website</span>
+              <br />
+            </>
+            <a href={website} target="_blank" rel="noopener noreferrer" class="break-all text-blue-300 underline">
+              {website}
+            </a>
+          </div>
+        )
+      }
+    </div>
+    {
+      discountCode && (
+        <div class="mt-auto text-sm text-neutral-200">
+          <span class="font-medium text-white">Discount Code:</span> {discountCode}
+        </div>
+      )
+    }
+  </div>
+</div>
+
