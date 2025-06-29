@@ -1,4 +1,4 @@
-name: Sync Events from Smart suite
+name: Sync Distribution from Smart suite
 
 permissions:
   contents: write
@@ -6,7 +6,7 @@ permissions:
 on:
   workflow_dispatch:
   repository_dispatch:
-    types: [sync-event]
+    types: [sync-distribution]
 
 jobs:
   update-cache:
@@ -14,8 +14,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Remove cached events JSON
-        run: rm -f src/utils/nomad_cache_table_655f749c8779ef70a3a1735e.json
+      - name: Remove cached distribution JSON
+        run: rm -f src/utils/nomad_cache_table_68614a111208586bd05d3c3a.json
       - name: Set up Bun
         uses: oven-sh/setup-bun@v2
       - name: Install dependencies
@@ -29,12 +29,12 @@ jobs:
           SMART_SUITE_APIKEY: ${{ secrets.SMART_SUITE_APIKEY }}
           SMART_SUITE_ACCOUNT_ID: ${{ secrets.SMART_SUITE_ACCOUNT_ID }}
           SMART_SUITE_TABLE_ID_COMPANY: ${{ secrets.SMART_SUITE_TABLE_ID_COMPANY }}
-      - name: Commit updated events cache
+      - name: Commit updated distribution cache
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add src/utils/nomad_cache_table_655f749c8779ef70a3a1735e.json
-          git diff --cached --quiet || git commit -m "chore: update nomad events cache [ci skip]"
+          git add src/utils/nomad_cache_table_68614a111208586bd05d3c3a.json
+          git diff --cached --quiet || git commit -m "chore: update nomad distribution cache [ci skip]"
           git push
       - name: Trigger deploy workflow
         uses: benc-uk/workflow-dispatch@v1
