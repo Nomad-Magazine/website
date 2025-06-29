@@ -2,7 +2,7 @@
 import { randomUUID } from 'node:crypto'
 import type { ReportRecord } from '~/utils/smartsuite'
 
-const { image, title, description, link: itemLink, sb788c266b }: ReportRecord = Astro.props
+const { image, title, link: itemLink, sb788c266b, scea90e502 }: ReportRecord = Astro.props
 
 const randomId = randomUUID()
 
@@ -12,15 +12,11 @@ const link = itemLink || sb788c266b?.[0]
 {
   title && (
     <div id={randomId} class:list={['flex w-full flex-col rounded-3xl border border-white/10 p-4 shadow-lg transition-transform', link && 'cursor-pointer']}>
-      <img src={image || '/logo.svg'} decoding="async" alt={title} class="h-48 w-full rounded-3xl bg-white object-contain" loading="lazy" />
+      <img src={image} decoding="async" alt={title} class="h-48 w-full rounded-3xl bg-white object-contain" loading="lazy" />
       <div class="flex flex-1 flex-col p-4">
         <h3 class="mb-2 text-lg font-bold break-all text-white">{title}</h3>
-        {description?.preview && (
-          <div>
-            <div class="mb-1 text-xs text-gray-400">Description</div>
-            <div class="text-sm break-all !text-gray-200 [&_*]:!text-gray-200" set:html={description.preview} />
-          </div>
-        )}
+        <div class="mb-1 text-xs text-gray-400">Description</div>
+        <div class="text-sm break-all !text-gray-200 [&_*]:!text-gray-200">{scea90e502}</div>
       </div>
     </div>
   )

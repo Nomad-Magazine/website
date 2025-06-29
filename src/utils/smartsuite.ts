@@ -66,11 +66,12 @@ export async function fetchRecordsPage(offset: number, limit: number = 100): Pro
 
 export interface ReportRecord {
   link?: string
-  title?: string
   image?: string
-  sb788c266b?: string[]
+  title?: string
   sf4ad525dd?: boolean
-  description?: { preview?: string }
+  scea90e502?: string
+  sb788c266b?: string[]
+  sc584fdf36?: { handle?: string }[]
 }
 
 interface ReportRecordsResponse {
@@ -94,6 +95,22 @@ export async function fetchReportRecords(reportID: string): Promise<ReportRecord
   })
   if (!response.ok) throw new Error(`SmartSuite API error: ${response.status} ${response.statusText}`)
   const responseJSON = await response.json()
+  // Fetch images in parallel for all records
+  if (responseJSON.records) {
+    await Promise.all(
+      responseJSON.records.map(async (record: ReportRecord) => {
+        const handle = record.sc584fdf36?.[0]?.handle
+        if (handle) {
+          try {
+            const imageUrl = await fetchImageUrlFromHandle(handle)
+            if (imageUrl) record.image = imageUrl
+          } catch (error) {
+            record.image = '/logo.svg'
+          }
+        } else record.image = '/logo.svg'
+      }),
+    )
+  }
   // Write to cache
   await fs.writeFile(CACHE_PATH(reportID), JSON.stringify(responseJSON, null, 2), 'utf-8')
   return responseJSON
