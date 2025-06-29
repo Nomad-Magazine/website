@@ -1,4 +1,4 @@
-name: Sync Distribution from Smart suite
+name: Sync Directory from Smart suite
 
 permissions:
   contents: write
