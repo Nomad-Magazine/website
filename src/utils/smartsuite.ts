@@ -125,7 +125,10 @@ async function fetchImageUrlFromHandle(handle: string): Promise<string | undefin
       authorization: `Token ${SMART_SUITE_APIKEY}`,
     },
   })
-  if (!response.ok) return undefined
+  if (!response.ok) {
+    console.error(`Error fetching image for handle ${handle}:`, response.statusText)
+    return undefined
+  }
   const data = await response.json()
   // if (data.url) {
   //   const urlResponse = await fetch(data.url, { method: 'HEAD', redirect: 'follow' })
