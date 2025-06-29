@@ -4,11 +4,11 @@ const { formClass, tag } = Astro.props
 
 <section class="space-y-4">
   <form
-    action={`https://track.bentonow.com/forms/1685a00cdc1fc329724616bec1de09c6/$subscribe_${tag}?hardened=true`}
     method="POST"
-    enctype="multipart/form-data"
     target="_blank"
+    enctype="multipart/form-data"
     class:list={['flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:gap-2', formClass]}
+    action={`https://track.bentonow.com/forms/1685a00cdc1fc329724616bec1de09c6/$subscribe_${tag}?hardened=true`}
   >
     <input
       required
