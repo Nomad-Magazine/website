@@ -26,7 +26,7 @@ const { slides, firstSlideMaxWidth = true }: Props = Astro.props
   </div>
 </div>
 
-<script define:vars={{ slides, firstSlideMaxWidth }}>
+<script is:inline define:vars={{ slides, firstSlideMaxWidth }}>
   let current = 0
   const img = document.getElementById('product-img')
   const left = document.getElementById('product-left')

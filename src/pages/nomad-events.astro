@@ -30,6 +30,7 @@ const { records = [] } = await fetchReportRecords('655f749c8779ef70a3a1735e')
       </a>
     </div>
     <div id="directory-container" class="container mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <!-- @ts-ignore -->
       {records.filter((i) => i.s188096926).map((record) => <NomadEventCard {...record} />)}
     </div>
     <ListYourProjectFooter

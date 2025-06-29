@@ -37,7 +37,7 @@ const {
 import CheckIcon from '~icons/ic/baseline-check'
 
 // Generate unique IDs for this instance
-const instanceId = `payment-plan-${Math.random().toString(36).substr(2, 9)}`
+const instanceId = `payment-plan-${Math.random().toString(36).substring(2, 9)}`
 const digitalRadioId = `${instanceId}-digital-radio`
 const printRadioId = `${instanceId}-print-radio`
 const orderBtnId = `${instanceId}-order-now-btn`
@@ -160,6 +160,7 @@ const defaultDigitalPlan = digitalPlans.find((plan) => plan.defaultChecked) || d
 </div>
 
 <script
+  is:inline
   define:vars={{
     instanceId,
     digitalRadioId,

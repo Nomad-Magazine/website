@@ -16,9 +16,6 @@ const SRC_DIR = path.join(__dirname, '../src')
 const PUBLIC_DIR = path.join(__dirname, '../public')
 const IMAGES_DIR = path.join(PUBLIC_DIR, 'images')
 
-// Image file extensions to process
-const IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.ico']
-
 // Track processed URLs to avoid duplicates
 const processedUrls = new Map()
 

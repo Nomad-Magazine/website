@@ -56,7 +56,7 @@ const { heading, bodyHtml, images }: Props = Astro.props
   </div>
 </div>
 
-<script define:vars={{ images }}>
+<script is:inline define:vars={{ images }}>
   let current = 0
   const img = document.getElementById('carousel-image')
   const left = document.getElementById('carousel-left')

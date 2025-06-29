@@ -62,7 +62,7 @@ const { heading, subtitle, slides }: Props = Astro.props
   </div>
 </section>
 
-<script define:vars={{ slides }}>
+<script is:inline define:vars={{ slides }}>
   let current = 0
   const img = document.getElementById('wc-img')
   const quote = document.getElementById('wc-quote')

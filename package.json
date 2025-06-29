@@ -3,6 +3,7 @@
   "name": "nomad-magazine",
   "scripts": {
     "dev": "astro dev",
+    "check": "astro check",
     "build": "astro build",
     "preview": "astro preview",
     "blogs:sync_seobot": "tsx scripts/blogs/sync_seobot.js",
@@ -17,6 +18,7 @@
     "tailwindcss": "^4.1.10"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.4",
     "@dotenvx/dotenvx": "^1.45.1",
     "@iconify/json": "^2.2.351",
     "@tailwindcss/typography": "^0.5.16",
