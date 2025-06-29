@@ -1,11 +1,11 @@
 ---
 import Layout from '~/layouts/Layout.astro'
 import { fetchReportRecords } from '~/utils/smartsuite'
-import NomadEventCard from '~/components/NomadEventCard.astro'
+import DistributionCard from '~/components/DistributionCard.astro'
 import ListYourProjectFooter from '~/components/ListYourProjectFooter.astro'
 import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
 
-const { records = [] } = await fetchReportRecords('655f749c8779ef70a3a1735e')
+const { records = [] } = await fetchReportRecords('68614a111208586bd05d3c3a')
 ---
 
 <Layout title="Nomad Directory">
@@ -30,7 +30,7 @@ const { records = [] } = await fetchReportRecords('655f749c8779ef70a3a1735e')
     </div>
     <div id="directory-container" class="container mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       <!-- @ts-ignore -->
-      {records.filter((i) => i.s188096926).map((record) => <NomadEventCard {...record} />)}
+      {records.filter((i) => i.s43a4b2808 && !i.s9744d6c51).map((record) => <DistributionCard {...record} />)}
     </div>
     <ListYourProjectFooter
       buttonText="Get in touch"
