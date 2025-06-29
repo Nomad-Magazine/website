@@ -31,6 +31,7 @@ const { records = [] } = await fetchReportRecords('6857167d82358a0f5e038c3f')
       </a>
     </div>
     <div id="directory-container" class="container mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <!-- @ts-ignore -->
       {records.filter((i) => i.sf4ad525dd).map((record) => <NomadDirectoryCard {...record} />)}
     </div>
     <ListYourProjectFooter href="https://form.smartsuite.com/s4tmc086/8sFlvrVlDC" />
