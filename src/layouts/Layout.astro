@@ -71,11 +71,184 @@ import Footer from '~/components/Footer.astro'
         },
       ]}
     />
+    <style>
+      .subscription-popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease-in-out;
+      }
+
+      .subscription-popup.show {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .subscription-popup-content {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        max-width: 90%;
+        width: 480px;
+        text-align: center;
+        position: relative;
+        transform: translateY(20px);
+        transition: transform 0.3s ease-in-out;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      }
+
+      .subscription-popup.show .subscription-popup-content {
+        transform: translateY(0);
+      }
+
+      .subscription-popup-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #6b7280;
+        width: 2rem;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all 0.2s ease-in-out;
+      }
+
+      .subscription-popup-close:hover {
+        background-color: #f3f4f6;
+        color: #374151;
+      }
+
+      .subscription-popup-icon {
+        width: 4rem;
+        height: 4rem;
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        font-size: 2rem;
+      }
+
+      .subscription-popup h2 {
+        font-size: 1.875rem;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 0.75rem;
+      }
+
+      .subscription-popup p {
+        color: #6b7280;
+        font-size: 1.125rem;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+      }
+
+      .subscription-popup-button {
+        background: #000;
+        color: white;
+        border: none;
+        padding: 0.75rem 2rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+      }
+
+      .subscription-popup-button:hover {
+        background: #374151;
+        transform: translateY(-1px);
+      }
+
+      @media (max-width: 640px) {
+        .subscription-popup-content {
+          margin: 1rem;
+          padding: 1.5rem;
+        }
+
+        .subscription-popup h2 {
+          font-size: 1.5rem;
+        }
+
+        .subscription-popup p {
+          font-size: 1rem;
+        }
+      }
+    </style>
   </head>
   <body class="font-inter bg-gray-50 antialiased">
     <Header />
     <slot />
     <Footer />
+    <div id="subscription-popup" class="subscription-popup">
+      <div class="subscription-popup-content">
+        <button class="subscription-popup-close" id="popup-close" aria-label="Close popup">×</button>
+        <div class="subscription-popup-icon">🎉</div>
+        <h2>Welcome to the Nomad Family!</h2>
+        <p>Thank you for subscribing to the Nomad Gossip Newsletter. You're now part of our global community of digital nomads, remote workers, and adventure seekers.</p>
+        <p>Keep an eye on your inbox for exclusive content, tips, and stories from nomads around the world.</p>
+        <button class="subscription-popup-button" id="popup-continue">Continue Exploring</button>
+      </div>
+    </div>
     <script async is:inline defer src="https://app.bentonow.com/1685a00cdc1fc329724616bec1de09c6.js?webflow=true"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const urlParams = new URLSearchParams(window.location.search)
+        const showForm = urlParams.get('form')
+        if (showForm === 'true') {
+          const popup = document.getElementById('subscription-popup')
+          const closeBtn = document.getElementById('popup-close')
+          const continueBtn = document.getElementById('popup-continue')
+          if (!popup || !closeBtn || !continueBtn) return
+          setTimeout(() => {
+            popup.classList.add('show')
+          }, 100)
+          closeBtn.addEventListener('click', function () {
+            popup.classList.remove('show')
+            const url = new URL(window.location.href)
+            url.searchParams.delete('form')
+            window.history.replaceState({}, '', url.toString())
+          })
+          continueBtn.addEventListener('click', function () {
+            popup.classList.remove('show')
+            const url = new URL(window.location.href)
+            url.searchParams.delete('form')
+            window.history.replaceState({}, '', url.toString())
+          })
+          popup.addEventListener('click', function (e) {
+            if (e.target === popup) {
+              popup.classList.remove('show')
+              const url = new URL(window.location.href)
+              url.searchParams.delete('form')
+              window.history.replaceState({}, '', url.toString())
+            }
+          })
+          document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && popup.classList.contains('show')) {
+              popup.classList.remove('show')
+              const url = new URL(window.location.href)
+              url.searchParams.delete('form')
+              window.history.replaceState({}, '', url.toString())
+            }
+          })
+        }
+      })
+    </script>
   </body>
 </html>
