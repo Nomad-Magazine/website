@@ -1,6 +1,6 @@
 ---
-import Layout from '~/layouts/Layout.astro'
 import { getCollection } from 'astro:content'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import FeaturedPostCard from '~/components/FeaturedPostCard.astro'
 
 // Get all blog posts and filter for published ones
@@ -14,12 +14,12 @@ const posts = allPosts
     return dateB.valueOf() - dateA.valueOf()
   })
 
-const seo = {
+const seo: SEOProps = {
   title: 'Nomad Gossip Blog - Digital Nomad Articles & Tips',
   description: 'In-depth articles and useful tips on how to improve your nomadic journey. Expert insights on remote work, travel, and the digital nomad lifestyle.',
   image: `${Astro.site}images/041ff422-b910-402f-9fd9-33e20d30055e.webp`,
   keywords: 'digital nomad blog, remote work tips, nomad lifestyle, travel guides, coworking, nomad community',
-  ogType: 'website' as const,
+  ogType: 'website',
   ldJSON: {
     '@context': 'https://schema.org',
     '@type': 'Blog',

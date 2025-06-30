@@ -1,5 +1,4 @@
 ---
-import Layout from '~/layouts/Layout.astro'
 import About from '~/components/About.astro'
 import Bridge from '~/components/Bridge.astro'
 import CheckIcon from '~icons/ic/baseline-check'
@@ -14,11 +13,12 @@ import Testimonials from '~/components/Testimonials.astro'
 import EditionsHero from '~/components/EditionsHero.astro'
 import ThirdEdition from '~/components/ThirdEdition.astro'
 import PastEditions from '~/components/PastEditions.astro'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import BrandPlacement from '~/components/BrandPlacement.astro'
 import MagazinePreview from '~/components/MagazinePreview.astro'
 import GrowingCommunity from '~/components/GrowingCommunity.astro'
 
-const seo = {
+const seo: SEOProps = {
   title: 'Nomad Magazine - The First Global Digital Nomad Magazine',
   description: 'The first global digital nomad magazine. For people who work and live everywhere (or dream of it). Inspiring stories from nomads around the world.',
   image: `${Astro.site}images/187987f5-e9fc-4a74-b6ef-304b3d4a92e2.webp`,

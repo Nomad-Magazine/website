@@ -1,22 +1,24 @@
 ---
-interface Props {
+export interface SEOProps {
+  title?: string
+  description?: string
+  image?: string
+  canonical?: string
+  author?: string
+  keywords?: string
+  ldJSON?: object
+  ogType?: 'website' | 'article'
+  publishedTime?: string
+  modifiedTime?: string
+  section?: string
+  tags?: string[]
+}
+
+export interface LayoutProps {
   title?: string
   ogImage?: string
   description?: string
-  seo?: {
-    title?: string
-    description?: string
-    image?: string
-    canonical?: string
-    author?: string
-    keywords?: string
-    ldJSON?: object
-    ogType?: 'website' | 'article'
-    publishedTime?: string
-    modifiedTime?: string
-    section?: string
-    tags?: string[]
-  }
+  seo?: SEOProps
 }
 
 const {
@@ -24,7 +26,7 @@ const {
   ogImage,
   description = 'Remote Work, Nomadic Trends, Events, Industry Updates and More. Join the Nomad Newsletter for exclusive articles and inspiring stories.',
   seo = {},
-} = Astro.props
+}: LayoutProps = Astro.props
 
 import '../styles/global.css'
 import Header from '~/components/Header.astro'

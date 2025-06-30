@@ -1,8 +1,8 @@
 ---
-import Layout from '~/layouts/Layout.astro'
 import Sponsors from '~/components/Sponsors.astro'
 import AuthorsGrid from '~/components/AuthorsGrid.astro'
 import EditionStats from '~/components/EditionStats.astro'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import PreOrderSection from '~/components/PreOrderSection.astro'
 import MagazinePreview from '~/components/MagazinePreview.astro'
 import ThirdEditionHero from '~/components/ThirdEditionHero.astro'
@@ -135,13 +135,13 @@ const authors = [
   },
 ]
 
-const seo = {
+const seo: SEOProps = {
   title: 'Nomad Magazine: Edition #3 - Wellness, Therapy & Digital Health',
   description:
     'Discover our third edition featuring wellness, therapy, building relationships, and digital health products. Exclusive content from Mindvalley author Jimmy Naraine and insights from 17 expert contributors.',
   image: `${Astro.site}images/794fcea8-e90a-424c-a02b-50c4b69100f7.webp`,
   keywords: 'nomad magazine edition 3, digital nomad wellness, remote work therapy, nomad relationships, digital health products',
-  ogType: 'website' as const,
+  ogType: 'website',
   ldJSON: {
     '@context': 'https://schema.org',
     '@type': 'Product',
