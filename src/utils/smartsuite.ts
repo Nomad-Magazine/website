@@ -7,6 +7,7 @@ const limit = pLimit(2) // 2 concurrent requests
 
 const CACHE_PATH = (suffix: string = '') => path.resolve(process.cwd(), `src/utils/nomad_cache_table_${suffix}.json`)
 
+// @ts-ignore
 async function fetchWithRetry(fn, retries = 3, delay = 500) {
   for (let i = 0; i < retries; i++) {
     try {
