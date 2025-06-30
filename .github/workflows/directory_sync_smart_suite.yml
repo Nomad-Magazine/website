@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: bun install
       - name: Build project (regenerate cache)
-        run: bun run build
+        run: bun run build && bun format
         env:
           SMART_SUITE_APIKEY: ${{ secrets.SMART_SUITE_APIKEY }}
           SMART_SUITE_ACCOUNT_ID: ${{ secrets.SMART_SUITE_ACCOUNT_ID }}
