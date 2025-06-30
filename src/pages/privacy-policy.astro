@@ -1,8 +1,32 @@
 ---
-import Layout from '~/layouts/Layout.astro'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+
+const seo: SEOProps = {
+  title: 'Privacy Policy - Nomad Gossip Magazine',
+  description:
+    'Read our Privacy Policy to understand how Nomad Gossip Magazine collects, uses, and protects your personal information. Learn about your rights and our data practices.',
+  image: `${Astro.site}images/041ff422-b910-402f-9fd9-33e20d30055e.webp`,
+  keywords: 'privacy policy, nomad magazine privacy, data protection, GDPR, cookie policy, personal data',
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Privacy Policy - Nomad Magazine',
+    description: 'Privacy Policy and Cookie Policy for Nomad Gossip Magazine',
+    url: `${Astro.site}privacy-policy`,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+  },
+}
 ---
 
-<Layout title="Privacy Policy">
+<Layout seo={seo}>
   <section class="mx-auto max-w-7xl px-4">
     <h1 class="font-justme mt-8 mb-12 text-3xl md:text-4xl">Privacy Policy</h1>
     <div class="space-y-10 text-neutral-900">

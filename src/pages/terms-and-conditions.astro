@@ -1,14 +1,37 @@
 ---
-import Layout from '~/layouts/Layout.astro'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+
+const seo: SEOProps = {
+  title: 'Terms and Conditions - Nomad Gossip Magazine',
+  description: 'Read our Terms and Conditions to understand the rules and guidelines for using Nomad Gossip Magazine. Learn about your rights, our policies, and legal agreements.',
+  image: `${Astro.site}images/041ff422-b910-402f-9fd9-33e20d30055e.webp`,
+  keywords: 'terms and conditions, nomad magazine terms, legal agreement, user agreement, magazine terms of use',
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Terms and Conditions - Nomad Magazine',
+    description: 'Terms and Conditions for using Nomad Gossip Magazine',
+    url: `${Astro.site}terms-and-conditions`,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+  },
+}
 ---
 
-<Layout title="Terms and Conditions">
+<Layout seo={seo}>
   <section class="mx-auto max-w-7xl px-4">
     <h1 class="font-justme mt-8 mb-12 text-3xl md:text-4xl">Terms and Conditions</h1>
     <div class="space-y-10 text-neutral-900">
       <div>
         <p class="mb-8 font-semibold tracking-wide uppercase">
-          FIRST, AN IMPORTANT MESSAGE: PLEASE READ THESE TERMS AND CONDITIONS OF USE (“Terms”, “Terms of Use”, or “Agreement”) CAREFULLY BEFORE USING THIS SITE, AS THEY AFFECT YOUR
+          FIRST, AN IMPORTANT MESSAGE: PLEASE READ THESE TERMS AND CONDITIONS OF USE ("Terms", "Terms of Use", or "Agreement") CAREFULLY BEFORE USING THIS SITE, AS THEY AFFECT YOUR
           LEGAL RIGHTS AND OBLIGATIONS, INCLUDING, BUT NOT LIMITED TO, WAIVERS OF RIGHTS, LIMITATION OF LIABILITY, AND YOUR INDEMNITY TO US. THIS AGREEMENT REQUIRES THE USE OF
           ARBITRATION ON AN INDIVIDUAL BASIS TO RESOLVE DISPUTES, RATHER THAN COURTS OR JURY TRIALS, AND LIMITS THE REMEDIES AVAILABLE IN THE EVENT OF A DISPUTE.
         </p>

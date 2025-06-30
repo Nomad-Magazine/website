@@ -1,14 +1,38 @@
 ---
-import Layout from '~/layouts/Layout.astro'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import { fetchReportRecords } from '~/utils/smartsuite'
 import DistributionCard from '~/components/DistributionCard.astro'
 import ListYourProjectFooter from '~/components/ListYourProjectFooter.astro'
 import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
 
 const { records = [] } = await fetchReportRecords('68614a111208586bd05d3c3a')
+
+const seo: SEOProps = {
+  title: 'Where to Find Nomad Gossip Magazine - Global Distribution Locations',
+  description:
+    'Find Nomad Gossip Magazine at coworking spaces and nomad hubs worldwide. Discover where to pick up your copy of the digital nomad magazine for inspiration and insights.',
+  image: `${Astro.site}images/041ff422-b910-402f-9fd9-33e20d30055e.webp`,
+  keywords: 'nomad gossip magazine, magazine distribution, coworking spaces, nomad hubs, digital nomad magazine, magazine locations',
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Nomad Gossip Magazine Distribution',
+    description: 'Global distribution locations for Nomad Gossip Magazine',
+    url: `${Astro.site}distribution-list`,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+  },
+}
 ---
 
-<Layout title="Nomad Directory">
+<Layout seo={seo}>
   <section class="bg-hoverw flex w-full flex-col items-center py-16">
     <div class="mx-auto w-full max-w-4xl px-4 text-center">
       <h1 class="mb-6 text-4xl leading-tight font-bold text-white sm:text-5xl md:text-6xl">

@@ -1,14 +1,38 @@
 ---
-import Layout from '~/layouts/Layout.astro'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import { fetchReportRecords } from '~/utils/smartsuite'
 import NomadEventCard from '~/components/NomadEventCard.astro'
 import ListYourProjectFooter from '~/components/ListYourProjectFooter.astro'
 import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
 
 const { records = [] } = await fetchReportRecords('655f749c8779ef70a3a1735e')
+
+const seo: SEOProps = {
+  title: 'Digital Nomad Events Directory - Never Miss an Event Again',
+  description:
+    'Discover the best digital nomad conferences, meetups, and events worldwide. Stay updated on top events designed for remote workers, entrepreneurs, and global professionals.',
+  image: `${Astro.site}images/041ff422-b910-402f-9fd9-33e20d30055e.webp`,
+  keywords: 'digital nomad events, nomad conferences, remote work events, nomad meetups, nomad festivals, coworking events',
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Digital Nomad Events Directory',
+    description: 'Directory of digital nomad events, conferences, and meetups worldwide',
+    url: `${Astro.site}nomad-events`,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+  },
+}
 ---
 
-<Layout title="Nomad Directory">
+<Layout seo={seo}>
   <section class="bg-hoverw flex w-full flex-col items-center py-16">
     <div class="mx-auto w-full max-w-4xl px-4 text-center">
       <h1 class="mb-6 text-4xl leading-tight font-bold text-white sm:text-5xl md:text-6xl">

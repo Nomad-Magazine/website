@@ -1,5 +1,5 @@
 ---
-import Layout from '~/layouts/Layout.astro'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 
 const collageRow1 = [
   {
@@ -54,9 +54,33 @@ const seenAtLogos = [
     url: '/images/f20cb1d6-f04c-41f5-bc71-da13beb5ec18.webp',
   },
 ]
+
+const seo: SEOProps = {
+  title: 'Submit Your Project - Join the Nomad Directory',
+  description:
+    'Submit your company or project to the Nomad Directory! Share details about your services for digital nomads and remote workers. Get featured in our global community.',
+  image: `${Astro.site}images/3f4dcd9a-3576-46ec-b910-56039a2ea937.webp`,
+  keywords: 'submit project, nomad directory, digital nomad services, remote work tools, nomad community, project submission',
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Submit Project - Nomad Directory',
+    description: 'Submit your project or company to the Nomad Directory',
+    url: `${Astro.site}submit-project`,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+  },
+}
 ---
 
-<Layout title="Add Testimonial - Nomad Magazine">
+<Layout seo={seo}>
   <!-- Collage and Title -->
   <div class="flex w-full flex-row justify-center gap-6 overflow-x-hidden">
     {collageRow1.map((image) => <img src={image.src} alt={image.alt} class="h-[90px] w-auto" loading="lazy" decoding="async" />)}

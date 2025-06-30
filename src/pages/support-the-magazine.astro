@@ -1,10 +1,38 @@
 ---
-import Layout from '~/layouts/Layout.astro'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import MagazineIssues from '~/components/MagazineIssues.astro'
 import MagazinePreview from '~/components/MagazinePreview.astro'
+
+const seo: SEOProps = {
+  title: 'Support the Magazine - Keep Independent Publishing Alive',
+  description:
+    'Support Nomad Gossip Magazine and help keep independent publishing alive! Get closer access to our team, exclusive content, and help sustain quality journalism for digital nomads.',
+  image: `${Astro.site}images/041ff422-b910-402f-9fd9-33e20d30055e.webp`,
+  keywords: 'support nomad magazine, independent publishing, digital nomad journalism, magazine subscription, nomad community support',
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Support the Magazine',
+    description: 'Support independent publishing and keep Nomad Gossip Magazine going',
+    url: `${Astro.site}support-the-magazine`,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+    potentialAction: {
+      '@type': 'SubscribeAction',
+      target: 'https://buy.stripe.com/fZubJ17Mh7zBbkG9G18bS0c',
+    },
+  },
+}
 ---
 
-<Layout title="Support the Magazine | Nomad Magazine">
+<Layout seo={seo}>
   <div class="bg-hoverw text-white">
     <!-- Support Hero Section -->
     <section class="py-24">

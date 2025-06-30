@@ -1,6 +1,6 @@
 ---
 import FAQ from '~/components/FAQ.astro'
-import Layout from '~/layouts/Layout.astro'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import FAQContact from '~/components/FAQContact.astro'
 import PaymentPlan from '~/components/PaymentPlan.astro'
 import Testimonials from '~/components/Testimonials.astro'
@@ -39,9 +39,56 @@ const slides = [
     src: '/images/b047fd1f-b737-4179-b5d7-97715aac1586.webp',
   },
 ]
+
+const seo: SEOProps = {
+  title: 'Issue 002 - Nomad Gossip Magazine | Digital Nomad Communities & Japan',
+  description:
+    'Issue 002 of Nomad Gossip Magazine focuses on digital nomad communities and Japan as a destination. 110 pages of exclusive content, interviews, and nomad insights.',
+  image: `${Astro.site}images/0f686bbe-be95-4550-bdd8-4cd0cb9c7fcf.webp`,
+  keywords: 'nomad magazine issue 002, digital nomad communities, japan nomad, nomad gossip magazine, remote work magazine',
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: 'Nomad Gossip Magazine Issue 002',
+    description: 'Issue 002 focusing on digital nomad communities and Japan as a destination',
+    url: `${Astro.site}products/issue-002`,
+    image: `${Astro.site}images/0f686bbe-be95-4550-bdd8-4cd0cb9c7fcf.webp`,
+    brand: {
+      '@type': 'Brand',
+      name: 'Nomad Gossip Magazine',
+    },
+    offers: [
+      {
+        '@type': 'Offer',
+        name: 'Digital Issue 002',
+        price: '9.00',
+        priceCurrency: 'EUR',
+        availability: 'https://schema.org/InStock',
+        url: 'https://buy.stripe.com/aEUbLOcE4d4ZcqQ146',
+      },
+      {
+        '@type': 'Offer',
+        name: 'Print Issue 002',
+        price: '22.00',
+        priceCurrency: 'EUR',
+        availability: 'https://schema.org/InStock',
+        url: 'https://buy.stripe.com/fZe7vygUk3upfD2bIL',
+      },
+    ],
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+  },
+}
 ---
 
-<Layout title="Issue 002">
+<Layout seo={seo}>
   <MagazineReadyBanner text="NEW MAGAZINE IS LIVE!" />
   <section class="my-12 flex flex-col items-start justify-center gap-8 md:flex-row">
     <!-- Carousel/Slider -->
