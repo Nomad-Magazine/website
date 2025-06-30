@@ -63,6 +63,12 @@ export async function fetchReportRecords(reportID: string) {
   })
   if (!response.ok) throw new Error(`SmartSuite API error: ${response.status} ${response.statusText}`)
   const responseJSON = await response.json()
+  responseJSON.records.forEach((record: any, idx: number) => {
+    if (record.id) {
+      const recordFromGlobalCache = globalCacheJSON.items.find((item: any) => item.id === record.id)
+      if (recordFromGlobalCache) responseJSON.records[idx] = recordFromGlobalCache
+    }
+  })
   // Fetch images in parallel for all records
   if (responseJSON.records) {
     await Promise.all(
@@ -76,12 +82,6 @@ export async function fetchReportRecords(reportID: string) {
         }
       }),
     )
-    responseJSON.records.forEach((record: any, idx: number) => {
-      if (record.id) {
-        const recordFromGlobalCache = globalCacheJSON.items.find((item: any) => item.id === record.id)
-        if (recordFromGlobalCache) responseJSON.records[idx] = recordFromGlobalCache
-      }
-    })
   }
   // Write to cache
   await fs.writeFile(CACHE_PATH(reportID), JSON.stringify(responseJSON, null, 0), 'utf-8')
@@ -104,9 +104,5 @@ async function fetchImageUrlFromHandle(handle: string): Promise<string | undefin
     return undefined
   }
   const data = await response.json()
-  // if (data.url) {
-  //   const urlResponse = await fetch(data.url, { method: 'HEAD', redirect: 'follow' })
-  //   return urlResponse.url || data.url
-  // }
   return data.url
 }
