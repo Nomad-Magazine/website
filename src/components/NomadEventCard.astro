@@ -35,50 +35,54 @@ const startDate = s651faa5bd?.from_date?.date ? formatDate(s651faa5bd.from_date.
 const endDate = s651faa5bd?.to_date?.date ? formatDate(s651faa5bd.to_date.date) : 'TBD'
 ---
 
-<div class="mx-auto flex h-full w-full max-w-xs flex-col rounded-3xl bg-neutral-900 shadow-lg">
-  <div class="p-4 pb-0">
-    <div class="relative h-48 w-full rounded-3xl overflow-hidden">
-      <!-- Blurred background -->
-      <div 
-        class:list={[
-          "absolute inset-0",
-          (image && image !== '/logo.svg') ? "bg-cover bg-center bg-no-repeat scale-110 blur-lg opacity-50" : "bg-white"
-        ]}
-        style={(image && image !== '/logo.svg') ? `background-image: url('${image}')` : undefined}
-      ></div>
-      <!-- Main image -->
-      <img 
-        src={image || '/logo.svg'} 
-        decoding="async" 
-        alt={title} 
-        class="relative z-10 h-full w-full object-contain" 
-        loading="lazy" 
-      />
-    </div>
+<div class="flex h-full w-full flex-col rounded-3xl border border-white/10 p-4 shadow-lg">
+  <div class="relative h-48 w-full rounded-3xl overflow-hidden mb-4">
+    <!-- Blurred background -->
+    <div 
+      class:list={[
+        "absolute inset-0",
+        (image && image !== '/logo.svg') ? "bg-cover bg-center bg-no-repeat scale-110 blur-lg opacity-50" : "bg-white"
+      ]}
+      style={(image && image !== '/logo.svg') ? `background-image: url('${image}')` : undefined}
+    ></div>
+    <!-- Main image -->
+    <img 
+      src={image || '/logo.svg'} 
+      decoding="async" 
+      alt={title} 
+      class="relative z-10 h-full w-full object-contain" 
+      loading="lazy" 
+    />
   </div>
-  <div class="flex flex-1 flex-col p-8 text-neutral-200">
-    <div class="space-y-4 rounded-2xl text-sm">
-      <h3 class="text-lg font-semibold text-white">{title}</h3>
-      {scea90e502 && <span>{scea90e502}</span>}
+  
+  <div class="flex flex-1 flex-col">
+    <h3 class="mb-4 text-lg font-semibold text-white">{title}</h3>
+    <div class="space-y-4 text-sm text-neutral-200">
+      {scea90e502 && (
+        <div class="flex flex-col">
+          <span class="text-xs text-gray-400">Description</span>
+          <span class="font-medium text-white">{scea90e502}</span>
+        </div>
+      )}
       <div class="flex flex-col">
-        <span>Start Date</span>
+        <span class="text-xs text-gray-400">Start Date</span>
         <span class="font-medium text-white">{startDate}</span>
       </div>
       <div class="flex flex-col">
-        <span>End Date</span>
+        <span class="text-xs text-gray-400">End Date</span>
         <span class="font-medium text-white">{endDate}</span>
       </div>
       {
         discountCode && (
           <div class="flex flex-col">
-            <span>Discount Code</span>
+            <span class="text-xs text-gray-400">Discount Code</span>
             <span class="font-medium text-white">{discountCode}</span>
           </div>
         )
       }
       {
         website && (
-          <div class="flex flex-col">
+          <div class="flex flex-col mt-4">
             <a href={website} target="_blank" rel="noopener noreferrer" class="break-all text-blue-300 underline">
               Learn more &rarr;
             </a>
