@@ -1,0 +1,187 @@
+---
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+
+const seo: SEOProps = {
+  title: 'Free Article: What Not To Do On A First Date In These 5 Countries | Nomad Magazine',
+  description: 'Get your free article about dating customs across 5 different countries. Essential tips for digital nomads navigating international romance.',
+  image: `${Astro.site}images/free_article.webp`,
+  keywords: 'digital nomad dating, international dating, dating customs, first date tips, nomad lifestyle, cultural differences',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'What Not To Do On A First Date In These 5 Countries',
+    description: 'Essential dating tips for digital nomads across different cultures',
+    image: `${Astro.site}images/free_article.webp`,
+    author: {
+      '@type': 'Person',
+      name: 'Marina Iakovleva',
+      url: 'https://www.youtube.com/@DatingBeyondBorders'
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+  },
+}
+---
+
+<Layout seo={seo}>
+  <!-- Hero Section -->
+  <div class="bg-gradient-to-b from-blue-100 to-blue-50">
+    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <div class="w-full">
+          <img 
+            src="/images/free_article.webp" 
+            alt="Free Article - What Not To Do On A First Date" 
+            class="w-full rounded-lg shadow-xl"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Section -->
+  <div class="bg-white py-16">
+    <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
+      <div class="rounded-2xl bg-gray-50 p-8 shadow-lg">
+        <div class="space-y-6">
+          <div class="space-y-4">
+            <label for="email" class="block text-lg font-semibold text-gray-900">
+              Email Address
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              placeholder="Enter your email address"
+              class="w-full rounded-lg border border-gray-300 px-4 py-3 text-lg focus:border-transparent focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+            />
+          </div>
+          
+          <div class="space-y-4">
+            <label for="first-name" class="block text-lg font-semibold text-gray-900">
+              First Name
+            </label>
+            <input
+              id="first-name"
+              name="first_name"
+              type="text"
+              required
+              placeholder="Enter your first name"
+              class="w-full rounded-lg border border-gray-300 px-4 py-3 text-lg focus:border-transparent focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+            />
+          </div>
+          
+          <form
+            method="POST"
+            target="_blank"
+            enctype="multipart/form-data"
+            action="https://track.bentonow.com/forms/1685a00cdc1fc329724616bec1de09c6/$subscribe_free_article?hardened=true"
+            class="space-y-6"
+          >
+            <input type="hidden" name="email" id="hidden-email" />
+            <input type="hidden" name="first_name" id="hidden-first-name" />
+            <input type="hidden" name="redirect" value={`${Astro.site}free-article-what-not-to-do-on-first-date?form=true`} />
+            
+            <button
+              type="submit"
+              class="w-full rounded-lg bg-black px-8 py-4 text-xl font-semibold text-white transition-all duration-200 hover:bg-gray-800"
+            >
+              Grab FREE article
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Section -->
+  <div class="bg-gray-50 py-16">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
+        <!-- Text Content -->
+        <div class="space-y-6">
+          <div class="space-y-4">
+            <p class="text-lg leading-relaxed text-gray-700">
+              Dating as a digital nomad can be an enticing international adventure. New country - new faces. However, dating customs vary, and what's attractive in one place might be a turn-off elsewhere.
+            </p>
+            
+            <p class="text-lg leading-relaxed text-gray-700">
+              This NGM article written by the founder of YouTube channel 
+              <a href="https://www.youtube.com/@DatingBeyondBorders" target="_blank" rel="noopener noreferrer" class="font-semibold text-blue-600 hover:text-blue-800 underline">
+                Dating Beyond Borders
+              </a> 
+              with <span class="font-semibold">650K+ subscribers</span> and our dear friend 
+              <a href="https://www.instagram.com/youtubermarina/" target="_blank" rel="noopener noreferrer" class="font-semibold text-blue-600 hover:text-blue-800 underline">
+                Marina Iakovleva
+              </a>, 
+              will spill the beans on dating <span class="font-semibold">DO's and DON'Ts</span> in five diverse regions/countries, from Brazil to Japan!
+            </p>
+            
+            <p class="text-lg leading-relaxed text-gray-700">
+              Unravel the unwritten rules of romance 💙.
+            </p>
+          </div>
+        </div>
+        
+        <!-- Featured Image -->
+        <div class="relative">
+          <div class="rounded-2xl bg-yellow-400 p-6">
+            <img 
+              src="/images/what_not_do_in_fist_date.webp" 
+              alt="What Not To Do On A First Date - Magazine Preview" 
+              class="w-full rounded-lg shadow-lg"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA Section -->
+  <div class="bg-white py-16">
+    <div class="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+      <h2 class="mb-8 text-3xl font-bold text-gray-900 md:text-4xl">
+        Take a sneak peek at the world's first magazine for digital nomads!
+      </h2>
+      
+      <div class="flex flex-col items-center gap-6 sm:flex-row sm:justify-center">
+        <a 
+          href="/third-edition" 
+          class="rounded-lg bg-black px-8 py-3 font-semibold text-white transition-all duration-200 hover:bg-gray-800"
+        >
+          Explore Latest Edition
+        </a>
+        <a 
+          href="/editions" 
+          class="rounded-lg border-2 border-black px-8 py-3 font-semibold text-black transition-all duration-200 hover:bg-black hover:text-white"
+        >
+          View All Editions
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const emailInput = document.getElementById('email') as HTMLInputElement;
+      const firstNameInput = document.getElementById('first-name') as HTMLInputElement;
+      const hiddenEmailInput = document.getElementById('hidden-email') as HTMLInputElement;
+      const hiddenFirstNameInput = document.getElementById('hidden-first-name') as HTMLInputElement;
+      const form = document.querySelector('form[action*="bentonow"]');
+      
+      if (form && emailInput && firstNameInput && hiddenEmailInput && hiddenFirstNameInput) {
+        form.addEventListener('submit', function() {
+          hiddenEmailInput.value = emailInput.value;
+          hiddenFirstNameInput.value = firstNameInput.value;
+        });
+      }
+    });
+  </script>
+</Layout> 
