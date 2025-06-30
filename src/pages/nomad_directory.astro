@@ -7,6 +7,12 @@ import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
 
 const { records = [] } = await fetchReportRecords('6857167d82358a0f5e038c3f')
 
+// Extract unique categories for filtering
+const categories = [...new Set(records
+  .filter((record: any) => record.sf4ad525dd && record.sb685ab800?.label)
+  .map((record: any) => record.sb685ab800.label)
+)].sort()
+
 const seo: SEOProps = {
   title: 'Nomad Directory - The Ultimate Resource for Digital Nomads',
   description:
@@ -54,10 +60,71 @@ const seo: SEOProps = {
         List Your Project
       </a>
     </div>
-    <div id="directory-container" class="container mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+
+    <!-- Filter Section -->
+    <div class="container mt-12 mb-8">
+      <div class="flex flex-wrap justify-center gap-3" id="filter-container">
+        <button 
+          class="filter-btn active rounded-full bg-yellow-400 px-4 py-2 text-sm font-medium text-black transition-colors hover:bg-yellow-300"
+          data-category="all"
+        >
+          All
+        </button>
+        {categories.map(category => (
+          <button 
+            class="filter-btn rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/20"
+            data-category={category}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <div id="directory-container" class="container grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       <!-- @ts-ignore -->
-      {records.filter((i) => i.sf4ad525dd).map((record) => <NomadDirectoryCard {...record} />)}
+      {records.filter((i) => i.sf4ad525dd).map((record) => (
+        <div class="directory-item" data-category={record.sb685ab800?.label || 'uncategorized'}>
+          <NomadDirectoryCard {...record} />
+        </div>
+      ))}
     </div>
     <ListYourProjectFooter href="https://form.smartsuite.com/s4tmc086/8sFlvrVlDC" />
   </section>
 </Layout>
+
+<script>
+  // Filter functionality
+  const filterButtons = document.querySelectorAll('.filter-btn')
+  const directoryItems = document.querySelectorAll('.directory-item')
+
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const category = button.getAttribute('data-category')
+      
+      // Update active button
+      filterButtons.forEach(btn => btn.classList.remove('active'))
+      button.classList.add('active')
+      
+      // Update button styles
+      filterButtons.forEach(btn => {
+        if (btn.classList.contains('active')) {
+          btn.className = 'filter-btn active rounded-full bg-yellow-400 px-4 py-2 text-sm font-medium text-black transition-colors hover:bg-yellow-300'
+        } else {
+          btn.className = 'filter-btn rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/20'
+        }
+      })
+      
+      // Filter items
+      directoryItems.forEach(item => {
+        const itemCategory = item.getAttribute('data-category')
+        const htmlItem = item as HTMLElement
+        if (category === 'all' || itemCategory === category) {
+          htmlItem.style.display = 'block'
+        } else {
+          htmlItem.style.display = 'none'
+        }
+      })
+    })
+  })
+</script>
