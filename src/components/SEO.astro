@@ -1,0 +1,176 @@
+---
+import { AstroFont } from 'astro-font'
+import { join } from 'node:path'
+
+interface Props {
+  title?: string
+  description?: string
+  url?: string
+  image?: string
+  canonical?: string
+  author?: string
+  keywords?: string
+  audio?: string | null
+  ldJSON?: object
+  ogType?: 'website' | 'article'
+  publishedTime?: string
+  modifiedTime?: string
+  section?: string
+  tags?: string[]
+}
+
+const {
+  title = 'Nomad Magazine - The First Global Digital Nomad Magazine',
+  description = 'Remote Work, Nomadic Trends, Events, Industry Updates and More. Join the Nomad Newsletter for exclusive articles and inspiring stories.',
+  url = Astro.url,
+  image = `${Astro.site}images/187987f5-e9fc-4a74-b6ef-304b3d4a92e2.webp`,
+  canonical = Astro.url,
+  author = 'Martin Donadieu',
+  keywords = 'digital nomad, remote work, travel, nomad lifestyle, coworking, nomad magazine, nomad community',
+  audio = null,
+  ldJSON = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Nomad Magazine',
+    url: Astro.site,
+    description: 'The first global digital nomad magazine',
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+  },
+  ogType = 'website',
+  publishedTime,
+  modifiedTime,
+  section,
+  tags = [],
+} = Astro.props
+
+// Truncate description for meta tags
+const descSize = 170
+let displayDescription = description
+if (description.length > descSize) {
+  displayDescription = `${description.substring(0, descSize - 3)}...`
+}
+
+const image_unsecure = image.replace('https://', 'http://')
+const titleFix = title || (image.split('/').pop() || '.').split('.')[0]
+
+const makeFontPath = (name: string) => join(process.cwd(), 'public', 'fonts', name)
+---
+
+<AstroFont
+  config={[
+    {
+      src: [
+        {
+          style: 'normal',
+          weight: '400',
+          path: makeFontPath('JustMeAgainDownHere-Regular.ttf'),
+        },
+      ],
+      name: 'JustMeAgainDownHere',
+      preload: false,
+      display: 'swap',
+      fallback: 'sans-serif',
+      selector: '.font-justme',
+    },
+    {
+      src: [
+        {
+          style: 'variable',
+          weight: '100 900',
+          path: makeFontPath('inter-display/InterVariable.ttf'),
+        },
+      ],
+      name: 'Inter',
+      preload: false,
+      display: 'swap',
+      fallback: 'sans-serif',
+      selector: '.font-inter',
+    },
+    {
+      src: [],
+      fetch: true,
+      name: 'Caveat',
+      preload: false,
+      display: 'swap',
+      fallback: 'sans-serif',
+      selector: '.font-caveat',
+      googleFontsURL: 'https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap',
+    },
+  ]}
+/>
+
+<!-- Sitemap -->
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<!-- Global Metadata -->
+<meta charset="utf-8" />
+<meta name="theme-color" content="#000000" />
+<meta name="generator" content={Astro.generator} />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="apple-mobile-web-app-title" content="Nomad Magazine" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta property="keywords" content={keywords} />
+
+<link rel="canonical" href={canonical} />
+<link rel="apple-touch-icon" href="/favicon.png" />
+<link rel="icon" href="/favicon.png" sizes="any" />
+<link rel="icon" type="image/svg+xml" href="/logo.svg" />
+
+<!-- Primary Meta Tags -->
+<title set:html={title} />
+<meta name="title" content={title} />
+<meta name="author" content={author} />
+<meta name="description" content={displayDescription} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:url" content={url} />
+<meta property="og:title" content={title} />
+<meta property="og:type" content={ogType} />
+<meta property="og:locale" content="en_US" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="627" />
+<meta property="og:image:alt" content={titleFix} />
+<meta property="og:image:secure" content={image} />
+<meta property="og:image" content={image_unsecure} />
+<meta property="og:image:type" content="image/webp" />
+<meta property="og:article:author" content={author} />
+<meta name="robots" content="index, follow" />
+
+{
+  audio && (
+    <>
+      <meta property="og:audio" content={audio} />
+      <meta property="og:audio:type" content="audio/mpeg" />
+    </>
+  )
+}
+
+{ogType === 'article' && publishedTime && <meta property="article:published_time" content={publishedTime} />}
+
+{ogType === 'article' && modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+
+{ogType === 'article' && section && <meta property="article:section" content={section} />}
+
+{ogType === 'article' && tags.length > 0 && tags.map((tag: string) => <meta property="article:tag" content={tag} />)}
+
+<meta property="og:site_name" content="Nomad Magazine" />
+<meta property="og:description" content={displayDescription} />
+
+<!-- Twitter -->
+<meta property="twitter:url" content={url} />
+<meta property="twitter:site" content="@nomadgossipmag" />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:image" content={image} />
+<meta property="twitter:creator" content="@martindonadieu" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:description" content={displayDescription} />
+
+<!-- Structured Data -->
+<script is:inline type="application/ld+json" set:html={JSON.stringify(ldJSON)} />

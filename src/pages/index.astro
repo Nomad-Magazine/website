@@ -17,9 +17,35 @@ import PastEditions from '~/components/PastEditions.astro'
 import BrandPlacement from '~/components/BrandPlacement.astro'
 import MagazinePreview from '~/components/MagazinePreview.astro'
 import GrowingCommunity from '~/components/GrowingCommunity.astro'
+
+const seo = {
+  title: 'Nomad Magazine - The First Global Digital Nomad Magazine',
+  description: 'The first global digital nomad magazine. For people who work and live everywhere (or dream of it). Inspiring stories from nomads around the world.',
+  image: `${Astro.site}images/187987f5-e9fc-4a74-b6ef-304b3d4a92e2.webp`,
+  keywords: 'digital nomad magazine, remote work, nomad lifestyle, travel, coworking, nomad community, global nomads',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Nomad Magazine',
+    url: 'https://nomad-magazine-main.pitiakova.workers.dev',
+    description: 'The first global digital nomad magazine',
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://nomad-magazine-main.pitiakova.workers.dev/logo.svg',
+      },
+    },
+    potentialAction: {
+      '@type': 'SubscribeAction',
+      target: 'https://nomad-magazine-main.pitiakova.workers.dev/newsletter',
+    },
+  },
+}
 ---
 
-<Layout title="Nomad Magazine">
+<Layout seo={seo}>
   <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
       <div class="space-y-8">

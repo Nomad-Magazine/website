@@ -134,9 +134,42 @@ const authors = [
     bio: `Lera has been living the digital nomad lifestyle since 2015 and recently found a haven in Madeira, Portugal. 10 years ago, she took a leap, bidding farewell to her glamorous job at Nike in Ukraine adventured into a new chapter as a community manager in a coworking space in Thailand, initially for just a winter break. But destiny had other plans, and there was no turning back to her previous life. Now publishing Nomad Gossip Magazine to support the growing community (and industry).`,
   },
 ]
+
+const seo = {
+  title: 'Nomad Magazine: Edition #3 - Wellness, Therapy & Digital Health',
+  description:
+    'Discover our third edition featuring wellness, therapy, building relationships, and digital health products. Exclusive content from Mindvalley author Jimmy Naraine and insights from 17 expert contributors.',
+  image: `${Astro.site}images/794fcea8-e90a-424c-a02b-50c4b69100f7.webp`,
+  keywords: 'nomad magazine edition 3, digital nomad wellness, remote work therapy, nomad relationships, digital health products',
+  ogType: 'website' as const,
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: 'Nomad Magazine Edition #3',
+    description: 'The third edition of Nomad Magazine featuring wellness, therapy, and digital health content',
+    brand: {
+      '@type': 'Brand',
+      name: 'Nomad Magazine',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://nomad-magazine-main.pitiakova.workers.dev/logo.svg',
+      },
+    },
+    offers: {
+      '@type': 'Offer',
+      price: '22',
+      priceCurrency: 'EUR',
+      availability: 'https://schema.org/InStock',
+    },
+  },
+}
 ---
 
-<Layout title="Nomad Magazine: Edition #3">
+<Layout seo={seo}>
   <ThirdEditionHero
     printUrl="https://buy.stripe.com/28EdR9c2x4npdsO6tP8bS08"
     digitalUrl="https://buy.stripe.com/8x27sL4A51bdewS6tP8bS0b"

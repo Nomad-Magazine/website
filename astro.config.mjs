@@ -1,3 +1,4 @@
+import sitemap from '@astrojs/sitemap'
 import Icons from 'unplugin-icons/vite'
 import { defineConfig } from 'astro/config'
 import tailwindcss from '@tailwindcss/vite'
@@ -5,8 +6,9 @@ import cloudflare from '@astrojs/cloudflare'
 import { defineConfig, envField } from 'astro/config'
 
 export default defineConfig({
-  site: 'https://nomad-magazine-main.pitiakova.workers.dev',
   adapter: cloudflare(),
+  integrations: [sitemap()],
+  site: 'https://nomad-magazine-main.pitiakova.workers.dev',
   env: {
     schema: {
       SMART_SUITE_APIKEY: envField.string({ context: 'server', access: 'secret' }),

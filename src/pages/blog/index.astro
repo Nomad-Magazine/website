@@ -13,9 +13,43 @@ const posts = allPosts
     const dateB = b.data.pubDate || new Date(0)
     return dateB.valueOf() - dateA.valueOf()
   })
+
+const seo = {
+  title: 'Nomad Gossip Blog - Digital Nomad Articles & Tips',
+  description: 'In-depth articles and useful tips on how to improve your nomadic journey. Expert insights on remote work, travel, and the digital nomad lifestyle.',
+  image: `${Astro.site}images/041ff422-b910-402f-9fd9-33e20d30055e.webp`,
+  keywords: 'digital nomad blog, remote work tips, nomad lifestyle, travel guides, coworking, nomad community',
+  ogType: 'website' as const,
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    name: 'Nomad Gossip Blog',
+    description: 'In-depth articles and useful tips on how to improve your nomadic journey',
+    url: 'https://nomad-magazine-main.pitiakova.workers.dev/blog',
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://nomad-magazine-main.pitiakova.workers.dev/logo.svg',
+      },
+    },
+    blogPost: posts.slice(0, 10).map((post) => ({
+      '@type': 'BlogPosting',
+      headline: post.data.title,
+      description: post.data.description,
+      author: {
+        '@type': 'Person',
+        name: post.data.author || 'Martin Donadieu',
+      },
+      datePublished: post.data.pubDate?.toISOString(),
+      url: `https://nomad-magazine-main.pitiakova.workers.dev/blog/${post.slug}`,
+    })),
+  },
+}
 ---
 
-<Layout title="Nomad Gossip Blog">
+<Layout seo={seo}>
   <div class="bg-hoverw mx-auto flex flex-col items-center px-4 sm:px-6 lg:px-8">
     <main class="py-16">
       <div class="mx-auto max-w-2xl text-center">

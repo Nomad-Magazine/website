@@ -39,9 +39,51 @@ if (relatedPosts.length < 3) {
 
 // Ensure we only have 3 posts
 const finalRelatedPosts = relatedPosts.slice(0, 3)
+
+// SEO configuration for blog post
+const seo = {
+  title: post.data.title,
+  description: post.data.description,
+  image: post.data.heroImage || 'https://nomad-magazine-main.pitiakova.workers.dev/images/041ff422-b910-402f-9fd9-33e20d30055e.webp',
+  keywords: post.data.keywords || 'digital nomad, remote work, travel, nomad lifestyle',
+  ogType: 'article' as const,
+  publishedTime: post.data.pubDate?.toISOString(),
+  modifiedTime: post.data.updatedDate?.toISOString(),
+  section: 'Digital Nomad Lifestyle',
+  tags: currentPostTags,
+  author: post.data.author || 'Martin Donadieu',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.data.title,
+    description: post.data.description,
+    image: post.data.heroImage || `${Astro.site}images/041ff422-b910-402f-9fd9-33e20d30055e.webp`,
+    author: {
+      '@type': 'Person',
+      name: post.data.author || 'Martin Donadieu',
+      url: post.data.authorUrl || 'https://github.com/riderx',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://nomad-magazine-main.pitiakova.workers.dev/logo.svg',
+      },
+    },
+    datePublished: post.data.pubDate?.toISOString(),
+    dateModified: post.data.updatedDate?.toISOString(),
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://nomad-magazine-main.pitiakova.workers.dev/blog/${post.slug}`,
+    },
+    articleSection: 'Digital Nomad Lifestyle',
+    keywords: post.data.keywords || 'digital nomad, remote work, travel, nomad lifestyle',
+  },
+}
 ---
 
-<Layout ogImage={post.data.heroImage} title={post.data.title}>
+<Layout seo={seo}>
   <main>
     {
       post.data.heroImage ? (

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nomad-magazine-main.pitiakova.workers.dev/sitemap-index.xml
