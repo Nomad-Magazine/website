@@ -38,15 +38,3 @@ jobs:
           git add src/utils/nomad_cache_table_global.json
           git diff --cached --quiet || git commit -m "chore: update nomad distribution cache [ci skip]"
           git push
-      - name: Trigger Deploy Workflow
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          script: |
-            await github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: 'deploy.yml',
-              ref: 'main',
-              inputs: {}
-            })
