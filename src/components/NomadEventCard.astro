@@ -37,7 +37,24 @@ const endDate = s651faa5bd?.to_date?.date ? formatDate(s651faa5bd.to_date.date) 
 
 <div class="mx-auto flex h-full w-full max-w-xs flex-col rounded-3xl bg-neutral-900 shadow-lg">
   <div class="p-4 pb-0">
-    <img src={image || '/logo.svg'} decoding="async" alt={title} class="h-48 w-full rounded-3xl bg-white object-contain" loading="lazy" />
+    <div class="relative h-48 w-full rounded-3xl overflow-hidden">
+      <!-- Blurred background -->
+      <div 
+        class:list={[
+          "absolute inset-0",
+          (image && image !== '/logo.svg') ? "bg-cover bg-center bg-no-repeat scale-110 blur-lg opacity-50" : "bg-white"
+        ]}
+        style={(image && image !== '/logo.svg') ? `background-image: url('${image}')` : undefined}
+      ></div>
+      <!-- Main image -->
+      <img 
+        src={image || '/logo.svg'} 
+        decoding="async" 
+        alt={title} 
+        class="relative z-10 h-full w-full object-contain" 
+        loading="lazy" 
+      />
+    </div>
   </div>
   <div class="flex flex-1 flex-col p-8 text-neutral-200">
     <div class="space-y-4 rounded-2xl text-sm">

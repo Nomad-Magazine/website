@@ -11,8 +11,25 @@ const link = itemLink || sb788c266b?.[0]
 {
   title && (
     <div id={randomId} class:list={['flex w-full flex-col rounded-3xl border border-white/10 p-4 shadow-lg transition-transform', link && 'cursor-pointer', 'relative']}>
-      <img src={image || '/logo.svg'} decoding="async" alt={title} class="h-48 w-full rounded-3xl bg-white object-contain" loading="lazy" />
-      {sb685ab800?.label && <span class="absolute top-6 right-6 rounded-full bg-yellow-400 px-2 py-1 text-sm font-medium text-black">{sb685ab800.label}</span>}
+      <div class="relative h-48 w-full rounded-3xl overflow-hidden">
+        <!-- Blurred background -->
+        <div 
+          class:list={[
+            "absolute inset-0",
+            (image && image !== '/logo.svg') ? "bg-cover bg-center bg-no-repeat scale-110 blur-lg opacity-50" : "bg-white"
+          ]}
+          style={(image && image !== '/logo.svg') ? `background-image: url('${image}')` : undefined}
+        ></div>
+        <!-- Main image -->
+        <img 
+          src={image || '/logo.svg'} 
+          decoding="async" 
+          alt={title} 
+          class="relative z-10 h-full w-full object-contain" 
+          loading="lazy" 
+        />
+        {sb685ab800?.label && <span class="absolute top-2 right-2 z-20 rounded-full bg-yellow-400 px-2 py-1 text-sm font-medium text-black">{sb685ab800.label}</span>}
+      </div>
       <div class="flex flex-1 flex-col p-4">
         <h3 class="mb-2 text-lg font-bold break-all text-white">{title}</h3>
         <div class="mb-1 text-xs text-gray-400">Description</div>
