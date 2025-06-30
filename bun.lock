@@ -10,6 +10,7 @@
         "@tailwindcss/vite": "^4.1.10",
         "astro": "^5.10.0",
         "astro-font": "^1.1.0",
+        "p-limit": "^6.2.0",
         "tailwindcss": "^4.1.10",
       },
       "devDependencies": {

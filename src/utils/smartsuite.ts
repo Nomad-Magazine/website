@@ -1,8 +1,22 @@
 import path from 'path'
 import fs from 'fs/promises'
+import pLimit from 'p-limit'
 import { SMART_SUITE_APIKEY, SMART_SUITE_ACCOUNT_ID, SMART_SUITE_TABLE_ID_COMPANY } from 'astro:env/server'
 
+const limit = pLimit(2) // 2 concurrent requests
+
 const CACHE_PATH = (suffix: string = '') => path.resolve(process.cwd(), `src/utils/nomad_cache_table_${suffix}.json`)
+
+async function fetchWithRetry(fn, retries = 3, delay = 500) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      return await fn()
+    } catch (e) {
+      if (i === retries - 1) throw e
+      await new Promise((res) => setTimeout(res, delay))
+    }
+  }
+}
 
 async function globalCache() {
   // Try to read from cache first
@@ -56,7 +70,7 @@ export async function fetchReportRecords(reportID: string) {
         const handle = record.sc584fdf36?.[0]?.handle
         if (handle) {
           try {
-            const imageUrl = await fetchImageUrlFromHandle(handle)
+            const imageUrl = await limit(() => fetchWithRetry(() => fetchImageUrlFromHandle(handle)))
             if (imageUrl) record.image = imageUrl
           } catch (error) {}
         }
