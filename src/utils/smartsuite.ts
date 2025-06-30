@@ -50,6 +50,7 @@ async function globalCache() {
 }
 
 export async function fetchReportRecords(reportID: string) {
+  const globalCacheJSON = await globalCache()
   // Try to read from cache first
   try {
     const cache = await fs.readFile(CACHE_PATH(reportID), 'utf-8')
@@ -57,7 +58,6 @@ export async function fetchReportRecords(reportID: string) {
   } catch (err) {
     // Cache miss or error, proceed to fetch
   }
-  const globalCacheJSON = await globalCache()
   const response = await fetch(`https://app.smartsuite.com/api/v1/applications/${SMART_SUITE_TABLE_ID_COMPANY}/records-for-report/?report=${reportID}&with_empty_values=false`, {
     headers: {
       'ACCOUNT-ID': SMART_SUITE_ACCOUNT_ID,
@@ -79,6 +79,12 @@ export async function fetchReportRecords(reportID: string) {
         }
       }),
     )
+    responseJSON.records.forEach((record: any, idx: number) => {
+      if (record.id) {
+        const recordFromGlobalCache = globalCacheJSON.items.find((item: any) => item.id === record.id)
+        if (recordFromGlobalCache) responseJSON.records[idx] = recordFromGlobalCache
+      }
+    })
   }
   // Write to cache
   await fs.writeFile(CACHE_PATH(reportID), JSON.stringify(responseJSON, null, 2), 'utf-8')
