@@ -70,5 +70,5 @@ body {
 }
 
 .dot {
-  @apply h-8 w-8 rounded-full bg-white;
+  @apply h-16 w-16 rounded-full bg-white;
 }

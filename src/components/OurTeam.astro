@@ -35,7 +35,7 @@ const team = [
             {/* --- MOBILE VIEW --- */}
             <div class="group flex flex-col items-center space-y-4 text-center text-3xl font-bold sm:hidden">
               <img src={member.img} alt={`${member.name}'s eyes`} class="w-full max-w-xs object-contain grayscale transition group-hover:grayscale-0" />
-              <p>
+              <p class="transition hover:underline">
                 {member.name} {member.location}
               </p>
             </div>
@@ -44,15 +44,15 @@ const team = [
               {index % 2 === 0 ? (
                 <>
                   <img src={member.img} alt={`${member.name}'s eyes`} class="h-16 object-contain grayscale transition group-hover:grayscale-0" />
-                  <p>
+                  <p class="transition group-hover:underline">
                     {member.name} {member.location}
                   </p>
                 </>
               ) : (
                 <>
-                  <span>{member.name}</span>
+                  <span class="transition group-hover:underline">{member.name}</span>
                   <img src={member.img} alt={`${member.name}'s eyes`} class="h-16 object-contain grayscale transition group-hover:grayscale-0" />
-                  <span>{member.location}</span>
+                  <span class="transition group-hover:underline">{member.location}</span>
                 </>
               )}
             </div>
