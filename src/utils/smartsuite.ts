@@ -45,7 +45,7 @@ async function globalCache() {
   if (!response.ok) throw new Error(`SmartSuite API error: ${response.status} ${response.statusText}`)
   const responseJSON = await response.json()
   // Write to cache
-  await fs.writeFile(CACHE_PATH('global'), JSON.stringify(responseJSON, null, 2), 'utf-8')
+  await fs.writeFile(CACHE_PATH('global'), JSON.stringify(responseJSON, null, 0), 'utf-8')
   return responseJSON
 }
 
@@ -87,7 +87,7 @@ export async function fetchReportRecords(reportID: string) {
     })
   }
   // Write to cache
-  await fs.writeFile(CACHE_PATH(reportID), JSON.stringify(responseJSON, null, 2), 'utf-8')
+  await fs.writeFile(CACHE_PATH(reportID), JSON.stringify(responseJSON, null, 0), 'utf-8')
   return responseJSON
 }
 

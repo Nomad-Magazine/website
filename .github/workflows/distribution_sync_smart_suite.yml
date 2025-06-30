@@ -19,7 +19,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Remove cached distribution JSON
-        run: rm -f src/utils/nomad_cache_table_68614a111208586bd05d3c3a.json
+        run: rm -f src/utils/nomad_cache_table_68614a111208586bd05d3c3a.json src/utils/nomad_cache_table_global.json
       - name: Set up Bun
         uses: oven-sh/setup-bun@v2
       - name: Install dependencies
@@ -35,6 +35,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add src/utils/nomad_cache_table_68614a111208586bd05d3c3a.json
+          git add src/utils/nomad_cache_table_global.json
           git diff --cached --quiet || git commit -m "chore: update nomad distribution cache [ci skip]"
           git push
       - name: Trigger Deploy Workflow
