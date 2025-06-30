@@ -25,13 +25,13 @@ const seo = {
     '@type': 'Blog',
     name: 'Nomad Gossip Blog',
     description: 'In-depth articles and useful tips on how to improve your nomadic journey',
-    url: 'https://nomad-magazine-main.pitiakova.workers.dev/blog',
+    url: `${Astro.site}blog`,
     publisher: {
       '@type': 'Organization',
       name: 'Nomad Magazine',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://nomad-magazine-main.pitiakova.workers.dev/logo.svg',
+        url: `${Astro.site}logo.svg`,
       },
     },
     blogPost: posts.slice(0, 10).map((post) => ({
@@ -43,7 +43,7 @@ const seo = {
         name: post.data.author || 'Martin Donadieu',
       },
       datePublished: post.data.pubDate?.toISOString(),
-      url: `https://nomad-magazine-main.pitiakova.workers.dev/blog/${post.slug}`,
+      url: `${Astro.site}blog/${post.slug}`,
     })),
   },
 }

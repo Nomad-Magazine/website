@@ -27,19 +27,19 @@ const seo = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'Nomad Magazine',
-    url: 'https://nomad-magazine-main.pitiakova.workers.dev',
+    url: Astro.site,
     description: 'The first global digital nomad magazine',
     publisher: {
       '@type': 'Organization',
       name: 'Nomad Magazine',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://nomad-magazine-main.pitiakova.workers.dev/logo.svg',
+        url: `${Astro.site}logo.svg`,
       },
     },
     potentialAction: {
       '@type': 'SubscribeAction',
-      target: 'https://nomad-magazine-main.pitiakova.workers.dev/newsletter',
+      target: `${Astro.site}newsletter`,
     },
   },
 }

@@ -3,7 +3,6 @@ import Layout from '~/layouts/Layout.astro'
 import Image from '~/components/Image.astro'
 import CheckIcon from '~icons/ic/baseline-check'
 import SubscribeInput from '~/components/SubscribeInput.astro'
-import Subscribe from '~/components/Subscribe.astro'
 
 const seo = {
   title: 'Nomad Newsletter - Subscribe to Digital Nomad Updates',
@@ -17,13 +16,13 @@ const seo = {
     '@type': 'WebPage',
     name: 'Nomad Newsletter',
     description: 'Subscribe to the Nomad Newsletter for exclusive digital nomad content',
-    url: 'https://nomad-magazine-main.pitiakova.workers.dev/newsletter',
+    url: `${Astro.site}newsletter`,
     publisher: {
       '@type': 'Organization',
       name: 'Nomad Magazine',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://nomad-magazine-main.pitiakova.workers.dev/logo.svg',
+        url: `${Astro.site}logo.svg`,
       },
     },
   },
