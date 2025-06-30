@@ -6,15 +6,17 @@ interface Props {
   sb788c266b?: string[]
   s9c0ff01ed?: string
   sed1a49986?: string
+  sb685ab800?: { label: string }
 }
 
-const { image, title, scea90e502, sed1a49986, sb788c266b, s9c0ff01ed: discountCode }: Props = Astro.props
+const { image, title, scea90e502, sed1a49986, sb685ab800, sb788c266b, s9c0ff01ed: discountCode }: Props = Astro.props
 const website = sb788c266b?.[0]
 ---
 
 <div class="mx-auto flex h-full w-full max-w-xs flex-col rounded-3xl bg-neutral-900 shadow-lg">
   <h3 class="p-4 text-lg font-semibold text-white">{title}</h3>
-  <div class="px-4 pb-0">
+  <div class="relative px-4 pb-0">
+    {sb685ab800?.label && <span class="absolute top-0 right-4 rounded-full bg-yellow-400 px-2 py-1 text-sm font-medium text-black">{sb685ab800.label}</span>}
     <img src={image || '/logo.svg'} decoding="async" alt={title} class="h-48 w-full rounded-3xl bg-white object-contain" loading="lazy" />
   </div>
   <div class="flex flex-1 flex-col p-8 text-neutral-200">
