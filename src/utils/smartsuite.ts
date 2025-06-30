@@ -4,23 +4,6 @@ import { SMART_SUITE_APIKEY, SMART_SUITE_ACCOUNT_ID, SMART_SUITE_TABLE_ID_COMPAN
 
 const CACHE_PATH = (suffix: string = '') => path.resolve(process.cwd(), `src/utils/nomad_cache_table_${suffix}.json`)
 
-/**
- * Fetches a single page of records from SmartSuite API
- */
-export async function fetchRecordsPage(offset: number, limit: number = 100) {
-  const response = await fetch(`https://app.smartsuite.com/api/v1/applications/${SMART_SUITE_TABLE_ID_COMPANY}/records/list/?offset=${offset}&limit=${limit}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'ACCOUNT-ID': SMART_SUITE_ACCOUNT_ID,
-      Authorization: `Token ${SMART_SUITE_APIKEY}`,
-    },
-    body: JSON.stringify({ sort: [], filter: {} }),
-  })
-  if (!response.ok) throw new Error(`SmartSuite API error: ${response.status} ${response.statusText}`)
-  return await response.json()
-}
-
 async function globalCache() {
   // Try to read from cache first
   try {
@@ -112,40 +95,4 @@ async function fetchImageUrlFromHandle(handle: string): Promise<string | undefin
   //   return urlResponse.url || data.url
   // }
   return data.url
-}
-
-/**
- * Fetches all records from SmartSuite API by handling pagination and fetching images in parallel
- * Caches the result in a JSON file. If the cache exists, returns its contents.
- */
-export async function fetchAllRecords() {
-  const allRecords: any[] = []
-  let offset = 0
-  const limit = 100 // Maximum records per request
-  let hasMoreRecords = true
-  while (hasMoreRecords) {
-    try {
-      const response = await fetchRecordsPage(offset, limit)
-      allRecords.push(...response.items)
-      if (response.items.length < limit || offset + response.items.length >= response.total) {
-        hasMoreRecords = false
-      } else {
-        offset += response.items.length
-      }
-    } catch (error) {
-      console.error('Error fetching records from SmartSuite:', error)
-      throw error
-    }
-  }
-  // Fetch images in parallel for all records
-  await Promise.all(
-    allRecords.map(async (record: any, idx: number) => {
-      // If the image field exists and has at least one file, use its handle
-      const handle = record.se05f2fd75?.[0]?.handle
-      record.image = '/logo.svg'
-      if (handle) record.image = await fetchImageUrlFromHandle(handle)
-      allRecords[idx].image = record.image
-    }),
-  )
-  return allRecords
 }
