@@ -36,20 +36,19 @@ const website = sb788c266b?.[0]
         )
       }
       {
-        website && (
-          <div class="flex flex-col">
-            <span>Website</span>
-            <a href={website} target="_blank" rel="noopener noreferrer" class="break-all text-blue-300 underline">
-              {website}
-            </a>
-          </div>
-        )
-      }
-      {
         discountCode && (
           <div class="flex flex-col">
             <span>Discount Code</span>
             <span class="font-medium text-white">{discountCode}</span>
+          </div>
+        )
+      }
+      {
+        website && (
+          <div class="flex flex-col">
+            <a href={website} target="_blank" rel="noopener noreferrer" class="break-all text-blue-300 underline">
+              Learn more &rarr;
+            </a>
           </div>
         )
       }
