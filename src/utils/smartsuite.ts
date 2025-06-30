@@ -21,6 +21,34 @@ export async function fetchRecordsPage(offset: number, limit: number = 100) {
   return await response.json()
 }
 
+async function globalCache() {
+  // Try to read from cache first
+  try {
+    const cache = await fs.readFile(CACHE_PATH('global'), 'utf-8')
+    return JSON.parse(cache)
+  } catch (err) {
+    // Cache miss or error, proceed to fetch
+  }
+  const response = await fetch(`https://app.smartsuite.com/api/v1/applications/${SMART_SUITE_TABLE_ID_COMPANY}/records/list/?all=true`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'ACCOUNT-ID': SMART_SUITE_ACCOUNT_ID,
+      Authorization: `Token ${SMART_SUITE_APIKEY}`,
+    },
+    body: JSON.stringify({
+      sort: [],
+      filter: {},
+      hydrated: true,
+    }),
+  })
+  if (!response.ok) throw new Error(`SmartSuite API error: ${response.status} ${response.statusText}`)
+  const responseJSON = await response.json()
+  // Write to cache
+  await fs.writeFile(CACHE_PATH('global'), JSON.stringify(responseJSON, null, 2), 'utf-8')
+  return responseJSON
+}
+
 export async function fetchReportRecords(reportID: string) {
   // Try to read from cache first
   try {
@@ -29,6 +57,7 @@ export async function fetchReportRecords(reportID: string) {
   } catch (err) {
     // Cache miss or error, proceed to fetch
   }
+  const globalCacheJSON = await globalCache()
   const response = await fetch(`https://app.smartsuite.com/api/v1/applications/${SMART_SUITE_TABLE_ID_COMPANY}/records-for-report/?report=${reportID}&with_empty_values=false`, {
     headers: {
       'ACCOUNT-ID': SMART_SUITE_ACCOUNT_ID,
