@@ -9,8 +9,24 @@ const edition = {
 }
 ---
 
-<section class="py-20">
-  <div class="container mx-auto flex justify-center px-4">
-    <EditionCard {...edition} />
+<section class="py-64">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-col items-center gap-8 lg:flex-row lg:items-start lg:justify-center lg:gap-16">
+      <!-- Hero Content -->
+      <div class="text-center lg:flex-1 lg:text-left lg:max-w-2xl">
+        <h2 class="font-justme text-4xl font-medium tracking-widest text-yellow-400 md:text-5xl">The Magazine</h2>
+        <h1 class="mx-auto mt-4 max-w-4xl text-4xl leading-tight font-bold md:text-6xl lg:mx-0">We turned nomad life into a 100-page masterpiece.</h1>
+        <p class="mx-auto mt-6 max-w-3xl text-base text-gray-300 md:text-lg lg:mx-0">
+          Available in print and digital. <br />
+          Over 100 beautifully designed pages, packed with custom content, bold design, vibrant illustrations, and premium print—built to last and made to travel. Yep, in the age of AI, we
+          went old-school with print-first. Nomad Gossip Magazine—born from a bold startup pitch on Nomad Cruise 2023.
+        </p>
+      </div>
+      
+      <!-- Edition Card -->
+      <div class="lg:flex-shrink-0 lg:max-w-md">
+        <EditionCard {...edition} />
+      </div>
+    </div>
   </div>
 </section>

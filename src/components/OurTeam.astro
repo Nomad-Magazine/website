@@ -28,7 +28,7 @@ const team = [
     <div class="text-center">
       <h2 class="font-justme text-5xl">Our team</h2>
     </div>
-    <div class="font-inter mx-auto mt-4 flex max-w-3xl flex-col items-center space-y-12">
+    <div class="font-inter mx-auto mt-4 flex max-w-3xl flex-col items-center space-y-4">
       {
         team.map((member, index) => (
           <div class="w-full">
@@ -40,7 +40,7 @@ const team = [
               </p>
             </div>
             {/* --- DESKTOP VIEW --- */}
-            <div class="group hidden items-center justify-start space-x-6 text-7xl font-bold sm:flex">
+            <div class="group hidden items-center justify-start space-x-6 text-[6vh] font-bold sm:flex">
               {index % 2 === 0 ? (
                 <>
                   <img src={member.img} alt={`${member.name}'s eyes`} class="h-16 object-contain grayscale transition group-hover:grayscale-0" />
@@ -59,7 +59,7 @@ const team = [
           </div>
         ))
       }
-      <div class="pt-8 text-5xl font-bold sm:text-7xl">We are in ngm</div>
+      <div class="pt-8 text-[6vh] font-bold">We are in ngm</div>
     </div>
   </div>
 </section>
