@@ -25,29 +25,3 @@
     </div>
   </div>
 </section>
-
-<script>
-  // Intersection Observer to trigger animations when section comes into view
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const content = entry.target.querySelector('.animate-fade-in')
-          const topRightDots = document.getElementById('top-right-dots')
-          const bottomLeftDots = document.getElementById('bottom-left-dots')
-          if (content) (content as HTMLElement).style.opacity = '1'
-          if (bottomLeftDots) {
-            bottomLeftDots.style.left = '4rem'
-            bottomLeftDots.style.bottom = '4rem'
-          }
-          if (topRightDots) topRightDots.style.transform = `translate(-50%, -50%)`
-          observer.unobserve(entry.target)
-        }
-      })
-    },
-    { threshold: 0.3 },
-  )
-  // Observe the section
-  const missionSection = document.querySelector('[id="mission-section"]')
-  if (missionSection) observer.observe(missionSection)
-</script>
