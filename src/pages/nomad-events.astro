@@ -54,10 +54,11 @@ const seo: SEOProps = {
       </a>
     </div>
     <div id="directory-container" class="container mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      <!-- @ts-ignore -->
       {
         records
+          // @ts-ignore
           .filter((i) => i.s188096926)
+          // @ts-ignore
           .map((record) => (
             <div class="event-item">
               <NomadEventCard {...record} />
