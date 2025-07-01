@@ -85,33 +85,18 @@ const timelineEvents = [
       {
         timelineEvents.slice(1).map((_, idx) => (
           <div
-            class="timeline-gradient-segment absolute w-full overflow-hidden"
+            class="timeline-gradient-segment pointer-events-none absolute z-[5] w-full overflow-hidden"
             style={{
               top: `calc(${idx} * (100% / (${timelineEvents.length - 1})))`,
               height: `calc(100% / (${timelineEvents.length - 1}))`,
-              pointerEvents: 'none',
-              zIndex: 5,
             }}
             data-segment-idx={idx}
           >
             <div
               class="timeline-gradient-fill h-full w-full"
-              style={{ height: '100%', width: '100%', background: 'linear-gradient(#ff7448, #ff4848 51%, #6248ff)', transform: 'scaleY(0)', transformOrigin: 'top' }}
+              style={{ background: 'linear-gradient(#ff7448, #ff4848 51%, #6248ff)', transform: 'scaleY(0)', transformOrigin: 'top' }}
             />
           </div>
-        ))
-      }
-      <!-- Dots for each timeline item -->
-      {
-        timelineEvents.map((event, idx) => (
-          <div
-            class="timeline-static-dot absolute left-1/2 z-10 flex size-4 items-center justify-center rounded-full border-2 border-gray-500 bg-gray-800 transition-colors duration-300"
-            style={{
-              top: `calc(${idx} * (100% / (${timelineEvents.length - 1})))`,
-              transform: 'translate(-50%, -50%)',
-            }}
-            data-dot-idx={idx}
-          />
         ))
       }
       <!-- Dynamic Main Dot and Date -->
@@ -139,6 +124,16 @@ const timelineEvents = [
                 {event.linkText}
               </a>
             )}
+            <p id="timeline-date" class="absolute -mt-[50px] ml-[-370px] hidden min-w-max text-4xl font-bold text-white opacity-0 md:block">
+              {event.date}
+            </p>
+            <div
+              class="timeline-static-dot absolute left-1/2 z-10 -mt-[30px] flex size-4 items-center justify-center rounded-full border-2 border-gray-500 bg-gray-800 transition-colors duration-300"
+              style={{
+                transform: 'translate(-50%, -50%)',
+              }}
+              data-dot-idx={idx}
+            />
           </div>
         ))
       }
@@ -241,13 +236,16 @@ const timelineEvents = [
     onScroll()
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
+        entries.forEach((entry, idx2) => {
           const el = entry.target as HTMLElement
           if (entry.isIntersecting) {
             const date = el.dataset.date
             const idx = el.dataset.idx
             if (date) stickyDateEl.textContent = date
             el.classList.add('is-active')
+            if (idx2 > 0) {
+              entries[idx2 - 1].target.querySelector('[id="timeline-date"]')?.classList.remove('opacity-0')
+            }
             // Highlight current dot
             staticDots.forEach((dot, i) => {
               const dotEl = dot as HTMLElement
