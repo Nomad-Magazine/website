@@ -33,7 +33,7 @@ const issues = [
         issues.map((issue) => (
           <div class="issue-card text-center">
             <a href={issue.link}>
-              <img src={issue.imageUrl} alt={issue.alt} class="mb-6 aspect-[3/4] h-auto w-full max-w-full shadow-white shadow-lg object-cover" />
+              <img src={issue.imageUrl} alt={issue.alt} class="mb-6 aspect-[3/4] h-auto w-full max-w-full object-cover shadow-lg shadow-white" />
               <h3 class="text-lg font-semibold text-yellow-400">{issue.title}</h3>
             </a>
             {issue.sampleUrl && (

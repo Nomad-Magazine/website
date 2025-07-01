@@ -11,41 +11,26 @@ const link = itemLink || sb788c266b?.[0]
 {
   title && (
     <div id={randomId} class="flex h-full w-full flex-col rounded-3xl border border-white/10 p-4 shadow-lg">
-      <div class="relative h-48 w-full rounded-3xl overflow-hidden">
-        <!-- Blurred background -->
-        <div 
-          class:list={[
-            "absolute inset-0",
-            (image && image !== '/logo.svg') ? "bg-cover bg-center bg-no-repeat scale-110 blur-lg opacity-50" : "bg-white"
-          ]}
-          style={(image && image !== '/logo.svg') ? `background-image: url('${image}')` : undefined}
-        ></div>
-        <!-- Main image -->
-        <img 
-          src={image || '/logo.svg'} 
-          decoding="async" 
-          alt={title} 
-          class="relative z-10 h-full w-full object-contain" 
-          loading="lazy" 
+      <div class="relative h-48 w-full overflow-hidden rounded-3xl">
+        <div
+          class:list={['absolute inset-0', image && image !== '/logo.svg' ? 'scale-110 bg-cover bg-center bg-no-repeat opacity-50 blur-lg' : 'bg-white']}
+          style={image && image !== '/logo.svg' ? `background-image: url('${image}')` : undefined}
         />
+        <img src={image || '/logo.svg'} decoding="async" alt={title} class="relative z-10 h-full w-full object-contain" loading="lazy" />
         {sb685ab800?.label && <span class="absolute top-2 right-2 z-20 rounded-full bg-yellow-400 px-2 py-1 text-sm font-medium text-black">{sb685ab800.label}</span>}
       </div>
       <div class="flex flex-1 flex-col p-4">
         <h3 class="mb-2 text-lg font-bold break-all text-white">{title}</h3>
         <div class="mb-1 text-xs text-gray-400">Description</div>
-        <div class="text-sm break-all !text-gray-200 [&_*]:!text-gray-200 mb-4">{scea90e502}</div>
-        {
-          link && (
-            <div class="flex flex-col">
-              <a href={link} target="_blank" rel="noopener noreferrer" class="break-all text-blue-300 underline">
-                Learn more &rarr;
-              </a>
-            </div>
-          )
-        }
+        <div class="mb-4 text-sm break-all !text-gray-200 [&_*]:!text-gray-200">{scea90e502}</div>
+        {link && (
+          <div class="flex flex-col">
+            <a href={link} target="_blank" rel="noopener noreferrer" class="break-all text-blue-300 underline">
+              Learn more &rarr;
+            </a>
+          </div>
+        )}
       </div>
     </div>
   )
 }
-
-

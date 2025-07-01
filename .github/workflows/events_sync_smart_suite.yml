@@ -30,7 +30,7 @@ jobs:
           SMART_SUITE_ACCOUNT_ID: ${{ secrets.SMART_SUITE_ACCOUNT_ID }}
           SMART_SUITE_TABLE_ID_COMPANY: ${{ secrets.SMART_SUITE_TABLE_ID_COMPANY }}
           RECORD_ID: ${{ github.event.client_payload.record_id }}
-          REPORT_ID: "655f749c8779ef70a3a1735e"
+          REPORT_ID: '655f749c8779ef70a3a1735e'
       - name: Update all records
         if: ${{ !github.event.client_payload.record_id }}
         run: node scripts/update-all-records.js
@@ -38,7 +38,7 @@ jobs:
           SMART_SUITE_APIKEY: ${{ secrets.SMART_SUITE_APIKEY }}
           SMART_SUITE_ACCOUNT_ID: ${{ secrets.SMART_SUITE_ACCOUNT_ID }}
           SMART_SUITE_TABLE_ID_COMPANY: ${{ secrets.SMART_SUITE_TABLE_ID_COMPANY }}
-          REPORT_ID: "655f749c8779ef70a3a1735e"
+          REPORT_ID: '655f749c8779ef70a3a1735e'
       - name: Commit updated events cache
         run: |
           git config --global user.name "github-actions[bot]"

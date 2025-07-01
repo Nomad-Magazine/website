@@ -8,10 +8,7 @@ import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
 const { records = [] } = await fetchReportRecords('68614a111208586bd05d3c3a')
 
 // Extract unique categories for filtering
-const categories = [...new Set(records
-  .filter((record: any) => record.s43a4b2808 && record.sb685ab800?.label)
-  .map((record: any) => record.sb685ab800.label)
-)].sort()
+const categories = [...new Set(records.filter((record: any) => record.s43a4b2808 && record.sb685ab800?.label).map((record: any) => record.sb685ab800.label))].sort()
 
 const seo: SEOProps = {
   title: 'Where to Find Nomad Gossip Magazine - Global Distribution Locations',
@@ -62,42 +59,46 @@ const seo: SEOProps = {
     <!-- Filter Section -->
     <div class="container mt-12 mb-8">
       <div class="flex flex-wrap justify-center gap-3" id="filter-container">
-        <button 
-          class="filter-btn active rounded-full bg-yellow-400 px-4 py-2 text-sm font-medium text-black transition-colors hover:bg-yellow-300"
-          data-category="all"
-        >
+        <button class="filter-btn active rounded-full bg-yellow-400 px-4 py-2 text-sm font-medium text-black transition-colors hover:bg-yellow-300" data-category="all">
           All
         </button>
-        {categories.map(category => (
-          <button 
-            class="filter-btn rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/20"
-            data-category={category}
-          >
-            {category}
-          </button>
-        ))}
+        {
+          categories.map((category) => (
+            <button class="filter-btn rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/20" data-category={category}>
+              {category}
+            </button>
+          ))
+        }
       </div>
     </div>
 
     <div id="directory-container" class="container grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       <!-- @ts-ignore -->
-      {records.filter((i) => i.s43a4b2808 && !i.s9744d6c51).map((record) => (
-        <div class="distribution-item" data-category={record.sb685ab800?.label || 'uncategorized'}>
-          <DistributionCard {...record} />
-        </div>
-      ))}
+      {
+        records
+          .filter((i) => i.s43a4b2808 && !i.s9744d6c51)
+          .map((record) => (
+            <div class="distribution-item" data-category={record.sb685ab800?.label || 'uncategorized'}>
+              <DistributionCard {...record} />
+            </div>
+          ))
+      }
     </div>
-    
+
     <h2 class="mt-24 text-4xl font-bold text-white sm:text-5xl md:text-6xl">Coming Soon</h2>
     <div id="coming-soon-container" class="container mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       <!-- @ts-ignore -->
-      {records.filter((i) => i.s43a4b2808 && i.s9744d6c51).map((record) => (
-        <div class="distribution-item coming-soon" data-category={record.sb685ab800?.label || 'uncategorized'}>
-          <DistributionCard {...record} />
-        </div>
-      ))}
+      {
+        records
+          .filter((i) => i.s43a4b2808 && i.s9744d6c51)
+          .map((record) => (
+            <div class="distribution-item coming-soon" data-category={record.sb685ab800?.label || 'uncategorized'}>
+              <DistributionCard {...record} />
+            </div>
+          ))
+      }
     </div>
-    
+
     <ListYourProjectFooter
       buttonText="Get in touch"
       href="https://form.smartsuite.com/s4tmc086/0nmLI1htHD"
@@ -113,26 +114,26 @@ const seo: SEOProps = {
   const distributionItems = document.querySelectorAll('.distribution-item')
   const comingSoonHeader = document.querySelector('h2')
 
-  filterButtons.forEach(button => {
+  filterButtons.forEach((button) => {
     button.addEventListener('click', () => {
       const category = button.getAttribute('data-category')
-      
+
       // Update active button
-      filterButtons.forEach(btn => btn.classList.remove('active'))
+      filterButtons.forEach((btn) => btn.classList.remove('active'))
       button.classList.add('active')
-      
+
       // Update button styles
-      filterButtons.forEach(btn => {
+      filterButtons.forEach((btn) => {
         if (btn.classList.contains('active')) {
           btn.className = 'filter-btn active rounded-full bg-yellow-400 px-4 py-2 text-sm font-medium text-black transition-colors hover:bg-yellow-300'
         } else {
           btn.className = 'filter-btn rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white/20'
         }
       })
-      
+
       // Filter items
       let hasComingSoon = false
-      distributionItems.forEach(item => {
+      distributionItems.forEach((item) => {
         const itemCategory = item.getAttribute('data-category')
         const htmlItem = item as HTMLElement
         if (category === 'all' || itemCategory === category) {
@@ -144,7 +145,7 @@ const seo: SEOProps = {
           htmlItem.style.display = 'none'
         }
       })
-      
+
       // Show/hide "Coming Soon" header based on filtered results
       const headerElement = comingSoonHeader as HTMLElement
       if (hasComingSoon) {

@@ -3,7 +3,7 @@ import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 
 const seo: SEOProps = {
   title: 'Free Weekly Articles - Mindvalley Book Club for Digital Nomads | Nomad Magazine',
-  description: 'Start your 2025 right with Mindvalley Book Club\'s hottest reads for nomads. Get exclusive weekly articles about personal transformation and growth.',
+  description: "Start your 2025 right with Mindvalley Book Club's hottest reads for nomads. Get exclusive weekly articles about personal transformation and growth.",
   image: `${Astro.site}images/free-article.webp`,
   keywords: 'mindvalley book club, digital nomad reading, personal transformation, kristina mindlabs, nomad lifestyle, growth mindset, weekly articles',
   ldJSON: {
@@ -15,7 +15,7 @@ const seo: SEOProps = {
     author: {
       '@type': 'Person',
       name: 'Kristina MindLabs',
-      url: 'https://www.instagram.com/kristinamand/'
+      url: 'https://www.instagram.com/kristinamand/',
     },
     publisher: {
       '@type': 'Organization',
@@ -35,19 +35,14 @@ const seo: SEOProps = {
     <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
       <div class="text-center">
         <div class="mx-auto mb-8">
-          <img 
-            src="/images/free-article.webp" 
-            alt="Mindvalley Book Club - Free Weekly Articles" 
-            class="w-full rounded-lg shadow-xl"
-          />
+          <img src="/images/free-article.webp" alt="Mindvalley Book Club - Free Weekly Articles" class="w-full rounded-lg shadow-xl" />
         </div>
-        
+
         <div class="space-y-8">
-          <h1 class="mx-auto max-w-4xl text-3xl font-bold text-gray-900 md:text-4xl">
-            Start Your 2025 Right with Mindvalley Book Club's Hottest Reads for Nomads!
-          </h1>
+          <h1 class="mx-auto max-w-4xl text-3xl font-bold text-gray-900 md:text-4xl">Start Your 2025 Right with Mindvalley Book Club's Hottest Reads for Nomads!</h1>
           <p class="mx-auto max-w-3xl text-xl text-gray-600">
-            Looking for the perfect books to inspire your next chapter? Kristina MindLabs, co-founder of Mindvalley Book Club and part of the Mindvalley team, brings you a curated selection of brand-new releases in self-help, business, and personal growth — curated specifically for the nomadic lifestyle.
+            Looking for the perfect books to inspire your next chapter? Kristina MindLabs, co-founder of Mindvalley Book Club and part of the Mindvalley team, brings you a curated
+            selection of brand-new releases in self-help, business, and personal growth — curated specifically for the nomadic lifestyle.
           </p>
         </div>
       </div>
@@ -60,9 +55,7 @@ const seo: SEOProps = {
       <div class="rounded-2xl bg-gray-50 p-8 shadow-lg">
         <div class="space-y-6">
           <div class="space-y-4">
-            <label for="email" class="block text-lg font-semibold text-gray-900">
-              Email Address
-            </label>
+            <label for="email" class="block text-lg font-semibold text-gray-900"> Email Address </label>
             <input
               id="email"
               name="email"
@@ -72,11 +65,9 @@ const seo: SEOProps = {
               class="w-full rounded-lg border border-gray-300 px-4 py-3 text-lg focus:border-transparent focus:ring-2 focus:ring-yellow-400 focus:outline-none"
             />
           </div>
-          
+
           <div class="space-y-4">
-            <label for="first-name" class="block text-lg font-semibold text-gray-900">
-              First Name
-            </label>
+            <label for="first-name" class="block text-lg font-semibold text-gray-900"> First Name </label>
             <input
               id="first-name"
               name="first_name"
@@ -86,7 +77,7 @@ const seo: SEOProps = {
               class="w-full rounded-lg border border-gray-300 px-4 py-3 text-lg focus:border-transparent focus:ring-2 focus:ring-yellow-400 focus:outline-none"
             />
           </div>
-          
+
           <form
             method="POST"
             target="_blank"
@@ -97,18 +88,13 @@ const seo: SEOProps = {
             <input type="hidden" name="email" id="hidden-email" />
             <input type="hidden" name="first_name" id="hidden-first-name" />
             <input type="hidden" name="redirect" value={`${Astro.site}free-weekly-articles?form=true`} />
-            
-            <button
-              type="submit"
-              class="w-full rounded-lg bg-black px-8 py-4 text-xl font-semibold text-white transition-all duration-200 hover:bg-gray-800"
-            >
+
+            <button type="submit" class="w-full rounded-lg bg-black px-8 py-4 text-xl font-semibold text-white transition-all duration-200 hover:bg-gray-800">
               Grab FREE Article
             </button>
           </form>
-          
-          <p class="text-center text-sm text-gray-600">
-            Don't miss out – this gift is only available for a limited time! 💝
-          </p>
+
+          <p class="text-center text-sm text-gray-600">Don't miss out – this gift is only available for a limited time! 💝</p>
         </div>
       </div>
     </div>
@@ -122,37 +108,31 @@ const seo: SEOProps = {
         <div class="space-y-6">
           <div class="space-y-4">
             <p class="text-lg leading-relaxed text-gray-700">
-              With decades of experience in the personal transformation industry, Kristina and her team have done the hard work for you, so you can focus on what matters most: diving into books that will actually move you forward while living the nomadic lifestyle.
+              With decades of experience in the personal transformation industry, Kristina and her team have done the hard work for you, so you can focus on what matters most:
+              diving into books that will actually move you forward while living the nomadic lifestyle.
             </p>
-            
+
             <p class="text-lg leading-relaxed text-gray-700">
               Claim <span class="font-semibold">FREE article</span> and discover the hottest new reads to inspire your nomadic journey in 2025. 🌟
             </p>
-            
-            <div class="bg-yellow-100 p-4 rounded-lg">
-              <h3 class="font-semibold text-gray-900 mb-2">You'll qualify for the first article immediately after subscribing, and will get a new one every week:</h3>
+
+            <div class="rounded-lg bg-yellow-100 p-4">
+              <h3 class="mb-2 font-semibold text-gray-900">You'll qualify for the first article immediately after subscribing, and will get a new one every week:</h3>
               <p class="text-gray-700">
-                ⭐ A selection of the latest bestselling books perfectly curated for the nomad lifestyle. Each week, we'll feature one exclusive article by a talented writer, available to read. It's the perfect way to stay current and focused on our nomadic community through our
-                <a href="/products/issue-002" class="font-semibold text-blue-600 hover:text-blue-800 underline">
-                  Account settings
-                </a>
+                ⭐ A selection of the latest bestselling books perfectly curated for the nomad lifestyle. Each week, we'll feature one exclusive article by a talented writer,
+                available to read. It's the perfect way to stay current and focused on our nomadic community through our
+                <a href="/products/issue-002" class="font-semibold text-blue-600 underline hover:text-blue-800"> Account settings </a>
                 or by emailing
-                <a href="mailto:hey@nomadgossip.com" class="font-semibold text-blue-600 hover:text-blue-800 underline">
-                  hey@nomadgossip.com
-                </a>
+                <a href="mailto:hey@nomadgossip.com" class="font-semibold text-blue-600 underline hover:text-blue-800"> hey@nomadgossip.com </a>
               </p>
             </div>
           </div>
         </div>
-        
+
         <!-- Featured Image -->
         <div class="relative">
           <div class="rounded-2xl bg-yellow-400 p-6">
-            <img 
-              src="/images/kristina.webp" 
-              alt="Kristina MindLabs - Mindvalley Book Club" 
-              class="w-full rounded-lg shadow-lg"
-            />
+            <img src="/images/kristina.webp" alt="Kristina MindLabs - Mindvalley Book Club" class="w-full rounded-lg shadow-lg" />
           </div>
         </div>
       </div>
@@ -165,45 +145,40 @@ const seo: SEOProps = {
       <div class="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
         <!-- Image -->
         <div class="relative">
-          <img 
-            src="/images/bookclub.webp" 
-            alt="Reading with the community" 
-            class="w-full rounded-lg shadow-lg"
-          />
+          <img src="/images/bookclub.webp" alt="Reading with the community" class="w-full rounded-lg shadow-lg" />
         </div>
-        
+
         <!-- Text Content -->
         <div class="space-y-6">
-          <h3 class="text-3xl font-bold text-gray-900">
-            Kristina MindLabs is what you call a multi-hyphenate powerhouse.
-          </h3>
-          
+          <h3 class="text-3xl font-bold text-gray-900">Kristina MindLabs is what you call a multi-hyphenate powerhouse.</h3>
+
           <div class="space-y-4 text-lg text-gray-700">
             <p>
-              Not only is she the co-founder of 
-              <a href="https://www.mindvalley.com/bookclub" target="_blank" rel="noopener noreferrer" class="font-semibold text-blue-600 hover:text-blue-800 underline">
+              Not only is she the co-founder of
+              <a href="https://www.mindvalley.com/bookclub" target="_blank" rel="noopener noreferrer" class="font-semibold text-blue-600 underline hover:text-blue-800">
                 Mindvalley Book Club
-              </a>, 
-              but she's also a key part of the Mindvalley team, the world's most powerful transformation platform with an ever-growing 20 million-strong following.
+              </a>, but she's also a key part of the Mindvalley team, the world's most powerful transformation platform with an ever-growing 20 million-strong following.
             </p>
-            
+
             <p>
-              She's a Wall Street Journal #1 bestselling author, entrepreneur, writer, content creator and speaker. And now, she's bringing her love of literature to Estonia. In 2024, Kristina has founded Growth and built a community where tech talents gather in mind-blowing travelers who are redefining the way we live and work — one adventure at a time!
+              She's a Wall Street Journal #1 bestselling author, entrepreneur, writer, content creator and speaker. And now, she's bringing her love of literature to Estonia. In
+              2024, Kristina has founded Growth and built a community where tech talents gather in mind-blowing travelers who are redefining the way we live and work — one
+              adventure at a time!
             </p>
           </div>
-          
+
           <div class="flex flex-col gap-4 sm:flex-row">
-            <a 
-              href="https://www.mindvalley.com/bookclub" 
-              target="_blank" 
+            <a
+              href="https://www.mindvalley.com/bookclub"
+              target="_blank"
               rel="noopener noreferrer"
               class="inline-flex items-center rounded-lg bg-black px-6 py-3 font-semibold text-white transition-all duration-200 hover:bg-gray-800"
             >
               Visit Mindvalley Book Club
             </a>
-            <a 
-              href="https://www.instagram.com/kristinamand/" 
-              target="_blank" 
+            <a
+              href="https://www.instagram.com/kristinamand/"
+              target="_blank"
               rel="noopener noreferrer"
               class="inline-flex items-center rounded-lg border-2 border-black px-6 py-3 font-semibold text-black transition-all duration-200 hover:bg-black hover:text-white"
             >
@@ -218,19 +193,19 @@ const seo: SEOProps = {
   <!-- About Format Section -->
   <div class="bg-gray-50 py-16">
     <div class="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-      <h3 class="mb-8 text-3xl font-bold text-gray-900">
-        What's this new format?
-      </h3>
-      
+      <h3 class="mb-8 text-3xl font-bold text-gray-900">What's this new format?</h3>
+
       <div class="space-y-6 text-lg text-gray-700">
         <p>
-          Every week, we'll feature one exclusive article by a talented writer, available to read. It's the perfect way to stay engaged with fresh content and discover transformative insights that shape our mindset of nomadism, one article at a time.
+          Every week, we'll feature one exclusive article by a talented writer, available to read. It's the perfect way to stay engaged with fresh content and discover
+          transformative insights that shape our mindset of nomadism, one article at a time.
         </p>
-        
-        <div class="bg-yellow-100 p-6 rounded-lg">
-          <h4 class="font-semibold text-gray-900 mb-2">Why the change?</h4>
+
+        <div class="rounded-lg bg-yellow-100 p-6">
+          <h4 class="mb-2 font-semibold text-gray-900">Why the change?</h4>
           <p>
-            We know that can be busy, and full magazines can sometimes feel overwhelming. This weekly format makes it easier to read one article at a time, and dig it so much way to stay regularly connected and improve based on your feedback.
+            We know that can be busy, and full magazines can sometimes feel overwhelming. This weekly format makes it easier to read one article at a time, and dig it so much way
+            to stay regularly connected and improve based on your feedback.
           </p>
         </div>
       </div>
@@ -240,42 +215,31 @@ const seo: SEOProps = {
   <!-- Magazine Preview Section -->
   <div class="bg-white py-16">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-12">
-        <h3 class="text-3xl font-bold text-gray-900 mb-4">
-          ABOUT US:
-        </h3>
-        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-          Nomad Gossip is the world's first-ever digital nomad magazine.
-        </p>
+      <div class="mb-12 text-center">
+        <h3 class="mb-4 text-3xl font-bold text-gray-900">ABOUT US:</h3>
+        <p class="mx-auto max-w-3xl text-xl text-gray-600">Nomad Gossip is the world's first-ever digital nomad magazine.</p>
       </div>
-      
+
       <div class="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
         <!-- Text Content -->
         <div class="space-y-6">
           <p class="text-lg leading-relaxed text-gray-700">
-            Available in both digital and print, we launched our magazine to connect, support, and amplify the voices of the global nomad community. NGM is your trusted guide to the nomadic lifestyle, packed with expert tips and actionable insights to help you thrive as a digital nomad — whether you're starting your journey or are already a seasoned nomad following the way we live and work — one adventure at a time!
+            Available in both digital and print, we launched our magazine to connect, support, and amplify the voices of the global nomad community. NGM is your trusted guide to
+            the nomadic lifestyle, packed with expert tips and actionable insights to help you thrive as a digital nomad — whether you're starting your journey or are already a
+            seasoned nomad following the way we live and work — one adventure at a time!
           </p>
-          
+
           <div class="space-y-4">
-            <a 
-              href="/products/issue-002" 
-              class="inline-block rounded-lg bg-black px-8 py-3 font-semibold text-white transition-all duration-200 hover:bg-gray-800"
-            >
+            <a href="/products/issue-002" class="inline-block rounded-lg bg-black px-8 py-3 font-semibold text-white transition-all duration-200 hover:bg-gray-800">
               Order Full Issue 002 Edition
             </a>
-            <p class="text-sm text-gray-600">
-              Get access and ENJOY the world's first magazine for digital nomads!
-            </p>
+            <p class="text-sm text-gray-600">Get access and ENJOY the world's first magazine for digital nomads!</p>
           </div>
         </div>
-        
+
         <!-- Magazine Images -->
         <div class="relative">
-          <img 
-            src="/images/all_readers.webp" 
-            alt="Nomad Magazine Issues" 
-            class="w-full rounded-lg shadow-lg"
-          />
+          <img src="/images/all_readers.webp" alt="Nomad Magazine Issues" class="w-full rounded-lg shadow-lg" />
         </div>
       </div>
     </div>
@@ -284,52 +248,40 @@ const seo: SEOProps = {
   <!-- CTA Section -->
   <div class="bg-yellow-400 py-16">
     <div class="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-      <h2 class="mb-8 text-3xl font-bold text-black md:text-4xl">
-        See what's waiting for you in Issue 002:
-      </h2>
-      
+      <h2 class="mb-8 text-3xl font-bold text-black md:text-4xl">See what's waiting for you in Issue 002:</h2>
+
       <div class="mb-8">
-        <img 
-          src="/images/issue_two.webp" 
-          alt="Issue 002 Preview" 
-          class="w-full max-w-2xl mx-auto rounded-lg shadow-lg"
-        />
+        <img src="/images/issue_two.webp" alt="Issue 002 Preview" class="mx-auto w-full max-w-2xl rounded-lg shadow-lg" />
       </div>
-      
-      <p class="mb-8 text-lg text-black">
-        This article is available for one week only. Subscribe now so you don't miss out!
-      </p>
-      
+
+      <p class="mb-8 text-lg text-black">This article is available for one week only. Subscribe now so you don't miss out!</p>
+
       <p class="text-sm text-black">
-        Learn more about the project at 
-        <a href="https://www.nomadgossip.com/" class="font-semibold underline hover:no-underline">
-          nomadgossip.com
-        </a>
+        Learn more about the project at
+        <a href="https://www.nomadgossip.com/" class="font-semibold underline hover:no-underline"> nomadgossip.com </a>
       </p>
-      
+
       <p class="mt-4 text-sm text-black">
-        Have questions? Send us a note to 
-        <a href="mailto:hey@nomadgossip.com" class="font-semibold underline hover:no-underline">
-          hey@nomadgossip.com
-        </a>
+        Have questions? Send us a note to
+        <a href="mailto:hey@nomadgossip.com" class="font-semibold underline hover:no-underline"> hey@nomadgossip.com </a>
       </p>
     </div>
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const emailInput = document.getElementById('email') as HTMLInputElement;
-      const firstNameInput = document.getElementById('first-name') as HTMLInputElement;
-      const hiddenEmailInput = document.getElementById('hidden-email') as HTMLInputElement;
-      const hiddenFirstNameInput = document.getElementById('hidden-first-name') as HTMLInputElement;
-      const form = document.querySelector('form[action*="bentonow"]');
-      
+    document.addEventListener('DOMContentLoaded', function () {
+      const emailInput = document.getElementById('email') as HTMLInputElement
+      const firstNameInput = document.getElementById('first-name') as HTMLInputElement
+      const hiddenEmailInput = document.getElementById('hidden-email') as HTMLInputElement
+      const hiddenFirstNameInput = document.getElementById('hidden-first-name') as HTMLInputElement
+      const form = document.querySelector('form[action*="bentonow"]')
+
       if (form && emailInput && firstNameInput && hiddenEmailInput && hiddenFirstNameInput) {
-        form.addEventListener('submit', function() {
-          hiddenEmailInput.value = emailInput.value;
-          hiddenFirstNameInput.value = firstNameInput.value;
-        });
+        form.addEventListener('submit', function () {
+          hiddenEmailInput.value = emailInput.value
+          hiddenFirstNameInput.value = firstNameInput.value
+        })
       }
-    });
+    })
   </script>
-</Layout> 
+</Layout>

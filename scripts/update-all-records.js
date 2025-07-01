@@ -21,26 +21,26 @@ async function fetchWithRetry(fn, retries = 3, delay = 500) {
 
 async function fetchImageUrlFromHandle(handle) {
   if (!handle) return undefined
-  
+
   const response = await fetch(`https://app.smartsuite.com/api/v1/shared-files/${handle}/url/`, {
     headers: {
       'ACCOUNT-ID': SMART_SUITE_ACCOUNT_ID,
       authorization: `Token ${SMART_SUITE_APIKEY}`,
     },
   })
-  
+
   if (!response.ok) {
     console.error(`Error fetching image for handle ${handle}:`, response.statusText)
     return undefined
   }
-  
+
   const data = await response.json()
   return data.url
 }
 
 async function fetchGlobalCache() {
   console.log('Fetching global cache...')
-  
+
   const response = await fetch(`https://app.smartsuite.com/api/v1/applications/${SMART_SUITE_TABLE_ID_COMPANY}/records/list/?all=true`, {
     method: 'POST',
     headers: {
@@ -54,34 +54,34 @@ async function fetchGlobalCache() {
       hydrated: true,
     }),
   })
-  
+
   if (!response.ok) {
     throw new Error(`SmartSuite API error: ${response.status} ${response.statusText}`)
   }
-  
+
   const responseJSON = await response.json()
   writeFileSync(CACHE_PATH('global'), JSON.stringify(responseJSON, null, 0), 'utf-8')
   console.log('Updated global cache')
-  
+
   return responseJSON
 }
 
 async function fetchReportRecords(globalCacheJSON, reportId) {
   console.log(`Fetching report records for ${reportId}...`)
-  
+
   const response = await fetch(`https://app.smartsuite.com/api/v1/applications/${SMART_SUITE_TABLE_ID_COMPANY}/records-for-report/?report=${reportId}&with_empty_values=false`, {
     headers: {
       'ACCOUNT-ID': SMART_SUITE_ACCOUNT_ID,
       Authorization: `Token ${SMART_SUITE_APIKEY}`,
     },
   })
-  
+
   if (!response.ok) {
     throw new Error(`SmartSuite API error: ${response.status} ${response.statusText}`)
   }
-  
+
   const responseJSON = await response.json()
-  
+
   // Merge with global cache data
   responseJSON.records.forEach((record, idx) => {
     if (record.id) {
@@ -91,7 +91,7 @@ async function fetchReportRecords(globalCacheJSON, reportId) {
       }
     }
   })
-  
+
   // Fetch images in parallel for all records
   if (responseJSON.records) {
     console.log('Fetching images for records...')
@@ -109,22 +109,22 @@ async function fetchReportRecords(globalCacheJSON, reportId) {
       }),
     )
   }
-  
+
   writeFileSync(CACHE_PATH(reportId), JSON.stringify(responseJSON, null, 0), 'utf-8')
   console.log('Updated report cache')
-  
+
   return responseJSON
 }
 
 async function updateAllRecords(reportId) {
   console.log(`Starting full cache update for report ${reportId}...`)
-  
+
   // Fetch global cache first
   const globalCacheJSON = await fetchGlobalCache()
-  
+
   // Fetch and update report records
   await fetchReportRecords(globalCacheJSON, reportId)
-  
+
   console.log('Successfully updated all records in cache')
 }
 
@@ -133,8 +133,7 @@ if (!SMART_SUITE_APIKEY || !SMART_SUITE_ACCOUNT_ID || !SMART_SUITE_TABLE_ID_COMP
   process.exit(1)
 }
 
-updateAllRecords(REPORT_ID)
-  .catch((error) => {
-    console.error('Error updating all records:', error)
-    process.exit(1)
-  }) 
+updateAllRecords(REPORT_ID).catch((error) => {
+  console.error('Error updating all records:', error)
+  process.exit(1)
+})

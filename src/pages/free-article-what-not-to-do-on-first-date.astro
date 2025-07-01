@@ -15,7 +15,7 @@ const seo: SEOProps = {
     author: {
       '@type': 'Person',
       name: 'Marina Iakovleva',
-      url: 'https://www.youtube.com/@DatingBeyondBorders'
+      url: 'https://www.youtube.com/@DatingBeyondBorders',
     },
     publisher: {
       '@type': 'Organization',
@@ -35,11 +35,7 @@ const seo: SEOProps = {
     <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
       <div class="text-center">
         <div class="w-full">
-          <img 
-            src="/images/free_article.webp" 
-            alt="Free Article - What Not To Do On A First Date" 
-            class="w-full rounded-lg shadow-xl"
-          />
+          <img src="/images/free_article.webp" alt="Free Article - What Not To Do On A First Date" class="w-full rounded-lg shadow-xl" />
         </div>
       </div>
     </div>
@@ -51,9 +47,7 @@ const seo: SEOProps = {
       <div class="rounded-2xl bg-gray-50 p-8 shadow-lg">
         <div class="space-y-6">
           <div class="space-y-4">
-            <label for="email" class="block text-lg font-semibold text-gray-900">
-              Email Address
-            </label>
+            <label for="email" class="block text-lg font-semibold text-gray-900"> Email Address </label>
             <input
               id="email"
               name="email"
@@ -63,11 +57,9 @@ const seo: SEOProps = {
               class="w-full rounded-lg border border-gray-300 px-4 py-3 text-lg focus:border-transparent focus:ring-2 focus:ring-yellow-400 focus:outline-none"
             />
           </div>
-          
+
           <div class="space-y-4">
-            <label for="first-name" class="block text-lg font-semibold text-gray-900">
-              First Name
-            </label>
+            <label for="first-name" class="block text-lg font-semibold text-gray-900"> First Name </label>
             <input
               id="first-name"
               name="first_name"
@@ -77,7 +69,7 @@ const seo: SEOProps = {
               class="w-full rounded-lg border border-gray-300 px-4 py-3 text-lg focus:border-transparent focus:ring-2 focus:ring-yellow-400 focus:outline-none"
             />
           </div>
-          
+
           <form
             method="POST"
             target="_blank"
@@ -88,11 +80,8 @@ const seo: SEOProps = {
             <input type="hidden" name="email" id="hidden-email" />
             <input type="hidden" name="first_name" id="hidden-first-name" />
             <input type="hidden" name="redirect" value={`${Astro.site}free-article-what-not-to-do-on-first-date?form=true`} />
-            
-            <button
-              type="submit"
-              class="w-full rounded-lg bg-black px-8 py-4 text-xl font-semibold text-white transition-all duration-200 hover:bg-gray-800"
-            >
+
+            <button type="submit" class="w-full rounded-lg bg-black px-8 py-4 text-xl font-semibold text-white transition-all duration-200 hover:bg-gray-800">
               Grab FREE article
             </button>
           </form>
@@ -109,35 +98,29 @@ const seo: SEOProps = {
         <div class="space-y-6">
           <div class="space-y-4">
             <p class="text-lg leading-relaxed text-gray-700">
-              Dating as a digital nomad can be an enticing international adventure. New country - new faces. However, dating customs vary, and what's attractive in one place might be a turn-off elsewhere.
+              Dating as a digital nomad can be an enticing international adventure. New country - new faces. However, dating customs vary, and what's attractive in one place might
+              be a turn-off elsewhere.
             </p>
-            
+
             <p class="text-lg leading-relaxed text-gray-700">
-              This NGM article written by the founder of YouTube channel 
-              <a href="https://www.youtube.com/@DatingBeyondBorders" target="_blank" rel="noopener noreferrer" class="font-semibold text-blue-600 hover:text-blue-800 underline">
+              This NGM article written by the founder of YouTube channel
+              <a href="https://www.youtube.com/@DatingBeyondBorders" target="_blank" rel="noopener noreferrer" class="font-semibold text-blue-600 underline hover:text-blue-800">
                 Dating Beyond Borders
-              </a> 
-              with <span class="font-semibold">650K+ subscribers</span> and our dear friend 
-              <a href="https://www.instagram.com/youtubermarina/" target="_blank" rel="noopener noreferrer" class="font-semibold text-blue-600 hover:text-blue-800 underline">
+              </a>
+              with <span class="font-semibold">650K+ subscribers</span> and our dear friend
+              <a href="https://www.instagram.com/youtubermarina/" target="_blank" rel="noopener noreferrer" class="font-semibold text-blue-600 underline hover:text-blue-800">
                 Marina Iakovleva
-              </a>, 
-              will spill the beans on dating <span class="font-semibold">DO's and DON'Ts</span> in five diverse regions/countries, from Brazil to Japan!
+              </a>, will spill the beans on dating <span class="font-semibold">DO's and DON'Ts</span> in five diverse regions/countries, from Brazil to Japan!
             </p>
-            
-            <p class="text-lg leading-relaxed text-gray-700">
-              Unravel the unwritten rules of romance 💙.
-            </p>
+
+            <p class="text-lg leading-relaxed text-gray-700">Unravel the unwritten rules of romance 💙.</p>
           </div>
         </div>
-        
+
         <!-- Featured Image -->
         <div class="relative">
           <div class="rounded-2xl bg-yellow-400 p-6">
-            <img 
-              src="/images/what_not_do_in_fist_date.webp" 
-              alt="What Not To Do On A First Date - Magazine Preview" 
-              class="w-full rounded-lg shadow-lg"
-            />
+            <img src="/images/what_not_do_in_fist_date.webp" alt="What Not To Do On A First Date - Magazine Preview" class="w-full rounded-lg shadow-lg" />
           </div>
         </div>
       </div>
@@ -147,21 +130,11 @@ const seo: SEOProps = {
   <!-- CTA Section -->
   <div class="bg-white py-16">
     <div class="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-      <h2 class="mb-8 text-3xl font-bold text-gray-900 md:text-4xl">
-        Take a sneak peek at the world's first magazine for digital nomads!
-      </h2>
-      
+      <h2 class="mb-8 text-3xl font-bold text-gray-900 md:text-4xl">Take a sneak peek at the world's first magazine for digital nomads!</h2>
+
       <div class="flex flex-col items-center gap-6 sm:flex-row sm:justify-center">
-        <a 
-          href="/third-edition" 
-          class="rounded-lg bg-black px-8 py-3 font-semibold text-white transition-all duration-200 hover:bg-gray-800"
-        >
-          Explore Latest Edition
-        </a>
-        <a 
-          href="/editions" 
-          class="rounded-lg border-2 border-black px-8 py-3 font-semibold text-black transition-all duration-200 hover:bg-black hover:text-white"
-        >
+        <a href="/third-edition" class="rounded-lg bg-black px-8 py-3 font-semibold text-white transition-all duration-200 hover:bg-gray-800"> Explore Latest Edition </a>
+        <a href="/editions" class="rounded-lg border-2 border-black px-8 py-3 font-semibold text-black transition-all duration-200 hover:bg-black hover:text-white">
           View All Editions
         </a>
       </div>
@@ -169,19 +142,19 @@ const seo: SEOProps = {
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const emailInput = document.getElementById('email') as HTMLInputElement;
-      const firstNameInput = document.getElementById('first-name') as HTMLInputElement;
-      const hiddenEmailInput = document.getElementById('hidden-email') as HTMLInputElement;
-      const hiddenFirstNameInput = document.getElementById('hidden-first-name') as HTMLInputElement;
-      const form = document.querySelector('form[action*="bentonow"]');
-      
+    document.addEventListener('DOMContentLoaded', function () {
+      const emailInput = document.getElementById('email') as HTMLInputElement
+      const firstNameInput = document.getElementById('first-name') as HTMLInputElement
+      const hiddenEmailInput = document.getElementById('hidden-email') as HTMLInputElement
+      const hiddenFirstNameInput = document.getElementById('hidden-first-name') as HTMLInputElement
+      const form = document.querySelector('form[action*="bentonow"]')
+
       if (form && emailInput && firstNameInput && hiddenEmailInput && hiddenFirstNameInput) {
-        form.addEventListener('submit', function() {
-          hiddenEmailInput.value = emailInput.value;
-          hiddenFirstNameInput.value = firstNameInput.value;
-        });
+        form.addEventListener('submit', function () {
+          hiddenEmailInput.value = emailInput.value
+          hiddenFirstNameInput.value = firstNameInput.value
+        })
       }
-    });
+    })
   </script>
-</Layout> 
+</Layout>

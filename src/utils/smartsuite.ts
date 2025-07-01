@@ -1,9 +1,6 @@
-// @ts-ignore
-import { readFileSync } from 'fs'
-// @ts-ignore  
 import path from 'path'
+import { readFileSync } from 'fs'
 
-// @ts-ignore
 const CACHE_PATH = (suffix: string = '') => path.resolve(process.cwd(), `src/utils/nomad_cache_table_${suffix}.json`)
 
 export async function fetchReportRecords(reportID: string) {
