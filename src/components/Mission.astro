@@ -48,12 +48,12 @@
             topRightDots.style.left = '50%'
             const startTopRight = setInterval(() => {
               let check = false
-              if (topRightDots.style.top > '30%') {
+              if (topRightDots.style.top > (window.innerWidth > 768 ? '30%' : '10%')) {
                 topRightDots.style.top = `${Number(topRightDots.style.top.replace('%', '')) - 5}%`
               } else {
                 check = check && true
               }
-              if (topRightDots.style.left < '87%') {
+              if (topRightDots.style.left < (window.innerWidth > 768 ? '87%' : '90%')) {
                 topRightDots.style.left = `${Number(topRightDots.style.left.replace('%', '')) + 5}%`
               } else {
                 check = check && true
