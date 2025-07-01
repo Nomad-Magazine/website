@@ -190,11 +190,8 @@ const timelineEvents = [
       // Activate dots
       staticDots.forEach((dot, idx) => {
         const dotPercent = idx / (staticDots.length - 1)
-        if (progress >= dotPercent) {
-          dot.classList.add('active')
-        } else {
-          dot.classList.remove('active')
-        }
+        if (progress >= dotPercent) dot.classList.add('active')
+        else dot.classList.remove('active')
         dot.classList.remove('current')
       })
     }
