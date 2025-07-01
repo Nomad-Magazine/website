@@ -1,5 +1,5 @@
-<section class="relative flex min-h-screen items-center justify-center overflow-hidden">
-  <div class="relative z-10 container mx-auto px-4 text-center">
+<section id="mission-section" class="relative flex min-h-screen items-center justify-center overflow-hidden">
+  <div animate-fade-in-up class="relative z-10 container mx-auto px-4 text-center opacity-0">
     <p class="font-justme mb-8 text-6xl">Our mission</p>
     <h2 class="mx-auto max-w-6xl text-5xl leading-tight font-bold md:text-7xl">
       New type of travel magazine.
@@ -7,15 +7,32 @@
       The voice of the global digital nomad community.
     </h2>
   </div>
-  <!-- Decorative Dots -->
-  <div class="absolute top-16 right-16 flex flex-col items-center space-y-4 md:top-42 md:right-42">
+  <!-- Decorative Dots - Initial State (side by side) -->
+  <div class="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 transform items-center space-x-8 transition-all duration-1000 ease-out" id="center-dots">
+    <div class="flex flex-col items-center space-y-4">
+      <div class="dot -ml-16 rounded-full bg-black"></div>
+      <div class="flex space-x-4">
+        <div class="dot rounded-full bg-black"></div>
+        <div class="dot rounded-full bg-black"></div>
+      </div>
+    </div>
+    <div class="flex flex-col items-center space-y-4">
+      <div class="flex space-x-4">
+        <div class="dot rounded-full bg-black"></div>
+        <div class="dot rounded-full bg-black"></div>
+      </div>
+      <div class="dot -mr-16 rounded-full bg-black"></div>
+    </div>
+  </div>
+  <!-- Corner Dots (hidden initially) -->
+  <div class="absolute top-16 right-16 flex flex-col items-center space-y-4 opacity-0 transition-all duration-1000 ease-out md:top-42 md:right-42" id="top-right-dots">
     <div class="flex space-x-4">
       <div class="dot rounded-full bg-black"></div>
       <div class="dot rounded-full bg-black"></div>
     </div>
     <div class="dot -mr-16 rounded-full bg-black"></div>
   </div>
-  <div class="absolute bottom-16 left-16 flex flex-col items-center space-y-4 md:bottom-42 md:left-42">
+  <div class="absolute bottom-16 left-16 flex flex-col items-center space-y-4 opacity-0 transition-all duration-1000 ease-out md:bottom-42 md:left-42" id="bottom-left-dots">
     <div class="dot -ml-16 rounded-full bg-black"></div>
     <div class="flex space-x-4">
       <div class="dot rounded-full bg-black"></div>
@@ -23,3 +40,44 @@
     </div>
   </div>
 </section>
+
+<script>
+  // Intersection Observer to trigger animations when section comes into view
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // Get DOM elements
+          const centerDots = document.getElementById('center-dots')
+          const topRightDots = document.getElementById('top-right-dots')
+          const bottomLeftDots = document.getElementById('bottom-left-dots')
+          const content = entry.target.querySelector('.animate-fade-in')
+
+          // Ensure elements exist before manipulating
+          if (centerDots && topRightDots && bottomLeftDots) {
+            // Hide center dots and show corner dots
+            centerDots.style.opacity = '0'
+            centerDots.style.transform = 'translate(-50%, -50%) scale(0.8)'
+
+            setTimeout(() => {
+              topRightDots.style.opacity = '1'
+              bottomLeftDots.style.opacity = '1'
+
+              // Fade in content if it exists
+              if (content) {
+                content.style.opacity = '1'
+              }
+            }, 500)
+          }
+
+          observer.unobserve(entry.target)
+        }
+      })
+    },
+    { threshold: 0.3 },
+  )
+
+  // Observe the section
+  const missionSection = document.querySelector('[id="mission-section"]')
+  if (missionSection) observer.observe(missionSection)
+</script>
