@@ -99,7 +99,7 @@ const timelineEvents = [
       <!-- Dynamic Main Dot and Date -->
       <div id="timeline-dot" class="absolute top-0 z-20 flex w-full items-center" style="transform: translateY(-50%)">
         <div class="flex size-4 items-center justify-center rounded-full border-2 bg-white shadow-xl" style="transform: translateX(-50%)"></div>
-        <p id="sticky-date" class="bg-opacity-80 ml-4 rounded-lg bg-black px-3 py-1 text-2xl font-bold text-white shadow-lg"></p>
+        <p id="sticky-date" class="ml-[-300px] hidden min-w-max text-3xl font-bold text-white md:block"></p>
       </div>
     </div>
     <!-- Right Column for Content -->
@@ -207,9 +207,7 @@ const timelineEvents = [
           if (entry.isIntersecting) {
             const date = el.dataset.date
             const idx = el.dataset.idx
-            if (date) {
-              stickyDateEl.textContent = date
-            }
+            if (date) stickyDateEl.textContent = date
             el.classList.add('is-active')
             // Highlight current dot
             staticDots.forEach((dot, i) => {
