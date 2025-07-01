@@ -20,7 +20,8 @@ const stampImageUrl = '/images/365b0ceb-376b-445d-9f65-cef882cd05e9.webp'
           <img id="dot-1" class="absolute -top-12 right-[66%] -translate-x-1/2 -translate-y-1/2 opacity-0" src="/images/circle.svg" />
           <img id="dot-2" class="absolute -top-12 right-[41%] -translate-x-1/2 -translate-y-1/2 opacity-0" src="/images/circle.svg" />
           <img id="dot-3" class="absolute -top-12 right-[17%] -translate-x-1/2 -translate-y-1/2 opacity-0" src="/images/circle.svg" />
-          <img id="dot-below-image-1" src={mainImageUrl} alt="Abstract graphic representing community" class="w-full" loading="lazy" decoding="async" />
+          <div id="revealBox" class="bg-hoverw absolute z-[100] h-full w-full"></div>
+          <img src={mainImageUrl} alt="Abstract graphic representing community" class="w-full" loading="lazy" decoding="async" />
           <div id="dot-below-image-2" class="group absolute bottom-0 left-1/2 w-1/2 -translate-x-1/2 scale-140 opacity-0 md:-bottom-12">
             <img src={stampImageUrl} alt="Stamp with a globe and text 'not all who wander are lost'" class="h-auto w-full" loading="lazy" decoding="async" />
             <img
@@ -42,4 +43,49 @@ const stampImageUrl = '/images/365b0ceb-376b-445d-9f65-cef882cd05e9.webp'
   .group:hover .group-hover\\:rotate-360 {
     transform: translate(-50%, -50%) rotate(360deg);
   }
+  #revealBox {
+    padding: 1em 2em;
+    font-size: 1.5em;
+    transform: scaleX(1);
+    transform-origin: right;
+    transition:
+      opacity 2s ease,
+      transform 2s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+  }
+  #revealBox.revealed {
+    transform: scaleX(0);
+  }
 </style>
+
+<script>
+  const revealBox = document.getElementById('revealBox')
+  if (revealBox) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            revealBox.classList.add('revealed')
+            setTimeout(() => {
+              document.getElementById('dot-1')?.classList.add('animate-fade-in')
+              document.getElementById('dot-1')?.classList.remove('opacity-0')
+              setTimeout(() => {
+                document.getElementById('dot-2')?.classList.add('animate-fade-in')
+                document.getElementById('dot-2')?.classList.remove('opacity-0')
+                setTimeout(() => {
+                  document.getElementById('dot-3')?.classList.add('animate-fade-in')
+                  document.getElementById('dot-3')?.classList.remove('opacity-0')
+                  setTimeout(() => {
+                    document.getElementById('dot-below-image-2')?.classList.add('animate-fade-in')
+                    document.getElementById('dot-below-image-2')?.classList.remove('opacity-0')
+                  }, 800)
+                }, 300)
+              }, 300)
+            }, 1000)
+          }
+        })
+      },
+      { threshold: 0.5 },
+    )
+    observer.observe(revealBox)
+  }
+</script>
