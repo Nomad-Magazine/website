@@ -79,10 +79,28 @@ const timelineEvents = [
 
 <section class="story-timeline-section bg-hoverw px-4 py-20 text-white md:px-8">
   <div class="relative mx-auto flex" style="max-width: 900px">
-    <!-- Center Timeline Bar with Dots and Progress -->
+    <!-- Center Timeline Bar with Segmented Progress, Dots, and Main Dot -->
     <div class="absolute h-full w-0.5" style="left: 50%; transform: translateX(-50%)">
       <div class="h-full w-full bg-gray-700"></div>
-      <div id="timeline-progress" class="absolute top-0 w-full" style="height: 0; background: linear-gradient(#ff7448, #ff4848 51%, #6248ff)"></div>
+      {
+        timelineEvents.slice(1).map((_, idx) => (
+          <div
+            class="timeline-gradient-segment absolute w-full overflow-hidden"
+            style={{
+              top: `calc(${idx} * (100% / (${timelineEvents.length - 1})))`,
+              height: `calc(100% / (${timelineEvents.length - 1}))`,
+              pointerEvents: 'none',
+              zIndex: 5,
+            }}
+            data-segment-idx={idx}
+          >
+            <div
+              class="timeline-gradient-fill h-full w-full"
+              style={{ height: '100%', width: '100%', background: 'linear-gradient(#ff7448, #ff4848 51%, #6248ff)', transform: 'scaleY(0)', transformOrigin: 'top' }}
+            />
+          </div>
+        ))
+      }
       <!-- Dots for each timeline item -->
       {
         timelineEvents.map((event, idx) => (
@@ -157,6 +175,16 @@ const timelineEvents = [
     background: #fff;
     box-shadow: 0 0 0 4px rgba(255, 116, 72, 0.2);
   }
+  .timeline-gradient-segment {
+    left: 0;
+    right: 0;
+    width: 100%;
+    pointer-events: none;
+  }
+  .timeline-gradient-fill {
+    transition: transform 0s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
   @media (max-width: 768px) {
     .timeline-item-content {
       opacity: 1;
@@ -175,17 +203,16 @@ const timelineEvents = [
     const timelineDot = document.getElementById('timeline-dot')
     const stickyDateEl = document.getElementById('sticky-date')
     const staticDots = document.querySelectorAll('.timeline-static-dot')
-    const timelineProgress = document.getElementById('timeline-progress')
     const contentItems = document.querySelectorAll('.timeline-item-content')
     const timelineContainer = document.querySelector('.story-timeline-section')
-    if (!timelineProgress || !timelineContainer || !stickyDateEl || !timelineDot) return
+    const gradientSegments = document.querySelectorAll('.timeline-gradient-segment')
+    if (!timelineContainer || !stickyDateEl || !timelineDot) return
     const onScroll = () => {
       const { top, height } = timelineContainer.getBoundingClientRect()
       const screenHeight = window.innerHeight
       const scrollProgress = -top / (height - screenHeight)
       const progress = Math.max(0, Math.min(1, scrollProgress))
       const progressPercent = progress * 100
-      timelineProgress.style.height = `${progressPercent}%`
       timelineDot.style.top = `${progressPercent}%`
       // Activate dots
       staticDots.forEach((dot, idx) => {
@@ -193,6 +220,21 @@ const timelineEvents = [
         if (progress >= dotPercent) dot.classList.add('active')
         else dot.classList.remove('active')
         dot.classList.remove('current')
+      })
+      // Fill gradient segments
+      gradientSegments.forEach((segment, idx) => {
+        const fill = segment.querySelector('.timeline-gradient-fill') as HTMLElement | null
+        if (!fill) return
+        const start = idx / gradientSegments.length
+        const end = (idx + 1) / gradientSegments.length
+        if (progress >= end) {
+          fill.style.transform = 'scaleY(1)'
+        } else if (progress > start && progress < end) {
+          const segProgress = (progress - start) / (end - start)
+          fill.style.transform = `scaleY(${segProgress})`
+        } else {
+          fill.style.transform = 'scaleY(0)'
+        }
       })
     }
     window.addEventListener('scroll', onScroll, { passive: true })
