@@ -209,15 +209,10 @@ const timelineEvents = [
             // Highlight current dot
             staticDots.forEach((dot, i) => {
               const dotEl = dot as HTMLElement
-              if (i == Number(idx)) {
-                dotEl.classList.add('current')
-              } else {
-                dotEl.classList.remove('current')
-              }
+              if (i == Number(idx)) dotEl.classList.add('current')
+              else dotEl.classList.remove('current')
             })
-          } else {
-            el.classList.remove('is-active')
-          }
+          } else el.classList.remove('is-active')
         })
       },
       {
@@ -225,8 +220,6 @@ const timelineEvents = [
         threshold: 0,
       },
     )
-    contentItems.forEach((item) => {
-      observer.observe(item)
-    })
+    contentItems.forEach((item) => observer.observe(item))
   })
 </script>
