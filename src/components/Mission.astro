@@ -1,5 +1,5 @@
 <section id="mission-section" class="relative flex min-h-screen items-center justify-center overflow-hidden">
-  <div animate-fade-in-up class="relative z-10 container mx-auto px-4 text-center opacity-0">
+  <div id="our-mission-text" class="relative z-10 container mx-auto px-4 text-center opacity-0">
     <p class="font-justme mb-8 text-6xl">Our mission</p>
     <h2 class="mx-auto max-w-6xl text-5xl leading-tight font-bold md:text-7xl">
       New type of travel magazine.
@@ -8,61 +8,24 @@
     </h2>
   </div>
   <!-- Dots groups, both start at center -->
-  <div id="top-right-dots" class="dot-group absolute top-1/2 left-1/2 transition-all duration-1000">
+  <div id="top-right-dots" class="dot-group absolute top-1/2 left-[52%] -translate-x-1/2 -translate-y-1/2 transition-all duration-1000">
     <div class="flex flex-col items-center space-y-4">
       <div class="flex space-x-4">
-        <div class="dot rounded-full bg-black"></div>
-        <div class="dot rounded-full bg-black"></div>
+        <div class="size-[40px] rounded-full bg-white"></div>
+        <div class="size-[40px] rounded-full bg-white"></div>
       </div>
-      <div class="dot -mr-16 rounded-full bg-black"></div>
+      <div class="-mr-16 size-[40px] rounded-full bg-white"></div>
     </div>
   </div>
-  <div id="bottom-left-dots" class="dot-group absolute top-1/2 left-1/2 transition-all duration-1000">
+  <div id="bottom-left-dots" class="dot-group absolute top-1/2 left-[48%] -translate-x-1/2 -translate-y-1/2 transition-all duration-1000">
     <div class="flex flex-col items-center space-y-4">
-      <div class="dot -ml-16 rounded-full bg-black"></div>
+      <div class="-ml-16 size-[40px] rounded-full bg-white"></div>
       <div class="flex space-x-4">
-        <div class="dot rounded-full bg-black"></div>
-        <div class="dot rounded-full bg-black"></div>
+        <div class="size-[40px] rounded-full bg-white"></div>
+        <div class="size-[40px] rounded-full bg-white"></div>
       </div>
     </div>
   </div>
-  <style>
-    .dot {
-      width: 40px;
-      height: 40px;
-    }
-    .dot-group {
-      transform: translate(-50%, -50%);
-      opacity: 1;
-      z-index: 5;
-    }
-    .dot-group.move-top-right {
-      top: 0rem;
-      left: auto;
-      right: 0.6rem;
-      transform: none;
-    }
-    .dot-group.move-bottom-left {
-      top: auto;
-      bottom: 0rem;
-      left: 0.6rem;
-      transform: none;
-    }
-    @media screen and (min-width: 768px) {
-      .dot-group.move-top-right {
-        top: 2rem;
-        left: auto;
-        right: 2rem;
-        transform: none;
-      }
-      .dot-group.move-bottom-left {
-        top: auto;
-        bottom: 2rem;
-        left: 2rem;
-        transform: none;
-      }
-    }
-  </style>
 </section>
 
 <script>
@@ -70,17 +33,59 @@
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
+          const ourMissionText = document.getElementById('our-mission-text')
+          if (ourMissionText) {
+            ourMissionText.setAttribute('animate-fade-in-up', '')
+            // @ts-ignore
+            if (window.fadeUpObserver) {
+              // @ts-ignore
+              window.fadeUpObserver.observe(ourMissionText)
+            }
+          }
           const topRightDots = document.getElementById('top-right-dots')
+          if (topRightDots) {
+            topRightDots.style.top = '50%'
+            topRightDots.style.left = '50%'
+            const startTopRight = setInterval(() => {
+              let check = false
+              if (topRightDots.style.top > '10%') {
+                topRightDots.style.top = `${Number(topRightDots.style.top.replace('%', '')) - 5}%`
+              } else {
+                check = check && true
+              }
+              if (topRightDots.style.left < '90%') {
+                topRightDots.style.left = `${Number(topRightDots.style.left.replace('%', '')) + 5}%`
+              } else {
+                check = check && true
+              }
+              if (check) clearInterval(startTopRight)
+            }, 10)
+          }
           const bottomLeftDots = document.getElementById('bottom-left-dots')
-          if (topRightDots) topRightDots.classList.add('move-top-right')
-          if (bottomLeftDots) bottomLeftDots.classList.add('move-bottom-left')
+          if (bottomLeftDots) {
+            bottomLeftDots.style.top = '50%'
+            bottomLeftDots.style.left = '50%'
+            const startBottomLeft = setInterval(() => {
+              let check = false
+              if (bottomLeftDots.style.top < '90%') {
+                bottomLeftDots.style.top = `${Number(bottomLeftDots.style.top.replace('%', '')) + 5}%`
+              } else {
+                check = check && true
+              }
+              if (bottomLeftDots.style.left >= '12%') {
+                bottomLeftDots.style.left = `${Number(bottomLeftDots.style.left.replace('%', '')) - 5}%`
+              } else {
+                check = check && true
+              }
+              if (check) clearInterval(startBottomLeft)
+            }, 10)
+          }
           observer.unobserve(entry.target)
         }
       })
     },
-    { threshold: 0.3 },
+    { threshold: 0.9 },
   )
-
   const missionSection = document.getElementById('mission-section')
   if (missionSection) observer.observe(missionSection)
 </script>

@@ -239,6 +239,8 @@ const seoProps = {
         },
         { threshold: window.innerWidth > 768 ? 0.7 : 0.2 },
       )
+      // @ts-ignore
+      window.fadeUpObserver = observer
       document.querySelectorAll('[animate-fade-in-up]').forEach((el) => observer.observe(el))
     </script>
   </body>
