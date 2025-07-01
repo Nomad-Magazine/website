@@ -27,11 +27,11 @@ const partners = [
 
 <section class="py-64">
   <div class="container mx-auto px-4 text-center">
-    <h2 class="mb-16 text-5xl font-bold">Our Partners</h2>
+    <h2 animate-fade-in-up class="mb-16 text-5xl font-bold opacity-0">Our Partners</h2>
     <div class="grid grid-cols-2 items-center justify-items-center gap-x-8 gap-y-12 md:grid-cols-3 lg:grid-cols-4">
       {
         partners.map((partner) => (
-          <a href={partner.url} target="_blank" rel="noopener noreferrer" class="flex items-center justify-center">
+          <a animate-fade-in-up href={partner.url} target="_blank" rel="noopener noreferrer" class="flex items-center justify-center opacity-0">
             <img
               src={partner.logo}
               alt={`${partner.name} logo`}

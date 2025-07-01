@@ -171,7 +171,6 @@ const seoProps = {
     <Header />
     <slot />
     <Footer />
-
     <!-- Subscription Confirmation Popup -->
     <div id="subscription-popup" class="subscription-popup">
       <div class="subscription-popup-content">
@@ -183,9 +182,7 @@ const seoProps = {
         <button class="subscription-popup-button" id="popup-continue">Continue Exploring</button>
       </div>
     </div>
-
     <script async is:inline defer src="https://app.bentonow.com/1685a00cdc1fc329724616bec1de09c6.js?webflow=true"></script>
-
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         const urlParams = new URLSearchParams(window.location.search)
@@ -228,6 +225,20 @@ const seoProps = {
           })
         }
       })
+    </script>
+    <script>
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.classList.remove('opacity-0');
+              entry.target.classList.add('animate-fade-in-up');
+            }, 300)
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 1 });
+      document.querySelectorAll('[animate-fade-in-up]').forEach(el => observer.observe(el));
     </script>
   </body>
 </html>

@@ -24,7 +24,7 @@
 
 /* Apply animations to components */
 .animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out;
+  animation: fadeInUp 0.8s ease-out;
 }
 
 .animate-fade-in {
