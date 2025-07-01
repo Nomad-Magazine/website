@@ -227,18 +227,19 @@ const seoProps = {
       })
     </script>
     <script>
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            setTimeout(() => {
-              entry.target.classList.remove('opacity-0');
-              entry.target.classList.add('animate-fade-in-up');
-            }, 300)
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 1 });
-      document.querySelectorAll('[animate-fade-in-up]').forEach(el => observer.observe(el));
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.remove('opacity-0')
+              entry.target.classList.add('animate-fade-in-up')
+              observer.unobserve(entry.target)
+            }
+          })
+        },
+        { threshold: window.innerWidth > 768 ? 0.7 : 0.2 },
+      )
+      document.querySelectorAll('[animate-fade-in-up]').forEach((el) => observer.observe(el))
     </script>
   </body>
 </html>
