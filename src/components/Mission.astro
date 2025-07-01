@@ -7,16 +7,9 @@
       The voice of the global digital nomad community.
     </h2>
   </div>
-  <!-- Decorative Dots - Initial State (side by side) -->
-  <div class="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center space-x-8">
-    <div id="bottom-left-dots" class="flex flex-col items-center space-y-4">
-      <div class="dot -ml-16 rounded-full bg-black"></div>
-      <div class="flex space-x-4">
-        <div class="dot rounded-full bg-black"></div>
-        <div class="dot rounded-full bg-black"></div>
-      </div>
-    </div>
-    <div id="top-right-dots" class="flex flex-col items-center space-y-4">
+  <!-- Dots groups, both start at center -->
+  <div id="top-right-dots" class="dot-group absolute top-1/2 left-1/2 transition-all duration-1000">
+    <div class="flex flex-col items-center space-y-4">
       <div class="flex space-x-4">
         <div class="dot rounded-full bg-black"></div>
         <div class="dot rounded-full bg-black"></div>
@@ -24,4 +17,70 @@
       <div class="dot -mr-16 rounded-full bg-black"></div>
     </div>
   </div>
+  <div id="bottom-left-dots" class="dot-group absolute top-1/2 left-1/2 transition-all duration-1000">
+    <div class="flex flex-col items-center space-y-4">
+      <div class="dot -ml-16 rounded-full bg-black"></div>
+      <div class="flex space-x-4">
+        <div class="dot rounded-full bg-black"></div>
+        <div class="dot rounded-full bg-black"></div>
+      </div>
+    </div>
+  </div>
+  <style>
+    .dot {
+      width: 40px;
+      height: 40px;
+    }
+    .dot-group {
+      transform: translate(-50%, -50%);
+      opacity: 1;
+      z-index: 5;
+    }
+    .dot-group.move-top-right {
+      top: 0rem;
+      left: auto;
+      right: 0.6rem;
+      transform: none;
+    }
+    .dot-group.move-bottom-left {
+      top: auto;
+      bottom: 0rem;
+      left: 0.6rem;
+      transform: none;
+    }
+    @media screen and (min-width: 768px) {
+      .dot-group.move-top-right {
+        top: 2rem;
+        left: auto;
+        right: 2rem;
+        transform: none;
+      }
+      .dot-group.move-bottom-left {
+        top: auto;
+        bottom: 2rem;
+        left: 2rem;
+        transform: none;
+      }
+    }
+  </style>
 </section>
+
+<script>
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const topRightDots = document.getElementById('top-right-dots')
+          const bottomLeftDots = document.getElementById('bottom-left-dots')
+          if (topRightDots) topRightDots.classList.add('move-top-right')
+          if (bottomLeftDots) bottomLeftDots.classList.add('move-bottom-left')
+          observer.unobserve(entry.target)
+        }
+      })
+    },
+    { threshold: 0.3 },
+  )
+
+  const missionSection = document.getElementById('mission-section')
+  if (missionSection) observer.observe(missionSection)
+</script>
