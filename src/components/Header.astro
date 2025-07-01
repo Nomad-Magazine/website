@@ -22,79 +22,79 @@ const navLinks = [
 ]
 ---
 
-<header class="bg-gray-50">
+<header class="bg-whiteshadow-lg">
   <div class="mx-auto max-w-7xl px-4">
-    <div class="flex items-center justify-between py-6">
+    <div class="flex items-center justify-between py-8">
       <!-- Logo and Navigation -->
-      <div class="flex items-center space-x-8">
-        <a href="/" class="text-3xl font-bold tracking-tighter text-gray-900">
-          <img decoding="async" loading="lazy" src="/logo.svg" alt="n::.m" class="h-4" />
+      <div class="flex items-center space-x-10">
+        <a href="/" class="text-4xl font-black tracking-tighter text-gray-900">
+          <img decoding="async" loading="lazy" src="/logo.svg" alt="n::.m" class="h-6" />
         </a>
-        <nav class="hidden space-x-8 lg:flex">
+        <nav class="hidden space-x-10 lg:flex">
           {
             navLinks.map((link) => (
-              <a href={link.url} class="group relative inline-block text-gray-600 transition-colors hover:text-gray-900">
+              <a href={link.url} class="group relative inline-block text-gray-900 font-bold text-lg transition-colors hover:text-yellow-600">
                 <span>{link.text}</span>
                 <img src={link.imageUrl} alt="underline design" class="absolute left-0 hidden w-full group-hover:block" loading="lazy" />
               </a>
             ))
           }
           <div class="relative">
-            <button id="more-button" class="flex cursor-pointer items-center text-gray-600 transition-colors hover:text-gray-900">
+            <button id="more-button" class="flex cursor-pointer items-center text-gray-900 font-bold text-lg transition-colors hover:text-yellow-600">
               More
-              <IsIconDownOutline class="ml-1 h-4 w-4" />
+              <IsIconDownOutline class="ml-1 h-5 w-5 font-bold" />
             </button>
-            <div id="more-dropdown" class="absolute z-10 mt-2 hidden w-48 rounded-md bg-white py-1 shadow-lg">
-              <a href="/nomad_directory" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Nomad Directory</a>
-              <a href="/nomad-events" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Events</a>
-              <a href="/blog" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Blog</a>
-              <a href="/distribution-list" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Distribution Partners</a>
-              <a href="/support-the-magazine" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Become a supporter</a>
+            <div id="more-dropdown" class="absolute z-10 mt-2 hidden w-48 rounded-md bg-white py-1 shadow-xl border border-gray-200">
+              <a href="/nomad_directory" class="block px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-yellow-50 hover:text-yellow-600">Nomad Directory</a>
+              <a href="/nomad-events" class="block px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-yellow-50 hover:text-yellow-600">Events</a>
+              <a href="/blog" class="block px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-yellow-50 hover:text-yellow-600">Blog</a>
+              <a href="/distribution-list" class="block px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-yellow-50 hover:text-yellow-600">Distribution Partners</a>
+              <a href="/support-the-magazine" class="block px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-yellow-50 hover:text-yellow-600">Become a supporter</a>
             </div>
           </div>
         </nav>
       </div>
       <!-- Buttons -->
       <div class="hidden items-center space-x-4 lg:flex">
-        <a href="/support-the-magazine" class="rounded-lg border border-gray-300 px-4 py-2 text-gray-700 transition-colors hover:bg-gray-100"> Become a Supporter 👋 </a>
+        <a href="/support-the-magazine" class="rounded-lg border-2 border-gray-900 px-6 py-3 font-bold text-gray-900 transition-colors hover:bg-gray-900 hover:text-white"> Become a Supporter 👋 </a>
         <a
           href="https://www.nomad-magazine.com/products/issue-002"
           target="_blank"
-          class="rounded-lg border border-yellow-400 bg-yellow-400 px-4 py-2 font-semibold text-black transition-colors hover:bg-yellow-500"
+          class="rounded-lg border-2 border-yellow-400 bg-yellow-400 px-6 py-3 font-black text-black transition-colors hover:bg-yellow-500 hover:border-yellow-500 shadow-lg"
         >
           Buy Latest Edition 🤓
         </a>
       </div>
       <!-- Mobile menu button -->
       <div class="lg:hidden">
-        <button id="mobile-menu-button" type="button" class="text-gray-600 hover:text-gray-900">
-          <MenuIcon class="h-6 w-6" />
+        <button id="mobile-menu-button" type="button" class="text-gray-900 hover:text-yellow-600">
+          <MenuIcon class="h-8 w-8" />
         </button>
       </div>
     </div>
   </div>
   <!-- Mobile Menu Overlay -->
   <div id="mobile-menu-overlay" class="fixed inset-0 z-50 hidden bg-black text-white">
-    <div class="flex items-center justify-between p-4">
-      <a href="/" class="text-3xl font-bold tracking-tighter">N:.M</a>
+    <div class="flex items-center justify-between p-6">
+      <a href="/" class="text-4xl font-black tracking-tighter">N:.M</a>
       <button id="close-menu-button">
-        <CloseIcon class="h-8 w-8" />
+        <CloseIcon class="h-10 w-10" />
       </button>
     </div>
-    <nav class="flex flex-col items-start space-y-6 p-4 text-2xl">
-      <a href="/editions">Magazine</a>
-      <a href="/nomad-events">Events</a>
-      <a target="_blank" href="https://pitch.com/v/media-kit-ngm-issue-3-jzm47w/d51b3011-5765-4553-81e8-67b598a755f8">Advertise</a>
-      <a href="/#Involved">For partners</a>
-      <a href="/blog">Blog</a>
-      <a href="/newsletter">Newsletter</a>
-      <a href="/add-testimonials">Submit Review</a>
+    <nav class="flex flex-col items-start space-y-8 p-6 text-3xl font-bold">
+      <a href="/editions" class="hover:text-yellow-400 transition-colors">Magazine</a>
+      <a href="/nomad-events" class="hover:text-yellow-400 transition-colors">Events</a>
+      <a target="_blank" href="https://pitch.com/v/media-kit-ngm-issue-3-jzm47w/d51b3011-5765-4553-81e8-67b598a755f8" class="hover:text-yellow-400 transition-colors">Advertise</a>
+      <a href="/#Involved" class="hover:text-yellow-400 transition-colors">For partners</a>
+      <a href="/blog" class="hover:text-yellow-400 transition-colors">Blog</a>
+      <a href="/newsletter" class="hover:text-yellow-400 transition-colors">Newsletter</a>
+      <a href="/add-testimonials" class="hover:text-yellow-400 transition-colors">Submit Review</a>
     </nav>
-    <div class="absolute right-4 bottom-4 left-4 space-y-4">
-      <a target="_blank" href="https://pitch.com/v/nomad-gossip-magazine-media-kit-2024-kcpz6g" class="block w-full rounded-lg border border-white py-3 text-center">
+    <div class="absolute right-6 bottom-6 left-6 space-y-4">
+      <a target="_blank" href="https://pitch.com/v/nomad-gossip-magazine-media-kit-2024-kcpz6g" class="block w-full rounded-lg border-2 border-white py-4 text-center font-bold hover:bg-white hover:text-black transition-colors">
         Advertise with us
       </a>
-      <a href="/products/issue-002" class="block w-full rounded-lg bg-yellow-400 py-3 text-center font-semibold text-black">Order Now</a>
+      <a href="/products/issue-002" class="block w-full rounded-lg bg-yellow-400 py-4 text-center font-black text-black hover:bg-yellow-500 transition-colors shadow-lg">Order Now</a>
     </div>
   </div>
 </header>

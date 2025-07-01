@@ -17,51 +17,51 @@ const socialLinks = [
 <div class="relative">
   <img src="/images/paper-cut.webp" alt="" class="w-full" loading="lazy" />
 </div>
-<footer class="bg-gray-50 px-4 py-8 font-sans">
+<footer class="bg-white border-t-2 border-gray-900 px-4 py-12 font-sans shadow-lg">
   <div class="mx-auto hidden max-w-7xl md:block">
-    <div class="mb-8 flex items-center justify-between">
-      <img decoding="async" loading="lazy" src="/logo.svg" alt="n::.m" class="h-4" />
-      <div class="flex gap-2">
+    <div class="mb-12 flex items-center justify-between">
+      <img decoding="async" loading="lazy" src="/logo.svg" alt="n::.m" class="h-6" />
+      <div class="flex gap-3">
         {
           socialLinks.map((link) => (
-            <a href={link.href} set:html={link.icon} aria-label={link.name} class="bg-gray-100 px-1 py-1.5 text-black transition-colors duration-200 hover:bg-gray-200" />
+            <a href={link.href} set:html={link.icon} aria-label={link.name} class="bg-gray-900 text-white px-3 py-3 rounded-lg transition-colors duration-200 hover:bg-yellow-500 hover:text-black shadow-md" />
           ))
         }
       </div>
     </div>
     <div class="flex items-center justify-between">
-      <div class="flex items-center gap-4 text-gray-600">
-        <span>© 2025 MediaPath OÜ</span>
-        <a href="/privacy-policy" class="text-gray-600 hover:underline">Privacy Policy</a>
-        <a href="/terms-and-conditions" class="text-gray-600 hover:underline">Terms&Conditions</a>
-        <a href="/blog" class="text-gray-600 hover:underline">Blog</a>
+      <div class="flex items-center gap-6 text-gray-900">
+        <span class="font-bold text-lg">© 2025 MediaPath OÜ</span>
+        <a href="/privacy-policy" class="text-gray-900 font-semibold hover:text-yellow-600 hover:underline transition-colors">Privacy Policy</a>
+        <a href="/terms-and-conditions" class="text-gray-900 font-semibold hover:text-yellow-600 hover:underline transition-colors">Terms&Conditions</a>
+        <a href="/blog" class="text-gray-900 font-semibold hover:text-yellow-600 hover:underline transition-colors">Blog</a>
       </div>
-      <div>
-        <a target="_blank" href="https://curves.digital" class="text-gray-600 hover:underline"> design by CURVES (~.~) </a>, <a
+      <div class="text-gray-900 font-semibold">
+        <a target="_blank" href="https://curves.digital" class="text-gray-900 hover:text-yellow-600 hover:underline transition-colors"> design by CURVES (~.~) </a>, <a
           target="_blank"
           href="https://rishi.app"
-          class="text-gray-600 hover:underline"
+          class="text-gray-900 hover:text-yellow-600 hover:underline transition-colors"
         >
           dev by Rishi
         </a>
       </div>
     </div>
   </div>
-  <div class="mx-auto flex max-w-6xl flex-col items-start gap-6 text-left md:hidden">
-    <span class="text-2xl font-bold tracking-wider">n::.m</span>
-    <div class="flex gap-3">
+  <div class="mx-auto flex max-w-6xl flex-col items-start gap-8 text-left md:hidden">
+    <span class="text-4xl font-black tracking-wider">n::.m</span>
+    <div class="flex gap-4">
       {
         socialLinks.map((link) => (
-          <a href={link.href} set:html={link.icon} aria-label={link.name} class="bg-gray-300 text-gray-700 transition-colors duration-200 hover:bg-gray-400" />
+          <a href={link.href} set:html={link.icon} aria-label={link.name} class="bg-gray-900 text-white px-4 py-4 rounded-lg transition-colors duration-200 hover:bg-yellow-500 hover:text-black shadow-md" />
         ))
       }
     </div>
-    <span class="text-gray-600">design & dev by CURVES (~.~)</span>
-    <div class="flex flex-col items-start gap-3">
-      <a href="#" class="text-gray-600 hover:underline">Privacy Policy</a>
-      <a href="#" class="text-gray-600 hover:underline">Terms&Conditions</a>
-      <a href="#" class="text-gray-600 hover:underline">Blog</a>
+    <span class="text-gray-900 font-bold text-lg">design & dev by CURVES (~.~)</span>
+    <div class="flex flex-col items-start gap-4">
+      <a href="/privacy-policy" class="text-gray-900 font-semibold text-lg hover:text-yellow-600 hover:underline transition-colors">Privacy Policy</a>
+      <a href="/terms-and-conditions" class="text-gray-900 font-semibold text-lg hover:text-yellow-600 hover:underline transition-colors">Terms&Conditions</a>
+      <a href="/blog" class="text-gray-900 font-semibold text-lg hover:text-yellow-600 hover:underline transition-colors">Blog</a>
     </div>
-    <span>© 2025 MediaPath OÜ</span>
+    <span class="font-bold text-lg">© 2025 MediaPath OÜ</span>
   </div>
 </footer>
