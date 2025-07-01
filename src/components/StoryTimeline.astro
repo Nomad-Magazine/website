@@ -172,12 +172,12 @@ const timelineEvents = [
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const timelineProgress = document.getElementById('timeline-progress')
     const timelineDot = document.getElementById('timeline-dot')
-    const timelineContainer = document.querySelector('.story-timeline-section')
     const stickyDateEl = document.getElementById('sticky-date')
-    const contentItems = document.querySelectorAll('.timeline-item-content')
     const staticDots = document.querySelectorAll('.timeline-static-dot')
+    const timelineProgress = document.getElementById('timeline-progress')
+    const contentItems = document.querySelectorAll('.timeline-item-content')
+    const timelineContainer = document.querySelector('.story-timeline-section')
     if (!timelineProgress || !timelineContainer || !stickyDateEl || !timelineDot) return
     const onScroll = () => {
       const { top, height } = timelineContainer.getBoundingClientRect()
