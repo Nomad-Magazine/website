@@ -79,26 +79,34 @@ const timelineEvents = [
 
 <section class="story-timeline-section bg-hoverw px-4 py-20 text-white md:px-8">
   <div class="relative mx-auto flex" style="max-width: 900px">
-    <!-- Left Column for Sticky Date (Desktop) -->
-    <div class="hidden w-1/2 pr-16 text-right md:block">
-      <div class="sticky top-[25%]">
-        <p id="sticky-date" class="text-4xl font-bold text-white"></p>
-      </div>
-    </div>
-    <!-- Center Timeline Bar -->
+    <!-- Center Timeline Bar with Dots and Progress -->
     <div class="absolute h-full w-0.5" style="left: 50%; transform: translateX(-50%)">
       <div class="h-full w-full bg-gray-700"></div>
       <div id="timeline-progress" class="absolute top-0 w-full" style="height: 0; background: linear-gradient(#ff7448, #ff4848 51%, #6248ff)"></div>
-      <!-- Dynamic Dot -->
-      <div id="timeline-dot" class="absolute top-0 z-10 w-full" style="transform: translateY(-50%)">
+      <!-- Dots for each timeline item -->
+      {
+        timelineEvents.map((event, idx) => (
+          <div
+            class="timeline-static-dot absolute left-1/2 z-10 flex size-4 items-center justify-center rounded-full border-2 border-gray-500 bg-gray-800 transition-colors duration-300"
+            style={{
+              top: `calc(${idx} * (100% / (${timelineEvents.length - 1})))`,
+              transform: 'translate(-50%, -50%)',
+            }}
+            data-dot-idx={idx}
+          />
+        ))
+      }
+      <!-- Dynamic Main Dot and Date -->
+      <div id="timeline-dot" class="absolute top-0 z-20 flex w-full items-center" style="transform: translateY(-50%)">
         <div class="flex size-4 items-center justify-center rounded-full border-2 bg-white shadow-xl" style="transform: translateX(-50%)"></div>
+        <p id="sticky-date" class="bg-opacity-80 ml-4 rounded-lg bg-black px-3 py-1 text-2xl font-bold text-white shadow-lg"></p>
       </div>
     </div>
     <!-- Right Column for Content -->
-    <div class="w-full md:w-1/2 md:pl-16">
+    <div class="ml-auto w-full md:w-1/2 md:pl-16">
       {
-        timelineEvents.map((event) => (
-          <div class="timeline-item-content min-h-[60vh] py-16" data-date={event.date}>
+        timelineEvents.map((event, idx) => (
+          <div class="timeline-item-content min-h-[60vh] py-16" data-date={event.date} data-idx={idx}>
             <p class="mb-4 text-4xl font-bold text-white md:hidden">{event.date}</p>
             {event.title && <h3 class="mb-4 text-xl font-bold text-white">{event.title}</h3>}
             {event.content && <p class="text-md mb-4 font-semibold text-gray-400" set:html={event.content} />}
@@ -136,6 +144,19 @@ const timelineEvents = [
   .timeline-item-content.is-active {
     opacity: 1;
   }
+  .timeline-static-dot {
+    background: gray;
+    transition:
+      background 0.3s,
+      border-color 0.3s;
+  }
+  .timeline-static-dot.active {
+    background: #fff;
+  }
+  .timeline-static-dot.current {
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(255, 116, 72, 0.2);
+  }
   @media (max-width: 768px) {
     .timeline-item-content {
       opacity: 1;
@@ -151,11 +172,12 @@ const timelineEvents = [
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const timelineProgress = document.getElementById('timeline-progress') as HTMLElement
-    const timelineDot = document.getElementById('timeline-dot') as HTMLElement
-    const timelineContainer = document.querySelector('.story-timeline-section') as HTMLElement
-    const stickyDateEl = document.getElementById('sticky-date') as HTMLElement
+    const timelineProgress = document.getElementById('timeline-progress')
+    const timelineDot = document.getElementById('timeline-dot')
+    const timelineContainer = document.querySelector('.story-timeline-section')
+    const stickyDateEl = document.getElementById('sticky-date')
     const contentItems = document.querySelectorAll('.timeline-item-content')
+    const staticDots = document.querySelectorAll('.timeline-static-dot')
     if (!timelineProgress || !timelineContainer || !stickyDateEl || !timelineDot) return
     const onScroll = () => {
       const { top, height } = timelineContainer.getBoundingClientRect()
@@ -165,6 +187,16 @@ const timelineEvents = [
       const progressPercent = progress * 100
       timelineProgress.style.height = `${progressPercent}%`
       timelineDot.style.top = `${progressPercent}%`
+      // Activate dots
+      staticDots.forEach((dot, idx) => {
+        const dotPercent = idx / (staticDots.length - 1)
+        if (progress >= dotPercent) {
+          dot.classList.add('active')
+        } else {
+          dot.classList.remove('active')
+        }
+        dot.classList.remove('current')
+      })
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     onScroll()
@@ -174,10 +206,20 @@ const timelineEvents = [
           const el = entry.target as HTMLElement
           if (entry.isIntersecting) {
             const date = el.dataset.date
+            const idx = el.dataset.idx
             if (date) {
               stickyDateEl.textContent = date
             }
             el.classList.add('is-active')
+            // Highlight current dot
+            staticDots.forEach((dot, i) => {
+              const dotEl = dot as HTMLElement
+              if (i == Number(idx)) {
+                dotEl.classList.add('current')
+              } else {
+                dotEl.classList.remove('current')
+              }
+            })
           } else {
             el.classList.remove('is-active')
           }
