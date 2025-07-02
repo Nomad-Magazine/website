@@ -46,6 +46,7 @@ const seoProps = {
 <html lang="en">
   <head>
     <SEO {...seoProps} />
+    {Astro.url.pathname.includes('our-story') && <link href="/css/timeline-54936b.webflow.css" rel="stylesheet" type="text/css" />}
     <style>
       .subscription-popup {
         position: fixed;

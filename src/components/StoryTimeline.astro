@@ -10,7 +10,6 @@ const timelineEvents = [
     title: 'Chiang Mai, Thailand. We filmed an episode about why this city keeps ranking as a top destination while attending Nomad Summit.',
     content: 'Interviewed by: Lazar Dimitrijevicc<br>Filmed by: Telard Aaby<br>Location: Punspace, Chiang Mai.<br>Сreative support: Anna Egorova, Curves.Digital',
     image: '/images/a693e4e1-aa5d-4493-9d87-95358afa475e.webp',
-    youtubeLink: '#',
   },
   {
     date: 'December 2024',
@@ -18,7 +17,6 @@ const timelineEvents = [
     content:
       "Interviewed by: Lera Pitiakova (Founder)<br>Filmed by: Ilya Madeira<br><br>It's our second time at Nomad Island Fest, organized by Michelle Maree of The Nomad Escape.",
     image: '/images/6e4f04ea-3709-4f9e-b627-a513abfd224f.webp',
-    youtubeLink: '#',
   },
   {
     date: 'November 2024',
@@ -33,7 +31,6 @@ const timelineEvents = [
     date: 'October 2024',
     title: 'While in Japan, we attended Colive Fukuoka in Fukuoka City and left with a few recorded interviews. Our favorite? The Japanese nomad family👇 .',
     image: '/images/9aec131a-eeba-40d5-8934-f892cd8684c9.webp',
-    youtubeLink: 'https://www.youtube.com/watch?v=VIDEO_ID',
   },
   {
     date: 'September 2024',
@@ -41,7 +38,6 @@ const timelineEvents = [
     content:
       'Buenos Aires. We came back with a recorded YouTube episode that made us realize we should take YouTube more seriously. The video got 8K views while our account was still very young. Thanks to the help of Visit BUE, we invited expats and nomads to discover what makes Buenos Aires, Argentina, so special.',
     image: '/images/6ed37473-ceca-48ca-b09e-2b2572c71389.webp',
-    youtubeLink: 'https://www.youtube.com/watch?v=VIDEO_ID',
   },
   {
     date: 'September 2024',
@@ -73,193 +69,45 @@ const timelineEvents = [
     title: '🚀 launch',
     content: 'On February 11 we released the very first edition of Nomad Gossip Magazine.',
     image: '/images/817068dc-9f11-4cac-83dd-c50e0bea35d2.webp',
+    youtubeLink: 'https://youtu.be/hlHmt82twUU',
   },
 ]
 ---
 
-<section class="story-timeline-section bg-hoverw px-4 py-20 text-white md:px-8">
-  <div class="relative mx-auto flex" style="max-width: 900px">
-    <!-- Center Timeline Bar with Segmented Progress, Dots, and Main Dot -->
-    <div class="absolute h-full w-0.5" style="left: 50%; transform: translateX(-50%)">
-      <div class="h-full w-full bg-gray-700"></div>
-      {
-        timelineEvents.slice(1).map((_, idx) => (
-          <div
-            class="timeline-gradient-segment pointer-events-none absolute z-[5] w-full overflow-hidden"
-            style={{
-              top: `calc(${idx} * (100% / (${timelineEvents.length - 1})))`,
-              height: `calc(100% / (${timelineEvents.length - 1}))`,
-            }}
-            data-segment-idx={idx}
-          >
-            <div
-              class="timeline-gradient-fill h-full w-full"
-              style={{ background: 'linear-gradient(#ff7448, #ff4848 51%, #6248ff)', transform: 'scaleY(0)', transformOrigin: 'top' }}
-            />
-          </div>
-        ))
-      }
-      <!-- Dynamic Main Dot and Date -->
-      <div id="timeline-dot" class="absolute top-0 z-20 flex size-4 items-center" style="transform: translateY(-50%)">
-        <div class="flex size-4 items-center justify-center rounded-full bg-white shadow-xl" style="transform: translateX(-50%)"></div>
-        <p id="sticky-date" class="ml-[-320px] hidden min-w-max text-4xl font-bold text-white md:block"></p>
+<div class="section-timeline">
+  <div class="container">
+    <div class="timeline_component">
+      <div class="timeline_progress">
+        <div data-w-id="d5abcf1f-3370-3eea-ccfd-66f076babfdd" class="timeline_progress-bar"></div>
       </div>
-    </div>
-    <!-- Right Column for Content -->
-    <div class="ml-auto w-full md:w-1/2 md:pl-16">
+
       {
-        timelineEvents.map((event, idx) => (
-          <div class="timeline-item-content min-h-[60vh] py-16" data-date={event.date} data-idx={idx}>
-            <p class="mb-4 text-4xl font-bold text-white md:hidden">{event.date}</p>
-            {event.title && <h3 class="mb-4 text-xl font-bold text-white">{event.title}</h3>}
-            {event.content && <p class="text-md mb-4 font-semibold text-gray-400" set:html={event.content} />}
-            {event.image && <img src={event.image} alt={event.date} class="mt-8 mb-4 w-full rounded-lg" />}
-            {event.youtubeLink && (
-              <a href={event.youtubeLink} class="mt-2 inline-block text-yellow-400 underline">
-                COMING SOON On YOUTUBE
-              </a>
-            )}
-            {event.link && (
-              <a href={event.link} class="mt-2 inline-block text-yellow-400 underline">
-                {event.linkText}
-              </a>
-            )}
-            <p id="timeline-date" class="absolute -mt-[50px] ml-[-370px] hidden min-w-max text-4xl font-bold text-white opacity-0 md:block">
-              {event.date}
-            </p>
-            <div
-              class="timeline-static-dot absolute left-1/2 z-10 -mt-[30px] flex size-4 items-center justify-center rounded-full border-2 border-gray-500 bg-gray-800 transition-colors duration-300"
-              style={{
-                transform: 'translate(-50%, -50%)',
-              }}
-              data-dot-idx={idx}
-            />
+        timelineEvents.map((event) => (
+          <div data-w-id="d5abcf1f-3370-3eea-ccfd-66f076babfe0" class="timeline_item">
+            <div id="w-node-d5abcf1f-3370-3eea-ccfd-66f076babfe1-23ed97d3" class="timeline_left">
+              <div class="timeline_date-text">{event.date}</div>
+            </div>
+            <div id="w-node-d5abcf1f-3370-3eea-ccfd-66f076babfe4-23ed97d3" class="timeline_centre">
+              <div class="timeline_circle" />
+            </div>
+            <div id="w-node-d5abcf1f-3370-3eea-ccfd-66f076babfe6-23ed97d3" class="timeline_right">
+              <div class="margin-bottom-xlarge">
+                <div class="timeline_text">{event.title}</div>
+                <div class="timeline_sub_text mt-4 text-gray-400" set:html={event.content} />
+              </div>
+              <div class="timeline_image-wrapper">
+                <img src={event.image} loading="lazy" width="480" />
+              </div>
+              {event.youtubeLink && (
+                <iframe width="100" height="100" class="mt-8 min-h-[300px] min-w-full" src={event.youtubeLink} title="First Edition of the Nomad Gossip Magazine" />
+              )}
+            </div>
           </div>
         ))
       }
+
+      <div class="overlay-fade-bottom"></div>
+      <div class="overlay-fade-top"></div>
     </div>
   </div>
-  <div class="px-4 pt-20 text-center md:px-8">
-    <h2 class="mb-8 text-4xl font-bold md:text-5xl">Today</h2>
-    <p class="mx-auto mb-8 max-w-3xl text-xl leading-relaxed text-white md:text-2xl">
-      NGM is driven by its founder, investor, and a powerhouse team that shares the same passion, work ethic, and love for the project, its supporters, and partners. This wouldn't
-      exist without them. We do what we love—telling stories, sparking conversations, and building meaningful relationships with the industry's game-changers.
-    </p>
-    <p class="mx-auto max-w-3xl text-lg text-gray-300 md:text-xl">You've heard our story, it's now time for the world to hear yours.</p>
-  </div>
-</section>
-
-<style is:global>
-  .timeline-item-content {
-    opacity: 0.3;
-    transition: opacity 0.4s ease-in-out;
-  }
-  .timeline-item-content.is-active {
-    opacity: 1;
-  }
-  .timeline-static-dot {
-    background: gray;
-    transition:
-      background 0.3s,
-      border-color 0.3s;
-  }
-  .timeline-static-dot.active {
-    background: #fff;
-  }
-  .timeline-static-dot.current {
-    background: #fff;
-    box-shadow: 0 0 0 4px rgba(255, 116, 72, 0.2);
-  }
-  .timeline-gradient-segment {
-    left: 0;
-    right: 0;
-    width: 100%;
-    pointer-events: none;
-  }
-  .timeline-gradient-fill {
-    transition: transform 0s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform;
-  }
-  @media (max-width: 768px) {
-    .timeline-item-content {
-      opacity: 1;
-    }
-    .story-timeline-section .md\:pl-16 {
-      padding-left: 4rem;
-    }
-    .story-timeline-section .absolute.h-full {
-      left: 2rem !important;
-    }
-  }
-</style>
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const timelineDot = document.getElementById('timeline-dot')
-    const stickyDateEl = document.getElementById('sticky-date')
-    const staticDots = document.querySelectorAll('.timeline-static-dot')
-    const contentItems = document.querySelectorAll('.timeline-item-content')
-    const timelineContainer = document.querySelector('.story-timeline-section')
-    const gradientSegments = document.querySelectorAll('.timeline-gradient-segment')
-    if (!timelineContainer || !stickyDateEl || !timelineDot) return
-    const onScroll = () => {
-      const { top, height } = timelineContainer.getBoundingClientRect()
-      const screenHeight = window.innerHeight
-      const scrollProgress = -top / (height - screenHeight)
-      const progress = Math.max(0, Math.min(1, scrollProgress))
-      const progressPercent = progress * 100
-      timelineDot.style.top = `${progressPercent}%`
-      // Activate dots
-      staticDots.forEach((dot, idx) => {
-        const dotPercent = idx / (staticDots.length - 1)
-        if (progress >= dotPercent) dot.classList.add('active')
-        else dot.classList.remove('active')
-        dot.classList.remove('current')
-      })
-      // Fill gradient segments
-      gradientSegments.forEach((segment, idx) => {
-        const fill = segment.querySelector('.timeline-gradient-fill') as HTMLElement | null
-        if (!fill) return
-        const start = idx / gradientSegments.length
-        const end = (idx + 1) / gradientSegments.length
-        if (progress >= end) {
-          fill.style.transform = 'scaleY(1)'
-        } else if (progress > start && progress < end) {
-          const segProgress = (progress - start) / (end - start)
-          fill.style.transform = `scaleY(${segProgress})`
-        } else {
-          fill.style.transform = 'scaleY(0)'
-        }
-      })
-    }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll()
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry, idx2) => {
-          const el = entry.target as HTMLElement
-          if (entry.isIntersecting) {
-            const date = el.dataset.date
-            const idx = el.dataset.idx
-            if (date) stickyDateEl.textContent = date
-            el.classList.add('is-active')
-            if (idx2 > 0) {
-              entries[idx2 - 1].target.querySelector('[id="timeline-date"]')?.classList.remove('opacity-0')
-            }
-            // Highlight current dot
-            staticDots.forEach((dot, i) => {
-              const dotEl = dot as HTMLElement
-              if (i == Number(idx)) dotEl.classList.add('current')
-              else dotEl.classList.remove('current')
-            })
-          } else el.classList.remove('is-active')
-        })
-      },
-      {
-        rootMargin: '-10% 0px -90% 0px',
-        threshold: 0,
-      },
-    )
-    contentItems.forEach((item) => observer.observe(item))
-  })
-</script>
+</div>
