@@ -1,4 +1,6 @@
 ---
+import MdiExternalLink from '~icons/mdi/external-link'
+
 const timelineEvents = [
   {
     date: 'February 2025',
@@ -24,8 +26,8 @@ const timelineEvents = [
     content:
       'Design by Dominik Fodora<br>Art-Direction by Bára Tabačková and Tatiana Illarionova<br>Illustrators by Helga Pavelková, Barbora Dzadík Kmecová, Nataly Sheveleva<br>Comics by Giang Gao<br>Marketing by Feride Mustafaieva<br><br>Authors: Kristina Mänd-Lakhiani, Jessica Holmes, Lulu Lundt, Akina Shu, CarouLLou and Michel, Derek Smith, Sergio Sala, Tomas Mrva, Francesco Silicani, Flor Dosreis, Johannes Voelkner, Guilia & Andreas, Emmelie Steentjes, Marelin Goncalves and Luis Calado, Manon Jongejan and Robin Steyverd.<br><br>Sponsored by Nomads.Insure, Tulsa Remote, Inventum International (online school), Global Nomad Pass, Safety Wing.',
     image: '/images/ed30277f-bb9f-41da-bb6c-13bb6c290ae8.webp',
-    link: '#',
-    linkText: 'HEre',
+    link: 'https://www.youtube.com/@NomadGossipMagazine',
+    linkText: 'HERE',
   },
   {
     date: 'October 2024',
@@ -49,7 +51,7 @@ const timelineEvents = [
     date: 'August 2024',
     title: 'Jessica Holmes joined our team as writer and editor. Later in December she took over all communication with writers and planning the third edition. 🎉',
     image: '/images/dddf5e17-3942-4e94-8004-ea048b174aea.webp',
-    link: '#',
+    link: 'https://www.hitchedandhiking.com/',
     linkText: 'Check out her blog',
   },
   {
@@ -61,7 +63,7 @@ const timelineEvents = [
     date: 'April 2024',
     title: 'We presented the magazine at Running Remote in Lisbon, Portugal. Yep, we had our own stand!',
     image: '/images/56b07cd0-47fe-4189-95da-e56256232d1b.webp',
-    link: '#',
+    link: 'https://www.instagram.com/share/_e52fZ6vV',
     linkText: 'Watch series of short interviews on IG',
   },
   {
@@ -90,10 +92,16 @@ const timelineEvents = [
             <div id="w-node-d5abcf1f-3370-3eea-ccfd-66f076babfe4-23ed97d3" class="timeline_centre">
               <div class="timeline_circle" />
             </div>
-            <div id="w-node-d5abcf1f-3370-3eea-ccfd-66f076babfe6-23ed97d3" class="timeline_right">
+            <div id="w-node-d5abcf1f-3370-3eea-ccfd-66f076babfe6-23ed97d3" class="timeline_right z-[40]">
               <div class="margin-bottom-xlarge">
                 <div class="timeline_text">{event.title}</div>
-                <div class="timeline_sub_text mt-4 text-gray-400" set:html={event.content} />
+                {event.linkText && (
+                  <a href={event.link} target="_blank" class="mt-4 flex cursor-pointer flex-row flex-wrap items-center gap-x-2 text-gray-400">
+                    <span class="underline">{event.linkText}</span>
+                    <MdiExternalLink class="size-4" />
+                  </a>
+                )}
+                <div class="timeline_sub_text mt-4 text-sm text-gray-400" set:html={event.content} />
               </div>
               <div class="timeline_image-wrapper">
                 <img src={event.image} loading="lazy" width="480" />
