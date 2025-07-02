@@ -69,7 +69,7 @@ const timelineEvents = [
     title: '🚀 launch',
     content: 'On February 11 we released the very first edition of Nomad Gossip Magazine.',
     image: '/images/817068dc-9f11-4cac-83dd-c50e0bea35d2.webp',
-    youtubeLink: 'https://youtu.be/hlHmt82twUU',
+    youtubeLink: 'https://www.youtube.com/embed/hlHmt82twUU',
   },
 ]
 ---
@@ -99,7 +99,14 @@ const timelineEvents = [
                 <img src={event.image} loading="lazy" width="480" />
               </div>
               {event.youtubeLink && (
-                <iframe width="100" height="100" class="mt-8 min-h-[300px] min-w-full" src={event.youtubeLink} title="First Edition of the Nomad Gossip Magazine" />
+                <iframe
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  width="100"
+                  height="100"
+                  class="mt-8 min-h-[300px] min-w-full"
+                  src={event.youtubeLink}
+                  title="First Edition of the Nomad Gossip Magazine"
+                />
               )}
             </div>
           </div>
