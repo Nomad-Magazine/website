@@ -39,7 +39,7 @@ jobs:
       - name: Deploy to Cloudflare Workers
         id: deploy
         run: |
-          output=$(bunx wrangler@latest deploy --env ${{ steps.vars.outputs.branch }})
+          output=$(bunx wrangler@latest deploy)
           echo "$output"
           url=$(echo "$output" | grep -o 'https://[^[:space:]]*\.workers\.dev' | head -1)
           echo "deployment_url=$url" >> $GITHUB_OUTPUT
