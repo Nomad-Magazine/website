@@ -1,0 +1,33 @@
+---
+import Layout from '~/layouts/Layout.astro'
+---
+
+<style>
+  .embed-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    z-index: 9999999;
+  }
+  .embed-container iframe,
+  .embed-container object,
+  .embed-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+<Layout title="Nomad Magazine Edition 3">
+  <div class="flex w-full flex-col items-center justify-center py-8 text-2xl font-bold">Loading the edition...</div>
+  <div class="embed-container"><iframe src="https://flipbooklets.com/pdfflipbooklets/nomad-magazine-mind-body-tech-for-nomad-life" style="border:0" allowfullscreen></iframe></div>
+</Layout>
