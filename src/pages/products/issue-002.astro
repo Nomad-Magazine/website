@@ -66,6 +66,11 @@ const seo: SEOProps = {
         priceCurrency: 'EUR',
         availability: 'https://schema.org/InStock',
         url: 'https://buy.stripe.com/aEUbLOcE4d4ZcqQ146',
+        hasMerchantReturnPolicy: {
+          '@type': 'MerchantReturnPolicy',
+          applicableCountry: 'Worldwide',
+          returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
+        },
       },
       {
         '@type': 'Offer',
@@ -74,6 +79,22 @@ const seo: SEOProps = {
         priceCurrency: 'EUR',
         availability: 'https://schema.org/InStock',
         url: 'https://buy.stripe.com/fZe7vygUk3upfD2bIL',
+        shippingDetails: {
+          '@type': 'OfferShippingDetails',
+          shippingRate: {
+            '@type': 'MonetaryAmount',
+            value: '0.00',
+            currency: 'EUR',
+          },
+          shippingDestination: {
+            '@type': 'DefinedRegion',
+            name: 'Worldwide',
+          },
+        },
+        hasMerchantReturnPolicy: {
+          '@type': 'MerchantReturnPolicy',
+          returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
+        },
       },
     ],
     publisher: {

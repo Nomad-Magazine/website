@@ -46,6 +46,10 @@ const seo: SEOProps = {
         priceCurrency: 'EUR',
         availability: 'https://schema.org/InStock',
         url: 'https://myaccount.nomadgossip.com/registration-issue',
+        hasMerchantReturnPolicy: {
+          '@type': 'MerchantReturnPolicy',
+          returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
+        },
       },
       {
         '@type': 'Offer',
@@ -54,6 +58,22 @@ const seo: SEOProps = {
         priceCurrency: 'EUR',
         availability: 'https://schema.org/InStock',
         url: 'https://buy.stripe.com/5kA3fA9vH3yd1Ko6ou',
+        shippingDetails: {
+          '@type': 'OfferShippingDetails',
+          shippingRate: {
+            '@type': 'MonetaryAmount',
+            value: '0.00',
+            currency: 'EUR',
+          },
+          shippingDestination: {
+            '@type': 'DefinedRegion',
+            name: 'Worldwide',
+          },
+        },
+        hasMerchantReturnPolicy: {
+          '@type': 'MerchantReturnPolicy',
+          returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
+        },
       },
     ],
     publisher: {
