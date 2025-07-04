@@ -159,28 +159,32 @@ const seo: SEOProps = {
         url: `${Astro.site}logo.svg`,
       },
     },
-    offers: {
-      '@type': 'Offer',
-      price: '22',
-      priceCurrency: 'EUR',
-      availability: 'https://schema.org/InStock',
-      shippingDetails: {
-        '@type': 'OfferShippingDetails',
-        shippingRate: {
-          '@type': 'MonetaryAmount',
-          value: '0.00',
-          currency: 'EUR',
-        },
-        shippingDestination: {
-          '@type': 'DefinedRegion',
-          name: 'Worldwide',
+    offers: [
+      {
+        '@type': 'Offer',
+        name: 'Issue 003 (Digital Version, Single Purchase)',
+        price: '9.00',
+        priceCurrency: 'EUR',
+        availability: 'https://schema.org/InStock',
+        url: 'https://buy.stripe.com/8x27sL4A51bdewS6tP8bS0b',
+        hasMerchantReturnPolicy: {
+          '@type': 'MerchantReturnPolicy',
+          returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
         },
       },
-      hasMerchantReturnPolicy: {
-        '@type': 'MerchantReturnPolicy',
-        returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
+      {
+        '@type': 'Offer',
+        name: 'Issue 003 (Print Version, Single Purchase)',
+        price: '30.00',
+        priceCurrency: 'EUR',
+        availability: 'https://schema.org/InStock',
+        url: 'https://buy.stripe.com/28EdR9c2x4npdsO6tP8bS08',
+        hasMerchantReturnPolicy: {
+          '@type': 'MerchantReturnPolicy',
+          returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
+        },
       },
-    },
+    ],
   },
 }
 ---
