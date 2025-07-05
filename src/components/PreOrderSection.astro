@@ -1,20 +1,49 @@
 ---
 interface Props {
-  name?: string
-  preOrderUrl: string
+  printUrl: string
+  digitalUrl: string
   waitlistUrl: string
 }
 
-const { name = 'PRE-ORDER SIGNED COPY', preOrderUrl, waitlistUrl }: Props = Astro.props
+const { printUrl, digitalUrl, waitlistUrl }: Props = Astro.props
 ---
 
 <div class="bg-gray-50 py-20">
   <div class="flex flex-col items-center justify-center">
-    <a href={preOrderUrl} target="_blank" class="mb-6 block rounded-2xl bg-black px-12 py-6 text-center text-lg font-semibold text-yellow-400 transition hover:bg-gray-900">
-      {name}
-    </a>
+    <div class="mb-2 flex flex-col gap-4 sm:flex-row items-end">
+      <a
+        href={printUrl}
+        target="_blank"
+        class="inline-block rounded bg-yellow-400 px-8 py-3 text-center text-lg font-extrabold text-black shadow-md transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300"
+        style="min-width: 200px;"
+      >
+        ORDER PRINT
+      </a>
+      <div class="flex flex-col items-center">
+        <span class="mb-1 inline-block rounded-full bg-yellow-400 px-3 py-1 text-xs font-bold text-black uppercase tracking-wide shadow">Recommended</span>
+        <a
+          href={digitalUrl}
+          target="_blank"
+          class="glow-animate inline-block rounded border-2 border-yellow-400 bg-black px-8 py-3 text-center text-lg font-extrabold text-yellow-400 transition-colors duration-200 hover:bg-yellow-400 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-300"
+          style="min-width: 200px;"
+        >
+          GET DIGITAL NOW
+        </a>
+      </div>
+    </div>
     <div class="text-center text-xl font-semibold text-gray-400">
-      *Or join <a href={waitlistUrl} target="_blank" class="text-blue-700 underline">waiting list</a>. It will be available in June-July 2025.
+      *Edition #3 launched July 2025 — now available.
     </div>
   </div>
 </div>
+
+<style>
+@keyframes glow {
+  0% { box-shadow: 0 0 0 0 #fde047; }
+  50% { box-shadow: 0 0 16px 4px #fde047; }
+  100% { box-shadow: 0 0 0 0 #fde047; }
+}
+.glow-animate {
+  animation: glow 1.5s infinite;
+}
+</style>
