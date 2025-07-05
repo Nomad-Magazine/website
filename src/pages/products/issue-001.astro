@@ -183,11 +183,11 @@ const seo: SEOProps = {
   <!-- Product Section -->
   <section class="my-12 flex flex-col items-center justify-center gap-8 lg:flex-row">
     <!-- Carousel/Slider -->
-    <div class="w-full flex-shrink-0 px-8 md:w-1/2 md:px-0">
+    <div class="w-full flex-shrink-0 px-4 sm:px-8 md:w-1/2 md:px-0">
       <ProductCarousel slides={slides} firstSlideMaxWidth={true} />
     </div>
     <!-- Product Info -->
-    <div class="w-full px-8 lg:w-1/2 lg:max-w-md lg:px-0">
+    <div class="w-full lg:w-1/2 lg:max-w-md">
       <PaymentPlan
         issueNumber="ISSUE 001"
         issueDescription="The first issue of Nomad Gossip Magazine. 100 pages of unique content, Yellow Pages, and more."
@@ -216,10 +216,6 @@ const seo: SEOProps = {
         }}
         orderButtonText="Read Now!"
       />
-      <div class="mt-2 text-xs text-gray-500">
-        While the digital version works on both mobile and desktop, we recommend the desktop for a more enjoyable reading experience.<br />
-        All payments will be securely processed through MediaPath OÜ, the business entity of Nomad Gossip Magazine.
-      </div>
     </div>
   </section>
 
