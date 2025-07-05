@@ -125,44 +125,42 @@ const seo: SEOProps = {
   <MagazineReadyBanner text="NEW MAGAZINE IS LIVE!" />
   
   <!-- Hero Section -->
-  <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
-      <div class="space-y-8">
-        <div class="space-y-6">
-          <div class="text-lg font-semibold text-gray-800">Nomad Magazine: Issue 002</div>
-          <h1 class="mb-4 text-4xl leading-tight font-bold md:text-6xl">Your guide into digital nomad communities in 110-page masterpiece.</h1>
-          <div class="text-lg font-semibold text-gray-700">Read by 1000+ nomads worldwide</div>
+  <div class="mx-auto max-w-7xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 items-center gap-8 sm:gap-16 lg:grid-cols-2">
+      <div class="space-y-6 sm:space-y-8">
+        <div class="space-y-4 sm:space-y-6">
+          <div class="text-base sm:text-lg font-semibold text-gray-800">Nomad Magazine: Issue 002</div>
+          <h1 class="mb-4 text-3xl sm:text-4xl leading-tight font-bold md:text-6xl">Your guide into digital nomad communities in 110-page masterpiece.</h1>
+          <div class="text-base sm:text-lg font-semibold text-gray-700">Read by 1000+ nomads worldwide</div>
         </div>
         <div class="space-y-4">
-          <div class="mb-2 flex flex-col gap-4 sm:flex-row items-end">
-            <a
-              href="https://buy.stripe.com/fZe7vygUk3upfD2bIL"
-              data-event="reserve magazine"
-              target="_blank"
-              class="inline-block rounded bg-yellow-400 px-8 py-3 text-center text-lg font-extrabold text-black shadow-md transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300"
-              style="min-width: 200px;"
-            >
-              ORDER PRINT
-            </a>
-            <div class="flex flex-col items-center">
+          <div class="mb-2 flex flex-col gap-4 sm:flex-row sm:items-end">
+            <div class="flex flex-col items-center order-first sm:order-last">
               <span class="mb-1 inline-block rounded-full bg-yellow-400 px-3 py-1 text-xs font-bold text-black uppercase tracking-wide shadow">Recommended</span>
               <a
                 href="https://buy.stripe.com/aEUbLOcE4d4ZcqQ146"
                 data-event="reserve magazine"
                 target="_blank"
-                class="glow-animate inline-block rounded border-2 border-yellow-400 bg-black px-8 py-3 text-center text-lg font-extrabold text-yellow-400 transition-colors duration-200 hover:bg-yellow-400 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-300"
-                style="min-width: 200px;"
+                class="glow-animate w-full sm:w-auto inline-block rounded border-2 border-yellow-400 bg-black px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-yellow-400 transition-colors duration-200 hover:bg-yellow-400 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-300"
               >
                 GET DIGITAL NOW
               </a>
             </div>
+            <a
+              href="https://buy.stripe.com/fZe7vygUk3upfD2bIL"
+              data-event="reserve magazine"
+              target="_blank"
+              class="w-full sm:w-auto inline-block rounded bg-yellow-400 px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-black shadow-md transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 order-last sm:order-first"
+            >
+              ORDER PRINT
+            </a>
           </div>
-          <div class="mt-2 text-sm text-gray-700">
+          <div class="mt-2 text-xs sm:text-sm text-gray-700">
             *Issue 002 launched — now available.
           </div>
         </div>
       </div>
-      <div class="flex justify-center lg:justify-end">
+      <div class="flex justify-center lg:justify-end order-first lg:order-last">
         <img
           src="/images/0f686bbe-be95-4550-bdd8-4cd0cb9c7fcf.webp"
           alt="Nomad Magazine Issue 002 cover"
