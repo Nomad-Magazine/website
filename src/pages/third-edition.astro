@@ -8,6 +8,35 @@ import MagazinePreview from '~/components/MagazinePreview.astro'
 import ThirdEditionHero from '~/components/ThirdEditionHero.astro'
 import ThirdEditionWelcome from '~/components/ThirdEditionWelcome.astro'
 import WhatsComingCarousel from '~/components/WhatsComingCarousel.astro'
+import PaymentPlan from '~/components/PaymentPlan.astro'
+import ProductCarousel from '~/components/ProductCarousel.astro'
+
+const slides = [
+  {
+    src: '/images/794fcea8-e90a-424c-a02b-50c4b69100f7.webp',
+  },
+  {
+    src: '/images/5a191684-9c02-4666-9da3-e32d9fa65cee.webp',
+  },
+  {
+    src: '/images/dd581da0-5372-452b-bd40-cb549bdc6ce9.webp',
+  },
+  {
+    src: '/images/cbbc9f20-b4e8-464d-a695-c8e264cea5c6.webp',
+  },
+  {
+    src: '/images/5e2a5732-26a4-459b-a22f-ac4ede61289e.webp',
+  },
+  {
+    src: '/images/29b96f1f-3a5b-4f36-966a-4f7e94f32562.webp',
+  },
+  {
+    src: '/images/3c8085b7-56a7-437d-acc0-02b76524c2d2.webp',
+  },
+  {
+    src: '/images/65b0df23-fbe3-407e-ad09-241b28dd70aa.webp',
+  },
+]
 
 const sponsors = [
   {
@@ -206,41 +235,52 @@ const seo: SEOProps = {
   <ThirdEditionWelcome
     heading="Welcome to our third edition, dear reader."
     bodyHtml={`<p>Three editions might not sound like much, but for our team—and for me especially as its founder—it's a huge milestone. And yet, here we are, delivering our third baby into the world—thanks to our friends, partners, and to you, our readers.</p><p>I often reflect on the value this magazine brings, especially in a world where you can ask ChatGPT almost anything. But AI will never replace personal experiences, values, or the topics we deeply care about. We curate stories you might never search for on Google, but hope that, while flipping through the pages, you'll find something that resonates, teaches, or even inspires you. We invite experts we trust—people who share from the heart. And then we carefully edit their words by hand, not with AI.</p><p>In this edition, we allowed ourselves to explore more around wellness, therapy, building relationships, and digital health products. But we also made sure to keep a balance—with articles on AI trends for online entrepreneurs, AI and Virtual Assistants, overtourism issues, supporting local economies, and new trending ways of solving affordable living housesitting. And of course, we want to inspire your travels with our experience in Buenos Aires, a photostory from Cape Town, and my personal favorite: a hidden gem in Guatemala. I'm not overselling—it really is still a hidden paradise, and we're in a hurry to tell you about it.</p><p>And the cherry on top? <br>An exclusive piece by Mindvalley author, course creator, and dear friend Jimmy Narraine. You might know Jimmy from Nomad Cruise, where he's become a regular speaker and a core part of the community. He's also known for his highly-rated courses on Mindvalley and Udemy, which have impacted over 300,000 students worldwide.</p><p>Jimmy is passionate about confidence, entrepreneurship, and mental health—often drawing from his own journey of overcoming self-doubt, imposter syndrome, and a non-linear path through life. Despite his packed schedule, he took the time to write a deeply personal piece for us, reflecting on the hard-earned lessons from years on the road as a digital nomad—and how those experiences shaped who he is today.</p><p>Finally, we've gone a bit more experimental with the design. This edition was shaped in collaboration with a new design studio based in Brazil—making our magazine even more global, as we continue to print in Prague and ship from Slovakia to more than 100 coworking spaces, communities, and major events in Europe but also in Latin America and in Asia.</p><p>It will land in <strong>Bansko</strong> first, and then it's off to the first people who <strong>pre-ordered</strong>, and to our<strong> </strong><a href="https://www.nomad-magazine.com/distribution-list" target="_blank"><strong>trusted partners</strong></a> in Lisbon, London, Berlin, Barcelona, Porto, Madeira, and Amsterdam. You'll be able to visit one of our partners in July (stay tuned for the exact date). Or, if you order a print copy, I will send you personally a signed copy straight from Bulgaria. Digital is great—but print is so much more special. </p><p><em>Lera P., the founder of Nomad-Magazine.com (renamed from Nomad Gossip Magazine)</em></p>`}
-    images={[
-      {
-        src: '/images/794fcea8-e90a-424c-a02b-50c4b69100f7.webp',
-        alt: '',
-      },
-      {
-        src: '/images/5a191684-9c02-4666-9da3-e32d9fa65cee.webp',
-        alt: '',
-      },
-      {
-        src: '/images/dd581da0-5372-452b-bd40-cb549bdc6ce9.webp',
-        alt: '',
-      },
-      {
-        src: '/images/cbbc9f20-b4e8-464d-a695-c8e264cea5c6.webp',
-        alt: '',
-      },
-      {
-        src: '/images/5e2a5732-26a4-459b-a22f-ac4ede61289e.webp',
-        alt: '',
-      },
-      {
-        src: '/images/29b96f1f-3a5b-4f36-966a-4f7e94f32562.webp',
-        alt: '',
-      },
-      {
-        src: '/images/3c8085b7-56a7-437d-acc0-02b76524c2d2.webp',
-        alt: '',
-      },
-      {
-        src: '/images/65b0df23-fbe3-407e-ad09-241b28dd70aa.webp',
-        alt: '',
-      },
-    ]}
   />
+  
+  <!-- Payment Options Section -->
+  <section class="my-12 flex flex-col items-start justify-center gap-8 md:flex-row">
+    <!-- Carousel/Slider -->
+    <div class="w-full flex-shrink-0 px-8 md:w-1/2 md:px-0">
+      <ProductCarousel slides={slides} firstSlideMaxWidth={false} />
+    </div>
+    <!-- Product Info -->
+    <div class="w-full max-w-md px-8 md:w-1/2 lg:px-0">
+      <PaymentPlan
+        issueNumber="ISSUE 003"
+        issueDescription="Wellness, Therapy & Digital Health - 112 pages of exclusive content."
+        digitalPlans={[
+          {
+            id: 'single-purchase',
+            title: 'Single Purchase',
+            subtitle: 'Pay for one issue',
+            features: [
+              { text: 'Exclusive NGM newsletters' },
+              { text: 'First to unlock the new NGM issue' },
+              { text: 'Lifetime access to digital magazine' },
+            ],
+            price: '€9',
+            url: 'https://buy.stripe.com/8x27sL4A51bdewS6tP8bS0b',
+            defaultChecked: false,
+          },
+        ]}
+        printPlan={{
+          id: 'print',
+          title: 'Single Purchase',
+          subtitle: 'Pay for one issue',
+          features: [{ text: 'Printed NGM issue' }, { text: 'Exclusive NGM newsletters' }],
+          price: '€30',
+          priceNote: "Limited edition - only 1000 copies available",
+          url: 'https://buy.stripe.com/28EdR9c2x4npdsO6tP8bS08',
+        }}
+        orderButtonText="Order Now"
+      />
+      <div class="mt-2 text-xs text-gray-500">
+        While the digital version works on both mobile and desktop, we recommend the desktop for a more enjoyable reading experience.<br />
+        All payments will be securely processed through MediaPath OÜ, the business entity of Nomad Gossip Magazine.
+      </div>
+    </div>
+  </section>
+
   <WhatsComingCarousel
     heading="What's Coming"
     subtitle="Our next articles will dive deep into the evolving world of remote lifestyles — uncovering emerging spaces, hidden stories, and new ways to move and grow across the globe."
