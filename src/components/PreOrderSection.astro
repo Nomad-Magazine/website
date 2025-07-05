@@ -1,18 +1,27 @@
 ---
 interface Props {
-  printUrl: string
-  digitalUrl: string
-  waitlistUrl: string
+  printUrl?: string
+  digitalUrl?: string
+  waitlistUrl?: string
+  preOrderUrl?: string
+  name?: string
 }
 
-const { printUrl, digitalUrl, waitlistUrl }: Props = Astro.props
+const { printUrl, digitalUrl, waitlistUrl, preOrderUrl, name }: Props = Astro.props
+
+// Use preOrderUrl as printUrl if printUrl is not provided
+const finalPrintUrl = printUrl || preOrderUrl
+const finalDigitalUrl = digitalUrl || "https://buy.stripe.com/8x27sL4A51bdewS6tP8bS0b"
 ---
 
 <div class="bg-gray-50 py-20">
   <div class="flex flex-col items-center justify-center">
+    {name && (
+      <h2 class="mb-8 text-center text-3xl font-bold text-gray-900">{name}</h2>
+    )}
     <div class="mb-2 flex flex-col gap-4 sm:flex-row items-end">
       <a
-        href={printUrl}
+        href={finalPrintUrl}
         target="_blank"
         class="inline-block rounded bg-yellow-400 px-8 py-3 text-center text-lg font-extrabold text-black shadow-md transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300"
         style="min-width: 200px;"
@@ -22,7 +31,7 @@ const { printUrl, digitalUrl, waitlistUrl }: Props = Astro.props
       <div class="flex flex-col items-center">
         <span class="mb-1 inline-block rounded-full bg-yellow-400 px-3 py-1 text-xs font-bold text-black uppercase tracking-wide shadow">Recommended</span>
         <a
-          href={digitalUrl}
+          href={finalDigitalUrl}
           target="_blank"
           class="glow-animate inline-block rounded border-2 border-yellow-400 bg-black px-8 py-3 text-center text-lg font-extrabold text-yellow-400 transition-colors duration-200 hover:bg-yellow-400 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-300"
           style="min-width: 200px;"

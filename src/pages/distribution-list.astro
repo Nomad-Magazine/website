@@ -76,8 +76,8 @@ const seo: SEOProps = {
       <!-- @ts-ignore -->
       {
         records
-          .filter((i) => i.s43a4b2808 && !i.s9744d6c51)
-          .map((record) => (
+          .filter((i: any) => i.s43a4b2808 && !i.s9744d6c51)
+          .map((record: any) => (
             <div class="distribution-item" data-category={record.sb685ab800?.label || 'uncategorized'}>
               <DistributionCard {...record} />
             </div>
@@ -90,8 +90,8 @@ const seo: SEOProps = {
       <!-- @ts-ignore -->
       {
         records
-          .filter((i) => i.s43a4b2808 && i.s9744d6c51)
-          .map((record) => (
+          .filter((i: any) => i.s43a4b2808 && i.s9744d6c51)
+          .map((record: any) => (
             <div class="distribution-item coming-soon" data-category={record.sb685ab800?.label || 'uncategorized'}>
               <DistributionCard {...record} />
             </div>
