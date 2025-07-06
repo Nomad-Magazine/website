@@ -101,12 +101,14 @@ const defaultDigitalPlan = digitalPlans.find((plan) => plan.defaultChecked) || d
   <div id={`${instanceId}-print-plan`} class="mb-6" style="display: none;">
     <!-- Features -->
     <div class="mb-4">
-      {printPlan.features.map((feature) => (
-        <div class="flex items-center mb-3">
-          <CheckIcon class="w-5 h-5 text-green-500 mr-2" />
-          <span class="text-gray-700">{feature.text}</span>
-        </div>
-      ))}
+      <div class="flex items-center mb-3">
+        <CheckIcon class="w-5 h-5 text-green-500 mr-2" />
+        <span class="text-gray-700">Print copy</span>
+      </div>
+      <div class="flex items-center mb-3">
+        <CheckIcon class="w-5 h-5 text-green-500 mr-2" />
+        <span class="text-gray-700">Newsletter access</span>
+      </div>
     </div>
 
     <!-- Delivery Section -->
