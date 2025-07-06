@@ -48,7 +48,7 @@ const plansRowId = `${instanceId}-plans-row`
 // Get default digital plan (first one that's defaultChecked, or first one)
 const defaultDigitalPlan = digitalPlans.find((plan) => plan.defaultChecked) || digitalPlans[0]
 ---
-<div class="w-full max-w-lg mx-auto bg-white rounded-lg border border-gray-200 p-6">
+<div id="payment-plan" class="w-full max-w-lg mx-auto bg-white rounded-lg border border-gray-200 p-6">
   <!-- Header -->
   <div class="mb-6">
     <h2 class="text-2xl font-bold text-gray-900 mb-2">{issueNumber}</h2>
@@ -286,7 +286,17 @@ document.addEventListener('DOMContentLoaded', function () {
     updatePrintUI();
   }
 
-  // Initialize with digital plan by default
-  showPlan('digital');
+  // Check if we should auto-select print
+  var shouldSelectPrint = sessionStorage.getItem('selectPrint');
+  if (shouldSelectPrint === 'true' && printRadio) {
+    printRadio.checked = true;
+    digitalRadio.checked = false;
+    showPlan('print');
+    // Clear the flag
+    sessionStorage.removeItem('selectPrint');
+  } else {
+    // Initialize with digital plan by default
+    showPlan('digital');
+  }
 });
 </script>
