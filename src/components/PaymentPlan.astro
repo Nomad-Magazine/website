@@ -46,7 +46,6 @@ const plansRowId = `${instanceId}-plans-row`
 // Get default digital plan (first one that's defaultChecked, or first one)
 const defaultDigitalPlan = digitalPlans.find((plan) => plan.defaultChecked) || digitalPlans[0]
 ---
-
 <div class="w-full px-8 lg:max-w-md lg:px-0">
   <div class="font-justme mb-2 text-3xl font-medium">{issueNumber}</div>
   <div class="mb-4 text-gray-700">{issueDescription}</div>
@@ -116,7 +115,7 @@ const defaultDigitalPlan = digitalPlans.find((plan) => plan.defaultChecked) || d
     }
 
     <!-- Print Plan (hidden by default) -->
-    <div id={`${instanceId}-print-plan`} class="group relative flex-1 cursor-pointer rounded-lg border p-4 select-none" style="display: none;">
+    <div id={`${instanceId}-print-plan`} class="group relative flex-1 rounded-lg border p-4 select-none" style="display: none;">
       <div class="flex h-full min-h-[120px] flex-col justify-between">
         <div>
           <div class="mb-1 font-bold">{printPlan.title}</div>
@@ -132,18 +131,37 @@ const defaultDigitalPlan = digitalPlans.find((plan) => plan.defaultChecked) || d
             }
           </ul>
         </div>
+        <!-- Delivery Method Selector -->
+        <div class="mb-4 mt-2">
+          <label class="block text-lg font-semibold mb-2 text-gray-900">Delivery method:</label>
+          <div class="flex gap-6">
+            <label class="flex items-center cursor-pointer">
+              <input type="radio" name="delivery-method" value="pickup" class="mr-2 accent-black" id="pickup-radio" tabindex="0" checked />
+              Pick up in person <span class="ml-2 text-base font-bold text-green-700">€20</span>
+            </label>
+            <label class="flex items-center cursor-pointer">
+              <input type="radio" name="delivery-method" value="delivery" class="mr-2 accent-black" id="delivery-radio" tabindex="0" />
+              Delivery <span class="ml-2 text-base font-bold text-blue-700">€32</span>
+            </label>
+          </div>
+        </div>
+        <!-- Pickup city dropdown (hidden by default) -->
+        <div id="pickup-city-group" class="mb-4">
+          <label class="block mb-1 text-sm font-semibold">Select your pickup city</label>
+          <select id="pickup-city" class="w-full rounded border px-3 py-2">
+            <option value="Amsterdam">Amsterdam</option>
+            <option value="Barcelona">Barcelona</option>
+            <option value="Berlin">Berlin</option>
+            <option value="Lisbon">Lisbon</option>
+            <option value="Madeira">Madeira</option>
+            <option value="Bansko">Bansko</option>
+          </select>
+        </div>
         <div class="mt-8 flex items-end justify-between">
-          <span class="font-justme text-3xl">{printPlan.price}</span>
-          {printPlan.priceNote && <span class="ml-2 text-xs text-gray-500">{printPlan.priceNote}</span>}
-          <span class="relative">
-            <input type="checkbox" checked disabled class="absolute h-10 w-10 opacity-0" tabindex="-1" />
-            <span class="flex h-10 w-10 items-center justify-center border-2 border-black bg-black">
-              <CheckIcon class="size-6 flex-shrink-0 text-white" />
-            </span>
-          </span>
+          <span id="print-price" class="font-justme text-3xl">€20</span>
+          <span class="ml-2 text-xs text-gray-500">{printPlan.priceNote}</span>
         </div>
       </div>
-      <span class="absolute inset-0" aria-hidden="true"></span>
     </div>
   </div>
 
@@ -161,129 +179,114 @@ const defaultDigitalPlan = digitalPlans.find((plan) => plan.defaultChecked) || d
   <div class="mt-2 text-xs text-gray-500" set:html={disclaimerText} />
 </div>
 
-<script
+<script 
   is:inline
   define:vars={{
     instanceId,
     digitalRadioId,
     printRadioId,
     orderBtnId,
-    plansRowId,
     digitalPlans,
     printPlan,
   }}
 >
-  // Wait for DOM to be ready
-  document.addEventListener('DOMContentLoaded', () => {
-    // Get all elements
-    const orderBtn = document.getElementById(orderBtnId)
-    const digitalRadio = document.getElementById(digitalRadioId)
-    const printRadio = document.getElementById(printRadioId)
-    const printPlanElement = document.getElementById(`${instanceId}-print-plan`)
+document.addEventListener('DOMContentLoaded', function () {
+  // Get main control elements
+  var digitalRadio = document.getElementById(digitalRadioId);
+  var printRadio = document.getElementById(printRadioId);
+  var printPlanElement = document.getElementById(instanceId + '-print-plan');
+  var orderBtn = document.getElementById(orderBtnId);
+  
+  // Get digital plan blocks
+  var digitalPlanBlocks = [];
+  digitalPlans.forEach(function(plan) {
+    var block = document.getElementById(instanceId + '-' + plan.id + '-block');
+    if (block) digitalPlanBlocks.push(block);
+  });
 
-    // Get digital plan elements
-    const digitalPlanBlocks = digitalPlans.map((plan) => ({
-      ...plan,
-      block: document.getElementById(`${instanceId}-${plan.id}-block`),
-      checkbox: document.getElementById(`${instanceId}-${plan.id}-checkbox`),
-    }))
-
-    // Get default plan
-    const defaultPlan = digitalPlanBlocks.find((plan) => plan.defaultChecked) || digitalPlanBlocks[0]
-
-    function showPlan(type) {
-      if (type === 'digital') {
-        // Show all digital plans
-        digitalPlanBlocks.forEach((plan) => {
-          if (plan.block) plan.block.style.display = 'block'
-          if (plan.checkbox) plan.checkbox.disabled = false
-        })
-
-        // Hide print plan
-        if (printPlanElement) printPlanElement.style.display = 'none'
-
-        // Update order button URL
-        const selectedPlan = digitalPlanBlocks.find((plan) => plan.checkbox && plan.checkbox.checked)
-        if (orderBtn && selectedPlan) {
-          orderBtn.setAttribute('href', selectedPlan.url)
-        } else if (orderBtn && defaultPlan) {
-          // Use defaultUrl if no plan is selected, otherwise use the plan's url
-          orderBtn.setAttribute('href', defaultPlan.defaultUrl || defaultPlan.url)
-        }
-      } else {
-        // Hide all digital plans
-        digitalPlanBlocks.forEach((plan) => {
-          if (plan.block) plan.block.style.display = 'none'
-          if (plan.checkbox) {
-            plan.checkbox.disabled = true
-            plan.checkbox.checked = false
-          }
-        })
-
-        // Show print plan
-        if (printPlanElement) printPlanElement.style.display = 'block'
-
-        // Update order button URL
-        if (orderBtn) orderBtn.setAttribute('href', printPlan.url)
-      }
+  function showPlan(type) {
+    if (type === 'digital') {
+      // Show digital plans
+      digitalPlanBlocks.forEach(function(block) {
+        if (block) block.style.display = 'block';
+      });
+      // Hide print plan
+      if (printPlanElement) printPlanElement.style.display = 'none';
+    } else if (type === 'print') {
+      // Hide digital plans
+      digitalPlanBlocks.forEach(function(block) {
+        if (block) block.style.display = 'none';
+      });
+      // Show print plan
+      if (printPlanElement) printPlanElement.style.display = 'block';
+      // Update print UI
+      updatePrintUI();
     }
+  }
 
-    // Radio button event listeners
-    if (digitalRadio && printRadio) {
-      digitalRadio.addEventListener('change', () => {
-        showPlan('digital')
-        // Set default plan as checked
-        if (defaultPlan.checkbox) {
-          defaultPlan.checkbox.checked = true
-          if (orderBtn) orderBtn.setAttribute('href', defaultPlan.url)
-        }
-      })
+  // Digital/Print radio listeners
+  if (digitalRadio && printRadio) {
+    digitalRadio.addEventListener('change', function() {
+      if (digitalRadio.checked) {
+        showPlan('digital');
+      }
+    });
+    printRadio.addEventListener('change', function() {
+      if (printRadio.checked) {
+        showPlan('print');
+      }
+    });
+  }
 
-      printRadio.addEventListener('change', () => {
-        showPlan('print')
-      })
+  // Pickup/Delivery logic for print plan
+  var pickupLinks = {
+    'Amsterdam': 'https://pay.nomad-magazine.com/b/7sY5kD1nT3jlbkGdWh8bS0k',
+    'Barcelona': 'https://pay.nomad-magazine.com/b/bJe5kD4A50791K605r8bS0l',
+    'Berlin': 'https://pay.nomad-magazine.com/b/28EbJ14A5cTVgF09G18bS0m',
+    'Lisbon': 'https://pay.nomad-magazine.com/b/aFa3cvaYt4np88uaK58bS0n',
+    'Madeira': 'https://pay.nomad-magazine.com/b/4gM9ATaYt7zB74q6tP8bS0o',
+    'Bansko': 'https://pay.nomad-magazine.com/b/28E00jd6BaLNgF0f0l8bS0p'
+  };
+
+  var pickupRadio = document.getElementById('pickup-radio');
+  var deliveryRadio = document.getElementById('delivery-radio');
+  var pickupCityGroup = document.getElementById('pickup-city-group');
+  var printPrice = document.getElementById('print-price');
+  var pickupCity = document.getElementById('pickup-city');
+
+  function updatePrintUI() {
+    if (pickupRadio && pickupRadio.checked) {
+      if (printPrice) printPrice.textContent = '€20';
+      if (pickupCityGroup) pickupCityGroup.style.display = '';
+      var city = pickupCity ? pickupCity.value : 'Amsterdam';
+      var link = pickupLinks[city] || pickupLinks['Amsterdam'];
+      if (orderBtn) orderBtn.setAttribute('href', link);
+    } else if (deliveryRadio && deliveryRadio.checked) {
+      var deliveryUrl = 'https://pay.nomad-magazine.com/b/28EeVdaYt1bd0G24lH8bS0g';
+      if (printPrice) printPrice.textContent = '€32';
+      if (pickupCityGroup) pickupCityGroup.style.display = 'none';
+      if (orderBtn) orderBtn.setAttribute('href', deliveryUrl);
     }
+  }
 
-    // Checkbox event listeners for digital plans
-    digitalPlanBlocks.forEach((plan) => {
-      if (plan.checkbox) {
-        plan.checkbox.addEventListener('change', () => {
-          if (plan.checkbox.checked) {
-            // Uncheck other plans
-            digitalPlanBlocks.forEach((otherPlan) => {
-              if (otherPlan.checkbox && otherPlan.id !== plan.id) {
-                otherPlan.checkbox.checked = false
-              }
-            })
-            // Update order button URL
-            if (orderBtn) orderBtn.setAttribute('href', plan.url)
-          } else if (!digitalPlanBlocks.some((p) => p.checkbox && p.checkbox.checked)) {
-            // If no plan is checked, use defaultUrl or default plan
-            if (defaultPlan.checkbox) {
-              defaultPlan.checkbox.checked = true
-              if (orderBtn) orderBtn.setAttribute('href', defaultPlan.url)
-            } else if (orderBtn && defaultPlan) {
-              // Use defaultUrl if no plan is selected
-              orderBtn.setAttribute('href', defaultPlan.defaultUrl || defaultPlan.url)
-            }
-          }
-        })
-      }
+  if (pickupRadio && deliveryRadio) {
+    pickupRadio.addEventListener('change', function() {
+      updatePrintUI();
+    });
+    deliveryRadio.addEventListener('change', function() {
+      updatePrintUI();
+    });
+    if (pickupCity) {
+      pickupCity.addEventListener('change', function() {
+        if (pickupRadio && pickupRadio.checked) {
+          updatePrintUI();
+        }
+      });
+    }
+    updatePrintUI();
+  }
 
-      // Block click logic
-      if (plan.block) {
-        plan.block.addEventListener('click', (e) => {
-          if (digitalRadio && digitalRadio.checked && plan.checkbox) {
-            if (e.target !== plan.checkbox) {
-              plan.checkbox.checked = true
-              plan.checkbox.dispatchEvent(new Event('change'))
-            }
-          }
-        })
-      }
-    })
-
-    // Initialize with digital plan
-    showPlan('digital')
-  })
+  // Initialize with digital plan by default
+  showPlan('digital');
+});
 </script>
