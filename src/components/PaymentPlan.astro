@@ -286,17 +286,28 @@ document.addEventListener('DOMContentLoaded', function () {
     updatePrintUI();
   }
 
-  // Check if we should auto-select print
-  var shouldSelectPrint = sessionStorage.getItem('selectPrint');
-  if (shouldSelectPrint === 'true' && printRadio) {
-    printRadio.checked = true;
-    digitalRadio.checked = false;
-    showPlan('print');
-    // Clear the flag
-    sessionStorage.removeItem('selectPrint');
-  } else {
+  // Check if we should auto-select print based on URL hash
+  function checkForPrintHash() {
+    if (window.location.hash === '#payment-plan-print' && printRadio) {
+      printRadio.checked = true;
+      digitalRadio.checked = false;
+      showPlan('print');
+      // Clear the hash to avoid confusion
+      history.replaceState(null, null, window.location.pathname);
+      return true;
+    }
+    return false;
+  }
+
+  // Check immediately
+  if (!checkForPrintHash()) {
     // Initialize with digital plan by default
     showPlan('digital');
   }
+
+  // Also listen for hash changes
+  window.addEventListener('hashchange', function() {
+    checkForPrintHash();
+  });
 });
 </script>
