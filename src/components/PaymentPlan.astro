@@ -23,7 +23,7 @@ interface Props {
   printPlan: Plan
   orderButtonText?: string
   disclaimerText?: string
-  copiesLeft?: string
+  showPickup?: boolean
 }
 
 const {
@@ -32,8 +32,8 @@ const {
   digitalPlans,
   printPlan,
   orderButtonText = 'Order Now',
-  disclaimerText = 'Secure payment via MediaPath OÜ',
-  copiesLeft = '1000 copies left',
+  disclaimerText = 'Secure payment powered by Stripe',
+  showPickup = true,
 }: Props = Astro.props
 
 import CheckIcon from '~icons/ic/baseline-check'
@@ -113,53 +113,66 @@ const defaultDigitalPlan = digitalPlans.find((plan) => plan.defaultChecked) || d
 
     <!-- Delivery Section -->
     <div class="mb-4">
-      <h3 class="text-lg font-semibold text-gray-900 mb-3">Delivery</h3>
-      <div class="space-y-3">
-        <label class="flex items-center justify-between p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
-          <div class="flex items-center">
-            <input 
-              type="radio" 
-              name={`delivery-${instanceId}`} 
-              value="pickup" 
-              class="w-4 h-4 text-black bg-gray-100 border-gray-300 focus:ring-black" 
-              id={`pickup-radio-${instanceId}`}
-              checked 
-            />
-            <span class="ml-2 text-gray-900">Pickup</span>
+      {showPickup ? (
+        <>
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">Delivery</h3>
+          <div class="space-y-3">
+            <label class="flex items-center justify-between p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
+              <div class="flex items-center">
+                <input 
+                  type="radio" 
+                  name={`delivery-${instanceId}`} 
+                  value="pickup" 
+                  class="w-4 h-4 text-black bg-gray-100 border-gray-300 focus:ring-black" 
+                  id={`pickup-radio-${instanceId}`}
+                  checked 
+                />
+                <span class="ml-2 text-gray-900">Pickup</span>
+              </div>
+              <span class="text-xl font-bold text-gray-900">€20</span>
+            </label>
+            <label class="flex items-center justify-between p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
+              <div class="flex items-center">
+                <input 
+                  type="radio" 
+                  name={`delivery-${instanceId}`} 
+                  value="delivery" 
+                  class="w-4 h-4 text-black bg-gray-100 border-gray-300 focus:ring-black" 
+                  id={`delivery-radio-${instanceId}`}
+                />
+                <span class="ml-2 text-gray-900">Delivery</span>
+              </div>
+              <span class="text-xl font-bold text-gray-900">€32</span>
+            </label>
           </div>
-          <span class="text-xl font-bold text-gray-900">€20</span>
-        </label>
-        <label class="flex items-center justify-between p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
+        </>
+      ) : (
+        <div class="flex items-center justify-between mb-3">
           <div class="flex items-center">
-            <input 
-              type="radio" 
-              name={`delivery-${instanceId}`} 
-              value="delivery" 
-              class="w-4 h-4 text-black bg-gray-100 border-gray-300 focus:ring-black" 
-              id={`delivery-radio-${instanceId}`}
-            />
-            <span class="ml-2 text-gray-900">Delivery</span>
+            <CheckIcon class="w-5 h-5 text-green-500 mr-2" />
+            <span class="text-gray-700">Worldwide delivery</span>
           </div>
-          <span class="text-xl font-bold text-gray-900">€32</span>
-        </label>
-      </div>
+        </div>
+      )}
     </div>
 
     <!-- City Selection -->
-    <div id={`pickup-city-group-${instanceId}`} class="mb-4">
-      <label class="block text-sm font-semibold text-gray-900 mb-2">City</label>
-      <select 
-        id={`pickup-city-${instanceId}`} 
-        class="w-full p-3 border border-gray-200 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-black focus:border-transparent"
-      >
-        <option value="Amsterdam">Amsterdam</option>
-        <option value="Barcelona">Barcelona</option>
-        <option value="Berlin">Berlin</option>
-        <option value="Lisbon">Lisbon</option>
-        <option value="Madeira">Madeira</option>
-        <option value="Bansko">Bansko</option>
-      </select>
-    </div>
+    {showPickup && (
+      <div id={`pickup-city-group-${instanceId}`} class="mb-4">
+        <label class="block text-sm font-semibold text-gray-900 mb-2">City</label>
+        <select 
+          id={`pickup-city-${instanceId}`} 
+          class="w-full p-3 border border-gray-200 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-black focus:border-transparent"
+        >
+          <option value="Amsterdam">Amsterdam</option>
+          <option value="Barcelona">Barcelona</option>
+          <option value="Berlin">Berlin</option>
+          <option value="Lisbon">Lisbon</option>
+          <option value="Madeira">Madeira</option>
+          <option value="Bansko">Bansko</option>
+        </select>
+      </div>
+    )}
   </div>
 
   <!-- Price Display -->
@@ -167,7 +180,9 @@ const defaultDigitalPlan = digitalPlans.find((plan) => plan.defaultChecked) || d
     <span id={`price-display-${instanceId}`} class="text-4xl font-bold text-gray-900">
       {defaultDigitalPlan.price}
     </span>
-    <span class="text-sm text-gray-500">{copiesLeft}</span>
+    <span id={`price-note-${instanceId}`} class="text-sm text-gray-500">
+      {defaultDigitalPlan.priceNote || ''}
+    </span>
   </div>
 
   <!-- Order Button -->
@@ -195,6 +210,7 @@ const defaultDigitalPlan = digitalPlans.find((plan) => plan.defaultChecked) || d
     orderBtnId,
     digitalPlans,
     printPlan,
+    showPickup,
   }}
 >
 document.addEventListener('DOMContentLoaded', function () {
@@ -205,6 +221,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var printPlanElement = document.getElementById(instanceId + '-print-plan');
   var orderBtn = document.getElementById(orderBtnId);
   var priceDisplay = document.getElementById('price-display-' + instanceId);
+  var priceNoteDisplay = document.getElementById('price-note-' + instanceId);
 
   function showPlan(type) {
     if (type === 'digital') {
@@ -215,11 +232,15 @@ document.addEventListener('DOMContentLoaded', function () {
       // Update price and button for digital
       if (priceDisplay) priceDisplay.textContent = digitalPlans[0].price;
       if (orderBtn) orderBtn.setAttribute('href', digitalPlans[0].url);
+      // Update price note for digital
+      if (priceNoteDisplay) priceNoteDisplay.textContent = digitalPlans[0].priceNote || '';
     } else if (type === 'print') {
       // Hide digital plans
       if (digitalPlansElement) digitalPlansElement.style.display = 'none';
       // Show print plan
       if (printPlanElement) printPlanElement.style.display = 'block';
+      // Update price note for print
+      if (priceNoteDisplay) priceNoteDisplay.textContent = printPlan.priceNote || '';
       // Update print UI
       updatePrintUI();
     }
@@ -255,7 +276,13 @@ document.addEventListener('DOMContentLoaded', function () {
   var pickupCity = document.getElementById('pickup-city-' + instanceId);
 
   function updatePrintUI() {
-    if (pickupRadio && pickupRadio.checked) {
+    if (!showPickup) {
+      // If pickup is not available, default to delivery
+      var deliveryUrl = 'https://pay.nomad-magazine.com/b/28EeVdaYt1bd0G24lH8bS0g';
+      if (priceDisplay) priceDisplay.textContent = '€32';
+      if (pickupCityGroup) pickupCityGroup.style.display = 'none';
+      if (orderBtn) orderBtn.setAttribute('href', deliveryUrl);
+    } else if (pickupRadio && pickupRadio.checked) {
       if (priceDisplay) priceDisplay.textContent = '€20';
       if (pickupCityGroup) pickupCityGroup.style.display = 'block';
       var city = pickupCity ? pickupCity.value : 'Amsterdam';
@@ -269,13 +296,15 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  if (pickupRadio && deliveryRadio) {
-    pickupRadio.addEventListener('change', function() {
-      updatePrintUI();
-    });
-    deliveryRadio.addEventListener('change', function() {
-      updatePrintUI();
-    });
+  if (showPickup) {
+    if (pickupRadio && deliveryRadio) {
+      pickupRadio.addEventListener('change', function() {
+        updatePrintUI();
+      });
+      deliveryRadio.addEventListener('change', function() {
+        updatePrintUI();
+      });
+    }
     if (pickupCity) {
       pickupCity.addEventListener('change', function() {
         if (pickupRadio && pickupRadio.checked) {
@@ -283,8 +312,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       });
     }
-    updatePrintUI();
   }
+  updatePrintUI();
 
   // Check if we should auto-select print based on URL hash
   function checkForPrintHash() {
