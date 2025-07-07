@@ -5,9 +5,10 @@ interface Props {
   waitlistUrl?: string
   preOrderUrl?: string
   name?: string
+  scrollToPayment?: boolean
 }
 
-const { printUrl, digitalUrl, waitlistUrl, preOrderUrl, name }: Props = Astro.props
+const { printUrl, digitalUrl, waitlistUrl, preOrderUrl, name, scrollToPayment = false }: Props = Astro.props
 
 // Use preOrderUrl as printUrl if printUrl is not provided
 const finalPrintUrl = printUrl || preOrderUrl
@@ -21,8 +22,9 @@ const finalDigitalUrl = digitalUrl || "https://buy.stripe.com/8x27sL4A51bdewS6tP
     )}
     <div class="mb-2 flex flex-col gap-4 sm:flex-row items-end">
       <a
-        href={finalPrintUrl}
-        target="_blank"
+        href={scrollToPayment ? "#payment-plan" : finalPrintUrl}
+        target={scrollToPayment ? "_self" : "_blank"}
+        onclick={scrollToPayment ? "return scrollToPaymentPlan()" : ""}
         class="inline-block rounded bg-yellow-400 px-8 py-3 text-center text-lg font-extrabold text-black shadow-md transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300"
         style="min-width: 200px;"
       >
@@ -45,6 +47,27 @@ const finalDigitalUrl = digitalUrl || "https://buy.stripe.com/8x27sL4A51bdewS6tP
     </div>
   </div>
 </div>
+
+{scrollToPayment && (
+  <script is:inline>
+    function scrollToPaymentPlan() {
+      // Set hash to trigger print selection
+      window.location.hash = 'payment-plan-print';
+      
+      // Scroll to payment plan component
+      const paymentPlan = document.getElementById('payment-plan');
+      if (paymentPlan) {
+        paymentPlan.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'center'
+        });
+      }
+      
+      // Prevent default link behavior
+      return false;
+    }
+  </script>
+)}
 
 <style>
 @keyframes glow {
