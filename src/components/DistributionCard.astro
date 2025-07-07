@@ -14,7 +14,7 @@ const website = sb788c266b?.[0]
 ---
 
 <div class="flex h-full w-full flex-col rounded-3xl border border-white/10 p-4 shadow-lg">
-  <div class="relative mb-4 h-48 w-full overflow-hidden rounded-3xl">
+  <div class="relative mb-4 aspect-[16/9] w-full overflow-hidden rounded-3xl">
     <!-- Blurred background -->
     <div
       class:list={['absolute inset-0', image && image !== '/logo.svg' ? 'scale-110 bg-cover bg-center bg-no-repeat opacity-50 blur-lg' : 'bg-white']}
@@ -22,7 +22,7 @@ const website = sb788c266b?.[0]
     >
     </div>
     <!-- Main image -->
-    <img src={image || '/logo.svg'} decoding="async" alt={title} class="relative z-10 h-full w-full object-contain" loading="lazy" />
+    <img src={image || '/logo.svg'} decoding="async" alt={title} class="relative z-10 h-full w-full object-cover" loading="lazy" />
     {sb685ab800?.label && <span class="absolute top-2 right-2 z-20 rounded-full bg-yellow-400 px-2 py-1 text-sm font-medium text-black">{sb685ab800.label}</span>}
   </div>
 

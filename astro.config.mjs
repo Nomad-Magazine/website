@@ -21,7 +21,7 @@ export default defineConfig({
     ],
   },
   integrations: [sitemap()],
-  site: 'https://nomad-magazine-main.pitiakova.workers.dev',
+  site: 'https://nomad-magazine.com',
   env: {
     schema: {
       SMART_SUITE_APIKEY: envField.string({ context: 'server', access: 'secret' }),

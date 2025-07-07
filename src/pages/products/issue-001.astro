@@ -6,54 +6,86 @@ import Testimonials from '~/components/Testimonials.astro'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import ProductCarousel from '~/components/ProductCarousel.astro'
 import MagazineReadyBanner from '~/components/MagazineReadyBanner.astro'
+import EditionStats from '~/components/EditionStats.astro'
+import Sponsors from '~/components/Sponsors.astro'
+import PreOrderSection from '~/components/PreOrderSection.astro'
+import MagazinePreview from '~/components/MagazinePreview.astro'
 
 const slides = [
   {
-    src: 'https://cdn.prod.website-files.com/6565d74ea60dc4215c4cfaa4/6759859a5bd8b818aa437a77_656ef0ead73cdb6963e31c42_telegram-cloud-photo-size-2-5436047159616197300-y%201.avif',
+    src: '/images/5f3df6ca-7e00-4f77-8e10-bec4fa56e454.avif',
   },
-  { src: 'https://cdn.prod.website-files.com/6565d74ea60dc4215c4cfaa4/67597ee72349cde08c9048dd_668665483876259f5136cf59_DSC00499%20(2).avif' },
-  { src: 'https://cdn.prod.website-files.com/6565d74ea60dc4215c4cfaa4/67597eeaf0641e9edf27f70c_6686654da629b02a1ea0f354_DSC00542.avif' },
-  { src: 'https://cdn.prod.website-files.com/6565d74ea60dc4215c4cfaa4/67597eec57f936d824393eb7_66866551a774c9b17e123d14_DSC00525.avif' },
-  { src: 'https://cdn.prod.website-files.com/6565d74ea60dc4215c4cfaa4/67597eee34d32d00f09efd03_6686655753b877eefb18abca_DSC00514.avif' },
-  { src: 'https://cdn.prod.website-files.com/6565d74ea60dc4215c4cfaa4/67597ef1a3d981702b7c8f41_6686655bd7bbc380dd9c07e9_DSC00518.avif' },
-  { src: 'https://cdn.prod.website-files.com/6565d74ea60dc4215c4cfaa4/67597ef4d1d177936628993f_66866560eee0505a03f58aa3_DSC00503.avif' },
+  { src: '/images/604c06ac-bb0f-4c33-aeeb-49bad62d938f.avif' },
+  { src: '/images/f5644a7e-e218-4dd2-af74-e6bab973a01c.avif' },
+  { src: '/images/555be274-0119-4d08-801c-80a845b43c8f.avif' },
+  { src: '/images/a6e4480e-8e2c-491f-9477-98e9987e88f8.avif' },
+  { src: '/images/5c70d694-0e36-44ff-851d-51a78bb14a3e.avif' },
+  { src: '/images/c777e79b-6a23-4e99-b3ba-b91962a3b07c.avif' },
+]
+
+const sponsors = [
+  {
+    link: 'https://www.outsite.co/',
+    image: '/images/c135132c-74e3-438b-8260-8b1592e7a48f.svg',
+    alt: 'Outsite',
+    width: '120',
+  },
+  {
+    link: 'https://nomadtrain.co/',
+    image: '/images/a3a85544-ef2c-4771-b79d-f56fbb04acfc.svg',
+    alt: 'Nomad Train Logo',
+    width: '100',
+  },
+  {
+    link: 'https://nomads.insure/',
+    image: '/images/b5a18d61-7148-40c5-ba44-3b1e9baf792c.webp',
+    alt: 'Nomads Insure',
+    width: '100',
+  },
 ]
 
 const seo: SEOProps = {
-  title: 'Issue 001 - Nomad Gossip Magazine | Digital Nomad Stories',
+  title: 'Issue 001 - Nomad Magazine | Digital Nomad Stories',
   description:
-    'The first issue of Nomad Gossip Magazine. 100 pages of unique content, Yellow Pages directory, and exclusive nomad stories. Available in digital and print formats.',
-  image: 'https://cdn.prod.website-files.com/6565d74ea60dc4215c4cfaa4/6759859a5bd8b818aa437a77_656ef0ead73cdb6963e31c42_telegram-cloud-photo-size-2-5436047159616197300-y%201.avif',
-  keywords: 'nomad magazine issue 001, digital nomad magazine, nomad gossip magazine, nomad stories, remote work magazine',
+    'The first issue of Nomad Magazine. 100 pages of unique content, Yellow Pages directory, and exclusive nomad stories. Available in digital and print formats.',
+  image: '/images/5f3df6ca-7e00-4f77-8e10-bec4fa56e454.avif',
+  keywords: 'nomad magazine issue 001, digital nomad magazine, nomad magazine, nomad stories, remote work magazine',
   ogType: 'website',
   ldJSON: {
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: 'Nomad Gossip Magazine Issue 001',
-    description: 'The first issue of Nomad Gossip Magazine with 100 pages of unique content',
+    name: 'Nomad Magazine Issue 001',
+    description: 'The first issue of Nomad Magazine with 100 pages of unique content',
     url: `${Astro.site}products/issue-001`,
-    image:
-      'https://cdn.prod.website-files.com/6565d74ea60dc4215c4cfaa4/6759859a5bd8b818aa437a77_656ef0ead73cdb6963e31c42_telegram-cloud-photo-size-2-5436047159616197300-y%201.avif',
+    image: '/images/5f3df6ca-7e00-4f77-8e10-bec4fa56e454.avif',
     brand: {
       '@type': 'Brand',
-      name: 'Nomad Gossip Magazine',
+              name: 'Nomad Magazine',
     },
     offers: [
       {
         '@type': 'Offer',
-        name: 'Digital Issue 001',
+        name: 'Issue 001 (Digital Version, Single Purchase)',
         price: '14.00',
         priceCurrency: 'EUR',
         availability: 'https://schema.org/InStock',
-        url: 'https://myaccount.nomadgossip.com/registration-issue',
+        url: 'https://pay.nomad-magazine.com/b/bJe00j0jPbPRewScSd8bS0j',
+        hasMerchantReturnPolicy: {
+          '@type': 'MerchantReturnPolicy',
+          returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
+        },
       },
       {
         '@type': 'Offer',
-        name: 'Print Issue 001',
+        name: 'Issue 001 (Print Version, Single Purchase)',
         price: '22.00',
         priceCurrency: 'EUR',
         availability: 'https://schema.org/InStock',
         url: 'https://buy.stripe.com/5kA3fA9vH3yd1Ko6ou',
+        hasMerchantReturnPolicy: {
+          '@type': 'MerchantReturnPolicy',
+          returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
+        },
       },
     ],
     publisher: {
@@ -70,76 +102,151 @@ const seo: SEOProps = {
 
 <Layout seo={seo}>
   <MagazineReadyBanner text="The magazine is ready! We can't wait for you to read it!" />
+  
+  <!-- Hero Section -->
+  <div class="mx-auto max-w-7xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 items-center gap-8 sm:gap-16 lg:grid-cols-2">
+      <div class="space-y-6 sm:space-y-8">
+        <div class="space-y-4 sm:space-y-6">
+          <div class="text-base sm:text-lg font-semibold text-gray-800">Nomad Magazine: Issue 001</div>
+          <h1 class="mb-4 text-3xl sm:text-4xl leading-tight font-bold md:text-6xl">The first issue of Nomad Magazine. 100 pages of unique content.</h1>
+          <div class="text-base sm:text-lg font-semibold text-gray-700">Read by 1000+ nomads worldwide</div>
+        </div>
+        <div class="space-y-4">
+          <div class="mb-2 flex flex-col gap-4 sm:flex-row sm:items-end">
+            <div class="flex flex-col items-center order-first sm:order-last">
+              <span class="mb-1 inline-block rounded-full bg-yellow-400 px-3 py-1 text-xs font-bold text-black uppercase tracking-wide shadow">Recommended</span>
+              <a
+                href="https://pay.nomad-magazine.com/b/bJe00j0jPbPRewScSd8bS0j"
+                data-event="reserve magazine"
+                target="_blank"
+                class="glow-animate w-full sm:w-auto inline-block rounded border-2 border-yellow-400 bg-black px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-yellow-400 transition-colors duration-200 hover:bg-yellow-400 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-300"
+              >
+                GET DIGITAL NOW
+              </a>
+            </div>
+            <a
+              href="https://buy.stripe.com/5kA3fA9vH3yd1Ko6ou"
+              data-event="reserve magazine"
+              target="_blank"
+              class="w-full sm:w-auto inline-block rounded bg-yellow-400 px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-black shadow-md transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 order-last sm:order-first"
+            >
+              ORDER PRINT
+            </a>
+          </div>
+          <div class="mt-2 text-xs sm:text-sm text-gray-700">
+            *Issue 001 launched — now available.
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-center lg:justify-end order-first lg:order-last">
+        <img
+          src="/images/5f3df6ca-7e00-4f77-8e10-bec4fa56e454.avif"
+          alt="Nomad Magazine Issue 001 cover"
+          class="h-auto max-w-full rounded-lg shadow-lg"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Section -->
+  <EditionStats
+    stats={[
+      { value: '100', label: 'Pages' },
+      { value: '1', label: 'Yellow Pages Directory' },
+      { value: '1000+', label: 'Readers Worldwide' },
+    ]}
+  />
+
+  <!-- Sponsors Section -->
+  <Sponsors {sponsors} />
+
+  <!-- Welcome Section -->
+  <div class="mx-auto max-w-3xl px-4 py-16">
+    <h1 class="font-justme mb-6 text-center text-3xl md:text-4xl">Welcome to Issue 001, dear reader.</h1>
+    <div class="prose prose-lg mx-auto mb-10 text-gray-800">
+      <p>
+        Welcome to the first issue of Nomad Magazine. Inside, you'll find everything from the hottest nomad stories, which destinations to hit in 2024 and how to truly
+        make a positive impact wherever you plant your laptop.
+      </p>
+      <p>What's Coming:</p>
+      <ul role="list" class="list-disc pl-6">
+        <li>100 pages of unique content crafted by our editors and guest writers</li>
+        <li>Yellow Pages: Digital Nomad Directory</li>
+        <li>Exclusive NGM newsletters</li>
+      </ul>
+      <p><a href="/free-article-what-not-to-do-on-first-date" class="font-medium underline">Download sample</a></p>
+    </div>
+  </div>
+
+  <!-- Product Section -->
   <section class="my-12 flex flex-col items-center justify-center gap-8 lg:flex-row">
     <!-- Carousel/Slider -->
-    <div class="w-full flex-shrink-0 px-8 md:w-1/2 md:px-0">
+    <div class="w-full flex-shrink-0 px-4 sm:px-8 md:w-1/2 md:px-0">
       <ProductCarousel slides={slides} firstSlideMaxWidth={true} />
     </div>
     <!-- Product Info -->
-    <div class="w-full px-8 lg:w-1/2 lg:max-w-md lg:px-0">
+    <div class="w-full lg:w-1/2 lg:max-w-md">
       <PaymentPlan
         issueNumber="ISSUE 001"
-        issueDescription="The first issue of Nomad Gossip Magazine. 100 pages of unique content, Yellow Pages, and more."
+        issueDescription="The first issue of Nomad Magazine. 100 pages of unique content, Yellow Pages, and more."
         digitalPlans={[
           {
             id: 'single-purchase',
             title: 'Single Purchase',
             subtitle: 'Pay for one issue',
             features: [
-              { text: 'Personal NGM account' },
               { text: 'Exclusive NGM newsletters' },
               { text: 'First to unlock the new NGM issue' },
               { text: 'Lifetime access to digital magazine' },
             ],
             price: '€14',
-            url: 'https://myaccount.nomadgossip.com/registration-issue',
-          },
-          {
-            id: 'annual-subscription',
-            title: 'Annual Subscription',
-            subtitle: 'Lock your special price for 4 issues',
-            features: [
-              { text: 'Everything that a single purchase includes' },
-              { text: 'Lock your special price for 4 issues' },
-              { text: 'Special offers from nomad brands and services' },
-            ],
-            price: '€48',
-            priceNote: '€12 price per issue',
-            url: 'https://myaccount.nomadgossip.com/registration-year',
-            defaultChecked: true,
+            url: 'https://pay.nomad-magazine.com/b/bJe00j0jPbPRewScSd8bS0j',
           },
         ]}
         printPlan={{
           id: 'print',
-          title: 'Single Purchase',
+          title: 'Single Purchase on MagCulture',
           subtitle: 'Pay for one issue',
           features: [{ text: 'Printed NGM issue' }, { text: 'Exclusive NGM newsletters' }],
           price: '€22',
           priceNote: '* Delivery cost included',
-          url: 'https://buy.stripe.com/5kA3fA9vH3yd1Ko6ou',
+          url: 'https://magculture.com/products/nomad-gossip-magazine-1',
         }}
         orderButtonText="Read Now!"
       />
-      <div class="mt-2 text-xs text-gray-500">
-        While the digital version works on both mobile and desktop, we recommend the desktop for a more enjoyable reading experience.<br />
-        All payments will be securely processed through MediaPath OÜ, the business entity of Nomad Gossip Magazine.
-      </div>
     </div>
   </section>
-  <div class="mx-auto my-8 max-w-3xl px-4 text-left">
-    <p>
-      Welcome to the first issue of Nomad Gossip Magazine (NGM). Inside, you'll find everything from the hottest nomad gossip, which destinations to hit in 2024 and how to truly
-      make a positive impact wherever you plant your laptop.
-    </p>
-    <p>What's Coming:</p>
-    <ul role="list" class="list-disc pl-6">
-      <li>100 pages of unique content crafted by our editors and guest writers</li>
-      <li>Yellow Pages: Digital Nomad Directory</li>
-      <li>Exclusive NGM newsletters</li>
-    </ul>
-    <p><a href="/free-article-what-not-to-do-on-first-date" class="font-medium underline">Download sample</a></p>
-  </div>
+
   <Testimonials sectionClass="bg-hoverw [&_h2]:text-white" />
   <FAQ />
   <FAQContact />
+  
+  <!-- Magazine Preview -->
+  <MagazinePreview
+    titleClass="mt-4"
+    sectionClass="bg-gray-50"
+    title="Previous Editions"
+    subTitle="Magazine Preview"
+    subTitleClass="font-justme !text-black !text-2xl !font-medium"
+  />
+  
+  <!-- Final CTA -->
+  <PreOrderSection 
+    name="👀 GET MY MAGAZINE" 
+    preOrderUrl="https://buy.stripe.com/5kA3fA9vH3yd1Ko6ou" 
+    digitalUrl="https://pay.nomad-magazine.com/b/bJe00j0jPbPRewScSd8bS0j"
+  />
 </Layout>
+
+<style>
+@keyframes glow {
+  0% { box-shadow: 0 0 0 0 #fde047; }
+  50% { box-shadow: 0 0 16px 4px #fde047; }
+  100% { box-shadow: 0 0 0 0 #fde047; }
+}
+.glow-animate {
+  animation: glow 1.5s infinite;
+}
+</style>

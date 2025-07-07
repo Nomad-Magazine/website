@@ -78,8 +78,8 @@ const seo: SEOProps = {
       <!-- @ts-ignore -->
       {
         records
-          .filter((i) => i.sf4ad525dd)
-          .map((record) => (
+          .filter((i: any) => i.sf4ad525dd)
+          .map((record: any) => (
             <div class="directory-item" data-category={record.sb685ab800?.label || 'uncategorized'}>
               <NomadDirectoryCard {...record} />
             </div>

@@ -1,65 +1,74 @@
 ---
 const team = [
   {
-    name: 'Val',
-    location: 'in Madeira',
-    img: '/images/a159fe0c-3f98-43df-9b37-b03d5fa01c67.webp',
+    name: 'Lera Pitakova',
+    img: '/team/lera.png',
+    bio: `Lera has been living the digital nomad lifestyle since 2015 and recently found a haven in Madeira, Portugal. 10 years ago, she took a leap, bidding farewell to her glamorous job at Nike in Ukraine to adventure into a new chapter as a community manager in a coworking space in Thailand, initially for just a winter break. But destiny had other plans, and there was no turning back to her previous life. Now she's publishing Nomad Magazine to support the growing community (and industry).`,
+    expertise: '18 years',
+    countries: 56,
   },
   {
-    name: 'Amy',
-    location: 'in Sheffield',
-    img: '/images/2d6fb3fb-ff71-4275-8156-a9595e93c50d.webp',
+    name: 'Jessica Holmes',
+    img: '/team/jess.png',
+    bio: `Jess is a writer, editor, and public speaker. Her strong affinity with animals and nature inspired her to travel the world full-time looking after peoples' homes and pets through house-sitting. Having lived nomadically for long periods she's an expert on all things digital nomad, backpacking, van life and house-sitting. Her book The Housestitter's Guide to the Galaxy is a guide on how to use housesitting when traveling whilst being mindful of your environmental impact.`,
+    expertise: '5 years',
+    countries: 51,
   },
   {
-    name: 'Feride',
-    location: 'in Vienna',
-    img: '/images/7930b126-b7cc-4788-a55c-19639af762f8.webp',
+    name: 'Feride Mustafaeiva',
+    img: '/team/feride.png',
+    bio: `Feride began her career as a luxury travel designer in the Seychelles, where she spent three years creating bespoke experiences in the Seychelles and Maldives. She later transitioned to remote work with the leading personal growth platform Mindvalley, where she managed content production, localization, and sales strategies for nearly five years. Now based in Vienna, Feride channels her expertise into marketing and content for Nomad Magazine, while enjoying yoga and continuing to explore new corners of the globe.`,
+    expertise: '10 years',
+    countries: 28,
   },
   {
-    name: 'Anna',
-    location: 'in Yerevan',
-    img: '/images/87dc0a5b-d4d6-4448-b592-6ef737c75931.webp',
+    name: 'Amy White',
+    img: '/team/amy.png',
+    bio: `Amy White is an internationally acclaimed book publishing expert and literary agent from the UK. Her ghostwritten and edited books have hit every major bestsellers list in the USA, including The New York Times. As Former Editor-in-Chief of Mindvalley, her articles and edited content have touched the lives of a whopping 16 million humans!`,
+    expertise: '9 years',
+    countries: 49,
+  },
+  {
+    name: 'Martin Donadieu',
+    img: '/team/martin.png',
+    bio: `Martin is a solo SaaS creator who builds open-source software without external funding, sharing his journey and insights through the Solos Ventures podcast. He's also the mind behind Capgo, a powerful tool for seamless app updates. Discover more at solos.ventures.`,
+    expertise: '12 years',
+    countries: 38,
+  },
+  {
+    name: 'Estúdio Drama',
+    img: '/team/estudiodrama.png',
+    bio: `Estúdio Drama is a multidisciplinary graphic design studio formed by four passionate designers who love to explore new perspectives and possibilities within design. They integrate multiple expertises to develop creative solutions in graphic design, editorial, illustration, collage, data visualization, and visual identity. Estúdio Drama is the creative force behind the visual identity and editorial design of this magazine. Discover more at estudiodrama.com.br.`,
+    expertise: '10+ years',
+    countries: 'Brazil',
   },
 ]
 ---
 
-<section id="team" class="bg-gray-50 bg-[url(/images/bb7a7ae4-64eb-483e-9571-7047202d4380.webp)] py-20 break-all">
+<section id="team" class="bg-[#e6e96a] py-16">
   <div class="container mx-auto px-4">
-    <div class="text-center">
-      <h2 class="font-justme text-5xl">Our team</h2>
-    </div>
-    <div class="font-inter mx-auto mt-4 flex max-w-3xl flex-col items-center space-y-4">
-      {
-        team.map((member, index) => (
+    <h2 class="font-justme text-5xl text-center mb-32">Team</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-y-32 gap-x-24">
+      {team.map((member, idx) => (
+        <div class="bg-white rounded-xl shadow-lg p-6 pt-0 md:pt-6 flex flex-col md:flex-row items-center md:items-start gap-6 relative overflow-visible">
+          <img 
+            src={member.img} 
+            alt={member.name} 
+            class={`object-cover z-10 -mt-32 mx-auto mb-0 md:mb-0 md:mx-0 w-[22rem] h-[22rem] md:-ml-32 md:-mr-4`}
+          />
           <div class="w-full">
-            {/* --- MOBILE VIEW --- */}
-            <div class="group flex flex-col items-center space-y-4 text-center text-3xl font-bold sm:hidden">
-              <img src={member.img} alt={`${member.name}'s eyes`} class="w-full max-w-xs object-contain grayscale transition group-hover:grayscale-0" />
-              <p class="transition hover:underline">
-                {member.name} {member.location}
-              </p>
+            <div class="flex flex-col md:flex-row md:items-center gap-2 mb-2">
+              <span class="bg-black text-white font-extrabold px-3 py-1 text-2xl rounded rotate-[-2deg] inline-block w-fit tracking-tight shadow">{member.name.split(' ')[0]}</span>
+              <span class="bg-white border-2 border-black font-extrabold px-3 py-1 text-2xl rounded rotate-[2deg] inline-block w-fit tracking-tight shadow ml-0 md:ml-2">{member.name.split(' ').slice(1).join(' ')}</span>
             </div>
-            {/* --- DESKTOP VIEW --- */}
-            <div class="group hidden items-center justify-start space-x-6 text-[6vh] font-bold sm:flex">
-              {index % 2 === 0 ? (
-                <>
-                  <img src={member.img} alt={`${member.name}'s eyes`} class="h-16 object-contain grayscale transition group-hover:grayscale-0" />
-                  <p class="transition group-hover:underline">
-                    {member.name} {member.location}
-                  </p>
-                </>
-              ) : (
-                <>
-                  <span class="transition group-hover:underline">{member.name}</span>
-                  <img src={member.img} alt={`${member.name}'s eyes`} class="h-16 object-contain grayscale transition group-hover:grayscale-0" />
-                  <span class="transition group-hover:underline">{member.location}</span>
-                </>
-              )}
+            <p class="text-base text-gray-800 mb-4">{member.bio}</p>
+            <div class="flex flex-wrap gap-4 text-sm font-semibold">
+              <span class="bg-[#e6e96a] px-2 py-1 rounded border border-black">Expertise: {member.expertise}</span>
+              <span class="bg-[#e6e96a] px-2 py-1 rounded border border-black">Countries: {member.countries}</span>
             </div>
           </div>
-        ))
-      }
-      <div class="pt-8 text-[6vh] font-bold">We are in ngm</div>
+        </div>
+      ))}
     </div>
   </div>
 </section>

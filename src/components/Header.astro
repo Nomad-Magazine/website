@@ -5,11 +5,6 @@ import MenuIcon from '~icons/material-symbols-light/menu-rounded'
 
 const navLinks = [
   {
-    text: 'Magazine',
-    url: '/editions',
-    imageUrl: '/underline.svg',
-  },
-  {
     text: 'Newsletter',
     url: '/newsletter',
     imageUrl: '/images/1ceec489-3480-49ac-beb7-924dfafe85e5.svg',
@@ -31,6 +26,22 @@ const navLinks = [
           <img decoding="async" loading="lazy" src="/logo.svg" alt="n::.m" class="h-6" />
         </a>
         <nav class="hidden space-x-10 lg:flex">
+          <div class="relative">
+            <button id="magazine-button" class="group flex cursor-pointer items-center text-lg font-bold text-gray-900 transition-colors hover:text-yellow-600">
+              <span>Magazine</span>
+              <IsIconDownOutline class="ml-1 h-5 w-5 font-bold" />
+            </button>
+            <div id="magazine-dropdown" class="absolute z-10 mt-2 hidden w-64 rounded-md border border-gray-200 bg-white py-1 shadow-xl">
+              <a href="/third-edition" class="flex items-center px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-yellow-50 hover:text-yellow-600">
+                <span class="mr-3 inline-flex items-center rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 px-2.5 py-1 text-xs font-bold text-black shadow-sm ring-1 ring-yellow-300/50">NEW</span>
+                Edition #3 - Mind. Body. Tech.
+              </a>
+              <a href="/products/issue-002" class="block px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-yellow-50 hover:text-yellow-600">Edition #2 - Digital Nomad Communities</a>
+              <a href="/products/issue-001" class="block px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-yellow-50 hover:text-yellow-600">Edition #1 - Digital Nomadism</a>
+              <div class="border-t border-gray-200 my-1"></div>
+              <a href="/editions" class="block px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-yellow-50 hover:text-yellow-600">View All Editions</a>
+            </div>
+          </div>
           {
             navLinks.map((link) => (
               <a href={link.url} class="group relative inline-block text-lg font-bold text-gray-900 transition-colors hover:text-yellow-600">
@@ -84,7 +95,15 @@ const navLinks = [
       </button>
     </div>
     <nav class="flex flex-col items-start space-y-8 p-6 text-3xl font-bold">
-      <a href="/editions" class="transition-colors hover:text-yellow-400">Magazine</a>
+      <div class="space-y-4">
+        <div class="text-yellow-400">Magazine</div>
+        <div class="ml-4 space-y-2 text-xl">
+          <a href="/third-edition" class="block transition-colors hover:text-yellow-400">Edition #3 (NEW)</a>
+          <a href="/products/issue-002" class="block transition-colors hover:text-yellow-400">Edition #2</a>
+          <a href="/products/issue-001" class="block transition-colors hover:text-yellow-400">Edition #1</a>
+          <a href="/editions" class="block transition-colors hover:text-yellow-400">View All Editions</a>
+        </div>
+      </div>
       <a href="/nomad-events" class="transition-colors hover:text-yellow-400">Events</a>
       <a target="_blank" href="https://pitch.com/v/media-kit-ngm-issue-3-jzm47w/d51b3011-5765-4553-81e8-67b598a755f8" class="transition-colors hover:text-yellow-400">Advertise</a>
       <a href="/#Involved" class="transition-colors hover:text-yellow-400">For partners</a>
@@ -109,6 +128,55 @@ const navLinks = [
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    // Magazine dropdown functionality
+    const magazineButton = document.getElementById('magazine-button')
+    const magazineDropdown = document.getElementById('magazine-dropdown')
+    if (magazineButton && magazineDropdown) {
+      let closeTimeout: number | null = null
+      
+      // Open dropdown on hover
+      magazineButton.addEventListener('mouseenter', () => {
+        if (closeTimeout) {
+          clearTimeout(closeTimeout)
+          closeTimeout = null
+        }
+        magazineDropdown.classList.remove('hidden')
+      })
+      
+      // Close dropdown when mouse leaves the button
+      magazineButton.addEventListener('mouseleave', (event) => {
+        // Check if mouse is moving to dropdown
+        const relatedTarget = event.relatedTarget as Node
+        if (!magazineDropdown.contains(relatedTarget)) {
+          closeTimeout = window.setTimeout(() => {
+            magazineDropdown.classList.add('hidden')
+          }, 150) // 150ms delay
+        }
+      })
+      
+      // Keep dropdown open when hovering over it
+      magazineDropdown.addEventListener('mouseenter', () => {
+        if (closeTimeout) {
+          clearTimeout(closeTimeout)
+          closeTimeout = null
+        }
+      })
+      
+      // Close dropdown when mouse leaves dropdown
+      magazineDropdown.addEventListener('mouseleave', () => {
+        closeTimeout = window.setTimeout(() => {
+          magazineDropdown.classList.add('hidden')
+        }, 150) // 150ms delay
+      })
+      
+      // Navigate on click instead of toggling
+      magazineButton.addEventListener('click', (event) => {
+        event.preventDefault()
+        window.location.href = '/editions'
+      })
+    }
+    
+    // More dropdown functionality
     const moreButton = document.getElementById('more-button')
     const moreDropdown = document.getElementById('more-dropdown')
     if (moreButton && moreDropdown) {
@@ -120,6 +188,8 @@ const navLinks = [
         if (!moreDropdown.contains(event.target as Node) && !moreButton.contains(event.target as Node)) moreDropdown.classList.add('hidden')
       })
     }
+    
+    // Mobile menu functionality
     const mobileMenuButton = document.getElementById('mobile-menu-button')
     const mobileMenuOverlay = document.getElementById('mobile-menu-overlay')
     const closeMenuButton = document.getElementById('close-menu-button')

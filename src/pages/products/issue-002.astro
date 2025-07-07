@@ -6,6 +6,10 @@ import Testimonials from '~/components/Testimonials.astro'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import ProductCarousel from '~/components/ProductCarousel.astro'
 import MagazineReadyBanner from '~/components/MagazineReadyBanner.astro'
+import EditionStats from '~/components/EditionStats.astro'
+import Sponsors from '~/components/Sponsors.astro'
+import PreOrderSection from '~/components/PreOrderSection.astro'
+import MagazinePreview from '~/components/MagazinePreview.astro'
 
 const slides = [
   {
@@ -40,40 +44,69 @@ const slides = [
   },
 ]
 
+const sponsors = [
+  {
+    link: 'https://www.outsite.co/',
+    image: '/images/c135132c-74e3-438b-8260-8b1592e7a48f.svg',
+    alt: 'Outsite',
+    width: '120',
+  },
+  {
+    link: 'https://nomadtrain.co/',
+    image: '/images/a3a85544-ef2c-4771-b79d-f56fbb04acfc.svg',
+    alt: 'Nomad Train Logo',
+    width: '100',
+  },
+  {
+    link: 'https://nomads.insure/',
+    image: '/images/b5a18d61-7148-40c5-ba44-3b1e9baf792c.webp',
+    alt: 'Nomads Insure',
+    width: '100',
+  },
+]
+
 const seo: SEOProps = {
-  title: 'Issue 002 - Nomad Gossip Magazine | Digital Nomad Communities & Japan',
+  title: 'Issue 002 - Nomad Magazine | Digital Nomad Communities & Japan',
   description:
-    'Issue 002 of Nomad Gossip Magazine focuses on digital nomad communities and Japan as a destination. 110 pages of exclusive content, interviews, and nomad insights.',
+    'Issue 002 of Nomad Magazine focuses on digital nomad communities and Japan as a destination. 110 pages of exclusive content, interviews, and nomad insights.',
   image: `${Astro.site}images/0f686bbe-be95-4550-bdd8-4cd0cb9c7fcf.webp`,
-  keywords: 'nomad magazine issue 002, digital nomad communities, japan nomad, nomad gossip magazine, remote work magazine',
+  keywords: 'nomad magazine issue 002, digital nomad communities, japan nomad, nomad magazine, remote work magazine',
   ogType: 'website',
   ldJSON: {
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: 'Nomad Gossip Magazine Issue 002',
+    name: 'Nomad Magazine Issue 002',
     description: 'Issue 002 focusing on digital nomad communities and Japan as a destination',
     url: `${Astro.site}products/issue-002`,
     image: `${Astro.site}images/0f686bbe-be95-4550-bdd8-4cd0cb9c7fcf.webp`,
     brand: {
       '@type': 'Brand',
-      name: 'Nomad Gossip Magazine',
+              name: 'Nomad Magazine',
     },
     offers: [
       {
         '@type': 'Offer',
-        name: 'Digital Issue 002',
+        name: 'Issue 002 (Digital Version, Single Purchase)',
         price: '9.00',
         priceCurrency: 'EUR',
         availability: 'https://schema.org/InStock',
         url: 'https://buy.stripe.com/aEUbLOcE4d4ZcqQ146',
+        hasMerchantReturnPolicy: {
+          '@type': 'MerchantReturnPolicy',
+          returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
+        },
       },
       {
         '@type': 'Offer',
-        name: 'Print Issue 002',
+        name: 'Issue 002 (Print Version, Single Purchase)',
         price: '22.00',
         priceCurrency: 'EUR',
         availability: 'https://schema.org/InStock',
         url: 'https://buy.stripe.com/fZe7vygUk3upfD2bIL',
+        hasMerchantReturnPolicy: {
+          '@type': 'MerchantReturnPolicy',
+          returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
+        },
       },
     ],
     publisher: {
@@ -90,13 +123,100 @@ const seo: SEOProps = {
 
 <Layout seo={seo}>
   <MagazineReadyBanner text="NEW MAGAZINE IS LIVE!" />
+  
+  <!-- Hero Section -->
+  <div class="mx-auto max-w-7xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 items-center gap-8 sm:gap-16 lg:grid-cols-2">
+      <div class="space-y-6 sm:space-y-8">
+        <div class="space-y-4 sm:space-y-6">
+          <div class="text-base sm:text-lg font-semibold text-gray-800">Nomad Magazine: Issue 002</div>
+          <h1 class="mb-4 text-3xl sm:text-4xl leading-tight font-bold md:text-6xl">Your guide into digital nomad communities in 110-page masterpiece.</h1>
+          <div class="text-base sm:text-lg font-semibold text-gray-700">Read by 1000+ nomads worldwide</div>
+        </div>
+        <div class="space-y-4">
+          <div class="mb-2 flex flex-col gap-4 sm:flex-row sm:items-end">
+            <div class="flex flex-col items-center order-first sm:order-last">
+              <span class="mb-1 inline-block rounded-full bg-yellow-400 px-3 py-1 text-xs font-bold text-black uppercase tracking-wide shadow">Recommended</span>
+              <a
+                href="https://buy.stripe.com/aEUbLOcE4d4ZcqQ146"
+                data-event="reserve magazine"
+                target="_blank"
+                class="glow-animate w-full sm:w-auto inline-block rounded border-2 border-yellow-400 bg-black px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-yellow-400 transition-colors duration-200 hover:bg-yellow-400 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-300"
+              >
+                GET DIGITAL NOW
+              </a>
+            </div>
+            <a
+              href="https://buy.stripe.com/fZe7vygUk3upfD2bIL"
+              data-event="reserve magazine"
+              target="_blank"
+              class="w-full sm:w-auto inline-block rounded bg-yellow-400 px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-black shadow-md transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 order-last sm:order-first"
+            >
+              ORDER PRINT
+            </a>
+          </div>
+          <div class="mt-2 text-xs sm:text-sm text-gray-700">
+            *Issue 002 launched — now available.
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-center lg:justify-end order-first lg:order-last">
+        <img
+          src="/images/0f686bbe-be95-4550-bdd8-4cd0cb9c7fcf.webp"
+          alt="Nomad Magazine Issue 002 cover"
+          class="h-auto max-w-full rounded-lg shadow-lg"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Section -->
+  <EditionStats
+    stats={[
+      { value: '110', label: 'Pages' },
+      { value: '7', label: 'Communities Featured' },
+      { value: '1', label: 'Country Deep Dive' },
+    ]}
+  />
+
+  <!-- Sponsors Section -->
+  <Sponsors {sponsors} />
+
+  <!-- Welcome Section -->
+  <div class="mx-auto max-w-3xl px-4 py-16">
+    <h1 class="font-justme mb-6 text-center text-3xl md:text-4xl">Welcome to Issue 002, dear reader.</h1>
+    <div class="prose prose-lg mx-auto mb-10 text-gray-800">
+      <p><strong>We turned nomad life into a 110-page masterpiece.</strong></p>
+      <p><strong>In focus: Nomad Communities and Japan as a new destination.</strong></p>
+      <p>
+        This edition of <strong>NGM</strong> takes you deeper into the heart of the digital nomad lifestyle, with a special focus on <em>the communities that shape it</em> and getting
+        to know the digital nomad scene of <em>Japan</em>.
+      </p>
+      <p>In this issue, you'll get:</p>
+      <ul role="list" class="list-disc pl-6">
+        <li>An official introduction to the seven dynamic nomad communities.</li>
+        <li>Exclusive interview with Kiki about Japan and its top travel destinations.</li>
+        <li>Photo story showcasing Japanese cuisine.</li>
+        <li>Insights from a law firm on the truth behind Japan's Digital Nomad Visa.</li>
+        <li>"7 Secrets to a Thriving Nomadic Love Relationship" from a couple who has traveled together for 32 years.</li>
+        <li>Exclusive book recommendations from the Mindvalley Book Club.</li>
+        <li>10-year digital nomad reflections by Sergio Sala.</li>
+        <li>Top 6 accommodation booking platforms to explore.</li>
+        <li>A calendar of digital nomad events in 2025.</li>
+      </ul>
+      <p>And much more!</p>
+    </div>
+  </div>
+
+  <!-- Product Section -->
   <section class="my-12 flex flex-col items-start justify-center gap-8 md:flex-row">
     <!-- Carousel/Slider -->
-    <div class="w-full flex-shrink-0 px-8 md:w-1/2 md:px-0">
+    <div class="w-full flex-shrink-0 px-4 sm:px-8 md:w-1/2 md:px-0">
       <ProductCarousel {slides} firstSlideMaxWidth={false} />
     </div>
     <!-- Product Info -->
-    <div class="w-full max-w-md px-8 md:w-1/2 lg:px-0">
+    <div class="w-full max-w-md md:w-1/2">
       <PaymentPlan
         issueNumber="ISSUE 002"
         issueDescription="Your guide into digital nomad communities in 110-page masterpiece."
@@ -106,14 +226,12 @@ const seo: SEOProps = {
             title: 'Single Purchase',
             subtitle: 'Pay for one issue',
             features: [
-              { text: 'Personal NGM account' },
               { text: 'Exclusive NGM newsletters' },
               { text: 'First to unlock the new NGM issue' },
               { text: 'Lifetime access to digital magazine' },
             ],
             price: '€9',
             url: 'https://buy.stripe.com/aEUbLOcE4d4ZcqQ146',
-            defaultUrl: 'https://buy.stripe.com/5kA5nqcE4ghb2Qg9AB',
             defaultChecked: false,
           },
         ]}
@@ -128,34 +246,37 @@ const seo: SEOProps = {
         }}
         orderButtonText="Order Now"
       />
-      <div class="mt-2 text-xs text-gray-500">
-        While the digital version works on both mobile and desktop, we recommend the desktop for a more enjoyable reading experience.<br />
-        All payments will be securely processed through MediaPath OÜ, the business entity of Nomad Gossip Magazine.
-      </div>
     </div>
   </section>
-  <div class="mx-auto my-8 max-w-3xl px-4 text-left">
-    <p><strong>We turned nomad life into a 100-page masterpiece.</strong></p>
-    <p><strong>In focus: Nomad Communities and Japan as a new destination.</strong></p>
-    <p>
-      This edition of <strong>NGM</strong> takes you deeper into the heart of the digital nomad lifestyle, with a special focus on <em>the communities that shape it</em> and getting
-      to know the digital nomad scene of <em>Japan</em>.
-    </p>
-    <p>In this issue, you'll get:</p>
-    <ul role="list" class="list-disc pl-6">
-      <li>An official introduction to the seven dynamic nomad communities.a</li>
-      <li>Exclusive interview with Kiki about Japan and its top travel destinations.</li>
-      <li>Photo story showcasing Japanese cuisine.</li>
-      <li>Insights from a law firm on the truth behind Japan's Digital Nomad Visa.</li>
-      <li>"7 Secrets to a Thriving Nomadic Love Relationship" from a couple who has traveled together for 32 years.</li>
-      <li>Exclusive book recommendations from the Mindvalley Book Club.</li>
-      <li>10-year digital nomad reflections by Sergio Sala.</li>
-      <li>Top 6 accommodation booking platforms to explore.</li>
-      <li>A calendar of digital nomad events in 2025.</li>
-    </ul>
-    <p>And much more!</p>
-  </div>
+
   <Testimonials sectionClass="bg-hoverw [&_h2]:text-white" />
   <FAQ />
   <FAQContact />
+  
+  <!-- Magazine Preview -->
+  <MagazinePreview
+    titleClass="mt-4"
+    sectionClass="bg-gray-50"
+    title="Previous Editions"
+    subTitle="Magazine Preview"
+    subTitleClass="font-justme !text-black !text-2xl !font-medium"
+  />
+  
+  <!-- Final CTA -->
+  <PreOrderSection 
+    name="👀 GET MY MAGAZINE" 
+    preOrderUrl="https://buy.stripe.com/fZe7vygUk3upfD2bIL" 
+    digitalUrl="https://buy.stripe.com/aEUbLOcE4d4ZcqQ146"
+  />
 </Layout>
+
+<style>
+@keyframes glow {
+  0% { box-shadow: 0 0 0 0 #fde047; }
+  50% { box-shadow: 0 0 16px 4px #fde047; }
+  100% { box-shadow: 0 0 0 0 #fde047; }
+}
+.glow-animate {
+  animation: glow 1.5s infinite;
+}
+</style>

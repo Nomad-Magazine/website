@@ -84,7 +84,7 @@ function generateRandomFilename(url) {
  * Find all HTTPS image URLs in a file
  */
 function findImageUrls(content) {
-  const imageUrlRegex = /https:\/\/[^\s"')]+\.(jpg|jpeg|png|gif|webp|svg|ico)(\?[^\s"')]*)?/gi
+  const imageUrlRegex = /https:\/\/[^\s"')]+\.(jpg|jpeg|png|gif|webp|svg|avif|ico)(\?[^\s"')]*)?/gi
   const matches = content.match(imageUrlRegex) || []
   return [...new Set(matches)] // Remove duplicates
 }

@@ -45,10 +45,10 @@ const seo: SEOProps = {
 ---
 
 <Layout seo={seo}>
-  <div class="mx-auto max-w-7xl px-4 py-60 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
-      <div class="space-y-8">
-        <div class="space-y-6">
+  <div class="mx-auto max-w-7xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 items-center gap-8 sm:gap-16 lg:grid-cols-2">
+      <div class="space-y-6 sm:space-y-8">
+        <div class="space-y-4 sm:space-y-6">
           <p class="font-justme text-4xl text-gray-800">the first global digital nomad magazine</p>
           <h1 class="md:text-12xl xl:text-22xl text-7xl font-semibold text-gray-900 xl:leading-18">This magazine will show you the Digital Nomad World 🌴</h1>
           <div class="space-y-3 text-lg text-gray-700">
@@ -67,14 +67,34 @@ const seo: SEOProps = {
           </div>
         </div>
         <div class="space-y-4">
-          <a href="/third-edition" class="inline-block rounded-md bg-black px-6 py-3 font-semibold text-white">
-            NEW EDITION {'>>'}
-          </a>
-          <p class="text-sm font-semibold text-gray-600">P.S. It's nice to get away from screens once in a while!</p>
+          <div class="mb-2 flex flex-col gap-4 sm:flex-row sm:items-end">
+            <div class="flex flex-col items-center order-first sm:order-last">
+              <span class="mb-1 inline-block rounded-full bg-yellow-400 px-3 py-1 text-xs font-bold text-black uppercase tracking-wide shadow">Latest Edition</span>
+              <a
+                href="/third-edition"
+                class="glow-animate w-full sm:w-auto inline-block rounded border-2 border-yellow-400 bg-black px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-yellow-400 transition-colors duration-200 hover:bg-yellow-400 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-300"
+              >
+                NEW EDITION >>
+              </a>
+            </div>
+            <a
+              href="/editions"
+              class="w-full sm:w-auto inline-block rounded bg-yellow-400 px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-black shadow-md transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 order-last sm:order-first"
+            >
+              VIEW ALL EDITIONS
+            </a>
+          </div>
+          <div class="mt-2 text-xs sm:text-sm text-gray-700">
+            P.S. It's nice to get away from screens once in a while!
+          </div>
         </div>
       </div>
-      <div>
-        <img src="/images/187987f5-e9fc-4a74-b6ef-304b3d4a92e2.webp" alt="Person holding Nomad Magazine issues" class="w-full rounded-lg object-cover" />
+      <div class="flex justify-center lg:justify-end order-first lg:order-last">
+        <img 
+          src="/images/187987f5-e9fc-4a74-b6ef-304b3d4a92e2.webp" 
+          alt="Person holding Nomad Magazine issues" 
+          class="h-auto max-w-full rounded-lg shadow-lg object-cover" 
+        />
       </div>
     </div>
   </div>
@@ -103,3 +123,14 @@ const seo: SEOProps = {
     <FooterLinks />
   </div>
 </Layout>
+
+<style>
+@keyframes glow {
+  0% { box-shadow: 0 0 0 0 #fde047; }
+  50% { box-shadow: 0 0 16px 4px #fde047; }
+  100% { box-shadow: 0 0 0 0 #fde047; }
+}
+.glow-animate {
+  animation: glow 1.5s infinite;
+}
+</style>
