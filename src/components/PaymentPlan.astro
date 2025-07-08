@@ -64,13 +64,9 @@ const defaultDigitalPlan = digitalPlans.find((plan) => plan.defaultChecked) || d
           type="radio" 
           name={`type-${instanceId}`} 
           value="digital" 
-          checked 
           class="w-4 h-4 text-black bg-gray-100 border-gray-300 focus:ring-black"
         />
-        <span class="ml-2 flex items-center">
-          <span class="text-gray-900">Digital</span>
-          <span class="ml-2 bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded">Recommended</span>
-        </span>
+        <span class="ml-2 text-gray-900">Digital</span>
       </label>
       <label class="flex items-center cursor-pointer">
         <input 
@@ -78,9 +74,13 @@ const defaultDigitalPlan = digitalPlans.find((plan) => plan.defaultChecked) || d
           type="radio" 
           name={`type-${instanceId}`} 
           value="print" 
+          checked 
           class="w-4 h-4 text-black bg-gray-100 border-gray-300 focus:ring-black"
         />
-        <span class="ml-2 text-gray-900">Print</span>
+        <span class="ml-2 flex items-center">
+          <span class="text-gray-900">Print</span>
+          <span class="ml-2 bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded">Recommended</span>
+        </span>
       </label>
     </div>
   </div>
@@ -178,17 +178,17 @@ const defaultDigitalPlan = digitalPlans.find((plan) => plan.defaultChecked) || d
   <!-- Price Display -->
   <div class="flex items-center justify-between mb-6">
     <span id={`price-display-${instanceId}`} class="text-4xl font-bold text-gray-900">
-      {defaultDigitalPlan.price}
+      {printPlan.price}
     </span>
     <span id={`price-note-${instanceId}`} class="text-sm text-gray-500">
-      {defaultDigitalPlan.priceNote || ''}
+      {printPlan.priceNote || ''}
     </span>
   </div>
 
   <!-- Order Button -->
   <a
     id={orderBtnId}
-    href={defaultDigitalPlan.url}
+    href={printPlan.url}
     target="_blank"
     class="block w-full bg-black text-white text-center py-4 px-6 rounded-lg font-semibold text-lg hover:bg-gray-800 transition-colors"
   >
@@ -330,8 +330,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Check immediately
   if (!checkForPrintHash()) {
-    // Initialize with digital plan by default
-    showPlan('digital');
+    // Initialize with print plan by default
+    showPlan('print');
   }
 
   // Also listen for hash changes

@@ -21,26 +21,26 @@ const finalDigitalUrl = digitalUrl || "https://buy.stripe.com/8x27sL4A51bdewS6tP
       <h2 class="mb-8 text-center text-3xl font-bold text-gray-900">{name}</h2>
     )}
     <div class="mb-2 flex flex-col gap-4 sm:flex-row items-end">
-      <a
-        href={scrollToPayment ? "#payment-plan" : finalPrintUrl}
-        target={scrollToPayment ? "_self" : "_blank"}
-        onclick={scrollToPayment ? "return scrollToPaymentPlan()" : ""}
-        class="inline-block rounded bg-yellow-400 px-8 py-3 text-center text-lg font-extrabold text-black shadow-md transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300"
-        style="min-width: 200px;"
-      >
-        ORDER PRINT
-      </a>
       <div class="flex flex-col items-center">
         <span class="mb-1 inline-block rounded-full bg-yellow-400 px-3 py-1 text-xs font-bold text-black uppercase tracking-wide shadow">Recommended</span>
         <a
-          href={finalDigitalUrl}
-          target="_blank"
-          class="glow-animate inline-block rounded border-2 border-yellow-400 bg-black px-8 py-3 text-center text-lg font-extrabold text-yellow-400 transition-colors duration-200 hover:bg-yellow-400 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-300"
+          href={scrollToPayment ? "#payment-plan" : finalPrintUrl}
+          target={scrollToPayment ? "_self" : "_blank"}
+          onclick={scrollToPayment ? "return scrollToPaymentPlan()" : ""}
+          class="inline-block rounded bg-yellow-400 px-8 py-3 text-center text-lg font-extrabold text-black shadow-md transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300"
           style="min-width: 200px;"
         >
-          GET DIGITAL NOW
+          ORDER PRINT
         </a>
       </div>
+      <a
+        href={finalDigitalUrl}
+        target="_blank"
+        class="glow-animate inline-block rounded border-2 border-yellow-400 bg-black px-8 py-3 text-center text-lg font-extrabold text-yellow-400 transition-colors duration-200 hover:bg-yellow-400 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-300"
+        style="min-width: 200px;"
+      >
+        GET DIGITAL NOW
+      </a>
     </div>
     <div class="text-center text-xl font-semibold text-gray-400">
       *Edition #3 launched July 2025 — now available.

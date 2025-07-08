@@ -18,26 +18,26 @@ const { printUrl, digitalUrl, waitlistUrl }: Props = Astro.props
       </div>
       <div class="space-y-4">
         <div class="mb-2 flex flex-col gap-4 sm:flex-row sm:items-end">
-          <div class="flex flex-col items-center order-first sm:order-last">
+          <a
+            href={digitalUrl}
+            data-event="reserve magazine"
+            target="_blank"
+            class="glow-animate w-full sm:w-auto inline-block rounded border-2 border-yellow-400 bg-black px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-yellow-400 transition-colors duration-200 hover:bg-yellow-400 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-300 order-first sm:order-last"
+          >
+            GET DIGITAL NOW
+          </a>
+          <div class="flex flex-col items-center order-last sm:order-first">
             <span class="mb-1 inline-block rounded-full bg-yellow-400 px-3 py-1 text-xs font-bold text-black uppercase tracking-wide shadow">Recommended</span>
             <a
-              href={digitalUrl}
+              href="#payment-plan"
               data-event="reserve magazine"
-              target="_blank"
-              class="glow-animate w-full sm:w-auto inline-block rounded border-2 border-yellow-400 bg-black px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-yellow-400 transition-colors duration-200 hover:bg-yellow-400 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-300"
+              data-plan="print"
+              class="w-full sm:w-auto inline-block rounded bg-yellow-400 px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-black shadow-md transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300"
+              onclick="return scrollToPaymentPlan()"
             >
-              GET DIGITAL NOW
+              ORDER PRINT
             </a>
           </div>
-          <a
-            href="#payment-plan"
-            data-event="reserve magazine"
-            data-plan="print"
-            class="w-full sm:w-auto inline-block rounded bg-yellow-400 px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-black shadow-md transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 order-last sm:order-first"
-            onclick="return scrollToPaymentPlan()"
-          >
-            ORDER PRINT
-          </a>
         </div>
         <div class="mt-2 text-xs sm:text-sm text-gray-700">
           *Edition #3 launched July 2025 — now available.
