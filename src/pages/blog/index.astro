@@ -357,9 +357,12 @@ const seo: SEOProps = {
             <p class="text-lg text-neutral-400">Discover more stories from our community</p>
           </div>
           
-          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {regularPosts.slice(4).map((post) => (
-              <article class="group relative overflow-hidden rounded-xl border border-neutral-800/50 bg-neutral-900/20 transition-all hover:border-neutral-700 hover:bg-neutral-900/40">
+          <div id="archive-grid" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {regularPosts.slice(4).map((post, index) => (
+              <article 
+                class={`archive-post group relative overflow-hidden rounded-xl border border-neutral-800/50 bg-neutral-900/20 transition-all hover:border-neutral-700 hover:bg-neutral-900/40 ${index >= 8 ? 'hidden' : ''}`}
+                data-index={index}
+              >
                 <div class="relative">
                   {post.data.heroImage && (
                     <div class="aspect-video overflow-hidden">
@@ -403,7 +406,21 @@ const seo: SEOProps = {
             ))}
           </div>
           
-          <div class="mt-12 text-center">
+          {regularPosts.slice(4).length > 8 && (
+            <div class="mt-12 text-center">
+              <button 
+                id="load-more-btn"
+                class="inline-flex items-center gap-2 rounded-lg bg-neutral-700 px-6 py-3 text-sm font-medium text-white transition-all hover:bg-neutral-600 focus:outline-none focus:ring-2 focus:ring-yellow-400/20"
+              >
+                Load More Articles
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            </div>
+          )}
+          
+          <div id="end-message" class="mt-12 text-center hidden">
             <div class="inline-flex items-center gap-2 text-sm text-neutral-400">
               <div class="h-px w-8 bg-gradient-to-r from-transparent to-neutral-600"></div>
               <span>End of articles</span>
@@ -453,5 +470,37 @@ const seo: SEOProps = {
     overflow: hidden;
   }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const loadMoreBtn = document.getElementById('load-more-btn');
+    const endMessage = document.getElementById('end-message');
+    const archivePosts = document.querySelectorAll('.archive-post');
+    
+    let currentlyVisible = 8;
+    const loadIncrement = 8;
+    
+    if (loadMoreBtn) {
+      loadMoreBtn.addEventListener('click', function() {
+        // Show next batch of posts
+        for (let i = currentlyVisible; i < Math.min(currentlyVisible + loadIncrement, archivePosts.length); i++) {
+          if (archivePosts[i]) {
+            archivePosts[i].classList.remove('hidden');
+          }
+        }
+        
+        currentlyVisible += loadIncrement;
+        
+        // Hide button and show end message if all posts are visible
+        if (currentlyVisible >= archivePosts.length) {
+          loadMoreBtn.style.display = 'none';
+          if (endMessage) {
+            endMessage.classList.remove('hidden');
+          }
+        }
+      });
+    }
+  });
+</script>
 
 
