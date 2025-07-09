@@ -1,18 +1,65 @@
 ---
 import { getCollection } from 'astro:content'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
-import FeaturedPostCard from '~/components/FeaturedPostCard.astro'
+import { Image } from 'astro:assets'
 
 // Get all blog posts and filter for published ones
 const allPosts = await getCollection('blog')
 const posts = allPosts
-  .filter((post) => post.data.published !== false) // Only show published posts
+  .filter((post) => post.data.published !== false)
   .sort((a, b) => {
-    // Sort by pubDate (falling back to created_at if pubDate is not available)
     const dateA = a.data.pubDate || new Date(0)
     const dateB = b.data.pubDate || new Date(0)
     return dateB.valueOf() - dateA.valueOf()
   })
+
+// Get featured post (first/latest post)
+const featuredPost = posts[0]
+
+// Get posts with video content for YouTube section
+const videoPosts = posts.filter(post => 
+  post.body.includes('youtube.com/embed') || 
+  post.body.includes('iframe') || 
+  post.data.tag?.includes('Video') ||
+  post.data.title.toLowerCase().includes('video')
+).slice(0, 3)
+
+// Get other posts for the grid (excluding featured and video posts)
+const otherPosts = posts.slice(1).filter(post => !videoPosts.includes(post))
+
+// Use all other posts for the sections
+const regularPosts = otherPosts
+
+// YouTube channel videos
+const youtubeVideos = [
+  {
+    id: 'pgTpfH7zNVs',
+    title: 'Why Digital Nomads Are Choosing Buenos Aires in 2025',
+    description: 'Discover what makes Buenos Aires a top destination for digital nomads in 2025.',
+    thumbnail: 'https://img.youtube.com/vi/pgTpfH7zNVs/hqdefault.jpg',
+    duration: '18:45',
+    views: '12.3K',
+    publishedAt: '2025-01-20'
+  },
+  {
+    id: 'NgG92Q8Uxgg',
+    title: 'Why Digital Nomads Choosing Madeira in 2024: Madeira Friends Founders and Community',
+    description: 'Meet the founders behind Madeira Friends and discover why digital nomads are flocking to this Portuguese island.',
+    thumbnail: 'https://img.youtube.com/vi/NgG92Q8Uxgg/hqdefault.jpg',
+    duration: '14:22',
+    views: '8.7K',
+    publishedAt: '2025-01-18'
+  },
+  {
+    id: '_sBXTskL0gA',
+    title: 'Why Digital Nomads Choose Chiang Mai?',
+    description: 'Exploring what makes Chiang Mai, Thailand one of the top destinations for digital nomads worldwide.',
+    thumbnail: 'https://img.youtube.com/vi/_sBXTskL0gA/hqdefault.jpg',
+    duration: '16:33',
+    views: '15.9K',
+    publishedAt: '2025-01-15'
+  }
+]
 
 const seo: SEOProps = {
   title: 'Nomad Blog - Digital Nomad Articles & Tips',
@@ -50,15 +97,361 @@ const seo: SEOProps = {
 ---
 
 <Layout seo={seo}>
-  <div class="bg-hoverw mx-auto flex flex-col items-center px-4 sm:px-6 lg:px-8">
-    <main class="py-16">
-      <div class="mx-auto max-w-2xl text-center">
-        <h2 class="text-4xl font-semibold tracking-tight text-white sm:text-5xl">Nomad Blog</h2>
-        <p class="mt-4 text-lg text-neutral-400">In-depth articles and useful tips on how to improve your nomadic journey.</p>
+  <div class="bg-hoverw min-h-screen">
+    <!-- Header Section -->
+    <header class="border-b border-neutral-800 bg-hoverw px-4 py-12 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl text-center">
+        <h1 class="text-5xl font-bold tracking-tight text-white sm:text-6xl">Nomad Blog</h1>
+        <p class="mt-2 text-lg text-yellow-400 font-medium">In-depth articles and useful tips on how to improve your nomadic journey.</p>
       </div>
-      <section class="mt-12 max-w-7xl">
-        {posts.map((post) => <FeaturedPostCard post={post} />)}
+    </header>
+
+    <!-- Featured Article Hero -->
+    {featuredPost && (
+      <section class="border-b border-neutral-800 bg-hoverw px-4 py-16 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl">
+          <div class="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
+            <div class="space-y-6">
+              <div class="flex items-center gap-4 text-sm text-neutral-400">
+                {featuredPost.data.pubDate && (
+                  <time datetime={featuredPost.data.pubDate.toISOString()}>
+                    {featuredPost.data.pubDate.toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </time>
+                )}
+              </div>
+              <h2 class="text-4xl font-bold leading-tight text-white sm:text-5xl">
+                {featuredPost.data.title}
+              </h2>
+              <p class="text-xl text-neutral-300 leading-relaxed">
+                {featuredPost.data.description}
+              </p>
+              <div class="flex items-center gap-4">
+                <a 
+                  href={`/blog/${featuredPost.slug}`}
+                  class="inline-flex items-center gap-2 rounded-lg bg-neutral-700 px-6 py-3 text-lg font-medium text-white transition-all hover:bg-neutral-600"
+                >
+                  Read Full Story
+                  <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </a>
+                <span class="text-sm text-neutral-400">
+                  {Math.ceil(featuredPost.body.length / 1000)} min read
+                </span>
+              </div>
+            </div>
+            <div class="relative">
+              {featuredPost.data.heroImage && (
+                <div class="relative overflow-hidden rounded-2xl">
+                  <Image
+                    src={featuredPost.data.heroImage}
+                    alt={featuredPost.data.heroImageAlt || featuredPost.data.title}
+                    width={800}
+                    height={450}
+                    class="aspect-video w-full object-cover"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
       </section>
-    </main>
+    )}
+
+    <!-- YouTube Section -->
+    <section class="border-b border-neutral-800 bg-neutral-900/30 px-4 py-16 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-12 flex items-center justify-between">
+          <div>
+            <h2 class="text-3xl font-bold text-white">Latest Videos</h2>
+            <p class="mt-2 text-lg text-neutral-400">Watch our latest content on YouTube</p>
+          </div>
+          <a 
+            href="https://www.youtube.com/@Nomad-Magazine" 
+            target="_blank"
+            class="inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-bold text-white transition-all hover:bg-red-700"
+          >
+            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+            Subscribe
+          </a>
+        </div>
+        
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {youtubeVideos.map((video) => (
+            <div class="group relative overflow-hidden rounded-2xl bg-neutral-900/50 transition-all hover:bg-neutral-900/80 hover:scale-105">
+              <div class="relative">
+                <img
+                  src={video.thumbnail}
+                  alt={video.title}
+                  class="aspect-video w-full object-cover"
+                  loading="lazy"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div class="absolute bottom-2 right-2 rounded bg-black/80 px-2 py-1 text-xs text-white">
+                  {video.duration}
+                </div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div class="rounded-full bg-red-600 p-4 transition-all group-hover:bg-red-700 group-hover:scale-110">
+                    <svg class="h-8 w-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div class="p-6">
+                <h3 class="mb-2 text-lg font-bold text-white group-hover:text-yellow-400 transition-colors">
+                  <a href={`https://www.youtube.com/watch?v=${video.id}`} target="_blank" class="after:absolute after:inset-0">
+                    {video.title}
+                  </a>
+                </h3>
+                <p class="text-sm text-neutral-300 line-clamp-2">
+                  {video.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- Featured Stories Section -->
+    <section class="border-b border-neutral-800 bg-neutral-900/20 px-4 py-16 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-12 text-center">
+          <h2 class="text-3xl font-bold text-white">Featured Stories</h2>
+          <p class="mt-2 text-lg text-neutral-400">Essential reads for digital nomads</p>
+        </div>
+        
+        <!-- Featured Layout: One Big Article -->
+        <div class="mb-8">
+          {regularPosts[0] && (
+            <article class="group relative overflow-hidden rounded-2xl border border-neutral-700/50 bg-neutral-900/30 transition-all hover:border-neutral-600 hover:bg-neutral-900/60">
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="relative">
+                  {regularPosts[0].data.heroImage && (
+                    <div class="aspect-[16/10] overflow-hidden rounded-l-2xl">
+                      <Image
+                        src={regularPosts[0].data.heroImage}
+                        alt={regularPosts[0].data.heroImageAlt || regularPosts[0].data.title}
+                        width={600}
+                        height={375}
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
+                  )}
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent rounded-l-2xl"></div>
+                </div>
+                
+                <div class="p-8 flex flex-col justify-center">
+                  <div class="mb-4 flex items-center gap-2 text-sm text-neutral-400">
+                    {regularPosts[0].data.pubDate && (
+                      <time datetime={regularPosts[0].data.pubDate.toISOString()}>
+                        {regularPosts[0].data.pubDate.toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
+                        })}
+                      </time>
+                    )}
+                    <span>•</span>
+                    <span>{Math.ceil(regularPosts[0].body.length / 1000)} min read</span>
+                  </div>
+                  
+                  <h3 class="mb-4 text-3xl font-bold leading-tight text-white group-hover:text-yellow-400 transition-colors">
+                    <a href={`/blog/${regularPosts[0].slug}`} class="after:absolute after:inset-0">
+                      {regularPosts[0].data.title}
+                    </a>
+                  </h3>
+                  
+                  <p class="mb-6 text-lg text-neutral-300 line-clamp-3">
+                    {regularPosts[0].data.description}
+                  </p>
+                  
+                  <div class="flex items-center justify-between">
+                    <span class="text-sm text-neutral-400 font-medium group-hover:text-yellow-400 transition-colors">
+                      Read More
+                    </span>
+                    <svg class="h-4 w-4 text-neutral-400 group-hover:text-yellow-400 transition-all group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </article>
+          )}
+        </div>
+
+        <!-- Three Smaller Articles in a Row -->
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+          {regularPosts.slice(1, 4).map((post) => (
+            <article class="group relative overflow-hidden rounded-2xl border border-neutral-700/50 bg-neutral-900/30 transition-all hover:border-neutral-600 hover:bg-neutral-900/60">
+              <div class="relative">
+                {post.data.heroImage && (
+                  <div class="aspect-video overflow-hidden">
+                    <Image
+                      src={post.data.heroImage}
+                      alt={post.data.heroImageAlt || post.data.title}
+                      width={400}
+                      height={225}
+                      class="w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </div>
+                )}
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+              </div>
+              
+              <div class="p-6">
+                <div class="mb-3 flex items-center gap-2 text-sm text-neutral-400">
+                  {post.data.pubDate && (
+                    <time datetime={post.data.pubDate.toISOString()}>
+                      {post.data.pubDate.toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                      })}
+                    </time>
+                  )}
+                  <span>•</span>
+                  <span>{Math.ceil(post.body.length / 1000)} min</span>
+                </div>
+                
+                <h3 class="mb-3 text-xl font-bold leading-tight text-white group-hover:text-yellow-400 transition-colors">
+                  <a href={`/blog/${post.slug}`} class="after:absolute after:inset-0">
+                    {post.data.title}
+                  </a>
+                </h3>
+                
+                <p class="mb-4 text-base text-neutral-300 line-clamp-2">
+                  {post.data.description}
+                </p>
+                
+                <div class="flex items-center justify-between">
+                  <span class="text-sm text-neutral-400 font-medium group-hover:text-yellow-400 transition-colors">
+                    Read More
+                  </span>
+                  <svg class="h-4 w-4 text-neutral-400 group-hover:text-yellow-400 transition-all group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Archive Section -->
+    {regularPosts.length > 4 && (
+      <section class="bg-hoverw px-4 py-16 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl">
+          <div class="mb-12 text-center">
+            <h2 class="text-3xl font-bold text-white mb-4">From the Archive</h2>
+            <p class="text-lg text-neutral-400">Discover more stories from our community</p>
+          </div>
+          
+          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {regularPosts.slice(4).map((post) => (
+              <article class="group relative overflow-hidden rounded-xl border border-neutral-800/50 bg-neutral-900/20 transition-all hover:border-neutral-700 hover:bg-neutral-900/40">
+                <div class="relative">
+                  {post.data.heroImage && (
+                    <div class="aspect-video overflow-hidden">
+                      <Image
+                        src={post.data.heroImage}
+                        alt={post.data.heroImageAlt || post.data.title}
+                        width={300}
+                        height={169}
+                        class="w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
+                  )}
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                </div>
+                
+                <div class="p-5">
+                  <div class="mb-2 flex items-center gap-2 text-xs text-neutral-500">
+                    {post.data.pubDate && (
+                      <time datetime={post.data.pubDate.toISOString()}>
+                        {post.data.pubDate.toLocaleDateString('en-US', {
+                          month: 'short',
+                          year: 'numeric',
+                        })}
+                      </time>
+                    )}
+                    <span>•</span>
+                    <span>{Math.ceil(post.body.length / 1000)} min</span>
+                  </div>
+                  
+                  <h3 class="mb-2 text-base font-semibold leading-tight text-white group-hover:text-yellow-400 transition-colors">
+                    <a href={`/blog/${post.slug}`} class="after:absolute after:inset-0">
+                      {post.data.title}
+                    </a>
+                  </h3>
+                  
+                  <p class="text-sm text-neutral-400 line-clamp-2">
+                    {post.data.description}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+          
+          <div class="mt-12 text-center">
+            <div class="inline-flex items-center gap-2 text-sm text-neutral-400">
+              <div class="h-px w-8 bg-gradient-to-r from-transparent to-neutral-600"></div>
+              <span>End of articles</span>
+              <div class="h-px w-8 bg-gradient-to-l from-transparent to-neutral-600"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    )}
+
+
+
+    <!-- Newsletter CTA -->
+    <section class="border-t border-neutral-800 bg-neutral-900/50 px-4 py-16 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-4xl text-center">
+        <h2 class="text-3xl font-bold text-white">Stay in the Loop</h2>
+        <p class="mt-4 text-lg text-neutral-400">
+          Get the latest nomad insights delivered to your inbox weekly
+        </p>
+        <div class="mt-8 flex max-w-md mx-auto gap-4">
+          <input 
+            type="email" 
+            placeholder="Enter your email"
+            class="flex-1 rounded-lg border border-neutral-700 bg-neutral-800 px-4 py-3 text-white placeholder-neutral-400 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400/20"
+          />
+          <button class="rounded-lg bg-yellow-400 px-6 py-3 font-bold text-black transition-all hover:bg-yellow-300">
+            Subscribe
+          </button>
+        </div>
+      </div>
+    </section>
   </div>
 </Layout>
+
+<style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
+
+
