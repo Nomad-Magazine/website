@@ -7,7 +7,7 @@ author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-06-04T01:35:09.456Z
 updated_at: 2025-06-04T01:36:13.412Z
-head_image: https://assets.seobotai.com/nomadgossip.com/683f8d701bd3e223130118b1-1749000973412.jpg
+head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/683f8d701bd3e223130118b1-1749000973412.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: digital nomad, travel essentials, packing tips, tech gadgets, multi-purpose clothing, travel organization, health safety
 tag: Digital, Moving, Travel
