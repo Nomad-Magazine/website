@@ -92,6 +92,23 @@ const timelineEvents = [
     title: 'We shipped the second edition of our printed magazine to our readers (second edition was distributed digital-first).',
     image: '/images/df8ac619-27db-4875-b9d8-b70d9a5e25a1.webp',
   },
+  {
+    date: 'June 2025',
+    title: 'Launch of the Third Edition at Bansko Nomad Fest',
+    content: 'In June 2025, we proudly launched our third edition at Bansko Nomad Fest—an annual event of 800+ remote workers and global citizens. We built a booth, brought fresh copies hot off the press, and shared the magazine in welcome packs. (And we\'ve met in person for the first time!)',
+    images: [
+      {
+        src: '/images/Nomad_Magazine_launch_bansko.webp',
+        link: 'https://www.instagram.com/p/DLX1b2YoAwV/?igsh=ZmV2aTN0YzB3dmd6'
+      },
+      {
+        src: '/images/Nomad_Magazine_Third_Edition.webp',
+        link: '/third-edition'
+      }
+    ],
+    link: '/third-edition',
+    linkText: 'Read the third edition',
+  },
 ]
 ---
 
@@ -126,12 +143,30 @@ const timelineEvents = [
                 <div class="timeline_sub_text mt-4 text-sm text-gray-400" set:html={event.content} />
               </div>
               <div class="timeline_image-wrapper">
-                {(event.imageLink || event.link) ? (
-                  <a href={event.imageLink || event.link} target="_blank">
-                    <img src={event.image} loading="lazy" width="480" class="cursor-pointer" />
-                  </a>
+                {event.images ? (
+                  <div class="space-y-4">
+                    {event.images.map((img) => (
+                      <div>
+                        {typeof img === 'string' ? (
+                          <img src={img} loading="lazy" width="480" />
+                        ) : (
+                          <a href={img.link} target="_blank">
+                            <img src={img.src} loading="lazy" width="480" class="cursor-pointer" />
+                          </a>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 ) : (
-                  <img src={event.image} loading="lazy" width="480" />
+                  <div>
+                    {(event.imageLink || event.link) ? (
+                      <a href={event.imageLink || event.link} target="_blank">
+                        <img src={event.image} loading="lazy" width="480" class="cursor-pointer" />
+                      </a>
+                    ) : (
+                      <img src={event.image} loading="lazy" width="480" />
+                    )}
+                  </div>
                 )}
               </div>
               {event.youtubeLink && (
