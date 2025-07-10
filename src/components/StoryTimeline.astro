@@ -1,7 +1,16 @@
 ---
 import MdiExternalLink from '~icons/mdi/external-link'
+import MdiMicrophone from '~icons/mdi/microphone'
 
 const timelineEvents = [
+  {
+    date: 'June 2023',
+    title: 'Pitch',
+    content: 'In June 2023 I pitched the idea of the magazine for digital nomads that we\'ve wrote with friends while driving around Crete.',
+    image: '/images/NC11_nomad_magazine_pitch_2023.webp',
+    link: 'https://www.instagram.com/reel/C1AgwBardej/?igsh=MnE5YWEyMDBncWM=',
+    linkText: 'Watch the pitch',
+  },
   {
     date: 'February 2024',
     title: '🚀 launch',
@@ -33,6 +42,8 @@ const timelineEvents = [
     title: 'Canada to Japan with Nomad Cruise. Epic two weeks cruise with 300 nomads and entrepreneurs.',
     content: 'We could also share how Nomad Magazine was created, starting from the startup pitch at previous Nomad Cruise.',
     image: '/images/f1aca43b-49a2-4638-be72-5be3bb482a20.webp',
+    link: 'https://www.youtube.com/watch?v=QN20_fXJZUU&t=12s',
+    linkText: 'Watch the story',
   },
   {
     date: 'September 2024',
@@ -40,11 +51,15 @@ const timelineEvents = [
     content:
       'Buenos Aires. We came back with a recorded YouTube episode that made us realize we should take YouTube more seriously. The video got 8K views while our account was still very young. Thanks to the help of Visit BUE, we invited expats and nomads to discover what makes Buenos Aires, Argentina, so special.',
     image: '/images/6ed37473-ceca-48ca-b09e-2b2572c71389.webp',
+    link: 'https://www.youtube.com/watch?v=pgTpfH7zNVs&t=673s',
+    linkText: 'Watch the episode',
   },
   {
     date: 'October 2024',
     title: 'While in Japan, we attended Colive Fukuoka in Fukuoka City and left with a few recorded interviews. Our favorite? The Japanese nomad family👇 .',
     image: '/images/9aec131a-eeba-40d5-8934-f892cd8684c9.webp',
+    link: 'https://www.youtube.com/watch?v=5Ms1V1uHuhQ',
+    linkText: 'Watch the interview',
   },
   {
     date: 'November 2024',
@@ -52,8 +67,9 @@ const timelineEvents = [
     content:
       'Design by Dominik Fodora<br>Art-Direction by Bára Tabačková and Tatiana Illarionova<br>Illustrators by Helga Pavelková, Barbora Dzadík Kmecová, Nataly Sheveleva<br>Comics by Giang Gao<br>Marketing by Feride Mustafaieva<br><br>Authors: Kristina Mänd-Lakhiani, Jessica Holmes, Lulu Lundt, Akina Shu, CarouLLou and Michel, Derek Smith, Sergio Sala, Tomas Mrva, Francesco Silicani, Flor Dosreis, Johannes Voelkner, Guilia & Andreas, Emmelie Steentjes, Marelin Goncalves and Luis Calado, Manon Jongejan and Robin Steyverd.<br><br>Sponsored by Nomads.Insure, Tulsa Remote, Inventum International (online school), Global Nomad Pass, Safety Wing.',
     image: '/images/ed30277f-bb9f-41da-bb6c-13bb6c290ae8.webp',
-    link: 'https://www.youtube.com/@NomadGossipMagazine',
-    linkText: 'HERE',
+    imageLink: 'https://www.instagram.com/reel/DFXmd-eoV1L/?igsh=MWNjaHFqOTY3NnkzaA==',
+    link: '/products/issue-002',
+    linkText: 'Read the second edition',
   },
   {
     date: 'December 2024',
@@ -61,12 +77,15 @@ const timelineEvents = [
     content:
       "Interviewed by: Lera Pitiakova (Founder)<br>Filmed by: Ilya Madeira<br><br>It's our second time at Nomad Island Fest, organized by Michelle Maree of The Nomad Escape.",
     image: '/images/6e4f04ea-3709-4f9e-b627-a513abfd224f.webp',
+    imageLink: 'https://www.instagram.com/reel/DFvZ2EzoEuc/?igsh=djhwcDEzcDJmZ2s4',
   },
   {
     date: 'January 2025',
     title: 'Chiang Mai, Thailand. We filmed an episode about why this city keeps ranking as a top destination while attending Nomad Summit.',
     content: 'Interviewed by: Lazar Dimitrijevicc<br>Filmed by: Telard Aaby<br>Location: Punspace, Chiang Mai.<br>Сreative support: Anna Egorova, Curves.Digital',
     image: '/images/a693e4e1-aa5d-4493-9d87-95358afa475e.webp',
+    link: 'https://www.youtube.com/watch?v=_sBXTskL0gA&t=128s',
+    linkText: 'Watch the episode',
   },
   {
     date: 'February 2025',
@@ -94,7 +113,10 @@ const timelineEvents = [
             </div>
             <div id="w-node-d5abcf1f-3370-3eea-ccfd-66f076babfe6-23ed97d3" class="timeline_right z-[40]">
               <div class="margin-bottom-xlarge">
-                <div class="timeline_text">{event.title}</div>
+                <div class="timeline_text flex items-center gap-2">
+                  {event.title === 'Pitch' && <MdiMicrophone class="size-5" />}
+                  {event.title}
+                </div>
                 {event.linkText && (
                   <a href={event.link} target="_blank" class="mt-4 flex cursor-pointer flex-row flex-wrap items-center gap-x-2 text-gray-400">
                     <span class="underline">{event.linkText}</span>
@@ -104,7 +126,13 @@ const timelineEvents = [
                 <div class="timeline_sub_text mt-4 text-sm text-gray-400" set:html={event.content} />
               </div>
               <div class="timeline_image-wrapper">
-                <img src={event.image} loading="lazy" width="480" />
+                {(event.imageLink || event.link) ? (
+                  <a href={event.imageLink || event.link} target="_blank">
+                    <img src={event.image} loading="lazy" width="480" class="cursor-pointer" />
+                  </a>
+                ) : (
+                  <img src={event.image} loading="lazy" width="480" />
+                )}
               </div>
               {event.youtubeLink && (
                 <iframe
