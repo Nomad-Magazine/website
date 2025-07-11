@@ -9,7 +9,7 @@ heroImageAlt: "Molly Maine's NOMAD exhibition at 67 York Street Gallery in Londo
 published: true
 ---
 
-Tucked into the warm, inviting walls of 67 York Street Gallery in London, Molly Maine's exhibition, **NOMAD: Perspectives on Home in a Changing Japan**, is a quiet revelation.
+Tucked into the warm, inviting walls of 67 York Street Gallery in London, [Molly Maine](https://www.instagram.com/molly.creative?igsh=MTJkY3R3YTUyMmxpNA==)'s exhibition, **NOMAD: Perspectives on Home in a Changing Japan**, is a quiet revelation.
 
 As a digital nomad herself, Maine has captured something rare and powerful in this intimate showcase. Through vivid illustrations, interview quotes, and deeply human storytelling, she explores what "home" means—not just geographically, but emotionally and spiritually. And for us at Nomad Magazine, where the road is long and the Wi-Fi ever-changing, this theme hits home in a profound way.
 
@@ -17,13 +17,13 @@ As a digital nomad herself, Maine has captured something rare and powerful in th
 
 The exhibition is more than a visual journey; it's a tapestry of lived experiences. On the walls, you'll find quotes from people across Japan—locals and nomads alike—each answering one deceptively simple question: What does home mean to you? Their words linger like poetry—some full of warmth, others tinged with longing or displacement.
 
-> "I think you can make any place your home."
+> I think you can make any place your home.
 
-> "Home is where I can share food with the people I love."
+> Home is where I can share food with the people I love.
 
-> "I've never been someone who is homesick. I've never had this yearning for home."
+> I've never been someone who is homesick. I've never had this yearning for home.
 
-> "Maybe we have to travel because we have to look for our personal answer. To find our home… to be where we're meant to be."
+> Maybe we have to travel because we have to look for our personal answer. To find our home… to be where we're meant to be.
 
 These responses echo through Molly's illustrations, which burst with colour and emotion. One haunting piece—a solitary figure watching an aircraft take off—left me with a knot in my stomach. It screamed of goodbyes and transience. Another, said to represent safety, stirred up unexpected sadness, perhaps reflecting how fragile that feeling can be in a changing world.
 
