@@ -25,6 +25,22 @@ const createAnchorId = (name: string) => {
 const createStoryAnchorId = (name: string) => {
   return `story-${createAnchorId(name)}`
 }
+
+// Set specific initial like counts for each article (max 15)
+const initialLikes = [
+  14, // Jimmy Naraine - high engagement
+  8,  // Loretta Graziano Breuning
+  12, // Toks Coyle
+  13, // Lera Pitiakova (Online wedding) - high engagement
+  5,  // Safir Jamal (Global Nomad Pass) - moved to position 5
+  7,  // Jessica Holmes (Wearable wellness) - moved to position 6
+  10, // Paul Gotel
+  6,  // Anna Maria Kochanska
+  8,  // Simon Watson
+  12, // Jessica Holmes (Housesitting) - high engagement
+  9,  // Lera Pitiakova (Buenos Aires)
+  8,  // Alina Crown
+].slice(0, slides.length) // Ensure we don't exceed the number of slides
 ---
 
 <section class="bg-white py-24">
@@ -45,6 +61,20 @@ const createStoryAnchorId = (name: string) => {
               class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
               loading="lazy"
             />
+            
+            <!-- Like button overlay -->
+            <div class="absolute top-4 right-4">
+              <button 
+                class="like-btn bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-lg transition-all duration-200 hover:scale-110 hover:shadow-xl"
+                data-story-id={createAnchorId(slide.name)}
+                data-initial-likes={initialLikes[index]}
+                aria-label="Like this story"
+              >
+                <svg class="heart-icon w-5 h-5 text-gray-400 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 000-6.364 4.5 4.5 0 00-6.364 0L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                </svg>
+              </button>
+            </div>
           </div>
           
           <div class="p-6">
@@ -58,12 +88,26 @@ const createStoryAnchorId = (name: string) => {
             </blockquote>
             
             <footer class="border-t border-gray-200 pt-4">
-              <div class="font-semibold text-gray-900 mb-1">
-                <a href={`#${createAnchorId(slide.name)}`} class="hover:text-blue-600 transition-colors">
-                  {slide.name}
-                </a>
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="font-semibold text-gray-900 mb-1">
+                    <a href={`#${createAnchorId(slide.name)}`} class="hover:text-blue-600 transition-colors">
+                      {slide.name}
+                    </a>
+                  </div>
+                  <div class="text-sm text-gray-500">{slide.role}</div>
+                </div>
+                
+                <!-- Like counter -->
+                <div class="flex items-center gap-2 text-sm text-gray-500">
+                  <svg class="w-4 h-4 text-red-400" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 000-6.364 4.5 4.5 0 00-6.364 0L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                  </svg>
+                  <span class="like-counter" data-story-id={createAnchorId(slide.name)}>
+                    {initialLikes[index]}
+                  </span>
+                </div>
               </div>
-              <div class="text-sm text-gray-500">{slide.role}</div>
             </footer>
           </div>
         </article>
@@ -87,12 +131,32 @@ const createStoryAnchorId = (name: string) => {
   .expanded {
     display: block;
   }
+  
+  .heart-icon.liked {
+    color: #ef4444;
+    fill: #ef4444;
+  }
+  
+  .like-btn.liked {
+    background: #fef2f2;
+    border-color: #fecaca;
+  }
+  
+  @keyframes heartPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+  
+  .heart-pulse {
+    animation: heartPulse 0.3s ease-in-out;
+  }
 </style>
 
-<script>
+<script define:vars={{ slides, initialLikes }}>
   document.addEventListener('DOMContentLoaded', function() {
+    // Read More functionality
     const readMoreButtons = document.querySelectorAll('.read-more-btn');
-    
     readMoreButtons.forEach(button => {
       button.addEventListener('click', function() {
         const parent = button.parentElement;
@@ -114,5 +178,76 @@ const createStoryAnchorId = (name: string) => {
         }
       });
     });
+    
+    // Like functionality
+    const likeButtons = document.querySelectorAll('.like-btn');
+    const likeCounters = document.querySelectorAll('.like-counter');
+    
+    // Initialize likes from localStorage or use initial values
+    const initializeLikes = () => {
+      const savedLikes = JSON.parse(localStorage.getItem('story-likes') || '{}');
+      const userLikes = JSON.parse(localStorage.getItem('user-story-likes') || '{}');
+      
+      likeCounters.forEach((counter, index) => {
+        const storyId = counter.getAttribute('data-story-id');
+        const button = likeButtons[index];
+        const heartIcon = button.querySelector('.heart-icon');
+        
+        // Set like count (saved + initial)
+        const currentLikes = savedLikes[storyId] || initialLikes[index];
+        counter.textContent = currentLikes;
+        
+        // Set user's like state
+        if (userLikes[storyId]) {
+          button.classList.add('liked');
+          heartIcon.classList.add('liked');
+        }
+      });
+    };
+    
+    // Handle like button clicks
+    likeButtons.forEach((button, index) => {
+      button.addEventListener('click', function() {
+        const storyId = button.getAttribute('data-story-id');
+        const counter = document.querySelector(`[data-story-id="${storyId}"].like-counter`);
+        const heartIcon = button.querySelector('.heart-icon');
+        
+        // Get current state
+        const savedLikes = JSON.parse(localStorage.getItem('story-likes') || '{}');
+        const userLikes = JSON.parse(localStorage.getItem('user-story-likes') || '{}');
+        
+        const currentLikes = savedLikes[storyId] || initialLikes[index];
+        const isLiked = userLikes[storyId] || false;
+        
+        // Toggle like
+        if (isLiked) {
+          // Unlike
+          savedLikes[storyId] = Math.max(0, currentLikes - 1);
+          userLikes[storyId] = false;
+          button.classList.remove('liked');
+          heartIcon.classList.remove('liked');
+        } else {
+          // Like
+          savedLikes[storyId] = currentLikes + 1;
+          userLikes[storyId] = true;
+          button.classList.add('liked');
+          heartIcon.classList.add('liked');
+          
+          // Add pulse animation
+          heartIcon.classList.add('heart-pulse');
+          setTimeout(() => heartIcon.classList.remove('heart-pulse'), 300);
+        }
+        
+        // Update counter
+        counter.textContent = savedLikes[storyId];
+        
+        // Save to localStorage
+        localStorage.setItem('story-likes', JSON.stringify(savedLikes));
+        localStorage.setItem('user-story-likes', JSON.stringify(userLikes));
+      });
+    });
+    
+    // Initialize on page load
+    initializeLikes();
   });
 </script>
