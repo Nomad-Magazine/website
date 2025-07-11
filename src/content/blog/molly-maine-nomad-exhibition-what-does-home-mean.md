@@ -1,7 +1,7 @@
 ---
 title: "What Does Home Mean in a Shifting World? Molly Maine's 'NOMAD' Exhibition Captures the Heart of It"
 description: "Tucked into the warm, inviting walls of 67 York Street Gallery in London, Molly Maine's exhibition explores what 'home' means for digital nomads and travelers in our changing world."
-pubDate: 2025-01-25
+pubDate: 2025-06-04
 author: "Nomad Magazine"
 tags: ["Art", "Exhibition", "Home", "Japan", "Digital Nomad", "London"]
 heroImage: "/images/Molly Nomad Exhibition _1002.webp"

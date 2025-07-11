@@ -13,8 +13,11 @@ const posts = allPosts
     return dateB.valueOf() - dateA.valueOf()
   })
 
-// Get featured post (first/latest post)
-const featuredPost = posts[0]
+// Find Molly's article to feature prominently
+const mollyArticle = posts.find(post => post.slug === 'molly-maine-nomad-exhibition-what-does-home-mean')
+
+// Get featured post (first/latest post, but skip Molly's article for hero)
+const featuredPost = posts.find(post => post.slug !== 'molly-maine-nomad-exhibition-what-does-home-mean')
 
 // Get posts with video content for YouTube section
 const videoPosts = posts.filter(post => 
@@ -24,11 +27,15 @@ const videoPosts = posts.filter(post =>
   post.data.title.toLowerCase().includes('video')
 ).slice(0, 3)
 
-// Get other posts for the grid (excluding featured and video posts)
-const otherPosts = posts.slice(1).filter(post => !videoPosts.includes(post))
+// Get other posts for the grid (excluding featured, molly's article, and video posts)
+const otherPosts = posts.filter(post => 
+  post.slug !== featuredPost?.slug && 
+  post.slug !== 'molly-maine-nomad-exhibition-what-does-home-mean' &&
+  !videoPosts.includes(post)
+)
 
-// Use all other posts for the sections
-const regularPosts = otherPosts
+// Use Molly's article as the main featured story, then other posts
+const regularPosts = mollyArticle ? [mollyArticle, ...otherPosts] : otherPosts
 
 // YouTube channel videos
 const youtubeVideos = [
