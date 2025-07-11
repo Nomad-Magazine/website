@@ -15,24 +15,97 @@ const { authors }: Props = Astro.props
 const createAnchorId = (name: string) => {
   return name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
 }
+
+// Function to create anchor for story previews section
+const createStoryAnchorId = (name: string) => {
+  return `story-${createAnchorId(name)}`
+}
 ---
 
-<div class="bg-gray-50 py-16">
-  <div class="mx-auto max-w-7xl px-4">
-    <h2 class="mb-2 text-center text-4xl font-semibold text-gray-800">Vol. 3 Authors</h2>
-    <p class="mx-auto mb-12 max-w-2xl text-center text-lg text-gray-600">
-      Explore our work to see the transformative power of creative solutions and envision what we can accomplish together.
-    </p>
-    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+<div class="bg-gray-50 py-24">
+  <div class="mx-auto max-w-7xl px-6">
+    <div class="mb-16 text-center">
+      <h2 class="mb-6 text-4xl font-bold text-gray-900 md:text-5xl">Vol. 3 Authors</h2>
+      <p class="mx-auto max-w-3xl text-xl text-gray-600 leading-relaxed">
+        Meet the expert contributors behind this edition's transformative stories and insights.
+      </p>
+    </div>
+    
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {
         authors.map((author) => (
-          <div id={createAnchorId(author.name)} class="flex flex-col items-start rounded-lg bg-white p-6 shadow-sm">
-            <img src={author.image} alt={author.name} class="mb-4 h-64 w-full rounded-md object-cover" loading="lazy" />
-            <h3 class="mb-2 text-2xl font-bold text-gray-900">{author.name}</h3>
-            <div class="text-base text-gray-700" set:html={author.bio} />
-          </div>
+          <article id={createAnchorId(author.name)} class="group relative overflow-hidden rounded-2xl bg-white transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+            <div class="relative h-64 overflow-hidden">
+              <img 
+                src={author.image} 
+                alt={author.name} 
+                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                loading="lazy" 
+              />
+            </div>
+            
+            <div class="p-6">
+              <div class="mb-4">
+                <h3 class="text-xl font-bold text-gray-900 mb-2">{author.name}</h3>
+                <div class="bio-text line-clamp-4 text-gray-700 leading-relaxed text-sm" set:html={author.bio} />
+                <button class="read-more-btn mt-2 text-sm text-blue-600 hover:text-blue-800 font-medium cursor-pointer">
+                  Read More
+                </button>
+              </div>
+              
+              <div class="border-t border-gray-200 pt-4">
+                <a 
+                  href={`#${createStoryAnchorId(author.name)}`} 
+                  class="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
+                >
+                  Preview their story →
+                </a>
+              </div>
+            </div>
+          </article>
         ))
       }
     </div>
   </div>
 </div>
+
+<style>
+  .line-clamp-4 {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .expanded {
+    display: block;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const readMoreButtons = document.querySelectorAll('.read-more-btn');
+    
+    readMoreButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const parent = button.parentElement;
+        if (!parent) return;
+        
+        const bioText = parent.querySelector('.bio-text');
+        if (!bioText) return;
+        
+        const isExpanded = bioText.classList.contains('expanded');
+        
+        if (isExpanded) {
+          bioText.classList.remove('expanded');
+          bioText.classList.add('line-clamp-4');
+          button.textContent = 'Read More';
+        } else {
+          bioText.classList.remove('line-clamp-4');
+          bioText.classList.add('expanded');
+          button.textContent = 'Read Less';
+        }
+      });
+    });
+  });
+</script>

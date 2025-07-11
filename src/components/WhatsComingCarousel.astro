@@ -20,6 +20,11 @@ const { heading, subtitle, slides }: Props = Astro.props
 const createAnchorId = (name: string) => {
   return name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
 }
+
+// Function to create story anchor IDs
+const createStoryAnchorId = (name: string) => {
+  return `story-${createAnchorId(name)}`
+}
 ---
 
 <section class="bg-white py-24">
@@ -31,7 +36,7 @@ const createAnchorId = (name: string) => {
     
     <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
       {slides.map((slide, index) => (
-        <article class="group relative overflow-hidden rounded-2xl bg-gray-50 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+        <article id={createStoryAnchorId(slide.name)} class="group relative overflow-hidden rounded-2xl bg-gray-50 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
           <div class="relative h-64 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
             <img
               src={slide.image}
@@ -89,18 +94,23 @@ const createAnchorId = (name: string) => {
     const readMoreButtons = document.querySelectorAll('.read-more-btn');
     
     readMoreButtons.forEach(button => {
-      button.addEventListener('click', function(this: HTMLButtonElement) {
-        const quoteText = this.previousElementSibling as HTMLElement;
+      button.addEventListener('click', function() {
+        const parent = button.parentElement;
+        if (!parent) return;
+        
+        const quoteText = parent.querySelector('.quote-text');
+        if (!quoteText) return;
+        
         const isExpanded = quoteText.classList.contains('expanded');
         
         if (isExpanded) {
           quoteText.classList.remove('expanded');
           quoteText.classList.add('line-clamp-4');
-          this.textContent = 'Read More';
+          button.textContent = 'Read More';
         } else {
           quoteText.classList.remove('line-clamp-4');
           quoteText.classList.add('expanded');
-          this.textContent = 'Read Less';
+          button.textContent = 'Read Less';
         }
       });
     });
