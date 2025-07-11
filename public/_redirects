@@ -1,3 +1,4 @@
 /feature-request /get-featured
 /nomad-directory /nomad_directory
 /about /our-story
+/sitemap.xml /sitemap-index.xml
