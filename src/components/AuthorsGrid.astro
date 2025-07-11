@@ -10,6 +10,11 @@ interface Props {
 }
 
 const { authors }: Props = Astro.props
+
+// Function to create URL-friendly anchor IDs
+const createAnchorId = (name: string) => {
+  return name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+}
 ---
 
 <div class="bg-gray-50 py-16">
@@ -21,7 +26,7 @@ const { authors }: Props = Astro.props
     <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
       {
         authors.map((author) => (
-          <div class="flex flex-col items-start rounded-lg bg-white p-6 shadow-sm">
+          <div id={createAnchorId(author.name)} class="flex flex-col items-start rounded-lg bg-white p-6 shadow-sm">
             <img src={author.image} alt={author.name} class="mb-4 h-64 w-full rounded-md object-cover" loading="lazy" />
             <h3 class="mb-2 text-2xl font-bold text-gray-900">{author.name}</h3>
             <div class="text-base text-gray-700" set:html={author.bio} />

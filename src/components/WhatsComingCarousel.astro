@@ -15,123 +15,94 @@ interface Props {
 }
 
 const { heading, subtitle, slides }: Props = Astro.props
+
+// Function to create URL-friendly anchor IDs (same as AuthorsGrid)
+const createAnchorId = (name: string) => {
+  return name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+}
 ---
 
-<section class="bg-gray-50 py-16">
-  <div class="mx-auto mb-10 max-w-3xl text-center">
-    <h2 class="mb-2 text-4xl font-bold">{heading}</h2>
-    <div class="mx-auto max-w-xl text-lg text-gray-600">{subtitle}</div>
-  </div>
-  <div class="relative flex items-center justify-center">
-    <button
-      id="wc-left"
-      type="button"
-      aria-label="Previous"
-      class="absolute left-12 z-10 hidden -translate-x-1/2 rounded-full bg-white/80 p-3 shadow transition hover:bg-white md:block"
-    >
-      <img src="/images/a5e2143b-fe3a-49e4-b93d-c6f500b4bb9d.svg" alt="Prev" class="h-7 w-7" />
-    </button>
-    <div class="mx-auto w-full max-w-4xl">
-      <div class="flex min-h-[340px] flex-col items-center rounded-2xl bg-white p-6 shadow-lg transition-all duration-300 md:flex-row md:p-10" id="wc-card">
-        <img
-          id="wc-img"
-          src={slides[0].image}
-          srcset={slides[0].srcset}
-          alt={slides[0].alt}
-          class="mb-6 h-56 w-56 rounded-lg bg-gray-100 object-contain md:mr-8 md:mb-0"
-          loading="lazy"
-        />
-        <div class="flex-1 text-left">
-          <div id="wc-quote" class="mb-6 text-lg font-medium md:text-xl">{slides[0].quote}</div>
-          <div id="wc-name" class="mb-1 text-xl font-semibold">{slides[0].name}</div>
-          <div id="wc-role" class="text-base text-gray-400 italic">{slides[0].role}</div>
-        </div>
-      </div>
-      <div class="mt-6 flex justify-center gap-2">
-        {slides.map((_, i) => <span class="inline-block h-2 w-2 rounded-full bg-gray-300" id={`wc-dot-${i}`} />)}
-      </div>
+<section class="bg-white py-24">
+  <div class="mx-auto max-w-7xl px-6">
+    <div class="mb-16 text-center">
+      <h2 class="mb-6 text-4xl font-bold text-gray-900 md:text-5xl">{heading}</h2>
+      <p class="mx-auto max-w-3xl text-xl text-gray-600 leading-relaxed">{subtitle}</p>
     </div>
-    <button
-      id="wc-right"
-      type="button"
-      aria-label="Next"
-      class="absolute right-12 z-10 hidden translate-x-1/2 rounded-full bg-white/80 p-3 shadow transition hover:bg-white md:block"
-    >
-      <img src="/images/50b78176-ece1-49f1-95cb-1ae03044b766.svg" alt="Next" class="h-7 w-7" />
-    </button>
+    
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      {slides.map((slide, index) => (
+        <article class="group relative overflow-hidden rounded-2xl bg-gray-50 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+          <div class="relative h-64 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
+            <img
+              src={slide.image}
+              srcset={slide.srcset}
+              alt={slide.alt}
+              class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
+              loading="lazy"
+            />
+          </div>
+          
+          <div class="p-6">
+            <blockquote class="mb-6 text-gray-700 leading-relaxed">
+              <div class="quote-text line-clamp-4">
+                "{slide.quote}"
+              </div>
+              <button class="read-more-btn mt-2 text-sm text-blue-600 hover:text-blue-800 font-medium cursor-pointer">
+                Read More
+              </button>
+            </blockquote>
+            
+            <footer class="border-t border-gray-200 pt-4">
+              <div class="font-semibold text-gray-900 mb-1">
+                <a href={`#${createAnchorId(slide.name)}`} class="hover:text-blue-600 transition-colors">
+                  {slide.name}
+                </a>
+              </div>
+              <div class="text-sm text-gray-500">{slide.role}</div>
+            </footer>
+          </div>
+        </article>
+      ))}
+    </div>
+    
+    <div class="mt-12 text-center">
+      <p class="text-gray-500 text-sm">And many more exclusive stories inside...</p>
+    </div>
   </div>
 </section>
 
-<script is:inline define:vars={{ slides }}>
-  let current = 0
-  const img = document.getElementById('wc-img')
-  const quote = document.getElementById('wc-quote')
-  const name = document.getElementById('wc-name')
-  const role = document.getElementById('wc-role')
-  const left = document.getElementById('wc-left')
-  const right = document.getElementById('wc-right')
-  const dots = slides.map((_, i) => document.getElementById(`wc-dot-${i}`))
-
-  let autoPlayInterval = null
-  let autoPlayTimeout = null
-  const AUTO_PLAY_DELAY = 3000 // 3s
-  const AUTO_PLAY_RESUME = 2000 // 2s after interaction
-
-  function update() {
-    img.src = slides[current].image
-    img.srcset = slides[current].srcset || ''
-    img.alt = slides[current].alt
-    quote.textContent = slides[current].quote
-    name.textContent = slides[current].name
-    role.textContent = slides[current].role
-    dots.forEach((dot, i) => {
-      if (dot) dot.classList.toggle('bg-gray-800', i === current)
-      if (dot) dot.classList.toggle('bg-gray-300', i !== current)
-    })
+<style>
+  .line-clamp-4 {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
-
-  function next() {
-    current = (current + 1) % slides.length
-    update()
+  
+  .expanded {
+    display: block;
   }
-  function prev() {
-    current = (current - 1 + slides.length) % slides.length
-    update()
-  }
+</style>
 
-  function startAutoPlay() {
-    if (autoPlayInterval) clearInterval(autoPlayInterval)
-    autoPlayInterval = setInterval(() => {
-      next()
-    }, AUTO_PLAY_DELAY)
-  }
-
-  function pauseAutoPlayAndResume() {
-    if (autoPlayInterval) clearInterval(autoPlayInterval)
-    if (autoPlayTimeout) clearTimeout(autoPlayTimeout)
-    autoPlayTimeout = setTimeout(() => {
-      startAutoPlay()
-    }, AUTO_PLAY_RESUME)
-  }
-
-  left.addEventListener('click', () => {
-    prev()
-    pauseAutoPlayAndResume()
-  })
-  right.addEventListener('click', () => {
-    next()
-    pauseAutoPlayAndResume()
-  })
-  // Dots click
-  dots.forEach((dot, i) => {
-    if (dot)
-      dot.addEventListener('click', () => {
-        current = i
-        update()
-        pauseAutoPlayAndResume()
-      })
-  })
-  // Initial
-  update()
-  startAutoPlay()
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const readMoreButtons = document.querySelectorAll('.read-more-btn');
+    
+    readMoreButtons.forEach(button => {
+      button.addEventListener('click', function(this: HTMLButtonElement) {
+        const quoteText = this.previousElementSibling as HTMLElement;
+        const isExpanded = quoteText.classList.contains('expanded');
+        
+        if (isExpanded) {
+          quoteText.classList.remove('expanded');
+          quoteText.classList.add('line-clamp-4');
+          this.textContent = 'Read More';
+        } else {
+          quoteText.classList.remove('line-clamp-4');
+          quoteText.classList.add('expanded');
+          this.textContent = 'Read Less';
+        }
+      });
+    });
+  });
 </script>
