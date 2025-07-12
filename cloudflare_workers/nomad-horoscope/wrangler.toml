@@ -1,0 +1,14 @@
+name = "nomad-horoscope"
+main = "index.js"
+compatibility_date = "2025-06-17"
+compatibility_flags = ["nodejs_compat"]
+
+[observability]
+enabled = true
+
+[route]
+pattern = "nomad_horoscope.nomad-magazine.com"
+custom_domain = true
+
+[vars]
+OPENAI_API_KEY = { type = "secret" } 
