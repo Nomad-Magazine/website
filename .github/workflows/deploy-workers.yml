@@ -45,10 +45,10 @@ jobs:
           cat > worker-temp/wrangler.toml << EOF
           name = "${{ matrix.worker.name }}"
           main = "index.js"
-          compatibility_date = "2025-01-15"
+          compatibility_date = "2025-06-17"
           compatibility_flags = ["nodejs_compat"]
           
-          [[routes]]
+          [route]
           pattern = "${{ matrix.worker.route }}"
           custom_domain = true
           EOF
