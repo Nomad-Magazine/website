@@ -25,9 +25,7 @@ export default {
       try {
         const currentDate = new Date();
         const nextMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
-
         const prompt = `Generate a personalized horoscope suggestion for ${name}, born on ${birthdate}, for the month of ${nextMonth.toLocaleString('default', { month: 'long' })}. Include insights about work, relationships, and other relevant aspects. Suggest a destination that is best for the digital nomad based on their sign and the period and the planet around, also make sure the time is the best to visit the place according to thing to do in this period, suggest activity and action to take related to horoscope knowledge give a suggestion of plate to taste, place to see activity to do, related to the place and the the horoscope, write a little story at the end to help the person project himself, answer with HTML with style css in each element not global format it nice, with first title the name of the destination with a title here are the colors of our website to stay matching #f4dc01 yellow for emphasis info, #121111 our black for button and others elements and our gray #d8d8d8`;
-
         const suggestion = await fetchGptSuggestion(prompt, env.OPENAI_API_KEY);
 
         return new Response(JSON.stringify(suggestion), {
