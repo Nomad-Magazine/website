@@ -16,8 +16,8 @@ const posts = allPosts
 // Find Molly's article to feature prominently
 const mollyArticle = posts.find(post => post.slug === 'molly-maine-nomad-exhibition-what-does-home-mean')
 
-// Get featured post (first/latest post, but skip Molly's article for hero)
-const featuredPost = posts.find(post => post.slug !== 'molly-maine-nomad-exhibition-what-does-home-mean')
+// Use Molly's article as the featured post (top hero section)
+const featuredPost = mollyArticle || posts[0]
 
 // Get posts with video content for YouTube section
 const videoPosts = posts.filter(post => 
@@ -27,15 +27,14 @@ const videoPosts = posts.filter(post =>
   post.data.title.toLowerCase().includes('video')
 ).slice(0, 3)
 
-// Get other posts for the grid (excluding featured, molly's article, and video posts)
+// Get other posts for the grid (excluding featured/molly's article and video posts)
 const otherPosts = posts.filter(post => 
   post.slug !== featuredPost?.slug && 
-  post.slug !== 'molly-maine-nomad-exhibition-what-does-home-mean' &&
   !videoPosts.includes(post)
 )
 
-// Use Molly's article as the main featured story, then other posts
-const regularPosts = mollyArticle ? [mollyArticle, ...otherPosts] : otherPosts
+// Regular posts start with the second most recent post (excluding Molly's)
+const regularPosts = otherPosts
 
 // YouTube channel videos
 const youtubeVideos = [
@@ -154,10 +153,12 @@ const seo: SEOProps = {
               </div>
             </div>
             <div class="relative">
-              {featuredPost.data.heroImage && (
+              {featuredPost && (
                 <div class="relative overflow-hidden rounded-2xl">
                   <Image
-                    src={featuredPost.data.heroImage}
+                    src={featuredPost.slug === 'molly-maine-nomad-exhibition-what-does-home-mean' 
+                      ? "/images/Molly Nomad Exhibition H_1029.webp" 
+                      : (featuredPost.data.heroImage || "/images/041ff422-b910-402f-9fd9-33e20d30055e.webp")}
                     alt={featuredPost.data.heroImageAlt || featuredPost.data.title}
                     width={800}
                     height={450}
