@@ -176,7 +176,6 @@ const htmlContent = `<!DOCTYPE html>
     <div class="loading" id="loading">Consulting the stars... ✨</div>
     <div class="result" id="result"></div>
   </div>
-
   <script>
     async function getHoroscope() {
       const name = document.getElementById('name').value.trim();
