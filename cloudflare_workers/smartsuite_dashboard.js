@@ -22,6 +22,13 @@ export default {
     // Handle API endpoints
     if (request.method === 'POST') {
       try {
+        if (!env.GITHUB_TOKEN) {
+          return new Response(JSON.stringify({ error: 'GitHub token not configured' }), {
+            status: 500,
+            headers: { ...cors, 'Content-Type': 'application/json' }
+          });
+        }
+
         const action = path.replace(/^\/+/, '') || 'sync-directory';
         // Trigger GitHub action
         const gh = await fetch(
@@ -54,7 +61,7 @@ export default {
         });
       } catch (err) {
         console.error('Worker', err);
-        return new Response(JSON.stringify({ error: 'Internal error' }), { 
+        return new Response(JSON.stringify({ error: `Internal error: ${err.message}` }), { 
           status: 500, 
           headers: { ...cors, 'Content-Type': 'application/json' }
         });
@@ -64,6 +71,13 @@ export default {
     // Get workflow status
     if (request.method === 'GET' && path === '/status') {
       try {
+        if (!env.GITHUB_TOKEN) {
+          return new Response(JSON.stringify({ error: 'GitHub token not configured' }), {
+            status: 500,
+            headers: { ...cors, 'Content-Type': 'application/json' }
+          });
+        }
+
         const workflows = await fetch(
           'https://api.github.com/repos/Nomad-Magazine/website/actions/runs?per_page=10',
           {
@@ -77,7 +91,9 @@ export default {
         );
 
         if (!workflows.ok) {
-          throw new Error(`GitHub API error: ${workflows.status}`);
+          const errorText = await workflows.text();
+          console.error('GitHub API error:', workflows.status, errorText);
+          throw new Error(`GitHub API error: ${workflows.status} - ${errorText}`);
         }
 
         const data = await workflows.json();
@@ -86,7 +102,7 @@ export default {
         });
       } catch (err) {
         console.error('Status fetch error', err);
-        return new Response(JSON.stringify({ error: 'Failed to fetch status' }), { 
+        return new Response(JSON.stringify({ error: `Failed to fetch status: ${err.message}` }), { 
           status: 500, 
           headers: { ...cors, 'Content-Type': 'application/json' }
         });
