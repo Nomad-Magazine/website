@@ -208,6 +208,7 @@ const htmlContent = `<!DOCTYPE html>
           <div style="line-height: 1.6;">\${data.suggestion}</div>
         \`;
       } catch (error) {
+        console.error('Error in getHoroscope:', error);
         resultDiv.innerHTML = \`<div class="error">Error: \${error.message}</div>\`;
       } finally {
         submitBtn.disabled = false;

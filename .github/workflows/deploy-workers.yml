@@ -18,6 +18,7 @@ jobs:
   deploy-workers:
     runs-on: ubuntu-latest
     strategy:
+      max-parallel: 1
       matrix:
         worker:
           - name: nomad-horoscope

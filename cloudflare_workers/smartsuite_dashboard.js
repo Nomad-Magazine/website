@@ -450,6 +450,7 @@ function getDashboardHTML() {
                     throw new Error(result.error || 'Unknown error');
                 }
             } catch (error) {
+                console.error('Error triggering action:', error);
                 errorMsg.textContent = \`❌ Error: \${error.message}\`;
                 errorMsg.style.display = 'block';
             } finally {
@@ -488,6 +489,7 @@ function getDashboardHTML() {
                     workflowsList.innerHTML = '<div style="text-align: center; padding: 40px; color: #718096;">No recent workflows found</div>';
                 }
             } catch (error) {
+                console.error('Error loading workflows:', error);
                 workflowsList.innerHTML = '<div style="text-align: center; padding: 40px; color: #e53e3e;">Failed to load workflows</div>';
             }
         }
