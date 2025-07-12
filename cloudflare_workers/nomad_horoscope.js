@@ -202,7 +202,6 @@ const htmlContent = `<!DOCTYPE html>
         if (!response.ok) {
           throw new Error(data.error || 'Failed to get horoscope');
         }
-
         resultDiv.innerHTML = \`
           <h2 style="color: #121111; margin-bottom: 16px;">Your Next Digital Nomad Trip, \${name}:</h2>
           <div style="line-height: 1.6;">\${data.suggestion}</div>
