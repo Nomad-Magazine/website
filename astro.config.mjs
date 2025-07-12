@@ -6,6 +6,7 @@ import cloudflare from '@astrojs/cloudflare'
 import { defineConfig, envField } from 'astro/config'
 
 export default defineConfig({
+  output: 'server',
   server: {
     open: true,
     port: 3000,
