@@ -1,43 +1,7 @@
 ---
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 
-const collageRow1 = [
-  {
-    src: 'https://cdn.prod.website-files.com/64ec95e0eddd7b775369e9e7/64ecc1ac4d19097aeaac3fc4_Mask%20group%20(2).webp',
-    alt: "A collage of people's eyes",
-  },
-  {
-    src: 'https://cdn.prod.website-files.com/64ec95e0eddd7b775369e9e7/64ecc1adbefc57bba9ddc46f_Mask%20group%20(3).webp',
-    alt: "A collage of people's eyes",
-  },
-  {
-    src: '/images/3f4dcd9a-3576-46ec-b910-56039a2ea937.webp',
-    alt: "A collage of people's eyes",
-  },
-  {
-    src: '/images/d250af11-f77b-4198-baea-c01eb056397d.webp',
-    alt: "A collage of people's eyes",
-  },
-]
 
-const collageRow2 = [
-  {
-    src: '/images/204687c3-be22-459f-8c53-d1397ee5f459.webp',
-    alt: "A collage of people's eyes",
-  },
-  {
-    src: 'https://cdn.prod.website-files.com/64ec95e0eddd7b775369e9e7/64ecc1add525f103420f671e_Mask%20group%20(5).webp',
-    alt: "A collage of people's eyes",
-  },
-  {
-    src: '/images/6d61d9dc-0cca-4225-8e46-324c6c3ef10c.webp',
-    alt: "A collage of people's eyes",
-  },
-  {
-    src: 'https://cdn.prod.website-files.com/64ec95e0eddd7b775369e9e7/64ecc1ac7b14ff765d370576_Mask%20group%20(6).webp',
-    alt: "A collage of people's eyes",
-  },
-]
 
 // Placeholder URLs for "Seen at" logos
 const seenAtLogos = [
@@ -80,17 +44,10 @@ const seo: SEOProps = {
 ---
 
 <Layout seo={seo}>
-  <!-- Collage and Title -->
-  <div class="flex w-full flex-row justify-center gap-6 overflow-x-hidden">
-    {collageRow1.map((image) => <img src={image.src} alt={image.alt} class="h-[90px] w-auto" loading="lazy" decoding="async" />)}
-  </div>
-  <div class="mt-12 flex flex-row justify-center gap-6 overflow-x-hidden">
-    {collageRow2.map((image) => <img src={image.src} alt={image.alt} class="h-[90px] w-auto" loading="lazy" decoding="async" />)}
-  </div>
-  <h1 class="font-justme mt-4 text-center text-5xl md:text-6xl">what do you love about NGM?</h1>
+
   <!-- Form Container -->
-  <div class="mt-12 rounded-2xl bg-gray-50 py-24">
-    <iframe src="https://tally.so/embed/nGqodZ?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" height="200px" class="mx-auto" title="Testimonial Form"></iframe>
+  <div class="rounded-2xl bg-gray-50 py-24">
+    <iframe src="https://form.smartsuite.com/s4tmc086/cNnFe6QPe5?header=false" width="100%" height="600px" frameborder="0"></iframe>
   </div>
   <!-- Seen At Section -->
   <div
