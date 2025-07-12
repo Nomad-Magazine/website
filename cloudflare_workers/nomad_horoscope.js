@@ -32,6 +32,7 @@ export default {
           headers: { 'Content-Type': 'application/json' },
         });
       } catch (error) {
+        console.error('Error generating horoscope:', error);
         return new Response(
           JSON.stringify({ error: 'Failed to generate horoscope' }),
           {
