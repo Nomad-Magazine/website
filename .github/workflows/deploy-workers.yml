@@ -49,7 +49,7 @@ jobs:
           compatibility_flags = ["nodejs_compat"]
           
           [[routes]]
-          pattern = "${{ matrix.worker.route }}/*"
+          pattern = "${{ matrix.worker.route }}"
           custom_domain = true
           EOF
       
