@@ -12,4 +12,6 @@ pattern = "dashboard.smartsuite.nomad-magazine.com"
 custom_domain = true
 
 [vars]
-GITHUB_TOKEN = { type = "secret" } 
+GITHUB_TOKEN = "GITHUB_TOKEN_PLACEHOLDER"
+
+ 

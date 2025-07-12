@@ -12,4 +12,5 @@ pattern = "horoscope.nomad-magazine.com"
 custom_domain = true
 
 [vars]
-OPENAI_API_KEY = { type = "secret" } 
+OPENAI_API_KEY = "OPENAI_API_KEY_PLACEHOLDER"
+ 
