@@ -9,9 +9,13 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - 'cloudflare_workers/**'
   pull_request:
     branches:
       - main
+    paths-ignore:
+      - 'cloudflare_workers/**'
   repository_dispatch:
     types: [sync-deploy]
 

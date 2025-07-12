@@ -510,7 +510,6 @@ function getDashboardHTML() {
         // Load workflows on page load
         document.addEventListener('DOMContentLoaded', () => {
             loadWorkflows();
-            
             // Auto-refresh workflows every 30 seconds
             workflowRefreshInterval = setInterval(loadWorkflows, 30000);
         });
