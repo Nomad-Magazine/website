@@ -8,7 +8,7 @@ tsconfig = "tsconfig.json"
 enabled = true
 
 [route]
-pattern = "nomad_horoscope.nomad-magazine.com"
+pattern = "horoscope.nomad-magazine.com"
 custom_domain = true
 
 [vars]

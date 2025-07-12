@@ -16,6 +16,7 @@ on:
       - main
     paths-ignore:
       - 'cloudflare_workers/**'
+      - '.github/workflows/deploy-workers.yml'
   repository_dispatch:
     types: [sync-deploy]
 

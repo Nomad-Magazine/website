@@ -11,6 +11,7 @@ on:
       - main
     paths:
       - 'cloudflare_workers/**'
+      - '.github/workflows/deploy-workers.yml'
   repository_dispatch:
     types: [deploy-workers]
 

@@ -8,7 +8,7 @@ tsconfig = "tsconfig.json"
 enabled = true
 
 [route]
-pattern = "smartsuite_dashboard.nomad-magazine.com"
+pattern = "dashboard.smartsuite.nomad-magazine.com"
 custom_domain = true
 
 [vars]
