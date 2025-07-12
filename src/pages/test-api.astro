@@ -1,0 +1,43 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Test API">
+  <main class="min-h-screen bg-gray-50 py-12">
+    <div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-8">
+      <h1 class="text-2xl font-bold text-gray-900 mb-6 text-center">API Test</h1>
+      
+      <button 
+        id="testButton"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+      >
+        Call API
+      </button>
+      
+      <div 
+        id="response" 
+        class="mt-6 p-4 bg-gray-100 rounded-lg text-gray-700 min-h-[50px] flex items-center justify-center"
+      >
+        Click the button to test the API
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  const button = document.getElementById('testButton');
+  const responseDiv = document.getElementById('response');
+
+  button?.addEventListener('click', async () => {
+    try {
+      responseDiv!.textContent = 'Loading...';
+      
+      const response = await fetch('/api/test');
+      const data = await response.json() as { message: string };
+      
+      responseDiv!.textContent = data.message;
+    } catch (error) {
+      responseDiv!.textContent = 'Error calling API';
+    }
+  });
+</script> 
