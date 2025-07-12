@@ -22,10 +22,10 @@ jobs:
         worker:
           - name: nomad-horoscope
             file: nomad_horoscope.js
-            route: horoscope.nomad-magazine.com
+            route: nomad_horoscope.nomad-magazine.com
           - name: smartsuite-dashboard
             file: smartsuite_dashboard.js
-            route: dashboard.nomad-magazine.com
+            route: smartsuite_dashboard.nomad-magazine.com
     
     steps:
       - name: Checkout repository
