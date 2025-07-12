@@ -23,6 +23,7 @@ export default {
       }
 
       try {
+
         const currentDate = new Date();
         const nextMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
         const prompt = `Generate a personalized horoscope suggestion for ${name}, born on ${birthdate}, for the month of ${nextMonth.toLocaleString('default', { month: 'long' })}. Include insights about work, relationships, and other relevant aspects. Suggest a destination that is best for the digital nomad based on their sign and the period and the planet around, also make sure the time is the best to visit the place according to thing to do in this period, suggest activity and action to take related to horoscope knowledge give a suggestion of plate to taste, place to see activity to do, related to the place and the the horoscope, write a little story at the end to help the person project himself, answer with HTML with style css in each element not global format it nice, with first title the name of the destination with a title here are the colors of our website to stay matching #f4dc01 yellow for emphasis info, #121111 our black for button and others elements and our gray #d8d8d8`;
@@ -74,6 +75,7 @@ async function fetchGptSuggestion(prompt, apiKey) {
 
   return { suggestion };
 }
+
 
 const htmlContent = `<!DOCTYPE html>
 <html lang="en">
@@ -170,24 +172,48 @@ const htmlContent = `<!DOCTYPE html>
   <div class="container">
     <h1>Digital Nomad Horoscope</h1>
     <h2>By Nomad Gossip Magazine</h2>
-    <input type="text" id="name" placeholder="Enter your name" required>
-    <input type="date" id="birthdate" required>
-    <button onclick="getHoroscope()" id="submitBtn">Get My Next Trip</button>
+    <form
+      method="POST"
+      action="https://track.bentonow.com/forms/1685a00cdc1fc329724616bec1de09c6/$subscribe_horoscope?hardened=true"
+      enctype="multipart/form-data"
+      onsubmit="updateRedirect()"
+    >
+      <input type="text" name="name" id="name" placeholder="Enter your name" required>
+      <input type="email" name="email" id="email" placeholder="Enter your email" required>
+      <input type="date" name="birthdate" id="birthdate" required>
+      <input type="hidden" name="redirect" id="redirect" value="">
+      <button type="submit" id="submitBtn">Get My Next Trip</button>
+    </form>
     <div class="loading" id="loading">Consulting the stars... ✨</div>
     <div class="result" id="result"></div>
   </div>
-  <script>
-    async function getHoroscope() {
-      const name = document.getElementById('name').value.trim();
+    <script>
+    function updateRedirect() {
+      const name = document.getElementById('name').value;
       const birthdate = document.getElementById('birthdate').value;
+      const redirectUrl = \`https://nomad-horoscope.nomad-magazine.com/?name=\${encodeURIComponent(name)}&birthdate=\${encodeURIComponent(birthdate)}&generate=true\`;
+      document.getElementById('redirect').value = redirectUrl;
+    }
+
+    // Check if we need to generate horoscope on page load
+    window.addEventListener('load', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('generate') === 'true') {
+        const name = urlParams.get('name');
+        const birthdate = urlParams.get('birthdate');
+        
+        if (name && birthdate) {
+          // Hide the form and show loading
+          document.querySelector('form').style.display = 'none';
+          generateHoroscope(name, birthdate);
+        }
+      }
+    });
+
+    async function generateHoroscope(name, birthdate) {
       const submitBtn = document.getElementById('submitBtn');
       const loading = document.getElementById('loading');
       const resultDiv = document.getElementById('result');
-
-      if (!name || !birthdate) {
-        resultDiv.innerHTML = '<div class="error">Please enter both your name and birthdate.</div>';
-        return;
-      }
 
       submitBtn.disabled = true;
       submitBtn.textContent = 'Loading...';
@@ -206,7 +232,7 @@ const htmlContent = `<!DOCTYPE html>
           <div style="line-height: 1.6;">\${data.suggestion}</div>
         \`;
       } catch (error) {
-        console.error('Error in getHoroscope:', error);
+        console.error('Error in generateHoroscope:', error);
         resultDiv.innerHTML = \`<div class="error">Error: \${error.message}</div>\`;
       } finally {
         submitBtn.disabled = false;
@@ -214,13 +240,6 @@ const htmlContent = `<!DOCTYPE html>
         loading.style.display = 'none';
       }
     }
-
-    // Allow Enter key to submit
-    document.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        getHoroscope();
-      }
-    });
   </script>
 </body>
 </html>`;
