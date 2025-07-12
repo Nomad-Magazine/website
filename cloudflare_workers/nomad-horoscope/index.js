@@ -89,7 +89,7 @@ const htmlContent = `<!DOCTYPE html>
       align-items: center;
       min-height: 100vh;
       margin: 0;
-      background: linear-gradient(135deg, #f4dc01 0%, #d8d8d8 100%);
+      background-color: transparent;
     }
     .container {
       text-align: center;
