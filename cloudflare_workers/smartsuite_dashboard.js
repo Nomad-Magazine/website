@@ -23,7 +23,6 @@ export default {
     if (request.method === 'POST') {
       try {
         const action = path.replace(/^\/+/, '') || 'sync-directory';
-        
         // Trigger GitHub action
         const gh = await fetch(
           'https://api.github.com/repos/Nomad-Magazine/website/dispatches',

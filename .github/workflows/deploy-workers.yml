@@ -38,6 +38,7 @@ jobs:
         run: |
           mkdir -p worker-temp
           cp cloudflare_workers/${{ matrix.worker.file }} worker-temp/index.js
+          echo '{}' > worker-temp/package.json
       
       - name: Create wrangler.toml for worker
         run: |
@@ -47,8 +48,8 @@ jobs:
           compatibility_date = "2025-01-15"
           compatibility_flags = ["nodejs_compat"]
           
-          [route]
-          pattern = "${{ matrix.worker.route }}"
+          [[routes]]
+          pattern = "${{ matrix.worker.route }}/*"
           custom_domain = true
           EOF
       
