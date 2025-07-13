@@ -248,21 +248,34 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice, bentoSiteU
     subscription = await stripe.subscriptions.retrieve((invoice as any).subscription)
   }
 
-  for (const line of invoice.lines.data) {
-    const product = (line as any).price?.product as Stripe.Product
-    const sku = product?.metadata?.sku || product?.id
+  // Collect all products in an array
+  const products = []
+  let totalAmount = 0
+  let currency = 'usd'
 
-    await sendBentoEvent(customerEmail, 'subscription_payment_succeeded', {
+  for (const line of invoice.lines.data) {
+    const sku = line.pricing?.price_details?.product
+
+    products.push({
       sku,
-      product_name: product?.name,
       amount: line.amount,
       currency: line.currency,
-      quantity: line.quantity,
-      invoice_id: invoice.id,
-      subscription_id: subscription?.id,
-      purchase_type: 'subscription'
-    }, bentoSiteUuid, bentoPublishableKey, bentoSecretKey)
+      quantity: line.quantity
+    })
+
+    totalAmount += line.amount
+    currency = line.currency
   }
+
+  // Send single event with all products
+  await sendBentoEvent(customerEmail, 'subscription_payment_succeeded', {
+    products,
+    total_amount: totalAmount,
+    currency,
+    invoice_id: invoice.id,
+    subscription_id: subscription?.id,
+    purchase_type: 'subscription'
+  }, bentoSiteUuid, bentoPublishableKey, bentoSecretKey)
 }
 
 async function handleInvoicePaymentFailed(invoice: Stripe.Invoice, bentoSiteUuid: string, bentoPublishableKey: string, bentoSecretKey: string) {
