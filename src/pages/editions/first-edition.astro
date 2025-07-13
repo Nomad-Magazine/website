@@ -82,12 +82,92 @@ const authors = [
   {
     image: '/images/edition-001-amy-white.webp',
     name: 'Amy White',
-    bio: `Editor-in-chief and ghostwriter who helps shape the editorial vision of Nomad Magazine, ensuring every story resonates with the nomad community.`,
+    bio: `Editor-in-Chief of Nomad Magazine and internationally acclaimed ghostwriter from the UK. Former Editor-in-Chief at Mindvalley reaching 16M readers, Amy has helped authors hit bestseller lists (NYT, USA Today). She's lived in 49 countries and specializes in storytelling, publishing, and personal growth.`,
+  },
+  {
+    image: '/images/edition-001-tijmen-hobbel.webp',
+    name: 'Tijmen Hobbel',
+    bio: `Photographer & videographer known for immersive travel storytelling and cultural depth. His work with sustainable brands, TV stations, festivals, and international NGOs captures moments that feel like you could step into them. He's also a guitar builder and music enthusiast.`,
   },
   {
     image: '/images/edition-001-lera-pitiakova.webp',
     name: 'Lera Pitiakova',
     bio: `Editor and founder of NGM who conducts in-depth interviews and shares insights from the nomadic lifestyle, building bridges within the global nomad community.`,
+  },
+]
+
+const articleSlides = [
+  {
+    image: '/images/edition-001-commitment-issues-bori-vigh.webp',
+    alt: 'The Real Reason Behind Commitment Issues',
+    quote:
+      "Explores the 'perfection-paradox' among nomads—fear of imperfection leads to difficulty in committing to locations, people, or projects. This deep dive reveals why nomads struggle with decisions and how to overcome the endless search for something better.",
+    name: 'Bori Vigh',
+    role: 'Nomad Cruise Host & Podcast Creator',
+  },
+  {
+    image: '/images/edition-001-rat-race-freedom-tarek-kholoussy.webp',
+    alt: 'From the Rat Race to Freedom',
+    quote:
+      "Tarek shares his transformative journey from corporate life to starting Nomads Giving Back, showing how to build a meaningful nomadic life focused on impact rather than just location independence.",
+    name: 'Tarek Kholoussy',
+    role: 'Founder of Nomads Giving Back',
+  },
+  {
+    image: '/images/edition-001-dating-guide-marina-iakovleva.webp',
+    alt: 'What NOT to Do on a First Date in These 5 Countries',
+    quote:
+      "A cultural guide on dating etiquette across different countries, helping nomads navigate romantic connections while respecting local customs and avoiding embarrassing cultural mistakes.",
+    name: 'Marina Iakovleva',
+    role: 'Creator of Dating Beyond Borders',
+  },
+  {
+    image: '/images/edition-001-insurance-truths-christoph-huebner.webp',
+    alt: '4 Inconvenient Truths About Nomad Insurance',
+    quote:
+      "Exposes common pitfalls and limitations of insurance options for nomads, revealing what insurance companies don't tell you and how to protect yourself while traveling long-term.",
+    name: 'Christoph Huebner',
+    role: 'Founder of NOMADS.insure',
+  },
+  {
+    image: '/images/edition-001-nomad-retreats-ngm-team.webp',
+    alt: 'Best Digital Nomad Retreats',
+    quote:
+      "A curated list of nomad-friendly retreats that blend work, travel, and purpose, featuring destinations and programs that foster both productivity and personal growth.",
+    name: 'NGM Editorial Team',
+    role: 'Nomad Magazine Editors',
+  },
+  {
+    image: '/images/edition-001-business-ai-santiago-sosa.webp',
+    alt: 'Business and AI: A Match Made in Innovation?',
+    quote:
+      "How AI is transforming the way nomads run lean and efficient businesses, exploring tools, strategies, and the future of automated entrepreneurship for location-independent professionals.",
+    name: 'Santiago Sosa',
+    role: 'Marketing Automation Expert',
+  },
+  {
+    image: '/images/edition-001-wifi-less-amy-white.webp',
+    alt: 'The Good, the Bad, and the WiFi-less',
+    quote:
+      "A witty, tongue-in-cheek essay on the perils of unreliable WiFi while living the digital nomad dream. Amy dramatizes the chaos of being cut off from the internet like a tragic romance—where your remote job, identity, and sanity all depend on one blinking signal.",
+    name: 'Amy White',
+    role: 'Editor-in-Chief of Nomad Magazine',
+  },
+  {
+    image: '/images/edition-001-mongolia-nomads-tijmen-hobbel.webp',
+    alt: 'Real Nomads of Mongolia',
+    quote:
+      "This visual spread captures the authentic, grounded lifestyle of traditional Mongolian nomads—a stark contrast to WiFi-chasing digital workers. Horses roam freely, yurts rise on empty plains, and survival is about rhythm with nature, not Google Calendar.",
+    name: 'Tijmen Hobbel',
+    role: 'Photographer & Videographer',
+  },
+  {
+    image: '/images/edition-001-local-communities-stella-airoldi.webp',
+    alt: "You're Screwing Over Local Communities",
+    quote:
+      "Critiques how digital nomads unintentionally harm local communities through gentrification and inflated prices, providing practical suggestions for more conscious and responsible travel that benefits local economies.",
+    name: 'Stella Airoldi',
+    role: 'Founder of 22STARS & Social Impact Nomads',
   },
 ]
 
@@ -218,72 +298,7 @@ const seo: SEOProps = {
   <WhatsComingCarousel
     heading="Article Previews"
     subtitle="Discover the groundbreaking stories and insights from our inaugural issue — exploring commitment, freedom, culture, and the future of nomadic life."
-    slides={[
-      {
-        image: '/images/edition-001-commitment-issues-bori-vigh.webp',
-        alt: 'The Real Reason Behind Commitment Issues',
-        quote:
-          "Explores the 'perfection-paradox' among nomads—fear of imperfection leads to difficulty in committing to locations, people, or projects. This deep dive reveals why nomads struggle with decisions and how to overcome the endless search for something better.",
-        name: 'Bori Vigh',
-        role: 'Nomad Cruise Host & Podcast Creator',
-      },
-      {
-        image: '/images/edition-001-rat-race-freedom-tarek-kholoussy.webp',
-        alt: 'From the Rat Race to Freedom',
-        quote:
-          "Tarek shares his transformative journey from corporate life to starting Nomads Giving Back, showing how to build a meaningful nomadic life focused on impact rather than just location independence.",
-        name: 'Tarek Kholoussy',
-        role: 'Founder of Nomads Giving Back',
-      },
-      {
-        image: '/images/edition-001-dating-guide-marina-iakovleva.webp',
-        alt: 'What NOT to Do on a First Date in These 5 Countries',
-        quote:
-          "A cultural guide on dating etiquette across different countries, helping nomads navigate romantic connections while respecting local customs and avoiding embarrassing cultural mistakes.",
-        name: 'Marina Iakovleva',
-        role: 'Creator of Dating Beyond Borders',
-      },
-      {
-        image: '/images/edition-001-insurance-truths-christoph-huebner.webp',
-        alt: '4 Inconvenient Truths About Nomad Insurance',
-        quote:
-          "Exposes common pitfalls and limitations of insurance options for nomads, revealing what insurance companies don't tell you and how to protect yourself while traveling long-term.",
-        name: 'Christoph Huebner',
-        role: 'Founder of NOMADS.insure',
-      },
-      {
-        image: '/images/edition-001-nomad-retreats-stella-airoldi.webp',
-        alt: 'Best Digital Nomad Retreats',
-        quote:
-          "A curated list of nomad-friendly retreats that blend work, travel, and purpose, featuring destinations and programs that foster both productivity and personal growth.",
-        name: 'Stella Airoldi',
-        role: 'Founder of 22STARS & Social Impact Nomads',
-      },
-      {
-        image: '/images/edition-001-business-ai-santiago-sosa.webp',
-        alt: 'Business and AI: A Match Made in Innovation?',
-        quote:
-          "How AI is transforming the way nomads run lean and efficient businesses, exploring tools, strategies, and the future of automated entrepreneurship for location-independent professionals.",
-        name: 'Santiago Sosa',
-        role: 'Marketing Automation Expert',
-      },
-      {
-        image: '/images/edition-001-romantic-journeys-marina-iakovleva.webp',
-        alt: 'Romantic Journeys and Entrepreneurial Adventures',
-        quote:
-          "Explores love and dating as a nomad, blending personal stories and patterns to reveal how relationships evolve when your office is the world and your address changes monthly.",
-        name: 'Marina Iakovleva',
-        role: 'Creator of Dating Beyond Borders',
-      },
-      {
-        image: '/images/edition-001-local-communities-ngm-team.webp',
-        alt: "You're Screwing Over Local Communities",
-        quote:
-          "Discusses the unintended harm digital nomads can cause and provides actionable advice on how to be more responsible travelers who contribute positively to local economies and cultures.",
-        name: 'NGM Editorial Team',
-        role: 'Responsible Travel Advocates',
-      },
-    ]}
+    slides={articleSlides}
   />
 
   <Testimonials sectionClass="bg-hoverw [&_h2]:text-white" />
