@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /flipbooks/
 
 Sitemap: https://nomad-magazine.com/sitemap-index.xml
+
