@@ -2,3 +2,7 @@
 /nomad-directory /nomad_directory
 /about /our-story
 /sitemap.xml /sitemap-index.xml
+
+/products/issue-001 /editions/first-edition
+/products/issue-002 /editions/second-edition
+/third-edition /editions/third-edition
