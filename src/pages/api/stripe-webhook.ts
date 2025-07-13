@@ -1,16 +1,17 @@
 import type { APIRoute } from 'astro'
 import Stripe from 'stripe'
+import { getSecret } from 'astro:env/server'
 
 export const prerender = false
 
 export const POST: APIRoute = async ({ request }) => {
   console.log('🔗 Stripe webhook received')
   
-  const stripeSecretKey = import.meta.env.STRIPE_SECRET_KEY
-  const webhookSecret = import.meta.env.STRIPE_WEBHOOK_SECRET
-  const bentoSiteUuid = import.meta.env.BENTO_SITE_UUID
-  const bentoPublishableKey = import.meta.env.BENTO_PUBLISHABLE_KEY
-  const bentoSecretKey = import.meta.env.BENTO_SECRET_KEY
+  const stripeSecretKey = getSecret('STRIPE_SECRET_KEY')
+  const webhookSecret = getSecret('STRIPE_WEBHOOK_SECRET')
+  const bentoSiteUuid = getSecret('BENTO_SITE_UUID')
+  const bentoPublishableKey = getSecret('BENTO_PUBLISHABLE_KEY')
+  const bentoSecretKey = getSecret('BENTO_SECRET_KEY')
 
   // Log environment variable status (without exposing values)
   console.log('📋 Environment variables check:', {
@@ -146,7 +147,7 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session, 
 
   try {
     // Get line items to determine the product SKU
-    const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY)
+    const stripe = new Stripe(getSecret('STRIPE_SECRET_KEY')!)
     console.log('📋 Fetching line items for session:', session.id)
     
     const lineItems = await stripe.checkout.sessions.listLineItems(session.id, {
@@ -197,7 +198,7 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session, 
 
 async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent, bentoSiteUuid: string, bentoPublishableKey: string, bentoSecretKey: string) {
   // Get customer email from payment intent
-  const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY)
+  const stripe = new Stripe(getSecret('STRIPE_SECRET_KEY')!)
   let customerEmail: string | null = null
   
   if (paymentIntent.customer) {
@@ -240,7 +241,7 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice, bentoSiteU
   }
 
   // Get subscription details if available
-  const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY)
+  const stripe = new Stripe(getSecret('STRIPE_SECRET_KEY')!)
   let subscription: Stripe.Subscription | null = null
   
   if ((invoice as any).subscription && typeof (invoice as any).subscription === 'string') {
@@ -273,7 +274,7 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice, bentoSiteUuid
   }
 
   // Get subscription details if available
-  const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY)
+  const stripe = new Stripe(getSecret('STRIPE_SECRET_KEY')!)
   let subscription: Stripe.Subscription | null = null
   
   if ((invoice as any).subscription && typeof (invoice as any).subscription === 'string') {
@@ -298,7 +299,7 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice, bentoSiteUuid
 }
 
 async function handleSubscriptionCreated(subscription: Stripe.Subscription, bentoSiteUuid: string, bentoPublishableKey: string, bentoSecretKey: string) {
-  const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY)
+  const stripe = new Stripe(getSecret('STRIPE_SECRET_KEY')!)
   const customer = await stripe.customers.retrieve(subscription.customer as string)
   
   if (!customer || customer.deleted || !customer.email) {
@@ -322,7 +323,7 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription, bent
 }
 
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription, bentoSiteUuid: string, bentoPublishableKey: string, bentoSecretKey: string) {
-  const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY)
+  const stripe = new Stripe(getSecret('STRIPE_SECRET_KEY')!)
   const customer = await stripe.customers.retrieve(subscription.customer as string)
   
   if (!customer || customer.deleted || !customer.email) {
@@ -346,7 +347,7 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription, bent
 }
 
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription, bentoSiteUuid: string, bentoPublishableKey: string, bentoSecretKey: string) {
-  const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY)
+  const stripe = new Stripe(getSecret('STRIPE_SECRET_KEY')!)
   const customer = await stripe.customers.retrieve(subscription.customer as string)
   
   if (!customer || customer.deleted || !customer.email) {

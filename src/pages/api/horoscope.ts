@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro'
+import { getSecret } from 'astro:env/server'
 
 export const GET: APIRoute = async ({ request }) => {
   const url = new URL(request.url)
@@ -77,7 +78,7 @@ IMPORTANT: Return ONLY the HTML content. Use inline CSS styles. Use these colors
 }
 
 async function fetchGptSuggestion(prompt: string): Promise<string> {
-  const apiKey = import.meta.env.OPENAI_API_KEY
+  const apiKey = getSecret('OPENAI_API_KEY')
   
   if (!apiKey) {
     throw new Error('OpenAI API key not configured')
