@@ -16,10 +16,10 @@ const { slides, firstSlideMaxWidth = true }: Props = Astro.props
     <img id="product-img" src={slides[0].src} alt="Product Preview" class={['w-full object-cover', firstSlideMaxWidth ? 'max-w-md' : ''].join(' ')} loading="lazy" />
   </div>
   <button id="product-left" type="button" aria-label="Previous" class="absolute top-1/2 left-2 z-10 -translate-y-1/2 rounded-full bg-white/80 p-2 shadow hover:bg-white">
-    <img src="/images/a5e2143b-fe3a-49e4-b93d-c6f500b4bb9d.svg" alt="Prev" class="h-6 w-6" />
+    <img src="/images/arrow-left.svg" alt="Prev" class="h-6 w-6" />
   </button>
   <button id="product-right" type="button" aria-label="Next" class="absolute top-1/2 right-2 z-10 -translate-y-1/2 rounded-full bg-white/80 p-2 shadow hover:bg-white">
-    <img src="/images/50b78176-ece1-49f1-95cb-1ae03044b766.svg" alt="Next" class="h-6 w-6" />
+    <img src="/images/arrow-right.svg" alt="Next" class="h-6 w-6" />
   </button>
   <div class="absolute bottom-2 left-1/2 flex -translate-x-1/2 gap-2">
     {Array.from({ length: slides.length }).map((_, i) => <span id={`product-dot-${i}`} class="inline-block h-2 w-2 rounded-full bg-gray-300" />)}
