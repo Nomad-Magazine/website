@@ -17,24 +17,43 @@ const seo: SEOProps = {
 ---
 
 <Layout seo={seo}>
-  <div class="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+  <div class="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-rose-900 relative overflow-hidden">
+    <!-- Mystical Background Elements -->
+    <div class="absolute inset-0 opacity-20">
+      <div class="absolute top-20 left-10 w-32 h-32 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 blur-3xl animate-pulse"></div>
+      <div class="absolute top-40 right-20 w-24 h-24 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 blur-2xl animate-pulse delay-1000"></div>
+      <div class="absolute bottom-32 left-1/4 w-40 h-40 rounded-full bg-gradient-to-br from-blue-400 to-teal-500 blur-3xl animate-pulse delay-2000"></div>
+      <div class="absolute bottom-20 right-1/3 w-28 h-28 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 blur-2xl animate-pulse delay-3000"></div>
+    </div>
+
+    <!-- Floating Mystical Symbols -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <div class="absolute top-1/4 left-1/4 text-6xl text-yellow-400/30 animate-float">✨</div>
+      <div class="absolute top-1/3 right-1/4 text-4xl text-purple-400/30 animate-float delay-1000">🌙</div>
+      <div class="absolute bottom-1/3 left-1/3 text-5xl text-pink-400/30 animate-float delay-2000">⭐</div>
+      <div class="absolute bottom-1/4 right-1/3 text-4xl text-blue-400/30 animate-float delay-3000">🔮</div>
+    </div>
+
     <!-- Hero Section -->
-    <section class="text-center py-16 px-4">
+    <section class="text-center py-20 px-4 relative z-10">
       <div class="max-w-4xl mx-auto">
-        <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
-          Digital Nomad Horoscope
+        <div class="inline-block mb-6">
+          <span class="text-6xl animate-pulse">🌟</span>
+        </div>
+        <h1 class="text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-pink-400 to-purple-400 mb-8 font-serif">
+          Sacred Nomad Oracle
         </h1>
-        <p class="text-xl md:text-2xl text-purple-200 mb-8">
-          Discover your cosmic blueprint for remote work and travel adventures
+        <p class="text-xl md:text-2xl text-amber-200 mb-8 font-light">
+          Get your personalized travel horoscope for next month
         </p>
-        <p class="text-lg text-purple-300 max-w-2xl mx-auto">
-          Our AI-powered horoscope combines traditional astrology with modern nomad lifestyle insights to guide your journey as a digital nomad.
+        <p class="text-lg text-purple-200 max-w-2xl mx-auto leading-relaxed">
+          Enter your name, email, and birthdate to receive a detailed astrological reading with specific destination recommendations, travel timing, and monthly guidance tailored to your zodiac sign.
         </p>
       </div>
     </section>
 
     <!-- Horoscope Tool -->
-    <section class="flex flex-col items-center justify-center px-4 pb-16">
+    <section class="flex flex-col items-center justify-center px-4 pb-16 relative z-10">
       <HoroscopeIsland 
         server:defer 
         shouldGenerate={shouldGenerate}
@@ -45,197 +64,263 @@ const seo: SEOProps = {
       </HoroscopeIsland>
     </section>
 
-    <!-- Features Section -->
-    <section class="py-16 px-4 bg-black/20">
+    <!-- Sacred Gifts Section -->
+    <section class="py-20 px-4 relative z-10">
       <div class="max-w-6xl mx-auto">
-        <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-12">
-          What Makes Our Nomad Horoscope Unique?
-        </h2>
+        <div class="text-center mb-16">
+          <span class="text-4xl mb-4 block">🌺</span>
+          <h2 class="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-rose-400 mb-6 font-serif">
+            What You'll Receive
+          </h2>
+        </div>
         <div class="grid md:grid-cols-3 gap-8">
-          <div class="text-center">
-            <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
+          <div class="text-center group">
+            <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
+              <span class="text-3xl">🌍</span>
             </div>
-            <h3 class="text-xl font-semibold text-white mb-3">Nomad-Specific Insights</h3>
-            <p class="text-purple-200">
-              Tailored predictions for remote work, travel timing, and location-based opportunities that traditional horoscopes miss.
+            <h3 class="text-xl font-semibold text-amber-200 mb-4 font-serif">Your Cosmic Destination</h3>
+            <p class="text-purple-200 leading-relaxed">
+              Get a specific destination recommendation based on your zodiac sign and birth chart, including activities, foods to try, and the best timing for your trip.
             </p>
           </div>
-          <div class="text-center">
-            <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
-              </svg>
+          <div class="text-center group">
+            <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
+              <span class="text-3xl">💫</span>
             </div>
-            <h3 class="text-xl font-semibold text-white mb-3">Personalized Analysis</h3>
-            <p class="text-purple-200">
-              Enter your name and birthdate for a completely personalized horoscope that speaks directly to your nomadic journey.
+            <h3 class="text-xl font-semibold text-amber-200 mb-4 font-serif">Love & Connections</h3>
+            <p class="text-purple-200 leading-relaxed">
+              Get relationship advice based on your astrological profile, including the best times to meet new people and strengthen existing bonds.
             </p>
           </div>
-          <div class="text-center">
-            <div class="w-16 h-16 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
-              </svg>
+          <div class="text-center group">
+            <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-teal-400 to-blue-500 flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
+              <span class="text-3xl">🔮</span>
             </div>
-            <h3 class="text-xl font-semibold text-white mb-3">AI-Powered Accuracy</h3>
-            <p class="text-purple-200">
-              Advanced AI technology analyzes astrological patterns and nomad lifestyle factors for precise, actionable guidance.
+            <h3 class="text-xl font-semibold text-amber-200 mb-4 font-serif">Professional Path</h3>
+            <p class="text-purple-200 leading-relaxed">
+              Receive career guidance based on your birth chart, including the best times for job changes, negotiations, and new projects this month.
             </p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- How It Works -->
-    <section class="py-16 px-4">
-      <div class="max-w-4xl mx-auto text-center">
-        <h2 class="text-3xl md:text-4xl font-bold text-white mb-12">
-          How Your Digital Nomad Horoscope Works
-        </h2>
-        <div class="grid md:grid-cols-2 gap-8 text-left">
-          <div class="space-y-6">
-            <div class="flex items-start space-x-4">
-              <div class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                <span class="text-white font-bold">1</span>
-              </div>
-              <div>
-                <h3 class="text-lg font-semibold text-white mb-2">Enter Your Details</h3>
-                <p class="text-purple-200">Provide your name and birthdate for personalized astrological calculations.</p>
-              </div>
-            </div>
-            <div class="flex items-start space-x-4">
-              <div class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                <span class="text-white font-bold">2</span>
-              </div>
-              <div>
-                <h3 class="text-lg font-semibold text-white mb-2">AI Analysis</h3>
-                <p class="text-purple-200">Our AI analyzes your birth chart and current planetary positions for nomad-specific insights.</p>
-              </div>
-            </div>
-          </div>
-          <div class="space-y-6">
-            <div class="flex items-start space-x-4">
-              <div class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                <span class="text-white font-bold">3</span>
-              </div>
-              <div>
-                <h3 class="text-lg font-semibold text-white mb-2">Nomad Predictions</h3>
-                <p class="text-purple-200">Receive tailored predictions for work, travel, relationships, and personal growth.</p>
-              </div>
-            </div>
-            <div class="flex items-start space-x-4">
-              <div class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                <span class="text-white font-bold">4</span>
-              </div>
-              <div>
-                <h3 class="text-lg font-semibold text-white mb-2">Actionable Guidance</h3>
-                <p class="text-purple-200">Get practical advice you can apply to your nomadic lifestyle and remote work journey.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Benefits Section -->
-    <section class="py-16 px-4 bg-black/20">
-      <div class="max-w-4xl mx-auto text-center">
-        <h2 class="text-3xl md:text-4xl font-bold text-white mb-8">
-          Why Digital Nomads Love Our Horoscope
-        </h2>
-        <div class="grid md:grid-cols-2 gap-8 mt-12">
-          <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-            <h3 class="text-xl font-semibold text-white mb-4">Career & Business Insights</h3>
-            <p class="text-purple-200">
-              Discover the best times for launching projects, networking, and making important business decisions while traveling.
-            </p>
-          </div>
-          <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-            <h3 class="text-xl font-semibold text-white mb-4">Travel Timing</h3>
-            <p class="text-purple-200">
-              Learn when the stars align for your next destination, visa applications, and major relocations.
-            </p>
-          </div>
-          <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-            <h3 class="text-xl font-semibold text-white mb-4">Relationship Guidance</h3>
-            <p class="text-purple-200">
-              Navigate romantic relationships, friendships, and professional connections across different cultures and time zones.
-            </p>
-          </div>
-          <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-            <h3 class="text-xl font-semibold text-white mb-4">Personal Growth</h3>
-            <p class="text-purple-200">
-              Understand your cosmic patterns for self-improvement, skill development, and spiritual growth on the road.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section class="py-16 px-4">
+    <!-- Sacred Process -->
+    <section class="py-20 px-4 relative z-10">
       <div class="max-w-4xl mx-auto">
-        <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-12">
-          Frequently Asked Questions
-        </h2>
+        <div class="text-center mb-16">
+          <span class="text-4xl mb-4 block">🌙</span>
+          <h2 class="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 mb-6 font-serif">
+            How It Works
+          </h2>
+        </div>
+        <div class="space-y-12">
+          <div class="flex flex-col md:flex-row items-center gap-8">
+            <div class="md:w-1/2">
+              <div class="w-16 h-16 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center mb-4 shadow-2xl">
+                <span class="text-white text-2xl">✨</span>
+              </div>
+              <h3 class="text-2xl font-semibold text-amber-200 mb-4 font-serif">Enter Your Information</h3>
+              <p class="text-purple-200 leading-relaxed">
+                Provide your name, email address, and birthdate. This information is used to calculate your astrological chart and personalize your reading.
+              </p>
+            </div>
+            <div class="md:w-1/2 text-center">
+              <div class="w-32 h-32 mx-auto rounded-full bg-gradient-to-br from-amber-400/20 to-orange-500/20 flex items-center justify-center">
+                <span class="text-6xl">🌟</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-col md:flex-row-reverse items-center gap-8">
+            <div class="md:w-1/2">
+              <div class="w-16 h-16 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full flex items-center justify-center mb-4 shadow-2xl">
+                <span class="text-white text-2xl">🔮</span>
+              </div>
+              <h3 class="text-2xl font-semibold text-amber-200 mb-4 font-serif">AI Analysis</h3>
+              <p class="text-purple-200 leading-relaxed">
+                Our AI analyzes your birth chart and current planetary positions to generate personalized insights for your travel and life decisions.
+              </p>
+            </div>
+            <div class="md:w-1/2 text-center">
+              <div class="w-32 h-32 mx-auto rounded-full bg-gradient-to-br from-purple-400/20 to-pink-500/20 flex items-center justify-center">
+                <span class="text-6xl">🌙</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-col md:flex-row items-center gap-8">
+            <div class="md:w-1/2">
+              <div class="w-16 h-16 bg-gradient-to-br from-teal-400 to-blue-500 rounded-full flex items-center justify-center mb-4 shadow-2xl">
+                <span class="text-white text-2xl">🌺</span>
+              </div>
+              <h3 class="text-2xl font-semibold text-amber-200 mb-4 font-serif">Get Your 6-Card Reading</h3>
+              <p class="text-purple-200 leading-relaxed">
+                Receive 6 detailed cards covering: your ideal destination, love & relationships, career guidance, monthly challenges, travel obstacles, and personalized reading recommendations.
+              </p>
+            </div>
+            <div class="md:w-1/2 text-center">
+              <div class="w-32 h-32 mx-auto rounded-full bg-gradient-to-br from-teal-400/20 to-blue-500/20 flex items-center justify-center">
+                <span class="text-6xl">📜</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Wisdom Areas -->
+    <section class="py-20 px-4 relative z-10">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-16">
+          <span class="text-4xl mb-4 block">🌸</span>
+          <h2 class="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-amber-400 mb-6 font-serif">
+            Your 6-Card Reading Includes
+          </h2>
+        </div>
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="bg-gradient-to-br from-purple-900/40 to-pink-900/40 backdrop-blur-sm rounded-2xl p-8 border border-purple-400/20 shadow-2xl">
+            <div class="text-center mb-4">
+              <span class="text-3xl">💼</span>
+            </div>
+            <h3 class="text-xl font-semibold text-amber-200 mb-4 font-serif text-center">Monthly Challenges</h3>
+            <p class="text-purple-200 leading-relaxed text-center">
+              Learn about the main challenges you'll face this month based on planetary movements, with specific advice on how to navigate them.
+            </p>
+          </div>
+          <div class="bg-gradient-to-br from-teal-900/40 to-blue-900/40 backdrop-blur-sm rounded-2xl p-8 border border-teal-400/20 shadow-2xl">
+            <div class="text-center mb-4">
+              <span class="text-3xl">🌍</span>
+            </div>
+            <h3 class="text-xl font-semibold text-amber-200 mb-4 font-serif text-center">Journey Obstacles</h3>
+            <p class="text-purple-200 leading-relaxed text-center">
+              Discover potential travel-related challenges and get specific advice for safe and successful travel, including protective measures and favorable dates.
+            </p>
+          </div>
+          <div class="bg-gradient-to-br from-rose-900/40 to-orange-900/40 backdrop-blur-sm rounded-2xl p-8 border border-rose-400/20 shadow-2xl">
+            <div class="text-center mb-4">
+              <span class="text-3xl">💕</span>
+            </div>
+            <h3 class="text-xl font-semibold text-amber-200 mb-4 font-serif text-center">Love & Connections</h3>
+            <p class="text-purple-200 leading-relaxed text-center">
+              Get relationship guidance based on your zodiac sign, including advice for romantic relationships, friendships, and networking opportunities.
+            </p>
+          </div>
+          <div class="bg-gradient-to-br from-amber-900/40 to-yellow-900/40 backdrop-blur-sm rounded-2xl p-8 border border-amber-400/20 shadow-2xl">
+            <div class="text-center mb-4">
+              <span class="text-3xl">🦋</span>
+            </div>
+            <h3 class="text-xl font-semibold text-amber-200 mb-4 font-serif text-center">Professional Path</h3>
+            <p class="text-purple-200 leading-relaxed text-center">
+              Receive career guidance based on your astrological profile, including the best times for job changes, negotiations, and new projects.
+            </p>
+          </div>
+          <div class="bg-gradient-to-br from-indigo-900/40 to-purple-900/40 backdrop-blur-sm rounded-2xl p-8 border border-indigo-400/20 shadow-2xl md:col-span-2">
+            <div class="text-center mb-4">
+              <span class="text-3xl">📚</span>
+            </div>
+            <h3 class="text-xl font-semibold text-amber-200 mb-4 font-serif text-center">Cosmic Knowledge</h3>
+            <p class="text-purple-200 leading-relaxed text-center">
+              Get personalized book recommendations and discover which Nomad Magazine edition aligns with your current astrological influences and life themes.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sacred Questions -->
+    <section class="py-20 px-4 relative z-10">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-16">
+          <span class="text-4xl mb-4 block">🌿</span>
+          <h2 class="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-teal-400 mb-6 font-serif">
+            Frequently Asked Questions
+          </h2>
+        </div>
         <div class="space-y-6">
-          <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-            <h3 class="text-lg font-semibold text-white mb-3">Is this horoscope specifically for digital nomads?</h3>
-            <p class="text-purple-200">
-              Yes! Unlike generic horoscopes, ours focuses on the unique challenges and opportunities of the nomadic lifestyle, including remote work, travel, and location independence.
+          <div class="bg-gradient-to-br from-purple-900/30 to-pink-900/30 backdrop-blur-sm rounded-2xl p-8 border border-purple-400/20 shadow-2xl">
+            <h3 class="text-lg font-semibold text-amber-200 mb-4 font-serif">What information do I need to provide?</h3>
+            <p class="text-purple-200 leading-relaxed">
+              You need to enter your full name, email address, and birthdate. This information is used to calculate your astrological chart and generate your personalized horoscope reading.
             </p>
           </div>
-          <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-            <h3 class="text-lg font-semibold text-white mb-3">How accurate are AI-generated horoscopes?</h3>
-            <p class="text-purple-200">
-              Our AI combines traditional astrological principles with modern data analysis to provide insights tailored to your specific birth chart and current planetary positions.
+          <div class="bg-gradient-to-br from-teal-900/30 to-blue-900/30 backdrop-blur-sm rounded-2xl p-8 border border-teal-400/20 shadow-2xl">
+            <h3 class="text-lg font-semibold text-amber-200 mb-4 font-serif">What exactly will I receive?</h3>
+            <p class="text-purple-200 leading-relaxed">
+              You'll receive a detailed 6-card horoscope reading covering: your ideal travel destination, love & relationships, career guidance, monthly challenges, travel obstacles to avoid, and personalized reading recommendations including a Nomad Magazine edition. Each card is personalized based on your birth chart.
             </p>
           </div>
-          <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-            <h3 class="text-lg font-semibold text-white mb-3">Is my personal information secure?</h3>
-            <p class="text-purple-200">
-              We only use your name and birthdate to generate your horoscope. This information is processed securely and not stored permanently on our servers.
+          <div class="bg-gradient-to-br from-rose-900/30 to-orange-900/30 backdrop-blur-sm rounded-2xl p-8 border border-rose-400/20 shadow-2xl">
+            <h3 class="text-lg font-semibold text-amber-200 mb-4 font-serif">Is my personal information secure?</h3>
+            <p class="text-purple-200 leading-relaxed">
+              Yes, your privacy is protected. We only use your name, email, and birthdate to generate your horoscope reading. Your information is processed securely and we follow standard privacy practices.
             </p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="py-16 px-4 text-center">
+    <!-- Sacred Invitation -->
+    <section class="py-20 px-4 text-center relative z-10">
       <div class="max-w-2xl mx-auto">
-        <h2 class="text-2xl md:text-3xl font-bold text-white mb-6">
-          Ready to Discover Your Nomadic Destiny?
+        <div class="mb-8">
+          <span class="text-6xl animate-pulse">🌟</span>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-rose-400 mb-8 font-serif">
+          Step into Your Sacred Journey
         </h2>
-        <p class="text-purple-200 mb-8">
-          Join thousands of digital nomads who use our horoscope to navigate their remote work journey with cosmic guidance.
+        <p class="text-purple-200 mb-12 leading-relaxed text-lg">
+          Join thousands of digital nomads who get their personalized horoscope to plan their travels and make important life decisions with astrological guidance.
         </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href="#horoscope" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors">
-            Get Your Horoscope
-          </a>
-          <a href="/blog/" class="bg-transparent border-2 border-purple-400 text-purple-200 hover:bg-purple-400 hover:text-white px-8 py-3 rounded-lg font-semibold transition-colors">
-            Read Nomad Tips
+        <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                     <a href="#" onclick="document.querySelector('.container').scrollIntoView({ behavior: 'smooth' })" class="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white px-10 py-4 rounded-full font-semibold transition-all duration-300 shadow-2xl hover:shadow-amber-500/25 hover:scale-105">
+             Get Your Horoscope
+           </a>
+          <a href="/blog/" class="bg-transparent border-2 border-purple-400 text-purple-200 hover:bg-purple-400 hover:text-white px-10 py-4 rounded-full font-semibold transition-all duration-300 shadow-2xl hover:shadow-purple-500/25">
+            Explore Sacred Wisdom
           </a>
         </div>
       </div>
     </section>
 
-    <!-- Footer Info -->
-    <footer class="text-center pb-8 px-4">
-      <p class="text-purple-200">
-        Want more nomad insights? 
-        <a href="/blog/" class="text-yellow-400 hover:text-yellow-300 underline">
-          Read our blog
+    <!-- Sacred Footer -->
+    <footer class="text-center pb-12 px-4 relative z-10">
+      <div class="mb-6">
+        <span class="text-2xl">🌙✨🌟</span>
+      </div>
+      <p class="text-purple-200 leading-relaxed">
+        Want more nomad insights and travel guidance? 
+        <a href="/blog/" class="text-amber-400 hover:text-amber-300 underline transition-colors">
+          Read our travel blog
         </a>
         or
-        <a href="/editions/" class="text-yellow-400 hover:text-yellow-300 underline">
-          get the magazine
+        <a href="/editions/" class="text-amber-400 hover:text-amber-300 underline transition-colors">
+          get Nomad Magazine
         </a>
       </p>
     </footer>
   </div>
+
+  <style>
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+    
+    .animate-float {
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    .delay-1000 {
+      animation-delay: 1s;
+    }
+    
+    .delay-2000 {
+      animation-delay: 2s;
+    }
+    
+    .delay-3000 {
+      animation-delay: 3s;
+    }
+  </style>
 </Layout> 

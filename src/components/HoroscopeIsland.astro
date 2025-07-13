@@ -32,77 +32,166 @@ if (shouldGenerate && name && birthdate) {
 <style>
   .container {
     text-align: center;
-    background: white;
-    padding: 40px;
-    border-radius: 16px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    width: 90%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 248, 235, 0.95));
+    backdrop-filter: blur(20px);
+    padding: 48px;
+    border-radius: 24px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.2);
+    max-width: 600px;
+    width: 95%;
+    border: 2px solid rgba(251, 191, 36, 0.2);
+    position: relative;
+    overflow: hidden;
   }
+  
+  .container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(251, 191, 36, 0.1) 0%, transparent 70%);
+    animation: shimmer 8s linear infinite;
+    pointer-events: none;
+  }
+  
+  @keyframes shimmer {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .sacred-symbol {
+    font-size: 3rem;
+    margin-bottom: 16px;
+    animation: glow 2s ease-in-out infinite alternate;
+    filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.5));
+  }
+  
+  @keyframes glow {
+    0% { 
+      filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.5));
+      transform: scale(1);
+    }
+    100% { 
+      filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.8)) drop-shadow(0 0 30px rgba(251, 191, 36, 0.4));
+      transform: scale(1.05);
+    }
+  }
+  
   h1 {
-    color: #121111;
+    color: transparent;
+    background: linear-gradient(135deg, #f59e0b, #d97706, #92400e);
+    background-clip: text;
+    -webkit-background-clip: text;
     margin-bottom: 8px;
     font-size: 2.5rem;
     font-weight: 700;
+    font-family: serif;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
+  
   h2 {
-    color: #666;
+    color: #7c2d12;
     margin-bottom: 32px;
     font-size: 1.1rem;
     font-weight: 400;
+    font-style: italic;
   }
+  
   input {
     width: 100%;
-    padding: 16px;
-    margin: 12px 0;
-    border: 2px solid #d8d8d8;
-    border-radius: 8px;
+    padding: 18px 24px;
+    margin: 16px 0;
+    border: 2px solid rgba(251, 191, 36, 0.3);
+    border-radius: 16px;
     font-size: 16px;
-    transition: border-color 0.3s ease;
+    transition: all 0.3s ease;
     box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.8);
+    color: #7c2d12;
+    font-family: inherit;
   }
+  
+  input::placeholder {
+    color: #a78bfa;
+    font-style: italic;
+  }
+  
   input:focus {
     outline: none;
-    border-color: #f4dc01;
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.2);
+    background: rgba(255, 255, 255, 0.95);
   }
+  
   button {
     width: 100%;
-    padding: 16px;
-    margin: 20px 0;
-    background-color: #121111;
+    padding: 18px 24px;
+    margin: 24px 0;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 16px;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(251, 191, 36, 0.3);
+    position: relative;
+    overflow: hidden;
   }
+  
+  button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+  }
+  
+  button:hover::before {
+    left: 100%;
+  }
+  
   button:hover {
-    background-color: #333;
+    background: linear-gradient(135deg, #d97706, #92400e);
     transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(251, 191, 36, 0.4);
   }
+  
   button:disabled {
-    background-color: #d8d8d8;
+    background: linear-gradient(135deg, #d1d5db, #9ca3af);
     cursor: not-allowed;
     transform: none;
+    box-shadow: none;
   }
+  
   .result {
     margin-top: 32px;
     text-align: left;
+    position: relative;
+    z-index: 1;
   }
+  
   .error {
-    color: #e74c3c;
-    background-color: #fdf2f2;
-    padding: 16px;
-    border-radius: 8px;
+    color: #dc2626;
+    background: linear-gradient(135deg, rgba(254, 226, 226, 0.8), rgba(252, 165, 165, 0.6));
+    padding: 20px;
+    border-radius: 16px;
     margin-top: 16px;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    backdrop-filter: blur(10px);
   }
 </style>
 
 <div class="container">
-  <h1>Digital Nomad Horoscope</h1>
-  <h2>By Nomad Gossip Magazine</h2>
+  <div class="sacred-symbol">🔮</div>
+  <h1>Sacred Nomad Oracle</h1>
+  <h2>Enter your details to get your personalized horoscope</h2>
   
   {!shouldGenerate && (
     <form
@@ -110,11 +199,12 @@ if (shouldGenerate && name && birthdate) {
       action="https://track.bentonow.com/forms/1685a00cdc1fc329724616bec1de09c6/$subscribe_horoscope?hardened=true"
       enctype="multipart/form-data"
     >
-      <input type="text" name="name" id="name" placeholder="Enter your name" required>
-      <input type="email" name="email" id="email" placeholder="Enter your email" required>
-      <input type="date" name="birthdate" id="birthdate" required>
+      <input type="text" name="name" id="name" placeholder="Your full name" required>
+      <input type="email" name="email" id="email" placeholder="Your email address" required>
+      <label for="birthdate" style="color: #7c2d12; font-size: 0.9rem; margin-bottom: 8px; display: block; text-align: left; font-style: italic;">Your birthdate</label>
+      <input type="date" name="birthdate" id="birthdate" placeholder="Select your birthdate" required>
       <input type="hidden" name="redirect" id="redirect" value="">
-      <button type="submit">Get My Next Trip</button>
+      <button type="submit">Get My Horoscope</button>
     </form>
   )}
   
@@ -122,33 +212,61 @@ if (shouldGenerate && name && birthdate) {
     <div class="result">
       {horoscopeData && (
         <div>
-          <h2 style="color: #121111; margin-bottom: 24px; text-align: center; font-size: 1.8rem;">Your Cosmic Journey Awaits, {name}! 🌟</h2>
-          <div style="max-width: 800px; margin: 0 auto;">
+          <h2 style="
+            color: transparent;
+            background: linear-gradient(135deg, #f59e0b, #d97706, #92400e);
+            background-clip: text;
+            -webkit-background-clip: text;
+            margin-bottom: 32px;
+            text-align: center;
+            font-size: 2rem;
+            font-family: serif;
+            font-weight: 700;
+                     ">Your Personal Horoscope, {name} 🌟</h2>
+          <div style="max-width: 900px; margin: 0 auto;">
             {horoscopeData.cards.map((card: { title: string, content: string }) => (
               <div style="
-                background: white;
-                border-radius: 12px;
-                padding: 24px;
-                margin: 16px 0;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-                border-left: 4px solid #f4dc01;
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 248, 235, 0.8));
+                backdrop-filter: blur(15px);
+                border-radius: 20px;
+                padding: 32px;
+                margin: 24px 0;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+                border: 2px solid rgba(251, 191, 36, 0.2);
+                position: relative;
+                overflow: hidden;
               ">
+                <div style="
+                  position: absolute;
+                  top: -10px;
+                  right: -10px;
+                  width: 60px;
+                  height: 60px;
+                  background: radial-gradient(circle, rgba(251, 191, 36, 0.2), transparent);
+                  border-radius: 50%;
+                "></div>
                 <h3 style="
-                  color: #121111;
-                  font-size: 1.4rem;
+                  color: transparent;
+                  background: linear-gradient(135deg, #d97706, #92400e);
+                  background-clip: text;
+                  -webkit-background-clip: text;
+                  font-size: 1.5rem;
                   font-weight: 700;
-                  margin-bottom: 12px;
+                  margin-bottom: 16px;
                   display: flex;
                   align-items: center;
-                  gap: 8px;
+                  gap: 12px;
+                  font-family: serif;
                 ">
-                  <span style="color: #f4dc01;">✨</span>
+                  <span style="color: #f59e0b; font-size: 1.8rem;">✨</span>
                   {card.title}
                 </h3>
                 <div style="
-                  color: #121111;
-                  line-height: 1.6;
-                  font-size: 1rem;
+                  color: #7c2d12;
+                  line-height: 1.8;
+                  font-size: 1.1rem;
+                  position: relative;
+                  z-index: 1;
                 " set:html={card.content}></div>
               </div>
             ))}
@@ -156,7 +274,9 @@ if (shouldGenerate && name && birthdate) {
         </div>
       )}
       {error && (
-        <div class="error">{error}</div>
+        <div class="error">
+          <strong>🌙 Sacred Message:</strong> The cosmic energies are shifting. Please try again in a moment as the stars realign.
+        </div>
       )}
     </div>
   )}

@@ -33,11 +33,11 @@ export const GET: APIRoute = async ({ request }) => {
     
     const prompt = `Generate a personalized horoscope reading for ${name}, born on ${birthdate}, for the month of ${nextMonth.toLocaleString('default', { month: 'long' })}. 
 
-Return a JSON object with exactly 5 cards, each containing:
+Return a JSON object with exactly 6 cards, each containing:
 - title: string
 - content: string (detailed horoscope content)
 
-The 5 cards should be:
+The 6 cards should be:
 
 1. DESTINATION: 
 - Title: "Your Cosmic Destination"
@@ -73,6 +73,21 @@ The 5 cards should be:
 - Include specific advice for safe and successful travel
 - Mention planetary aspects that might affect their journeys
 - Provide protective measures or favorable travel dates
+
+6. RECOMMENDED READINGS:
+- Title: "Cosmic Knowledge"
+- Recommend 2-3 books that align with their astrological profile and current planetary influences
+- ALWAYS include one of these 3 Nomad Magazine editions with proper reasoning:
+  
+  ISSUE 001: "The Nomad's Guide to Freedom" - Focuses on breaking free from conventional life, finding location independence, and the psychology of nomadism. Perfect for those seeking liberation and new beginnings.
+  
+  ISSUE 002: "Digital Wellness on the Road" - Covers maintaining mental health, building routines, and staying connected while traveling. Ideal for those facing challenges with balance and well-being.
+  
+  ISSUE 003: "Building Your Nomad Network" - About creating meaningful connections, finding community, and building professional relationships while traveling. Great for those focusing on relationships and career growth.
+
+- Choose the most relevant magazine issue based on their astrological reading and current life themes
+- Explain WHY each recommendation aligns with their horoscope and planetary influences
+- Include how these readings will support their cosmic journey this month
 
 Return format:
 {
