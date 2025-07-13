@@ -10,6 +10,10 @@ import EditionStats from '~/components/EditionStats.astro'
 import Sponsors from '~/components/Sponsors.astro'
 import PreOrderSection from '~/components/PreOrderSection.astro'
 import MagazinePreview from '~/components/MagazinePreview.astro'
+import AuthorsGrid from '~/components/AuthorsGrid.astro'
+import EditionHero from '~/components/EditionHero.astro'
+import EditionWelcome from '~/components/EditionWelcome.astro'
+import WhatsComingCarousel from '~/components/WhatsComingCarousel.astro'
 
 const slides = [
   {
@@ -41,6 +45,49 @@ const sponsors = [
     image: '/images/b5a18d61-7148-40c5-ba44-3b1e9baf792c.webp',
     alt: 'Nomads Insure',
     width: '100',
+  },
+]
+
+const authors = [
+  {
+    image: '/images/edition-001-christoph-huebner.webp',
+    name: 'Christoph Huebner',
+    bio: `Nomad insurance expert and founder of NOMADS.insure. Christoph exposes the inconvenient truths about nomad insurance and helps nomads navigate the complex world of international coverage.`,
+  },
+  {
+    image: '/images/edition-001-marina-iakovleva.webp', 
+    name: 'Marina Iakovleva',
+    bio: `Creator of Dating Beyond Borders, Marina explores love and dating as a nomad, providing cultural guides and insights into romantic adventures while traveling the world.`,
+  },
+  {
+    image: '/images/edition-001-stella-airoldi.webp',
+    name: 'Stella Airoldi',
+    bio: `Founder of 22STARS & Social Impact Nomads. Stella curates the best digital nomad retreats that blend work, travel, and purpose for meaningful experiences.`,
+  },
+  {
+    image: '/images/edition-001-santiago-sosa.webp',
+    name: 'Santiago Sosa',
+    bio: `Marketing automation expert who explores how AI is transforming the way nomads run lean and efficient businesses in the digital age.`,
+  },
+  {
+    image: '/images/edition-001-bori-vigh.webp',
+    name: 'Bori Vigh',
+    bio: `Nomad Cruise host and podcast creator who dives deep into the psychology behind nomad commitment issues and the "perfection-paradox" that affects location and relationship decisions.`,
+  },
+  {
+    image: '/images/edition-001-tarek-kholoussy.webp',
+    name: 'Tarek Kholoussy',
+    bio: `Founder of Nomads Giving Back who shares his journey from corporate rat race to meaningful nomadic life focused on social impact and community building.`,
+  },
+  {
+    image: '/images/edition-001-amy-white.webp',
+    name: 'Amy White',
+    bio: `Editor-in-chief and ghostwriter who helps shape the editorial vision of Nomad Magazine, ensuring every story resonates with the nomad community.`,
+  },
+  {
+    image: '/images/edition-001-lera-pitiakova.webp',
+    name: 'Lera Pitiakova',
+    bio: `Editor and founder of NGM who conducts in-depth interviews and shares insights from the nomadic lifestyle, building bridges within the global nomad community.`,
   },
 ]
 
@@ -101,56 +148,18 @@ const seo: SEOProps = {
 ---
 
 <Layout seo={seo}>
-  <MagazineReadyBanner text="The magazine is ready! We can't wait for you to read it!" />
+  <EditionHero
+    printUrl="https://buy.stripe.com/5kA3fA9vH3yd1Ko6ou"
+    digitalUrl="https://pay.nomad-magazine.com/b/bJe00j0jPbPRewScSd8bS0j"
+    waitlistUrl=""
+    editionNumber="Edition 001"
+    title="The first Edition of Nomad Magazine. 100 pages of unique content."
+    coverImage="/images/5f3df6ca-7e00-4f77-8e10-bec4fa56e454.avif"
+    coverImageAlt="Nomad Magazine Edition 001 cover"
+    digitalPrice="€14"
+    printPrice="€22"
+  />
   
-  <!-- Hero Section -->
-  <div class="mx-auto max-w-7xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 items-center gap-8 sm:gap-16 lg:grid-cols-2">
-      <div class="space-y-6 sm:space-y-8">
-        <div class="space-y-4 sm:space-y-6">
-          <div class="text-base sm:text-lg font-semibold text-gray-800">Nomad Magazine: Edition 001</div>
-          <h1 class="mb-4 text-3xl sm:text-4xl leading-tight font-bold md:text-6xl">The first Edition of Nomad Magazine. 100 pages of unique content.</h1>
-          <div class="text-base sm:text-lg font-semibold text-gray-700">Read by 1000+ nomads worldwide</div>
-        </div>
-        <div class="space-y-4">
-          <div class="mb-2 flex flex-col gap-4 sm:flex-row sm:items-end">
-            <div class="flex flex-col items-center order-first sm:order-last">
-              <span class="mb-1 inline-block rounded-full bg-yellow-400 px-3 py-1 text-xs font-bold text-black uppercase tracking-wide shadow">Recommended</span>
-              <a
-                href="https://pay.nomad-magazine.com/b/bJe00j0jPbPRewScSd8bS0j"
-                data-event="reserve magazine"
-                target="_blank"
-                class="glow-animate w-full sm:w-auto inline-block rounded border-2 border-yellow-400 bg-black px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-yellow-400 transition-colors duration-200 hover:bg-yellow-400 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-300"
-              >
-                GET DIGITAL NOW
-              </a>
-            </div>
-            <a
-              href="https://buy.stripe.com/5kA3fA9vH3yd1Ko6ou"
-              data-event="reserve magazine"
-              target="_blank"
-              class="w-full sm:w-auto inline-block rounded bg-yellow-400 px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-black shadow-md transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 order-last sm:order-first"
-            >
-              ORDER PRINT
-            </a>
-          </div>
-          <div class="mt-2 text-xs sm:text-sm text-gray-700">
-            *Edition 001 launched — now available.
-          </div>
-        </div>
-      </div>
-      <div class="flex justify-center lg:justify-end order-first lg:order-last">
-        <img
-          src="/images/5f3df6ca-7e00-4f77-8e10-bec4fa56e454.avif"
-          alt="Nomad Magazine Edition 001 cover"
-          class="h-auto max-w-full rounded-lg shadow-lg"
-          loading="lazy"
-        />
-      </div>
-    </div>
-  </div>
-
-  <!-- Stats Section -->
   <EditionStats
     stats={[
       { value: '100', label: 'Pages' },
@@ -159,28 +168,14 @@ const seo: SEOProps = {
     ]}
   />
 
-  <!-- Sponsors Section -->
   <Sponsors {sponsors} />
 
-  <!-- Welcome Section -->
-  <div class="mx-auto max-w-3xl px-4 py-16">
-    <h1 class="font-justme mb-6 text-center text-3xl md:text-4xl">Welcome to Edition 001, dear reader.</h1>
-    <div class="prose prose-lg mx-auto mb-10 text-gray-800">
-      <p>
-        Welcome to the first edition of Nomad Magazine. Inside, you'll find everything from the hottest nomad stories, which destinations to hit in 2024 and how to truly
-        make a positive impact wherever you plant your laptop.
-      </p>
-      <p>What's Coming:</p>
-      <ul role="list" class="list-disc pl-6">
-        <li>100 pages of unique content crafted by our editors and guest writers</li>
-        <li>Yellow Pages: Digital Nomad Directory</li>
-        <li>Exclusive NGM newsletters</li>
-      </ul>
-      <p><a href="/free-article-what-not-to-do-on-first-date" class="font-medium underline">Download sample</a></p>
-    </div>
-  </div>
+  <EditionWelcome
+    heading="Welcome to Edition 001, dear reader."
+    bodyHtml={`<p>Welcome to the first edition of Nomad Magazine. Inside, you'll discover the real stories behind nomadic life—from commitment issues and cultural dating guides to responsible travel and the future of AI in business.</p><p>What's inside this pioneering issue:</p><ul role="list" class="list-disc pl-6"><li><strong>The Real Reason Behind Commitment Issues</strong> - Exploring the "perfection-paradox" among nomads</li><li><strong>From the Rat Race to Freedom</strong> - Tarek's journey to meaningful nomadic impact</li><li><strong>Cultural Dating Guide</strong> - What NOT to do on first dates across 5 countries</li><li><strong>4 Inconvenient Truths About Nomad Insurance</strong> - Essential coverage insights</li><li><strong>Best Digital Nomad Retreats</strong> - Curated experiences that blend work and purpose</li><li><strong>Business and AI Innovation</strong> - How technology transforms nomad entrepreneurship</li><li><strong>Yellow Pages: Digital Nomad Directory</strong> - Your essential resource guide</li></ul><p><a href="/free-article-what-not-to-do-on-first-date" class="font-medium underline">Download free sample article</a></p>`}
+  />
 
-  <!-- Product Section -->
+  <!-- Payment Options Section -->
   <section class="my-12 flex flex-col items-center justify-center gap-8 lg:flex-row">
     <!-- Carousel/Slider -->
     <div class="w-full flex-shrink-0 px-4 sm:px-8 md:w-1/2 md:px-0">
@@ -210,22 +205,90 @@ const seo: SEOProps = {
           id: 'print',
           title: 'Single Purchase on MagCulture',
           subtitle: 'Pay for one issue',
-                      features: [{ text: 'Printed NGM edition' }, { text: 'Exclusive NGM newsletters' }],
+          features: [{ text: 'Printed NGM edition' }, { text: 'Exclusive NGM newsletters' }],
           price: '€22',
           priceNote: '* Delivery cost included',
           url: 'https://magculture.com/products/nomad-gossip-magazine-1',
         }}
         orderButtonText="Read Now!"
-        showPickup={false}
       />
     </div>
   </section>
 
+  <WhatsComingCarousel
+    heading="Article Previews"
+    subtitle="Discover the groundbreaking stories and insights from our inaugural issue — exploring commitment, freedom, culture, and the future of nomadic life."
+    slides={[
+      {
+        image: '/images/edition-001-commitment-issues-bori-vigh.webp',
+        alt: 'The Real Reason Behind Commitment Issues',
+        quote:
+          "Explores the 'perfection-paradox' among nomads—fear of imperfection leads to difficulty in committing to locations, people, or projects. This deep dive reveals why nomads struggle with decisions and how to overcome the endless search for something better.",
+        name: 'Bori Vigh',
+        role: 'Nomad Cruise Host & Podcast Creator',
+      },
+      {
+        image: '/images/edition-001-rat-race-freedom-tarek-kholoussy.webp',
+        alt: 'From the Rat Race to Freedom',
+        quote:
+          "Tarek shares his transformative journey from corporate life to starting Nomads Giving Back, showing how to build a meaningful nomadic life focused on impact rather than just location independence.",
+        name: 'Tarek Kholoussy',
+        role: 'Founder of Nomads Giving Back',
+      },
+      {
+        image: '/images/edition-001-dating-guide-marina-iakovleva.webp',
+        alt: 'What NOT to Do on a First Date in These 5 Countries',
+        quote:
+          "A cultural guide on dating etiquette across different countries, helping nomads navigate romantic connections while respecting local customs and avoiding embarrassing cultural mistakes.",
+        name: 'Marina Iakovleva',
+        role: 'Creator of Dating Beyond Borders',
+      },
+      {
+        image: '/images/edition-001-insurance-truths-christoph-huebner.webp',
+        alt: '4 Inconvenient Truths About Nomad Insurance',
+        quote:
+          "Exposes common pitfalls and limitations of insurance options for nomads, revealing what insurance companies don't tell you and how to protect yourself while traveling long-term.",
+        name: 'Christoph Huebner',
+        role: 'Founder of NOMADS.insure',
+      },
+      {
+        image: '/images/edition-001-nomad-retreats-stella-airoldi.webp',
+        alt: 'Best Digital Nomad Retreats',
+        quote:
+          "A curated list of nomad-friendly retreats that blend work, travel, and purpose, featuring destinations and programs that foster both productivity and personal growth.",
+        name: 'Stella Airoldi',
+        role: 'Founder of 22STARS & Social Impact Nomads',
+      },
+      {
+        image: '/images/edition-001-business-ai-santiago-sosa.webp',
+        alt: 'Business and AI: A Match Made in Innovation?',
+        quote:
+          "How AI is transforming the way nomads run lean and efficient businesses, exploring tools, strategies, and the future of automated entrepreneurship for location-independent professionals.",
+        name: 'Santiago Sosa',
+        role: 'Marketing Automation Expert',
+      },
+      {
+        image: '/images/edition-001-romantic-journeys-marina-iakovleva.webp',
+        alt: 'Romantic Journeys and Entrepreneurial Adventures',
+        quote:
+          "Explores love and dating as a nomad, blending personal stories and patterns to reveal how relationships evolve when your office is the world and your address changes monthly.",
+        name: 'Marina Iakovleva',
+        role: 'Creator of Dating Beyond Borders',
+      },
+      {
+        image: '/images/edition-001-local-communities-ngm-team.webp',
+        alt: "You're Screwing Over Local Communities",
+        quote:
+          "Discusses the unintended harm digital nomads can cause and provides actionable advice on how to be more responsible travelers who contribute positively to local economies and cultures.",
+        name: 'NGM Editorial Team',
+        role: 'Responsible Travel Advocates',
+      },
+    ]}
+  />
+
   <Testimonials sectionClass="bg-hoverw [&_h2]:text-white" />
-  <FAQ />
-  <FAQContact />
-  
-  <!-- Magazine Preview -->
+  <PreOrderSection name="👀  GET MY MAGAZINE" preOrderUrl="https://buy.stripe.com/5kA3fA9vH3yd1Ko6ou" waitlistUrl="" scrollToPayment={true} />
+  <AuthorsGrid {authors} />
   <MagazinePreview
     titleClass="mt-4"
     sectionClass="bg-gray-50"
@@ -233,13 +296,9 @@ const seo: SEOProps = {
     subTitle="Magazine Preview"
     subTitleClass="font-justme !text-black !text-2xl !font-medium"
   />
-  
-  <!-- Final CTA -->
-  <PreOrderSection 
-    name="👀 GET MY MAGAZINE" 
-    preOrderUrl="https://buy.stripe.com/5kA3fA9vH3yd1Ko6ou" 
-    digitalUrl="https://pay.nomad-magazine.com/b/bJe00j0jPbPRewScSd8bS0j"
-  />
+  <FAQ />
+  <FAQContact />
+  <PreOrderSection preOrderUrl="https://buy.stripe.com/5kA3fA9vH3yd1Ko6ou" waitlistUrl="" scrollToPayment={true} />
 </Layout>
 
 <style>

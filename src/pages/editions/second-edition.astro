@@ -10,6 +10,10 @@ import EditionStats from '~/components/EditionStats.astro'
 import Sponsors from '~/components/Sponsors.astro'
 import PreOrderSection from '~/components/PreOrderSection.astro'
 import MagazinePreview from '~/components/MagazinePreview.astro'
+import AuthorsGrid from '~/components/AuthorsGrid.astro'
+import EditionHero from '~/components/EditionHero.astro'
+import EditionWelcome from '~/components/EditionWelcome.astro'
+import WhatsComingCarousel from '~/components/WhatsComingCarousel.astro'
 
 const slides = [
   {
@@ -62,6 +66,49 @@ const sponsors = [
     image: '/images/b5a18d61-7148-40c5-ba44-3b1e9baf792c.webp',
     alt: 'Nomads Insure',
     width: '100',
+  },
+]
+
+const authors = [
+  {
+    image: '/images/edition-002-tomas-mrva.webp',
+    name: 'Tomáš Mrva',
+    bio: `Writer and storyteller who captures the vibrant Nomad Cruise culture, explores Japan as a peaceful haven for nomads, and reflects on deep, enduring connections made through shared nomadic experiences.`,
+  },
+  {
+    image: '/images/edition-002-jessica-holmes.webp', 
+    name: 'Jessica Holmes',
+    bio: `Japan-focused writer and digital nomad who shares Japanese wisdom and philosophy as a lifestyle framework, exploring Zen, wabi-sabi, and mindful living for nomads.`,
+  },
+  {
+    image: '/images/edition-002-lulu-lundt.webp',
+    name: 'Lulu Lundt',
+    bio: `Family-focused nomadic writer who chronicles the unique journey of combining parenthood with nomadism, sharing insights on traveling with children.`,
+  },
+  {
+    image: '/images/edition-002-francesco-silicani.webp',
+    name: 'Francesco Silicani',
+    bio: `Crypto expert who explores cryptocurrency's impact and future relevance for digital nomads, helping nomads navigate the digital finance landscape.`,
+  },
+  {
+    image: '/images/edition-002-kristina-mand-lakhiani.webp',
+    name: 'Kristina Mänd-Lakhiani',
+    bio: `Co-founder of Mindvalley and featured voice sharing insights on personal growth, mindset, and transformation within the nomadic lifestyle.`,
+  },
+  {
+    image: '/images/edition-002-johannes-voelkner.webp',
+    name: 'Johannes Voelkner',
+    bio: `Founder of Nomadbase who calls for community involvement in building coworking hubs and shaping the future of nomad workspaces in places like Tarifa.`,
+  },
+  {
+    image: '/images/edition-002-sergio-sala.webp',
+    name: 'Sergio Sala',
+    bio: `Nomadbase community voice sharing 10-year reflections on the digital nomad lifestyle evolution and lessons learned from a decade of remote work and travel.`,
+  },
+  {
+    image: '/images/edition-002-lera-pitiakova.webp',
+    name: 'Lera Pitiakova',
+    bio: `Editor and founder of NGM who explores Madeira's thriving digital nomad scene and community-driven lifestyle, building connections within the global nomad community.`,
   },
 ]
 
@@ -122,56 +169,18 @@ const seo: SEOProps = {
 ---
 
 <Layout seo={seo}>
-  <MagazineReadyBanner text="NEW MAGAZINE IS LIVE!" />
+  <EditionHero
+    printUrl="https://buy.stripe.com/fZe7vygUk3upfD2bIL"
+    digitalUrl="https://buy.stripe.com/aEUbLOcE4d4ZcqQ146"
+    waitlistUrl=""
+    editionNumber="Edition 002"
+    title="Your guide into digital nomad communities in 110-page masterpiece."
+    coverImage="/images/0f686bbe-be95-4550-bdd8-4cd0cb9c7fcf.webp"
+    coverImageAlt="Nomad Magazine Edition 002 cover"
+    digitalPrice="€9"
+    printPrice="€22"
+  />
   
-  <!-- Hero Section -->
-  <div class="mx-auto max-w-7xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 items-center gap-8 sm:gap-16 lg:grid-cols-2">
-      <div class="space-y-6 sm:space-y-8">
-        <div class="space-y-4 sm:space-y-6">
-          <div class="text-base sm:text-lg font-semibold text-gray-800">Nomad Magazine: Edition 002</div>
-          <h1 class="mb-4 text-3xl sm:text-4xl leading-tight font-bold md:text-6xl">Your guide into digital nomad communities in 110-page masterpiece.</h1>
-          <div class="text-base sm:text-lg font-semibold text-gray-700">Read by 1000+ nomads worldwide</div>
-        </div>
-        <div class="space-y-4">
-          <div class="mb-2 flex flex-col gap-4 sm:flex-row sm:items-end">
-            <div class="flex flex-col items-center order-first sm:order-last">
-              <span class="mb-1 inline-block rounded-full bg-yellow-400 px-3 py-1 text-xs font-bold text-black uppercase tracking-wide shadow">Recommended</span>
-              <a
-                href="https://buy.stripe.com/aEUbLOcE4d4ZcqQ146"
-                data-event="reserve magazine"
-                target="_blank"
-                class="glow-animate w-full sm:w-auto inline-block rounded border-2 border-yellow-400 bg-black px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-yellow-400 transition-colors duration-200 hover:bg-yellow-400 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-300"
-              >
-                GET DIGITAL NOW
-              </a>
-            </div>
-            <a
-              href="https://buy.stripe.com/fZe7vygUk3upfD2bIL"
-              data-event="reserve magazine"
-              target="_blank"
-              class="w-full sm:w-auto inline-block rounded bg-yellow-400 px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-black shadow-md transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 order-last sm:order-first"
-            >
-              ORDER PRINT
-            </a>
-          </div>
-          <div class="mt-2 text-xs sm:text-sm text-gray-700">
-            *Edition 002 launched — now available.
-          </div>
-        </div>
-      </div>
-      <div class="flex justify-center lg:justify-end order-first lg:order-last">
-        <img
-          src="/images/0f686bbe-be95-4550-bdd8-4cd0cb9c7fcf.webp"
-          alt="Nomad Magazine Edition 002 cover"
-          class="h-auto max-w-full rounded-lg shadow-lg"
-          loading="lazy"
-        />
-      </div>
-    </div>
-  </div>
-
-  <!-- Stats Section -->
   <EditionStats
     stats={[
       { value: '110', label: 'Pages' },
@@ -180,36 +189,14 @@ const seo: SEOProps = {
     ]}
   />
 
-  <!-- Sponsors Section -->
   <Sponsors {sponsors} />
 
-  <!-- Welcome Section -->
-  <div class="mx-auto max-w-3xl px-4 py-16">
-    <h1 class="font-justme mb-6 text-center text-3xl md:text-4xl">Welcome to Edition 002, dear reader.</h1>
-    <div class="prose prose-lg mx-auto mb-10 text-gray-800">
-      <p><strong>We turned nomad life into a 110-page masterpiece.</strong></p>
-      <p><strong>In focus: Nomad Communities and Japan as a new destination.</strong></p>
-      <p>
-        This edition of <strong>NGM</strong> takes you deeper into the heart of the digital nomad lifestyle, with a special focus on <em>the communities that shape it</em> and getting
-        to know the digital nomad scene of <em>Japan</em>.
-      </p>
-      <p>In this issue, you'll get:</p>
-      <ul role="list" class="list-disc pl-6">
-        <li>An official introduction to the seven dynamic nomad communities.</li>
-        <li>Exclusive interview with Kiki about Japan and its top travel destinations.</li>
-        <li>Photo story showcasing Japanese cuisine.</li>
-        <li>Insights from a law firm on the truth behind Japan's Digital Nomad Visa.</li>
-        <li>"7 Secrets to a Thriving Nomadic Love Relationship" from a couple who has traveled together for 32 years.</li>
-        <li>Exclusive book recommendations from the Mindvalley Book Club.</li>
-        <li>10-year digital nomad reflections by Sergio Sala.</li>
-        <li>Top 6 accommodation booking platforms to explore.</li>
-        <li>A calendar of digital nomad events in 2025.</li>
-      </ul>
-      <p>And much more!</p>
-    </div>
-  </div>
+  <EditionWelcome
+    heading="Welcome to Edition 002, dear reader."
+    bodyHtml={`<p><strong>We turned nomad life into a 110-page masterpiece.</strong></p><p><strong>In focus: Nomad Communities and Japan as a new destination.</strong></p><p>This edition of <strong>NGM</strong> takes you deeper into the heart of the digital nomad lifestyle, with a special focus on <em>the communities that shape it</em> and getting to know the digital nomad scene of <em>Japan</em>.</p><p>What's inside this community-focused issue:</p><ul role="list" class="list-disc pl-6"><li><strong>When Nomads Flock Together</strong> - The vibrant Nomad Cruise culture and values</li><li><strong>Eastern Promises</strong> - Japan as a unique, peaceful, and cultural haven for nomads</li><li><strong>The Truth Behind Japan's Digital Nomad Visa</strong> - Real insights from a local lawyer</li><li><strong>Friendships That Last a Lifetime</strong> - Deep connections through shared nomadic experiences</li><li><strong>Japanese Wisdom on Nomadic Life</strong> - Zen, wabi-sabi, and mindful living lessons</li><li><strong>Digital Nomad Family Chronicles</strong> - Combining parenthood with nomadism</li><li><strong>Growing Muscles, Sharing Knowledge</strong> - Madeira's thriving nomad scene</li><li><strong>Digital Nomad Events 2025</strong> - Your calendar for networking and growth</li><li><strong>Top 6 Accommodation Platforms</strong> - Best booking sites for nomads</li></ul><p>Plus insights on crypto, coworking spaces, and portable work gear!</p>`}
+  />
 
-  <!-- Product Section -->
+  <!-- Payment Options Section -->
   <section class="my-12 flex flex-col items-start justify-center gap-8 md:flex-row">
     <!-- Carousel/Slider -->
     <div class="w-full flex-shrink-0 px-4 sm:px-8 md:w-1/2 md:px-0">
@@ -246,16 +233,84 @@ const seo: SEOProps = {
           url: 'https://buy.stripe.com/fZe7vygUk3upfD2bIL',
         }}
         orderButtonText="Order Now"
-        showPickup={false}
       />
     </div>
   </section>
 
+  <WhatsComingCarousel
+    heading="Article Previews"
+    subtitle="Explore the community-focused stories and Japan insights from our second issue — from Nomad Cruise culture to digital nomad families and crypto wisdom."
+    slides={[
+      {
+        image: '/images/edition-002-nomads-flock-together-tomas-mrva.webp',
+        alt: 'When Nomads Flock Together',
+        quote:
+          "Captures the vibrant experience and values behind Nomad Cruise culture, exploring how floating communities create lasting bonds and transform the way nomads connect across oceans.",
+        name: 'Tomáš Mrva',
+        role: 'Writer & Community Storyteller',
+      },
+      {
+        image: '/images/edition-002-eastern-promises-tomas-mrva.webp',
+        alt: 'Eastern Promises',
+        quote:
+          "Insight into Japan as a unique, peaceful, and cultural haven for nomads, revealing hidden gems and the mindful approach to life that makes Japan a transformative destination.",
+        name: 'Tomáš Mrva',
+        role: 'Writer & Community Storyteller',
+      },
+      {
+        image: '/images/edition-002-japan-visa-truth-akina-shu.webp',
+        alt: 'The Truth Behind Japan\'s Digital Nomad Visa',
+        quote:
+          "Real insights from a local lawyer on what Japan's nomad visa really entails, cutting through the hype to reveal practical requirements, limitations, and opportunities for nomads.",
+        name: 'Akina Shu',
+        role: 'Japanese Immigration Lawyer',
+      },
+      {
+        image: '/images/edition-002-japanese-wisdom-jessica-holmes.webp',
+        alt: 'Japanese Wisdom on a Nomadic Life',
+        quote:
+          "Lessons from Zen, wabi-sabi, and Japanese philosophy as a lifestyle framework, showing how ancient wisdom can guide modern nomads toward more mindful and balanced living.",
+        name: 'Jessica Holmes',
+        role: 'Japan-focused Writer & Digital Nomad',
+      },
+      {
+        image: '/images/edition-002-nomad-family-lulu-lundt.webp',
+        alt: 'Digital Nomad Family',
+        quote:
+          "Chronicles a family's journey combining parenthood and nomadism, sharing practical insights on traveling with children while maintaining work-life balance on the road.",
+        name: 'Lulu Lundt',
+        role: 'Family-focused Nomadic Writer',
+      },
+      {
+        image: '/images/edition-002-crypto-francesco-silicani.webp',
+        alt: 'God Save the Crypto',
+        quote:
+          "Explores crypto's impact and future relevance for nomads, examining how digital currencies are reshaping international finance for location-independent professionals.",
+        name: 'Francesco Silicani',
+        role: 'Crypto Expert & Writer',
+      },
+      {
+        image: '/images/edition-002-madeira-scene-lera-pitiakova.webp',
+        alt: 'Growing Muscles, Sharing Knowledge',
+        quote:
+          "About Madeira's thriving digital nomad scene and community-driven lifestyle, showcasing how this Portuguese island became a hub for remote workers and entrepreneurs.",
+        name: 'Lera Pitiakova',
+        role: 'Editor & Founder of NGM',
+      },
+      {
+        image: '/images/edition-002-lasting-friendships-tomas-mrva.webp',
+        alt: 'Friendships That Last a Lifetime',
+        quote:
+          "Reflects on deep, enduring connections made through shared nomadic experiences, exploring how travel friendships can become some of life's most meaningful relationships.",
+        name: 'Tomáš Mrva',
+        role: 'Writer & Community Storyteller',
+      },
+    ]}
+  />
+
   <Testimonials sectionClass="bg-hoverw [&_h2]:text-white" />
-  <FAQ />
-  <FAQContact />
-  
-  <!-- Magazine Preview -->
+  <PreOrderSection name="👀  GET MY MAGAZINE" preOrderUrl="https://buy.stripe.com/fZe7vygUk3upfD2bIL" waitlistUrl="" scrollToPayment={true} />
+  <AuthorsGrid {authors} />
   <MagazinePreview
     titleClass="mt-4"
     sectionClass="bg-gray-50"
@@ -263,13 +318,9 @@ const seo: SEOProps = {
     subTitle="Magazine Preview"
     subTitleClass="font-justme !text-black !text-2xl !font-medium"
   />
-  
-  <!-- Final CTA -->
-  <PreOrderSection 
-    name="👀 GET MY MAGAZINE" 
-    preOrderUrl="https://buy.stripe.com/fZe7vygUk3upfD2bIL" 
-    digitalUrl="https://buy.stripe.com/aEUbLOcE4d4ZcqQ146"
-  />
+  <FAQ />
+  <FAQContact />
+  <PreOrderSection preOrderUrl="https://buy.stripe.com/fZe7vygUk3upfD2bIL" waitlistUrl="" scrollToPayment={true} />
 </Layout>
 
 <style>
