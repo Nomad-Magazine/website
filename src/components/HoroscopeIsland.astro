@@ -8,7 +8,7 @@ interface Props {
 const { shouldGenerate = false, name, birthdate } = Astro.props
 
 let horoscopeData = null
-let error = null
+let error = false
 
 console.log('shouldGenerate', shouldGenerate)
 console.log('name', name)
@@ -21,10 +21,12 @@ if (shouldGenerate && name && birthdate) {
       const responseData = await response.json() as { data: { cards: Array<{ title: string, content: string }> } }
       horoscopeData = responseData.data
     } else {
-      error = 'Failed to generate horoscope'
+      console.error('Failed to generate horoscope', response)
+      error = true
     }
   } catch (e) {
-    error = 'Failed to generate horoscope'
+    console.error('Failed to generate horoscope', e)
+    error = true
   }
 }
 ---
