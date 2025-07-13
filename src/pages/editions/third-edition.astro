@@ -10,6 +10,7 @@ import EditionWelcome from '~/components/EditionWelcome.astro'
 import WhatsComingCarousel from '~/components/WhatsComingCarousel.astro'
 import PaymentPlan from '~/components/PaymentPlan.astro'
 import ProductCarousel from '~/components/ProductCarousel.astro'
+import Testimonials from '~/components/Testimonials.astro'
 
 const slides = [
   {
@@ -397,4 +398,5 @@ const seo: SEOProps = {
     subTitleClass="font-justme !text-black !text-2xl !font-medium"
   />
   <PreOrderSection preOrderUrl="https://pay.nomad-magazine.com/b/28EeVdaYt1bd0G24lH8bS0g" waitlistUrl="https://form.smartsuite.com/s4tmc086/VD8BBVMq11" scrollToPayment={true} />
+  <Testimonials sectionClass="bg-hoverw [&_h2]:text-white" />
 </Layout>
