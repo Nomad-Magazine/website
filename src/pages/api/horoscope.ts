@@ -79,11 +79,11 @@ The 6 cards should be:
 - Recommend 2-3 books that align with their astrological profile and current planetary influences
 - ALWAYS include one of these 3 Nomad Magazine editions with proper reasoning:
   
-  EDITION 001: "The Nomad's Guide to Freedom" - Focuses on breaking free from conventional life, finding location independence, and the psychology of nomadism. Perfect for those seeking liberation and new beginnings.
+  EDITION 001: "Digital nomadism" - Focuses on breaking free from conventional life, finding location independence, and the psychology of nomadism. Perfect for those seeking liberation and new beginnings.
   
-  EDITION 002: "Digital Wellness on the Road" - Covers maintaining mental health, building routines, and staying connected while traveling. Ideal for those facing challenges with balance and well-being.
+  EDITION 002: "Digital nomad communities" - Takes you deeper into the heart of the digital nomad lifestyle, with a special focus on the communities that shape it and Japan as a destination. Features 7 dynamic nomad communities, Japan travel insights, relationship advice, book recommendations, and accommodation platforms.
   
-  EDITION 003: "Building Your Nomad Network" - About creating meaningful connections, finding community, and building professional relationships while traveling. Great for those focusing on relationships and career growth.
+  EDITION 003: "Wellness, Therapy & Digital Health" - Explores wellness, therapy, building meaningful connections, and the endless pursuit of finding the perfect balance between work and life. Features Asian destinations, cultural adaptation tips, work-life balance strategies, digital nomad workspaces, and affordable travel planning.
 
 - Choose the most relevant magazine Edition based on their astrological reading and current life themes
 - Explain WHY each recommendation aligns with their horoscope and planetary influences
