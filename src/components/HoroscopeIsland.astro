@@ -176,14 +176,13 @@ if (shouldGenerate && name && birthdate) {
     }
   }
 
-  document.addEventListener('DOMContentLoaded', function() {
-    const nameInput = document.getElementById('name');
-    const birthdateInput = document.getElementById('birthdate');
-    
-    if (nameInput && birthdateInput) {
-      nameInput.addEventListener('input', updateRedirect);
-      birthdateInput.addEventListener('input', updateRedirect);
-      birthdateInput.addEventListener('change', updateRedirect);
-    }
-  });
+  // Since this component is deferred, DOM is already loaded
+  const nameInput = document.getElementById('name');
+  const birthdateInput = document.getElementById('birthdate');
+  
+  if (nameInput && birthdateInput) {
+    nameInput.addEventListener('input', updateRedirect);
+    birthdateInput.addEventListener('input', updateRedirect);
+    birthdateInput.addEventListener('change', updateRedirect);
+  }
 </script> 
