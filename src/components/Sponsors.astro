@@ -9,14 +9,15 @@ interface Sponsor {
 
 interface Props {
   sponsors: Sponsor[]
+  title?: string
 }
 
-const { sponsors }: Props = Astro.props
+const { sponsors, title = "Vol. 3 Sponsored By" }: Props = Astro.props
 ---
 
 <div class="bg-black py-16">
   <div class="mx-auto max-w-5xl px-4">
-    <p class="mb-10 text-center text-2xl font-semibold text-white">Vol. 3 Sponsored By</p>
+    <p class="mb-10 text-center text-2xl font-semibold text-white">{title}</p>
     <div class="flex flex-wrap items-center justify-center gap-8">
       {
         sponsors.map((s) => (

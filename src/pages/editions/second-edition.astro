@@ -17,7 +17,7 @@ import WhatsComingCarousel from '~/components/WhatsComingCarousel.astro'
 
 const slides = [
   {
-    src: '/images/0f686bbe-be95-4550-bdd8-4cd0cb9c7fcf.webp',
+    src: '/images/edition-002-cover-background-purple.webp',
   },
   {
     src: '/images/8dd5549d-aea9-43c4-a934-3f8eba8fdabc.webp',
@@ -154,7 +154,7 @@ const seo: SEOProps = {
   title: 'Edition 002 - Nomad Magazine | Digital Nomad Communities & Japan',
   description:
     'Edition 002 of Nomad Magazine focuses on digital nomad communities and Japan as a destination. 110 pages of exclusive content, interviews, and nomad insights.',
-  image: `${Astro.site}images/0f686bbe-be95-4550-bdd8-4cd0cb9c7fcf.webp`,
+  image: `${Astro.site}images/edition-002-cover-background-purple.webp`,
       keywords: 'nomad magazine edition 002, digital nomad communities, japan nomad, nomad magazine, remote work magazine',
   ogType: 'website',
   ldJSON: {
@@ -163,7 +163,7 @@ const seo: SEOProps = {
     name: 'Nomad Magazine Edition 002',
     description: 'Edition 002 focusing on digital nomad communities and Japan as a destination',
     url: `${Astro.site}products/issue-002`,
-    image: `${Astro.site}images/0f686bbe-be95-4550-bdd8-4cd0cb9c7fcf.webp`,
+    image: `${Astro.site}images/edition-002-cover-background-purple.webp`,
     brand: {
       '@type': 'Brand',
               name: 'Nomad Magazine',
@@ -213,7 +213,7 @@ const seo: SEOProps = {
     waitlistUrl=""
     editionNumber="Edition 002"
     title="Your guide into digital nomad communities in 110-page masterpiece."
-    coverImage="/images/0f686bbe-be95-4550-bdd8-4cd0cb9c7fcf.webp"
+    coverImage="/images/edition-002-cover-background-purple.webp"
     coverImageAlt="Nomad Magazine Edition 002 cover"
     digitalPrice="€9"
     printPrice="€22"
@@ -227,7 +227,7 @@ const seo: SEOProps = {
     ]}
   />
 
-  <Sponsors {sponsors} />
+  <Sponsors {sponsors} title="Edition 002 Sponsored By" />
 
   <EditionWelcome
     heading="Welcome to Edition 002, dear reader."
