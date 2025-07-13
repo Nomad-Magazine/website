@@ -7,11 +7,11 @@ import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 const seenAtLogos = [
   {
     name: 'Running Remote',
-    url: '/images/815db8c6-7353-4b12-9a93-f0a728562953.svg',
+    url: '/images/running-remote-logo.svg',
   },
   {
     name: 'Nomad Cruise',
-    url: 'https://cdn.prod.website-files.com/64ec95e0eddd7b775369e9e7/6671b75af213e30559f1bf19_Mask%20group%20(1).svg',
+    url: '/images/nomad-cruise-logo.webp',
   },
   {
     name: 'Island Tribe',
@@ -51,7 +51,7 @@ const seo: SEOProps = {
   </div>
   <!-- Seen At Section -->
   <div
-    class="flex flex-row flex-wrap items-end justify-center gap-4 bg-[url('https://cdn.prod.website-files.com/64ec95e0eddd7b775369e9e7/652fbc20671bc02c2d3be4e4_Mask%20group%20(1).webp')] bg-cover py-4 pt-24"
+    class="flex flex-row flex-wrap items-end justify-center gap-4 bg-[url('/images/page-effect.webp')] bg-cover py-4 pt-24"
   >
     <span class="text-neutral-400">Seen at:</span>
     {seenAtLogos.map((logo) => <img src={logo.url} alt={logo.name} class="h-8 object-contain" />)}
