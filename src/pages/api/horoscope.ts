@@ -183,7 +183,7 @@ async function fetchGptSuggestion(prompt: string): Promise<string> {
                       description: 'The link to the Nomad Magazine edition that is most relevant to the horoscope'
                     }
                   },
-                  required: ['title', 'content'],
+                  required: ['title', 'content', 'editionLink'],
                   additionalProperties: false
                 }
               }
@@ -201,7 +201,7 @@ async function fetchGptSuggestion(prompt: string): Promise<string> {
   console.log('OpenAI response status:', response.status)
 
   if (!response.ok) {
-    console.error('OpenAI API error:', response.status, response.statusText)
+    console.error('OpenAI API error:', response.status, await response.json())
     throw new Error(`OpenAI API error: ${response.status}`)
   }
 

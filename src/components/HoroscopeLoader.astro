@@ -17,147 +17,31 @@
     align-items: center;
     justify-content: center;
     min-height: 280px;
-    position: relative;
-    overflow: hidden;
   }
   
-  .loader-container::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(251, 191, 36, 0.1) 0%, transparent 70%);
-    animation: shimmer 8s linear infinite;
-    pointer-events: none;
-  }
-  
-  @keyframes shimmer {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  .cosmic-spinner {
-    width: 80px;
-    height: 80px;
-    border: 4px solid rgba(251, 191, 36, 0.2);
-    border-radius: 50%;
-    border-top: 4px solid #f59e0b;
-    border-right: 4px solid #d97706;
-    animation: cosmic-spin 2s linear infinite;
-    margin-bottom: 32px;
-    position: relative;
-    z-index: 1;
-  }
-  
-  .cosmic-spinner::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
+  .spinner {
     width: 40px;
     height: 40px;
-    border: 2px solid rgba(217, 119, 6, 0.3);
+    border: 3px solid rgba(251, 191, 36, 0.2);
     border-radius: 50%;
-    border-top: 2px solid #d97706;
-    transform: translate(-50%, -50%);
-    animation: cosmic-spin 1s linear infinite reverse;
-  }
-  
-  .mystical-symbols {
-    font-size: 2.5rem;
+    border-top: 3px solid #f59e0b;
+    animation: spin 1s linear infinite;
     margin-bottom: 24px;
-    animation: float 3s ease-in-out infinite;
-    letter-spacing: 12px;
-    position: relative;
-    z-index: 1;
   }
   
-  .sacred-text {
-    font-size: 1.2rem;
-    font-weight: 500;
+  .loading-text {
+    font-size: 1.1rem;
     color: #7c2d12;
-    animation: breathe 4s ease-in-out infinite;
-    max-width: 320px;
-    line-height: 1.6;
-    font-family: serif;
-    font-style: italic;
-    position: relative;
-    z-index: 1;
+    font-weight: 500;
   }
   
-  .cosmic-dots {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 20px;
-    position: relative;
-    z-index: 1;
-  }
-  
-  .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #f59e0b, #d97706);
-    animation: pulse-dot 1.5s ease-in-out infinite;
-  }
-  
-  .dot:nth-child(1) { animation-delay: 0s; }
-  .dot:nth-child(2) { animation-delay: 0.3s; }
-  .dot:nth-child(3) { animation-delay: 0.6s; }
-  .dot:nth-child(4) { animation-delay: 0.9s; }
-  .dot:nth-child(5) { animation-delay: 1.2s; }
-  
-  @keyframes cosmic-spin {
+  @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-  }
-  
-  @keyframes float {
-    0%, 100% { 
-      transform: translateY(0px) scale(1);
-      opacity: 0.8;
-    }
-    50% { 
-      transform: translateY(-12px) scale(1.1);
-      opacity: 1;
-    }
-  }
-  
-  @keyframes breathe {
-    0%, 100% { 
-      opacity: 0.7;
-      transform: scale(0.98);
-    }
-    50% { 
-      opacity: 1;
-      transform: scale(1.02);
-    }
-  }
-  
-  @keyframes pulse-dot {
-    0%, 100% { 
-      transform: scale(1);
-      opacity: 0.6;
-    }
-    50% { 
-      transform: scale(1.5);
-      opacity: 1;
-    }
   }
 </style>
 
 <div class="loader-container">
-  <div class="cosmic-spinner"></div>
-  <div class="mystical-symbols">🌟 🔮 ✨ 🌙 💫</div>
-  <div class="sacred-text">Generating your personalized horoscope...</div>
-  <div class="cosmic-dots">
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-  </div>
+  <div class="spinner"></div>
+  <div class="loading-text">Generating your travel horoscope...</div>
 </div> 
