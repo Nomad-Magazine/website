@@ -1,0 +1,189 @@
+---
+interface Props {
+  shouldGenerate?: boolean
+  name?: string
+  birthdate?: string
+}
+
+const { shouldGenerate = false, name, birthdate } = Astro.props
+
+let horoscopeData = null
+let error = null
+
+console.log('shouldGenerate', shouldGenerate)
+console.log('name', name)
+console.log('birthdate', birthdate)
+
+if (shouldGenerate && name && birthdate) {
+  try {
+    const response = await fetch(`${Astro.url.origin}/api/horoscope?name=${encodeURIComponent(name)}&birthdate=${encodeURIComponent(birthdate)}`)
+    if (response.ok) {
+      const responseData = await response.json() as { data: { cards: Array<{ title: string, content: string }> } }
+      horoscopeData = responseData.data
+    } else {
+      error = 'Failed to generate horoscope'
+    }
+  } catch (e) {
+    error = 'Failed to generate horoscope'
+  }
+}
+---
+
+<style>
+  .container {
+    text-align: center;
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 90%;
+  }
+  h1 {
+    color: #121111;
+    margin-bottom: 8px;
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+  h2 {
+    color: #666;
+    margin-bottom: 32px;
+    font-size: 1.1rem;
+    font-weight: 400;
+  }
+  input {
+    width: 100%;
+    padding: 16px;
+    margin: 12px 0;
+    border: 2px solid #d8d8d8;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+  }
+  input:focus {
+    outline: none;
+    border-color: #f4dc01;
+  }
+  button {
+    width: 100%;
+    padding: 16px;
+    margin: 20px 0;
+    background-color: #121111;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  button:hover {
+    background-color: #333;
+    transform: translateY(-2px);
+  }
+  button:disabled {
+    background-color: #d8d8d8;
+    cursor: not-allowed;
+    transform: none;
+  }
+  .result {
+    margin-top: 32px;
+    text-align: left;
+  }
+  .error {
+    color: #e74c3c;
+    background-color: #fdf2f2;
+    padding: 16px;
+    border-radius: 8px;
+    margin-top: 16px;
+  }
+</style>
+
+<div class="container">
+  <h1>Digital Nomad Horoscope</h1>
+  <h2>By Nomad Gossip Magazine</h2>
+  
+  {!shouldGenerate && (
+    <form
+      method="POST"
+      action="https://track.bentonow.com/forms/1685a00cdc1fc329724616bec1de09c6/$subscribe_horoscope?hardened=true"
+      enctype="multipart/form-data"
+    >
+      <input type="text" name="name" id="name" placeholder="Enter your name" required>
+      <input type="email" name="email" id="email" placeholder="Enter your email" required>
+      <input type="date" name="birthdate" id="birthdate" required>
+      <input type="hidden" name="redirect" id="redirect" value="">
+      <button type="submit">Get My Next Trip</button>
+    </form>
+  )}
+  
+  {shouldGenerate && (
+    <div class="result">
+      {horoscopeData && (
+        <div>
+          <h2 style="color: #121111; margin-bottom: 24px; text-align: center; font-size: 1.8rem;">Your Cosmic Journey Awaits, {name}! 🌟</h2>
+          <div style="max-width: 800px; margin: 0 auto;">
+            {horoscopeData.cards.map((card: { title: string, content: string }) => (
+              <div style="
+                background: white;
+                border-radius: 12px;
+                padding: 24px;
+                margin: 16px 0;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                border-left: 4px solid #f4dc01;
+              ">
+                <h3 style="
+                  color: #121111;
+                  font-size: 1.4rem;
+                  font-weight: 700;
+                  margin-bottom: 12px;
+                  display: flex;
+                  align-items: center;
+                  gap: 8px;
+                ">
+                  <span style="color: #f4dc01;">✨</span>
+                  {card.title}
+                </h3>
+                <div style="
+                  color: #121111;
+                  line-height: 1.6;
+                  font-size: 1rem;
+                " set:html={card.content}></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      {error && (
+        <div class="error">{error}</div>
+      )}
+    </div>
+  )}
+</div>
+
+<script>
+  function updateRedirect() {
+    const nameInput = document.getElementById('name');
+    const birthdateInput = document.getElementById('birthdate');
+    const redirectInput = document.getElementById('redirect');
+    
+    if (nameInput && birthdateInput && redirectInput) {
+      const name = (nameInput as HTMLInputElement).value || '';
+      const birthdate = (birthdateInput as HTMLInputElement).value || '';
+      const redirectUrl = `${window.location.origin}/horoscope/?name=${encodeURIComponent(name)}&birthdate=${encodeURIComponent(birthdate)}&generate=true`;
+      (redirectInput as HTMLInputElement).value = redirectUrl;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const nameInput = document.getElementById('name');
+    const birthdateInput = document.getElementById('birthdate');
+    
+    if (nameInput && birthdateInput) {
+      nameInput.addEventListener('input', updateRedirect);
+      birthdateInput.addEventListener('input', updateRedirect);
+      birthdateInput.addEventListener('change', updateRedirect);
+    }
+  });
+</script> 
