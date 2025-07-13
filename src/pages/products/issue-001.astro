@@ -45,17 +45,17 @@ const sponsors = [
 ]
 
 const seo: SEOProps = {
-  title: 'Issue 001 - Nomad Magazine | Digital Nomad Stories',
+  title: 'Edition 001 - Nomad Magazine | Digital Nomad Stories',
   description:
-    'The first issue of Nomad Magazine. 100 pages of unique content, Yellow Pages directory, and exclusive nomad stories. Available in digital and print formats.',
+    'The first Edition of Nomad Magazine. 100 pages of unique content, Yellow Pages directory, and exclusive nomad stories. Available in digital and print formats.',
   image: '/images/5f3df6ca-7e00-4f77-8e10-bec4fa56e454.avif',
-  keywords: 'nomad magazine issue 001, digital nomad magazine, nomad magazine, nomad stories, remote work magazine',
+      keywords: 'nomad magazine edition 001, digital nomad magazine, nomad magazine, nomad stories, remote work magazine',
   ogType: 'website',
   ldJSON: {
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: 'Nomad Magazine Issue 001',
-    description: 'The first issue of Nomad Magazine with 100 pages of unique content',
+    name: 'Nomad Magazine Edition 001',
+    description: 'The first Edition of Nomad Magazine with 100 pages of unique content',
     url: `${Astro.site}products/issue-001`,
     image: '/images/5f3df6ca-7e00-4f77-8e10-bec4fa56e454.avif',
     brand: {
@@ -65,7 +65,7 @@ const seo: SEOProps = {
     offers: [
       {
         '@type': 'Offer',
-        name: 'Issue 001 (Digital Version, Single Purchase)',
+        name: 'Edition 001 (Digital Version, Single Purchase)',
         price: '14.00',
         priceCurrency: 'EUR',
         availability: 'https://schema.org/InStock',
@@ -77,7 +77,7 @@ const seo: SEOProps = {
       },
       {
         '@type': 'Offer',
-        name: 'Issue 001 (Print Version, Single Purchase)',
+        name: 'Edition 001 (Print Version, Single Purchase)',
         price: '22.00',
         priceCurrency: 'EUR',
         availability: 'https://schema.org/InStock',
@@ -108,8 +108,8 @@ const seo: SEOProps = {
     <div class="grid grid-cols-1 items-center gap-8 sm:gap-16 lg:grid-cols-2">
       <div class="space-y-6 sm:space-y-8">
         <div class="space-y-4 sm:space-y-6">
-          <div class="text-base sm:text-lg font-semibold text-gray-800">Nomad Magazine: Issue 001</div>
-          <h1 class="mb-4 text-3xl sm:text-4xl leading-tight font-bold md:text-6xl">The first issue of Nomad Magazine. 100 pages of unique content.</h1>
+          <div class="text-base sm:text-lg font-semibold text-gray-800">Nomad Magazine: Edition 001</div>
+          <h1 class="mb-4 text-3xl sm:text-4xl leading-tight font-bold md:text-6xl">The first Edition of Nomad Magazine. 100 pages of unique content.</h1>
           <div class="text-base sm:text-lg font-semibold text-gray-700">Read by 1000+ nomads worldwide</div>
         </div>
         <div class="space-y-4">
@@ -135,14 +135,14 @@ const seo: SEOProps = {
             </a>
           </div>
           <div class="mt-2 text-xs sm:text-sm text-gray-700">
-            *Issue 001 launched — now available.
+            *Edition 001 launched — now available.
           </div>
         </div>
       </div>
       <div class="flex justify-center lg:justify-end order-first lg:order-last">
         <img
           src="/images/5f3df6ca-7e00-4f77-8e10-bec4fa56e454.avif"
-          alt="Nomad Magazine Issue 001 cover"
+          alt="Nomad Magazine Edition 001 cover"
           class="h-auto max-w-full rounded-lg shadow-lg"
           loading="lazy"
         />
@@ -164,10 +164,10 @@ const seo: SEOProps = {
 
   <!-- Welcome Section -->
   <div class="mx-auto max-w-3xl px-4 py-16">
-    <h1 class="font-justme mb-6 text-center text-3xl md:text-4xl">Welcome to Issue 001, dear reader.</h1>
+    <h1 class="font-justme mb-6 text-center text-3xl md:text-4xl">Welcome to Edition 001, dear reader.</h1>
     <div class="prose prose-lg mx-auto mb-10 text-gray-800">
       <p>
-        Welcome to the first issue of Nomad Magazine. Inside, you'll find everything from the hottest nomad stories, which destinations to hit in 2024 and how to truly
+        Welcome to the first edition of Nomad Magazine. Inside, you'll find everything from the hottest nomad stories, which destinations to hit in 2024 and how to truly
         make a positive impact wherever you plant your laptop.
       </p>
       <p>What's Coming:</p>
@@ -189,8 +189,8 @@ const seo: SEOProps = {
     <!-- Product Info -->
     <div class="w-full lg:w-1/2 lg:max-w-md">
       <PaymentPlan
-        issueNumber="ISSUE 001"
-        issueDescription="The first issue of Nomad Magazine. 100 pages of unique content, Yellow Pages, and more."
+        issueNumber="EDITION 001"
+        issueDescription="The first edition of Nomad Magazine. 100 pages of unique content, Yellow Pages, and more."
         digitalPlans={[
           {
             id: 'single-purchase',
@@ -198,7 +198,7 @@ const seo: SEOProps = {
             subtitle: 'Pay for one issue',
             features: [
               { text: 'Exclusive NGM newsletters' },
-              { text: 'First to unlock the new NGM issue' },
+              { text: 'First to unlock the new NGM edition' },
               { text: 'Lifetime access to digital magazine' },
             ],
             price: '€14',
@@ -210,7 +210,7 @@ const seo: SEOProps = {
           id: 'print',
           title: 'Single Purchase on MagCulture',
           subtitle: 'Pay for one issue',
-          features: [{ text: 'Printed NGM issue' }, { text: 'Exclusive NGM newsletters' }],
+                      features: [{ text: 'Printed NGM edition' }, { text: 'Exclusive NGM newsletters' }],
           price: '€22',
           priceNote: '* Delivery cost included',
           url: 'https://magculture.com/products/nomad-gossip-magazine-1',
