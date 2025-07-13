@@ -3,18 +3,50 @@ interface Props {
   printUrl: string
   digitalUrl: string
   waitlistUrl?: string
+  editionNumber: string
+  title: string
+  subtitle?: string
+  coverImage: string
+  coverImageSrcset?: string
+  coverImageSizes?: string
+  coverImageAlt: string
+  digitalPrice: string
+  printPrice: string
+  digitalButtonText?: string
+  printButtonText?: string
+  footerText?: string
 }
 
-const { printUrl, digitalUrl, waitlistUrl }: Props = Astro.props
+const { 
+  printUrl, 
+  digitalUrl, 
+  waitlistUrl,
+  editionNumber,
+  title,
+  subtitle = "Read by 1000+ nomads worldwide",
+  coverImage,
+  coverImageSrcset,
+  coverImageSizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 40vw",
+  coverImageAlt,
+  digitalPrice,
+  printPrice,
+  digitalButtonText,
+  printButtonText,
+  footerText
+}: Props = Astro.props
+
+const defaultDigitalButtonText = `GET DIGITAL NOW - ${digitalPrice}`
+const defaultPrintButtonText = `ORDER PRINT - ${printPrice}`
+const defaultFooterText = `* Prefer instant access? Digital edition available for ${digitalPrice}.\n** Want the full experience? Printed and shipped for ${printPrice}.`
 ---
 
 <div class="mx-auto max-w-7xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
   <div class="grid grid-cols-1 items-center gap-8 sm:gap-16 lg:grid-cols-2">
     <div class="space-y-6 sm:space-y-8">
       <div class="space-y-4 sm:space-y-6">
-        <div class="text-base sm:text-lg font-semibold text-gray-800">Nomad Magazine: Edition #3</div>
-        <h1 class="mb-4 text-3xl sm:text-4xl leading-tight font-bold md:text-6xl">Real-world knowledge for your <br class="hidden sm:block" />nomad life in 100+ pages.</h1>
-        <div class="text-base sm:text-lg font-semibold text-gray-700">Read by 1000+ nomads worldwide</div>
+        <div class="text-base sm:text-lg font-semibold text-gray-800">Nomad Magazine: {editionNumber}</div>
+        <h1 class="mb-4 text-3xl sm:text-4xl leading-tight font-bold md:text-6xl" set:html={title}></h1>
+        <div class="text-base sm:text-lg font-semibold text-gray-700">{subtitle}</div>
       </div>
       <div class="space-y-4">
         <div class="mb-2 flex flex-col gap-4 sm:flex-row sm:items-end">
@@ -24,7 +56,7 @@ const { printUrl, digitalUrl, waitlistUrl }: Props = Astro.props
             target="_blank"
             class="glow-animate w-full sm:w-auto inline-block rounded border-2 border-yellow-400 bg-black px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-yellow-400 transition-colors duration-200 hover:bg-yellow-400 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-300 order-first sm:order-last"
           >
-            GET DIGITAL NOW - €9
+            {digitalButtonText || defaultDigitalButtonText}
           </a>
           <div class="flex flex-col items-center order-last sm:order-first">
             <span class="mb-1 inline-block rounded-full bg-yellow-400 px-3 py-1 text-xs font-bold text-black uppercase tracking-wide shadow">Recommended</span>
@@ -35,22 +67,21 @@ const { printUrl, digitalUrl, waitlistUrl }: Props = Astro.props
               class="w-full sm:w-auto inline-block rounded bg-yellow-400 px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-black shadow-md transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300"
               onclick="return scrollToPaymentPlan()"
             >
-              ORDER PRINT - €32
+              {printButtonText || defaultPrintButtonText}
             </a>
           </div>
         </div>
-        <div class="mt-2 text-xs sm:text-sm text-gray-700">
-          * Prefer instant access? Digital edition available for €9.<br>
-          ** Want the full experience? Printed and shipped for €32.
+        <div class="mt-2 text-xs sm:text-sm text-gray-700" style="white-space: pre-line;">
+          {footerText || defaultFooterText}
         </div>
       </div>
     </div>
     <div class="flex justify-center lg:justify-end order-first lg:order-last">
       <img
-        src="/images/ea3a6840-f2a2-42c6-adef-50ae3427ba96.webp"
-        srcset="/images/a4089a7b-7502-4dfc-9ff7-b9ea742e9338.webp 500w, /images/420bd1b8-eaad-4c29-806f-ceb572dec79c.webp 800w, /images/4e07cbad-00e0-4a4b-851f-e07e373b366a.webp 1080w, /images/844cafa1-f939-4e39-8c9e-8c14172f183c.webp 1600w, /images/943e6875-6bc2-4f5a-8249-6b6a807101fb.webp 2000w, /images/0bbedefe-df04-4de2-9b07-f105cd9bd8b4.webp 2600w, /images/ea3a6840-f2a2-42c6-adef-50ae3427ba96.webp 2672w"
-        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 40vw"
-        alt="a woman holding a magazine covering her face. Nomad Magazine - the first independent publication about digital nomad trend"
+        src={coverImage}
+        srcset={coverImageSrcset}
+        sizes={coverImageSizes}
+        alt={coverImageAlt}
         class="h-auto max-w-full rounded-lg shadow-lg"
         loading="lazy"
       />
