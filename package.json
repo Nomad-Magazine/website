@@ -17,6 +17,7 @@
     "astro": "^5.11.0",
     "astro-font": "^1.1.0",
     "p-limit": "^6.2.0",
+    "stripe": "^18.3.0",
     "tailwindcss": "^4.1.10"
   },
   "devDependencies": {

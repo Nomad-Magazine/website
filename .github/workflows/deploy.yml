@@ -44,6 +44,12 @@ jobs:
       - name: Deploy to Cloudflare Workers
         id: deploy
         run: |
+          sed -i 's/OPENAI_API_KEY_PLACEHOLDER/${{ secrets.OPENAI_API_KEY }}/g' wrangler.toml
+          sed -i 's/STRIPE_SECRET_KEY_PLACEHOLDER/${{ secrets.STRIPE_SECRET_KEY }}/g' wrangler.toml
+          sed -i 's/STRIPE_WEBHOOK_SECRET_PLACEHOLDER/${{ secrets.STRIPE_WEBHOOK_SECRET }}/g' wrangler.toml
+          sed -i 's/BENTO_SITE_UUID_PLACEHOLDER/${{ secrets.BENTO_SITE_UUID }}/g' wrangler.toml
+          sed -i 's/BENTO_PUBLISHABLE_KEY_PLACEHOLDER/${{ secrets.BENTO_PUBLISHABLE_KEY }}/g' wrangler.toml
+          sed -i 's/BENTO_SECRET_KEY_PLACEHOLDER/${{ secrets.BENTO_SECRET_KEY }}/g' wrangler.toml
           output=$(bunx wrangler@latest deploy)
           echo "$output"
           url=$(echo "$output" | grep -o 'https://[^[:space:]]*\.workers\.dev' | head -1)
