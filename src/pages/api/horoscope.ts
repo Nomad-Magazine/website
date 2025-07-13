@@ -80,10 +80,13 @@ The 6 cards should be:
 - ALWAYS include one of these 3 Nomad Magazine editions with proper reasoning:
   
   EDITION 001: "Digital nomadism" - Focuses on breaking free from conventional life, finding location independence, and the psychology of nomadism. Perfect for those seeking liberation and new beginnings.
+  Link: https://nomadmagazine.com/editions/first-edition
   
   EDITION 002: "Digital nomad communities" - Takes you deeper into the heart of the digital nomad lifestyle, with a special focus on the communities that shape it and Japan as a destination. Features 7 dynamic nomad communities, Japan travel insights, relationship advice, book recommendations, and accommodation platforms.
+  Link: https://nomadmagazine.com/editions/second-edition
   
   EDITION 003: "Wellness, Therapy & Digital Health" - Explores wellness, therapy, building meaningful connections, and the endless pursuit of finding the perfect balance between work and life. Features Asian destinations, cultural adaptation tips, work-life balance strategies, digital nomad workspaces, and affordable travel planning.
+  Link: https://nomadmagazine.com/editions/third-edition
 
 - Choose the most relevant magazine Edition based on their astrological reading and current life themes
 - Explain WHY each recommendation aligns with their horoscope and planetary influences
@@ -95,6 +98,7 @@ Return format:
     {
       "title": "Card Title",
       "content": "Detailed horoscope content..."
+      "editionLink": "https://nomadmagazine.com/editions/first-edition"
     }
   ]
 }`
@@ -173,6 +177,10 @@ async function fetchGptSuggestion(prompt: string): Promise<string> {
                     content: {
                       type: 'string',
                       description: 'Detailed horoscope content for this aspect'
+                    },
+                    editionLink: {
+                      type: 'string',
+                      description: 'The link to the Nomad Magazine edition that is most relevant to the horoscope'
                     }
                   },
                   required: ['title', 'content'],

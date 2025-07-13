@@ -21,7 +21,7 @@ if (shouldGenerate && name && birthdate) {
       const responseData = await response.json() as { data: { cards: Array<{ title: string, content: string }> } }
       horoscopeData = responseData.data
     } else {
-      console.error('Failed to generate horoscope', response)
+      console.error('Failed to generate horoscope', response.statusText, response.status, response.text())
       error = true
     }
   } catch (e) {
