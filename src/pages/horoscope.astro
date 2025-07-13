@@ -13,7 +13,8 @@ if (shouldGenerate && name && birthdate) {
   try {
     const response = await fetch(`${url.origin}/api/horoscope?name=${encodeURIComponent(name)}&birthdate=${encodeURIComponent(birthdate)}`)
     if (response.ok) {
-      horoscopeData = await response.json()
+      const responseData = await response.json() as { data: { cards: Array<{ title: string, content: string }> } }
+      horoscopeData = responseData.data // Extract the structured data
     } else {
       error = 'Failed to generate horoscope'
     }
@@ -171,11 +172,51 @@ const seo: SEOProps = {
       
       {shouldGenerate && (
         <div class="result">
-          <div id="loading-indicator" class="loading" style="display: block;">
-            <div class="loading-spinner"></div>
-            <div class="loading-stars">✨ 🌟 ⭐ 🌙 ✨</div>
-            <div class="loading-text">Consulting the stars for your nomadic journey...</div>
-          </div>
+          {horoscopeData && (
+            <div>
+              <h2 style="color: #121111; margin-bottom: 24px; text-align: center; font-size: 1.8rem;">Your Cosmic Journey Awaits, {name}! 🌟</h2>
+              <div style="max-width: 800px; margin: 0 auto;">
+                {horoscopeData.cards.map((card: { title: string, content: string }) => (
+                  <div style="
+                    background: white;
+                    border-radius: 12px;
+                    padding: 24px;
+                    margin: 16px 0;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                    border-left: 4px solid #f4dc01;
+                  ">
+                    <h3 style="
+                      color: #121111;
+                      font-size: 1.4rem;
+                      font-weight: 700;
+                      margin-bottom: 12px;
+                      display: flex;
+                      align-items: center;
+                      gap: 8px;
+                    ">
+                      <span style="color: #f4dc01;">✨</span>
+                      {card.title}
+                    </h3>
+                    <div style="
+                      color: #121111;
+                      line-height: 1.6;
+                      font-size: 1rem;
+                    " set:html={card.content}></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          {!horoscopeData && !error && (
+            <div id="loading-indicator" class="loading" style="display: block;">
+              <div class="loading-spinner"></div>
+              <div class="loading-stars">✨ 🌟 ⭐ 🌙 ✨</div>
+              <div class="loading-text">Consulting the stars for your nomadic journey...</div>
+            </div>
+          )}
+          {error && (
+            <div class="error">{error}</div>
+          )}
           <div id="horoscope-result" style="display: none;"></div>
           <div id="error-message" class="error" style="display: none;"></div>
         </div>
