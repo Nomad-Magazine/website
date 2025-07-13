@@ -9,26 +9,223 @@ const name = url.searchParams.get('name') ?? undefined
 const birthdate = url.searchParams.get('birthdate') ?? undefined
 
 const seo: SEOProps = {
-  title: 'Digital Nomad Horoscope | Nomad Magazine',
-  description: 'Discover your nomadic destiny with our specialized horoscope for digital nomads. Get personalized astrological insights for your travel and work adventures.',
+  title: 'Digital Nomad Horoscope | Personalized Astrology for Remote Workers | Nomad Magazine',
+  description: 'Get your personalized digital nomad horoscope! Discover astrological insights tailored for remote workers, travel predictions, and career guidance. Free AI-powered astrology for nomads.',
   image: `${Astro.site}images/187987f5-e9fc-4a74-b6ef-304b3d4a92e2.webp`,
-  keywords: 'nomad horoscope, digital nomad astrology, travel horoscope, nomad destiny, astrological insights',
+  keywords: 'digital nomad horoscope, remote work astrology, travel horoscope, nomad astrology, personalized horoscope, AI astrology, nomad predictions, digital nomad lifestyle',
 }
 ---
 
 <Layout seo={seo}>
-  <div class="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex flex-col items-center justify-center p-4">
-    <HoroscopeIsland 
-      server:defer 
-      shouldGenerate={shouldGenerate}
-      name={name}
-      birthdate={birthdate}
-    >
-      <HoroscopeLoader slot="fallback" />
-    </HoroscopeIsland>
-    
+  <div class="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+    <!-- Hero Section -->
+    <section class="text-center py-16 px-4">
+      <div class="max-w-4xl mx-auto">
+        <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
+          Digital Nomad Horoscope
+        </h1>
+        <p class="text-xl md:text-2xl text-purple-200 mb-8">
+          Discover your cosmic blueprint for remote work and travel adventures
+        </p>
+        <p class="text-lg text-purple-300 max-w-2xl mx-auto">
+          Our AI-powered horoscope combines traditional astrology with modern nomad lifestyle insights to guide your journey as a digital nomad.
+        </p>
+      </div>
+    </section>
+
+    <!-- Horoscope Tool -->
+    <section class="flex flex-col items-center justify-center px-4 pb-16">
+      <HoroscopeIsland 
+        server:defer 
+        shouldGenerate={shouldGenerate}
+        name={name}
+        birthdate={birthdate}
+      >
+        <HoroscopeLoader slot="fallback" />
+      </HoroscopeIsland>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 px-4 bg-black/20">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-12">
+          What Makes Our Nomad Horoscope Unique?
+        </h2>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-white mb-3">Nomad-Specific Insights</h3>
+            <p class="text-purple-200">
+              Tailored predictions for remote work, travel timing, and location-based opportunities that traditional horoscopes miss.
+            </p>
+          </div>
+          <div class="text-center">
+            <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-white mb-3">Personalized Analysis</h3>
+            <p class="text-purple-200">
+              Enter your name and birthdate for a completely personalized horoscope that speaks directly to your nomadic journey.
+            </p>
+          </div>
+          <div class="text-center">
+            <div class="w-16 h-16 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-white mb-3">AI-Powered Accuracy</h3>
+            <p class="text-purple-200">
+              Advanced AI technology analyzes astrological patterns and nomad lifestyle factors for precise, actionable guidance.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="py-16 px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-12">
+          How Your Digital Nomad Horoscope Works
+        </h2>
+        <div class="grid md:grid-cols-2 gap-8 text-left">
+          <div class="space-y-6">
+            <div class="flex items-start space-x-4">
+              <div class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                <span class="text-white font-bold">1</span>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-white mb-2">Enter Your Details</h3>
+                <p class="text-purple-200">Provide your name and birthdate for personalized astrological calculations.</p>
+              </div>
+            </div>
+            <div class="flex items-start space-x-4">
+              <div class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                <span class="text-white font-bold">2</span>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-white mb-2">AI Analysis</h3>
+                <p class="text-purple-200">Our AI analyzes your birth chart and current planetary positions for nomad-specific insights.</p>
+              </div>
+            </div>
+          </div>
+          <div class="space-y-6">
+            <div class="flex items-start space-x-4">
+              <div class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                <span class="text-white font-bold">3</span>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-white mb-2">Nomad Predictions</h3>
+                <p class="text-purple-200">Receive tailored predictions for work, travel, relationships, and personal growth.</p>
+              </div>
+            </div>
+            <div class="flex items-start space-x-4">
+              <div class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                <span class="text-white font-bold">4</span>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-white mb-2">Actionable Guidance</h3>
+                <p class="text-purple-200">Get practical advice you can apply to your nomadic lifestyle and remote work journey.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="py-16 px-4 bg-black/20">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-8">
+          Why Digital Nomads Love Our Horoscope
+        </h2>
+        <div class="grid md:grid-cols-2 gap-8 mt-12">
+          <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6">
+            <h3 class="text-xl font-semibold text-white mb-4">Career & Business Insights</h3>
+            <p class="text-purple-200">
+              Discover the best times for launching projects, networking, and making important business decisions while traveling.
+            </p>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6">
+            <h3 class="text-xl font-semibold text-white mb-4">Travel Timing</h3>
+            <p class="text-purple-200">
+              Learn when the stars align for your next destination, visa applications, and major relocations.
+            </p>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6">
+            <h3 class="text-xl font-semibold text-white mb-4">Relationship Guidance</h3>
+            <p class="text-purple-200">
+              Navigate romantic relationships, friendships, and professional connections across different cultures and time zones.
+            </p>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6">
+            <h3 class="text-xl font-semibold text-white mb-4">Personal Growth</h3>
+            <p class="text-purple-200">
+              Understand your cosmic patterns for self-improvement, skill development, and spiritual growth on the road.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-16 px-4">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-12">
+          Frequently Asked Questions
+        </h2>
+        <div class="space-y-6">
+          <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6">
+            <h3 class="text-lg font-semibold text-white mb-3">Is this horoscope specifically for digital nomads?</h3>
+            <p class="text-purple-200">
+              Yes! Unlike generic horoscopes, ours focuses on the unique challenges and opportunities of the nomadic lifestyle, including remote work, travel, and location independence.
+            </p>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6">
+            <h3 class="text-lg font-semibold text-white mb-3">How accurate are AI-generated horoscopes?</h3>
+            <p class="text-purple-200">
+              Our AI combines traditional astrological principles with modern data analysis to provide insights tailored to your specific birth chart and current planetary positions.
+            </p>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6">
+            <h3 class="text-lg font-semibold text-white mb-3">Is my personal information secure?</h3>
+            <p class="text-purple-200">
+              We only use your name and birthdate to generate your horoscope. This information is processed securely and not stored permanently on our servers.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 px-4 text-center">
+      <div class="max-w-2xl mx-auto">
+        <h2 class="text-2xl md:text-3xl font-bold text-white mb-6">
+          Ready to Discover Your Nomadic Destiny?
+        </h2>
+        <p class="text-purple-200 mb-8">
+          Join thousands of digital nomads who use our horoscope to navigate their remote work journey with cosmic guidance.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="#horoscope" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors">
+            Get Your Horoscope
+          </a>
+          <a href="/blog/" class="bg-transparent border-2 border-purple-400 text-purple-200 hover:bg-purple-400 hover:text-white px-8 py-3 rounded-lg font-semibold transition-colors">
+            Read Nomad Tips
+          </a>
+        </div>
+      </div>
+    </section>
+
     <!-- Footer Info -->
-    <div class="text-center mt-8">
+    <footer class="text-center pb-8 px-4">
       <p class="text-purple-200">
         Want more nomad insights? 
         <a href="/blog/" class="text-yellow-400 hover:text-yellow-300 underline">
@@ -39,6 +236,6 @@ const seo: SEOProps = {
           get the magazine
         </a>
       </p>
-    </div>
+    </footer>
   </div>
 </Layout> 
