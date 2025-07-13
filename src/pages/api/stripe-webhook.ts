@@ -251,7 +251,7 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice, bentoSiteU
   // Collect all products in an array
   const products = []
   let totalAmount = 0
-  let currency = 'usd'
+  let currency = 'euro'
 
   for (const line of invoice.lines.data) {
     const sku = line.pricing?.price_details?.product
