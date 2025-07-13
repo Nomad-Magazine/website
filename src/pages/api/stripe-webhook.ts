@@ -249,13 +249,11 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice, bentoSiteU
   }
 
   for (const line of invoice.lines.data) {
-    const product = (line as any).price?.product as Stripe.Product
-    const sku = product?.metadata?.sku || product?.id
+    const sku = line.pricing?.price_details?.product
     const eventType = `$buy.${sku}`
 
     await sendBentoEvent(customerEmail, eventType, {
       sku,
-      product_name: product?.name,
       amount: line.amount,
       currency: line.currency,
       quantity: line.quantity,
