@@ -97,6 +97,46 @@ const seo: SEOProps = {
       display: none;
       color: #666;
       font-style: italic;
+      text-align: center;
+      padding: 20px;
+    }
+    
+    .loading-spinner {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      border: 4px solid #d8d8d8;
+      border-radius: 50%;
+      border-top-color: #f4dc01;
+      animation: spin 1s ease-in-out infinite;
+      margin-bottom: 16px;
+    }
+    
+    .loading-stars {
+      display: inline-block;
+      font-size: 24px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    .loading-text {
+      font-size: 18px;
+      color: #666;
+      margin-top: 12px;
+      animation: fade 3s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+    
+    @keyframes fade {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
     }
     .error {
       color: #e74c3c;
@@ -131,7 +171,11 @@ const seo: SEOProps = {
       
       {shouldGenerate && (
         <div class="result">
-          <div id="loading-indicator" class="loading" style="display: block;">Consulting the stars... ✨</div>
+          <div id="loading-indicator" class="loading" style="display: block;">
+            <div class="loading-spinner"></div>
+            <div class="loading-stars">✨ 🌟 ⭐ 🌙 ✨</div>
+            <div class="loading-text">Consulting the stars for your nomadic journey...</div>
+          </div>
           <div id="horoscope-result" style="display: none;"></div>
           <div id="error-message" class="error" style="display: none;"></div>
         </div>
@@ -183,13 +227,44 @@ const seo: SEOProps = {
           const response = await fetch(`/api/horoscope?name=${encodeURIComponent(name)}&birthdate=${encodeURIComponent(birthdate)}`);
           
           if (response.ok) {
-            const data = await response.json() as { suggestion: string };
+            const responseData = await response.json() as { data: { cards: Array<{ title: string, content: string }> } };
             
             if (loadingIndicator) loadingIndicator.style.display = 'none';
             if (horoscopeResult) {
+              const cardsHtml = responseData.data.cards.map(card => `
+                <div style="
+                  background: white;
+                  border-radius: 12px;
+                  padding: 24px;
+                  margin: 16px 0;
+                  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                  border-left: 4px solid #f4dc01;
+                ">
+                  <h3 style="
+                    color: #121111;
+                    font-size: 1.4rem;
+                    font-weight: 700;
+                    margin-bottom: 12px;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                  ">
+                    <span style="color: #f4dc01;">✨</span>
+                    ${card.title}
+                  </h3>
+                  <div style="
+                    color: #121111;
+                    line-height: 1.6;
+                    font-size: 1rem;
+                  ">${card.content}</div>
+                </div>
+              `).join('');
+              
               horoscopeResult.innerHTML = `
-                <h2 style="color: #121111; margin-bottom: 16px;">Your Next Digital Nomad Trip, ${name}:</h2>
-                <div style="line-height: 1.6;">${data.suggestion}</div>
+                <h2 style="color: #121111; margin-bottom: 24px; text-align: center; font-size: 1.8rem;">Your Cosmic Journey Awaits, ${name}! 🌟</h2>
+                <div style="max-width: 800px; margin: 0 auto;">
+                  ${cardsHtml}
+                </div>
               `;
               horoscopeResult.style.display = 'block';
             }

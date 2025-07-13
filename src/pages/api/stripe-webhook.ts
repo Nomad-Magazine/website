@@ -52,7 +52,7 @@ export const POST: APIRoute = async ({ request }) => {
   let event: Stripe.Event
 
   try {
-    event = stripe.webhooks.constructEvent(body, signature, webhookSecret)
+    event = await stripe.webhooks.constructEventAsync(body, signature, webhookSecret)
     console.log('✅ Webhook signature verified successfully')
     console.log('📦 Event details:', {
       id: event.id,
