@@ -26,15 +26,6 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
       
-      - name: Deploy nomad-horoscope worker
-        run: |
-          cd cloudflare_workers/nomad-horoscope
-          sed -i 's/OPENAI_API_KEY_PLACEHOLDER/${{ secrets.OPENAI_API_KEY }}/g' wrangler.toml
-          bunx wrangler@latest deploy
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-      
       - name: Deploy smartsuite-dashboard worker
         run: |
           cd cloudflare_workers/smartsuite-dashboard

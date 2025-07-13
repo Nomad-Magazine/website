@@ -1,115 +1,223 @@
 ---
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 
+const { url } = Astro
+const shouldGenerate = url.searchParams.get('generate') === 'true'
+const name = url.searchParams.get('name')
+const birthdate = url.searchParams.get('birthdate')
+
+let horoscopeData = null
+let error = null
+
+if (shouldGenerate && name && birthdate) {
+  try {
+    const response = await fetch(`${url.origin}/api/horoscope?name=${encodeURIComponent(name)}&birthdate=${encodeURIComponent(birthdate)}`)
+    if (response.ok) {
+      horoscopeData = await response.json()
+    } else {
+      error = 'Failed to generate horoscope'
+    }
+  } catch (e) {
+    error = 'Failed to generate horoscope'
+  }
+}
+
 const seo: SEOProps = {
-  title: 'Nomad Horoscope - Digital Nomad Astrology | Nomad Magazine',
+  title: 'Digital Nomad Horoscope | Nomad Magazine',
   description: 'Discover your nomadic destiny with our specialized horoscope for digital nomads. Get personalized astrological insights for your travel and work adventures.',
   image: `${Astro.site}images/187987f5-e9fc-4a74-b6ef-304b3d4a92e2.webp`,
   keywords: 'nomad horoscope, digital nomad astrology, travel horoscope, nomad destiny, astrological insights',
-  ldJSON: {
-    '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    name: 'Nomad Horoscope',
-    url: `${Astro.site}horoscope/`,
-    description: 'Specialized horoscope for digital nomads and travelers',
-    publisher: {
-      '@type': 'Organization',
-      name: 'Nomad Magazine',
-      logo: {
-        '@type': 'ImageObject',
-        url: `${Astro.site}logo.svg`,
-      },
-    },
-  },
 }
 ---
 
 <Layout seo={seo}>
-  <div class="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
-    <!-- Header Section -->
-    <div class="relative overflow-hidden">
-      <div class="absolute inset-0 bg-black/20"></div>
-      <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div class="text-center">
-          <h1 class="text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
-            Nomad Horoscope
-          </h1>
-          <p class="mt-4 text-xl text-purple-200 sm:text-2xl">
-            Discover your nomadic destiny among the stars
-          </p>
-          <p class="mt-2 text-lg text-purple-300">
-            Personalized astrological insights for digital nomads and travelers
-          </p>
+  <style>
+    .container {
+      text-align: center;
+      background: white;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 90%;
+    }
+    h1 {
+      color: #121111;
+      margin-bottom: 8px;
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+    h2 {
+      color: #666;
+      margin-bottom: 32px;
+      font-size: 1.1rem;
+      font-weight: 400;
+    }
+    input {
+      width: 100%;
+      padding: 16px;
+      margin: 12px 0;
+      border: 2px solid #d8d8d8;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+      box-sizing: border-box;
+    }
+    input:focus {
+      outline: none;
+      border-color: #f4dc01;
+    }
+    button {
+      width: 100%;
+      padding: 16px;
+      margin: 20px 0;
+      background-color: #121111;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background-color: #333;
+      transform: translateY(-2px);
+    }
+    button:disabled {
+      background-color: #d8d8d8;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .result {
+      margin-top: 32px;
+      text-align: left;
+    }
+    .loading {
+      display: none;
+      color: #666;
+      font-style: italic;
+    }
+    .error {
+      color: #e74c3c;
+      background-color: #fdf2f2;
+      padding: 16px;
+      border-radius: 8px;
+      margin-top: 16px;
+    }
+    .form-hidden {
+      display: none;
+    }
+  </style>
+  
+    <div class="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex flex-col items-center justify-center p-4">
+    <div class="container">
+      <h1>Digital Nomad Horoscope</h1>
+      <h2>By Nomad Gossip Magazine</h2>
+      
+      {!shouldGenerate && (
+        <form
+          method="POST"
+          action="https://track.bentonow.com/forms/1685a00cdc1fc329724616bec1de09c6/$subscribe_horoscope?hardened=true"
+          enctype="multipart/form-data"
+        >
+          <input type="text" name="name" id="name" placeholder="Enter your name" required>
+          <input type="email" name="email" id="email" placeholder="Enter your email" required>
+          <input type="date" name="birthdate" id="birthdate" required>
+          <input type="hidden" name="redirect" id="redirect" value="">
+          <button type="submit">Get My Next Trip</button>
+        </form>
+      )}
+      
+      {shouldGenerate && (
+        <div class="result">
+          <div id="loading-indicator" class="loading" style="display: block;">Consulting the stars... ✨</div>
+          <div id="horoscope-result" style="display: none;"></div>
+          <div id="error-message" class="error" style="display: none;"></div>
         </div>
-      </div>
+      )}
     </div>
-
-    <!-- Iframe Container -->
-    <div class="w-full">
-      <div class="overflow-hidden rounded-2xl bg-white/10 backdrop-blur-sm shadow-2xl">
-        <div class="relative">
-          <iframe
-            src="https://horoscope.nomad-magazine.com/"
-            class="h-screen w-full min-h-[800px] border-0"
-            title="Nomad Horoscope"
-            loading="lazy"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
-          
-          <!-- Loading overlay -->
-          <div id="loading-overlay" class="absolute inset-0 bg-gradient-to-br from-purple-900/90 to-indigo-900/90 flex items-center justify-center">
-            <div class="text-center">
-              <div class="animate-spin rounded-full h-16 w-16 border-4 border-purple-400 border-t-transparent mb-4"></div>
-              <p class="text-white text-lg">Loading your cosmic insights...</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
+    
     <!-- Footer Info -->
-    <div class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
-      <div class="text-center">
-        <p class="text-purple-200">
-          Want more nomad insights? 
-          <a href="/blog/" class="text-yellow-400 hover:text-yellow-300 underline">
-            Read our blog
-          </a>
-          or
-          <a href="/editions/" class="text-yellow-400 hover:text-yellow-300 underline">
-            get the magazine
-          </a>
-        </p>
-      </div>
+    <div class="text-center mt-8">
+      <p class="text-purple-200">
+        Want more nomad insights? 
+        <a href="/blog/" class="text-yellow-400 hover:text-yellow-300 underline">
+          Read our blog
+        </a>
+        or
+        <a href="/editions/" class="text-yellow-400 hover:text-yellow-300 underline">
+          get the magazine
+        </a>
+      </p>
     </div>
   </div>
-</Layout>
 
-<script>
-  // Hide loading overlay when iframe loads
-  const iframe = document.querySelector('iframe');
-  const loadingOverlay = document.getElementById('loading-overlay');
-  
-  if (iframe && loadingOverlay) {
-    iframe.addEventListener('load', () => {
-      loadingOverlay.style.display = 'none';
-    });
-    
-    // Fallback to hide loading after 5 seconds
-    setTimeout(() => {
-      if (loadingOverlay) {
-        loadingOverlay.style.display = 'none';
+  <script>
+    function updateRedirect() {
+      const nameInput = document.getElementById('name');
+      const birthdateInput = document.getElementById('birthdate');
+      const redirectInput = document.getElementById('redirect');
+      
+      if (nameInput && birthdateInput && redirectInput) {
+        const name = (nameInput as HTMLInputElement).value || '';
+        const birthdate = (birthdateInput as HTMLInputElement).value || '';
+        const redirectUrl = `${window.location.origin}/horoscope/?name=${encodeURIComponent(name)}&birthdate=${encodeURIComponent(birthdate)}&generate=true`;
+        (redirectInput as HTMLInputElement).value = redirectUrl;
+        console.log('Redirect URL updated:', redirectUrl);
       }
-    }, 5000);
-  }
-</script>
-
-<style>
-  /* Ensure iframe is responsive */
-  @media (max-width: 768px) {
-    iframe {
-      min-height: 600px;
     }
-  }
-</style> 
+
+    async function fetchHoroscope() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const shouldGenerate = urlParams.get('generate') === 'true';
+      const name = urlParams.get('name');
+      const birthdate = urlParams.get('birthdate');
+      
+      if (shouldGenerate && name && birthdate) {
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const horoscopeResult = document.getElementById('horoscope-result');
+        const errorMessage = document.getElementById('error-message');
+        
+        try {
+          const response = await fetch(`/api/horoscope?name=${encodeURIComponent(name)}&birthdate=${encodeURIComponent(birthdate)}`);
+          
+          if (response.ok) {
+            const data = await response.json() as { suggestion: string };
+            
+            if (loadingIndicator) loadingIndicator.style.display = 'none';
+            if (horoscopeResult) {
+              horoscopeResult.innerHTML = `
+                <h2 style="color: #121111; margin-bottom: 16px;">Your Next Digital Nomad Trip, ${name}:</h2>
+                <div style="line-height: 1.6;">${data.suggestion}</div>
+              `;
+              horoscopeResult.style.display = 'block';
+            }
+          } else {
+            throw new Error('Failed to generate horoscope');
+          }
+        } catch (error) {
+          if (loadingIndicator) loadingIndicator.style.display = 'none';
+          if (errorMessage) {
+            errorMessage.textContent = 'Error: Failed to generate horoscope';
+            errorMessage.style.display = 'block';
+          }
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const nameInput = document.getElementById('name');
+      const birthdateInput = document.getElementById('birthdate');
+      
+      if (nameInput && birthdateInput) {
+        nameInput.addEventListener('input', updateRedirect);
+        birthdateInput.addEventListener('input', updateRedirect);
+        birthdateInput.addEventListener('change', updateRedirect);
+      }
+      
+      // Fetch horoscope if parameters are present
+      fetchHoroscope();
+    });
+  </script>
+</Layout> 

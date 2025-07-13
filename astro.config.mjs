@@ -28,6 +28,7 @@ export default defineConfig({
       SMART_SUITE_APIKEY: envField.string({ context: 'server', access: 'secret' }),
       SMART_SUITE_ACCOUNT_ID: envField.string({ context: 'server', access: 'secret' }),
       SMART_SUITE_TABLE_ID_COMPANY: envField.string({ context: 'server', access: 'secret' }),
+      OPENAI_API_KEY: envField.string({ context: 'server', access: 'secret' }),
     },
   },
 })
