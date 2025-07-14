@@ -5,7 +5,7 @@ import CheckIcon from '~icons/ic/baseline-check'
 const seo: SEOProps = {
   title: 'Brand Placement - Advertise in Nomad Magazine',
   description: 'Advertise your brand in Nomad Magazine and reach the global digital nomad community. Choose from various ad sizes: full page, double page, 1/3 vertical, and 1/5 horizontal.',
-  image: `${Astro.site}images/c130ebce-d432-4e72-bb92-aee662c69777.webp`,
+  image: `${Astro.site}images/edition-001-nomad-cruise-double-page-advertising.webp`,
   keywords: 'nomad magazine advertising, digital nomad marketing, print magazine ads, brand placement, nomad community advertising',
   ogType: 'website',
   ldJSON: {
@@ -137,7 +137,7 @@ const sponsors = [
   },
   {
     link: 'https://nomads.insure/',
-    image: '/images/b5a18d61-7148-40c5-ba44-3b1e9baf792c.webp',
+    image: '/images/nomads_insure_logo.webp',
     alt: 'Nomads Insure',
     width: '100',
   },
@@ -151,11 +151,11 @@ const sponsors = [
   },
   {
     link: 'https://nomadnest.com/',
-    image: '/images/bb7b2ad2-0628-40ce-9eab-3348b65cabdb.webp',
+    image: '/images/nomadnest-logo.webp',
     alt: 'NomadNest',
     width: '100',
     srcset:
-      '/images/bf6699d8-00c6-4d54-8233-05fa15ef738d.webp 500w, /images/32f3c98a-5181-4c4c-9a60-c89778b15997.webp 800w, /images/4a82a9e3-b02f-4807-9a13-d3bd5905a5c7.webp 1080w, /images/bb7b2ad2-0628-40ce-9eab-3348b65cabdb.webp 2425w',
+      '/images/nomadnest-logo-500.webp 500w, /images/nomadnest-logo-800.webp 800w, /images/nomadnest-logo-1080.webp 1080w, /images/nomadnest-logo.webp 2425w',
   },
 ]
 ---
@@ -203,7 +203,7 @@ const sponsors = [
         
         <div class="flex justify-center">
           <img 
-            src="/images/c130ebce-d432-4e72-bb92-aee662c69777.webp" 
+            src="/images/edition-001-nomad-cruise-double-page-advertising.webp" 
             alt="Nomad Magazine brand placement example" 
             class="rounded-lg shadow-2xl max-w-full h-auto"
             loading="eager"
@@ -349,6 +349,33 @@ const sponsors = [
     </div>
   </div>
 
+  <!-- Testimonials Section -->
+  <div class="bg-white py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-900 mb-6 md:text-5xl">What Our Partners Say</h2>
+      </div>
+
+      <div class="flex justify-center">
+        {testimonials.map((testimonial) => (
+          <div class="bg-gray-50 rounded-2xl p-8 max-w-2xl">
+            <div class="flex items-center mb-6">
+              <img
+                src={testimonial.logo}
+                alt={`${testimonial.company} logo`}
+                class="h-12 object-contain grayscale"
+              />
+            </div>
+            <blockquote class="text-lg text-gray-700 italic mb-4">
+              "{testimonial.quote}"
+            </blockquote>
+            <cite class="text-gray-600 font-semibold">— {testimonial.company}</cite>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
   <!-- Sponsors Section -->
   <div class="bg-black py-16">
     <div class="mx-auto max-w-5xl px-4">
@@ -474,33 +501,6 @@ const sponsors = [
             Your ad goes live in the magazine and reaches thousands of nomads across the globe.
           </p>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Testimonials Section -->
-  <div class="bg-white py-20">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <h2 class="text-4xl font-bold text-gray-900 mb-6 md:text-5xl">What Our Partners Say</h2>
-      </div>
-
-      <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-        {testimonials.map((testimonial) => (
-          <div class="bg-gray-50 rounded-2xl p-8">
-            <div class="flex items-center mb-6">
-              <img
-                src={testimonial.logo}
-                alt={`${testimonial.company} logo`}
-                class="h-12 object-contain grayscale"
-              />
-            </div>
-            <blockquote class="text-lg text-gray-700 italic mb-4">
-              "{testimonial.quote}"
-            </blockquote>
-            <cite class="text-gray-600 font-semibold">— {testimonial.company}</cite>
-          </div>
-        ))}
       </div>
     </div>
   </div>
