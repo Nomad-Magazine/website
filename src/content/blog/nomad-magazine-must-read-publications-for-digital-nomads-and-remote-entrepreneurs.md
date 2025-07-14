@@ -63,8 +63,8 @@ NGM offers several subscription plans to fit different needs and budgets:
 
 | Subscription Type | Price | Features |
 | --- | --- | --- |
-| Single Digital Edition | $9  | Lifetime access, exclusive newsletters |
-| Print Edition | $22 | Physical magazine, exclusive content |
+| Single Digital Issue | $9  | Lifetime access, exclusive newsletters |
+| Print Issue | $22 | Physical magazine, exclusive content |
 
 The magazine also includes personal stories from nomads and contributions from experts in the field. Its mission is clear:
 
