@@ -1,0 +1,360 @@
+---
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import CheckIcon from '~icons/ic/baseline-check'
+
+const seo: SEOProps = {
+  title: 'Press Kit - Nomad Magazine',
+  description: 'Download high-resolution images, brand assets, and press materials for Nomad Magazine. Perfect for partners and media coverage.',
+  image: `${Astro.site}images/edition-003-cover.webp`,
+  keywords: 'press kit, media kit, nomad magazine, brand assets, high resolution images, press materials',
+}
+
+// Brand Images
+const brandImages = [
+  {
+    title: 'Logo - Light Background',
+    previewUrl: '/images/logo-bird_black-on-white.png',
+    downloadUrl: '/images/logo-bird_black-on-white.png',
+    description: 'Nomad Magazine logo on light background',
+    category: 'logos'
+  },
+  {
+    title: 'Logo - Dark Background',
+    previewUrl: '/images/logo-bird-black-background.png',
+    downloadUrl: '/images/logo-bird-black-background.png',
+    description: 'Nomad Magazine logo on dark background',
+    category: 'logos'
+  },
+  {
+    title: 'Logo - White Version',
+    previewUrl: '/images/logo%20white%20png.png',
+    downloadUrl: '/images/logo%20white%20png.png',
+    description: 'Nomad Magazine white logo version',
+    category: 'logos'
+  },
+  {
+    title: 'Edition 003 Cover',
+    previewUrl: '/images/edition-003-cover_800.webp',
+    downloadUrl: '/images/edition-003-cover_hd.webp',
+    description: 'Latest edition cover - high resolution',
+    category: 'covers'
+  },
+  {
+    title: 'Edition 003 Cover HD',
+    previewUrl: '/images/edition-003-cover_1080.webp',
+    downloadUrl: '/images/edition-003-cover_hd.webp',
+    description: 'Edition 003 cover in HD quality',
+    category: 'covers'
+  },
+  {
+    title: 'Edition 003 Cover 2000px',
+    previewUrl: '/images/edition-003-cover_1080.webp',
+    downloadUrl: '/images/edition-003-cover_2000.webp',
+    description: 'Edition 003 cover 2000px width',
+    category: 'covers'
+  },
+  {
+    title: 'Edition 003 Cover 1600px',
+    previewUrl: '/images/edition-003-cover_1080.webp',
+    downloadUrl: '/images/edition-003-cover_1600.webp',
+    description: 'Edition 003 cover 1600px width',
+    category: 'covers'
+  },
+  {
+    title: 'Edition 003 Cover Held',
+    previewUrl: '/images/edition-003-cover_holded_front_face.webp',
+    downloadUrl: '/images/edition-003-cover_holded_front_face.webp',
+    description: 'Person holding Edition 003 cover',
+    category: 'lifestyle'
+  },
+  {
+    title: 'Edition 002 Cover',
+    previewUrl: '/images/edition-002-cover.webp',
+    downloadUrl: '/images/edition-002-cover.webp',
+    description: 'Edition 002 cover',
+    category: 'covers'
+  },
+  {
+    title: 'Edition 001 Cover',
+    previewUrl: '/images/edition-001-cover.avif',
+    downloadUrl: '/images/edition-001-cover.avif',
+    description: 'First edition cover',
+    category: 'covers'
+  },
+  {
+    title: 'All Three Editions',
+    previewUrl: '/images/edition-123-three-together-transparent.webp',
+    downloadUrl: '/images/edition-123-three-together-transparent.webp',
+    description: 'All three editions together',
+    category: 'lifestyle'
+  },
+  {
+    title: 'Magazine Against Chest',
+    previewUrl: '/images/magazine-hold-against-chest.webp',
+    downloadUrl: '/images/magazine-hold-against-chest.webp',
+    description: 'Person holding magazine against chest',
+    category: 'lifestyle'
+  },
+  {
+    title: 'Magazine Spreads Multiple',
+    previewUrl: '/images/edition-002-multiple-magazine-spreads.webp',
+    downloadUrl: '/images/edition-002-multiple-magazine-spreads.webp',
+    description: 'Multiple magazine spreads showcase',
+    category: 'spreads'
+  },
+  {
+    title: 'Edition 001 Spread 1',
+    previewUrl: '/images/edition-001-spread-1.avif',
+    downloadUrl: '/images/edition-001-spread-1.avif',
+    description: 'First edition spread page 1',
+    category: 'spreads'
+  },
+  {
+    title: 'Edition 001 Spread 2',
+    previewUrl: '/images/edition-001-spread-2.avif',
+    downloadUrl: '/images/edition-001-spread-2.avif',
+    description: 'First edition spread page 2',
+    category: 'spreads'
+  },
+  {
+    title: 'Edition 001 Spread 3',
+    previewUrl: '/images/edition-001-spread-3.avif',
+    downloadUrl: '/images/edition-001-spread-3.avif',
+    description: 'First edition spread page 3',
+    category: 'spreads'
+  },
+  {
+    title: 'Edition 002 Spread 1',
+    previewUrl: '/images/edition-002-spread-1.webp',
+    downloadUrl: '/images/edition-002-spread-1.webp',
+    description: 'Second edition spread page 1',
+    category: 'spreads'
+  },
+  {
+    title: 'Edition 002 Spread 2',
+    previewUrl: '/images/edition-002-spread-2.webp',
+    downloadUrl: '/images/edition-002-spread-2.webp',
+    description: 'Second edition spread page 2',
+    category: 'spreads'
+  },
+  {
+    title: 'Edition 003 Table of Contents',
+    previewUrl: '/images/edition-003-table-of-contents.webp',
+    downloadUrl: '/images/edition-003-table-of-contents.webp',
+    description: 'Edition 003 table of contents',
+    category: 'spreads'
+  }
+]
+
+// Videos
+const videos = [
+  {
+    title: 'Why Digital Nomads Are Choosing Buenos Aires in 2025',
+    embedId: 'pgTpfH7zNVs',
+    description: 'Discover what makes Buenos Aires a top destination for digital nomads in 2025.',
+    thumbnail: 'https://img.youtube.com/vi/pgTpfH7zNVs/hqdefault.jpg'
+  },
+  {
+    title: 'Why Digital Nomads Choosing Madeira in 2024',
+    embedId: 'NgG92Q8Uxgg',
+    description: 'Meet the founders behind Madeira Friends and discover why digital nomads are flocking to this Portuguese island.',
+    thumbnail: 'https://img.youtube.com/vi/NgG92Q8Uxgg/hqdefault.jpg'
+  },
+  {
+    title: 'Why Digital Nomads Choose Chiang Mai?',
+    embedId: '_sBXTskL0gA',
+    description: 'Exploring what makes Chiang Mai, Thailand one of the top destinations for digital nomads worldwide.',
+    thumbnail: 'https://img.youtube.com/vi/_sBXTskL0gA/hqdefault.jpg'
+  }
+]
+
+const categories = ['all', 'logos', 'covers', 'lifestyle', 'spreads']
+---
+
+<Layout seo={seo}>
+  <div class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <div class="bg-white shadow-sm">
+      <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <h1 class="text-4xl font-bold text-gray-900 sm:text-5xl">Press Kit</h1>
+          <p class="mt-4 text-xl text-gray-600">Download high-resolution images and brand assets</p>
+          <p class="mt-2 text-lg text-gray-500">Perfect for partners, media coverage, and promotional materials</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Usage Guidelines -->
+    <div class="bg-yellow-50 border-l-4 border-yellow-400 mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 mt-8">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-yellow-800">Usage Guidelines</h3>
+          <div class="mt-2 text-sm text-yellow-700">
+            <ul class="list-disc list-inside space-y-1">
+              <li>All images are provided for promotional and editorial use</li>
+              <li>Please credit "Nomad Magazine" when using these assets</li>
+              <li>Do not modify logos or brand elements</li>
+              <li>For commercial use, please contact us for permission</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Buttons -->
+    <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <div class="flex flex-wrap justify-center gap-3 mb-8">
+        {categories.map((category) => (
+          <button
+            class="filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition-all"
+            data-filter={category}
+          >
+            {category.charAt(0).toUpperCase() + category.slice(1)}
+          </button>
+        ))}
+      </div>
+
+      <!-- Images Gallery -->
+      <div class="mb-16">
+        <h2 class="text-2xl font-bold text-gray-900 mb-8 text-center">Brand Images</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="gallery">
+          {brandImages.map((image) => (
+            <div class="gallery-item bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow" data-category={image.category}>
+              <div class="aspect-square bg-gray-100 relative group">
+                <img
+                  src={image.previewUrl}
+                  alt={image.title}
+                  class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                />
+                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
+                  <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex gap-2">
+                    <a
+                      href={image.downloadUrl}
+                      target="_blank"
+                      class="bg-white text-gray-900 px-3 py-1 rounded-md text-sm font-medium hover:bg-gray-100 transition-colors"
+                    >
+                      View
+                    </a>
+                    <a
+                      href={image.downloadUrl}
+                      download
+                      class="bg-yellow-400 text-black px-3 py-1 rounded-md text-sm font-medium hover:bg-yellow-500 transition-colors"
+                    >
+                      Download
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="p-4">
+                <h3 class="font-semibold text-gray-900 mb-1">{image.title}</h3>
+                <p class="text-sm text-gray-600">{image.description}</p>
+                <span class="inline-block mt-2 px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full">
+                  {image.category}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Videos Section -->
+      <div class="mb-16">
+        <h2 class="text-2xl font-bold text-gray-900 mb-8 text-center">Latest Videos</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {videos.map((video) => (
+            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+              <div class="aspect-video bg-gray-100 relative group">
+                <img
+                  src={video.thumbnail}
+                  alt={video.title}
+                  class="w-full h-full object-cover"
+                  loading="lazy"
+                />
+                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center">
+                  <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <a
+                      href={`https://www.youtube.com/watch?v=${video.embedId}`}
+                      target="_blank"
+                      class="bg-red-600 text-white px-6 py-3 rounded-full font-medium hover:bg-red-700 transition-colors flex items-center gap-2"
+                    >
+                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
+                      Watch on YouTube
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="p-4">
+                <h3 class="font-semibold text-gray-900 mb-2">{video.title}</h3>
+                <p class="text-sm text-gray-600">{video.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Contact Section -->
+      <div class="bg-white rounded-lg shadow-md p-8 text-center">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">Need More Assets?</h2>
+        <p class="text-gray-600 mb-6">
+          Looking for specific images, logos, or have questions about usage rights? We're here to help!
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="mailto:press@nomad-magazine.com"
+            class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-yellow-400 hover:bg-yellow-500 transition-colors"
+          >
+            Contact Press Team
+          </a>
+          <a
+            href="/"
+            class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors"
+          >
+            Back to Homepage
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    
+    filterButtons.forEach(button => {
+      button.addEventListener('click', function(this: HTMLButtonElement) {
+        const filter = this.dataset.filter;
+        
+        // Update active button
+        filterButtons.forEach(btn => btn.classList.remove('bg-yellow-400', 'text-black'));
+        filterButtons.forEach(btn => btn.classList.add('bg-white', 'text-gray-700'));
+        this.classList.remove('bg-white', 'text-gray-700');
+        this.classList.add('bg-yellow-400', 'text-black');
+        
+        // Filter items
+        galleryItems.forEach(item => {
+          const htmlItem = item as HTMLElement;
+          if (filter === 'all' || htmlItem.dataset.category === filter) {
+            htmlItem.style.display = 'block';
+          } else {
+            htmlItem.style.display = 'none';
+          }
+        });
+      });
+    });
+    
+    // Set initial active state
+    const firstButton = filterButtons[0] as HTMLButtonElement;
+    firstButton.classList.add('bg-yellow-400', 'text-black');
+    firstButton.classList.remove('bg-white', 'text-gray-700');
+  });
+</script> 
