@@ -161,6 +161,41 @@ const sponsors = [
 ---
 
 <Layout seo={seo}>
+  <!-- Rolling Sponsor Banner -->
+  <div class="bg-black text-white py-2 overflow-hidden relative">
+    <div class="whitespace-nowrap animate-scroll">
+      <div class="inline-flex items-center space-x-12">
+        <!-- First set of sponsors -->
+        {sponsors.map((sponsor) => (
+          <div class="inline-flex items-center space-x-3">
+            <img 
+              src={sponsor.image} 
+              alt={sponsor.alt}
+              class="h-6 object-contain opacity-80 hover:opacity-100 transition-opacity"
+              loading="lazy"
+            />
+            <span class="text-yellow-400 text-sm font-semibold">•</span>
+          </div>
+        ))}
+        <!-- Duplicate set for seamless loop -->
+        {sponsors.map((sponsor) => (
+          <div class="inline-flex items-center space-x-3">
+            <img 
+              src={sponsor.image} 
+              alt={sponsor.alt}
+              class="h-6 object-contain opacity-80 hover:opacity-100 transition-opacity"
+              loading="lazy"
+            />
+            <span class="text-yellow-400 text-sm font-semibold">•</span>
+          </div>
+        ))}
+      </div>
+    </div>
+    <!-- Gradient overlays for smooth fade effect -->
+    <div class="absolute top-0 left-0 w-20 h-full bg-gradient-to-r from-black to-transparent pointer-events-none"></div>
+    <div class="absolute top-0 right-0 w-20 h-full bg-gradient-to-l from-black to-transparent pointer-events-none"></div>
+  </div>
+
   <!-- Hero Section -->
   <div class="bg-hoverw text-white">
     <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
@@ -694,5 +729,18 @@ const sponsors = [
     0% { box-shadow: 0 0 0 0 #fde047; }
     50% { box-shadow: 0 0 16px 4px #fde047; }
     100% { box-shadow: 0 0 0 0 #fde047; }
+  }
+
+  .animate-scroll {
+    animation: scroll 30s linear infinite;
+  }
+
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .animate-scroll:hover {
+    animation-play-state: paused;
   }
 </style> 
