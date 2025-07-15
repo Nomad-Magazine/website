@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /flipbooks/
+Disallow: /brand-placement-falmouth-847291
 
 Sitemap: https://nomad-magazine.com/sitemap-index.xml
 
