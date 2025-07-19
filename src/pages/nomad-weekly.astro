@@ -1,0 +1,436 @@
+---
+export const prerender = true;
+
+import { getCollection } from 'astro:content'
+import { fetchReportRecords } from '~/utils/smartsuite'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
+import MaterialSymbolsCalendarToday from '~icons/material-symbols/calendar-today'
+import MaterialSymbolsArrowOutward from '~icons/material-symbols/arrow-outward'
+
+const { records = [] } = await fetchReportRecords('6857167d82358a0f5e038c3f')
+
+// Get Molly's exhibition article specifically
+const allPosts = await getCollection('blog')
+const mollyPost = allPosts.find(post => post.slug === 'molly-maine-nomad-exhibition-what-does-home-mean')
+
+// YouTube videos data
+const youtubeVideos = [
+  {
+    id: 'pgTpfH7zNVs',
+    title: 'Why Digital Nomads Are Choosing Buenos Aires in 2025',
+    description: 'Discover what makes Buenos Aires a top destination for digital nomads in 2025.',
+    thumbnail: 'https://img.youtube.com/vi/pgTpfH7zNVs/hqdefault.jpg',
+    duration: '18:45',
+    views: '12.3K',
+    publishedAt: '2025-01-20'
+  },
+  {
+    id: 'NgG92Q8Uxgg',
+    title: 'Why Digital Nomads Choosing Madeira in 2024: Madeira Friends Founders and Community',
+    description: 'Meet the founders behind Madeira Friends and discover why digital nomads are flocking to this Portuguese island.',
+    thumbnail: 'https://img.youtube.com/vi/NgG92Q8Uxgg/hqdefault.jpg',
+    duration: '14:22',
+    views: '8.7K',
+    publishedAt: '2025-01-18'
+  },
+  {
+    id: '_sBXTskL0gA',
+    title: 'Why Digital Nomads Choose Chiang Mai?',
+    description: 'Exploring what makes Chiang Mai, Thailand one of the top destinations for digital nomads worldwide.',
+    thumbnail: 'https://img.youtube.com/vi/_sBXTskL0gA/hqdefault.jpg',
+    duration: '16:33',
+    views: '15.9K',
+    publishedAt: '2025-01-15'
+  }
+]
+
+// Get latest YouTube video
+const latestVideo = youtubeVideos[0]
+
+// Extract unique categories for filtering
+const categories = [...new Set(records.filter((record: any) => record.sf4ad525dd && record.sb685ab800?.label).map((record: any) => record.sb685ab800.label))].sort()
+
+const seo: SEOProps = {
+  title: 'Nomad Weekly - Latest Digital Nomad Tools & Services',
+  description:
+    'Discover the latest tools, services, and companies for digital nomads. Weekly curated releases featuring the best resources for remote workers and nomads worldwide.',
+  image: `${Astro.site}images/edition-003-cover_holded_front_face.webp`,
+  keywords: 'nomad weekly, digital nomad tools, remote work tools, weekly releases, nomad companies, nomad resources',
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Nomad Weekly',
+    description: 'Weekly releases of tools, services, and companies for digital nomads',
+    url: `${Astro.site}nomad-weekly`,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+  },
+}
+---
+
+<Layout seo={seo}>
+  <div class="bg-hoverw text-white">
+    <!-- Hero Section -->
+    <section class="pt-20 pb-12">
+      <div class="container mx-auto px-4 text-center">
+        <div class="inline-flex items-center gap-2 bg-yellow-400/20 border border-yellow-400/30 rounded-full px-4 py-2 mb-8">
+          <MaterialSymbolsCalendarToday width="16" height="16" class="text-yellow-400" />
+          <span class="text-yellow-400 text-sm font-bold uppercase tracking-wide">Weekly Releases</span>
+        </div>
+        
+        <h2 class="font-justme text-4xl font-medium tracking-widest text-yellow-400 md:text-5xl mb-6">The Directory</h2>
+        <h1 class="mx-auto max-w-4xl text-4xl leading-tight font-bold md:text-7xl mb-8">
+          Nomad Weekly
+        </h1>
+        
+        <p class="mx-auto max-w-3xl text-base text-gray-300 md:text-lg mb-12">
+          The best new tools, services, and companies for digital nomads. 
+          Curated weekly to help you discover what's new in the nomad ecosystem.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+          <a
+            target="_blank"
+            href="https://form.smartsuite.com/s4tmc086/8sFlvrVlDC"
+            class="inline-flex items-center justify-center gap-2 bg-yellow-400 hover:bg-yellow-300 px-8 py-3 rounded-lg text-black font-bold text-lg transition-all duration-200"
+          >
+            <MaterialSymbolsElectricBolt width="20" height="20" />
+            Submit Your Product
+          </a>
+          
+          <button class="inline-flex items-center justify-center gap-2 border border-white hover:bg-white hover:text-black px-8 py-3 rounded-lg text-white font-bold text-lg transition-all duration-200">
+            Subscribe to Updates
+          </button>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="flex flex-wrap justify-center gap-2" id="filter-container">
+          <button class="filter-btn active px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-yellow-400 text-black hover:bg-yellow-300" data-category="all">
+            All
+          </button>
+          {
+            categories.map((category) => (
+              <button 
+                class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-white/10 text-white hover:bg-white/20 border border-white/20" 
+                data-category={category}
+              >
+                {category}
+              </button>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content with Sidebar -->
+    <section class="pt-8 pb-20">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <!-- Main Content -->
+          <div class="lg:col-span-2">
+            <div id="directory-container" class="space-y-6">
+              {
+                records
+                  .filter((i: any) => i.sf4ad525dd)
+                  .map((record: any, index: number) => (
+                    <div class="directory-item bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 group" data-category={record.sb685ab800?.label || 'uncategorized'}>
+                      <div class="flex flex-col md:flex-row items-start gap-6">
+                        <!-- Logo/Image -->
+                        <div class="flex-shrink-0">
+                          <div class="w-32 h-32 bg-white rounded-xl flex items-center justify-center p-3">
+                            {record.sf4ad525dd ? (
+                              <img 
+                                src={record.sf4ad525dd} 
+                                alt={record.s4ad525dd || 'Company'} 
+                                class="w-full h-full rounded-lg object-contain"
+                              />
+                            ) : (
+                              <span class="text-black font-bold text-3xl">
+                                {(record.s4ad525dd || 'C').charAt(0).toUpperCase()}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        
+                        <!-- Content -->
+                        <div class="flex-1 min-w-0">
+                          <div class="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
+                            <div class="mb-4 md:mb-0">
+                              <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-yellow-400 transition-colors">
+                                {record.s4ad525dd || 'Company Name'}
+                              </h3>
+                              <p class="text-gray-300 text-base leading-relaxed line-clamp-3 max-w-2xl">
+                                {record.s0b0ba95f5 || 'Description not available'}
+                              </p>
+                            </div>
+                            
+                            <!-- Category Badge and Number -->
+                            <div class="flex items-center gap-4">
+                              {record.sb685ab800?.label && (
+                                <span class="bg-yellow-400/20 text-yellow-400 px-3 py-1 rounded-full text-sm font-medium border border-yellow-400/30">
+                                  {record.sb685ab800.label}
+                                </span>
+                              )}
+                              <span class="text-gray-500 text-sm font-mono">
+                                #{String(index + 1).padStart(3, '0')}
+                              </span>
+                            </div>
+                          </div>
+                          
+                          <!-- Actions -->
+                          <div class="flex items-center">
+                            {record.s4c15e8af && (
+                              <a 
+                                href={record.s4c15e8af} 
+                                target="_blank" 
+                                class="text-blue-300 hover:text-blue-200 underline transition-colors"
+                              >
+                                Learn more &rarr;
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+              }
+            </div>
+            
+            <!-- Empty State -->
+            <div id="empty-state" class="text-center py-20 hidden">
+              <div class="max-w-md mx-auto">
+                <div class="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <MaterialSymbolsElectricBolt width="32" height="32" class="text-gray-400" />
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-4">No products found</h3>
+                <p class="text-gray-400 text-lg">Try adjusting your filters or check back later for new releases.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sidebar -->
+          <div class="lg:col-span-1">
+            <div class="sticky top-8 space-y-4">
+              <!-- Latest YouTube Episode -->
+              <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
+                <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                  <svg class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                  </svg>
+                  Latest Episode
+                </h3>
+                
+                <div class="group relative overflow-hidden rounded-lg cursor-pointer mb-3">
+                  <div class="relative aspect-[16/10]">
+                    <img
+                      src={latestVideo.thumbnail}
+                      alt={latestVideo.title}
+                      class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors"></div>
+                    <div class="absolute bottom-1 right-1 bg-black/80 px-1.5 py-0.5 rounded text-xs text-white">
+                      {latestVideo.duration}
+                    </div>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <div class="bg-red-600 rounded-full p-2.5 group-hover:bg-red-700 group-hover:scale-110 transition-all">
+                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z"/>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                  <a href={`https://www.youtube.com/watch?v=${latestVideo.id}`} target="_blank" class="absolute inset-0"></a>
+                </div>
+                
+                <h4 class="font-bold text-white text-sm mb-1 line-clamp-2 leading-tight">
+                  <a href={`https://www.youtube.com/watch?v=${latestVideo.id}`} target="_blank" class="hover:text-yellow-400 transition-colors">
+                    {latestVideo.title}
+                  </a>
+                </h4>
+                
+                <div class="flex items-center justify-between text-xs text-gray-400 mb-2">
+                  <span>{latestVideo.views} views</span>
+                  <span>{latestVideo.publishedAt}</span>
+                </div>
+                
+                <a 
+                  href="https://www.youtube.com/@Nomad-Magazine" 
+                  target="_blank"
+                  class="inline-flex items-center gap-1 text-red-500 hover:text-red-400 font-medium text-xs transition-colors"
+                >
+                  <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                  </svg>
+                  View Channel
+                </a>
+              </div>
+
+              <!-- Featured Blog Post -->
+              {mollyPost && (
+                <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
+                  <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                    </svg>
+                    Featured Article
+                  </h3>
+                  
+                  {mollyPost.data.heroImage && (
+                    <div class="relative aspect-[16/10] rounded-lg overflow-hidden mb-3 group">
+                      <img
+                        src={mollyPost.data.heroImage}
+                        alt={mollyPost.data.heroImageAlt || mollyPost.data.title}
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                      <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    </div>
+                  )}
+                  
+                  <div class="flex items-center gap-2 text-xs text-gray-400 mb-2">
+                    {mollyPost.data.pubDate && (
+                      <time datetime={mollyPost.data.pubDate.toISOString()}>
+                        {mollyPost.data.pubDate.toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
+                        })}
+                      </time>
+                    )}
+                    <span>•</span>
+                    <span>{Math.ceil(mollyPost.body.length / 1000)} min read</span>
+                  </div>
+                  
+                  <h4 class="font-bold text-white text-sm mb-2 leading-tight line-clamp-2">
+                    <a href={`/blog/${mollyPost.slug}`} class="hover:text-yellow-400 transition-colors">
+                      {mollyPost.data.title}
+                    </a>
+                  </h4>
+                  
+                  <p class="text-gray-300 text-xs line-clamp-2 mb-3 leading-relaxed">
+                    {mollyPost.data.description}
+                  </p>
+                  
+                  <div class="flex items-center justify-between">
+                    <a 
+                      href={`/blog/${mollyPost.slug}`}
+                      class="inline-flex items-center gap-1 text-yellow-400 hover:text-yellow-300 font-medium text-xs transition-colors"
+                    >
+                      Read Article
+                      <MaterialSymbolsArrowOutward width="12" height="12" />
+                    </a>
+                    
+                    <a 
+                      href="/blog"
+                      class="text-gray-400 hover:text-white font-medium text-xs transition-colors"
+                    >
+                      View All →
+                    </a>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Submit CTA -->
+    <section class="pb-20">
+      <div class="container mx-auto px-4">
+        <div class="bg-yellow-400/10 border border-yellow-400/20 rounded-2xl p-12 text-center">
+          <h2 class="text-3xl font-bold text-white mb-6">Have a product for nomads?</h2>
+          <p class="text-gray-300 text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
+            Join hundreds of companies serving the digital nomad community. Get featured in our weekly releases and reach thousands of potential customers.
+          </p>
+          <a
+            target="_blank"
+            href="https://form.smartsuite.com/s4tmc086/8sFlvrVlDC"
+            class="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-300 px-8 py-3 rounded-lg text-black font-bold text-lg transition-all duration-200"
+          >
+            <MaterialSymbolsElectricBolt width="20" height="20" />
+            Submit Your Product
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  // Filter functionality
+  const filterButtons = document.querySelectorAll('.filter-btn')
+  const directoryItems = document.querySelectorAll('.directory-item')
+  const emptyState = document.getElementById('empty-state')
+
+  function updateEmptyState() {
+    const visibleItems = Array.from(directoryItems).filter(item => {
+      const htmlItem = item as HTMLElement
+      return htmlItem.style.display !== 'none'
+    })
+    
+    if (emptyState) {
+      emptyState.style.display = visibleItems.length === 0 ? 'block' : 'none'
+    }
+  }
+
+  filterButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const category = button.getAttribute('data-category')
+
+      // Update active button
+      filterButtons.forEach((btn) => btn.classList.remove('active'))
+      button.classList.add('active')
+
+      // Update button styles
+      filterButtons.forEach((btn) => {
+        if (btn.classList.contains('active')) {
+          btn.className = 'filter-btn active px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-yellow-400 text-black hover:bg-yellow-300'
+        } else {
+          btn.className = 'filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-white/10 text-white hover:bg-white/20 border border-white/20'
+        }
+      })
+
+      // Filter items
+      directoryItems.forEach((item) => {
+        const itemCategory = item.getAttribute('data-category')
+        const htmlItem = item as HTMLElement
+        if (category === 'all' || itemCategory === category) {
+          htmlItem.style.display = 'block'
+        } else {
+          htmlItem.style.display = 'none'
+        }
+      })
+      
+      updateEmptyState()
+    })
+  })
+  
+  // Initial empty state check
+  updateEmptyState()
+</script> 
