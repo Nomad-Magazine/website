@@ -1,0 +1,890 @@
+---
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import CheckIcon from '~icons/ic/baseline-check'
+
+const seo: SEOProps = {
+  title: 'Brand Placement - Advertise in Nomad Magazine',
+  description: 'Advertise your brand in Nomad Magazine and reach the global digital nomad community. Choose from various ad sizes: full page, double page, 1/3 vertical, and 1/5 horizontal.',
+  image: `${Astro.site}images/edition-001-nomad-cruise-double-page-advertising.webp`,
+  keywords: 'nomad magazine advertising, digital nomad marketing, print magazine ads, brand placement, nomad community advertising',
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Brand Placement - Nomad Magazine',
+    description: 'Advertise your brand in Nomad Magazine',
+    url: `${Astro.site}brand-placement`,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+  },
+}
+
+const adSizes = [
+  {
+    id: 'double-page',
+    name: 'Double Page Spread',
+    description: 'Maximum impact with a full double-page spread',
+    size: '400mm x 245mm (+ 3mm bleed)',
+    price: 900,
+    features: [
+      'Prime placement opportunities',
+      'Maximum brand visibility',
+      'Premium positioning',
+      'Design support included'
+    ],
+    example: '/images/edition-001-nomad-cruise-double-page-advertising.webp'
+  },
+  {
+    id: 'sponsored-article',
+    name: 'Sponsored Article',
+    description: 'Editorial-style content featuring your brand',
+    size: '4 pages',
+    price: 800,
+    features: [
+      'You write the content',
+      'We help with editorial directions',
+      'Final editing included',
+      'Custom design support'
+    ],
+    example: '/images/edition-002-mindvelley-article.webp'
+  },
+  {
+    id: 'full-page',
+    name: 'Full Page',
+    description: 'Complete page dedicated to your brand',
+    size: '200mm x 245mm (+ 3mm bleed)',
+    price: 500,
+    features: [
+      'Full creative control',
+      'High-impact placement',
+      'Professional design support',
+      'Multiple placement options'
+    ],
+    example: '/images/edition-002-ad-nomad-global-pass.webp',
+    popular: true
+  },
+  {
+    id: 'vertical-third',
+    name: '1/3 Vertical',
+    description: 'Elegant vertical format for brand storytelling',
+    size: '67mm x 245mm (+ 3mm bleed)',
+    price: 250,
+    features: [
+      'Perfect for product showcases',
+      'Story-format friendly',
+      'Great readability',
+      'Cost-effective option'
+    ],
+    example: '/images/ad-1-3-outsite@0.5x.webp'
+  },
+  {
+    id: 'horizontal-fifth',
+    name: '1/5 Horizontal',
+    description: 'Compact horizontal placement',
+    size: '200mm x 100mm (+ 3mm bleed)',
+    price: 250,
+    features: [
+      'Banner-style placement',
+      'Footer/header positioning',
+      'Logo and tagline focus',
+      'Budget-friendly option'
+    ],
+    example: '/images/edition-003-ad-half-page.webp'
+  },
+  {
+    id: 'nomad-directory',
+    name: 'Nomad Directory',
+    description: 'Feature your brand in our curated nomad directory',
+    size: 'Digital listing',
+    price: 75,
+    features: [
+      'Online directory placement',
+      'Company profile with logo',
+      'Direct link to your website',
+      'Searchable by category'
+    ],
+    example: '/images/Nomad-directory.webp'
+  }
+]
+
+const testimonials = [
+  {
+    company: 'Nomad Train',
+    quote: 'Nomad Magazine isn\'t just a great fit for Nomad Train audience, team also brings real energy, creativity, and care. Enjoyed working with them 🚂',
+    logo: '/images/nomad-train_logo_black.webp'
+  }
+]
+
+const sponsors = [
+  // Edition 2 sponsors
+  {
+    link: 'https://www.tulsaremote.com/',
+    image: '/images/Tulsa_Remote_logo.webp',
+    alt: 'Tulsa Remote',
+    width: '90',
+  },
+  {
+    link: 'https://www.nomadcruise.com/',
+    image: '/images/nomad_cruise_logo.webp',
+    alt: 'Nomad Cruise',
+    width: '120',
+  },
+  // Edition 3 sponsors
+  {
+    link: 'https://www.globaltaxmastery.com/',
+    image: '/images/fresh-global-logo.webp',
+    alt: 'Fresh Global',
+    width: '120',
+  },
+  {
+    link: 'https://www.outsite.co/',
+    image: '/images/outsite-logo.svg',
+    alt: 'Outsite',
+    width: '120',
+  },
+  {
+    link: 'https://nomadtrain.co/',
+    image: '/images/nomad-train-logo.svg',
+    alt: 'Nomad Train Logo',
+    width: '100',
+  },
+  {
+    link: 'https://nomads.insure/',
+    image: '/images/nomads_insure_logo.webp',
+    alt: 'Nomads Insure',
+    width: '100',
+  },
+  {
+    link: 'http://nosolo.co/',
+    image: '/images/nosolo-logo-1018.webp',
+    alt: 'NoSolo',
+    width: '100',
+    srcset:
+      '/images/nosolo-logo-500.webp 500w, /images/nosolo-logo-800.webp 800w, /images/nosolo-logo-1018.webp 1018w',
+  },
+  {
+    link: 'https://nomadnest.com/',
+    image: '/images/nomadnest-logo.webp',
+    alt: 'NomadNest',
+    width: '100',
+    srcset:
+      '/images/nomadnest-logo-500.webp 500w, /images/nomadnest-logo-800.webp 800w, /images/nomadnest-logo-1080.webp 1080w, /images/nomadnest-logo.webp 2425w',
+  },
+]
+---
+
+<Layout seo={seo}>
+  <!-- Rolling Sponsor Banner -->
+  <div class="bg-black text-white py-2 overflow-hidden relative">
+    <div class="whitespace-nowrap animate-scroll">
+      <div class="inline-flex items-center space-x-12">
+        <!-- First set of sponsors -->
+        {sponsors.map((sponsor) => (
+          <div class="inline-flex items-center space-x-3">
+            <img 
+              src={sponsor.image} 
+              alt={sponsor.alt}
+              class="h-6 object-contain opacity-80 hover:opacity-100 transition-opacity"
+              loading="lazy"
+            />
+            <span class="text-yellow-400 text-sm font-semibold">•</span>
+          </div>
+        ))}
+        <!-- Duplicate set for seamless loop -->
+        {sponsors.map((sponsor) => (
+          <div class="inline-flex items-center space-x-3">
+            <img 
+              src={sponsor.image} 
+              alt={sponsor.alt}
+              class="h-6 object-contain opacity-80 hover:opacity-100 transition-opacity"
+              loading="lazy"
+            />
+            <span class="text-yellow-400 text-sm font-semibold">•</span>
+          </div>
+        ))}
+      </div>
+    </div>
+    <!-- Gradient overlays for smooth fade effect -->
+    <div class="absolute top-0 left-0 w-20 h-full bg-gradient-to-r from-black to-transparent pointer-events-none"></div>
+    <div class="absolute top-0 right-0 w-20 h-full bg-gradient-to-l from-black to-transparent pointer-events-none"></div>
+  </div>
+
+  <!-- Hero Section -->
+  <div class="bg-hoverw text-white">
+    <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+        <div class="space-y-8">
+          <div class="space-y-6">
+            <h1 class="text-5xl font-bold leading-tight md:text-6xl lg:text-7xl">
+              Reach the Global <span class="text-yellow-400">Digital Nomad</span> Community
+            </h1>
+                         <p class="text-xl text-gray-300 leading-relaxed">
+               Advertise in the first global digital nomad magazine. Your brand will reach over 3,000+ engaged nomads, remote workers, and travel enthusiasts across over 20 cities.
+             </p>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="flex items-center text-lg">
+              <CheckIcon class="mr-3 h-6 w-6 flex-shrink-0 text-yellow-400" />
+              <span>Distributed in 100+ coworking spaces & colivings</span>
+            </div>
+            <div class="flex items-center text-lg">
+              <CheckIcon class="mr-3 h-6 w-6 flex-shrink-0 text-yellow-400" />
+              <span>Featured at major nomad events worldwide</span>
+            </div>
+            <div class="flex items-center text-lg">
+              <CheckIcon class="mr-3 h-6 w-6 flex-shrink-0 text-yellow-400" />
+              <span>High-quality print with premium paper</span>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-4 sm:flex-row">
+                          <a
+                href="https://calendly.com/nomadgossip"
+                target="_blank"
+                class="inline-block rounded bg-yellow-400 px-8 py-4 text-center text-lg font-bold text-black transition-transform duration-200 hover:scale-105 hover:shadow-lg"
+              >
+                Talk with us
+              </a>
+          </div>
+        </div>
+        
+        <div class="flex justify-center">
+          <img 
+            src="/images/edition-001-nomad-cruise-double-page-advertising.webp" 
+            alt="Nomad Magazine brand placement example" 
+            class="rounded-lg shadow-2xl max-w-full h-auto"
+            loading="eager"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Statistics Section -->
+  <div class="bg-neutral-900 text-white py-16">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
+        <div class="text-center">
+          <div class="text-4xl font-bold text-yellow-400 mb-2">3,000+</div>
+          <div class="text-gray-300">Readers</div>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl font-bold text-yellow-400 mb-2">100+</div>
+          <div class="text-gray-300">Distribution Points</div>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl font-bold text-yellow-400 mb-2">20+</div>
+          <div class="text-gray-300">Cities Reached</div>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl font-bold text-yellow-400 mb-2">85%</div>
+          <div class="text-gray-300">Print Readership</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Global Distribution Network Section -->
+  <div class="bg-white py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-900 mb-6 md:text-5xl">Global Distribution Network</h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          Your ads reach nomads in major hubs worldwide through our curated distribution network of coworking spaces, colivings, and nomad events.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-12 lg:grid-cols-2 items-start">
+        <div class="bg-gray-900 rounded-2xl p-8 text-white">
+          <div class="grid grid-cols-2 gap-8">
+            <img 
+              src="/images/distribution_mob_barcelona.webp" 
+              alt="Nomad Magazine distribution in Barcelona coworking space" 
+              class="rounded-lg w-full h-32 object-cover"
+              loading="lazy"
+            />
+            <img 
+              src="/images/distribution_sowo_coworking_barcelona.webp" 
+              alt="Nomad Magazine at Sowo coworking Barcelona" 
+              class="rounded-lg w-full h-32 object-cover"
+              loading="lazy"
+            />
+            <img 
+              src="/images/distribution-wework-poland-warsaw.webp" 
+              alt="Nomad Magazine at WeWork Poland Warsaw" 
+              class="rounded-lg w-full h-32 object-cover"
+              loading="lazy"
+            />
+            <img 
+              src="/images/distribution-wework-logo-poland-warsaw.webp" 
+              alt="WeWork partnership logo" 
+              class="rounded-lg w-full h-32 object-cover"
+              loading="lazy"
+            />
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-6">Current Distribution Cities</h3>
+          <p class="text-gray-600 mb-8">
+            We deliver to the most popular nomad destinations worldwide, with new cities added regularly based on nomad migration patterns.
+          </p>
+          
+          <div class="grid grid-cols-2 gap-4 mb-8">
+            <div class="space-y-3">
+              <div class="flex items-center">
+                <div class="w-2 h-2 bg-yellow-400 rounded-full mr-3"></div>
+                <span class="text-gray-700">Amsterdam</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-2 h-2 bg-yellow-400 rounded-full mr-3"></div>
+                <span class="text-gray-700">Barcelona</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-2 h-2 bg-yellow-400 rounded-full mr-3"></div>
+                <span class="text-gray-700">Berlin</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-2 h-2 bg-yellow-400 rounded-full mr-3"></div>
+                <span class="text-gray-700">Bratislava</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-2 h-2 bg-yellow-400 rounded-full mr-3"></div>
+                <span class="text-gray-700">Budapest</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-2 h-2 bg-yellow-400 rounded-full mr-3"></div>
+                <span class="text-gray-700">Buenos Aires</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-2 h-2 bg-yellow-400 rounded-full mr-3"></div>
+                <span class="text-gray-700">Canggu, Bali</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-2 h-2 bg-yellow-400 rounded-full mr-3"></div>
+                <span class="text-gray-700">Chiang Mai</span>
+              </div>
+            </div>
+            
+            <div class="space-y-3">
+              <div class="flex items-center">
+                <div class="w-2 h-2 bg-yellow-400 rounded-full mr-3"></div>
+                <span class="text-gray-700">Hamburg</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-2 h-2 bg-yellow-400 rounded-full mr-3"></div>
+                <span class="text-gray-700">Hoi An</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-2 h-2 bg-yellow-400 rounded-full mr-3"></div>
+                <span class="text-gray-700">Las Palmas</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-2 h-2 bg-yellow-400 rounded-full mr-3"></div>
+                <span class="text-gray-700">Lisbon</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-2 h-2 bg-yellow-400 rounded-full mr-3"></div>
+                <span class="text-gray-700">London</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-2 h-2 bg-yellow-400 rounded-full mr-3"></div>
+                <span class="text-gray-700">Madeira</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-2 h-2 bg-yellow-400 rounded-full mr-3"></div>
+                <span class="text-gray-700">Palermo</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-2 h-2 bg-yellow-400 rounded-full mr-3"></div>
+                <span class="text-gray-700">Porto</span>
+              </div>
+            </div>
+          </div>
+
+          <a
+            href="#"
+            class="inline-flex items-center text-yellow-600 hover:text-yellow-700 font-semibold"
+          >
+            View Full Distribution List
+            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Why Print Over Digital Section -->
+  <div class="bg-white py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-900 mb-6 md:text-5xl">Why Print Beats Digital</h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          In a world flooded with digital noise, print advertising delivers something digital can't: genuine impact and lasting impression.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-12 lg:grid-cols-2 items-center">
+        <div class="space-y-8">
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0">
+              <div class="w-12 h-12 bg-yellow-400 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900 mb-2">Builds Instant Trust & Credibility</h3>
+              <p class="text-gray-600">Print advertising has a 70% higher brand recall than digital ads. When nomads see your brand in a physical magazine, it signals legitimacy and permanence that digital ads simply can't match.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0">
+              <div class="w-12 h-12 bg-yellow-400 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+              </div>
+            </div>
+            <div>
+                             <h3 class="text-xl font-bold text-gray-900 mb-2">Zero Ad Blockers, 100% Visibility</h3>
+               <p class="text-gray-600">While 60-75% of digital nomads use ad blockers (due to their tech-savvy, privacy-conscious habits), print ads get seen by every reader. No skipping, no blocking, no competing with endless scroll feeds. Your message gets the attention it deserves.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0">
+              <div class="w-12 h-12 bg-yellow-400 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900 mb-2">Premium Status Symbol</h3>
+              <p class="text-gray-600">Being featured in a curated print magazine positions your brand as premium and exclusive. It's a status symbol that digital ads can't replicate - your brand becomes part of something nomads want to keep and share.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0">
+              <div class="w-12 h-12 bg-yellow-400 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+            </div>
+            <div>
+                             <h3 class="text-xl font-bold text-gray-900 mb-2">Longer Engagement Time & Lasting Value</h3>
+               <p class="text-gray-600">Digital ads get 2-3 seconds of attention. Print ads in magazines get 15-30 minutes of focused reading time. Plus, magazines live on coffee tables in coworking spaces and colivings for years - meaning your ad gets seen repeatedly by new nomads. Your cost per view decreases to nearly zero over time, while digital ads require constant spending.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:pl-8">
+          <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-8 shadow-lg">
+            <div class="mb-6">
+              <h3 class="text-2xl font-bold text-gray-900 mb-4">The Cool Factor That Digital Can't Match</h3>
+              <p class="text-gray-600 mb-6">
+                Print magazines are experiencing a renaissance among digital nomads. They're tired of screens and crave something tangible, authentic, and real. Your brand in print says:
+              </p>
+              
+              <div class="space-y-3">
+                <div class="flex items-center">
+                  <CheckIcon class="mr-3 h-5 w-5 text-green-500" />
+                  <span class="text-gray-700 font-medium">"We're established and here to stay"</span>
+                </div>
+                <div class="flex items-center">
+                  <CheckIcon class="mr-3 h-5 w-5 text-green-500" />
+                  <span class="text-gray-700 font-medium">"We value quality over quantity"</span>
+                </div>
+                <div class="flex items-center">
+                  <CheckIcon class="mr-3 h-5 w-5 text-green-500" />
+                  <span class="text-gray-700 font-medium">"We're worth the investment"</span>
+                </div>
+                <div class="flex items-center">
+                  <CheckIcon class="mr-3 h-5 w-5 text-green-500" />
+                  <span class="text-gray-700 font-medium">"We understand what nomads actually want"</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-white rounded-lg p-6 border-l-4 border-yellow-400">
+              <div class="flex items-center mb-3">
+                <div class="text-3xl mr-3">📈</div>
+                <div>
+                  <h4 class="font-bold text-gray-900">Real Results</h4>
+                  <p class="text-sm text-gray-600">Print ads generate 2.5x more leads than digital ads in the travel industry</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Testimonials Section -->
+  <div class="bg-white py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-900 mb-6 md:text-5xl">What Our Partners Say</h2>
+      </div>
+
+      <div class="flex justify-center">
+        {testimonials.map((testimonial) => (
+          <div class="bg-gray-50 rounded-2xl p-8 max-w-2xl">
+            <div class="flex items-center mb-6">
+              <img
+                src={testimonial.logo}
+                alt={`${testimonial.company} logo`}
+                class="h-12 object-contain grayscale"
+              />
+            </div>
+            <blockquote class="text-lg text-gray-700 italic mb-4">
+              "{testimonial.quote}"
+            </blockquote>
+            <cite class="text-gray-600 font-semibold">— {testimonial.company}</cite>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Sponsors Section -->
+  <div class="bg-black py-16">
+    <div class="mx-auto max-w-5xl px-4">
+      <p class="mb-10 text-center text-2xl font-semibold text-white">Trusted by Leading Nomad Brands</p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center">
+        {sponsors.slice(0, 4).map((sponsor) => (
+          <a href={sponsor.link} target="_blank" class="flex justify-center">
+            <img width={sponsor.width} alt={sponsor.alt} src={sponsor.image} loading="lazy" srcset={sponsor.srcset} />
+          </a>
+        ))}
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center mt-8">
+        {sponsors.slice(4, 8).map((sponsor) => (
+          <a href={sponsor.link} target="_blank" class="flex justify-center">
+            <img width={sponsor.width} alt={sponsor.alt} src={sponsor.image} loading="lazy" srcset={sponsor.srcset} />
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Ad Sizes Section -->
+  <div id="pricing" class="bg-gray-50 py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+             <div class="text-center mb-16">
+         <h2 class="text-4xl font-bold text-gray-900 mb-6 md:text-5xl">Advertising Options</h2>
+         <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+           Choose the perfect placement option for your brand.
+         </p>
+       </div>
+
+      <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {adSizes.map((ad) => (
+                    <div class={`relative overflow-hidden rounded-2xl bg-white p-8 shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 flex flex-col h-full ${ad.popular ? 'ring-4 ring-yellow-400' : ''}`}>
+            {ad.popular && (
+              <div class="absolute top-0 right-0 bg-yellow-400 text-black px-4 py-2 text-sm font-bold rounded-bl-lg">
+                Most Popular
+              </div>
+            )}
+            
+            <div class="mb-6">
+               <img
+                 src={ad.example}
+                 alt={`${ad.name} example`}
+                 class="w-full h-64 object-cover rounded-lg"
+                 loading="lazy"
+               />
+             </div>
+
+             <div class="space-y-4 flex-grow">
+               <div>
+                 <h3 class="text-2xl font-bold text-gray-900 mb-2">{ad.name}</h3>
+                 <p class="text-gray-600 mb-2">{ad.description}</p>
+                 <p class="text-sm text-gray-500">Size: {ad.size}</p>
+                 <div class="mt-3">
+                   <span class="text-3xl font-bold text-gray-900">€{ad.price}</span>
+                 </div>
+               </div>
+
+               <div class="space-y-2">
+                 {ad.features.map((feature) => (
+                   <div class="flex items-center">
+                     <CheckIcon class="mr-2 h-5 w-5 text-green-500" />
+                     <span class="text-gray-700">{feature}</span>
+                   </div>
+                 ))}
+               </div>
+             </div>
+           </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Major Sponsorship Section -->
+  <div class="bg-gradient-to-br from-yellow-400 to-yellow-500 py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-bold text-black mb-6 md:text-5xl">Take Your Brand to the Next Level</h2>
+        <p class="text-xl text-black max-w-3xl mx-auto opacity-90">
+          Become a major sponsor and get maximum visibility with our premium partnership package.
+        </p>
+        <div class="mt-6">
+          <span class="text-2xl font-bold text-black">Starts from €10,000</span>
+          <span class="text-lg text-black opacity-80 ml-2">EUR</span>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl p-8 md:p-12 shadow-2xl max-w-5xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+          <div>
+            <div class="mb-6">
+              <div class="inline-block bg-gradient-to-r from-gray-800 to-gray-900 text-white px-6 py-3 rounded-full text-lg font-semibold shadow-lg">
+                <span class="text-yellow-400">Powered by</span> <span class="text-gray-300">[Your Brand]</span>
+              </div>
+            </div>
+            <div class="space-y-6">
+              <div class="flex items-start space-x-4">
+                <div class="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                  <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                </div>
+                <div>
+                  <h4 class="text-xl font-bold text-gray-900">"Powered by [Your Brand]" on Cover</h4>
+                  <p class="text-gray-600">Your brand name prominently featured on the front cover of the magazine and in all our communication channels like Instagram, Newsletter, Website for 3 full months</p>
+                </div>
+              </div>
+
+              <div class="flex items-start space-x-4">
+                <div class="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                  <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                </div>
+                <div>
+                  <h4 class="text-xl font-bold text-gray-900">Double Page Spread Advertisement</h4>
+                  <p class="text-gray-600">Premium double-page placement with maximum visual impact</p>
+                </div>
+              </div>
+
+              <div class="flex items-start space-x-4">
+                <div class="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                  <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                </div>
+                <div>
+                  <h4 class="text-xl font-bold text-gray-900">Custom Editorial Article</h4>
+                  <p class="text-gray-600">Professionally written article featuring your brand story and expertise</p>
+                </div>
+              </div>
+
+              <div class="flex items-start space-x-4">
+                <div class="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                  <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                </div>
+                <div>
+                  <h4 class="text-xl font-bold text-gray-900">Exclusive Partnership Status</h4>
+                  <p class="text-gray-600">Limited to one major sponsor per edition for maximum impact</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-gray-200">
+              <a
+                href="https://calendly.com/nomadgossip"
+                target="_blank"
+                class="inline-block bg-black text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-800 transition-colors"
+              >
+                Discuss Major Sponsorship
+              </a>
+            </div>
+          </div>
+
+          <div class="lg:pl-8">
+            <div class="bg-gray-50 rounded-2xl p-6">
+              <h4 class="text-xl font-bold text-gray-900 mb-4">Perfect For:</h4>
+              <div class="space-y-3">
+                <div class="flex items-center">
+                  <div class="w-2 h-2 bg-yellow-400 rounded-full mr-3"></div>
+                  <span class="text-gray-700">Enterprise nomad service providers</span>
+                </div>
+                <div class="flex items-center">
+                  <div class="w-2 h-2 bg-yellow-400 rounded-full mr-3"></div>
+                  <span class="text-gray-700">Major coworking/coliving chains</span>
+                </div>
+                <div class="flex items-center">
+                  <div class="w-2 h-2 bg-yellow-400 rounded-full mr-3"></div>
+                  <span class="text-gray-700">Tech platforms serving nomads</span>
+                </div>
+                <div class="flex items-center">
+                  <div class="w-2 h-2 bg-yellow-400 rounded-full mr-3"></div>
+                  <span class="text-gray-700">Financial services & insurance</span>
+                </div>
+                <div class="flex items-center">
+                  <div class="w-2 h-2 bg-yellow-400 rounded-full mr-3"></div>
+                  <span class="text-gray-700">Destination marketing organizations</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Process Section -->
+  <div class="bg-hoverw text-white py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold mb-6 md:text-5xl">How It Works</h2>
+        <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+          Simple process from booking to publication
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+        <div class="text-center space-y-4">
+          <div class="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mx-auto text-black text-2xl font-bold">
+            1
+          </div>
+                     <h3 class="text-xl font-bold">Talk with us</h3>
+           <p class="text-gray-300">
+             Schedule a consultation to discuss your advertising goals and choose the perfect size and placement.
+           </p>
+        </div>
+
+        <div class="text-center space-y-4">
+          <div class="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mx-auto text-black text-2xl font-bold">
+            2
+          </div>
+                     <h3 class="text-xl font-bold">Design & Approve</h3>
+           <p class="text-gray-300">
+             You create your design and we review it to ensure it meets our quality standards and printing requirements.
+           </p>
+        </div>
+
+        <div class="text-center space-y-4">
+          <div class="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mx-auto text-black text-2xl font-bold">
+            3
+          </div>
+          <h3 class="text-xl font-bold">Publish & Distribute</h3>
+          <p class="text-gray-300">
+            Your ad goes live in the magazine and reaches thousands of nomads across the globe.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ Section -->
+  <div class="bg-gray-50 py-20">
+    <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+      </div>
+
+      <div class="space-y-8">
+        <div class="bg-white rounded-lg p-6">
+          <h3 class="text-xl font-bold text-gray-900 mb-3">What's included in the advertising package?</h3>
+          <p class="text-gray-700">
+            All packages include premium placement in our print magazine, professional design support (if needed), 
+            high-quality printing, and distribution across our global network of coworking spaces and events.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-lg p-6">
+          <h3 class="text-xl font-bold text-gray-900 mb-3">How far in advance should I book?</h3>
+          <p class="text-gray-700">
+            We recommend booking at least 6-8 weeks before your desired publication date to ensure optimal placement 
+            and allow time for design collaboration.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-lg p-6">
+          <h3 class="text-xl font-bold text-gray-900 mb-3">Can you design for us?</h3>
+          <p class="text-gray-700">
+            Yes! We can create a custom design for you, or you're welcome to provide your own. Design services are quoted based on your specific requirements and will be discussed during our consultation call.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-lg p-6">
+          <h3 class="text-xl font-bold text-gray-900 mb-3">What file formats do you accept?</h3>
+          <p class="text-gray-700">
+            We accept high-resolution PDF, AI, PSD, and PNG files. All ads should be 300 DPI for optimal print quality. 
+            We'll provide detailed specifications after booking.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA Section -->
+  <div class="bg-hoverw text-white py-20">
+    <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-4xl font-bold mb-6 md:text-5xl">Ready to Reach the Nomad Community?</h2>
+      <p class="text-xl text-gray-300 mb-8 leading-relaxed">
+        Join brands like Outsite, Nomad Train, and others who trust Nomad Magazine to connect with their target audience.
+      </p>
+      
+      <div class="flex flex-col gap-4 sm:flex-row sm:justify-center">
+        <a
+          href="https://calendly.com/nomadgossip"
+          target="_blank"
+          class="inline-block rounded bg-yellow-400 px-8 py-4 text-lg font-bold text-black transition-transform duration-200 hover:scale-105 hover:shadow-lg"
+        >
+          Schedule Consultation
+        </a>
+        <a
+          href="mailto:lera@nomadgossip.com"
+          class="inline-block rounded border-2 border-yellow-400 px-8 py-4 text-lg font-bold text-yellow-400 transition-colors duration-200 hover:bg-yellow-400 hover:text-black"
+        >
+          Email Us
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .glow-animate {
+    animation: glow 1.5s infinite;
+  }
+  
+  @keyframes glow {
+    0% { box-shadow: 0 0 0 0 #fde047; }
+    50% { box-shadow: 0 0 16px 4px #fde047; }
+    100% { box-shadow: 0 0 0 0 #fde047; }
+  }
+
+  .animate-scroll {
+    animation: scroll 30s linear infinite;
+  }
+
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .animate-scroll:hover {
+    animation-play-state: paused;
+  }
+</style> 
