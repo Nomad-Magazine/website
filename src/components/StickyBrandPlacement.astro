@@ -1,0 +1,123 @@
+---
+// Component for sticky brand placement banner at bottom of page
+---
+
+<div id="sticky-brand-placement" class="fixed bottom-0 left-0 right-0 z-50 transform translate-y-full transition-transform duration-500 ease-in-out">
+  <div class="bg-gradient-to-r from-yellow-400 to-orange-500 shadow-lg border-t-4 border-yellow-300">
+    <div class="container mx-auto px-4 py-3">
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex-1">
+          <div class="flex items-center gap-3">
+            <div class="hidden sm:block">
+              <svg class="h-8 w-8 text-black" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-black">Partner with Nomad Magazine</h3>
+              <p class="text-sm text-black/80">Reach digital nomads across 100+ coworking spaces worldwide</p>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
+          <a 
+            href="/brand-placement" 
+            class="inline-block rounded-lg bg-black px-4 py-2 text-sm font-bold text-yellow-400 transition-all hover:bg-gray-800 hover:scale-105"
+          >
+            Learn More
+          </a>
+          <a 
+            href="https://calendly.com/nomadgossip" 
+            target="_blank"
+            class="inline-block rounded-lg bg-white border-2 border-black px-4 py-2 text-sm font-bold text-black transition-all hover:bg-gray-100 hover:scale-105"
+          >
+            Book a Call
+          </a>
+          <button 
+            id="close-brand-placement" 
+            class="ml-2 text-black/60 hover:text-black transition-colors"
+            aria-label="Close banner"
+          >
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const banner = document.getElementById('sticky-brand-placement');
+    const closeBtn = document.getElementById('close-brand-placement');
+    let isVisible = false;
+    let scrollTimeout: ReturnType<typeof setTimeout> | undefined;
+
+    // Check if banner was previously closed
+    const isClosed = localStorage.getItem('brandPlacementClosed') === 'true';
+    
+    if (!isClosed) {
+      // Show banner after a delay when page loads
+      setTimeout(() => {
+        showBanner();
+      }, 3000);
+
+      // Show/hide on scroll
+      window.addEventListener('scroll', function() {
+        clearTimeout(scrollTimeout);
+        
+        if (!isClosed) {
+          scrollTimeout = setTimeout(() => {
+            const scrollY = window.scrollY;
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            
+            // Show when user scrolls past 50% of the page
+            if (scrollY > windowHeight * 0.5) {
+              showBanner();
+            } else {
+              hideBanner();
+            }
+          }, 100);
+        }
+      });
+    }
+
+    // Close banner functionality
+    closeBtn?.addEventListener('click', function() {
+      hideBanner();
+      localStorage.setItem('brandPlacementClosed', 'true');
+    });
+
+    function showBanner() {
+      if (!isVisible && banner) {
+        banner.classList.remove('translate-y-full');
+        banner.classList.add('translate-y-0');
+        isVisible = true;
+      }
+    }
+
+    function hideBanner() {
+      if (isVisible && banner) {
+        banner.classList.remove('translate-y-0');
+        banner.classList.add('translate-y-full');
+        isVisible = false;
+      }
+    }
+  });
+</script>
+
+<style>
+  #sticky-brand-placement {
+    backdrop-filter: blur(10px);
+  }
+  
+  @media (max-width: 640px) {
+    #sticky-brand-placement .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+</style> 
