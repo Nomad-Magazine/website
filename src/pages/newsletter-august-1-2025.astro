@@ -1,0 +1,466 @@
+---
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+
+const seo: SEOProps = {
+  title: 'Latest Edition Told Us to Reset — So We Did | Nomad Magazine Newsletter',
+  description: 'The latest updates from the Nomad Magazine team and community. Featuring team adventures, nomad directory updates, and insights from the digital nomad world.',
+  image: `${Astro.site}images/edition-123-three-together-transparent.webp`,
+  keywords: 'nomad magazine newsletter, digital nomad updates, nomad community, remote work news',
+}
+---
+
+<Layout seo={seo}>
+  <div class="min-h-screen bg-white">
+    <!-- Header Section -->
+    <div class="border-b border-gray-100">
+      <div class="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <div class="mb-8">
+            <p class="text-gray-500 text-lg font-medium">August 1, 2025</p>
+          </div>
+          <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+            Latest Edition Told Us to Reset — 
+            <span class="text-yellow-500">So We Did</span>
+          </h1>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Turns out, leveling up isn't just a cute headline — it's a full-time job. After preaching 
+            <em class="font-semibold">Mind-Body-Tech</em> in latest edition, we decided to walk the talk (and sometimes run it).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Newsletter Summary -->
+    <div class="mx-auto max-w-4xl px-4 pb-8 sm:px-6 lg:px-8">
+      <div class="bg-gray-50 rounded-2xl p-6 border border-gray-200">
+        <h2 class="text-xl font-bold text-gray-900 mb-4">📋 In This Newsletter</h2>
+        <div class="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
+          <div class="space-y-2">
+            <p>• <strong>Team Updates:</strong> What we've been up to</p>
+            <p>• <strong>Directory News:</strong> Welcome DataBench & Nomadico</p>
+            <p>• <strong>Last Call:</strong> Issue 3 print copies going fast</p>
+          </div>
+          <div class="space-y-2">
+            <p>• <strong>Nomad News:</strong> Latest nomad world updates</p>
+            <p>• <strong>Horoscope Tool:</strong> Find your cosmic path</p>
+            <p>• <strong>Partner Notes:</strong> Nomad Train & Sicily magic</p>
+            <p>• <strong>YouTube:</strong> Guatemala hidden gem</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+      <!-- Team Updates Section -->
+      <section class="mb-20">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
+            <span class="text-yellow-500">📝</span>
+            Team Updates
+          </h2>
+          <p class="text-gray-600 mt-2">What the Nomad Magazine team has been up to</p>
+        </div>
+        <div class="bg-gray-50 rounded-2xl p-8">
+          <div class="space-y-6">
+            <div class="flex items-start gap-4 py-4">
+              <div class="text-3xl">🏃‍♀️</div>
+              <p class="text-lg text-gray-800 leading-relaxed">
+                <strong>Lera's</strong> been sampling every personal trainer on the island of Madeira. 
+                Scientific method? No. Sweaty? Extremely.
+              </p>
+            </div>
+
+            <div class="flex items-start gap-4 py-4">
+              <div class="text-3xl">🧘‍♀️</div>
+              <p class="text-lg text-gray-800 leading-relaxed">
+                <strong>Feride</strong> dove deep into yogi magic in Vienna. We're still not sure if she's 
+                meditating or levitating.
+              </p>
+            </div>
+
+            <div class="flex items-start gap-4 py-4">
+              <div class="text-3xl">🏃‍♀️</div>
+              <p class="text-lg text-gray-800 leading-relaxed">
+                <strong>Jess</strong> used tech to chase both deadlines <em>and</em> a 10K finish line. 
+                (Yes, she's actually running — we're as shocked as you.)
+              </p>
+            </div>
+
+            <div class="flex items-start gap-4 py-4 bg-yellow-50 border-l-4 border-yellow-400 pl-6 rounded-r-lg">
+              <div class="text-3xl">👋</div>
+              <p class="text-lg text-gray-800 leading-relaxed">
+                And hey! <a href="#" class="text-yellow-600 font-bold hover:text-yellow-700 underline">Meet Chrissi</a>, 
+                our newest Nomad. He's on a quest for media grants, angel investors, brand partners, 
+                and maybe even decent coffee. We believe in him.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Nomad Directory Update -->
+      <section class="mb-20">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
+            <span class="text-blue-500">📱</span>
+            Directory News
+          </h2>
+          <p class="text-gray-600 mt-2">Latest additions to our nomad services directory</p>
+        </div>
+        <div class="bg-blue-100/60 rounded-2xl p-8">
+          <p class="text-gray-800 mb-6">
+            Even our <a href="/nomad_directory" class="text-blue-600 font-medium hover:text-blue-700 underline">Nomad Directory</a> has had a facelift - with an updated list of services to make any nomad swoon!
+          </p>
+          
+          <p class="text-blue-700 font-medium mb-6">✨ Welcome our newest directory members!</p>
+          
+          <!-- DataBench Card -->
+          <div class="bg-white rounded-xl p-6 mb-4 shadow-sm">
+            <div class="flex items-start gap-4">
+              <div class="w-16 h-16 bg-black rounded-xl flex items-center justify-center flex-shrink-0">
+                <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M7 4V2C7 1.45 7.45 1 8 1H16C16.55 1 17 1.45 17 2V4C18.1 4 19 4.9 19 6V18C19 19.1 18.1 20 17 20H7C5.9 20 5 19.1 5 18V6C5 4.9 5.9 4 7 4ZM9 3V4H15V3H9ZM7 6V18H17V6H7Z"/>
+                </svg>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-2">
+                  <h4 class="font-bold text-gray-900">DataBench (Max Browser)</h4>
+                  <span class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-medium">Supporter</span>
+                  <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs font-medium">Software</span>
+                </div>
+                <p class="text-gray-700 mb-3">
+                  Our mission is to change the entire online paradigm, where you watch the world on your terms, instead of the world watching you.
+                </p>
+                <a href="#" class="text-blue-600 hover:text-blue-700 font-medium">Learn more →</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Nomadico Card -->
+          <div class="bg-white rounded-xl p-6 mb-6 shadow-sm">
+            <div class="flex items-start gap-4">
+              <div class="w-16 h-16 bg-white border-2 border-gray-300 rounded-xl flex items-center justify-center flex-shrink-0">
+                <div class="w-12 h-12 border-2 border-black rounded-full flex items-center justify-center">
+                  <span class="text-black font-bold text-xs">nomadico</span>
+                </div>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-2">
+                  <h4 class="font-bold text-gray-900">Nomadico</h4>
+                  <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs font-medium">Coliving</span>
+                </div>
+                <p class="text-gray-700 mb-3">
+                  We team up with locals to create affordable coliving homes and meaningful communities for digital nomads and remote workers.
+                </p>
+                <a href="#" class="text-blue-600 hover:text-blue-700 font-medium">Learn more →</a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="text-center">
+            <a 
+              href="/nomad_directory" 
+              class="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+            >
+              Explore Directory →
+            </a>
+          </div>
+        </div>
+      </section>
+
+
+
+      <!-- Print Order CTA -->
+      <section class="mb-20">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
+            <span class="text-orange-500">📞</span>
+            Last Call
+          </h2>
+          <p class="text-gray-600 mt-2">Print copies are running out fast</p>
+        </div>
+        <div class="bg-gradient-to-r from-orange-50 to-yellow-50 rounded-2xl p-8 border-2 border-yellow-200">
+          <div class="text-center mb-8">
+            <h3 class="text-2xl font-bold text-gray-900 mb-6">Ready for your own glow-up?</h3>
+            <p class="text-lg text-gray-800 mb-6 leading-relaxed">
+              Grab <a href="/editions/third-edition" class="text-orange-600 font-bold hover:text-orange-700 underline">Issue 3</a> 
+              for a dose of level-up culture — minus the sore legs.
+            </p>
+            <div class="flex justify-center mb-8">
+              <img 
+                src="/images/edition-123-three-together-transparent.webp" 
+                alt="Stack of Nomad Magazine issues showing Mind, Body, Tech theme" 
+                class="max-w-md h-auto"
+              />
+            </div>
+            <p class="text-lg text-gray-800 mb-6 leading-relaxed">
+              <em>📚 Last call! Order print copies in the next week before we run out of stock! Select pickup option to save 12 euro (and visit cool place as a bonus)</em>
+            </p>
+          </div>
+          
+          <!-- Two Button Layout - Exact EditionHero Style -->
+          <div class="max-w-2xl mx-auto">
+            <div class="mb-2 flex flex-col gap-4 sm:flex-row sm:items-end">
+              <a
+                href="https://buy.stripe.com/8x27sL4A51bdewS6tP8bS0b"
+                class="glow-animate w-full sm:w-auto inline-block rounded border-2 border-yellow-400 bg-black px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-yellow-400 transition-colors duration-200 hover:bg-yellow-400 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-300 order-first sm:order-last"
+              >
+                GET DIGITAL NOW - €9
+              </a>
+              <div class="flex flex-col items-center order-last sm:order-first">
+                <span class="mb-1 inline-block rounded-full bg-yellow-400 px-3 py-1 text-xs font-bold text-black uppercase tracking-wide shadow">Recommended</span>
+                <a
+                  href="https://pay.nomad-magazine.com/b/28EeVdaYt1bd0G24lH8bS0g"
+                  class="w-full sm:w-auto inline-block rounded bg-yellow-400 px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-black shadow-md transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300"
+                >
+                  ORDER PRINT - €32
+                </a>
+              </div>
+            </div>
+            
+            <div class="mt-2 text-xs sm:text-sm text-gray-700" style="white-space: pre-line;">
+              * Prefer instant access? Digital edition available for €9.
+** Want the full experience? Printed and shipped for €32.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Self Pick-up Info -->
+      <section class="mb-20">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
+            <span class="text-green-500">🌍</span>
+            Global Pickup
+          </h2>
+          <p class="text-gray-600 mt-2">Save on shipping with our partner locations</p>
+        </div>
+        <div class="py-6">
+          <div>
+            <p class="text-lg text-gray-800 mb-4 leading-relaxed">
+              We now have a self pick-up scheme with our partners. Issue 3 is available in limited stock 
+              across the globe, with hubs in Lisbon, Berlin, Madeira, Amsterdam, Porto, Hamburg, and soon - Chiang Mai. 
+              Select "pick-up" on the order page and choose your city and <strong>save 12 euros in shipping!</strong>
+            </p>
+            <p class="text-lg text-gray-800 leading-relaxed">
+              📍 It can also be <strong>delivered</strong> straight to your doorstep, or you can grab a 
+              <strong>digital version</strong>.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Notes from Partners -->
+      <section class="mb-20">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
+            <span class="text-blue-500">🤝</span>
+            Notes from Partners
+          </h2>
+          <p class="text-gray-600 mt-2">Updates from our amazing community partners</p>
+        </div>
+        
+        <div class="space-y-8">
+          <!-- Nomad Train Card -->
+          <div class="bg-red-50 rounded-2xl p-8 border border-red-200">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="text-3xl">🚂</span>
+              <h3 class="text-xl font-bold text-gray-900">A Note from Nomad Train</h3>
+            </div>
+            <div class="prose prose-lg max-w-none text-gray-800">
+              <p class="mb-4 leading-relaxed">
+                This September, we're crossing Central Asia by rail — through Kazakhstan, Kyrgyzstan, and Uzbekistan 
+                — on a 10-day journey packed with Silk Road cities, Soviet trains, desert sunsets, and wild horses 
+                outside your window. We'll start in Almaty and end in Khiva, covering 2,600+ km of deep culture, 
+                slow travel, and good tea.
+              </p>
+              <p class="mb-4 leading-relaxed">
+                🎥 <strong>Bonus:</strong> Photographer Zlata is documenting it all — stay tuned for the story in pictures.
+              </p>
+              <p class="text-center">
+                🎫 <strong>Spots are open now:</strong> <a href="#" class="text-red-600 font-bold hover:text-red-700 underline">nomadtrain.co</a>
+              </p>
+            </div>
+          </div>
+
+          <!-- Sicily/BeetCommunity Card -->
+          <div class="bg-orange-50 rounded-2xl p-8 border border-orange-200">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="text-3xl">🍋</span>
+              <h3 class="text-xl font-bold text-gray-900">A Slice of Sicilian Magic</h3>
+            </div>
+            <div class="prose prose-lg max-w-none text-gray-800">
+              <p class="mb-4 leading-relaxed">
+                🏠 Coliving isn't just a practical solution — it's a response to the loneliness and rootlessness 
+                that often come with the lifestyle. It transforms temporary stays into meaningful shared experiences.
+              </p>
+              <p class="mb-4 leading-relaxed">
+                🌍 Projects like <a href="#" class="text-orange-600 font-bold hover:text-orange-700 underline">BeetCommunity</a> 
+                in Palermo are leading this shift — blending hospitality with local connection and social impact. 
+                Think: flaky pizza, fresh lemons, sunset aperitivos, and a community that feels like home.
+              </p>
+              <p class="text-center">
+                📍 <strong>Learn more at</strong> <a href="#" class="text-orange-600 font-bold hover:text-orange-700 underline">beetcommunity.com</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Nomad News -->
+      <section class="mb-20">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
+            <span class="text-purple-500">📰</span>
+            Nomad News
+          </h2>
+          <p class="text-gray-600 mt-2">Latest updates from the nomad world</p>
+        </div>
+        <div class="bg-purple-900 text-white rounded-2xl p-8">
+          <div class="space-y-4">
+            <div class="flex items-start gap-3">
+              <div class="text-2xl">💼</div>
+              <p class="text-lg leading-relaxed">
+                Apparently, <a href="#" class="text-purple-300 hover:text-purple-100 underline">this is the world's best workation city</a>
+              </p>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="text-2xl">🌍</div>
+              <p class="text-lg leading-relaxed">
+                Trying out nomad-life in the middle east? <a href="#" class="text-purple-300 hover:text-purple-100 underline">Another DN Visa</a> to consider
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Horoscope Fun Section -->
+      <section class="mb-20">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
+            <span class="text-indigo-500">🔮</span>
+            Sacred Guidance
+          </h2>
+          <p class="text-gray-600 mt-2">Find your cosmic path with our horoscope tool</p>
+        </div>
+        <div class="bg-gradient-to-br from-indigo-50 to-purple-100 rounded-2xl p-8 border border-purple-200">
+          <div class="grid md:grid-cols-2 gap-8 items-center">
+            <div>
+              <div class="flex items-center gap-2 mb-4">
+                <span class="text-3xl">🔮</span>
+                <h3 class="text-2xl font-bold text-gray-900">Feeling a bit lost?</h3>
+              </div>
+              <p class="text-lg text-gray-800 mb-6 leading-relaxed">
+                Whether you're planning your next destination or just need some cosmic guidance for your nomad journey, 
+                our <strong>Sacred Nomad Oracle</strong> might have the answers you're seeking.
+              </p>
+              <div class="flex flex-col sm:flex-row gap-4">
+                <a 
+                  href="/horoscope" 
+                  class="inline-block bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-indigo-700 transition-colors text-center"
+                >
+                  ✨ Get Your Travel Horoscope
+                </a>
+                <p class="text-sm text-gray-600 self-center">
+                  Free • 6-card personalized reading
+                </p>
+              </div>
+            </div>
+            <div class="text-center">
+              <img 
+                src="/images/magazine-hold-against-chest.webp" 
+                alt="Person holding Nomad Magazine in coworking space" 
+                class="max-w-sm h-auto rounded-lg shadow-lg mx-auto"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- YouTube Section -->
+      <section class="mb-20">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
+            <span class="text-red-500">🎬</span>
+            YouTube Feature
+          </h2>
+          <p class="text-gray-600 mt-2">Guatemala and hidden gem El Paredón</p>
+        </div>
+        <div class="bg-white rounded-2xl p-8 shadow-lg border border-gray-200">
+                      <div class="text-center">
+            
+            <div class="mb-8">
+              <img 
+                src="/images/edition-003-bianca-bonilla.webp" 
+                alt="Bianca Bonilla in Guatemala" 
+                class="mx-auto max-w-md h-auto rounded-lg shadow-lg"
+              />
+            </div>
+            
+            <div class="prose prose-lg max-w-none text-gray-800 text-left">
+              <p class="mb-4 leading-relaxed">
+                Bianca Bonilla left her comfort zone to build something extraordinary — a co-living villa on the Pacific coast 
+                of Guatemala, in a fishing village that didn't even have internet just a few years ago. From tax accounting 
+                and real estate to flying part-time as a flight attendant (yes, seriously), Bianca is redefining what remote 
+                life can look like.
+              </p>
+              
+              <p class="mb-4 font-semibold">We talk about:</p>
+              <ul class="list-disc list-inside space-y-2 mb-8 ml-4">
+                <li>Guatemala and what it can offer nomads</li>
+                <li>The unexpected path that led Bianca back to her home country</li>
+                <li>The moment she fell in love with a hidden surf town</li>
+                <li>How she turned that spark into a full-on retreat space for nomads</li>
+              </ul>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center text-sm text-gray-600">
+              <p>🎬 Filmed during Nomad Cruise by Nomad Magazine.</p>
+              <p>📖 Read more about Guatemala and hidden gem El Paredón in the 3rd Edition of the Magazine</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <section class="text-center">
+        <div class="bg-gray-50 rounded-2xl p-8 border border-gray-200">
+          <h3 class="text-xl font-bold text-gray-900 mb-6">Stay Connected</h3>
+          <p class="text-gray-700 mb-4 leading-relaxed">
+            Find us on Instagram as <a href="https://instagram.com/nomadgossip.com" class="text-blue-600 hover:text-blue-700 underline">@nomadgossip.com</a> 
+            or YouTube as <a href="https://youtube.com/@nomad-magazine" class="text-red-600 hover:text-red-700 underline">@nomad-magazine</a> 
+            for live updates and launch events, or just nomad wisdom. To learn more about our story, 
+            <a href="/about" class="text-gray-800 hover:text-gray-900 underline">read here</a>.
+          </p>
+          
+          <p class="text-gray-700 mb-4">Thank you for being on this journey with us.</p>
+          <p class="text-gray-700 mb-8">With love,<br />The Nomad Magazine Team 💜</p>
+          
+          <div class="flex justify-center gap-6 mb-6">
+            <a href="/" class="text-gray-600 hover:text-gray-900">Website</a>
+            <span class="text-gray-400">|</span>
+            <a href="https://instagram.com/nomadgossip.com" class="text-gray-600 hover:text-gray-900">Instagram</a>
+            <span class="text-gray-400">|</span>
+            <a href="https://youtube.com/@nomad-magazine" class="text-gray-600 hover:text-gray-900">YouTube</a>
+          </div>
+          
+          <p class="text-sm text-gray-500">
+            Not feeling this content? <a href="#" class="hover:text-gray-700 underline">Unsubscribe here</a>.
+          </p>
+        </div>
+      </section>
+    </div>
+  </div>
+</Layout>
+
+<style>
+@keyframes glow {
+  0% { box-shadow: 0 0 0 0 #fde047; }
+  50% { box-shadow: 0 0 16px 4px #fde047; }
+  100% { box-shadow: 0 0 0 0 #fde047; }
+}
+.glow-animate {
+  animation: glow 1.5s infinite;
+}
+</style> 

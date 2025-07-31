@@ -59,9 +59,6 @@ const monthlySupporters = [
   // Add more supporter company names here as needed
 ]
 
-// Debug: Log all company titles to see what we're working with
-console.log('All company titles:', records.filter((i: any) => i.sf4ad525dd).map((record: any) => record.title))
-
 const seo: SEOProps = {
   title: 'Nomad Directory - The Ultimate Resource for Digital Nomads',
   description:
@@ -176,15 +173,6 @@ const seo: SEOProps = {
                                     {record.title || 'Company Name'}
                                   </h3>
                                   {/* Monthly Supporter Badge */}
-                                  {/* Debug: Show what we're checking */}
-                                  {console.log(`Checking ${record.title}: supporter fields:`, {
-                                    supporter: record.supporter,
-                                    monthly_supporter: record.monthly_supporter,
-                                    is_supporter: record.is_supporter,
-                                    supporter_status: record.supporter_status,
-                                    status: record.status,
-                                    inHardcodedList: monthlySupporters.includes(record.title)
-                                  })}
                                   {(record.supporter || record.monthly_supporter || record.is_supporter || record.supporter_status === 'Monthly Supporter' || record.status === 'Monthly Supporter' || monthlySupporters.includes(record.title)) && (
                                     <a 
                                       href="/support-the-magazine" 
