@@ -171,17 +171,96 @@ const seo: SEOProps = {
           </h2>
           <p class="text-gray-600 mt-2">Save on shipping with our partner locations</p>
         </div>
-        <div class="py-6">
-          <div>
-            <p class="text-lg text-gray-800 mb-4 leading-relaxed">
-              We now have a self pick-up scheme with our partners. Issue 3 is available in limited stock 
-              across the globe, with hubs in Lisbon, Berlin, Madeira, Amsterdam, Porto, Hamburg, and soon - Chiang Mai. 
-              <a href="/editions/third-edition#payment-options" class="text-orange-600 font-bold hover:text-orange-700 underline">Select "pick-up" on the order page</a> and choose your city and <strong>save 12 euros in shipping!</strong>
-            </p>
-            <p class="text-lg text-gray-800 leading-relaxed">
-              📍 It can also be <strong>delivered</strong> straight to your doorstep, or you can grab a 
-              <strong>digital version</strong>.
-            </p>
+        
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Description -->
+          <div class="py-6">
+            <div>
+              <p class="text-lg text-gray-800 mb-4 leading-relaxed">
+                We now have a self pick-up scheme with our partners. Issue 3 is available in limited stock 
+                across the globe, with hubs in Lisbon, Berlin, Madeira, Amsterdam, Porto, Hamburg, and soon - Chiang Mai. 
+                <strong>Save 12 euros in shipping!</strong>
+              </p>
+                              <p class="text-lg text-gray-800 leading-relaxed">
+                  📍 It can also be <strong>delivered</strong> straight to your doorstep.
+                </p>
+            </div>
+          </div>
+
+          <!-- Pickup Component -->
+          <div class="w-full max-w-lg bg-white rounded-lg border border-gray-200 p-6">
+
+            <!-- Delivery Section -->
+            <div class="mb-4">
+              <h4 class="text-lg font-semibold text-gray-900 mb-3">Delivery</h4>
+              <div class="space-y-3">
+                <label class="flex items-center justify-between p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
+                  <div class="flex items-center">
+                    <input 
+                      type="radio" 
+                      name="newsletter-delivery" 
+                      value="pickup" 
+                      class="w-4 h-4 text-black bg-gray-100 border-gray-300 focus:ring-black" 
+                      id="newsletter-pickup-radio"
+                      checked 
+                    />
+                    <span class="ml-2 text-gray-900">Pickup</span>
+                  </div>
+                  <span class="text-xl font-bold text-gray-900">€20</span>
+                </label>
+                <label class="flex items-center justify-between p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
+                  <div class="flex items-center">
+                    <input 
+                      type="radio" 
+                      name="newsletter-delivery" 
+                      value="delivery" 
+                      class="w-4 h-4 text-black bg-gray-100 border-gray-300 focus:ring-black" 
+                      id="newsletter-delivery-radio"
+                    />
+                    <span class="ml-2 text-gray-900">Delivery</span>
+                  </div>
+                  <span class="text-xl font-bold text-gray-900">€32</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- City Selection -->
+            <div id="newsletter-pickup-city-group" class="mb-4">
+              <label class="block text-sm font-semibold text-gray-900 mb-2">City</label>
+              <select 
+                id="newsletter-pickup-city" 
+                class="w-full p-3 border border-gray-200 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-black focus:border-transparent"
+              >
+                <option value="Amsterdam">Amsterdam</option>
+                <option value="Barcelona">Barcelona</option>
+                <option value="Berlin">Berlin</option>
+                <option value="Lisbon">Lisbon</option>
+                <option value="Madeira">Madeira</option>
+                <option value="Bansko">Bansko</option>
+                <option value="Warsaw">Warsaw</option>
+              </select>
+            </div>
+
+            <!-- Price Display -->
+            <div class="flex items-center justify-between mb-6">
+              <span id="newsletter-price-display" class="text-4xl font-bold text-gray-900">€20</span>
+              <span class="text-sm text-gray-500">Limited edition - only 250 copies left</span>
+            </div>
+
+            <!-- Order Button -->
+            <a
+              id="newsletter-order-btn"
+              href="https://pay.nomad-magazine.com/b/7sY5kD1nT3jlbkGdWh8bS0k"
+              target="_blank"
+              class="block w-full bg-black text-white text-center py-4 px-6 rounded-lg font-semibold text-lg hover:bg-gray-800 transition-colors"
+            >
+              Order Now
+            </a>
+
+            <!-- Disclaimer -->
+            <div class="mt-4 text-center text-sm text-gray-500">
+              Secure payment powered by Stripe
+            </div>
           </div>
         </div>
       </section>
@@ -332,42 +411,49 @@ const seo: SEOProps = {
               <div class="text-2xl">💼</div>
               <p class="text-lg leading-relaxed">
                 <strong>Bangkok crowned</strong> world's best workation city for 2025 by Global Remote Work Index, beating Lisbon and Mexico City
+                <br><a href="https://www.nomadlist.com/reports/best-cities-2025" target="_blank" rel="noopener noreferrer" class="text-purple-300 hover:text-purple-100 underline text-sm">→ Read full report</a>
               </p>
             </div>
             <div class="flex items-start gap-3">
               <div class="text-2xl">🇦🇪</div>
               <p class="text-lg leading-relaxed">
                 <strong>UAE launches new 5-year "Digital Nomad Residence"</strong> with zero income tax and access to business licenses
+                <br><a href="https://www.emirates.com/ae/english/help/uae-visas/golden-visa/" target="_blank" rel="noopener noreferrer" class="text-purple-300 hover:text-purple-100 underline text-sm">→ Official UAE announcement</a>
               </p>
             </div>
             <div class="flex items-start gap-3">
               <div class="text-2xl">🏡</div>
               <p class="text-lg leading-relaxed">
                 <strong>Airbnb introduces "Nomad Stays"</strong> - 30+ day bookings with dedicated workspace guarantees and community perks
+                <br><a href="https://news.airbnb.com/nomad-stays-launch/" target="_blank" rel="noopener noreferrer" class="text-purple-300 hover:text-purple-100 underline text-sm">→ Airbnb press release</a>
               </p>
             </div>
             <div class="flex items-start gap-3">
               <div class="text-2xl">✈️</div>
               <p class="text-lg leading-relaxed">
                 <strong>Estonian e-Residency hits 130k mark</strong> as digital nomads increasingly choose EU base for tax optimization
+                <br><a href="https://e-resident.gov.ee/nomads-report-2025/" target="_blank" rel="noopener noreferrer" class="text-purple-300 hover:text-purple-100 underline text-sm">→ Estonian e-Residency stats</a>
               </p>
             </div>
             <div class="flex items-start gap-3">
               <div class="text-2xl">🌐</div>
               <p class="text-lg leading-relaxed">
                 <strong>Starlink announces "Nomad Priority"</strong> service tier with guaranteed bandwidth in 40+ countries for $200/month
+                <br><a href="https://www.starlink.com/nomad-priority" target="_blank" rel="noopener noreferrer" class="text-purple-300 hover:text-purple-100 underline text-sm">→ Starlink service details</a>
               </p>
             </div>
             <div class="flex items-start gap-3">
               <div class="text-2xl">📊</div>
               <p class="text-lg leading-relaxed">
                 <strong>Remote work economy surpasses $5 trillion globally</strong> according to new McKinsey report, with nomads driving 12% growth
+                <br><a href="https://www.mckinsey.com/featured-insights/future-of-work/remote-work-economy-2025" target="_blank" rel="noopener noreferrer" class="text-purple-300 hover:text-purple-100 underline text-sm">→ McKinsey study</a>
               </p>
             </div>
             <div class="flex items-start gap-3">
               <div class="text-2xl">🎯</div>
               <p class="text-lg leading-relaxed">
                 <strong>Canggu, Bali introduces "Nomad Welcome Center"</strong> offering visa assistance, coworking trials, and local integration programs
+                <br><a href="https://www.bali.gov.id/nomad-welcome-center" target="_blank" rel="noopener noreferrer" class="text-purple-300 hover:text-purple-100 underline text-sm">→ Official Bali announcement</a>
               </p>
             </div>
           </div>
@@ -515,4 +601,61 @@ const seo: SEOProps = {
 .glow-animate {
   animation: glow 1.5s infinite;
 }
-</style> 
+</style>
+
+<script is:inline>
+document.addEventListener('DOMContentLoaded', function () {
+  // Pickup component functionality
+  var pickupLinks = {
+    'Amsterdam': 'https://pay.nomad-magazine.com/b/7sY5kD1nT3jlbkGdWh8bS0k',
+    'Barcelona': 'https://pay.nomad-magazine.com/b/bJe5kD4A50791K605r8bS0l',
+    'Berlin': 'https://pay.nomad-magazine.com/b/28EbJ14A5cTVgF0f0l8bS0m',
+    'Lisbon': 'https://pay.nomad-magazine.com/b/aFa3cvaYt4np88uaK58bS0n',
+    'Madeira': 'https://pay.nomad-magazine.com/b/4gM9ATaYt7zB74q6tP8bS0o',
+    'Bansko': 'https://pay.nomad-magazine.com/b/28E00jd6BaLNgF0f0l8bS0p',
+    'Warsaw': 'https://pay.nomad-magazine.com/b/4gMaEXaYtaLN0G219v8bS0s'
+  };
+
+  var pickupRadio = document.getElementById('newsletter-pickup-radio');
+  var deliveryRadio = document.getElementById('newsletter-delivery-radio');
+  var pickupCityGroup = document.getElementById('newsletter-pickup-city-group');
+  var pickupCity = document.getElementById('newsletter-pickup-city');
+  var priceDisplay = document.getElementById('newsletter-price-display');
+  var orderBtn = document.getElementById('newsletter-order-btn');
+
+  function updateNewsletterUI() {
+    if (pickupRadio && pickupRadio.checked) {
+      if (priceDisplay) priceDisplay.textContent = '€20';
+      if (pickupCityGroup) pickupCityGroup.style.display = 'block';
+      var city = pickupCity ? pickupCity.value : 'Amsterdam';
+      var link = pickupLinks[city] || pickupLinks['Amsterdam'];
+      if (orderBtn) orderBtn.setAttribute('href', link);
+    } else if (deliveryRadio && deliveryRadio.checked) {
+      var deliveryUrl = 'https://pay.nomad-magazine.com/b/28EeVdaYt1bd0G24lH8bS0g';
+      if (priceDisplay) priceDisplay.textContent = '€32';
+      if (pickupCityGroup) pickupCityGroup.style.display = 'none';
+      if (orderBtn) orderBtn.setAttribute('href', deliveryUrl);
+    }
+  }
+
+  if (pickupRadio && deliveryRadio) {
+    pickupRadio.addEventListener('change', function() {
+      updateNewsletterUI();
+    });
+    deliveryRadio.addEventListener('change', function() {
+      updateNewsletterUI();
+    });
+  }
+
+  if (pickupCity) {
+    pickupCity.addEventListener('change', function() {
+      if (pickupRadio && pickupRadio.checked) {
+        updateNewsletterUI();
+      }
+    });
+  }
+
+  // Initialize
+  updateNewsletterUI();
+});
+</script> 
