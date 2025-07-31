@@ -50,6 +50,18 @@ const latestVideo = youtubeVideos[0]
 // Extract unique categories for filtering
 const categories = [...new Set(records.filter((record: any) => record.sf4ad525dd && record.sb685ab800?.label).map((record: any) => record.sb685ab800.label))].sort()
 
+// Hardcoded Monthly Supporters list
+const monthlySupporters = [
+  'DataBench',
+  'Max Browser',
+  'DataBench (Max Browser)', // in case it's stored with the full name
+  'Max',
+  // Add more supporter company names here as needed
+]
+
+// Debug: Log all company titles to see what we're working with
+console.log('All company titles:', records.filter((i: any) => i.sf4ad525dd).map((record: any) => record.title))
+
 const seo: SEOProps = {
   title: 'Nomad Directory - The Ultimate Resource for Digital Nomads',
   description:
@@ -159,9 +171,33 @@ const seo: SEOProps = {
                           <div class="flex-1 min-w-0">
                             <div class="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
                               <div class="mb-4 md:mb-0">
-                                <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-yellow-400 transition-colors">
-                                  {record.title || 'Company Name'}
-                                </h3>
+                                <div class="flex items-center gap-3 mb-2">
+                                  <h3 class="text-2xl font-bold text-white group-hover:text-yellow-400 transition-colors">
+                                    {record.title || 'Company Name'}
+                                  </h3>
+                                  {/* Monthly Supporter Badge */}
+                                  {/* Debug: Show what we're checking */}
+                                  {console.log(`Checking ${record.title}: supporter fields:`, {
+                                    supporter: record.supporter,
+                                    monthly_supporter: record.monthly_supporter,
+                                    is_supporter: record.is_supporter,
+                                    supporter_status: record.supporter_status,
+                                    status: record.status,
+                                    inHardcodedList: monthlySupporters.includes(record.title)
+                                  })}
+                                  {(record.supporter || record.monthly_supporter || record.is_supporter || record.supporter_status === 'Monthly Supporter' || record.status === 'Monthly Supporter' || monthlySupporters.includes(record.title)) && (
+                                    <a 
+                                      href="/support-the-magazine" 
+                                      class="inline-flex items-center gap-1 bg-gradient-to-r from-red-600 to-red-700 text-white px-3 py-1 rounded-full text-xs font-bold hover:from-red-700 hover:to-red-800 transition-all duration-200 shadow-lg"
+                                      title="Monthly Supporter"
+                                    >
+                                      <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                      </svg>
+                                      Supporter
+                                    </a>
+                                  )}
+                                </div>
                                 <p class="text-gray-300 text-base leading-relaxed line-clamp-3 max-w-2xl">
                                   {record.scea90e502 || 'Description not available'}
                                 </p>
