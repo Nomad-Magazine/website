@@ -13,11 +13,11 @@ const posts = allPosts
     return dateB.valueOf() - dateA.valueOf()
   })
 
-// Find Molly's article to feature prominently
-const mollyArticle = posts.find(post => post.slug === 'molly-maine-nomad-exhibition-what-does-home-mean')
+// Find July 2025 article to feature prominently
+const julyArticle = posts.find(post => post.slug === 'what-happened-in-the-digital-nomad-world-in-july-2025-key-updates-trends')
 
-// Use Molly's article as the featured post (top hero section)
-const featuredPost = mollyArticle || posts[0]
+// Use July 2025 article as the featured post (top hero section)
+const featuredPost = julyArticle || posts[0]
 
 // Get posts with video content for YouTube section
 const videoPosts = posts.filter(post => 
@@ -27,14 +27,19 @@ const videoPosts = posts.filter(post =>
   post.data.title.toLowerCase().includes('video')
 ).slice(0, 3)
 
-// Get other posts for the grid (excluding featured/molly's article and video posts)
+// Get other posts for the grid (excluding featured post and video posts)
 const otherPosts = posts.filter(post => 
   post.slug !== featuredPost?.slug && 
   !videoPosts.includes(post)
 )
 
-// Regular posts start with the second most recent post (excluding Molly's)
-const regularPosts = otherPosts
+// Find Molly's article for featured stories section
+const mollyArticle = posts.find(post => post.slug === 'molly-maine-nomad-exhibition-what-does-home-mean')
+
+// Put Molly's article first in regular posts, then other posts
+const regularPosts = mollyArticle 
+  ? [mollyArticle, ...otherPosts.filter(post => post.slug !== mollyArticle.slug)]
+  : otherPosts
 
 // YouTube channel videos
 const youtubeVideos = [
@@ -156,9 +161,7 @@ const seo: SEOProps = {
               {featuredPost && (
                 <div class="relative overflow-hidden rounded-2xl">
                   <Image
-                    src={featuredPost.slug === 'molly-maine-nomad-exhibition-what-does-home-mean' 
-                      ? "/images/molly_nomad_exhibition_H_1029.webp" 
-                      : (featuredPost.data.heroImage || "/images/edition-003-cover_holded_front_face.webp")}
+                    src={featuredPost.data.heroImage || "/images/edition-003-cover_holded_front_face.webp"}
                     alt={featuredPost.data.heroImageAlt || featuredPost.data.title}
                     width={800}
                     height={450}
@@ -251,7 +254,7 @@ const seo: SEOProps = {
                     <div class="aspect-[16/10] overflow-hidden rounded-l-2xl">
                       <Image
                         src={regularPosts[0].slug === 'molly-maine-nomad-exhibition-what-does-home-mean' 
-                          ? "/images/molly_nomad_exhibition H_1029.webp" 
+                          ? "/images/molly_nomad_exhibition_H_1029.webp" 
                           : (regularPosts[0].data.heroImage || "/images/edition-003-cover_holded_front_face.webp")}
                         alt={regularPosts[0].data.heroImageAlt || regularPosts[0].data.title}
                         width={600}
