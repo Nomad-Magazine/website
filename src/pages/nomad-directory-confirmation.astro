@@ -90,12 +90,11 @@ const seo: SEOProps = {
       <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
         
         <!-- Homepage Feature -->
-        <div class="bg-white rounded-lg p-8 shadow-lg">
-          <div class="text-center">
+        <div class="bg-white rounded-lg p-8 shadow-lg h-full flex flex-col">
+          <div class="text-center flex-grow">
             <h3 class="text-2xl font-bold text-gray-900 mb-4">Homepage Feature</h3>
             <div class="text-4xl font-bold text-gray-900 mb-6">€50</div>
-            <div class="text-sm text-gray-500 mb-6">/month</div>
-            <p class="text-gray-600 mb-8">Spotlight on top of the directory homepage</p>
+            <p class="text-gray-600 mb-8">Spotlight on top of the directory homepage for 1 month</p>
             
             <div class="space-y-3 mb-8 text-left">
               <div class="flex items-center">
@@ -108,66 +107,58 @@ const seo: SEOProps = {
               </div>
               <div class="flex items-center">
                 <MaterialSymbolsCheck class="mr-3 h-5 w-5 flex-shrink-0 text-yellow-400" />
-                <span class="text-gray-700">Monthly recurring placement</span>
+                <span class="text-gray-700">One-time payment for full month</span>
               </div>
             </div>
-            
-            <a 
-              href="https://buy.stripe.com/homepage-feature-50eur-month" 
-              target="_blank"
-              class="w-full inline-block rounded bg-yellow-400 px-8 py-4 text-center text-lg font-bold text-black transition-transform duration-200 hover:scale-105 hover:shadow-lg"
-            >
-              Get Featured
-            </a>
-          </div>
-        </div>
-
-        <!-- Magazine Supporter -->
-        <div class="bg-white rounded-lg p-8 shadow-lg border-2 border-yellow-400 relative">
-          <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
-            <span class="bg-yellow-400 text-black px-4 py-2 rounded-full text-sm font-bold">BEST VALUE</span>
           </div>
           
-          <div class="text-center">
-            <h3 class="text-2xl font-bold text-gray-900 mb-4">Magazine Supporter</h3>
-            <div class="text-4xl font-bold text-gray-900 mb-2">€59</div>
-            <div class="text-sm text-gray-500 mb-6">/year</div>
-            <p class="text-gray-600 mb-8">Support our indie magazine and get premium features</p>
+          <a 
+            href="https://pay.nomad-magazine.com/b/cNi6oH3w18DF0G25pL8bS0t" 
+            target="_blank"
+            class="w-full inline-block rounded bg-yellow-400 px-8 py-4 text-center text-lg font-bold text-black transition-transform duration-200 hover:scale-105 hover:shadow-lg mt-auto"
+          >
+            Get Featured
+          </a>
+        </div>
+
+        <!-- Social Spotlight -->
+        <div class="bg-white rounded-lg p-8 shadow-lg h-full flex flex-col">
+          
+          <div class="text-center flex-grow">
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">Social Spotlight</h3>
+            <div class="text-4xl font-bold text-gray-900 mb-6">€59</div>
+            <p class="text-gray-600 mb-8">Get featured across our social media and newsletter</p>
             
             <div class="space-y-3 mb-8 text-left">
               <div class="flex items-center">
                 <MaterialSymbolsCheck class="mr-3 h-5 w-5 flex-shrink-0 text-yellow-400" />
-                <span class="text-gray-700">♥ Supporter badge on listing</span>
+                <span class="text-gray-700">Instagram post (3.5K followers)</span>
               </div>
               <div class="flex items-center">
                 <MaterialSymbolsCheck class="mr-3 h-5 w-5 flex-shrink-0 text-yellow-400" />
                 <span class="text-gray-700">Newsletter feature (500+ subscribers)</span>
               </div>
-              <div class="flex items-center">
-                <MaterialSymbolsCheck class="mr-3 h-5 w-5 flex-shrink-0 text-yellow-400" />
-                <span class="text-gray-700">Priority partnerships</span>
-              </div>
-              <div class="flex items-center">
-                <MaterialSymbolsCheck class="mr-3 h-5 w-5 flex-shrink-0 text-yellow-400" />
-                <span class="text-gray-700">Support indie media</span>
-              </div>
-            </div>
-            
-            <a 
-              href="https://buy.stripe.com/magazine-supporter-59eur-year" 
-              target="_blank"
-              class="w-full inline-block rounded bg-yellow-400 px-8 py-4 text-center text-lg font-bold text-black transition-transform duration-200 hover:scale-105 hover:shadow-lg"
-            >
-              Become Supporter
-            </a>
+                          </div>
           </div>
+          
+          <a 
+            href="https://pay.nomad-magazine.com/b/9B6dR9c2x7zB4Wi4lH8bS0u" 
+            target="_blank"
+            class="w-full inline-block rounded bg-yellow-400 px-8 py-4 text-center text-lg font-bold text-black transition-transform duration-200 hover:scale-105 hover:shadow-lg mt-auto"
+          >
+            Get Social Spotlight
+          </a>
         </div>
 
         <!-- Content Package -->
-        <div class="bg-white rounded-lg p-8 shadow-lg">
-          <div class="text-center">
+        <div class="bg-white rounded-lg p-8 shadow-lg border-2 border-yellow-400 relative h-full flex flex-col">
+          <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+            <span class="bg-yellow-400 text-black px-4 py-2 rounded-full text-sm font-bold">BEST VALUE</span>
+          </div>
+          
+          <div class="text-center flex-grow">
             <h3 class="text-2xl font-bold text-gray-900 mb-4">Content Package</h3>
-            <div class="text-4xl font-bold text-gray-900 mb-6">€150</div>
+            <div class="text-4xl font-bold text-gray-900 mb-6">€250</div>
             <p class="text-gray-600 mb-8">Full storytelling with blog feature and promotion</p>
             
             <div class="space-y-3 mb-8 text-left">
@@ -188,17 +179,51 @@ const seo: SEOProps = {
                 <span class="text-gray-700">Social media promotion</span>
               </div>
             </div>
+          </div>
+          
+          <a 
+            href="https://pay.nomad-magazine.com/b/bJe00j4A55rtagC05r8bS0v" 
+            target="_blank"
+            class="w-full inline-block rounded bg-yellow-400 px-8 py-4 text-center text-lg font-bold text-black transition-transform duration-200 hover:scale-105 hover:shadow-lg mt-auto"
+          >
+            Get Full Package
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Supporter Option (Less Prominent) -->
+      <div class="mt-12 max-w-md mx-auto">
+        <div class="bg-white rounded-lg p-6 shadow-lg border border-gray-200">
+          <div class="text-center">
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Or just support us</h3>
+            <div class="text-2xl font-bold text-gray-900 mb-2">€10<span class="text-sm text-gray-500">/month</span></div>
+            <p class="text-gray-600 mb-6 text-sm">Support our indie magazine with just the essentials</p>
+            
+            <div class="space-y-2 mb-6 text-left">
+              <div class="flex items-center">
+                <MaterialSymbolsCheck class="mr-2 h-4 w-4 flex-shrink-0 text-yellow-400" />
+                <span class="text-gray-700 text-sm">♥ Supporter badge on listing</span>
+              </div>
+              <div class="flex items-center">
+                <MaterialSymbolsCheck class="mr-2 h-4 w-4 flex-shrink-0 text-yellow-400" />
+                <span class="text-gray-700 text-sm">Support indie media</span>
+              </div>
+              <div class="flex items-center">
+                <MaterialSymbolsCheck class="mr-2 h-4 w-4 flex-shrink-0 text-yellow-400" />
+                <span class="text-gray-700 text-sm">Good karma ✨</span>
+              </div>
+            </div>
             
             <a 
-              href="https://buy.stripe.com/content-package-150eur" 
+              href="https://pay.nomad-magazine.com/b/fZubJ17Mh7zBbkG9G18bS0c" 
               target="_blank"
-              class="w-full inline-block rounded bg-yellow-400 px-8 py-4 text-center text-lg font-bold text-black transition-transform duration-200 hover:scale-105 hover:shadow-lg"
+              class="w-full inline-block rounded bg-gray-200 hover:bg-gray-300 px-6 py-3 text-center font-bold text-gray-900 transition-colors duration-200"
             >
-              Get Full Package
+              Become Supporter
             </a>
           </div>
         </div>
-
       </div>
 
       <!-- Trust Builder -->
