@@ -2,6 +2,8 @@ User-agent: *
 Allow: /
 Disallow: /flipbooks/
 Disallow: /brand-placement-falmouth-847291
+Disallow: /brand-placement-betabench-867291
+Disallow: /brand-placement-plumia-867291
 
 Sitemap: https://nomad-magazine.com/sitemap-index.xml
 
