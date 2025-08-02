@@ -6,7 +6,7 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-08-01T09:27:42.774Z
-updated_at: 2025-08-01T10:46:43.823Z
+updated_at: 2025-08-01T12:15:10.436Z
 head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/688c80160d660161d1d3f11c-1754045203480.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: digital nomad, remote work, slowmad culture, visa programs, travel trends, income statistics
@@ -16,15 +16,22 @@ locale: en
 next_blog: ''
 ---
 
-**The digital nomad world is evolving fast, and July 2025 brought some major updates.** Here's what you need to know:
+**The** [**digital nomad**](https://coliving.com) **world is evolving fast, and July 2025 brought some major updates.** Here's what you need to know:
 
--   **Population Growth**: Over 50 million people now live as digital nomads, up from 35 million in 2023. The U.S. alone saw its nomad count jump to 17.3 million.
+-   **Population Growth**: Over 50 million people now live as [digital nomads](https://businessanywhere.io), up from 35 million in 2023. The U.S. alone saw its nomad count jump to 17.3 million.
+    
 -   **Income Trends**: Average annual salaries for digital nomads are $124,000, with a median of $85,000. About 60% work in traditional remote jobs.
+    
 -   **Visa Programs**: 66 countries now offer [digital nomad visas](https://www.nomadgossip.com/blog/remote-work-visas-top-10-countries-for-digital-nomads), with new programs launched in the Philippines and Bulgaria. Compliance rules, like tax regulations, are tightening globally.
+    
 -   **Hot Destinations**: Cities like Tbilisi, Da Nang, Medellín, and Plovdiv are becoming popular for their affordability and infrastructure.
+    
 -   **Lifestyle Shifts**: Slow travel ("slowmad culture") and hybrid nomadism (keeping a home base while traveling) are becoming more common.
+    
 -   **Tech & Tools**: AI-powered remote work tools like [Sembly AI](https://www.sembly.ai/) and [Notion](https://www.notion.so/) are helping nomads streamline work and improve productivity.
+    
 -   **Events & Communities**: Gatherings like [Bosnia Nomad Fest](https://nomad-fest.com/nomad-fest-bosnia) and initiatives in Nagasaki are connecting nomads worldwide.
+    
 
 **Key takeaway**: Digital nomadism is growing rapidly, with more countries embracing the trend, better tools emerging, and new destinations gaining traction. Whether you're already a nomad or considering the lifestyle, these updates highlight the opportunities and challenges ahead.
 
@@ -61,10 +68,15 @@ The 183-day rule remains a key factor in many countries, determining tax residen
 Tax policies differ significantly by destination. For example:
 
 -   Thailand taxes foreign income if it's remitted within the same year.
+    
 -   Indonesia (Bali) offers tax-free status for non-residents.
+    
 -   Portugal applies its local tax laws to digital nomads.
+    
 -   Mexico enforces taxation after 183 days of residency.
+    
 -   Croatia exempts digital nomads from local income tax during their stay[\[2\]](https://getgoldenvisa.com/digital-nomad-countries)[\[9\]](https://www.greenbacktaxservices.com/blog/digital-nomad-visa-thailand).
+    
 
 The success of digital nomad visa programs has been striking. Since the COVID-19 pandemic, 91% of these programs have been successfully implemented, and 25% were adopted shortly after their launch[\[11\]](https://www.globalcitizensolutions.com/digital-nomad-visa). This reflects both the economic appeal for governments and the growing demand from remote workers.
 
@@ -145,15 +157,15 @@ This month saw a surge in AI-powered solutions, with 78% of companies incorporat
 
 Unified platforms are becoming increasingly popular as apps evolve to consolidate multiple tools into single systems. For instance, **Notion** enhanced its AI features, allowing teams to streamline workflows and reduce reliance on multiple apps[\[20\]](https://axis-intelligence.com/best-remote-work-tools-2025). A marketing agency of 45 employees reported saving $847 monthly by consolidating six tools into a single Notion workspace, significantly improving team coordination[\[20\]](https://axis-intelligence.com/best-remote-work-tools-2025).
 
-Security also took center stage this month. **[Malwarebytes Teams](https://www.malwarebytes.com/teams)** introduced advanced security features starting at $119.99 annually, while **EXTRA SAFE** launched zero-footprint, peer-to-peer encrypted communication tools to ensure privacy[\[23\]](https://www.esecurityplanet.com/cybersecurity/secure-collaboration-tools)[\[24\]](https://connectedright.com/2025/07/25/remote-work-security-revisited-advanced-strategies-for-protecting-your-business-in-2025).
+Security also took center stage this month. [**Malwarebytes Teams**](https://www.malwarebytes.com/teams) introduced advanced security features starting at $119.99 annually, while **EXTRA SAFE** launched zero-footprint, peer-to-peer encrypted communication tools to ensure privacy[\[23\]](https://www.esecurityplanet.com/cybersecurity/secure-collaboration-tools)[\[24\]](https://connectedright.com/2025/07/25/remote-work-security-revisited-advanced-strategies-for-protecting-your-business-in-2025).
 
-Productivity tools like **[ClickUp](https://clickup.com/)** and **[Asana](https://asana.com/)** now leverage AI to automate routine tasks, helping teams work more efficiently. These innovations are not just about saving money - they’re about creating systems that align with the fast-paced, flexible nature of remote work.
+Productivity tools like [**ClickUp**](https://clickup.com/) and [**Asana**](https://asana.com/) now leverage AI to automate routine tasks, helping teams work more efficiently. These innovations are not just about saving money - they’re about creating systems that align with the fast-paced, flexible nature of remote work.
 
 > "In the world of remote work, trust isn't a luxury; it's a necessity." - Stephen R. Covey[\[19\]](https://weworkremotely.com/welcome-to-we-work-remotely-s-state-of-remote-work-report-2025)
 
 ### Resources for Specific Nomad Groups
 
-Beyond tools, new platforms are emerging to meet the specialized needs of various digital nomad communities. **[Pangian](https://pangian.com/)**, for example, expanded its offerings to include forums and networking opportunities for professionals seeking meaningful work and alignment with company values[\[21\]](https://travelswithwally.com/11-best-sites-for-digital-nomads-to-get-paid).
+Beyond tools, new platforms are emerging to meet the specialized needs of various digital nomad communities. [**Pangian**](https://pangian.com/), for example, expanded its offerings to include forums and networking opportunities for professionals seeking meaningful work and alignment with company values[\[21\]](https://travelswithwally.com/11-best-sites-for-digital-nomads-to-get-paid).
 
 The term "new nomads" gained traction this month, highlighting the diverse subsets within the nomad community. **Family Nomads** now have access to resources tailored to their unique challenges, such as international schooling options and family-friendly coworking spaces. Meanwhile, platforms for **Solo and Female Entrepreneur Nomads** offer support with networking, safety, and business development opportunities[\[22\]](https://blog.nomadstays.com/the-new-nomad-and-over-20-subniches-of-digital-nomads-today). These resources reflect the growing desire among nomads to prioritize freedom and purpose over traditional career paths.
 
@@ -161,13 +173,9 @@ The term "new nomads" gained traction this month, highlighting the diverse subse
 
 ![Nomad Gossip Magazine](https://assets.seobotai.com/nomadgossip.com/688c80160d660161d1d3f11c/b1c01d955876ade6844a9ea72ce58d80.jpg)
 
-**Nomad Gossip Magazine** introduced several new resources designed to enhance productivity and connectivity for digital nomads. Their Weekly Article subscription, priced at $1 per week, provides inspiring content in an easy-to-use flipbook format, complete with offline PDF downloads - a practical solution for those with unreliable internet access.
+**Nomad Gossip Magazine** lust launched their latest edition that available in print at price 20 euro if you choose to pick it up at their partners, or 32 euro with delivery, or 9 euro as digital copy to have a quick and easy access.
 
-For €48 annually, the magazine’s subscription includes four issues packed with exclusive deals from nomad-friendly brands and services. These partnerships, spanning coworking spaces and businesses in popular destinations like Tbilisi, Da Nang, and Medellín, offer discounts and priority bookings, addressing key infrastructure and community needs.
-
-The magazine also launched a comprehensive tool comparison guide to help nomads navigate the overwhelming number of remote work solutions. With detailed pricing breakdowns and user reviews, this resource aims to reduce wasted spending - especially since 73% of companies reportedly lose over $15,000 annually on underutilized remote work tools[\[20\]](https://axis-intelligence.com/best-remote-work-tools-2025).
-
-> "Great leaders understand that in remote work, it's not about micromanaging hours but empowering results." - Richard Branson[\[19\]](https://weworkremotely.com/welcome-to-we-work-remotely-s-state-of-remote-work-report-2025)
+> "This magazine helps share our shared culture. It's powerful. Many nomads go through moments of isolation, or doubt, and this kind of content helps us feel connected like we're part of a movement" - Nomad Magazine reader
 
 As AI integration and unified platforms continue to evolve, digital nomads are gaining access to practical, well-tested solutions that cut through the noise and address their unique lifestyle demands.
 
@@ -180,9 +188,13 @@ July 2025 was an exciting month for digital nomads, packed with events and initi
 This month saw a variety of gatherings organized through platforms like [Nomads.com](https://nomads.com/meetups), which has been hosting an impressive average of 31 meetups per month over the past year [\[25\]](https://nomads.com/meetups). These events took place in some of the most popular destinations for digital nomads:
 
 -   **Bangkok**: Venues like Greydient & Them, Rimba2, and W XYZ bar hosted vibrant meetups.
+    
 -   **Europe**: Barcelona's Maresme Brewery Taproom, Tallinn's Restaurant Lido and F.Burger, and Porto's Café Casa da Música served as hubs for networking and socializing.
+    
 -   **Bali (Canggu)**: Meetups were held at a villa and Casa Asri, offering a relaxed setting for discussions.
+    
 -   **South America**: Asuncion, Paraguay, saw gatherings at Cerveceria Aurelia and Unaghi Sushi Bar.
+    
 
 The standout event of the month was the **Bosnia Nomad Fest**, held from July 20 to 26, 2025, in Bjelašnica, Bosnia & Herzegovina. Set in a mountain hotel just outside Sarajevo, this week-long unconference featured activities like hiking, storytelling nights, and communal dinners. Over 200 attendees joined the event, making it a memorable experience.
 
