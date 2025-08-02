@@ -104,7 +104,7 @@ const seo: SEOProps = {
           <a
             target="_blank"
             href="https://form.smartsuite.com/s4tmc086/8sFlvrVlDC?redirect=https%3A//nomad-magazine.com/nomad-directory-upsell"
-            class="inline-flex items-center justify-center gap-2 bg-yellow-400 hover:bg-yellow-300 px-8 py-3 rounded-lg text-black font-bold text-lg transition-all duration-200"
+            class="inline-flex items-center justify-center gap-2 bg-black hover:bg-gray-900 border-2 border-yellow-400 px-8 py-3 rounded-lg text-yellow-400 font-bold text-lg transition-all duration-200"
           >
             <MaterialSymbolsElectricBolt width="20" height="20" />
             List Your Project
@@ -130,6 +130,8 @@ const seo: SEOProps = {
     </div>
     </section>
 
+
+
     <!-- Main Content with Sidebar -->
     <section class="pt-4 pb-16">
       <div class="container mx-auto px-4">
@@ -140,6 +142,22 @@ const seo: SEOProps = {
       {
         records
           .filter((i: any) => i.sf4ad525dd)
+          .sort((a: any, b: any) => {
+            // Check if record is Max Browser/DataBench
+            const isMaxBrowserA = a.title?.toLowerCase().includes('max browser') || 
+                                  a.title?.toLowerCase().includes('max') || 
+                                  a.title === 'DataBench';
+            const isMaxBrowserB = b.title?.toLowerCase().includes('max browser') || 
+                                  b.title?.toLowerCase().includes('max') || 
+                                  b.title === 'DataBench';
+            
+            // Max Browser goes first
+            if (isMaxBrowserA && !isMaxBrowserB) return -1;
+            if (!isMaxBrowserA && isMaxBrowserB) return 1;
+            
+            // Keep original order for others
+            return 0;
+          })
                   .map((record: any, index: number) => {
                     // Use same link resolution logic as NomadDirectoryCard
                     const link = record.link || record.sb788c266b?.[0]
@@ -240,9 +258,27 @@ const seo: SEOProps = {
           <!-- Sidebar -->
           <div class="lg:col-span-1">
             <div class="sticky top-8 space-y-3">
+              <!-- Boost Your Listing CTA -->
+              <div class="bg-gradient-to-r from-yellow-400/20 to-yellow-600/20 border border-yellow-400/30 rounded-xl p-4">
+                <h3 class="text-base font-bold text-white mb-2 flex items-center gap-1">
+                  <MaterialSymbolsElectricBolt width="16" height="16" class="text-yellow-400" />
+                  Already Listed?
+                </h3>
+                <p class="text-gray-300 text-sm mb-3 leading-relaxed">
+                  Boost your visibility and reach more nomads with our upgrade options.
+                </p>
+                <a 
+                  href="/nomad-directory-upsell"
+                  class="inline-flex items-center gap-1 bg-yellow-400 hover:bg-yellow-300 text-black px-3 py-2 rounded-lg text-sm font-bold transition-all duration-200 w-full justify-center"
+                >
+                  <MaterialSymbolsElectricBolt width="14" height="14" />
+                  Boost Your Listing
+                </a>
+              </div>
+              
               <!-- Latest YouTube Episode -->
               <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-3">
-                <h3 class="text-sm font-bold text-white mb-2 flex items-center gap-1">
+                <h3 class="text-base font-bold text-white mb-2 flex items-center gap-1">
                   <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                   </svg>
@@ -272,13 +308,13 @@ const seo: SEOProps = {
                   <a href={`https://www.youtube.com/watch?v=${latestVideo.id}`} target="_blank" class="absolute inset-0"></a>
                 </div>
                 
-                <h4 class="font-medium text-white text-xs mb-1 line-clamp-2 leading-tight">
+                <h4 class="font-medium text-white text-sm mb-1 line-clamp-2 leading-tight">
                   <a href={`https://www.youtube.com/watch?v=${latestVideo.id}`} target="_blank" class="hover:text-yellow-400 transition-colors">
                     {latestVideo.title}
                   </a>
                 </h4>
                 
-                <div class="flex items-center justify-between text-xs text-gray-400 mb-1">
+                <div class="flex items-center justify-between text-sm text-gray-400 mb-1">
                   <span>{latestVideo.views} views</span>
                   <span>{latestVideo.publishedAt}</span>
                 </div>
@@ -286,7 +322,7 @@ const seo: SEOProps = {
                 <a 
                   href="https://www.youtube.com/@Nomad-Magazine" 
                   target="_blank"
-                  class="inline-flex items-center gap-1 text-red-500 hover:text-red-400 font-medium text-xs transition-colors"
+                  class="inline-flex items-center gap-1 text-red-500 hover:text-red-400 font-medium text-sm transition-colors"
                 >
                   <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
@@ -297,7 +333,7 @@ const seo: SEOProps = {
 
               <!-- Second YouTube Episode -->
               <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-3">
-                <h3 class="text-sm font-bold text-white mb-2 flex items-center gap-1">
+                <h3 class="text-base font-bold text-white mb-2 flex items-center gap-1">
                   <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                   </svg>
@@ -327,13 +363,13 @@ const seo: SEOProps = {
                   <a href={`https://www.youtube.com/watch?v=${youtubeVideos[1].id}`} target="_blank" class="absolute inset-0"></a>
                 </div>
                 
-                <h4 class="font-medium text-white text-xs mb-1 line-clamp-2 leading-tight">
+                <h4 class="font-medium text-white text-sm mb-1 line-clamp-2 leading-tight">
                   <a href={`https://www.youtube.com/watch?v=${youtubeVideos[1].id}`} target="_blank" class="hover:text-yellow-400 transition-colors">
                     {youtubeVideos[1].title}
                   </a>
                 </h4>
                 
-                <div class="flex items-center justify-between text-xs text-gray-400 mb-1">
+                <div class="flex items-center justify-between text-sm text-gray-400 mb-1">
                   <span>{youtubeVideos[1].views} views</span>
                   <span>{youtubeVideos[1].publishedAt}</span>
                 </div>
@@ -341,7 +377,7 @@ const seo: SEOProps = {
                 <a 
                   href="https://www.youtube.com/@Nomad-Magazine" 
                   target="_blank"
-                  class="inline-flex items-center gap-1 text-red-500 hover:text-red-400 font-medium text-xs transition-colors"
+                  class="inline-flex items-center gap-1 text-red-500 hover:text-red-400 font-medium text-sm transition-colors"
                 >
                   <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
@@ -366,7 +402,7 @@ const seo: SEOProps = {
           <a
             target="_blank"
             href="https://form.smartsuite.com/s4tmc086/8sFlvrVlDC?redirect=https%3A//nomad-magazine.com/nomad-directory-upsell"
-            class="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-300 px-8 py-3 rounded-lg text-black font-bold text-lg transition-all duration-200"
+            class="inline-flex items-center gap-2 bg-black hover:bg-gray-900 border-2 border-yellow-400 px-8 py-3 rounded-lg text-yellow-400 font-bold text-lg transition-all duration-200"
           >
             <MaterialSymbolsElectricBolt width="20" height="20" />
             List Your Project
