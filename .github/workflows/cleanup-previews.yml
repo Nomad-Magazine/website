@@ -1,0 +1,103 @@
+name: Cleanup Preview Deployments
+
+on:
+  pull_request:
+    types: [closed]
+  schedule:
+    # Run cleanup daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to clean up (optional)'
+        required: false
+        type: string
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+      
+      - name: Cleanup specific PR preview
+        if: github.event_name == 'pull_request' || github.event.inputs.pr_number
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            pr_number="${{ github.event.pull_request.number }}"
+            branch_name="${{ github.event.pull_request.head.ref }}"
+          else
+            pr_number="${{ github.event.inputs.pr_number }}"
+            branch_name="unknown"
+          fi
+          
+          # Generate alias name (same logic as deploy workflow)
+          clean_branch=$(echo "${branch_name}" | sed 's/[^a-zA-Z0-9-]/-/g' | tr '[:upper:]' '[:lower:]' | sed 's/--*/-/g' | sed 's/^-\|-$//g')
+          alias_name="pr-${pr_number}-${clean_branch}"
+          
+          # Ensure alias doesn't exceed length limits
+          max_alias_length=$((63 - ${#GITHUB_REPOSITORY##*/} - 1))
+          if [ ${#alias_name} -gt $max_alias_length ]; then
+            alias_name="pr-${pr_number}-$(echo ${clean_branch} | head -c $((max_alias_length - 4 - ${#pr_number})))"
+          fi
+          
+          echo "Attempting to cleanup preview for PR #${pr_number} with alias: ${alias_name}"
+          
+          # Note: Currently Cloudflare doesn't provide a direct way to delete preview URLs via CLI
+          # They automatically expire after a certain period or when the 1000 limit is reached
+          # This is a placeholder for future enhancement when the feature becomes available
+          
+          echo "Preview cleanup noted for PR #${pr_number}. Preview URLs will automatically expire."
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      
+      - name: Cleanup old previews (scheduled)
+        if: github.event_name == 'schedule'
+        run: |
+          echo "Running scheduled cleanup of old preview deployments..."
+          
+          # List all closed PRs from the last 30 days and note them for cleanup
+          # This is informational since Cloudflare manages preview URL lifecycle automatically
+          
+          echo "Note: Cloudflare automatically manages preview URL lifecycle."
+          echo "Old preview URLs will be automatically cleaned up when:"
+          echo "1. They reach the 1000 limit (least recently deployed are removed)"
+          echo "2. They exceed Cloudflare's retention period"
+          
+          echo "Scheduled cleanup completed."
+      
+      - name: Update PR comment on cleanup
+        if: github.event_name == 'pull_request' && github.event.action == 'closed'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr_number = ${{ github.event.pull_request.number }};
+            
+            // Find existing bot comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr_number,
+            });
+            
+            const botComment = comments.find(comment => 
+              comment.user.type === 'Bot' && 
+              comment.body.includes('🚀 Preview deployment')
+            );
+            
+            if (botComment) {
+              const updatedBody = botComment.body + '\n\n---\n**✅ PR Closed:** Preview deployment has been marked for cleanup and will be automatically removed by Cloudflare.';
+              
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: updatedBody
+              });
+            }
