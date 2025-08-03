@@ -28,21 +28,35 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: bun install
       - run: bun run build
-      - name: Set branch name
+      - name: Set deployment variables
         id: vars
         run: |
           if [ "${{ github.event_name }}" == "pull_request" ]; then
-            ref=${{ github.event.pull_request.head.ref }}
-            if [ "$ref" == "refs/heads/main" ]; then
-              echo "branch=main" >> $GITHUB_OUTPUT
-            else
-              echo "branch=${ref}" >> $GITHUB_OUTPUT
+            # For PRs, create a meaningful alias based on PR number and branch
+            pr_number="${{ github.event.pull_request.number }}"
+            branch_name="${{ github.event.pull_request.head.ref }}"
+            # Clean branch name for alias (only lowercase letters, numbers, and dashes)
+            clean_branch=$(echo "${branch_name}" | sed 's/[^a-zA-Z0-9-]/-/g' | tr '[:upper:]' '[:lower:]' | sed 's/--*/-/g' | sed 's/^-\|-$//g')
+            alias_name="pr-${pr_number}-${clean_branch}"
+            
+            # Ensure alias doesn't exceed length limits (63 chars total - worker name - dash)
+            max_alias_length=$((63 - ${#GITHUB_REPOSITORY##*/} - 1))
+            if [ ${#alias_name} -gt $max_alias_length ]; then
+              alias_name="pr-${pr_number}-$(echo ${clean_branch} | head -c $((max_alias_length - 4 - ${#pr_number})))"
             fi
+            
+            echo "preview_alias=${alias_name}" >> $GITHUB_OUTPUT
+            echo "is_preview=true" >> $GITHUB_OUTPUT
+            echo "deployment_type=Preview deployment for PR #${pr_number}" >> $GITHUB_OUTPUT
           else
-            echo "branch=main" >> $GITHUB_OUTPUT
+            echo "is_preview=false" >> $GITHUB_OUTPUT
+            echo "deployment_type=Production deployment" >> $GITHUB_OUTPUT
           fi
-      - name: Deploy to Cloudflare Workers
-        id: deploy
+      
+      # Production deployment (main branch)
+      - name: Deploy to Production
+        if: steps.vars.outputs.is_preview != 'true'
+        id: prod_deploy
         run: |
           sed -i 's/OPENAI_API_KEY_PLACEHOLDER/${{ secrets.OPENAI_API_KEY }}/g' wrangler.toml
           sed -i 's/STRIPE_SECRET_KEY_PLACEHOLDER/${{ secrets.STRIPE_SECRET_KEY }}/g' wrangler.toml
@@ -52,24 +66,113 @@ jobs:
           sed -i 's/BENTO_SECRET_KEY_PLACEHOLDER/${{ secrets.BENTO_SECRET_KEY }}/g' wrangler.toml
           output=$(bunx wrangler@latest deploy)
           echo "$output"
-          url=$(echo "$output" | grep -o 'https://[^[:space:]]*\.workers\.dev' | head -1)
+          url=$(echo "$output" | grep -o 'https://[^[:space:]]*\.workers\.dev\|https://[^[:space:]]*nomad-magazine\.com' | head -1)
+          if [ -z "$url" ]; then
+            url="https://nomad-magazine.com"
+          fi
           echo "deployment_url=$url" >> $GITHUB_OUTPUT
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-      - name: Comment deployed link on PR
+      
+      # Preview deployment (PRs) with versioned upload and alias
+      - name: Deploy Preview for PR
+        if: steps.vars.outputs.is_preview == 'true'
+        id: preview_deploy
+        run: |
+          sed -i 's/OPENAI_API_KEY_PLACEHOLDER/${{ secrets.OPENAI_API_KEY }}/g' wrangler.toml
+          sed -i 's/STRIPE_SECRET_KEY_PLACEHOLDER/${{ secrets.STRIPE_SECRET_KEY }}/g' wrangler.toml
+          sed -i 's/STRIPE_WEBHOOK_SECRET_PLACEHOLDER/${{ secrets.STRIPE_WEBHOOK_SECRET }}/g' wrangler.toml
+          sed -i 's/BENTO_SITE_UUID_PLACEHOLDER/${{ secrets.BENTO_SITE_UUID }}/g' wrangler.toml
+          sed -i 's/BENTO_PUBLISHABLE_KEY_PLACEHOLDER/${{ secrets.BENTO_PUBLISHABLE_KEY }}/g' wrangler.toml
+          sed -i 's/BENTO_SECRET_KEY_PLACEHOLDER/${{ secrets.BENTO_SECRET_KEY }}/g' wrangler.toml
+          
+          # Upload new version with preview alias
+          echo "Creating preview deployment with alias: ${{ steps.vars.outputs.preview_alias }}"
+          output=$(bunx wrangler@latest versions upload --preview-alias "${{ steps.vars.outputs.preview_alias }}")
+          echo "$output"
+          
+          # Extract the preview URL from the output
+          preview_url=$(echo "$output" | grep -o 'https://[^[:space:]]*\.workers\.dev' | head -1)
+          
+          # If we didn't get a preview URL from versions upload, try regular deploy
+          if [ -z "$preview_url" ]; then
+            echo "Fallback to regular deploy for preview"
+            output=$(bunx wrangler@latest deploy)
+            echo "$output"
+            preview_url=$(echo "$output" | grep -o 'https://[^[:space:]]*\.workers\.dev' | head -1)
+          fi
+          
+          echo "deployment_url=$preview_url" >> $GITHUB_OUTPUT
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      
+      - name: Comment deployment link on PR
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const deploymentUrl = '${{ steps.deploy.outputs.deployment_url }}';
+            const deploymentUrl = '${{ steps.preview_deploy.outputs.deployment_url }}';
+            const deploymentType = '${{ steps.vars.outputs.deployment_type }}';
+            const previewAlias = '${{ steps.vars.outputs.preview_alias }}';
+            
             if (deploymentUrl) {
-              const body = `Preview:\n[${deploymentUrl}](${deploymentUrl})`;
-              await github.rest.issues.createComment({
-                body,
-                repo: context.repo.repo,
+              const body = `## 🚀 ${deploymentType}
+            
+            **Preview URL:** [${deploymentUrl}](${deploymentUrl})
+            **Alias:** \`${previewAlias}\`
+            **Branch:** \`${{ github.event.pull_request.head.ref }}\`
+            **Commit:** \`${{ github.event.pull_request.head.sha }}\`
+            
+            ---
+            This preview will be automatically updated when you push new commits to this PR.
+            The preview URL will remain accessible with the same alias throughout the PR lifecycle.`;
+              
+              // Check if there's already a comment from this bot
+              const { data: comments } = await github.rest.issues.listComments({
                 owner: context.repo.owner,
+                repo: context.repo.repo,
                 issue_number: context.issue.number,
               });
+              
+              const botComment = comments.find(comment => 
+                comment.user.type === 'Bot' && 
+                comment.body.includes('🚀 Preview deployment')
+              );
+              
+              if (botComment) {
+                // Update existing comment
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: botComment.id,
+                  body: body
+                });
+              } else {
+                // Create new comment
+                await github.rest.issues.createComment({
+                  body: body,
+                  repo: context.repo.repo,
+                  owner: context.repo.owner,
+                  issue_number: context.issue.number,
+                });
+              }
             }
+      
+      - name: Add deployment status to summary
+        run: |
+          echo "## 🚀 Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Type:** ${{ steps.vars.outputs.deployment_type }}" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.vars.outputs.is_preview }}" == "true" ]; then
+            echo "**Preview URL:** [${{ steps.preview_deploy.outputs.deployment_url }}](${{ steps.preview_deploy.outputs.deployment_url }})" >> $GITHUB_STEP_SUMMARY
+            echo "**Alias:** \`${{ steps.vars.outputs.preview_alias }}\`" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "**Production URL:** [${{ steps.prod_deploy.outputs.deployment_url }}](${{ steps.prod_deploy.outputs.deployment_url }})" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "**Commit:** \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Workflow:** [\`${{ github.run_id }}\`](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
