@@ -64,7 +64,7 @@ jobs:
           sed -i 's/BENTO_SITE_UUID_PLACEHOLDER/${{ secrets.BENTO_SITE_UUID }}/g' wrangler.toml
           sed -i 's/BENTO_PUBLISHABLE_KEY_PLACEHOLDER/${{ secrets.BENTO_PUBLISHABLE_KEY }}/g' wrangler.toml
           sed -i 's/BENTO_SECRET_KEY_PLACEHOLDER/${{ secrets.BENTO_SECRET_KEY }}/g' wrangler.toml
-          output=$(bunx wrangler@latest deploy)
+          output=$(bunx wrangler@latest deploy --env production)
           echo "$output"
           url=$(echo "$output" | grep -o 'https://[^[:space:]]*\.workers\.dev\|https://[^[:space:]]*nomad-magazine\.com' | head -1)
           if [ -z "$url" ]; then
@@ -87,9 +87,9 @@ jobs:
           sed -i 's/BENTO_PUBLISHABLE_KEY_PLACEHOLDER/${{ secrets.BENTO_PUBLISHABLE_KEY }}/g' wrangler.toml
           sed -i 's/BENTO_SECRET_KEY_PLACEHOLDER/${{ secrets.BENTO_SECRET_KEY }}/g' wrangler.toml
           
-          # Upload new version with preview alias
+          # Upload new version with preview alias using production environment
           echo "Creating preview deployment with alias: ${{ steps.vars.outputs.preview_alias }}"
-          output=$(bunx wrangler@latest versions upload --preview-alias "${{ steps.vars.outputs.preview_alias }}")
+          output=$(bunx wrangler@latest versions upload --env production --preview-alias "${{ steps.vars.outputs.preview_alias }}")
           echo "$output"
           
           # Extract the preview URL from the output
@@ -98,7 +98,7 @@ jobs:
           # If we didn't get a preview URL from versions upload, try regular deploy
           if [ -z "$preview_url" ]; then
             echo "Fallback to regular deploy for preview"
-            output=$(bunx wrangler@latest deploy)
+            output=$(bunx wrangler@latest deploy --env production)
             echo "$output"
             preview_url=$(echo "$output" | grep -o 'https://[^[:space:]]*\.workers\.dev' | head -1)
           fi
