@@ -42,7 +42,7 @@ Coworking festivals in 2025 are blending work, learning, and cultural experience
 | **BCO Annual Conference** | Milan, Italy | May 28–30 | $799 | Workspace trends, sustainability | In-person |
 | **Pop-up Coworking @ Spark Plaza** | Johnson City, TN | May 9 | $95 | Rural entrepreneurship | In-person |
 
-These events cater to diverse goals, from professional growth to networking and exploring new cultures. Start planning early to secure tickets and maximize your experience.
+These events cater to diverse goals, from professional growth to networking and exploring new cultures. Start planning early to secure tickets and maximize your experience. For more event opportunities, browse our [nomad events directory](/nomad-events) and read about [coworking vs cafes](/blog/coworking-vs-cafes-best-workspaces-for-digital-nomads) for workspace insights.
 
 ## Key Elements of Coworking Festivals
 
