@@ -5,8 +5,8 @@ description: Discover how The Offsite created a thriving coliving community acro
 author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
-created_at: 2025-01-27T16:30:00.000Z
-updated_at: 2025-01-27T16:30:00.000Z
+created_at: 2025-08-04T16:30:00.000Z
+updated_at: 2025-08-04T16:30:00.000Z
 head_image: /images/Offsite-coliving-with-pool.webp
 head_image_alt: The Offsite community members working with laptops around a pool in a beautiful villa setting
 keywords: coliving, business, The Offsite, remote work, digital nomads, community living, travel adventures, work-life balance, unique experiences
