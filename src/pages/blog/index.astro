@@ -33,13 +33,19 @@ const otherPosts = posts.filter(post =>
   !videoPosts.includes(post)
 )
 
-// Find Molly's article for featured stories section
+// Find Offsite article and Molly's article for featured stories section
+const offsiteArticle = posts.find(post => post.slug === 'insights-from-the-offsite-why-coliving-is-the-future-of-remote-work')
 const mollyArticle = posts.find(post => post.slug === 'molly-maine-nomad-exhibition-what-does-home-mean')
 
-// Put Molly's article first in regular posts, then other posts
-const regularPosts = mollyArticle 
-  ? [mollyArticle, ...otherPosts.filter(post => post.slug !== mollyArticle.slug)]
-  : otherPosts
+// Put Offsite article first, Molly's article second, then other posts
+const featuredArticles = [offsiteArticle, mollyArticle].filter((post): post is NonNullable<typeof post> => post !== undefined)
+const regularPosts = [
+  ...featuredArticles,
+  ...otherPosts.filter(post => 
+    post.slug !== offsiteArticle?.slug && 
+    post.slug !== mollyArticle?.slug
+  )
+]
 
 // YouTube channel videos
 const youtubeVideos = [
