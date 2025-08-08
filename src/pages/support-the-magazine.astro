@@ -77,17 +77,23 @@ const seo: SEOProps = {
         
         <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           <!-- Monthly Supporter -->
-          <div class="bg-white rounded-2xl p-8 text-black relative">
+          <div class="bg-white rounded-2xl p-8 text-black relative flex flex-col">
             <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
               <span class="bg-yellow-400 text-black px-4 py-2 rounded-full text-sm font-bold">RECOMMENDED</span>
             </div>
             <div class="text-center mb-8">
               <h3 class="text-2xl font-bold mb-2">Monthly Supporter</h3>
-              <div class="text-4xl font-bold text-red-600 mb-2">€15+ <span class="text-lg text-gray-600">/month</span></div>
+              <div class="text-4xl font-bold text-red-600 mb-2">€10+ <span class="text-lg text-gray-600">/month</span></div>
               <p class="text-gray-600">Cancel anytime</p>
             </div>
             
-            <ul class="space-y-4 mb-8">
+            <ul class="space-y-4 mb-8 flex-grow">
+              <li class="flex items-start">
+                <svg class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                <span>🖤 Support indie media</span>
+              </li>
               <li class="flex items-start">
                 <svg class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
@@ -98,25 +104,13 @@ const seo: SEOProps = {
                 <svg class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                 </svg>
-                <span>Direct access to our editorial team via supporters-only Discord</span>
+                <span>Priority access to partnership opportunities</span>
               </li>
               <li class="flex items-start">
                 <svg class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                 </svg>
-                <span>Priority when reaching out for travel tips & city recommendations</span>
-              </li>
-              <li class="flex items-start">
-                <svg class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                </svg>
-                <span>Supporter badge & recognition in our community</span>
-              </li>
-              <li class="flex items-start">
-                <svg class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                </svg>
-                <span>Behind-the-scenes content & editorial insights</span>
+                <span>Good karma ✨</span>
               </li>
             </ul>
             
@@ -130,14 +124,14 @@ const seo: SEOProps = {
           </div>
 
           <!-- One-time Supporter -->
-          <div class="bg-white rounded-2xl p-8 text-black">
+          <div class="bg-white rounded-2xl p-8 text-black flex flex-col">
             <div class="text-center mb-8">
               <h3 class="text-2xl font-bold mb-2">One-Time Support</h3>
               <div class="text-4xl font-bold text-yellow-600 mb-2">Any Amount</div>
               <p class="text-gray-600">Show your appreciation</p>
             </div>
             
-            <ul class="space-y-4 mb-8">
+            <ul class="space-y-4 mb-8 flex-grow">
               <li class="flex items-start">
                 <svg class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
