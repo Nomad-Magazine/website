@@ -2,6 +2,7 @@
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import MagazineIssues from '~/components/MagazineIssues.astro'
 import MagazinePreview from '~/components/MagazinePreview.astro'
+import Testimonials from '~/components/Testimonials.astro'
 
 const seo: SEOProps = {
   title: 'Support the Magazine - Keep Independent Publishing Alive',
@@ -36,40 +37,191 @@ const seo: SEOProps = {
   <div class="bg-hoverw text-white">
     <!-- Support Hero Section -->
     <section class="py-24">
-      <div class="mx-auto px-4 text-center">
+      <div class="mx-auto max-w-4xl px-4 text-center">
         <p class="font-justme text-4xl text-yellow-400">Support the Magazine</p>
         <h1 class="mt-4 text-5xl font-bold sm:text-6xl">
-          Support Independent Publishing<br />Keep the Magazine Going
+          Keep Independent Nomad<br />Journalism Alive
         </h1>
-        <p class="mx-auto mt-6 max-w-2xl text-lg text-neutral-300">
-          By becoming a supporter, you get closer access to us. Whether you're a digital nomad looking for tips or recommendations, or a brand hoping to get featured — we've got
-          your back. Supporters are our first priority, just like our advertisers. It's a way to say:
-          <br />"Hey, I believe in what you're building" — and we'll return the favor.
+        <p class="mx-auto mt-6 max-w-3xl text-xl text-neutral-300 leading-relaxed">
+          Join <strong>3,000+ nomads</strong> supporting the world's first independent digital nomad magazine. 
+          Your support helps us deliver authentic stories, practical insights, and honest journalism 
+          to the global nomad community—without corporate influence.
         </p>
-        <div class="mt-10">
-          <a
-            href="https://buy.stripe.com/fZubJ17Mh7zBbkG9G18bS0c"
-            target="_blank"
-            class="rounded-md bg-red-600 px-8 py-3 text-lg font-semibold text-white transition-colors hover:bg-red-700"
-          >
-            Subscribe (15€ +)
-          </a>
-          <a
-            href="https://donate.stripe.com/5kQdR9eaFg67bkG05r8bS09"
-            target="_blank"
-            class="ml-4 rounded-md border border-yellow-400 px-8 py-3 text-lg font-semibold text-yellow-400 transition-colors hover:bg-yellow-400 hover:text-black"
-          >
-            One-time Support
-          </a>
-          <p class="mt-6 text-sm text-neutral-400">
-            Choose any amount for one-time support
+        
+        <!-- Statistics Row -->
+        <div class="mt-12 grid grid-cols-2 gap-8 md:grid-cols-4">
+          <div class="text-center">
+            <div class="text-3xl font-bold text-yellow-400">3,000+</div>
+            <div class="text-sm text-neutral-400">Readers</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-bold text-yellow-400">100+</div>
+            <div class="text-sm text-neutral-400">Distribution Points</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-bold text-yellow-400">20+</div>
+            <div class="text-sm text-neutral-400">Cities Reached</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-bold text-yellow-400">85%</div>
+            <div class="text-sm text-neutral-400">Print Readership</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Support Tiers Section -->
+    <section class="py-16 bg-neutral-900">
+      <div class="mx-auto max-w-6xl px-4">
+        <h2 class="text-center text-4xl font-bold mb-16">Choose Your Support Level</h2>
+        
+        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <!-- Monthly Supporter -->
+          <div class="bg-white rounded-2xl p-8 text-black relative">
+            <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+              <span class="bg-yellow-400 text-black px-4 py-2 rounded-full text-sm font-bold">RECOMMENDED</span>
+            </div>
+            <div class="text-center mb-8">
+              <h3 class="text-2xl font-bold mb-2">Monthly Supporter</h3>
+              <div class="text-4xl font-bold text-red-600 mb-2">€15+ <span class="text-lg text-gray-600">/month</span></div>
+              <p class="text-gray-600">Cancel anytime</p>
+            </div>
+            
+            <ul class="space-y-4 mb-8">
+              <li class="flex items-start">
+                <svg class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Early access to new editions (7 days before public)</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Direct access to our editorial team via supporters-only Discord</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Priority when reaching out for travel tips & city recommendations</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Supporter badge & recognition in our community</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Behind-the-scenes content & editorial insights</span>
+              </li>
+            </ul>
+            
+            <a
+              href="https://buy.stripe.com/fZubJ17Mh7zBbkG9G18bS0c"
+              target="_blank"
+              class="block w-full rounded-md bg-red-600 px-8 py-4 text-center text-lg font-semibold text-white transition-colors hover:bg-red-700"
+            >
+              Become a Monthly Supporter
+            </a>
+          </div>
+
+          <!-- One-time Supporter -->
+          <div class="bg-white rounded-2xl p-8 text-black">
+            <div class="text-center mb-8">
+              <h3 class="text-2xl font-bold mb-2">One-Time Support</h3>
+              <div class="text-4xl font-bold text-yellow-600 mb-2">Any Amount</div>
+              <p class="text-gray-600">Show your appreciation</p>
+            </div>
+            
+            <ul class="space-y-4 mb-8">
+              <li class="flex items-start">
+                <svg class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Support independent journalism</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Help cover production costs</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                <span>No ongoing commitment</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Feel-good contribution to the community</span>
+              </li>
+            </ul>
+            
+            <a
+              href="https://donate.stripe.com/5kQdR9eaFg67bkG05r8bS09"
+              target="_blank"
+              class="block w-full rounded-md border-2 border-yellow-400 px-8 py-4 text-center text-lg font-semibold text-yellow-600 transition-colors hover:bg-yellow-400 hover:text-black"
+            >
+              Make a One-Time Donation
+            </a>
+          </div>
+        </div>
+        
+        <div class="text-center mt-12">
+          <p class="text-neutral-400 max-w-2xl mx-auto">
+            <strong>Why support us?</strong> Unlike corporate-owned publications, we're independently funded. 
+            Your support allows us to focus on authentic stories and honest journalism without external pressures.
           </p>
         </div>
       </div>
     </section>
+
+    <!-- Testimonials Section -->
+    <div class="bg-white py-20">
+      <Testimonials sectionClass="bg-white" />
+    </div>
+
     <!-- Published Editions Section -->
-    <h2 class="font-justme text-center text-5xl font-bold text-white">Published Editions</h2>
-    <MagazineIssues />
-    <MagazinePreview />
+    <section class="py-16">
+      <h2 class="font-justme text-center text-5xl font-bold text-white mb-12">Published Editions</h2>
+      <MagazineIssues />
+      <MagazinePreview />
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-16 bg-neutral-900">
+      <div class="mx-auto max-w-4xl px-4">
+        <h2 class="text-center text-4xl font-bold mb-12">Frequently Asked Questions</h2>
+        
+        <div class="space-y-8">
+          <div class="bg-white rounded-lg p-6">
+            <h3 class="text-xl font-bold text-black mb-3">What do I get as a monthly supporter?</h3>
+            <p class="text-gray-700">Early access to new editions, exclusive Discord community access, priority support for travel questions, and behind-the-scenes content from our editorial team.</p>
+          </div>
+          
+          <div class="bg-white rounded-lg p-6">
+            <h3 class="text-xl font-bold text-black mb-3">Can I cancel my monthly support anytime?</h3>
+            <p class="text-gray-700">Absolutely! You can cancel your subscription at any time with no penalties or fees. You'll retain access until the end of your current billing period.</p>
+          </div>
+          
+          <div class="bg-white rounded-lg p-6">
+            <h3 class="text-xl font-bold text-black mb-3">How is my support used?</h3>
+            <p class="text-gray-700">Your support goes directly to content creation, printing costs, global distribution, and maintaining our editorial independence. We're transparent about our costs and impact.</p>
+          </div>
+          
+          <div class="bg-white rounded-lg p-6">
+            <h3 class="text-xl font-bold text-black mb-3">Do I still get physical copies if I support monthly?</h3>
+            <p class="text-gray-700">Monthly supporters get early digital access. Physical copies are available through our print orders or distributed at coworking spaces and nomad events worldwide.</p>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </Layout>
