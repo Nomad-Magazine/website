@@ -6,7 +6,7 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-02-09T09:16:03.288Z
-updated_at: 2025-02-09T09:16:19.000Z
+updated_at: 2025-08-09T15:33:05.217Z
 head_image: https://assets.seobotai.com/nomadgossip.com/67a7f93e44f489ae95339bc2-1739092579000.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: tax residency, digital nomads, double taxation, tax deductions, remote work, tax treaties, location-independent workers, foreign income, tax planning
@@ -135,7 +135,7 @@ For U.S. citizens, managing foreign income involves understanding the Foreign Ea
 
 > "For successful FEIE claims, maintain a 'tax passport' with monthly summaries of work locations, income sources, and taxes paid/prepaid to demonstrate compliance" [\[2\]](https://www.oysterhr.com/library/how-do-digital-nomads-pay-tax)
 
-### Offshore Company Setup
+### [Offshore Company Setup](https://globalwealthprotection.com)
 
 Choosing the right jurisdiction for an offshore company involves balancing tax benefits with compliance requirements, including Controlled Foreign Corporation (CFC) rules and transfer pricing documentation.
 

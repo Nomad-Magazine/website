@@ -6,7 +6,7 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-03-27T01:48:05.302Z
-updated_at: 2025-03-27T11:09:18.914Z
+updated_at: 2025-08-09T09:58:49.874Z
 head_image: https://assets.seobotai.com/nomadgossip.com/67e496a710051fda3b635143-1743040097678.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: coworking spaces, digital nomads, remote work, flexible plans, networking
@@ -87,7 +87,7 @@ With your profile set up, you can quickly narrow down workspace options to find 
     
 -   Type of environment (quiet zones or collaborative spaces)
     
--   Accessibility to public transportation
+-   Accessibility to [public transportation](https://ticket-plus.app)
     
 -   Pet-friendly policies
     

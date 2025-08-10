@@ -6,8 +6,8 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-06-04T01:35:09.456Z
-updated_at: 2025-06-04T01:36:13.412Z
-head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/683f8d701bd3e223130118b1-1749000973412.jpg
+updated_at: 2025-08-09T14:40:25.078Z
+head_image: https://assets.seobotai.com/nomadgossip.com/683f8d701bd3e223130118b1-1749000973412.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: digital nomad, travel essentials, packing tips, tech gadgets, multi-purpose clothing, travel organization, health safety
 tag: Digital, Moving, Travel
@@ -172,7 +172,7 @@ A travel medical kit is your first line of defense against minor illnesses and i
 
 > "Your first-aid kit should have what you need to take care of mild illnesses and injuries. This will include a variety of things, but you don't need to take an entire medicine cabinet." [\[11\]](https://health.clevelandclinic.org/travel-first-aid-kit)
 
-Your kit should match the type of trip you're taking. For example, heading into the wilderness calls for more extensive supplies than a city getaway [\[12\]](https://medium.com/under-30-nomads/7-travel-med-kit-must-have-9af5054dc745). At a minimum, include bandages, antiseptic wipes, antibacterial gel, medical tape, and medications for pain relief, stomach issues, allergies, and respiratory problems [\[11\]](https://health.clevelandclinic.org/travel-first-aid-kit)[\[13\]](https://www.thebrokebackpacker.com/wilderness-survival). Don’t forget COVID-19 essentials like hand sanitizer and extra face masks [\[11\]](https://health.clevelandclinic.org/travel-first-aid-kit).
+Your kit should match the type of trip you're taking. For example, heading into the wilderness calls for more extensive supplies than a city getaway [\[12\]](https://medium.com/under-30-nomads/7-travel-med-kit-must-have-9af5054dc745). At a minimum, include bandages, antiseptic wipes, antibacterial gel, medical tape, and medications for pain relief, stomach issues, allergies, and [respiratory problems](https://copdessentials.com) [\[11\]](https://health.clevelandclinic.org/travel-first-aid-kit)[\[13\]](https://www.thebrokebackpacker.com/wilderness-survival). Don’t forget COVID-19 essentials like hand sanitizer and extra face masks [\[11\]](https://health.clevelandclinic.org/travel-first-aid-kit).
 
 When packing medications, keep them in their original packaging with clear labels. It’s also a good idea to make a list of both brand and generic names in case you need replacements. If you’re traveling with prescription opioids or medications requiring needles, carry a doctor’s note to avoid issues at customs [\[11\]](https://health.clevelandclinic.org/travel-first-aid-kit).
 
