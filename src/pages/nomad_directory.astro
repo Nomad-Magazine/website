@@ -167,7 +167,11 @@ const seo: SEOProps = {
                         <div class="flex flex-col md:flex-row items-start gap-6">
                           <!-- Logo/Image -->
                           <div class="flex-shrink-0">
-                            <div class="w-32 h-32 bg-white/10 rounded-xl flex items-center justify-center p-1">
+                            <div class={`w-32 h-32 rounded-xl flex items-center justify-center p-1 ${
+                              record.title?.toLowerCase().includes('imaginethat') || record.title?.toLowerCase().includes('imagine that')
+                                ? 'bg-white' 
+                                : 'bg-white/10'
+                            }`}>
                               {record.image && record.image !== '/logo.svg' ? (
                                 <img 
                                   src={record.image} 
@@ -175,7 +179,11 @@ const seo: SEOProps = {
                                   class="w-full h-full rounded-lg object-contain"
                                 />
                               ) : (
-                                <span class="text-white font-bold text-3xl">
+                                <span class={`font-bold text-3xl ${
+                                  record.title?.toLowerCase().includes('imaginethat') || record.title?.toLowerCase().includes('imagine that')
+                                    ? 'text-black' 
+                                    : 'text-white'
+                                }`}>
                                   {(record.title || 'C').charAt(0).toUpperCase()}
                                 </span>
                               )}
