@@ -6,7 +6,7 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-05-07T11:27:25.061Z
-updated_at: 2025-05-07T11:28:18.627Z
+updated_at: 2025-08-10T10:36:20.102Z
 head_image: https://assets.seobotai.com/nomadgossip.com/681b3ba14899b57b164b7d5d-1746617298627.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: digital nomads, remote work, real estate, travel, technology, economic impact, co-living, digital nomad visas
@@ -256,7 +256,7 @@ Chiang Mai, for example, shows how welcoming digital nomads can boost local econ
 
 Digital nomads are reshaping housing markets in many sought-after destinations by increasing demand for short-term rentals and higher-end accommodations. Their typically higher incomes often drive up rental prices, making it more challenging for local residents to afford housing.
 
-Cities like Lisbon and Medellín have seen a rise in short-term rental properties tailored to remote workers, which can reduce the availability of long-term housing for locals. This trend is contributing to housing affordability issues and even housing shortages in some areas. While digital nomads bring economic benefits, their impact on local housing markets is a growing concern for many communities.
+Cities like Lisbon and Medellín have seen a rise in short-term [rental properties](https://heliourbandevelopment.com) tailored to remote workers, which can reduce the availability of long-term housing for locals. This trend is contributing to housing affordability issues and even housing shortages in some areas. While digital nomads bring economic benefits, their impact on local housing markets is a growing concern for many communities.
 
 ### What are digital nomad visas, and which countries offer the best options for remote workers?
 

@@ -6,7 +6,7 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-02-06T07:20:39.238Z
-updated_at: 2025-02-09T11:17:06.542Z
+updated_at: 2025-08-10T12:24:24.487Z
 head_image: https://assets.seobotai.com/nomadgossip.com/67a3e2b5fcbb6d9c73fcb12d-1738826452272.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: digital nomads, productivity apps, remote work, travel planning, online security
@@ -408,7 +408,7 @@ While Nomad List helps you find your ideal destination, tools like Headspace can
 
 ![Headspace](https://assets.seobotai.com/nomadgossip.com/67a3e2b5fcbb6d9c73fcb12d/018562e5e62f0c552d88fc315649fbdc.jpg)
 
-For digital nomads, staying mentally sharp is essential when juggling constant travel and remote work. Headspace helps with this by offering practical mindfulness tools through its meditation app.
+For digital nomads, staying mentally sharp is essential when juggling constant travel and remote work. Headspace helps with this by offering practical mindfulness tools through its [meditation app](https://growthbundle.com).
 
 The app tailors meditation plans to address common challenges digital nomads face:
 
