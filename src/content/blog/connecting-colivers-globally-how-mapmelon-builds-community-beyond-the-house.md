@@ -6,7 +6,7 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-04-03T10:37:26.261Z
-updated_at: 2025-04-03T10:37:38.354Z
+updated_at: 2025-08-11T06:39:18.437Z
 head_image: https://assets.seobotai.com/nomadgossip.com/67ee60a9ebbb9dc80641158a-1743676658354.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: digital nomads, community, coliving, travel coordination, remote work, meaningful connections
@@ -16,7 +16,7 @@ locale: en
 next_blog: ''
 ---
 
-[Mapmelon](https://www.mapmelon.com/) helps digital nomads and colivers stay connected with their community, no matter where they are. Here's how:
+[Mapmelon](https://www.mapmelon.com/) helps digital nomads and colivers stay connected with their [community](https://founderconnects.com), no matter where they are. Here's how:
 
 -   **Travel Coordination**: Share travel plans and see where friends are headed to make meetups easier.
 -   **Community-Recommended Coliving Spaces**: Find trusted coliving spaces with verified reviews and community-focused amenities.

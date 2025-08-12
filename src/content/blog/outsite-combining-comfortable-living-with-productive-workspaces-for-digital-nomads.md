@@ -6,8 +6,8 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-03-29T02:46:05.190Z
-updated_at: 2025-03-29T02:46:18.021Z
-head_image: https://assets.seobotai.com/nomadgossip.com/67e74994283d21cbd67981ba-1743216378021.jpg
+updated_at: 2025-08-11T12:59:23.576Z
+head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/67e74994283d21cbd67981ba-1743216378021.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: digital nomads, remote work, coworking spaces, travel accommodation, community living
 tag: Career, Digital, Travel
@@ -20,7 +20,7 @@ next_blog: ''
 
 ### Key Features:
 
--   **Private Living Spaces**: Choose from private rooms, studios, or apartments.
+-   **[Private Living Spaces](https://cozique.com)**: Choose from private rooms, studios, or apartments.
 -   **Work-Friendly Areas**: Ergonomic workstations, collaborative zones, and quiet spaces.
 -   **Global Network**: Properties in the U.S., Europe, Latin America, and Asia-Pacific.
 -   **Community Perks**: Member Hub, events, and local [WhatsApp](https://www.whatsapp.com/) groups for networking.
