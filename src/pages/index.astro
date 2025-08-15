@@ -17,6 +17,23 @@ import BrandPlacement from '~/components/BrandPlacement.astro'
 import StickyBrandPlacement from '~/components/StickyBrandPlacement.astro'
 import MagazinePreview from '~/components/MagazinePreview.astro'
 import GrowingCommunity from '~/components/GrowingCommunity.astro'
+import { fetchReportRecords } from '~/utils/smartsuite'
+
+// Fetch real nomad directory data
+const { records = [] } = await fetchReportRecords('6857167d82358a0f5e038c3f')
+
+// Get first 3 featured directory entries (excluding entries without required fields)
+const featuredDirectoryEntries = records
+  .filter((record: any) => record.sf4ad525dd && record.title && record.scea90e502)
+  .slice(0, 3)
+  .map((record: any, index: number) => ({
+    title: record.title,
+    description: record.scea90e502,
+    category: record.sb685ab800?.label || 'Service',
+    link: record.link || record.sb788c266b?.[0] || '/nomad_directory',
+    image: record.image,
+    isSupporter: record.supporter || record.monthly_supporter || record.is_supporter || record.supporter_status === 'Monthly Supporter'
+  }))
 
 // YouTube channel videos
 const youtubeVideos = [
@@ -165,6 +182,101 @@ const seo: SEOProps = {
     <PastEditions />
     <MagazinePreview />
     
+    <!-- Nomad Directory Section -->
+    <section class="border-b border-neutral-800 bg-neutral-900/30 px-4 py-16 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-12 flex items-center justify-between">
+          <div>
+            <h2 class="text-3xl font-bold text-white">Nomad Directory</h2>
+            <p class="mt-2 text-lg text-neutral-400">Latest tools, services, and companies for digital nomads</p>
+          </div>
+          <a 
+            href="/nomad_directory" 
+            class="inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-4 py-2 text-sm font-bold text-black transition-all hover:bg-yellow-300"
+          >
+            View All
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+        
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {featuredDirectoryEntries.map((entry: any, index: number) => (
+            <div class={`group relative overflow-hidden rounded-2xl transition-all hover:scale-105 ${
+              index === 0 
+                ? 'bg-gradient-to-br from-yellow-500/20 to-orange-500/20 hover:from-yellow-500/30 hover:to-orange-500/30' 
+                : 'bg-neutral-900/50 hover:bg-neutral-900/80'
+            }`}>
+              <div class="p-6">
+                <div class="mb-4 flex items-center gap-3">
+                  <div class="flex h-16 w-16 items-center justify-center rounded-lg bg-yellow-400">
+                    {entry.image && entry.image !== '/logo.svg' ? (
+                      <img 
+                        src={entry.image} 
+                        alt={entry.title} 
+                        class="w-full h-full rounded object-contain"
+                      />
+                    ) : (
+                      <span class="font-bold text-black text-xl">
+                        {entry.title.charAt(0).toUpperCase()}
+                      </span>
+                    )}
+                  </div>
+                  <div>
+                    <div class="flex items-center gap-2">
+                      <h3 class="text-lg font-bold text-white">{entry.title}</h3>
+                      {entry.isSupporter && (
+                        <span class="inline-flex items-center gap-1 bg-gradient-to-r from-red-600 to-red-700 text-white px-2 py-0.5 rounded-full text-xs font-bold">
+                          <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                          </svg>
+                        </span>
+                      )}
+                    </div>
+                    <span class={`inline-block rounded-full px-2 py-1 text-xs ${
+                      entry.category === 'Insurance' ? 'bg-blue-500/20 text-blue-300' :
+                      entry.category === 'Community' ? 'bg-green-500/20 text-green-300' :
+                      entry.category === 'Platform' ? 'bg-purple-500/20 text-purple-300' :
+                      'bg-gray-500/20 text-gray-300'
+                    }`}>
+                      {entry.category}
+                    </span>
+                  </div>
+                </div>
+                <p class="text-sm text-neutral-300 mb-4 line-clamp-3">
+                  {entry.description}
+                </p>
+                <a 
+                  href={entry.link}
+                  target={entry.link.startsWith('http') ? '_blank' : '_self'}
+                  rel={entry.link.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  class="inline-flex items-center text-yellow-400 text-sm font-medium hover:text-yellow-300"
+                >
+                  Learn more →
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        <div class="mt-12 text-center">
+          <p class="text-sm text-neutral-400 mb-4">
+            Last updated: January 2025 • {records.filter((r: any) => r.sf4ad525dd).length}+ verified services
+          </p>
+          <a
+            href="/nomad_directory"
+            class="inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-6 py-3 text-sm font-bold text-black transition-all hover:bg-yellow-300 hover:scale-105"
+          >
+            Browse Full Directory
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+    
     <!-- YouTube Section -->
     <section class="border-b border-neutral-800 bg-neutral-900/30 px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
@@ -223,18 +335,21 @@ const seo: SEOProps = {
       </div>
     </section>
     
-    <!-- Digital Nomad Insights Section -->
+    <!-- Partners Section - Move up for social proof -->
+    <Partners />
+    
+    <!-- Digital Nomad Insights Section - Reduced to 3 articles for less clutter -->
     <section class="border-b border-neutral-800 bg-neutral-900/30 px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <div class="mb-12">
-          <h2 class="text-3xl font-bold text-white">Digital Nomad <del>Gossip</del> Insights</h2>
-          <p class="mt-2 text-lg text-neutral-400">Latest articles, trends, and stories from the nomad community</p>
+          <h2 class="text-3xl font-bold text-white">Latest <span class="text-yellow-400">Nomad</span> Insights</h2>
+          <p class="mt-2 text-lg text-neutral-400">Essential reads for the modern digital nomad</p>
         </div>
         
         <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-                     <!-- Featured Article: July 2025 Updates -->
-           <article class="group col-span-1 md:col-span-2 lg:col-span-1 overflow-hidden rounded-2xl bg-gradient-to-br from-yellow-500/20 to-orange-500/20 transition-all hover:from-yellow-500/30 hover:to-orange-500/30 hover:scale-105">
-             <div class="relative aspect-video">
+          <!-- Featured Article: July 2025 Updates -->
+          <article class="group col-span-1 md:col-span-2 lg:col-span-1 overflow-hidden rounded-2xl bg-gradient-to-br from-yellow-500/20 to-orange-500/20 transition-all hover:from-yellow-500/30 hover:to-orange-500/30 hover:scale-105">
+            <div class="relative aspect-video">
               <img
                 src="https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/688c80160d660161d1d3f11c-1754045203480.jpg"
                 alt="Digital Nomad Trends July 2025"
@@ -263,46 +378,17 @@ const seo: SEOProps = {
             </div>
           </article>
           
-                     <!-- Molly's Exhibition Article -->
-           <article class="group relative overflow-hidden rounded-2xl bg-neutral-900/50 transition-all hover:bg-neutral-900/80 hover:scale-105">
-             <div class="relative aspect-video">
-               <img
-                 src="/images/molly_nomad_exhibition_1029.webp"
-                 alt="Molly Maine's NOMAD exhibition"
-                 class="h-full w-full object-cover"
-                 style="object-position: center 20%;"
-                 loading="lazy"
-               />
-               <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-             </div>
-            <div class="p-6">
-              <h3 class="mb-3 text-lg font-bold text-white group-hover:text-yellow-400 transition-colors">
-                <a href="/blog/molly-maine-nomad-exhibition-what-does-home-mean" class="after:absolute after:inset-0">
-                  What Does Home Mean? Molly Maine's 'NOMAD' Exhibition
-                </a>
-              </h3>
-              <p class="text-sm text-neutral-300 line-clamp-3">
-                Through vivid illustrations and human storytelling, Molly Maine explores what "home" means for digital nomads in our changing world.
-              </p>
-              <div class="mt-4 flex items-center text-xs text-neutral-400">
-                <span>Nomad Magazine</span>
-                <span class="mx-2">•</span>
-                <span>Jun 4, 2025</span>
-              </div>
+          <!-- Nepal Digital Nomad Visa -->
+          <article class="group relative overflow-hidden rounded-2xl bg-neutral-900/50 transition-all hover:bg-neutral-900/80 hover:scale-105">
+            <div class="relative aspect-video">
+              <img
+                src="https://assets.seobotai.com/nomadgossip.com/683a25740194258b64a9ebf9-1748643421402.jpg"
+                alt="Nepal Digital Nomad Visa"
+                class="h-full w-full object-cover"
+                loading="lazy"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
             </div>
-          </article>
-          
-                     <!-- Nepal Digital Nomad Visa -->
-           <article class="group relative overflow-hidden rounded-2xl bg-neutral-900/50 transition-all hover:bg-neutral-900/80 hover:scale-105">
-             <div class="relative aspect-video">
-               <img
-                 src="https://assets.seobotai.com/nomadgossip.com/683a25740194258b64a9ebf9-1748643421402.jpg"
-                 alt="Nepal Digital Nomad Visa"
-                 class="h-full w-full object-cover"
-                 loading="lazy"
-               />
-               <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-             </div>
             <div class="p-6">
               <h3 class="mb-3 text-lg font-bold text-white group-hover:text-yellow-400 transition-colors">
                 <a href="/blog/why-nepals-new-digital-nomad-visa-could-be-the-game-changer-asia-needed" class="after:absolute after:inset-0">
@@ -320,17 +406,17 @@ const seo: SEOProps = {
             </div>
           </article>
           
-                     <!-- Travel and Lifespan -->
-           <article class="group relative overflow-hidden rounded-2xl bg-neutral-900/50 transition-all hover:bg-neutral-900/80 hover:scale-105">
-             <div class="relative aspect-video">
-               <img
-                 src="https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/686da0ab4659af06b63a1bd3-1752016898167.jpg"
-                 alt="Travel and Wellbeing"
-                 class="h-full w-full object-cover"
-                 loading="lazy"
-               />
-               <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-             </div>
+          <!-- Travel and Lifespan -->
+          <article class="group relative overflow-hidden rounded-2xl bg-neutral-900/50 transition-all hover:bg-neutral-900/80 hover:scale-105">
+            <div class="relative aspect-video">
+              <img
+                src="https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/686da0ab4659af06b63a1bd3-1752016898167.jpg"
+                alt="Travel and Wellbeing"
+                class="h-full w-full object-cover"
+                loading="lazy"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            </div>
             <div class="p-6">
               <h3 class="mb-3 text-lg font-bold text-white group-hover:text-yellow-400 transition-colors">
                 <a href="/blog/can-a-life-of-travel-extend-your-lifespan-exploring-the-science-behind-nomadic-wellbeing" class="after:absolute after:inset-0">
@@ -344,62 +430,6 @@ const seo: SEOProps = {
                 <span>Martin Donadieu</span>
                 <span class="mx-2">•</span>
                 <span>Recent</span>
-              </div>
-            </div>
-          </article>
-          
-                     <!-- Sustainability Article -->
-           <article class="group relative overflow-hidden rounded-2xl bg-neutral-900/50 transition-all hover:bg-neutral-900/80 hover:scale-105">
-             <div class="relative aspect-video">
-               <img
-                 src="https://assets.seobotai.com/nomadgossip.com/683b98f00194258b64ab317b-1748741089686.jpg"
-                 alt="Digital Nomad Sustainability"
-                 class="h-full w-full object-cover"
-                 loading="lazy"
-               />
-               <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-             </div>
-            <div class="p-6">
-              <h3 class="mb-3 text-lg font-bold text-white group-hover:text-yellow-400 transition-colors">
-                <a href="/blog/is-the-digital-nomad-lifestyle-sustainable-challenges-myths-and-reality" class="after:absolute after:inset-0">
-                  Is the Digital Nomad Lifestyle Sustainable? Myths vs Reality
-                </a>
-              </h3>
-              <p class="text-sm text-neutral-300 line-clamp-3">
-                Examining the environmental and social impact of digital nomadism and exploring sustainable practices.
-              </p>
-              <div class="mt-4 flex items-center text-xs text-neutral-400">
-                <span>Martin Donadieu</span>
-                <span class="mx-2">•</span>
-                <span>Recent</span>
-              </div>
-            </div>
-          </article>
-          
-                     <!-- Ikigai Article -->
-           <article class="group relative overflow-hidden rounded-2xl bg-neutral-900/50 transition-all hover:bg-neutral-900/80 hover:scale-105">
-             <div class="relative aspect-video">
-              <img
-                src="https://assets.seobotai.com/nomadgossip.com/681de85e5e3fe4823b5c1c42-1746792784646.jpg"
-                alt="Nomadic Living and Ikigai"
-                class="h-full w-full object-cover"
-                loading="lazy"
-              />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-            </div>
-            <div class="p-6">
-              <h3 class="mb-3 text-lg font-bold text-white group-hover:text-yellow-400 transition-colors">
-                <a href="/blog/nomadic-living-and-ikigai-finding-your-why" class="after:absolute after:inset-0">
-                  Nomadic Living and Ikigai: Finding Your Why
-                </a>
-              </h3>
-              <p class="text-sm text-neutral-300 line-clamp-3">
-                Combining the Japanese concept of Ikigai with digital nomadism to create a purposeful, fulfilling lifestyle.
-              </p>
-              <div class="mt-4 flex items-center text-xs text-neutral-400">
-                <span>Martin Donadieu</span>
-                <span class="mx-2">•</span>
-                <span>May 9, 2025</span>
               </div>
             </div>
           </article>
@@ -419,11 +449,15 @@ const seo: SEOProps = {
       </div>
     </section>
     
-    <Partners />
+    <!-- Community & Social Proof -->
     <Testimonials />
-    <About />
     <GrowingCommunity />
+    
+    <!-- About & Mission - Combine related sections -->
+    <About />
     <Mission />
+    
+    <!-- Call to Action Sections -->
     <Bridge />
     <Welcome />
   </div>
@@ -453,6 +487,12 @@ const seo: SEOProps = {
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
