@@ -1,5 +1,5 @@
 ---
-slug: tadaima-shimoda-2025-coliving-program-japan-digital-nomads-locals
+slug: tadaima-2025-coliving-program-japan-digital-nomads-locals
 title: "TADAIMA SHIMODA 2025: Japan's Revolutionary Coliving Program Connecting Digital Nomads and Local Communities"
 description: Discover TADAIMA SHIMODA 2025, a groundbreaking month-long coliving program in Shimoda, Japan, designed to bridge digital nomads with local communities through dialogue, workshops, and shared living experiences.
 author: Martin Donadieu
@@ -7,9 +7,9 @@ author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-01-24T12:00:00.000Z
 updated_at: 2025-01-24T12:00:00.000Z
-head_image: https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1200&h=600&fit=crop&crop=center
+head_image: /images/tadaima-japan.webp
 head_image_alt: TADAIMA SHIMODA 2025 Community Gathering in Japan
-heroImage: https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1200&h=600&fit=crop&crop=center
+heroImage: /images/tadaima-japan.webp
 heroImageAlt: TADAIMA SHIMODA 2025 Community Gathering in Japan
 keywords: TADAIMA SHIMODA 2025, Japan digital nomad visa, coliving Japan, Shimoda Japan, digital nomad community, local integration, ELENTO LLC
 tag: Digital, Community, Japan
@@ -31,12 +31,7 @@ While most nomad programs offer cultural activities as side attractions, TADAIMA
 
 The coastal city of Shimoda, historically known as the place where Japan first opened its doors to the world, serves as the perfect symbolic location for this modern "re-opening" focused on cross-cultural collaboration.
 
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2rem 0;">
-  <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop&crop=center" alt="Sushi workshop at TADAIMA SHIMODA 2025" style="width: 100%; border-radius: 8px;" />
-  <img src="https://images.unsplash.com/photo-1486312338219-ce68e2c6b7dd?w=600&h=400&fit=crop&crop=center" alt="Coworking session during TADAIMA program" style="width: 100%; border-radius: 8px;" />
-  <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop&crop=center" alt="Beach activities in Shimoda" style="width: 100%; border-radius: 8px;" />
-  <img src="https://images.unsplash.com/photo-1544027993-37dbfe43562a?w=600&h=400&fit=crop&crop=center" alt="Community dining and cultural exchange" style="width: 100%; border-radius: 8px;" />
-</div>
+![TADAIMA SHIMODA 2025 Activities](/images/tadaima-japan-2.webp)
 
 *Experience the diverse activities of TADAIMA SHIMODA 2025: from traditional sushi workshops and collaborative coworking sessions to beach excursions and community dinners that bring together digital nomads and local residents.*
 
@@ -95,7 +90,7 @@ TADAIMA SHIMODA 2025 is organized by ELENTO LLC, founded by Elena Tsukada (co-fo
 
 This collaboration ensures the program benefits both international participants and local communities, not just extracting value from the destination.
 
-![TADAIMA SHIMODA 2025 Community Gathering](https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1200&h=600&fit=crop&crop=center)
+![TADAIMA SHIMODA 2025 Community Gathering](/images/tadaima-japan.webp)
 *The heart of TADAIMA SHIMODA 2025: A vibrant community gathering where digital nomads and local residents come together in Shimoda's welcoming atmosphere, fostering the deep connections that make this program unique.*
 
 ### Organizer's Vision
