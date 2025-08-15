@@ -17,7 +17,7 @@ next_blog: ''
 
 Let's be honest: we all crave a sense of community. But what if you can't find one that aligns with your interests? What then? Well, you could create your own…
 
-That's exactly how The Offsite was born. So, what is The Offsite, and how did we attract such a diverse group of people?
+That's exactly how [The Offsite](https://theoffsite.uk/) was born. So, what is The Offsite, and how did we attract such a diverse group of people?
 
 ![The Offsite coliving workspace](/images/offsite-coworking-cafe.webp)
 
@@ -79,6 +79,6 @@ The Offsite is the perfect balance of exploration, work, and inspiration. Partic
 
 ## Follow Your Passion
 
-All this to say, if you have a passion project, pursue it—you never know where it might lead. And if you're considering the coliving lifestyle, check us out on social media and our website. We hope to see you on a trip soon!
+All this to say, if you have a passion project, pursue it—you never know where it might lead. And if you're considering the coliving lifestyle, check us out on social media and visit [The Offsite website](https://theoffsite.uk/) to explore our upcoming trips. We hope to see you on a trip soon!
 
 ![Beautiful coliving location](/images/Offsite-coliving-with-pool.webp) 
