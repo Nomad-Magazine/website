@@ -6,7 +6,7 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-03-18T22:52:44.462Z
-updated_at: 2025-03-18T22:53:20.745Z
+updated_at: 2025-08-14T11:41:57.507Z
 head_image: https://assets.seobotai.com/nomadgossip.com/67d9f40f31389773b3fed4fe-1742338400745.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: eSIM, travel data, mobile data plans, international roaming, digital nomads, affordable connectivity
@@ -68,7 +68,7 @@ For frequent travelers, aloSIM includes handy features like auto-renewal and the
 
 ![Nomad Gossip Magazine](https://assets.seobotai.com/nomadgossip.com/67d9f40f31389773b3fed4fe/8c8d12ea28f73594b3c71ff8ba2359d9.jpg)
 
-Nomad Gossip Magazine pairs perfectly with aloSIM's data solutions, offering digital nomads a wealth of travel tips and resources.
+Nomad Gossip Magazine pairs perfectly with aloSIM's data solutions, offering digital nomads a wealth of [travel tips and resources](https://osloexplore.com).
 
 ### Subscription Options
 

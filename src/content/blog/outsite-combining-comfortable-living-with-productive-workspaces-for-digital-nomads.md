@@ -6,8 +6,8 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-03-29T02:46:05.190Z
-updated_at: 2025-08-11T12:59:23.576Z
-head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/67e74994283d21cbd67981ba-1743216378021.jpg
+updated_at: 2025-08-14T10:10:58.834Z
+head_image: https://assets.seobotai.com/nomadgossip.com/67e74994283d21cbd67981ba-1743216378021.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: digital nomads, remote work, coworking spaces, travel accommodation, community living
 tag: Career, Digital, Travel
@@ -38,7 +38,7 @@ Outsite creates spaces that blend living and working, designed specifically for 
 Outsite focuses on three key offerings:
 
 -   **Private Living Spaces**  
-    Comfortable, fully furnished bedrooms, studios, and apartments equipped for both relaxation and work.
+    Comfortable, [fully furnished bedrooms](https://thecubestudents.com), studios, and apartments equipped for both relaxation and work.
     
 -   **Professional Workspaces**  
     Dedicated areas with high-speed WiFi, available as shared or private spaces, ensuring you can work efficiently.
