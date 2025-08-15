@@ -16,7 +16,7 @@ tag: Digital, Community, Japan
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-01-24T12:00:00.000Z
+pubDate: 2025-08-05T12:00:00.000Z
 ---
 
 Japan is stepping into the digital nomad spotlight with an innovative approach to community building. TADAIMA SHIMODA 2025, a groundbreaking one-month coliving and cultural exchange program launching this November in Shimoda, Shizuoka (2.5 hours from Tokyo), promises to revolutionize how digital nomads integrate with local communities.
