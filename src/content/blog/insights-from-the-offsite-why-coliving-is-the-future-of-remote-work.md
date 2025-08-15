@@ -79,6 +79,6 @@ The Offsite is the perfect balance of exploration, work, and inspiration. Partic
 
 ## Follow Your Passion
 
-All this to say, if you have a passion project, pursue it—you never know where it might lead. And if you're considering the coliving lifestyle, check us out on social media and our website. We hope to see you on a trip soon!
+All this to say, if you have a passion project, pursue it—you never know where it might lead. And if you're considering the coliving lifestyle, check us out on social media and our website at [theoffsite.uk](https://theoffsite.uk/). We hope to see you on a trip soon!
 
 ![Beautiful coliving location](/images/Offsite-coliving-with-pool.webp) 
