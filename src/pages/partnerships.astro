@@ -1,0 +1,401 @@
+---
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import CheckIcon from '~icons/ic/baseline-check'
+import ArrowRightIcon from '~icons/ic/baseline-arrow-forward'
+
+const seo: SEOProps = {
+  title: 'Partner with Nomad Magazine - B2B Partnership Opportunities',
+  description: 'Partner with Nomad Magazine to reach the global digital nomad community. Join our directory, become a distribution partner, or feature your brand in our print magazine.',
+  image: `${Astro.site}images/edition-001-nomad-mag-brand-placement.webp`,
+  keywords: 'nomad magazine partnerships, B2B collaboration, digital nomad marketing, coworking distribution, brand partnerships, nomad directory',
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Partner with Nomad Magazine',
+    description: 'B2B partnership opportunities with Nomad Magazine',
+    url: `${Astro.site}partnerships`,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+  },
+}
+
+const partnershipTiers = [
+  {
+    id: 'directory',
+    tier: 'Step 1',
+    title: 'Nomad Directory',
+    subtitle: 'Free Listing',
+    description: 'Get listed on our website and Instagram, and be added to our database for future collaborations.',
+    price: 'Free',
+    features: [
+      'Website listing with company profile',
+      'Instagram feature opportunities',
+      'Database inclusion for future collaborations',
+      'Newsletter contribution opportunity',
+      'Weekly website feature eligibility',
+      'Monthly newsletter spotlight eligibility'
+    ],
+    cta: 'Join Directory',
+    ctaUrl: 'https://form.smartsuite.com/s4tmc086/8sFlvrVlDC',
+    popular: false,
+    bgColor: 'bg-gradient-to-br from-gray-900/50 to-gray-800/50',
+    borderColor: 'border-gray-700'
+  },
+  {
+    id: 'distribution',
+    tier: 'Step 2',
+    title: 'Distribution Partner',
+    subtitle: 'Physical Magazine Distribution',
+    description: 'Receive copies of Nomad Magazine for your coworking space, coliving, or hostel.',
+    price: '€17-25 shipping only',
+    features: [
+      'Receive physical magazine copies',
+      'Website listing as distribution partner',
+      'Feature in print edition',
+      'Instagram announcement',
+      'Pickup location for online orders',
+      'Priority for partnership opportunities'
+    ],
+    cta: 'Apply for Distribution',
+    ctaUrl: 'https://calendly.com/nomadgossip',
+    popular: true,
+    bgColor: 'bg-gradient-to-br from-yellow-500/20 to-orange-500/20',
+    borderColor: 'border-yellow-400'
+  },
+  {
+    id: 'brand-placement',
+    tier: 'Step 3',
+    title: 'Brand Placement',
+    subtitle: 'Premium Magazine Features',
+    description: 'Feature your brand in our beautifully designed print magazine with global distribution.',
+    price: 'Custom pricing',
+    features: [
+      'Full-page or double-page spreads',
+      'Professional design support included',
+      'Global distribution network',
+      'Digital and print exposure',
+      'Multiple placement options',
+      'Campaign performance insights'
+    ],
+    cta: 'View Placement Options',
+    ctaUrl: '/brand-placement',
+    popular: false,
+    bgColor: 'bg-gradient-to-br from-purple-600/20 to-blue-600/20',
+    borderColor: 'border-purple-400'
+  }
+]
+
+const distributionBenefits = [
+  {
+    icon: '🌍',
+    title: 'Global Reach',
+    description: 'Access to digital nomads in major hubs worldwide through our curated distribution network.'
+  },
+  {
+    icon: '📈',
+    title: 'Growing Community',
+    description: 'Connect with an active, engaged community of location-independent professionals and entrepreneurs.'
+  },
+  {
+    icon: '🎯',
+    title: 'Targeted Audience',
+    description: 'Reach people who value freedom, independence, remote work, and innovative lifestyle choices.'
+  },
+  {
+    icon: '🤝',
+    title: 'Partnership Ecosystem',
+    description: 'Join a network of forward-thinking brands and services supporting the nomad ecosystem.'
+  }
+]
+
+const whyPartnerReasons = [
+  {
+    title: 'Growing Market',
+    description: 'The digital nomad population continues to expand rapidly, with millions embracing location-independent lifestyles.',
+    stat: '50M+ nomads worldwide'
+  },
+  {
+    title: 'High Purchasing Power',
+    description: 'Digital nomads typically have above-average income and actively seek services that support their lifestyle.',
+    stat: 'Premium audience'
+  },
+  {
+    title: 'Print + Digital Reach',
+    description: 'Unique print-first approach combined with strong digital presence ensures maximum visibility.',
+    stat: '100+ distribution points'
+  },
+  {
+    title: 'Community Trust',
+    description: 'Our authentic approach and community-first mindset builds genuine trust with our audience.',
+    stat: 'High engagement rates'
+  }
+]
+---
+
+<Layout seo={seo}>
+  <!-- Hero Section -->
+  <div class="bg-hoverw text-white">
+    <section class="py-20">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+          <div class="space-y-8">
+            <div class="space-y-6">
+              <h1 class="text-5xl font-bold leading-tight md:text-7xl">
+                Partner with <span class="text-yellow-400">Nomad Magazine</span>
+              </h1>
+              <p class="text-xl text-gray-300 md:text-2xl">
+                Connect with the global digital nomad community through strategic partnerships that drive meaningful engagement and business growth.
+              </p>
+            </div>
+            
+            <div class="space-y-4 text-lg text-gray-300">
+              <p class="flex items-start">
+                <CheckIcon class="mr-3 h-6 w-6 flex-shrink-0 text-yellow-400 mt-0.5" />
+                <span>Join a growing ecosystem of nomad-focused brands and services</span>
+              </p>
+              <p class="flex items-start">
+                <CheckIcon class="mr-3 h-6 w-6 flex-shrink-0 text-yellow-400 mt-0.5" />
+                <span>Reach an engaged audience of location-independent professionals</span>
+              </p>
+              <p class="flex items-start">
+                <CheckIcon class="mr-3 h-6 w-6 flex-shrink-0 text-yellow-400 mt-0.5" />
+                <span>Benefit from our unique print-first approach with global distribution</span>
+              </p>
+            </div>
+
+            <div class="flex flex-col gap-4 sm:flex-row">
+              <a
+                href="https://calendly.com/nomadgossip"
+                class="inline-flex items-center justify-center gap-2 rounded-lg bg-yellow-400 px-8 py-4 text-lg font-bold text-black transition-all hover:bg-yellow-300 hover:scale-105"
+              >
+                Schedule Partnership Call
+                <ArrowRightIcon class="h-5 w-5" />
+              </a>
+              <a
+                href="#partnership-options"
+                class="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-yellow-400 px-8 py-4 text-lg font-bold text-yellow-400 transition-all hover:bg-yellow-400 hover:text-black"
+              >
+                View Partnership Options
+              </a>
+            </div>
+          </div>
+          
+          <div class="flex justify-center lg:justify-end">
+            <img 
+              src="/images/edition-001-nomad-mag-brand-placement.webp" 
+              alt="Nomad Magazine brand placement opportunities" 
+              class="max-w-full rounded-2xl shadow-2xl" 
+              loading="eager"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Partner Section -->
+    <section class="border-b border-neutral-800 py-20">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-16 text-center">
+          <h2 class="text-4xl font-bold text-white md:text-5xl">Why Partner with Us?</h2>
+          <p class="mt-4 text-xl text-gray-300 max-w-3xl mx-auto">
+            We're pioneering the movement towards sustainable, non-linear lifestyle choices and building bridges between nomads and local communities worldwide.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+          {whyPartnerReasons.map((reason) => (
+            <div class="bg-neutral-900/50 rounded-2xl p-6 border border-neutral-800 hover:bg-neutral-900/80 transition-all">
+              <div class="mb-4">
+                <div class="inline-block bg-yellow-400 text-black px-3 py-1 rounded-full text-sm font-bold">
+                  {reason.stat}
+                </div>
+              </div>
+              <h3 class="text-xl font-bold text-white mb-3">{reason.title}</h3>
+              <p class="text-gray-300">{reason.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Partnership Tiers Section -->
+    <section id="partnership-options" class="border-b border-neutral-800 py-20">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-16 text-center">
+          <h2 class="text-4xl font-bold text-white md:text-5xl">Partnership Opportunities</h2>
+          <p class="mt-4 text-xl text-gray-300 max-w-3xl mx-auto">
+            Choose the partnership level that best fits your business goals and budget. Start with our free directory listing and grow from there.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+          {partnershipTiers.map((tier) => (
+            <div class={`relative overflow-hidden rounded-3xl border-2 ${tier.borderColor} ${tier.bgColor} p-8 backdrop-blur-sm transition-all hover:scale-105 ${tier.popular ? 'ring-2 ring-yellow-400/50' : ''}`}>
+              {tier.popular && (
+                <div class="absolute -top-0 left-1/2 -translate-x-1/2 transform">
+                  <span class="inline-block rounded-b-lg bg-yellow-400 px-6 py-2 text-sm font-bold text-black">
+                    Most Popular
+                  </span>
+                </div>
+              )}
+              
+              <div class="mb-6">
+                <div class="mb-2 text-sm font-semibold text-yellow-400 uppercase tracking-wide">
+                  {tier.tier}
+                </div>
+                <h3 class="text-2xl font-bold text-white">{tier.title}</h3>
+                <p class="text-lg text-gray-300">{tier.subtitle}</p>
+              </div>
+
+              <div class="mb-6">
+                <div class="text-3xl font-bold text-white">{tier.price}</div>
+              </div>
+
+              <div class="mb-8">
+                <p class="text-gray-300 mb-6">{tier.description}</p>
+                
+                <ul class="space-y-3">
+                  {tier.features.map((feature) => (
+                    <li class="flex items-start">
+                      <CheckIcon class="mr-3 h-5 w-5 flex-shrink-0 text-yellow-400 mt-0.5" />
+                      <span class="text-gray-300">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <a
+                href={tier.ctaUrl}
+                target={tier.ctaUrl.startsWith('http') ? '_blank' : '_self'}
+                rel={tier.ctaUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
+                class={`block w-full rounded-lg py-4 text-center font-bold transition-all ${
+                  tier.popular 
+                    ? 'bg-yellow-400 text-black hover:bg-yellow-300' 
+                    : 'border-2 border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-black'
+                }`}
+              >
+                {tier.cta}
+              </a>
+            </div>
+          ))}
+        </div>
+
+        <div class="mt-12 text-center">
+          <p class="text-gray-400 mb-6">
+            Not sure which option is right for you? Let's discuss your goals and find the perfect partnership approach.
+          </p>
+          <a
+            href="https://calendly.com/nomadgossip"
+            class="inline-flex items-center gap-2 rounded-lg bg-neutral-800 border border-neutral-700 px-6 py-3 text-white transition-all hover:bg-neutral-700"
+          >
+            Schedule a Consultation Call
+            <ArrowRightIcon class="h-4 w-4" />
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Distribution Benefits Section -->
+    <section class="border-b border-neutral-800 py-20">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-16 text-center">
+          <h2 class="text-4xl font-bold text-white md:text-5xl">Partnership Benefits</h2>
+          <p class="mt-4 text-xl text-gray-300 max-w-3xl mx-auto">
+            Join our ecosystem and gain access to a global network of digital nomads, coworking spaces, and innovative businesses.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+          {distributionBenefits.map((benefit) => (
+            <div class="text-center">
+              <div class="mb-4 text-6xl">{benefit.icon}</div>
+              <h3 class="text-xl font-bold text-white mb-3">{benefit.title}</h3>
+              <p class="text-gray-300">{benefit.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- About Our Mission Section -->
+    <section class="border-b border-neutral-800 py-20">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 gap-12 lg:grid-cols-2 items-center">
+          <div>
+            <h2 class="text-4xl font-bold text-white mb-6 md:text-5xl">Our Mission</h2>
+            <div class="space-y-6 text-lg text-gray-300">
+              <p>
+                Nomad Magazine exists to support the growth of the digital nomad ecosystem and the increasing number of projects serving digital nomads and expats globally.
+              </p>
+              <p>
+                We bridge the gap between individual digital nomads and the wider world, pioneering sustainable, non-linear lifestyle choices while fostering respect for every way of life.
+              </p>
+              <p>
+                As a self-funded project, we've chosen partnerships over traditional advertising to maintain our authentic voice while supporting the businesses that make the nomad lifestyle possible.
+              </p>
+            </div>
+            
+            <div class="mt-8 bg-neutral-900/50 border border-yellow-400/30 rounded-2xl p-6">
+              <blockquote class="text-lg italic text-gray-200">
+                "This magazine helps share our collective culture. It's powerful. Many nomads go through moments of isolation or doubt, and this kind of content helps us feel connected—like we're part of a movement."
+              </blockquote>
+              <cite class="block mt-3 text-sm text-gray-400 font-medium">— Nomad Magazine Reader</cite>
+            </div>
+          </div>
+          
+          <div class="flex justify-center">
+            <img 
+              src="/images/edition-123-three-together-transparent.webp" 
+              alt="Nomad Magazine editions showcasing our mission" 
+              class="max-w-full rounded-2xl" 
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="py-20">
+      <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-4xl font-bold text-white mb-6 md:text-5xl">Ready to Partner with Us?</h2>
+        <p class="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+          Join the brands and organizations that are shaping the future of remote work and digital nomadism. Let's create something meaningful together.
+        </p>
+        
+        <div class="flex flex-col gap-4 sm:flex-row sm:justify-center">
+          <a
+            href="https://form.smartsuite.com/s4tmc086/8sFlvrVlDC"
+            class="inline-flex items-center justify-center gap-2 rounded-lg bg-yellow-400 px-8 py-4 text-lg font-bold text-black transition-all hover:bg-yellow-300 hover:scale-105"
+          >
+            Start with Directory Listing
+            <ArrowRightIcon class="h-5 w-5" />
+          </a>
+          <a
+            href="https://calendly.com/nomadgossip"
+            class="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-yellow-400 px-8 py-4 text-lg font-bold text-yellow-400 transition-all hover:bg-yellow-400 hover:text-black"
+          >
+            Schedule Partnership Call
+          </a>
+        </div>
+        
+        <p class="mt-6 text-sm text-gray-400">
+          Questions? Email us at <a href="mailto:partnerships@nomad-magazine.com" class="text-yellow-400 hover:text-yellow-300">partnerships@nomad-magazine.com</a>
+        </p>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+.hover\:scale-105:hover {
+  transform: scale(1.05);
+}
+</style>
