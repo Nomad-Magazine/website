@@ -47,6 +47,17 @@ const { showLatestBadge = true, className = '' } = Astro.props
     </a>
   </div>
 
+  <!-- Interactive hint -->
+  <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 opacity-70 hover-hint pointer-events-none">
+    <div class="flex items-center gap-2 text-xs text-gray-400 animate-pulse">
+      <!-- Mouse cursor icon -->
+      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M13.64 21.97c-.16 0-.3-.07-.4-.19l-4.14-4.86c-.27-.32-.23-.8.09-1.07.32-.27.8-.23 1.07.09l3.5 4.11 2.3-9.33-7.24 6.12c-.32.27-.8.23-1.07-.09-.27-.32-.23-.8.09-1.07L15.58 9c.23-.19.57-.22.82-.07.25.15.36.44.28.72L13.11 21.4c-.06.25-.25.44-.5.56-.05.01-.11.01-.17.01z"/>
+      </svg>
+      <span>Move mouse to explore</span>
+    </div>
+  </div>
+
   <!-- Decorative elements -->
   <div class="absolute -left-8 top-1/2 h-4 w-4 rounded-full bg-yellow-400/60 blur-sm pointer-events-none"></div>
   <div class="absolute -right-4 top-1/4 h-6 w-6 rounded-full bg-purple-400/40 blur-sm pointer-events-none"></div>
@@ -176,5 +187,18 @@ const { showLatestBadge = true, className = '' } = Astro.props
   
   .magazine-stack-container:hover .magazine-front:hover {
     transform: translateX(220px) translateY(20px) rotate(2deg) scale(1.02) !important;
+  }
+  
+  /* Hide hint on hover */
+  .magazine-stack-container:hover .hover-hint {
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+  }
+  
+  /* Mobile hint positioning */
+  @media (max-width: 768px) {
+    .hover-hint {
+      bottom: -6rem;
+    }
   }
 </style>

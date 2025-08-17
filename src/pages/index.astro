@@ -17,6 +17,7 @@ import BrandPlacement from '~/components/BrandPlacement.astro'
 import StickyBrandPlacement from '~/components/StickyBrandPlacement.astro'
 import MagazinePreview from '~/components/MagazinePreview.astro'
 import GrowingCommunity from '~/components/GrowingCommunity.astro'
+import MagazineStack from '~/components/MagazineStack.astro'
 import { fetchReportRecords } from '~/utils/smartsuite'
 import { getCollection } from 'astro:content'
 
@@ -179,11 +180,7 @@ const seo: SEOProps = {
         </div>
       </div>
       <div class="flex justify-center lg:justify-end order-first lg:order-last">
-        <img 
-          src="/images/magazine-hold-against-chest.webp" 
-          alt="Person holding Nomad Magazine issues" 
-          class="h-auto max-w-full rounded-lg shadow-lg object-cover" 
-        />
+        <MagazineStack showLatestBadge={true} className="max-w-full" />
       </div>
     </div>
   </div>
