@@ -1,0 +1,731 @@
+---
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import { supabaseUrl, supabaseAnonKey } from '~/utils/supabase'
+import { fetchReportRecords } from '~/utils/smartsuite'
+
+// Get Supabase config to pass to client
+const supabaseConfig = {
+  url: supabaseUrl,
+  anonKey: supabaseAnonKey
+}
+
+// Fetch distribution list coworking spaces
+const { records: distributionRecords = [] } = await fetchReportRecords('68614a111208586bd05d3c3a')
+
+// Filter and transform distribution coworking spaces
+const distributionCoworkingSpaces = distributionRecords
+  .filter((record: any) => 
+    record.sb685ab800?.label === 'Coworking' && 
+    record.s43a4b2808 && 
+    !record.s9744d6c51 && // Not "coming soon"
+    record.title
+  )
+  .map((record: any) => ({
+    id: `dist_${record.id}`,
+    name: record.title,
+    description: record.scea90e502 || 'A great coworking space for digital nomads.',
+    location: record.sed1a49986 || 'Location not specified',
+    city: record.sed1a49986?.split(',')[0]?.trim() || 'Unknown',
+    country: record.sed1a49986?.split(',').slice(-1)[0]?.trim() || 'Unknown',
+    website_url: record.sb788c266b?.[0] || null,
+    images: record.image ? [record.image] : [],
+    amenities: ['WiFi', 'Community'],
+    price_range: null,
+    wifi_speed: null,
+    is_verified: true,
+    discount_code: record.s9c0ff01ed || null,
+    created_at: record.first_created?.on || new Date().toISOString()
+  }))
+
+// Pass distribution spaces to client
+const distributionSpacesConfig = {
+  spaces: distributionCoworkingSpaces
+}
+
+const seo: SEOProps = {
+  title: 'Best Coworking Spaces for Digital Nomads - Vote & Discover',
+  description: 'Discover and vote for the best coworking spaces around the world. Find the perfect workspace for your digital nomad journey.',
+  image: `${Astro.site}images/coworking-spaces-hero.webp`,
+  keywords: 'coworking spaces, digital nomads, remote work, workspace, nomad community, coworking vote',
+}
+---
+
+<Layout seo={seo}>
+  <div class="bg-hoverw text-white min-h-screen">
+    <!-- Hero Section -->
+    <section class="px-4 py-16 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="text-center">
+          <h1 class="text-4xl font-bold sm:text-6xl lg:text-7xl mb-6">
+            Best <span class="text-yellow-400">Coworking Spaces</span> 
+            <br>for Digital Nomads
+          </h1>
+          <p class="text-xl text-neutral-300 mb-8 max-w-3xl mx-auto">
+            Discover amazing workspaces around the world. Vote for your favorites and help fellow nomads find their perfect workspace. Includes verified partner locations and community submissions.
+          </p>
+          <div class="flex justify-center">
+            <button 
+              id="filter-btn"
+              class="inline-flex items-center gap-2 rounded-lg border-2 border-yellow-400 px-6 py-3 text-lg font-bold text-yellow-400 transition-all hover:bg-yellow-400 hover:text-black"
+            >
+              <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
+              </svg>
+              Filter Spaces
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filters Section (Initially Hidden) -->
+    <section id="filters-section" class="px-4 py-8 sm:px-6 lg:px-8 border-b border-neutral-800 hidden">
+      <div class="mx-auto max-w-7xl">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <select id="country-filter" class="rounded-lg bg-neutral-800 border border-neutral-700 text-white px-4 py-2">
+            <option value="">All Countries</option>
+          </select>
+          <select id="city-filter" class="rounded-lg bg-neutral-800 border border-neutral-700 text-white px-4 py-2">
+            <option value="">All Cities</option>
+          </select>
+          <select id="price-filter" class="rounded-lg bg-neutral-800 border border-neutral-700 text-white px-4 py-2">
+            <option value="">All Prices</option>
+            <option value="budget">Budget ($0-20/day)</option>
+            <option value="mid">Mid-range ($21-40/day)</option>
+            <option value="premium">Premium ($41+/day)</option>
+          </select>
+          <select id="sort-filter" class="rounded-lg bg-neutral-800 border border-neutral-700 text-white px-4 py-2">
+            <option value="votes">Most Voted</option>
+            <option value="newest">Newest</option>
+            <option value="name">Alphabetical</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="px-4 py-8 sm:px-6 lg:px-8 border-b border-neutral-800">
+      <div class="mx-auto max-w-7xl">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div>
+            <div class="text-3xl font-bold text-yellow-400" id="total-spaces">0</div>
+            <div class="text-sm text-neutral-400">Coworking Spaces</div>
+          </div>
+          <div>
+            <div class="text-3xl font-bold text-yellow-400" id="total-votes">0</div>
+            <div class="text-sm text-neutral-400">Total Votes</div>
+          </div>
+          <div>
+            <div class="text-3xl font-bold text-yellow-400" id="total-countries">0</div>
+            <div class="text-sm text-neutral-400">Countries</div>
+          </div>
+          <div>
+            <div class="text-3xl font-bold text-yellow-400" id="total-cities">0</div>
+            <div class="text-sm text-neutral-400">Cities</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Coworking Spaces Grid -->
+    <section class="px-4 py-16 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div id="loading-spinner" class="text-center py-12">
+          <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-yellow-400"></div>
+          <p class="mt-2 text-neutral-400">Loading amazing workspaces...</p>
+        </div>
+        
+        <div id="spaces-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
+          <!-- Spaces will be dynamically inserted here -->
+        </div>
+
+        <div id="no-spaces" class="text-center py-12 hidden">
+          <p class="text-xl text-neutral-400">No coworking spaces found matching your criteria.</p>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- Image Modal for Full-Size View -->
+    <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden">
+      <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="relative max-w-4xl w-full">
+          <button id="close-image-modal" class="absolute top-4 right-4 z-10 text-white hover:text-yellow-400">
+            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+          <img id="modal-image" src="" alt="" class="w-full h-auto rounded-lg">
+          <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white text-center">
+            <div id="image-counter" class="text-sm opacity-75"></div>
+          </div>
+          <button id="prev-image" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-white hover:text-yellow-400">
+            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+          <button id="next-image" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white hover:text-yellow-400">
+            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script is:inline define:vars={{ supabaseConfig, distributionSpacesConfig }}>
+  // Get config passed from server-side
+  const supabaseUrl = supabaseConfig.url;
+  const supabaseAnonKey = supabaseConfig.anonKey;
+  const distributionSpaces = distributionSpacesConfig.spaces;
+  
+  let supabase = null;
+  let currentUser = null;
+  let userFingerprint = null;
+  let coworkingSpaces = [];
+  let userVotes = new Set();
+  let currentImageModal = { images: [], currentIndex: 0 };
+
+  // Generate user fingerprint for anonymous voting
+  function generateFingerprint() {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    ctx.textBaseline = 'top';
+    ctx.font = '14px Arial';
+    ctx.fillText('Nomad Magazine Fingerprint', 2, 2);
+    
+    const fingerprint = [
+      navigator.userAgent,
+      navigator.language,
+      screen.width + 'x' + screen.height,
+      new Date().getTimezoneOffset(),
+      canvas.toDataURL()
+    ].join('|');
+    
+    // Simple hash function
+    let hash = 0;
+    for (let i = 0; i < fingerprint.length; i++) {
+      const char = fingerprint.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash; // Convert to 32-bit integer
+    }
+    return 'fp_' + Math.abs(hash).toString(36);
+  }
+
+  // Load Supabase and initialize
+  function loadSupabase() {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js';
+    script.onload = initializeApp;
+    document.head.appendChild(script);
+  }
+
+  async function initializeApp() {
+    supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+    userFingerprint = generateFingerprint();
+    
+    // Try to get existing user or sign in anonymously
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      const { data: authData } = await supabase.auth.signInAnonymously();
+      currentUser = authData?.user;
+    } else {
+      currentUser = user;
+    }
+
+    await loadCoworkingSpaces();
+    setupEventListeners();
+  }
+
+  async function loadCoworkingSpaces() {
+    try {
+      // Load vote counts for all spaces
+      const { data: voteCounts, error: voteError } = await supabase
+        .from('coworking_vote_counts')
+        .select('*');
+
+      if (voteError) {
+        console.warn('Vote counts error:', voteError);
+      }
+
+      // Load user votes
+      const { data: userVoteData, error: userVoteError } = await supabase
+        .from('coworking_votes')
+        .select('space_id')
+        .eq('user_fingerprint', userFingerprint);
+
+      if (!userVoteError && userVoteData) {
+        userVotes = new Set(userVoteData.map(vote => vote.space_id));
+      }
+
+      // Use only distribution spaces (from JSON) with vote counts
+      coworkingSpaces = distributionSpaces.map(space => ({
+        ...space,
+        vote_count: voteCounts?.find(vc => vc.space_id === space.id)?.vote_count || 0
+      }));
+
+      console.log('Loaded coworking spaces:', coworkingSpaces.map(s => ({ id: s.id, name: s.name })));
+
+      updateStats();
+      renderSpaces();
+      populateFilters();
+
+    } catch (error) {
+      console.error('Error loading coworking spaces:', error);
+      document.getElementById('loading-spinner').classList.add('hidden');
+      document.getElementById('no-spaces').classList.remove('hidden');
+    }
+  }
+
+  function updateStats() {
+    const totalSpaces = coworkingSpaces.length;
+    const totalVotes = coworkingSpaces.reduce((sum, space) => sum + space.vote_count, 0);
+    const countries = new Set(coworkingSpaces.map(space => space.country)).size;
+    const cities = new Set(coworkingSpaces.map(space => space.city)).size;
+
+    document.getElementById('total-spaces').textContent = totalSpaces;
+    document.getElementById('total-votes').textContent = totalVotes;
+    document.getElementById('total-countries').textContent = countries;
+    document.getElementById('total-cities').textContent = cities;
+  }
+
+  function populateFilters() {
+    const countries = [...new Set(coworkingSpaces.map(space => space.country))].sort();
+    const cities = [...new Set(coworkingSpaces.map(space => space.city))].sort();
+
+    const countrySelect = document.getElementById('country-filter');
+    const citySelect = document.getElementById('city-filter');
+
+    countries.forEach(country => {
+      const option = document.createElement('option');
+      option.value = country;
+      option.textContent = country;
+      countrySelect.appendChild(option);
+    });
+
+    cities.forEach(city => {
+      const option = document.createElement('option');
+      option.value = city;
+      option.textContent = city;
+      citySelect.appendChild(option);
+    });
+  }
+
+  function renderSpaces(filteredSpaces = coworkingSpaces) {
+    const grid = document.getElementById('spaces-grid');
+    const loading = document.getElementById('loading-spinner');
+    const noSpaces = document.getElementById('no-spaces');
+
+    loading.classList.add('hidden');
+
+    if (filteredSpaces.length === 0) {
+      grid.classList.add('hidden');
+      noSpaces.classList.remove('hidden');
+      return;
+    }
+
+    noSpaces.classList.add('hidden');
+    grid.classList.remove('hidden');
+
+    grid.innerHTML = filteredSpaces.map(space => `
+      <div class="group relative overflow-hidden rounded-2xl bg-neutral-900/50 transition-all hover:bg-neutral-900/80 hover:scale-105">
+        <div class="absolute top-4 right-4 z-10"><span class="inline-block rounded-full bg-blue-600 px-3 py-1 text-xs font-bold text-white uppercase">Partner</span></div>
+        
+        <!-- Image Carousel -->
+        <div class="relative aspect-video overflow-hidden">
+          <div class="carousel-container" data-space-id="${space.id}">
+            ${space.images && space.images.length > 0 ? 
+              space.images.map((image, index) => `
+                <img src="${image}" alt="${space.name}" 
+                     class="carousel-image w-full h-full object-cover ${index === 0 ? '' : 'hidden'}"
+                     data-images='${JSON.stringify(space.images)}'
+                     data-index="${index}"
+                     onclick="openImageModal('${space.name}', ${JSON.stringify(space.images)}, ${index})"
+                     loading="lazy">
+              `).join('') : 
+              '<div class="w-full h-full bg-neutral-800 flex items-center justify-center"><span class="text-neutral-400">No images</span></div>'
+            }
+          </div>
+          
+          ${space.images && space.images.length > 1 ? `
+            <div class="absolute inset-0 flex items-center justify-between px-2 opacity-0 group-hover:opacity-100 transition-opacity">
+              <button class="carousel-prev bg-black/50 text-white rounded-full p-2 hover:bg-black/70" data-space-id="${space.id}">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+              </button>
+              <button class="carousel-next bg-black/50 text-white rounded-full p-2 hover:bg-black/70" data-space-id="${space.id}">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+              </button>
+            </div>
+            <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+              ${space.images.map((_, index) => `
+                <div class="carousel-dot w-2 h-2 rounded-full bg-white/50 ${index === 0 ? 'bg-white' : ''}" data-space-id="${space.id}" data-index="${index}"></div>
+              `).join('')}
+            </div>
+          ` : ''}
+          
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+        </div>
+
+        <!-- Content -->
+        <div class="p-6">
+          <div class="flex items-start justify-between mb-3">
+            <div class="flex-1">
+              <h3 class="text-xl font-bold text-white group-hover:text-yellow-400 transition-colors">
+                ${space.name}
+              </h3>
+              <p class="text-sm text-neutral-400 flex items-center mt-1">
+                <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                ${space.city}, ${space.country}
+              </p>
+            </div>
+            <button class="vote-btn flex items-center gap-1 px-3 py-1 rounded-full transition-all ${userVotes.has(space.id) ? 'bg-red-600 text-white' : 'bg-neutral-800 text-neutral-400 hover:bg-red-600 hover:text-white'}" data-space-id="${space.id}">
+              <svg class="h-4 w-4 ${userVotes.has(space.id) ? 'fill-current' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+              </svg>
+              <span class="vote-count text-sm font-medium">${space.vote_count}</span>
+            </button>
+          </div>
+
+          <p class="text-sm text-neutral-300 mb-4 line-clamp-3">
+            ${space.description}
+          </p>
+
+          <div class="grid grid-cols-2 gap-4 mb-4 text-xs">
+            ${space.price_range ? `
+              <div class="flex items-center text-neutral-400">
+                <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                </svg>
+                ${space.price_range}
+              </div>
+            ` : ''}
+            ${space.wifi_speed ? `
+              <div class="flex items-center text-neutral-400">
+                <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/>
+                </svg>
+                ${space.wifi_speed}
+              </div>
+            ` : ''}
+          </div>
+
+          ${space.amenities && space.amenities.length > 0 ? `
+            <div class="mb-4">
+              <div class="flex flex-wrap gap-1">
+                ${space.amenities.slice(0, 3).map(amenity => `
+                  <span class="inline-block bg-neutral-800 text-neutral-300 text-xs px-2 py-1 rounded">${amenity}</span>
+                `).join('')}
+                ${space.amenities.length > 3 ? `<span class="text-xs text-neutral-400">+${space.amenities.length - 3} more</span>` : ''}
+              </div>
+            </div>
+          ` : ''}
+
+          ${space.discount_code ? `
+            <div class="mb-4 p-3 bg-yellow-400/10 border border-yellow-400/30 rounded-lg">
+              <div class="text-xs text-yellow-400 font-medium mb-1">Special Offer</div>
+              <div class="text-sm text-white">Discount Code: <span class="font-bold text-yellow-400">${space.discount_code}</span></div>
+            </div>
+          ` : ''}
+
+          <div class="flex gap-2">
+            ${space.website_url ? `
+              <a href="${space.website_url}" target="_blank" rel="noopener noreferrer" 
+                 class="flex-1 inline-flex items-center justify-center gap-1 text-yellow-400 text-sm font-medium hover:text-yellow-300 border border-yellow-400 rounded-lg py-2 px-3 hover:bg-yellow-400 hover:text-black transition-all">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                </svg>
+                Visit Website
+              </a>
+            ` : ''}
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    setupCarousels();
+    setupVoteButtons();
+  }
+
+  function setupCarousels() {
+    // Setup carousel navigation
+    document.querySelectorAll('.carousel-prev').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const spaceId = btn.dataset.spaceId;
+        navigateCarousel(spaceId, -1);
+      });
+    });
+
+    document.querySelectorAll('.carousel-next').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const spaceId = btn.dataset.spaceId;
+        navigateCarousel(spaceId, 1);
+      });
+    });
+
+    document.querySelectorAll('.carousel-dot').forEach(dot => {
+      dot.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const spaceId = dot.dataset.spaceId;
+        const index = parseInt(dot.dataset.index);
+        setCarouselImage(spaceId, index);
+      });
+    });
+  }
+
+  function navigateCarousel(spaceId, direction) {
+    const container = document.querySelector(`[data-space-id="${spaceId}"]`);
+    const images = container.querySelectorAll('.carousel-image');
+    const dots = document.querySelectorAll(`[data-space-id="${spaceId}"].carousel-dot`);
+    
+    let currentIndex = 0;
+    images.forEach((img, index) => {
+      if (!img.classList.contains('hidden')) {
+        currentIndex = index;
+      }
+    });
+
+    let newIndex = currentIndex + direction;
+    if (newIndex >= images.length) newIndex = 0;
+    if (newIndex < 0) newIndex = images.length - 1;
+
+    setCarouselImage(spaceId, newIndex);
+  }
+
+  function setCarouselImage(spaceId, index) {
+    const container = document.querySelector(`[data-space-id="${spaceId}"]`);
+    const images = container.querySelectorAll('.carousel-image');
+    const dots = document.querySelectorAll(`[data-space-id="${spaceId}"].carousel-dot`);
+
+    images.forEach((img, i) => {
+      img.classList.toggle('hidden', i !== index);
+    });
+
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('bg-white', i === index);
+      dot.classList.toggle('bg-white/50', i !== index);
+    });
+  }
+
+  function setupVoteButtons() {
+    document.querySelectorAll('.vote-btn').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const spaceId = btn.dataset.spaceId; // Don't parseInt for string IDs
+        console.log('Vote button clicked, space ID from dataset:', spaceId);
+        await handleVote(spaceId, btn);
+      });
+    });
+  }
+
+  async function handleVote(spaceId, button) {
+    try {
+      console.log('Voting for space ID:', spaceId);
+      
+      if (!spaceId || spaceId === 'undefined' || spaceId === 'null') {
+        console.error('Invalid space ID:', spaceId);
+        return;
+      }
+
+      const space = coworkingSpaces.find(s => s.id === spaceId);
+      const isVoted = userVotes.has(spaceId);
+      const voteCountSpan = button.querySelector('.vote-count');
+      const heartIcon = button.querySelector('svg');
+      
+      if (isVoted) {
+        // Remove vote
+        const { error } = await supabase
+          .from('coworking_votes')
+          .delete()
+          .eq('space_id', spaceId)
+          .eq('user_fingerprint', userFingerprint);
+
+        if (!error) {
+          userVotes.delete(spaceId);
+          button.classList.remove('bg-red-600', 'text-white');
+          button.classList.add('bg-neutral-800', 'text-neutral-400', 'hover:bg-red-600', 'hover:text-white');
+          heartIcon.classList.remove('fill-current');
+          voteCountSpan.textContent = parseInt(voteCountSpan.textContent) - 1;
+          
+          // Update local data
+          if (space) space.vote_count = Math.max(0, space.vote_count - 1);
+          updateStats();
+        } else {
+          console.error('Error removing vote:', error);
+        }
+      } else {
+        // Add vote
+        console.log('Inserting vote with space_id:', spaceId, 'user_fingerprint:', userFingerprint);
+        
+        const { error } = await supabase
+          .from('coworking_votes')
+          .insert({
+            space_id: spaceId,
+            user_fingerprint: userFingerprint
+          });
+
+        if (!error) {
+          userVotes.add(spaceId);
+          button.classList.remove('bg-neutral-800', 'text-neutral-400', 'hover:bg-red-600', 'hover:text-white');
+          button.classList.add('bg-red-600', 'text-white');
+          heartIcon.classList.add('fill-current');
+          voteCountSpan.textContent = parseInt(voteCountSpan.textContent) + 1;
+          
+          // Update local data
+          if (space) space.vote_count += 1;
+          updateStats();
+        } else {
+          console.error('Error adding vote:', error);
+        }
+      }
+    } catch (error) {
+      console.error('Error handling vote:', error);
+    }
+  }
+
+  function openImageModal(spaceName, images, startIndex = 0) {
+    currentImageModal = { images, currentIndex: startIndex, spaceName };
+    const modal = document.getElementById('image-modal');
+    const modalImage = document.getElementById('modal-image');
+    const counter = document.getElementById('image-counter');
+    
+    modalImage.src = images[startIndex];
+    modalImage.alt = `${spaceName} - Image ${startIndex + 1}`;
+    counter.textContent = `${startIndex + 1} / ${images.length}`;
+    
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeImageModal() {
+    const modal = document.getElementById('image-modal');
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  function navigateModalImage(direction) {
+    const { images } = currentImageModal;
+    let newIndex = currentImageModal.currentIndex + direction;
+    
+    if (newIndex >= images.length) newIndex = 0;
+    if (newIndex < 0) newIndex = images.length - 1;
+    
+    currentImageModal.currentIndex = newIndex;
+    
+    const modalImage = document.getElementById('modal-image');
+    const counter = document.getElementById('image-counter');
+    
+    modalImage.src = images[newIndex];
+    modalImage.alt = `${currentImageModal.spaceName} - Image ${newIndex + 1}`;
+    counter.textContent = `${newIndex + 1} / ${images.length}`;
+  }
+
+  function setupEventListeners() {
+    // Filter toggle
+    document.getElementById('filter-btn').addEventListener('click', () => {
+      const filtersSection = document.getElementById('filters-section');
+      filtersSection.classList.toggle('hidden');
+    });
+
+    // Filter changes
+    ['country-filter', 'city-filter', 'price-filter', 'sort-filter'].forEach(id => {
+      document.getElementById(id).addEventListener('change', applyFilters);
+    });
+
+
+
+    // Image modal controls
+    document.getElementById('close-image-modal').addEventListener('click', closeImageModal);
+    document.getElementById('prev-image').addEventListener('click', () => navigateModalImage(-1));
+    document.getElementById('next-image').addEventListener('click', () => navigateModalImage(1));
+
+
+
+    // Keyboard navigation for image modal
+    document.addEventListener('keydown', (e) => {
+      const imageModal = document.getElementById('image-modal');
+      if (!imageModal.classList.contains('hidden')) {
+        if (e.key === 'Escape') closeImageModal();
+        if (e.key === 'ArrowLeft') navigateModalImage(-1);
+        if (e.key === 'ArrowRight') navigateModalImage(1);
+      }
+    });
+  }
+
+  function applyFilters() {
+    const country = document.getElementById('country-filter').value;
+    const city = document.getElementById('city-filter').value;
+    const price = document.getElementById('price-filter').value;
+    const sort = document.getElementById('sort-filter').value;
+
+    let filtered = [...coworkingSpaces];
+
+    // Apply filters
+    if (country) filtered = filtered.filter(space => space.country === country);
+    if (city) filtered = filtered.filter(space => space.city === city);
+    if (price) {
+      filtered = filtered.filter(space => {
+        if (!space.price_range) return false;
+        const priceNum = parseInt(space.price_range.replace(/[^0-9]/g, ''));
+        if (price === 'budget') return priceNum <= 20;
+        if (price === 'mid') return priceNum > 20 && priceNum <= 40;
+        if (price === 'premium') return priceNum > 40;
+        return true;
+      });
+    }
+
+    // Apply sorting
+    if (sort === 'votes') {
+      filtered.sort((a, b) => b.vote_count - a.vote_count);
+    } else if (sort === 'newest') {
+      filtered.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    } else if (sort === 'name') {
+      filtered.sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    renderSpaces(filtered);
+  }
+
+
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadSupabase);
+  } else {
+    loadSupabase();
+  }
+</script>
+
+<style>
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.carousel-image {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.carousel-dot {
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.carousel-dot:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+</style>

@@ -43,6 +43,27 @@ export type Database = {
           },
         ]
       }
+      coworking_votes: {
+        Row: {
+          created_at: string | null
+          id: number
+          space_id: string
+          user_fingerprint: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: number
+          space_id: string
+          user_fingerprint: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: number
+          space_id?: string
+          user_fingerprint?: string
+        }
+        Relationships: []
+      }
       test_articles: {
         Row: {
           author: string
@@ -89,6 +110,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      coworking_vote_counts: {
+        Row: {
+          space_id: string | null
+          vote_count: number | null
+        }
+        Relationships: []
       }
     }
     Functions: {
