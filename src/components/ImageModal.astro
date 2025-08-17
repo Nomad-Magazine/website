@@ -1,0 +1,188 @@
+---
+export interface Props {
+  id?: string;
+}
+
+const { id = 'image-modal' } = Astro.props;
+---
+
+<!-- Image Modal for Full-Size View -->
+<div id={id} class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden">
+  <div class="flex items-center justify-center min-h-screen p-4">
+    <div class="relative max-w-4xl w-full">
+      <!-- Close Button -->
+      <button 
+        id="close-image-modal" 
+        class="absolute top-4 right-4 z-10 text-white hover:text-yellow-400 transition-colors duration-200 bg-black/50 rounded-full p-2"
+        aria-label="Close image modal"
+      >
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+      
+      <!-- Main Image -->
+      <img 
+        id="modal-image" 
+        src="" 
+        alt="" 
+        class="w-full h-auto rounded-lg max-h-[80vh] object-contain"
+        loading="lazy"
+      >
+      
+      <!-- Image Counter -->
+      <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white text-center bg-black/50 rounded-full px-3 py-1">
+        <div id="image-counter" class="text-sm opacity-90"></div>
+      </div>
+      
+      <!-- Navigation Buttons -->
+      <button 
+        id="prev-image" 
+        class="absolute left-4 top-1/2 transform -translate-y-1/2 text-white hover:text-yellow-400 transition-colors duration-200 bg-black/50 rounded-full p-2"
+        aria-label="Previous image"
+      >
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+      </button>
+      
+      <button 
+        id="next-image" 
+        class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white hover:text-yellow-400 transition-colors duration-200 bg-black/50 rounded-full p-2"
+        aria-label="Next image"
+      >
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  // Image Modal functionality
+  let currentImageModal = { images: [], currentIndex: 0, spaceName: '' };
+
+  function openImageModal(spaceName, images, startIndex = 0) {
+    currentImageModal = { images, currentIndex: startIndex, spaceName };
+    const modal = document.getElementById('image-modal');
+    const modalImage = document.getElementById('modal-image');
+    const counter = document.getElementById('image-counter');
+    
+    if (modal && modalImage && counter) {
+      modalImage.src = images[startIndex];
+      modalImage.alt = `${spaceName} - Image ${startIndex + 1}`;
+      counter.textContent = `${startIndex + 1} / ${images.length}`;
+      
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeImageModal() {
+    const modal = document.getElementById('image-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+  }
+
+  function navigateModalImage(direction) {
+    const { images } = currentImageModal;
+    let newIndex = currentImageModal.currentIndex + direction;
+    
+    if (newIndex >= images.length) newIndex = 0;
+    if (newIndex < 0) newIndex = images.length - 1;
+    
+    currentImageModal.currentIndex = newIndex;
+    
+    const modalImage = document.getElementById('modal-image');
+    const counter = document.getElementById('image-counter');
+    
+    if (modalImage && counter) {
+      modalImage.src = images[newIndex];
+      modalImage.alt = `${currentImageModal.spaceName} - Image ${newIndex + 1}`;
+      counter.textContent = `${newIndex + 1} / ${images.length}`;
+    }
+  }
+
+  // Setup event listeners
+  function setupImageModalListeners() {
+    // Close button
+    const closeBtn = document.getElementById('close-image-modal');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeImageModal);
+    }
+
+    // Navigation buttons
+    const prevBtn = document.getElementById('prev-image');
+    const nextBtn = document.getElementById('next-image');
+    
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => navigateModalImage(-1));
+    }
+    
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => navigateModalImage(1));
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      const imageModal = document.getElementById('image-modal');
+      
+      if (imageModal && !imageModal.classList.contains('hidden')) {
+        if (e.key === 'Escape') closeImageModal();
+        if (e.key === 'ArrowLeft') navigateModalImage(-1);
+        if (e.key === 'ArrowRight') navigateModalImage(1);
+      }
+    });
+
+    // Click outside modal to close
+    const modal = document.getElementById('image-modal');
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          closeImageModal();
+        }
+      });
+    }
+  }
+
+  // Make functions globally available
+  window.openImageModal = openImageModal;
+  window.closeImageModal = closeImageModal;
+  window.navigateModalImage = navigateModalImage;
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupImageModalListeners);
+  } else {
+    setupImageModalListeners();
+  }
+</script>
+
+<style>
+  /* Smooth transitions for modal */
+  #image-modal {
+    backdrop-filter: blur(4px);
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  #modal-image {
+    transition: transform 0.3s ease-in-out;
+  }
+
+  /* Hover effects for navigation buttons */
+  #close-image-modal:hover,
+  #prev-image:hover,
+  #next-image:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    transform: scale(1.1);
+  }
+
+  /* Hide navigation buttons on single image */
+  #image-modal[data-single-image="true"] #prev-image,
+  #image-modal[data-single-image="true"] #next-image {
+    display: none;
+  }
+</style>

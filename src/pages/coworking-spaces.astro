@@ -1,5 +1,6 @@
 ---
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import ImageModal from '~/components/ImageModal.astro'
 import { supabaseUrl, supabaseAnonKey } from '~/utils/supabase'
 import { fetchReportRecords } from '~/utils/smartsuite'
 
@@ -163,32 +164,8 @@ const seo: SEOProps = {
 
 
 
-    <!-- Image Modal for Full-Size View -->
-    <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden">
-      <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="relative max-w-4xl w-full">
-          <button id="close-image-modal" class="absolute top-4 right-4 z-10 text-white hover:text-yellow-400">
-            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-          </button>
-          <img id="modal-image" src="" alt="" class="w-full h-auto rounded-lg">
-          <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white text-center">
-            <div id="image-counter" class="text-sm opacity-75"></div>
-          </div>
-          <button id="prev-image" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-white hover:text-yellow-400">
-            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-            </svg>
-          </button>
-          <button id="next-image" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white hover:text-yellow-400">
-            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
+    <!-- Image Modal Component -->
+    <ImageModal />
 
 
   </div>
@@ -350,19 +327,19 @@ const seo: SEOProps = {
     grid.classList.remove('hidden');
 
     grid.innerHTML = filteredSpaces.map(space => `
-      <div class="group relative overflow-hidden rounded-2xl bg-neutral-900/50 transition-all hover:bg-neutral-900/80 hover:scale-105 flex flex-col h-full">
+      <div class="group relative overflow-hidden rounded-2xl bg-neutral-900/50 transition-all duration-300 hover:bg-neutral-900/80 hover:scale-105 hover:shadow-2xl flex flex-col h-full">
         
         <!-- Image Carousel -->
-        <div class="relative aspect-[4/3] overflow-hidden">
+        <div class="relative aspect-[4/3] overflow-hidden cursor-pointer">
           <div class="carousel-container" data-space-id="${space.id}">
             ${space.images && space.images.length > 0 ? 
               space.images.map((image, index) => `
                 <img src="${image}" alt="${space.name}" 
-                     class="carousel-image absolute inset-0 w-full h-full object-cover ${index === 0 ? '' : 'hidden'}"
+                     class="carousel-image absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 ${index === 0 ? '' : 'hidden'} cursor-pointer"
                      style="object-fit: cover; object-position: center center;"
                      data-images='${JSON.stringify(space.images)}'
                      data-index="${index}"
-                     onclick="openImageModal('${space.name}', ${JSON.stringify(space.images)}, ${index})"
+                     data-space-name="${space.name}"
                      loading="lazy">
               `).join('') : 
               '<div class="w-full h-full bg-neutral-800 flex items-center justify-center"><span class="text-neutral-400">No images</span></div>'
@@ -371,12 +348,12 @@ const seo: SEOProps = {
           
           ${space.images && space.images.length > 1 ? `
             <div class="absolute inset-0 flex items-center justify-between px-2 opacity-0 group-hover:opacity-100 transition-opacity">
-              <button class="carousel-prev bg-black/50 text-white rounded-full p-2 hover:bg-black/70" data-space-id="${space.id}">
+              <button class="carousel-prev bg-black/50 text-white rounded-full p-2 hover:bg-black/70 transition-all duration-200" data-space-id="${space.id}">
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                 </svg>
               </button>
-              <button class="carousel-next bg-black/50 text-white rounded-full p-2 hover:bg-black/70" data-space-id="${space.id}">
+              <button class="carousel-next bg-black/50 text-white rounded-full p-2 hover:bg-black/70 transition-all duration-200" data-space-id="${space.id}">
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                 </svg>
@@ -478,6 +455,19 @@ const seo: SEOProps = {
   }
 
   function setupCarousels() {
+    // Setup image modal clicks
+    document.querySelectorAll('.carousel-image').forEach(img => {
+      img.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const images = JSON.parse(img.dataset.images);
+        const index = parseInt(img.dataset.index);
+        const spaceName = img.dataset.spaceName;
+        if (window.openImageModal) {
+          window.openImageModal(spaceName, images, index);
+        }
+      });
+    });
+
     // Setup carousel navigation
     document.querySelectorAll('.carousel-prev').forEach(btn => {
       btn.addEventListener('click', (e) => {
@@ -620,42 +610,7 @@ const seo: SEOProps = {
     }
   }
 
-  function openImageModal(spaceName, images, startIndex = 0) {
-    currentImageModal = { images, currentIndex: startIndex, spaceName };
-    const modal = document.getElementById('image-modal');
-    const modalImage = document.getElementById('modal-image');
-    const counter = document.getElementById('image-counter');
-    
-    modalImage.src = images[startIndex];
-    modalImage.alt = `${spaceName} - Image ${startIndex + 1}`;
-    counter.textContent = `${startIndex + 1} / ${images.length}`;
-    
-    modal.classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeImageModal() {
-    const modal = document.getElementById('image-modal');
-    modal.classList.add('hidden');
-    document.body.style.overflow = '';
-  }
-
-  function navigateModalImage(direction) {
-    const { images } = currentImageModal;
-    let newIndex = currentImageModal.currentIndex + direction;
-    
-    if (newIndex >= images.length) newIndex = 0;
-    if (newIndex < 0) newIndex = images.length - 1;
-    
-    currentImageModal.currentIndex = newIndex;
-    
-    const modalImage = document.getElementById('modal-image');
-    const counter = document.getElementById('image-counter');
-    
-    modalImage.src = images[newIndex];
-    modalImage.alt = `${currentImageModal.spaceName} - Image ${newIndex + 1}`;
-    counter.textContent = `${newIndex + 1} / ${images.length}`;
-  }
+  // Image modal functions are now handled by the ImageModal component
 
   function setupEventListeners() {
     // Filter toggle
@@ -678,23 +633,7 @@ const seo: SEOProps = {
 
 
 
-    // Image modal controls
-    document.getElementById('close-image-modal').addEventListener('click', closeImageModal);
-    document.getElementById('prev-image').addEventListener('click', () => navigateModalImage(-1));
-    document.getElementById('next-image').addEventListener('click', () => navigateModalImage(1));
-
-
-
-    // Keyboard navigation for image modal
-    document.addEventListener('keydown', (e) => {
-      const imageModal = document.getElementById('image-modal');
-      
-      if (!imageModal.classList.contains('hidden')) {
-        if (e.key === 'Escape') closeImageModal();
-        if (e.key === 'ArrowLeft') navigateModalImage(-1);
-        if (e.key === 'ArrowRight') navigateModalImage(1);
-      }
-    });
+    // Image modal controls are handled by the ImageModal component
   }
 
   function applyFilters() {
@@ -750,7 +689,7 @@ const seo: SEOProps = {
 }
 
 .carousel-image {
-  transition: opacity 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
 .carousel-dot {
@@ -760,5 +699,25 @@ const seo: SEOProps = {
 
 .carousel-dot:hover {
   background-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Enhanced hover effects for coworking space cards */
+.group:hover .carousel-image {
+  transform: scale(1.1);
+}
+
+/* Smooth transitions for all interactive elements */
+.group {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.group:hover {
+  transform: scale(1.05) translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Prevent text selection on interactive elements */
+.carousel-prev, .carousel-next, .carousel-dot {
+  user-select: none;
 }
 </style>
