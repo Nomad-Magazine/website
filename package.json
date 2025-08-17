@@ -13,6 +13,7 @@
     "@astrojs/cloudflare": "^12.6.0",
     "@astrojs/sitemap": "^3.4.1",
     "@astrojs/tailwind": "^6.0.2",
+    "@supabase/supabase-js": "^2.55.0",
     "@tailwindcss/vite": "^4.1.10",
     "astro": "^5.11.0",
     "astro-font": "^1.1.0",
