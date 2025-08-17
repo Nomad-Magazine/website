@@ -1,0 +1,84 @@
+---
+description: Supabase development workflow and CLI commands
+globs: ["supabase/**/*", "src/types/supabase.ts", "src/utils/supabase.ts"]
+alwaysApply: false
+---
+
+# Supabase Development Rules
+
+## Project Setup
+- This project uses Supabase for database and authentication
+- We use `bunx supabase` CLI commands (not global installation)
+- **NO LOCAL SUPABASE STACK** - We work directly with production database
+- Production database: https://kmsroigetiipulnosooy.supabase.co
+- **CRITICAL**: Always confirm destructive operations with user before executing
+
+## Essential Commands
+
+### Migration Management
+```bash
+# Create a new migration file
+bunx supabase migration new <migration_name>
+
+# DANGEROUS: Push migrations to production database
+# ALWAYS ASK USER FOR CONFIRMATION BEFORE RUNNING THIS
+bunx supabase db push
+
+# Pull remote schema changes from production
+bunx supabase db pull
+
+# Generate migration from schema differences
+bunx supabase db diff --use-migra -f <migration_name>
+```
+
+### Type Generation
+```bash
+# Generate TypeScript types from production database
+bunx supabase gen types typescript --project-id kmsroigetiipulnosooy > src/types/supabase.ts
+```
+
+### ⚠️ CRITICAL SAFETY RULES ⚠️
+**NEVER run these commands without explicit user confirmation:**
+- `bunx supabase db push` - Modifies production database
+- `bunx supabase db reset` - Would destroy production data
+- Any command that modifies database schema or data
+
+**ALWAYS ask user:** "This command will modify the production database. Are you sure you want to proceed? (y/N)"
+
+## Critical Workflow Rules
+1. **Always use `bunx supabase`** instead of `supabase` command
+2. **NO LOCAL DEVELOPMENT** - We work directly with production
+3. **Always regenerate types** after schema changes: `bunx supabase gen types typescript --project-id kmsroigetiipulnosooy > src/types/supabase.ts`
+4. **ALWAYS confirm with user** before running destructive commands
+5. **Migration files are timestamped** and should not be edited after creation
+6. **NEVER run `bunx supabase db reset`** - This would destroy production data
+
+## Common Workflows
+
+### Adding a New Table
+1. Create migration: `bunx supabase migration new add_<table_name>_table`
+2. Edit the generated SQL file in `/supabase/migrations/`
+3. **ASK USER FOR CONFIRMATION** before pushing to production
+4. Push to production: `bunx supabase db push`
+5. Generate types: `bunx supabase gen types typescript --project-id kmsroigetiipulnosooy > src/types/supabase.ts`
+
+### Modifying Existing Schema
+1. Create migration: `bunx supabase migration new modify_<table_name>_<change_description>`
+2. Write ALTER statements in the migration file
+3. **ASK USER FOR CONFIRMATION** before pushing to production
+4. Push to production: `bunx supabase db push`
+5. Update types: `bunx supabase gen types typescript --project-id kmsroigetiipulnosooy > src/types/supabase.ts`
+
+## File Structure
+- `/supabase/config.toml` - Local Supabase configuration
+- `/supabase/migrations/` - Database migration files
+- `/src/types/supabase.ts` - Generated TypeScript types
+- `/src/utils/supabase.ts` - Supabase client configuration
+
+## Production Safety Guidelines
+- **NEVER** run commands that modify production without user confirmation
+- **ALWAYS** double-check migration files before pushing
+- **BACKUP IMPORTANT DATA** before major schema changes
+- If types are outdated, regenerate from production: `bunx supabase gen types typescript --project-id kmsroigetiipulnosooy > src/types/supabase.ts`
+- Test application functionality after schema changes
+- **FORBIDDEN COMMANDS**: `bunx supabase db reset`, `bunx supabase stop`, `bunx supabase start` (we don't use local stack)

@@ -1,0 +1,130 @@
+---
+description: Supabase anonymous authentication implementation patterns
+globs: ["src/pages/**/*.astro", "src/utils/supabase.ts", "supabase/migrations/*anonymous*"]
+alwaysApply: false
+---
+
+# Authentication Implementation
+
+## Current Setup
+- **Authentication happens ONLY in the browser** - never server-side
+- Uses Supabase anonymous authentication via `supabase.auth.signInAnonymously()`
+- Anonymous users are authenticated users with `is_anonymous = true` in JWT
+- Browser fingerprinting used for consistent anonymous user identification
+- RLS policies require authenticated role (including anonymous users)
+- Supabase config passed from server to client via `define:vars` - single source of truth
+
+## Anonymous Authentication Pattern
+
+### CRITICAL: Browser-Side Only
+All authentication must happen in the browser. Server-side code should only:
+1. Pass Supabase config to client
+2. Fetch public data (no auth operations)
+
+### Config Passing Pattern
+```astro
+---
+// Server: Get config from single source (/src/utils/supabase.ts)
+import { supabaseUrl, supabaseAnonKey } from '../utils/supabase';
+
+const supabaseConfig = {
+  url: supabaseUrl,
+  anonKey: supabaseAnonKey
+};
+---
+
+<script is:inline define:vars={{ supabaseConfig }}>
+  // Client: Use passed config - NO hardcoded URLs/keys
+  const supabaseUrl = supabaseConfig.url;
+  const supabaseAnonKey = supabaseConfig.anonKey;
+</script>
+```
+
+### Client-Side Implementation
+```javascript
+// Sign in anonymously only when user performs an action
+async function ensureSignedIn() {
+  if (isSignedIn) return true;
+  if (signingIn) return false;
+  
+  signingIn = true;
+  const { error: authError } = await supabase.auth.signInAnonymously();
+  
+  if (authError) {
+    signingIn = false;
+    return false;
+  }
+  
+  isSignedIn = true;
+  signingIn = false;
+  return true;
+}
+```
+
+## Database RLS Policies
+
+### Current Policies for Anonymous Users
+```sql
+-- Allow authenticated users (including anonymous) to insert likes
+CREATE POLICY "Allow authenticated users to insert likes" ON article_likes
+    FOR INSERT 
+    TO authenticated
+    WITH CHECK (true);
+
+-- Allow authenticated users (including anonymous) to delete likes
+CREATE POLICY "Allow authenticated users to delete likes" ON article_likes
+    FOR DELETE 
+    TO authenticated
+    USING (true);
+
+-- Public read access for like counts
+CREATE POLICY "Allow public read access to likes" ON article_likes
+    FOR SELECT 
+    USING (true);
+```
+
+## Implementation Details
+
+### Article Liking System
+- Anonymous users sign in only when they try to like an article
+- Browser fingerprint stored in `user_fingerprint` field for consistency
+- Local state tracks liked articles to prevent unnecessary API calls
+- Auto-authentication for returning users who have voted before
+
+### Key Features
+- Lazy authentication (only when needed)
+- Browser fingerprint for anonymous user consistency
+- LocalStorage tracks voting history for UX
+- Unique constraint prevents duplicate likes per fingerprint
+- RLS policies require authenticated role (anonymous users are authenticated)
+
+## Configuration
+
+### Supabase Config
+```toml
+# In supabase/config.toml
+[auth]
+enable_anonymous_sign_ins = false  # Must be enabled in dashboard
+anonymous_users = 30  # Rate limit per hour per IP
+```
+
+### Database Schema
+- `article_likes` table with `user_fingerprint` TEXT field
+- Unique index on `(article_id, user_fingerprint)`
+- `article_like_counts` view for aggregated counts
+- RLS enabled with authenticated role policies
+
+## Usage Pattern
+1. **Server**: Pass Supabase config to client via `define:vars`
+2. **Client**: Load Supabase from CDN using passed config
+3. User loads page - no authentication yet
+4. User clicks like - triggers anonymous sign-in (browser-side)
+5. Browser fingerprint generated for consistency
+6. Like/unlike operations use authenticated session
+7. Returning users auto-authenticate if they've voted before
+
+## Key Rules
+- **NEVER** hardcode Supabase URL/keys in client scripts
+- **ALWAYS** pass config from server using `define:vars`
+- **NEVER** do auth operations server-side
+- **ALWAYS** use `/src/utils/supabase.ts` as single source of truth for config

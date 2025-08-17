@@ -1,0 +1,215 @@
+---
+description: Frontend Supabase client usage patterns and examples
+globs: ["src/pages/**/*.astro", "src/components/**/*.astro"]
+alwaysApply: false
+---
+
+# Client-Side Supabase Patterns
+
+## Client Setup
+
+### Server-Side Config (Astro Frontmatter)
+```typescript
+import { supabaseUrl, supabaseAnonKey } from '../utils/supabase';
+
+// Get Supabase config to pass to client - SINGLE SOURCE OF TRUTH
+const supabaseConfig = {
+  url: supabaseUrl,
+  anonKey: supabaseAnonKey
+};
+```
+
+### Client-Side Setup (Browser Only)
+```javascript
+// In inline script with define:vars
+<script is:inline define:vars={{ supabaseConfig }}>
+  // Get config passed from server-side - NO HARDCODED VALUES
+  const supabaseUrl = supabaseConfig.url;
+  const supabaseAnonKey = supabaseConfig.anonKey;
+  
+  // Create client in browser
+  const supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+</script>
+```
+
+## Server-Side Data Fetching (Astro)
+```typescript
+// In .astro frontmatter
+const { data: articles, error } = await supabase
+  .from('test_articles')
+  .select('*')
+  .order('created_at', { ascending: false });
+
+// Fetch aggregated data
+const { data: likeCounts } = await supabase
+  .from('article_like_counts')
+  .select('*');
+
+// Combine data
+const articlesWithLikes = articles?.map(article => ({
+  ...article,
+  like_count: likeCounts?.find(lc => lc.article_id === article.id)?.like_count || 0
+})) || [];
+```
+
+## Critical Rule: Authentication is Browser-Side Only
+
+**NEVER** do authentication on the server-side. All auth operations must happen in the browser:
+- `supabase.auth.signInAnonymously()` - Browser only
+- `supabase.auth.getUser()` - Browser only  
+- All auth state management - Browser only
+
+### Proper Config Passing Pattern
+```astro
+---
+// Server-side: Get config from single source
+import { supabaseUrl, supabaseAnonKey } from '../utils/supabase';
+
+const supabaseConfig = {
+  url: supabaseUrl,
+  anonKey: supabaseAnonKey
+};
+---
+
+<script is:inline define:vars={{ supabaseConfig }}>
+  // Client-side: Use passed config - NO HARDCODED VALUES
+  const supabaseUrl = supabaseConfig.url;
+  const supabaseAnonKey = supabaseConfig.anonKey;
+  
+  // Load Supabase from CDN
+  const script = document.createElement('script');
+  script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js';
+  script.onload = initializeApp;
+  document.head.appendChild(script);
+  
+  function initializeApp() {
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+    // All auth operations happen here in browser
+  }
+</script>
+```
+
+## Anonymous User Operations
+
+### Like/Unlike Pattern
+```javascript
+// Check existing likes for user
+const { data } = await supabase
+  .from('article_likes')
+  .select('article_id')
+  .eq('user_fingerprint', userFingerprint);
+
+// Insert like
+const { error } = await supabase
+  .from('article_likes')
+  .insert({
+    article_id: articleId,
+    user_fingerprint: userFingerprint
+  });
+
+// Remove like
+const { error } = await supabase
+  .from('article_likes')
+  .delete()
+  .eq('article_id', articleId)
+  .eq('user_fingerprint', userFingerprint);
+```
+
+### State Management
+```javascript
+// Track liked articles locally
+const likedArticles = new Set();
+
+// Update UI immediately
+if (!error) {
+  likedArticles.add(articleId);
+  button.classList.add('liked', 'text-red-600', 'bg-red-50');
+  heartIcon.setAttribute('fill', 'currentColor');
+  likeCountSpan.textContent = parseInt(likeCountSpan.textContent) + 1;
+}
+```
+
+## Error Handling Patterns
+
+### Silent Error Handling
+```javascript
+try {
+  // Database operation
+} catch (error) {
+  // Silent error handling for likes
+  // Don't show errors to users for non-critical features
+}
+```
+
+### Auth Error Handling
+```javascript
+const { error: authError } = await supabase.auth.signInAnonymously();
+
+if (authError) {
+  signingIn = false;
+  return false; // Fail gracefully
+}
+```
+
+## LocalStorage Integration
+```javascript
+// Track user voting history
+localStorage.setItem('supabase_has_voted', 'true');
+
+// Auto-authenticate returning voters
+const hasVotedBefore = localStorage.getItem('supabase_has_voted') === 'true';
+if (hasVotedBefore && !isSignedIn) {
+  await ensureSignedIn();
+}
+```
+
+## Event Handling
+```javascript
+// Setup event listeners after DOM ready
+function setupEventListeners() {
+  const likeButtons = document.querySelectorAll('.like-btn');
+  
+  likeButtons.forEach((button) => {
+    button.addEventListener('click', async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const articleId = parseInt(button.dataset.articleId);
+      await handleLike(articleId);
+    });
+  });
+}
+
+// Handle DOM ready state
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', setupEventListeners);
+} else {
+  setupEventListeners();
+}
+```
+
+## Type Safety
+```typescript
+// Use generated types
+import type { Database } from '../types/supabase';
+import type { Tables } from '../types/supabase';
+
+type Article = Tables<'test_articles'>;
+type ArticleLike = Tables<'article_likes'>;
+```
+
+## Performance Patterns
+
+### Lazy Authentication
+- Don't authenticate on page load
+- Only authenticate when user performs an action
+- Cache authentication state
+
+### Optimistic Updates
+- Update UI immediately
+- Revert on error
+- Show loading states
+
+### Data Aggregation
+- Use views for complex queries (`article_like_counts`)
+- Combine server-side data before sending to client
+- Cache frequently accessed data

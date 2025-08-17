@@ -1,0 +1,105 @@
+---
+description: Database schema patterns and migration best practices
+globs: ["supabase/migrations/**/*.sql", "src/types/supabase.ts"]
+alwaysApply: false
+---
+
+# Database Schema Rules
+
+## Current Database Schema
+
+### Tables
+- `test_articles`: Main articles table with id, title, content, author, timestamps
+- `article_likes`: Anonymous user likes with article_id, user_fingerprint, timestamps
+
+### Views  
+- `article_like_counts`: Aggregated like counts per article
+
+### Authentication
+- Anonymous authentication enabled for article likes
+- User fingerprinting for anonymous user identification
+- Row Level Security (RLS) policies configured for public access patterns
+
+## Migration Best Practices
+
+### Naming Conventions
+- Use descriptive names: `YYYYMMDDHHMMSS_action_table_description.sql`
+- Examples: `add_comments_table.sql`, `modify_articles_add_slug.sql`, `fix_likes_rls_policies.sql`
+
+### Migration Structure Template
+```sql
+-- Always include comments explaining the change
+-- Description of what this migration does
+
+-- Create/modify table structure
+CREATE TABLE IF NOT EXISTS table_name (
+    id BIGSERIAL PRIMARY KEY,
+    -- columns with appropriate types and constraints
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Add indexes for performance
+CREATE INDEX IF NOT EXISTS idx_table_column ON table_name(column);
+
+-- Enable Row Level Security if needed
+ALTER TABLE table_name ENABLE ROW LEVEL SECURITY;
+
+-- Create RLS policies
+CREATE POLICY "policy_name" ON table_name
+    FOR SELECT 
+    USING (condition);
+```
+
+## Row Level Security Patterns
+
+### Public Access (Anonymous Users)
+```sql
+-- Public read access
+CREATE POLICY "Allow public read access" ON table_name
+    FOR SELECT 
+    USING (true);
+
+-- Anonymous insert (for likes, comments, etc.)
+CREATE POLICY "Allow public insert" ON table_name
+    FOR INSERT 
+    WITH CHECK (true);
+```
+
+### User-Specific Access (Future)
+```sql
+-- When authenticated users are added
+CREATE POLICY "Users can access own records" ON table_name
+    FOR ALL 
+    USING (auth.uid() = user_id);
+```
+
+## Type Safety Requirements
+
+### After Schema Changes
+1. Always regenerate types: `bunx supabase gen types typescript --project-id kmsroigetiipulnosooy > src/types/supabase.ts`
+2. Update imports in components using the changed tables
+3. Verify TypeScript compilation passes
+4. Test database operations with new types in production environment
+
+### Using Generated Types
+```typescript
+import type { Database } from '../types/supabase'
+import type { Tables, TablesInsert, TablesUpdate } from '../types/supabase'
+
+// Use specific table types
+type Article = Tables<'test_articles'>
+type ArticleInsert = TablesInsert<'test_articles'>
+type ArticleUpdate = TablesUpdate<'test_articles'>
+```
+
+## Anonymous User Patterns
+- Use browser fingerprinting for anonymous identification
+- Store fingerprint in `user_fingerprint` TEXT field
+- Create unique constraints to prevent duplicate actions
+- Design RLS policies for public access
+
+## Performance Considerations
+- Add indexes for frequently queried columns
+- Use EXPLAIN ANALYZE for query optimization
+- Consider materialized views for complex aggregations
+- Monitor query performance in production
