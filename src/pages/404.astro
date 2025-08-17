@@ -1,5 +1,6 @@
 ---
 import Layout from '~/layouts/Layout.astro'
+import MagazineStack from '~/components/MagazineStack.astro'
 
 const seoProps = {
   title: '404 - Page Not Found | Nomad Magazine',
@@ -68,49 +69,7 @@ const seoProps = {
 
           <!-- Right Side - Magazine Stack -->
           <div class="lg:flex-1 lg:max-w-lg">
-            <div class="relative magazine-stack-container">
-              <!-- Magazine Stack Effect -->
-              <div class="relative transform transition-all duration-700">
-                <!-- Third magazine (back) - First Edition -->
-                <a href="/editions/first-edition" class="magazine-back absolute transition-all duration-500 ease-out cursor-pointer block overflow-hidden">
-                  <img 
-                    src="/images/first-edition-cover-hd.webp" 
-                    alt="Nomad Magazine First Edition" 
-                    class="h-auto w-64 rounded-lg shadow-2xl shadow-yellow-400/20 md:w-80 pointer-events-none"
-                    loading="lazy"
-                  />
-                </a>
-                
-                <!-- Second magazine (middle) - Second Edition -->
-                <a href="/editions/second-edition" class="magazine-middle absolute transition-all duration-500 ease-out cursor-pointer block overflow-hidden">
-                  <img 
-                    src="/images/edition-002-cover.webp" 
-                    alt="Nomad Magazine Second Edition" 
-                    class="h-auto w-64 rounded-lg shadow-2xl shadow-purple-400/20 md:w-80 pointer-events-none"
-                    loading="lazy"
-                  />
-                </a>
-                
-                <!-- First magazine (front) - Third Edition -->
-                <a href="/editions/third-edition" class="magazine-front relative cursor-pointer block transition-all duration-500 ease-out overflow-hidden">
-                  <img 
-                    src="/images/third-edition-cover-hd.webp" 
-                    alt="Nomad Magazine Third Edition" 
-                    class="h-auto w-64 rounded-lg shadow-2xl shadow-white/30 md:w-80 pointer-events-none"
-                    loading="lazy"
-                  />
-                  <!-- Floating badge -->
-                  <div class="absolute -right-4 -top-4 rounded-full bg-yellow-400 px-3 py-1 text-xs font-bold text-black pointer-events-none">
-                    Latest!
-                  </div>
-                </a>
-              </div>
-
-              <!-- Decorative elements -->
-              <div class="absolute -left-8 top-1/2 h-4 w-4 rounded-full bg-yellow-400/60 blur-sm"></div>
-              <div class="absolute -right-4 top-1/4 h-6 w-6 rounded-full bg-purple-400/40 blur-sm"></div>
-              <div class="absolute bottom-8 left-4 h-3 w-3 rounded-full bg-white/30 blur-sm"></div>
-            </div>
+            <MagazineStack showLatestBadge={true} />
           </div>
         </div>
       </div>
@@ -189,84 +148,6 @@ const seoProps = {
   /* Custom font for the 404 number */
   .font-justme {
     font-family: 'JustMeAgainDownHere', cursive;
-  }
-  
-  /* Magazine stack default positions */
-  .magazine-back {
-    transform: translateX(0px) translateY(0px) rotate(-8deg);
-    z-index: 1;
-    width: 256px; /* w-64 equivalent */
-    height: auto;
-  }
-  
-  .magazine-middle {
-    transform: translateX(40px) translateY(10px) rotate(-4deg);
-    z-index: 2;
-    width: 256px; /* w-64 equivalent */
-    height: auto;
-  }
-  
-  .magazine-front {
-    transform: translateX(80px) translateY(20px) rotate(0deg);
-    z-index: 3;
-    width: 256px; /* w-64 equivalent */
-    height: auto;
-  }
-  
-  @media (min-width: 768px) {
-    .magazine-back,
-    .magazine-middle,
-    .magazine-front {
-      width: 320px; /* md:w-80 equivalent */
-    }
-  }
-  
-  /* Magazine stack hover effect - spread out to the right */
-  .magazine-stack-container:hover .magazine-back {
-    transform: translateX(0px) translateY(0px) rotate(-8deg);
-  }
-  
-  .magazine-stack-container:hover .magazine-middle {
-    transform: translateX(120px) translateY(10px) rotate(-4deg);
-  }
-  
-  .magazine-stack-container:hover .magazine-front {
-    transform: translateX(240px) translateY(20px) rotate(0deg);
-  }
-  
-  /* Mobile: stack vertically on hover */
-  @media (max-width: 768px) {
-    .magazine-back {
-      transform: translateX(0px) translateY(0px) rotate(-4deg);
-    }
-    
-    .magazine-middle {
-      transform: translateX(20px) translateY(5px) rotate(-2deg);
-    }
-    
-    .magazine-front {
-      transform: translateX(40px) translateY(10px) rotate(0deg);
-    }
-    
-    .magazine-stack-container:hover .magazine-back {
-      transform: translateX(0px) translateY(0px) rotate(-4deg);
-    }
-    
-    .magazine-stack-container:hover .magazine-middle {
-      transform: translateX(0px) translateY(100px) rotate(0deg);
-    }
-    
-    .magazine-stack-container:hover .magazine-front {
-      transform: translateX(0px) translateY(200px) rotate(0deg);
-    }
-  }
-  
-  /* Hover effects for individual magazines */
-  .magazine-back:hover,
-  .magazine-middle:hover,
-  .magazine-front:hover {
-    transform: scale(1.05) !important;
-    z-index: 10 !important;
   }
 </style>
 </Layout>
