@@ -27,6 +27,14 @@ alwaysApply: true
 - Simple file reading approach is intentional and correct
 - No HTTP fetching, no environment detection, no complex logic needed
 
+## SmartSuite Data Fetching Rules
+- **ALWAYS fetch SmartSuite data at BUILD TIME ONLY**
+- Use `export const prerender = true;` in Astro pages that need SmartSuite data
+- Fetch data in Astro frontmatter using `await fetchReportRecords(reportID)`
+- Pass data to client-side scripts as static variables
+- **NEVER fetch SmartSuite data at runtime in the browser**
+- **NEVER use fetch() or HTTP requests for SmartSuite data**
+
 ## HANDS OFF POLICY
 - Leave the SmartSuite system completely alone
 - It works as designed when not interfered with

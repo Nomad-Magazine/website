@@ -1,4 +1,6 @@
 ---
+export const prerender = true;
+
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import ImageModal from '~/components/ImageModal.astro'
 import { supabaseUrl, supabaseAnonKey } from '~/utils/supabase'
@@ -10,7 +12,7 @@ const supabaseConfig = {
   anonKey: supabaseAnonKey
 }
 
-// Fetch distribution list coworking spaces
+// Fetch distribution list coworking spaces at BUILD TIME (same as distribution list)
 const { records: distributionRecords = [] } = await fetchReportRecords('68614a111208586bd05d3c3a')
 
 console.log('DEBUG: Total records fetched:', distributionRecords.length)
