@@ -1,0 +1,33 @@
+---
+description: SmartSuite cache system rules and restrictions
+globs: ["src/utils/smartsuite.ts", "public/cache/**/*", "src/utils/nomad_cache_table_*.json"]
+alwaysApply: true
+---
+
+# SmartSuite Cache System - NEVER TOUCH
+
+## ABSOLUTELY FORBIDDEN
+- **Never modify `src/utils/smartsuite.ts`** - This file is off-limits
+- **Never modify any cache files** - These are managed by CI/CD
+- **Never attempt to "fix" or "improve"** the SmartSuite fetching logic
+- **Never run SmartSuite operations locally** - This is not how the system works
+
+## CI/CD ONLY
+- SmartSuite cache system is handled entirely by CI/CD pipeline
+- Cache files are updated automatically by the build process
+- Local modifications will break the system and be overwritten
+
+## User Issues Protocol
+- If users have SmartSuite data problems, tell them to use the SmartSuite button/interface
+- Direct them to the SmartSuite dashboard to refresh data
+- **Never attempt to fix SmartSuite issues by modifying code**
+
+## System Design
+- The system reads static cache files that are updated by CI/CD
+- Simple file reading approach is intentional and correct
+- No HTTP fetching, no environment detection, no complex logic needed
+
+## HANDS OFF POLICY
+- Leave the SmartSuite system completely alone
+- It works as designed when not interfered with
+- Any "improvements" will break the CI/CD integration
