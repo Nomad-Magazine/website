@@ -13,7 +13,13 @@ const supabaseConfig = {
 // Fetch distribution list coworking spaces
 const { records: distributionRecords = [] } = await fetchReportRecords('68614a111208586bd05d3c3a')
 
+console.log('DEBUG: Total records fetched:', distributionRecords.length)
+console.log('DEBUG: Sample record structure:', distributionRecords[0] ? Object.keys(distributionRecords[0]) : 'No records')
+
 // Filter and transform distribution coworking spaces
+const allCoworkingRecords = distributionRecords.filter((record: any) => record.sb685ab800?.label === 'Coworking')
+console.log('DEBUG: Records with Coworking category:', allCoworkingRecords.length)
+
 const distributionCoworkingSpaces = distributionRecords
   .filter((record: any) => 
     record.sb685ab800?.label === 'Coworking' && 
@@ -37,6 +43,9 @@ const distributionCoworkingSpaces = distributionRecords
     discount_code: record.s9c0ff01ed || null,
     created_at: record.first_created?.on || new Date().toISOString()
   }))
+
+console.log('DEBUG: Final coworking spaces count:', distributionCoworkingSpaces.length)
+console.log('DEBUG: Sample coworking space:', distributionCoworkingSpaces[0] ? distributionCoworkingSpaces[0].name : 'No spaces')
 
 // Pass distribution spaces to client
 const distributionSpacesConfig = {
@@ -237,6 +246,9 @@ const seo: SEOProps = {
 
   async function loadCoworkingSpaces() {
     try {
+      console.log('CLIENT DEBUG: Starting to load coworking spaces');
+      console.log('CLIENT DEBUG: distributionSpaces from server:', distributionSpaces.length);
+      
       // Load vote counts for all spaces
       const { data: voteCounts, error: voteError } = await supabase
         .from('coworking_vote_counts')
@@ -262,7 +274,8 @@ const seo: SEOProps = {
         vote_count: voteCounts?.find(vc => vc.space_id === space.id)?.vote_count || 0
       }));
 
-      console.log('Loaded coworking spaces:', coworkingSpaces.map(s => ({ id: s.id, name: s.name })));
+      console.log('CLIENT DEBUG: Final coworking spaces loaded:', coworkingSpaces.length);
+      console.log('CLIENT DEBUG: Coworking spaces:', coworkingSpaces.map(s => ({ id: s.id, name: s.name })));
 
       updateStats();
       populateFilters();
@@ -270,7 +283,7 @@ const seo: SEOProps = {
       applyFilters();
 
     } catch (error) {
-      console.error('Error loading coworking spaces:', error);
+      console.error('CLIENT DEBUG: Error loading coworking spaces:', error);
       document.getElementById('loading-spinner').classList.add('hidden');
       document.getElementById('no-spaces').classList.remove('hidden');
     }
