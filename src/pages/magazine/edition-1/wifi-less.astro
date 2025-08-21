@@ -1,0 +1,25 @@
+---
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import ComingSoonArticle from '~/components/ComingSoonArticle.astro'
+
+const seo: SEOProps = {
+  title: 'The Good, the Bad, and the WiFi-less | Nomad Magazine',
+  description: "A witty, tongue-in-cheek essay on the perils of unreliable WiFi while living the digital nomad dream.",
+  image: '/images/edition-001-wifi-less-amy-white.webp',
+  keywords: 'nomad wifi problems, remote work connectivity, digital nomad humor, wifi reliability',
+  ogType: 'article'
+}
+---
+
+<Layout seo={seo}>
+  <ComingSoonArticle
+    title="The Good, the Bad, and the WiFi-less"
+    author="Amy White"
+    authorRole="Editor-in-Chief of Nomad Magazine"
+    coverImage="/images/edition-001-wifi-less-amy-white.webp"
+    category="Humor"
+    readTime="6 min read"
+    excerpt="A witty, tongue-in-cheek essay on the perils of unreliable WiFi while living the digital nomad dream. Amy dramatizes the chaos of being cut off from the internet like a tragic romance—where your remote job, identity, and sanity all depend on one blinking signal. A humorous take on every nomad's worst nightmare."
+  />
+</Layout>
+

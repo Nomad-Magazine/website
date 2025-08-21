@@ -1,0 +1,25 @@
+---
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import ComingSoonArticle from '~/components/ComingSoonArticle.astro'
+
+const seo: SEOProps = {
+  title: 'Real Nomads of Mongolia | Nomad Magazine',
+  description: "Visual spread capturing the authentic, grounded lifestyle of traditional Mongolian nomads—a stark contrast to WiFi-chasing digital workers.",
+  image: '/images/edition-001-mongolia-nomads-tijmen-hobbel.webp',
+  keywords: 'Mongolia nomads, traditional nomads, nomad photography, Mongolia travel, authentic nomad life',
+  ogType: 'article'
+}
+---
+
+<Layout seo={seo}>
+  <ComingSoonArticle
+    title="Real Nomads of Mongolia"
+    author="Tijmen Hobbel"
+    authorRole="Photographer & Videographer"
+    coverImage="/images/edition-001-mongolia-nomads-tijmen-hobbel.webp"
+    category="Photography"
+    readTime="5 min read"
+    excerpt="This visual spread captures the authentic, grounded lifestyle of traditional Mongolian nomads—a stark contrast to WiFi-chasing digital workers. Horses roam freely, yurts rise on empty plains, and survival is about rhythm with nature, not Google Calendar. Tijmen's stunning photography reveals what nomadism looked like before laptops and coworking spaces."
+  />
+</Layout>
+

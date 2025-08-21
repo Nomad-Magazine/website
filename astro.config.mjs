@@ -5,13 +5,13 @@ import cloudflare from '@astrojs/cloudflare'
 import { defineConfig, envField } from 'astro/config'
 
 export default defineConfig({
-  output: 'server',
+  output: process.env.NODE_ENV === 'production' ? 'server' : 'static',
   server: {
     open: true,
     port: 3000,
     host: '0.0.0.0',
   },
-  adapter: cloudflare(),
+  adapter: process.env.NODE_ENV === 'production' ? cloudflare() : undefined,
   vite: {
     plugins: [
       tailwindcss(),

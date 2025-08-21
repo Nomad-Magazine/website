@@ -1,0 +1,210 @@
+---
+interface Props {
+  title: string
+  author: string
+  authorRole: string
+  authorImage?: string
+  coverImage: string
+  category: string
+  readTime: string
+  publishDate: string
+  content: string
+  nextArticle?: {
+    id: string
+    title: string
+    author: string
+  }
+  prevArticle?: {
+    id: string
+    title: string
+    author: string
+  }
+}
+
+const { 
+  title, 
+  author, 
+  authorRole, 
+  authorImage,
+  coverImage, 
+  category, 
+  readTime, 
+  publishDate,
+  content,
+  nextArticle,
+  prevArticle
+} = Astro.props
+---
+
+<article class="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
+  <!-- Article Header -->
+  <header class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+    <img 
+      src={coverImage} 
+      alt={title}
+      class="h-[60vh] w-full object-cover"
+    />
+    
+    <div class="absolute bottom-0 left-0 right-0 z-20 p-8">
+      <div class="container mx-auto">
+        <div class="mb-4 flex items-center gap-4">
+          <span class="rounded-full bg-yellow-400/20 px-4 py-2 text-sm font-medium text-yellow-400">
+            {category}
+          </span>
+          <span class="text-sm text-gray-300">{readTime}</span>
+          <span class="text-sm text-gray-300">{publishDate}</span>
+        </div>
+        
+        <h1 class="mb-6 text-4xl font-bold leading-tight md:text-6xl">
+          {title}
+        </h1>
+        
+        <div class="flex items-center gap-4">
+          {authorImage && (
+            <img 
+              src={authorImage} 
+              alt={author}
+              class="h-12 w-12 rounded-full object-cover"
+            />
+          )}
+          <div>
+            <p class="font-semibold text-white">{author}</p>
+            <p class="text-sm text-gray-300">{authorRole}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Article Content -->
+  <main class="py-16">
+    <div class="container mx-auto px-4">
+      <div class="mx-auto max-w-4xl">
+        <div class="prose prose-lg prose-invert max-w-none">
+          <div set:html={content}></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Article Navigation -->
+  <nav class="border-t border-gray-800 py-12">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col gap-8 md:flex-row md:justify-between">
+        <!-- Previous Article -->
+        {prevArticle && (
+          <a 
+            href={`/magazine/edition-1/${prevArticle.id}`}
+            class="group flex items-center gap-4 rounded-lg bg-gray-800/50 p-6 transition-all hover:bg-gray-800"
+          >
+            <div class="flex-shrink-0">
+              <svg class="h-6 w-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-sm text-gray-400">Previous Article</p>
+              <h3 class="font-semibold text-white group-hover:text-yellow-400 transition-colors">
+                {prevArticle.title}
+              </h3>
+              <p class="text-sm text-gray-400">by {prevArticle.author}</p>
+            </div>
+          </a>
+        )}
+
+        <!-- Back to Magazine -->
+        <a 
+          href="/magazine/edition-1"
+          class="group flex items-center justify-center gap-2 rounded-lg bg-yellow-400/10 px-6 py-4 text-yellow-400 transition-all hover:bg-yellow-400/20"
+        >
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          Back to Edition 1
+        </a>
+
+        <!-- Next Article -->
+        {nextArticle && (
+          <a 
+            href={`/magazine/edition-1/${nextArticle.id}`}
+            class="group flex items-center gap-4 rounded-lg bg-gray-800/50 p-6 transition-all hover:bg-gray-800 text-right"
+          >
+            <div>
+              <p class="text-sm text-gray-400">Next Article</p>
+              <h3 class="font-semibold text-white group-hover:text-yellow-400 transition-colors">
+                {nextArticle.title}
+              </h3>
+              <p class="text-sm text-gray-400">by {nextArticle.author}</p>
+            </div>
+            <div class="flex-shrink-0">
+              <svg class="h-6 w-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </div>
+          </a>
+        )}
+      </div>
+    </div>
+  </nav>
+</article>
+
+<style>
+  /* Enhanced prose styling for article content */
+  .prose {
+    color: #d1d5db;
+  }
+  
+  .prose h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 1.5rem;
+    margin-top: 3rem;
+  }
+  
+  .prose h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+  }
+  
+  .prose p {
+    margin-bottom: 1.5rem;
+    line-height: 1.75;
+  }
+  
+  .prose blockquote {
+    border-left: 4px solid #fbbf24;
+    padding-left: 1.5rem;
+    font-style: italic;
+    color: #9ca3af;
+    margin: 2rem 0;
+  }
+  
+  .prose strong {
+    color: white;
+    font-weight: 600;
+  }
+  
+  .prose ul, .prose ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+  
+  .prose li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .prose a {
+    color: #fbbf24;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+  }
+  
+  .prose a:hover {
+    color: #fcd34d;
+  }
+</style>

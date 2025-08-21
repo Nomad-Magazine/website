@@ -1,0 +1,25 @@
+---
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import ComingSoonArticle from '~/components/ComingSoonArticle.astro'
+
+const seo: SEOProps = {
+  title: "You're Screwing Over Local Communities | Nomad Magazine",
+  description: "Critiques how digital nomads unintentionally harm local communities through gentrification and inflated prices, with practical suggestions for responsible travel.",
+  image: '/images/edition-001-local-communities-stella-airoldi.webp',
+  keywords: 'nomad gentrification, responsible travel, nomad impact, sustainable nomadism, local communities',
+  ogType: 'article'
+}
+---
+
+<Layout seo={seo}>
+  <ComingSoonArticle
+    title="You're Screwing Over Local Communities"
+    author="Stella Airoldi"
+    authorRole="Founder of 22STARS & Social Impact Nomads"
+    coverImage="/images/edition-001-local-communities-stella-airoldi.webp"
+    category="Social Impact"
+    readTime="11 min read"
+    excerpt="Critiques how digital nomads unintentionally harm local communities through gentrification and inflated prices, providing practical suggestions for more conscious and responsible travel that benefits local economies. Stella doesn't pull punches in this hard-hitting piece about the dark side of the nomad movement and how we can do better."
+  />
+</Layout>
+

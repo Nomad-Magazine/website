@@ -11,14 +11,25 @@ const { showLatestBadge = true, className = '' } = Astro.props
   <!-- Magazine Stack Effect -->
   <div class="relative transform transition-all duration-700">
     <!-- Third magazine (back) - First Edition -->
-    <a href="/editions/first-edition" class="magazine-back absolute transition-all duration-500 ease-out cursor-pointer block overflow-hidden">
+    <div class="magazine-back absolute transition-all duration-500 ease-out cursor-pointer block overflow-hidden group">
       <img 
         src="/images/first-edition-cover-hd.webp" 
         alt="Nomad Magazine First Edition" 
         class="h-auto w-64 rounded-lg shadow-2xl shadow-yellow-400/20 md:w-80 pointer-events-none"
         loading="lazy"
       />
-    </a>
+      <!-- Digital Magazine Badge -->
+      <div class="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <a 
+          href="/magazine/edition-1"
+          class="inline-block bg-yellow-400 text-black text-xs font-bold px-2 py-1 rounded-full hover:bg-yellow-300 transition-colors"
+        >
+          Read Digital
+        </a>
+      </div>
+      <!-- Original link overlay -->
+      <a href="/editions/first-edition" class="absolute inset-0 z-10"></a>
+    </div>
     
     <!-- Second magazine (middle) - Second Edition -->
     <a href="/editions/second-edition" class="magazine-middle absolute transition-all duration-500 ease-out cursor-pointer block overflow-hidden">

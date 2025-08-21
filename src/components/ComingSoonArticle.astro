@@ -1,0 +1,133 @@
+---
+interface Props {
+  title: string
+  author: string
+  authorRole: string
+  coverImage: string
+  category: string
+  readTime: string
+  excerpt: string
+}
+
+const { title, author, authorRole, coverImage, category, readTime, excerpt } = Astro.props
+---
+
+<article class="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
+  <!-- Article Header -->
+  <header class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+    <img 
+      src={coverImage} 
+      alt={title}
+      class="h-[60vh] w-full object-cover"
+    />
+    
+    <div class="absolute bottom-0 left-0 right-0 z-20 p-8">
+      <div class="container mx-auto">
+        <div class="mb-4 flex items-center gap-4">
+          <span class="rounded-full bg-yellow-400/20 px-4 py-2 text-sm font-medium text-yellow-400">
+            {category}
+          </span>
+          <span class="text-sm text-gray-300">{readTime}</span>
+          <span class="text-sm text-gray-300">Edition 1, 2024</span>
+        </div>
+        
+        <h1 class="mb-6 text-4xl font-bold leading-tight md:text-6xl">
+          {title}
+        </h1>
+        
+        <div class="flex items-center gap-4">
+          <div>
+            <p class="font-semibold text-white">{author}</p>
+            <p class="text-sm text-gray-300">{authorRole}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Coming Soon Content -->
+  <main class="py-16">
+    <div class="container mx-auto px-4">
+      <div class="mx-auto max-w-4xl text-center">
+        <div class="mb-12 rounded-2xl bg-gradient-to-r from-yellow-400/10 to-orange-500/10 p-8 backdrop-blur-sm border border-yellow-400/20">
+          <div class="mb-6">
+            <div class="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-yellow-400/20">
+              <svg class="h-10 w-10 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <h2 class="text-3xl font-bold text-white mb-4">Coming Soon</h2>
+            <p class="text-xl text-gray-300 mb-6">
+              This article is being prepared for the digital magazine experience.
+            </p>
+          </div>
+          
+          <div class="prose prose-lg prose-invert max-w-none text-left">
+            <p class="text-gray-300 leading-relaxed">
+              {excerpt}
+            </p>
+          </div>
+        </div>
+
+        <div class="rounded-xl bg-gray-800/50 p-6">
+          <h3 class="mb-4 text-xl font-semibold text-white">Want to read the full article?</h3>
+          <p class="mb-6 text-gray-300">
+            This article is available in the complete Edition 1 magazine. Purchase your copy to access all articles, interviews, and exclusive content.
+          </p>
+          <div class="flex flex-col gap-4 sm:flex-row sm:justify-center">
+            <a 
+              href="/editions/first-edition"
+              class="rounded-lg bg-yellow-400 px-6 py-3 font-semibold text-black transition-all hover:bg-yellow-300"
+            >
+              Get Full Magazine
+            </a>
+            <a 
+              href="/free-article-what-not-to-do-on-first-date"
+              class="rounded-lg border border-gray-600 px-6 py-3 font-semibold text-white transition-all hover:bg-gray-800"
+            >
+              Read Free Sample
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Back to Magazine -->
+  <nav class="border-t border-gray-800 py-12">
+    <div class="container mx-auto px-4 text-center">
+      <a 
+        href="/magazine/edition-1"
+        class="inline-flex items-center gap-2 rounded-lg bg-yellow-400/10 px-6 py-4 text-yellow-400 transition-all hover:bg-yellow-400/20"
+      >
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        Back to Edition 1
+      </a>
+    </div>
+  </nav>
+</article>
+
+<style>
+  /* Smooth animations */
+  .prose {
+    color: #d1d5db;
+  }
+  
+  /* Glowing effect for coming soon badge */
+  @keyframes glow {
+    0%, 100% { 
+      box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+    }
+    50% { 
+      box-shadow: 0 0 30px rgba(251, 191, 36, 0.5);
+    }
+  }
+  
+  .bg-yellow-400\/20 {
+    animation: glow 3s ease-in-out infinite;
+  }
+</style>
+
