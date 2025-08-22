@@ -6,8 +6,8 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-03-27T00:54:04.584Z
-updated_at: 2025-03-27T00:54:17.049Z
-head_image: https://assets.seobotai.com/nomadgossip.com/67e4954010051fda3b634869-1743036857049.jpg
+updated_at: 2025-08-21T06:45:24.855Z
+head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/67e4954010051fda3b634869-1743036857049.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: remote work, digital nomad, city rankings, cost of living, internet speed, safety, community feedback
 tag: Digital, Moving, Travel
@@ -56,7 +56,7 @@ To ensure accuracy, the platform combines user reports with data from local prov
 
 ### Safety and Local Community
 
-Safety rankings are based on multiple data sources, offering a thorough look at security levels. Beyond that, Nomad List organizes **368 meetups each year** across over 100 cities, connecting its **37,225 users** [\[1\]](https://nomadlist.com/). These events not only build community but also strengthen safety insights through shared experiences.
+Safety rankings are based on multiple data sources, offering a thorough look at [security](https://officerlist.com) levels. Beyond that, Nomad List organizes **368 meetups each year** across over 100 cities, connecting its **37,225 users** [\[1\]](https://nomadlist.com/). These events not only build community but also strengthen safety insights through shared experiences.
 
 ## Using [Nomad List](https://nomadlist.com/index.html) Effectively
 

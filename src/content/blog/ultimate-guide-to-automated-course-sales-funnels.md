@@ -6,8 +6,8 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-03-26T02:59:07.438Z
-updated_at: 2025-03-26T02:59:31.555Z
-head_image: https://assets.seobotai.com/nomadgossip.com/67e3672010051fda3b621dc4-1742957971555.jpg
+updated_at: 2025-08-21T21:12:03.132Z
+head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/67e3672010051fda3b621dc4-1742957971555.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: automated sales funnels, course marketing, email sequences, audience research, landing pages
 tag: Digital, Moving, Travel
@@ -16,7 +16,7 @@ locale: en
 next_blog: ''
 ---
 
-Automated course sales funnels help you convert potential students into paying customers while saving time and effort. Here's how they work:
+[Automated course sales funnels](https://www.humblehelp.studio) help you convert potential students into paying customers while saving time and effort. Here's how they work:
 
 1.  **What is an Automated Sales Funnel?**  
     It's a system that guides prospects from awareness to enrollment using automation tools like emails, landing pages, and payment processing.
