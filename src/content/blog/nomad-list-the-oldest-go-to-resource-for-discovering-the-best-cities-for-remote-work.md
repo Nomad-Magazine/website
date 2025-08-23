@@ -6,7 +6,7 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-03-27T00:54:04.584Z
-updated_at: 2025-08-21T06:45:24.855Z
+updated_at: 2025-08-22T20:00:49.739Z
 head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/67e4954010051fda3b634869-1743036857049.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: remote work, digital nomad, city rankings, cost of living, internet speed, safety, community feedback
@@ -16,7 +16,7 @@ locale: en
 next_blog: ''
 ---
 
-**Looking for the best cities for remote work?** [Nomad List](https://nomadlist.com/index.html) (now [Nomads.com](https://nomads.com/)) is the leading platform for digital nomads, helping over **37,225 members** find their ideal destinations since 2014. It ranks cities worldwide based on **cost of living**, **internet speed**, **safety**, and **community feedback**, making relocation simpler and smarter.
+**Looking for the best cities for remote work?** [Nomad List](https://nomadlist.com/index.html) (now [Nomads.com](https://nomads.com/)) is the leading platform for digital nomads, helping over **37,225 members** find their [ideal destinations](https://highlights.ai) since 2014. It ranks cities worldwide based on **cost of living**, **internet speed**, **safety**, and **community feedback**, making relocation simpler and smarter.
 
 ### Key Features:
 
