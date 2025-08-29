@@ -6,8 +6,8 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-05-07T11:27:25.061Z
-updated_at: 2025-08-10T10:36:20.102Z
-head_image: https://assets.seobotai.com/nomadgossip.com/681b3ba14899b57b164b7d5d-1746617298627.jpg
+updated_at: 2025-08-28T20:24:20.373Z
+head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/681b3ba14899b57b164b7d5d-1746617298627.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: digital nomads, remote work, real estate, travel, technology, economic impact, co-living, digital nomad visas
 tag: Career, Digital, Travel
@@ -54,7 +54,7 @@ Co-living spaces are gaining traction, especially in the Asia Pacific region, wh
 
 ### New Property Market Hotspots
 
-Destinations like Madeira's Digital Nomad Village, which drew over 11,000 applications and hosted 5,000 nomads [\[3\]](https://andysto.com/one-year-of-the-digital-nomad-village-in-madeira), and Bali's Canggu, known for its modern, furnished properties, highlight this trend. Policies like the Second Home Visa aim to attract high-income remote workers, further impacting property values [\[4\]](https://vocal.media/journal/global-boom-in-remote-work-communities-and-digital-nomad-real-estate).
+Destinations like Madeira's Digital Nomad Village, which drew over 11,000 applications and hosted 5,000 nomads [\[3\]](https://andysto.com/one-year-of-the-digital-nomad-village-in-madeira), and Bali's Canggu, known for its modern, furnished properties, highlight this trend. Policies like the Second Home Visa aim to attract high-income remote workers, further impacting [property values](https://contempothemes.com) [\[4\]](https://vocal.media/journal/global-boom-in-remote-work-communities-and-digital-nomad-real-estate).
 
 > "Remote work has globalized lifestyle choices. It's no longer about where your office is - it's about where you want to live", – Hirsh Mohindra, Global Real Estate Advisor [\[4\]](https://vocal.media/journal/global-boom-in-remote-work-communities-and-digital-nomad-real-estate)
 
