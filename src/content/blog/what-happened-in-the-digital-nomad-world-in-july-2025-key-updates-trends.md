@@ -14,6 +14,7 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
+pubDate: 2025-08-01T09:27:42.774Z
 ---
 
 **The** [**digital nomad**](https://coliving.com) **world is evolving fast, and July 2025 brought some major updates.** Here's what you need to know:

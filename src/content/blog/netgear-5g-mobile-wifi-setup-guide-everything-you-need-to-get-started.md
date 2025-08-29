@@ -14,6 +14,7 @@ tag: Digital, Travel, Writing
 published: true
 locale: en
 next_blog: ''
+pubDate: 2025-05-02T04:27:06.730Z
 ---
 
 [Netgear](https://www.netgear.com/) 5G Mobile WiFi devices, like the [Nighthawk M6 Pro](https://www.netgear.com/home/mobile-wifi/hotspots/mr6550/), provide fast and secure internet access for up to 32 devices, making them ideal for remote work or travel. Here's a quick setup guide to get you connected:

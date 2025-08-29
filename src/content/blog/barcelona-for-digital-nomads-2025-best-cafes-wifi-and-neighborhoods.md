@@ -14,6 +14,7 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
+pubDate: 2025-03-19T20:41:09.172Z
 ---
 
 Barcelona in 2025 is a top choice for digital nomads, offering affordable living, reliable WiFi, and remote work-friendly policies. Here's what you need to know:

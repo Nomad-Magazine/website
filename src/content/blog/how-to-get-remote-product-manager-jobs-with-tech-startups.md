@@ -14,6 +14,7 @@ tag: Career, Digital, Writing
 published: true
 locale: en
 next_blog: ''
+pubDate: 2025-04-06T01:20:19.553Z
 ---
 
 **Want a remote product manager job at a tech startup?** Here’s what you need to know:

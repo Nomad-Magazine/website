@@ -14,6 +14,7 @@ tag: Expat, Moving, Travel
 published: true
 locale: en
 next_blog: ''
+pubDate: 2025-02-12T17:29:23.322Z
 ---
 
 Did you know that flexible travel plans and smart booking tools can save you up to 50% on flights? As a remote worker, flights are essential, not optional. Here’s how to cut costs without sacrificing productivity:

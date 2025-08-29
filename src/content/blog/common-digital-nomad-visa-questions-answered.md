@@ -14,6 +14,7 @@ tag: Expat, Moving, Travel
 published: true
 locale: en
 next_blog: ''
+pubDate: 2025-02-11T00:25:19.322Z
 ---
 
 **[Digital nomad visas](https://www.nomadgossip.com/blog/remote-work-visas-top-10-countries-for-digital-nomads) let you live abroad legally while working remotely.** These visas are designed for remote workers who earn income from foreign sources and want to stay longer than tourist visas allow. Here's what you need to know:

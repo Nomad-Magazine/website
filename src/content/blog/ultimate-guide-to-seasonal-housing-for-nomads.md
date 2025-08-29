@@ -14,6 +14,7 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
+pubDate: 2025-05-26T23:05:18.691Z
 ---
 
 **Want to save on housing as a digital nomad?** Timing is everything. Seasonal housing prices fluctuate due to weather, tourism, and [local events](https://www.nomadgossip.com/list-event). By planning stays during off-peak or shoulder seasons, you can cut costs significantly. Here's what you need to know:

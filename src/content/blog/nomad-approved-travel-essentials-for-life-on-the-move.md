@@ -14,6 +14,7 @@ tag: Digital, Moving, Travel
 published: true
 locale: en
 next_blog: ''
+pubDate: 2025-06-04T01:35:09.456Z
 ---
 
 **Want to travel light without sacrificing what you need?** Here's your ultimate guide to packing smart for a [digital nomad lifestyle](https://www.nomadgossip.com/nomad-events). From tech gadgets to multi-purpose clothing, every item in your bag should work hard for you. Here's what you'll need:

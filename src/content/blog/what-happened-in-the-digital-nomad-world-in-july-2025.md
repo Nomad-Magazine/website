@@ -14,6 +14,7 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
+pubDate: 2025-08-03T20:51:18.335Z
 ---
 
 **[Digital nomad](https://albaniatravel.guide)ism hit a milestone in July 2025, with the global community surpassing 50 million individuals.** Key updates included new visa programs, policy changes, and shifts in lifestyle trends. Here's a quick rundown:

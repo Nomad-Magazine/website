@@ -14,6 +14,7 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
+pubDate: 2025-06-01T06:22:02.238Z
 ---
 
 **Travel insurance is a must-have for [digital nomads](https://www.nomadgossip.com/nomad-events).** It protects your health, gear, and travel plans from unexpected emergencies. Here’s what you need to know:

@@ -14,6 +14,7 @@ tag: Digital, Moving, Travel
 published: true
 locale: en
 next_blog: ''
+pubDate: 2025-03-19T20:44:10.328Z
 ---
 
 Chiang Mai in 2025 is a top choice for digital nomads thanks to its affordability, fast internet, and welcoming community. Here's what you need to know:

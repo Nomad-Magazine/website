@@ -14,6 +14,7 @@ tag: Digital, Expat, Moving
 published: true
 locale: en
 next_blog: ''
+pubDate: 2025-03-19T20:46:09.144Z
 ---
 
 -   **Cost of Living**: Average monthly expenses are **$974**, including rent, utilities, food, transportation, and more. Rent for a 1BR apartment in the city center starts at **$436/month**.

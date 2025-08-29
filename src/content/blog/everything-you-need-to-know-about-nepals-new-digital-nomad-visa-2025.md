@@ -14,6 +14,7 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
+pubDate: 2025-05-30T22:18:52.185Z
 ---
 
 Nepal has launched a **[Digital Nomad Visa](https://www.nomadgossip.com/blog/remote-work-visas-top-10-countries-for-digital-nomads)** in 2025, offering remote workers the chance to live and work legally in the country for up to five years. Here’s what you need to know:

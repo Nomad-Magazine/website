@@ -14,6 +14,7 @@ tag: Digital, Expat, Moving
 published: true
 locale: en
 next_blog: ''
+pubDate: 2025-03-19T20:40:13.544Z
 ---
 
 Lisbon is a top destination for digital nomads, offering a mix of **affordability**, **high-speed internet**, and a **vibrant community**. Here’s what you need to know:

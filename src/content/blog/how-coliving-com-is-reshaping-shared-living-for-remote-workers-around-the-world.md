@@ -14,6 +14,7 @@ tag: Career, Digital, Travel
 published: true
 locale: en
 next_blog: ''
+pubDate: 2025-04-02T09:57:18.320Z
 ---
 
 **[Coliving.com](https://coliving.com/) connects remote workers with flexible, fully furnished shared living spaces in over 360 cities across 70+ countries.** It offers [affordable housing](https://mjicholding.com) starting at just HK$778/month, cutting living costs by up to 40% compared to traditional rentals. These spaces include high-speed WiFi, utilities, cleaning services, and access to a built-in community, making them ideal for digital nomads.

@@ -14,6 +14,7 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
+pubDate: 2025-03-27T01:48:05.302Z
 ---
 
 [GetCroissant](https://www.getcroissant.com/a/nomadgossip) helps digital nomads and remote workers find professional coworking spaces in over 70 cities globally. With flexible, pay-as-you-go plans starting at €19/month, users can access high-speed internet, quiet work environments, and amenities like meeting rooms and 24/7 access. Its mobile app simplifies booking, tracks hours, and connects members for networking. Ideal for those seeking flexibility, productivity, and community while traveling or working remotely.

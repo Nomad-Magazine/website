@@ -14,6 +14,7 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
+pubDate: 2025-04-03T10:37:26.261Z
 ---
 
 [Mapmelon](https://www.mapmelon.com/) helps digital nomads and colivers stay connected with their [community](https://founderconnects.com), no matter where they are. Here's how:

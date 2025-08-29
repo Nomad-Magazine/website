@@ -14,6 +14,7 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
+pubDate: 2025-03-20T03:18:46.044Z
 ---
 
 **Looking for a budget-friendly city with a vibrant lifestyle to work remotely?** Buenos Aires in 2025 offers affordable living, reliable internet, and a [digital nomad visa](https://www.nomadgossip.com/blog/remote-work-visas-top-10-countries-for-digital-nomads) that lets you stay up to a year. Here's what you need to know:

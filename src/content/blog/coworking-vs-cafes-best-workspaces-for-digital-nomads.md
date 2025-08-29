@@ -14,6 +14,7 @@ tag: Expat, Moving, Travel
 published: true
 locale: en
 next_blog: ''
+pubDate: 2025-02-08T04:21:57.788Z
 ---
 
 Coworking spaces and cafes are two popular workspace options for digital nomads. Here's a quick breakdown to help you decide:

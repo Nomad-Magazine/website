@@ -14,6 +14,7 @@ tag: Career, Digital, Travel
 published: true
 locale: en
 next_blog: ''
+pubDate: 2025-05-09T12:12:06.429Z
 ---
 
 **Can you live a meaningful life while traveling the world?** The Japanese concept of _Ikigai_ (your "reason for being") and the [digital nomad lifestyle](https://www.nomadgossip.com/nomad-events) both aim to help you find purpose. Here's how they connect:

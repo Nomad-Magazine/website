@@ -14,6 +14,7 @@ tag: Career, Digital, Travel
 published: true
 locale: en
 next_blog: ''
+pubDate: 2025-04-02T09:34:21.720Z
 ---
 
 [Hubud](https://workfrom.co/hubud) and [Dojo Bali](https://dojobali.org/) transformed Bali into a digital nomad hotspot. They introduced coworking spaces that combined work, community, and lifestyle, attracting remote workers to Canggu and Ubud. Here's what you need to know:

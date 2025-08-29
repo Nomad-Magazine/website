@@ -14,6 +14,7 @@ tag: Digital, Moving, Travel
 published: true
 locale: en
 next_blog: ''
+pubDate: 2025-03-27T00:54:04.584Z
 ---
 
 **Looking for the best cities for remote work?** [Nomad List](https://nomadlist.com/index.html) (now [Nomads.com](https://nomads.com/)) is the leading platform for digital nomads, helping over **37,225 members** find their [ideal destinations](https://highlights.ai) since 2014. It ranks cities worldwide based on **cost of living**, **internet speed**, **safety**, and **community feedback**, making relocation simpler and smarter.

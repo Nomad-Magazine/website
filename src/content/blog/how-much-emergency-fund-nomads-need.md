@@ -14,6 +14,7 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
+pubDate: 2025-03-15T02:07:16.451Z
 ---
 
 **Digital nomads need an emergency fund to cover unexpected costs like medical bills, visa issues, or income gaps. Here's how to calculate yours:**

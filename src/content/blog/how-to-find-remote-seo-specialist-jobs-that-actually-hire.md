@@ -14,6 +14,7 @@ tag: Career, Digital, Writing
 published: true
 locale: en
 next_blog: ''
+pubDate: 2025-04-06T02:23:15.307Z
 ---
 
 **Want to land a remote SEO job?** Here's how:

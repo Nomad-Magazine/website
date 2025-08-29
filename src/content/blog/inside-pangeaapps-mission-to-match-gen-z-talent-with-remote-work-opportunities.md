@@ -14,6 +14,7 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
+pubDate: 2025-03-27T22:34:29.020Z
 ---
 
 [PangeaApp](https://pangea.app/) connects Gen Z professionals with remote job opportunities, especially in marketing and design, using AI-powered matching. The platform has enabled over 4,000 hires across 155+ countries, paying out $2.5 million to talent. Its user-friendly tools, like LinkedIn-based profiles and integrated calendars, simplify the hiring process for both job seekers and employers. With a 4.6/5 rating on [G2](https://www.g2.com/products/g2/reviews), [PangeaApp](https://pangea.app/) supports Gen Z's preference for flexibility and independence while addressing challenges like career growth concerns and productivity struggles in remote work.

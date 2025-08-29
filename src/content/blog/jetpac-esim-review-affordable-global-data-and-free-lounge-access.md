@@ -14,6 +14,7 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
+pubDate: 2025-03-19T03:04:00.470Z
 ---
 
 **Travel internationally without the hassle of high roaming fees or local SIM cards. [Jetpac](https://www.jetpacglobal.com/en/us/) eSIM offers affordable global data plans, starting at just $1, with coverage in over 150 destinations. Plus, enjoy exclusive perks like free airport lounge access during flight delays and a complimentary VPN trial.**

@@ -14,6 +14,7 @@ tag: Career, Digital, Writing
 published: true
 locale: en
 next_blog: ''
+pubDate: 2025-05-06T03:30:00.656Z
 ---
 
 **Who owns intellectual property (IP) in remote work?** The answer depends on clear agreements, work status, and where the work is done. Without well-defined contracts, disputes can arise, especially with remote teams working across borders.
