@@ -14,7 +14,6 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-03-26T02:29:05.792Z
 ---
 
 **Staying secure while managing money abroad can be tricky.** Digital nomads face risks like fraud, phishing, and ATM scams, plus the added stress of juggling currencies and international banking rules. Here's how to protect your finances:

@@ -14,7 +14,6 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-03-18T22:56:42.219Z
 ---
 
 Traveling abroad? [Holafly](https://esim.holafly.com/) eSIM is your hassle-free solution for staying connected. With unlimited data plans, global coverage in over 200 destinations, and easy setup via QR code, [Holafly](https://esim.holafly.com/) eliminates the need for physical SIM cards. Here's why it's a great choice:

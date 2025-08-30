@@ -14,7 +14,6 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-05-27T10:09:18.757Z
 ---
 
 **Did you know?** If you’re a digital nomad handling data of EU residents, GDPR applies to you - no matter where you’re working. Non-compliance can lead to fines up to €20 million or 4% of your global revenue.

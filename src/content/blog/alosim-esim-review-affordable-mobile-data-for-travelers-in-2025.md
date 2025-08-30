@@ -14,7 +14,6 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-03-18T22:52:44.462Z
 ---
 
 **Traveling in 2025? Staying connected is easier and cheaper with [aloSIM](https://alosim.com/).** This eSIM provider offers mobile data in over 200 countries, with plans starting at just $4.50 per week - far less than traditional roaming costs of $10–$22 per day. Setup is simple, and it works on most modern devices like iPhones, [Samsung](https://en.wikipedia.org/wiki/Samsung_Electronics) phones, and tablets. Here’s why aloSIM stands out:

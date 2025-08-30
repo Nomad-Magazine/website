@@ -14,7 +14,6 @@ tag: Digital, Photography, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-03-04T06:22:26.068Z
 ---
 
 1.  **[Sony RX100 VII](https://www.sony.com/ug/electronics/cyber-shot-compact-cameras/dsc-rx100m7)** ($1,298): A premium point-and-shoot with a 24–200mm zoom, 1-inch sensor, and advanced autofocus for versatile travel photography.

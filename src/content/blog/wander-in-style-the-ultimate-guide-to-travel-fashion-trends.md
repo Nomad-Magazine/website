@@ -14,7 +14,6 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-02-23T21:53:47.176Z
 ---
 
 **Traveling light while staying stylish is easier than you think.** Here's how you can create a practical, professional, and versatile wardrobe that fits in a carry-on:

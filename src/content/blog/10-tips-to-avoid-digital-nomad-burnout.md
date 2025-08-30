@@ -14,7 +14,6 @@ tag: Career, Digital, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-05-26T23:24:21.916Z
 ---
 
 **Feeling overwhelmed by the [digital nomad lifestyle](https://www.nomadgossip.com/nomad-events)?** Burnout is a common challenge for remote workers who juggle constant travel, work demands, and personal life. Here’s a quick guide to staying balanced and avoiding exhaustion:

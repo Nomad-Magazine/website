@@ -14,7 +14,6 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-02-27T02:22:44.106Z
 ---
 
 New Zealand now offers a [**Digital Nomad Visa**](https://www.nomadgossip.com/blog/remote-work-visas-top-10-countries-for-digital-nomads) for remote workers, allowing stays of up to 90 days, extendable to 9 months. The application fee is **NZD $341** (about $193 USD) plus a **$100 IVL fee**. There’s **no minimum income requirement**, but applicants must show proof of remote work and sufficient savings (around **NZD $7,000**). Applications are processed in about **3.5 weeks**, and the visa is ideal for remote employees, freelancers, and digital entrepreneurs.

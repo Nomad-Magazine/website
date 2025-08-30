@@ -14,7 +14,6 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-03-16T02:53:32.641Z
 ---
 
 In 2025, digital nomads have a wealth of events to choose from, offering opportunities for networking, professional growth, and cultural experiences. Here's a quick look at the top events happening this year:

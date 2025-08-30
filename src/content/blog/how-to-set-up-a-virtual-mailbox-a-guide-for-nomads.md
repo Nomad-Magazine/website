@@ -14,7 +14,6 @@ tag: Expat, Moving, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-02-06T07:41:45.826Z
 ---
 
 **Want to manage your mail while traveling?** A virtual mailbox gives you a permanent address, scans your mail for online access, and lets you handle it remotely. Here's what you need to know:

@@ -14,7 +14,6 @@ tag: Career, Digital, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-08-25T09:55:22.460Z
 ---
 
 **Want to mix work, travel, and new connections this fall?** The 2025 Fall Festival Route is your guide to exploring global [digital nomad events](https://www.nomadgossip.com/nomad-events) while growing professionally. From Switzerland’s serene mountains to Greece’s historic charm, and Asia’s vibrant hubs, these events offer networking, skill-building, and unforgettable experiences. Here’s a quick breakdown:

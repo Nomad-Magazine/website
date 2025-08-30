@@ -14,7 +14,6 @@ tag: Digital, Travel, Writing
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-05-07T11:22:24.644Z
 ---
 
 **[Digital nomads](https://www.nomadgossip.com/nomad-events) work remotely while traveling the world.** They earn a living using digital tools and often move between at least three destinations each year. By 2024, there were 40 million digital nomads globally, with an average income of $124,041. Most are freelancers, startup founders, or full-time employees, working in industries like IT, creative services, and education.

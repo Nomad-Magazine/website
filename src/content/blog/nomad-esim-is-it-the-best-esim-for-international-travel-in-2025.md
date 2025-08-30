@@ -14,7 +14,6 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-03-18T22:51:43.265Z
 ---
 
 [Nomad eSIM](https://www.getnomad.app/) is a top contender for international travelers in 2025. It offers **global coverage in 170+ countries**, **affordable data plans**, and an **easy 5-minute setup process** through an app or QR code. With prices starting at **$1.50/GB** and features like mobile hotspot support and automatic network switching, it’s designed for convenience and cost savings.

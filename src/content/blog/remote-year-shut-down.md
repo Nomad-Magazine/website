@@ -14,7 +14,6 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-03-29T01:12:03.212Z
 ---
 
 **[Remote Year](https://www.remoteyear.com/), a popular program for digital nomads, abruptly shut down in December 2024, leaving members and the remote work community in shock.** Here's what you need to know:

@@ -14,7 +14,6 @@ tag: Digital, Expat, Moving
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-03-19T20:43:19.444Z
 ---
 
 1.  **Cost of Living**: Average monthly costs are around **$1,800** - 70% cheaper than New York City. Rent ranges from **$800 to $1,500** for one-bedroom apartments, depending on the neighborhood.

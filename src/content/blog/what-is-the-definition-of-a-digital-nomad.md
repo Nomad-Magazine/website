@@ -14,7 +14,6 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-03-05T05:51:07.358Z
 ---
 
 A **[digital nomad](https://www.nomadgossip.com/nomad-events)** is someone who works remotely using digital tools while frequently traveling to different locations. They rely on technology to perform their jobs, often immersing themselves in new environments and cultures. Key features of this lifestyle include:

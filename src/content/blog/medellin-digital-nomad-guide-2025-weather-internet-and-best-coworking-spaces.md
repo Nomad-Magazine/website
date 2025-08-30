@@ -14,7 +14,6 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-03-21T03:25:49.742Z
 ---
 
 Medellín is one of the top spots for digital nomads in 2025. Here's why:

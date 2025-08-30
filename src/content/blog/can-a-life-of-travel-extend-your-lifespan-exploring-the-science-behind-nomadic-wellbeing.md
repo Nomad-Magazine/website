@@ -14,7 +14,6 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-07-08T23:20:23.550Z
 ---
 
 Travel may help you live longer. Research shows regular travel can lower mortality risk by 36%, reduce dementia risk by 47%, and improve overall physical and mental health. Nomadic lifestyles naturally encourage physical activity, reduce stress, and promote brain stimulation through new experiences and social connections. Digital nomadism, growing by 147% in the U.S. since 2019, blends work and travel, offering a flexible way to prioritize health and longevity.

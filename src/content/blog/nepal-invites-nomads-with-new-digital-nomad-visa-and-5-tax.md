@@ -14,7 +14,6 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-05-30T22:16:48.567Z
 ---
 
 Nepal has launched a **[Digital Nomad Visa](https://www.nomadgossip.com/blog/remote-work-visas-top-10-countries-for-digital-nomads)** program with a flat **5% income tax rate**, making it an attractive option for remote workers. Here's what you need to know:

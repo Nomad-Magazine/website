@@ -14,7 +14,6 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-03-27T12:24:26.498Z
 ---
 
 **Ready to combine work and travel in 2025?** [Nomad Cruise](https://www.nomadcruise.com/?ref=7432&utm_source=aff) is offering two unique trips for digital nomads:

@@ -14,7 +14,6 @@ tag: Career, Digital, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-04-30T05:10:47.177Z
 ---
 
 **Looking for a travel-friendly WiFi solution?** The [HTC 5G Hub](https://www.androidauthority.com/htc-5g-hub-959200/) combines 5G speeds, Android functionality, and the ability to connect up to 20 devices. It’s great for remote work and entertainment but comes with some trade-offs. Here’s a quick overview:

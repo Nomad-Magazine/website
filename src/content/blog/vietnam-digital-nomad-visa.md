@@ -14,7 +14,6 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-02-26T05:16:34.566Z
 ---
 
 Vietnam currently doesn't offer a dedicated [digital nomad visa](https://www.nomadgossip.com/blog/remote-work-visas-top-10-countries-for-digital-nomads). However, remote workers can still live and work in Vietnam using existing visa options like the **e-visa**, **tourist visa**, or **business visa**. Here's a quick breakdown:

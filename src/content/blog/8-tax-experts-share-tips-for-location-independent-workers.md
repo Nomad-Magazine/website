@@ -14,7 +14,6 @@ tag: Expat, Moving, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-02-09T09:16:03.288Z
 ---
 
 **Remote workers and digital nomads face unique tax challenges.** From double taxation risks to navigating multi-country residency rules, staying compliant can feel overwhelming. This guide shares actionable tips from 8 tax experts to help you simplify your tax planning and optimize deductions.

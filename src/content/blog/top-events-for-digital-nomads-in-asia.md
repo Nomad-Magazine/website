@@ -14,7 +14,6 @@ tag: Career, Digital, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-05-04T16:10:09.029Z
 ---
 
 Asia in 2025 is a hotspot for digital nomads, offering affordable living, fast internet, and a vibrant mix of professional and cultural events. Here’s a quick look at the top gatherings across the region:

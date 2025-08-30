@@ -14,7 +14,6 @@ tag: Career, Digital, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-04-26T16:26:35.808Z
 ---
 
 **Need a flexible, affordable way to work remotely?** [GetCroissant](https://www.getcroissant.com/) connects you to over 500 coworking spaces in 70+ cities with simple pricing, quick booking, and a variety of workspace options. Here's why remote workers love it:

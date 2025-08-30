@@ -14,7 +14,6 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-03-18T03:50:44.322Z
 ---
 
 Want to invest in real estate while staying mobile? Here's how digital nomads and global citizens can build wealth through property investments without sacrificing their freedom.

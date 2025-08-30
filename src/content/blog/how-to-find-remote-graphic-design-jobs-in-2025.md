@@ -14,7 +14,6 @@ tag: Career, Digital, Writing
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-04-04T00:44:26.530Z
 ---
 
 **Remote graphic design jobs are booming in 2025, but competition is fierce.** Here's how you can stand out and land the role you want:

@@ -14,7 +14,6 @@ tag: Career, Digital, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-06-02T09:53:37.634Z
 ---
 
 1.  **Lightweight & Compact Essentials**: Choose slim laptops (under 3.3 lbs), compact keyboards, and travel-friendly tools like multi-port adapters and foldable stands.

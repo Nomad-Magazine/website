@@ -14,7 +14,6 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-03-08T03:09:59.107Z
 ---
 
 Struggling to find the perfect place to live while working remotely? Here's how to secure affordable and comfortable housing as a [digital nomad](https://www.nomadgossip.com/nomad-events):

@@ -14,7 +14,6 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-05-05T03:33:04.394Z
 ---
 
 -   **Set routines quickly**: Establish a familiar workspace and daily schedule to stay productive.

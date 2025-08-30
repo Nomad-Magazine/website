@@ -14,7 +14,6 @@ tag: Digital, Expat, Travel
 published: true
 locale: en
 next_blog: ''
-pubDate: 2025-05-27T01:36:18.027Z
 ---
 
 **Looking for the perfect travel bag?** [Convertible luggage](https://junyuanbags.com) is a must-have for [digital nomads](https://www.nomadgossip.com/nomad-events). These bags switch between styles - backpack to suitcase or duffel - making travel easier and more efficient. Here’s what you need to know:
