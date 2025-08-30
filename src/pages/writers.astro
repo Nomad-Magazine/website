@@ -1,0 +1,727 @@
+---
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import { supabaseUrl, supabaseAnonKey } from '../utils/supabase'
+
+// Predefined topic suggestions for voting
+const topicSuggestions = [
+  {
+    id: 'finding-remote-jobs',
+    title: 'How to Land Your First Remote Job',
+    description: 'Strategies for finding and securing remote work opportunities',
+    category: 'Career'
+  },
+  {
+    id: 'nomad-visa-guide-2025',
+    title: 'Complete Nomad Visa Guide 2025',
+    description: 'Latest visa requirements and processes for digital nomads',
+    category: 'Legal'
+  },
+  {
+    id: 'sustainable-nomadism',
+    title: 'Sustainable Digital Nomadism',
+    description: 'How to travel responsibly and minimize environmental impact',
+    category: 'Environment'
+  },
+  {
+    id: 'nomad-taxes-simplified',
+    title: 'Tax Planning for Digital Nomads',
+    description: 'Understanding tax obligations across different countries',
+    category: 'Finance'
+  },
+  {
+    id: 'remote-team-leadership',
+    title: 'Leading High-Performance Remote Teams',
+    description: 'Management strategies that work for distributed and async teams',
+    category: 'Business'
+  },
+  {
+    id: 'nomad-healthcare',
+    title: 'Healthcare Solutions for Nomads',
+    description: 'Insurance, telemedicine, and staying healthy on the road',
+    category: 'Health'
+  },
+  {
+    id: 'emerging-destinations-2025',
+    title: 'Emerging Nomad Destinations 2025',
+    description: 'Up-and-coming locations for digital nomads',
+    category: 'Travel'
+  },
+  {
+    id: 'nomadic-friendships',
+    title: 'Building Deep Friendships on the Road',
+    description: 'How to create meaningful connections while constantly moving',
+    category: 'Lifestyle'
+  },
+  {
+    id: 'remote-work-salary-negotiation',
+    title: 'Negotiating Remote Work Salaries',
+    description: 'How to secure competitive compensation for location-independent roles',
+    category: 'Finance'
+  },
+  {
+    id: 'remote-work-productivity-tools',
+    title: 'Essential Remote Work Productivity Tools',
+    description: 'Apps, software, and systems that boost remote work efficiency',
+    category: 'Technology'
+  },
+  {
+    id: 'epic-travel-adventures',
+    title: 'My Most Epic Travel Adventure',
+    description: 'Share your most unforgettable nomad travel experience and what you learned',
+    category: 'Travel'
+  },
+  {
+    id: 'remote-work-transition',
+    title: 'From Office to Remote: The Complete Transition Guide',
+    description: 'Step-by-step process for successfully moving to remote work',
+    category: 'Lifestyle'
+  },
+  {
+    id: 'budget-travel-worldwide',
+    title: 'Travel the World on Any Budget',
+    description: 'Practical strategies for affordable global nomadism',
+    category: 'Finance'
+  },
+  {
+    id: 'country-deep-dive',
+    title: 'Living Like a Local: [Country] Deep Dive',
+    description: 'In-depth cultural and practical guide to nomad life in a specific country',
+    category: 'Travel'
+  },
+  {
+    id: 'nomad-photostory',
+    title: 'Visual Journey: A Nomad Photostory',
+    description: 'Tell your story through stunning photography with compelling narrative',
+    category: 'Photography'
+  }
+]
+
+const supabaseConfig = {
+  url: supabaseUrl,
+  anonKey: supabaseAnonKey
+}
+
+const seo: SEOProps = {
+  title: 'Writers Collaboration - Nomad Magazine',
+  description: 'Join Nomad Magazine as a writer. Learn about our collaboration process, from test articles to print publication.',
+  image: `${Astro.site}images/edition-003-cover.webp`,
+  keywords: 'nomad magazine writers, digital nomad articles, freelance writing, travel writing, remote work writing'
+}
+---
+
+<Layout seo={seo}>
+  <div class="bg-gradient-to-br from-gray-50 to-white">
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden px-4 py-16 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-4xl text-center">
+        <div class="mb-8">
+          <span class="inline-block rounded-full bg-yellow-400 px-4 py-2 text-sm font-bold text-black uppercase tracking-wide">
+            For Writers
+          </span>
+        </div>
+        <h1 class="mb-6 text-4xl font-bold text-gray-900 sm:text-5xl lg:text-6xl">
+          Write for the World's First <span class="text-yellow-600">Global Digital Nomad Magazine</span>
+        </h1>
+        <p class="mx-auto mb-8 max-w-2xl text-xl text-gray-600">
+          Share your nomad expertise with thousands of readers worldwide. From online publication to premium print edition.
+        </p>
+      </div>
+    </section>
+
+    <!-- Collaboration Flow -->
+    <section class="px-4 py-16 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-6xl">
+        <div class="mb-12 text-center">
+          <h2 class="mb-4 text-3xl font-bold text-gray-900">How We Work Together</h2>
+          <p class="text-lg text-gray-600">A transparent process designed for quality and mutual success</p>
+        </div>
+
+        <!-- Flow Steps -->
+        <div class="relative">
+          <!-- Connection Line -->
+          <div class="absolute left-1/2 top-0 hidden h-full w-0.5 -translate-x-0.5 transform bg-gradient-to-b from-yellow-400 to-yellow-600 lg:block"></div>
+          
+          <div class="space-y-12">
+            <!-- Step 1: Test Article -->
+            <div class="relative lg:flex lg:items-center">
+              <div class="lg:w-1/2 lg:pr-12">
+                <div class="flex items-center mb-4">
+                  <div class="flex h-12 w-12 items-center justify-center rounded-full bg-yellow-400 text-black font-bold text-lg mr-4 lg:mr-0 lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:z-10">
+                    1
+                  </div>
+                  <h3 class="text-2xl font-bold text-gray-900 lg:hidden">Test Article Submission</h3>
+                </div>
+                <div class="lg:text-right">
+                  <h3 class="hidden lg:block text-2xl font-bold text-gray-900 mb-4">Test Article Submission</h3>
+                  <p class="text-gray-600 mb-4">
+                    Submit a test article showcasing your writing style and expertise. This helps us understand your voice and ensures quality alignment.
+                  </p>
+                  <ul class="space-y-2 text-sm text-gray-500">
+                    <li>• 800-1,200 words</li>
+                    <li>• Original content only</li>
+                    <li>• Include personal experiences</li>
+                    <li>• Professional photos welcome</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="mt-6 lg:mt-0 lg:w-1/2 lg:pl-12">
+                <div class="rounded-lg bg-white p-6 shadow-lg border border-gray-200">
+                  <div class="flex items-center mb-4">
+                    <div class="h-3 w-3 rounded-full bg-green-500 mr-2"></div>
+                    <span class="text-sm font-medium text-gray-600">WEBSITE PUBLICATION</span>
+                  </div>
+                  <p class="text-gray-700">
+                    Quality test articles get published on our website with full attribution and Instagram shoutout to our 3,500+ followers.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2: Selection Process -->
+            <div class="relative lg:flex lg:items-center lg:flex-row-reverse">
+              <div class="lg:w-1/2 lg:pl-12">
+                <div class="flex items-center mb-4">
+                  <div class="flex h-12 w-12 items-center justify-center rounded-full bg-yellow-400 text-black font-bold text-lg mr-4 lg:mr-0 lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:z-10">
+                    2
+                  </div>
+                  <h3 class="text-2xl font-bold text-gray-900 lg:hidden">Editorial Selection</h3>
+                </div>
+                <div>
+                  <h3 class="hidden lg:block text-2xl font-bold text-gray-900 mb-4">Editorial Selection</h3>
+                  <p class="text-gray-600 mb-4">
+                    Our editorial team reviews all submissions. The highest quality articles are selected for our premium print edition.
+                  </p>
+                  <div class="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                    <p class="text-sm text-amber-800">
+                      <strong>Limited Space:</strong> Each print edition features only 12-15 articles. High printing costs mean every article must deliver exceptional value. We invest at least 500 euro in each edition's production quality.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-6 lg:mt-0 lg:w-1/2 lg:pr-12">
+                <div class="rounded-lg bg-white p-6 shadow-lg border border-gray-200">
+                  <div class="flex items-center mb-4">
+                    <div class="h-3 w-3 rounded-full bg-purple-500 mr-2"></div>
+                    <span class="text-sm font-medium text-gray-600">QUALITY FOCUS</span>
+                  </div>
+                  <p class="text-gray-700">
+                    High printing costs mean every article must deliver exceptional value. We invest at least 500 euro in each edition's production quality.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3: Print Publication -->
+            <div class="relative lg:flex lg:items-center">
+              <div class="lg:w-1/2 lg:pr-12">
+                <div class="flex items-center mb-4">
+                  <div class="flex h-12 w-12 items-center justify-center rounded-full bg-yellow-400 text-black font-bold text-lg mr-4 lg:mr-0 lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:z-10">
+                    3
+                  </div>
+                  <h3 class="text-2xl font-bold text-gray-900 lg:hidden">Print Publication</h3>
+                </div>
+                <div class="lg:text-right">
+                  <h3 class="hidden lg:block text-2xl font-bold text-gray-900 mb-4">Print Publication</h3>
+                  <p class="text-gray-600 mb-4">
+                    Selected articles are professionally designed and printed in our premium magazine, distributed globally to nomad communities.
+                  </p>
+                  <ul class="space-y-2 text-sm text-gray-500">
+                    <li>• Professional layout and design</li>
+                    <li>• Global distribution network</li>
+                    <li>• Author bio and photo included</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="mt-6 lg:mt-0 lg:w-1/2 lg:pl-12">
+                <div class="rounded-lg bg-gradient-to-br from-yellow-50 to-yellow-100 p-6 shadow-lg border border-yellow-200">
+                  <div class="flex items-center mb-4">
+                    <div class="h-3 w-3 rounded-full bg-yellow-500 mr-2"></div>
+                    <span class="text-sm font-medium text-yellow-700">PREMIUM PUBLICATION</span>
+                  </div>
+                  <p class="text-yellow-800 font-medium">
+                    Your work reaches nomads worldwide through our premium print magazine, establishing you as a thought leader in the community.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Topic Voting Section -->
+    <section class="bg-gray-900 text-white px-4 py-16 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-6xl">
+        <div class="mb-12 text-center">
+          <h2 class="mb-4 text-3xl font-bold">What Topics Interest You Most?</h2>
+          <p class="text-lg text-gray-300">
+            Help us understand what the community wants to read about. Vote for topics you'd love to see covered.
+          </p>
+        </div>
+
+        <div class="space-y-4" id="topics-grid">
+          <!-- Topics will be populated by JavaScript -->
+        </div>
+
+        <div class="mt-12 text-center space-y-6">
+          <p class="text-sm text-gray-400">
+            Your votes help writers understand what content resonates with our community.
+          </p>
+          
+          <!-- Action Buttons -->
+          <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <button
+              id="claim-topic-btn"
+              class="inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-6 py-3 text-sm font-bold text-black transition-all hover:bg-yellow-300 hover:scale-105"
+            >
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              Claim a Topic to Write
+            </button>
+            
+            <button
+              id="suggest-topic-btn"
+              class="inline-flex items-center gap-2 rounded-lg border-2 border-yellow-400 bg-transparent px-6 py-3 text-sm font-bold text-yellow-400 transition-all hover:bg-yellow-400 hover:text-black"
+            >
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+              </svg>
+              Suggest New Topic
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Submission Guidelines -->
+    <section class="px-4 py-16 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-4xl">
+        <div class="mb-12 text-center">
+          <h2 class="mb-4 text-3xl font-bold text-gray-900">Submission Guidelines</h2>
+          <p class="text-lg text-gray-600">Everything you need to know before submitting</p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
+          <!-- What We're Looking For -->
+          <div class="rounded-lg bg-white p-8 shadow-lg border border-gray-200">
+            <h3 class="mb-6 text-xl font-bold text-gray-900">What We're Looking For</h3>
+            <ul class="space-y-3 text-gray-600">
+              <li class="flex items-start">
+                <span class="mr-3 mt-1 h-2 w-2 rounded-full bg-yellow-400"></span>
+                <span><strong>Personal experiences</strong> - Real stories from your nomad journey</span>
+              </li>
+              <li class="flex items-start">
+                <span class="mr-3 mt-1 h-2 w-2 rounded-full bg-yellow-400"></span>
+                <span><strong>Practical advice</strong> - Actionable tips and insights</span>
+              </li>
+              <li class="flex items-start">
+                <span class="mr-3 mt-1 h-2 w-2 rounded-full bg-yellow-400"></span>
+                <span><strong>Unique perspectives</strong> - Fresh takes on nomad challenges</span>
+              </li>
+              <li class="flex items-start">
+                <span class="mr-3 mt-1 h-2 w-2 rounded-full bg-yellow-400"></span>
+                <span><strong>Well-researched content</strong> - Backed by facts and data</span>
+              </li>
+              <li class="flex items-start">
+                <span class="mr-3 mt-1 h-2 w-2 rounded-full bg-yellow-400"></span>
+                <span><strong>Engaging storytelling</strong> - Captivating narrative style</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Technical Requirements -->
+          <div class="rounded-lg bg-white p-8 shadow-lg border border-gray-200">
+            <h3 class="mb-6 text-xl font-bold text-gray-900">Technical Requirements</h3>
+            <ul class="space-y-3 text-gray-600">
+              <li class="flex items-start">
+                <span class="mr-3 mt-1 h-2 w-2 rounded-full bg-blue-400"></span>
+                <span><strong>Word count:</strong> 800-1,200 words for test articles</span>
+              </li>
+              <li class="flex items-start">
+                <span class="mr-3 mt-1 h-2 w-2 rounded-full bg-blue-400"></span>
+                <span><strong>Format:</strong> Google Docs preferred</span>
+              </li>
+              <li class="flex items-start">
+                <span class="mr-3 mt-1 h-2 w-2 rounded-full bg-blue-400"></span>
+                <span><strong>Images:</strong> High-resolution (min. 1200px wide)</span>
+              </li>
+              <li class="flex items-start">
+                <span class="mr-3 mt-1 h-2 w-2 rounded-full bg-blue-400"></span>
+                <span><strong>Bio:</strong> 50-100 word author bio with photo</span>
+              </li>
+              <li class="flex items-start">
+                <span class="mr-3 mt-1 h-2 w-2 rounded-full bg-blue-400"></span>
+                <span><strong>Rights:</strong> First publication rights only</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="mt-12 text-center">
+          <div class="rounded-lg bg-gradient-to-r from-yellow-400 to-yellow-500 p-8 shadow-xl">
+            <h3 class="mb-4 text-2xl font-bold text-black">Ready to Submit Your Test Article?</h3>
+            <p class="mb-6 text-black/80">
+              Send us your best work and join our growing community of nomad writers.
+            </p>
+            <a
+              href="mailto:hey@nomadgossip.com?subject=Article Submission&body=Hi! I'd like to submit an article for Nomad Magazine.%0A%0AProposed topic:%0A%0AArticle summary:%0A%0AAbout me:"
+              class="inline-block rounded-lg bg-black px-8 py-4 text-lg font-bold text-yellow-400 transition-all hover:bg-gray-800 hover:scale-105"
+            >
+              Submit Your Article
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Write for Us -->
+    <section class="bg-gray-50 px-4 py-16 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-6xl">
+        <div class="mb-12 text-center">
+          <h2 class="mb-4 text-3xl font-bold text-gray-900">Why Write for Nomad Magazine?</h2>
+        </div>
+
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div class="text-center">
+            <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-yellow-400">
+              <svg class="h-8 w-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+              </svg>
+            </div>
+            <h3 class="mb-2 text-xl font-bold text-gray-900">Global Reach</h3>
+            <p class="text-gray-600">Your content reaches thousands of nomads across 50+ countries</p>
+          </div>
+
+          <div class="text-center">
+            <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-yellow-400">
+              <svg class="h-8 w-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+            </div>
+            <h3 class="mb-2 text-xl font-bold text-gray-900">Premium Platform</h3>
+            <p class="text-gray-600">High-quality print magazine with professional design and global distribution</p>
+          </div>
+
+          <div class="text-center">
+            <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-yellow-400">
+              <svg class="h-8 w-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+              </svg>
+            </div>
+            <h3 class="mb-2 text-xl font-bold text-gray-900">Recognition & Exposure</h3>
+            <p class="text-gray-600">Build your portfolio with premium publication and reach thousands of engaged nomads worldwide</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<script is:inline define:vars={{ supabaseConfig, topicSuggestions }}>
+  let supabase;
+  let userFingerprint;
+  let userVotes = new Set();
+  let isSignedIn = false;
+  let signingIn = false;
+
+  // Generate browser fingerprint
+  function generateFingerprint() {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    ctx.textBaseline = 'top';
+    ctx.font = '14px Arial';
+    ctx.fillText('Fingerprint', 2, 2);
+    
+    const fingerprint = [
+      navigator.userAgent,
+      navigator.language,
+      screen.width + 'x' + screen.height,
+      new Date().getTimezoneOffset(),
+      canvas.toDataURL()
+    ].join('|');
+    
+    return btoa(fingerprint).slice(0, 32);
+  }
+
+  // Initialize Supabase client
+  function initializeSupabase() {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js';
+    script.onload = initializeApp;
+    document.head.appendChild(script);
+  }
+
+  async function initializeApp() {
+    supabase = window.supabase.createClient(supabaseConfig.url, supabaseConfig.anonKey);
+    userFingerprint = generateFingerprint();
+    
+    await loadTopicVotes();
+    renderTopics();
+    setupEventListeners();
+  }
+
+  async function loadTopicVotes() {
+    try {
+      // Load vote counts for all topics
+      const { data: voteCounts, error: voteError } = await supabase
+        .from('topic_vote_counts')
+        .select('*');
+
+      if (voteError && voteError.code !== 'PGRST116') {
+        console.warn('Vote counts error:', voteError);
+      }
+
+      // Load user votes
+      const { data: userVoteData, error: userVoteError } = await supabase
+        .from('topic_votes')
+        .select('topic_id')
+        .eq('user_fingerprint', userFingerprint);
+
+      if (!userVoteError && userVoteData) {
+        userVotes = new Set(userVoteData.map(vote => vote.topic_id));
+      }
+
+      // Add vote counts to topics
+      topicSuggestions.forEach(topic => {
+        topic.vote_count = voteCounts?.find(vc => vc.topic_id === topic.id)?.vote_count || 0;
+      });
+
+    } catch (error) {
+      console.warn('Error loading topic votes:', error);
+    }
+  }
+
+  function renderTopics() {
+    const grid = document.getElementById('topics-grid');
+    if (!grid) return;
+
+    // Sort topics by vote count (highest first)
+    const sortedTopics = [...topicSuggestions].sort((a, b) => (b.vote_count || 0) - (a.vote_count || 0));
+
+    grid.innerHTML = sortedTopics.map(topic => {
+      const isVoted = userVotes.has(topic.id);
+      const categoryColors = {
+        'Wellness': 'bg-green-500/20 text-green-300',
+        'Legal': 'bg-blue-500/20 text-blue-300',
+        'Environment': 'bg-emerald-500/20 text-emerald-300',
+        'Finance': 'bg-yellow-500/20 text-yellow-300',
+        'Business': 'bg-purple-500/20 text-purple-300',
+        'Health': 'bg-red-500/20 text-red-300',
+        'Travel': 'bg-orange-500/20 text-orange-300',
+        'Lifestyle': 'bg-pink-500/20 text-pink-300',
+        'Technology': 'bg-cyan-500/20 text-cyan-300',
+        'Photography': 'bg-indigo-500/20 text-indigo-300',
+        'Career': 'bg-violet-500/20 text-violet-300'
+      };
+
+      return `
+        <div class="group relative overflow-hidden rounded-xl bg-neutral-800/50 p-6 transition-all hover:bg-neutral-800/80 flex items-center justify-between">
+          <div class="flex items-center gap-6 flex-1">
+            <div class="flex items-center gap-3">
+              <span class="inline-block rounded-full px-3 py-1 text-xs font-bold ${categoryColors[topic.category] || 'bg-gray-500/20 text-gray-300'}">
+                ${topic.category}
+              </span>
+              <h3 class="text-lg font-bold text-white group-hover:text-yellow-400 transition-colors">
+                ${topic.title}
+              </h3>
+            </div>
+            <p class="text-sm text-neutral-300 flex-1 max-w-md">
+              ${topic.description}
+            </p>
+          </div>
+          
+          <div class="flex items-center gap-3 flex-shrink-0">
+            <button 
+              class="claim-btn flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium bg-neutral-700 text-neutral-300 hover:bg-green-500 hover:text-white transition-all"
+              data-topic-id="${topic.id}"
+              data-topic-title="${topic.title}"
+              title="Write about this topic"
+            >
+              <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+              </svg>
+              Write
+            </button>
+            
+            <button 
+              class="vote-btn flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all ${
+                isVoted 
+                  ? 'bg-yellow-400 text-black' 
+                  : 'bg-neutral-700 text-neutral-300 hover:bg-yellow-400 hover:text-black'
+              }"
+              data-topic-id="${topic.id}"
+            >
+              <svg class="h-4 w-4 ${isVoted ? 'fill-current' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+              </svg>
+              <span class="vote-count">${topic.vote_count || 0}</span>
+            </button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function setupEventListeners() {
+    // Topic voting and claiming
+    document.addEventListener('click', async (e) => {
+      if (e.target.closest('.vote-btn')) {
+        e.preventDefault();
+        const button = e.target.closest('.vote-btn');
+        const topicId = button.dataset.topicId;
+        await handleTopicVote(topicId, button);
+      }
+      
+      if (e.target.closest('.claim-btn')) {
+        e.preventDefault();
+        const button = e.target.closest('.claim-btn');
+        const topicId = button.dataset.topicId;
+        const topicTitle = button.dataset.topicTitle;
+        handleTopicClaim(topicId, topicTitle);
+      }
+    });
+
+    // Claim topic button (general)
+    document.getElementById('claim-topic-btn')?.addEventListener('click', () => {
+      const topTopics = [...topicSuggestions]
+        .sort((a, b) => (b.vote_count || 0) - (a.vote_count || 0))
+        .slice(0, 5)
+        .map(topic => `• ${topic.title} (${topic.vote_count || 0} votes)`)
+        .join('%0A');
+      
+      const emailBody = `Hi! I'd like to claim one of the popular topics for my test article submission.%0A%0ATop voted topics:%0A${topTopics}%0A%0AI want to write about:%0A%0AProposed angle/approach:%0A%0AAbout me:%0A%0AEstimated delivery date:`;
+      
+      window.location.href = `mailto:hey@nomadgossip.com?subject=Article Submission&body=${emailBody}`;
+    });
+
+    // Suggest new topic button
+    document.getElementById('suggest-topic-btn')?.addEventListener('click', () => {
+      const emailBody = `Hi! I'd like to suggest a new topic for the community to vote on.%0A%0AProposed topic title:%0A%0ATopic description:%0A%0ACategory (Wellness, Legal, Finance, etc.):%0A%0AWhy this topic is important:%0A%0AAbout me:`;
+      
+      window.location.href = `mailto:hey@nomadgossip.com?subject=New Topic Suggestion&body=${emailBody}`;
+    });
+  }
+
+  function handleTopicClaim(topicId, topicTitle) {
+    console.log(`Topic claim: User wants to claim "${topicTitle}" (ID: ${topicId})`);
+    
+    const emailBody = `Hi! I'd like to claim the topic "${topicTitle}" for my test article submission.%0A%0ATopic: ${topicTitle}%0A%0AMy proposed angle/approach:%0A%0AAbout me:%0A%0AEstimated delivery date:%0A%0APortfolio/writing samples:`;
+    
+    window.location.href = `mailto:hey@nomadgossip.com?subject=Article Submission: ${topicTitle}&body=${emailBody}`;
+  }
+
+  async function ensureSignedIn() {
+    if (isSignedIn) return true;
+    if (signingIn) return false;
+    
+    signingIn = true;
+    
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        isSignedIn = true;
+        signingIn = false;
+        return true;
+      }
+      
+      const { error: authError } = await supabase.auth.signInAnonymously();
+      
+      if (authError) {
+        console.warn('Auth error:', authError);
+        signingIn = false;
+        return false;
+      }
+      
+      isSignedIn = true;
+      signingIn = false;
+      return true;
+    } catch (error) {
+      console.warn('Error signing in:', error);
+      signingIn = false;
+      return false;
+    }
+  }
+
+  async function handleTopicVote(topicId, button) {
+    if (!await ensureSignedIn()) {
+      console.log('Failed to sign in for voting');
+      return;
+    }
+
+    try {
+      const topic = topicSuggestions.find(t => t.id === topicId);
+      const isVoted = userVotes.has(topicId);
+      const voteCountSpan = button.querySelector('.vote-count');
+      const heartIcon = button.querySelector('svg');
+      
+      console.log(`Topic vote action: ${isVoted ? 'removing' : 'adding'} vote for topic "${topic?.title}" (ID: ${topicId})`);
+      
+      if (isVoted) {
+        // Remove vote
+        console.log('Removing vote from database...');
+        const { error } = await supabase
+          .from('topic_votes')
+          .delete()
+          .eq('topic_id', topicId)
+          .eq('user_fingerprint', userFingerprint);
+
+        if (!error) {
+          console.log('Vote removed successfully');
+          userVotes.delete(topicId);
+          button.classList.remove('bg-yellow-400', 'text-black');
+          button.classList.add('bg-neutral-700', 'text-neutral-300', 'hover:bg-yellow-400', 'hover:text-black');
+          heartIcon.classList.remove('fill-current');
+          
+          const currentCount = parseInt(voteCountSpan.textContent);
+          voteCountSpan.textContent = Math.max(0, currentCount - 1);
+          
+          if (topic) topic.vote_count = Math.max(0, topic.vote_count - 1);
+          
+          // Re-render to update order
+          setTimeout(() => renderTopics(), 300);
+        } else {
+          console.error('Error removing vote:', error);
+        }
+      } else {
+        // Add vote
+        console.log('Adding vote to database...');
+        const { error } = await supabase
+          .from('topic_votes')
+          .insert({
+            topic_id: topicId,
+            user_fingerprint: userFingerprint
+          });
+
+        if (!error) {
+          console.log('Vote added successfully');
+          userVotes.add(topicId);
+          button.classList.remove('bg-neutral-700', 'text-neutral-300', 'hover:bg-yellow-400', 'hover:text-black');
+          button.classList.add('bg-yellow-400', 'text-black');
+          heartIcon.classList.add('fill-current');
+          
+          const currentCount = parseInt(voteCountSpan.textContent);
+          voteCountSpan.textContent = currentCount + 1;
+          
+          if (topic) topic.vote_count = (topic.vote_count || 0) + 1;
+          
+          // Re-render to update order
+          setTimeout(() => renderTopics(), 300);
+        } else {
+          console.error('Error adding vote:', error);
+        }
+      }
+    } catch (error) {
+      console.error('Error handling topic vote:', error);
+    }
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeSupabase);
+  } else {
+    initializeSupabase();
+  }
+</script>
+</Layout>

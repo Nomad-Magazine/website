@@ -94,6 +94,27 @@ export type Database = {
         }
         Relationships: []
       }
+      topic_votes: {
+        Row: {
+          created_at: string | null
+          id: number
+          topic_id: string
+          user_fingerprint: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: number
+          topic_id: string
+          user_fingerprint: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: number
+          topic_id?: string
+          user_fingerprint?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       article_like_counts: {
@@ -114,6 +135,13 @@ export type Database = {
       coworking_vote_counts: {
         Row: {
           space_id: string | null
+          vote_count: number | null
+        }
+        Relationships: []
+      }
+      topic_vote_counts: {
+        Row: {
+          topic_id: string | null
           vote_count: number | null
         }
         Relationships: []
