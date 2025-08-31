@@ -93,6 +93,12 @@ const topicSuggestions = [
     title: 'Visual Journey: A Nomad Photostory',
     description: 'Tell your story through stunning photography with compelling narrative',
     category: 'Photography'
+  },
+  {
+    id: 'adventure-nomadism',
+    title: 'Adventure Nomadism: Traveling with Purpose',
+    description: 'Combining remote work with kitesurfing, diving, hiking, yoga, and extreme sports',
+    category: 'Adventure'
   }
 ]
 
@@ -257,6 +263,46 @@ const seo: SEOProps = {
           <p class="text-lg text-gray-300">
             Help us understand what the community wants to read about. Vote for topics you'd love to see covered.
           </p>
+          
+          <!-- Category Filter -->
+          <div class="mt-8 flex flex-wrap justify-center gap-2">
+            <button class="category-filter-btn active rounded-full px-4 py-2 text-sm font-medium transition-all bg-yellow-400 text-black" data-category="all">
+              All Topics
+            </button>
+            <button class="category-filter-btn rounded-full px-4 py-2 text-sm font-medium transition-all bg-neutral-700 text-neutral-300 hover:bg-yellow-400 hover:text-black" data-category="Career">
+              Career
+            </button>
+            <button class="category-filter-btn rounded-full px-4 py-2 text-sm font-medium transition-all bg-neutral-700 text-neutral-300 hover:bg-yellow-400 hover:text-black" data-category="Finance">
+              Finance
+            </button>
+            <button class="category-filter-btn rounded-full px-4 py-2 text-sm font-medium transition-all bg-neutral-700 text-neutral-300 hover:bg-yellow-400 hover:text-black" data-category="Travel">
+              Travel
+            </button>
+            <button class="category-filter-btn rounded-full px-4 py-2 text-sm font-medium transition-all bg-neutral-700 text-neutral-300 hover:bg-yellow-400 hover:text-black" data-category="Lifestyle">
+              Lifestyle
+            </button>
+            <button class="category-filter-btn rounded-full px-4 py-2 text-sm font-medium transition-all bg-neutral-700 text-neutral-300 hover:bg-yellow-400 hover:text-black" data-category="Business">
+              Business
+            </button>
+            <button class="category-filter-btn rounded-full px-4 py-2 text-sm font-medium transition-all bg-neutral-700 text-neutral-300 hover:bg-yellow-400 hover:text-black" data-category="Technology">
+              Technology
+            </button>
+            <button class="category-filter-btn rounded-full px-4 py-2 text-sm font-medium transition-all bg-neutral-700 text-neutral-300 hover:bg-yellow-400 hover:text-black" data-category="Photography">
+              Photography
+            </button>
+            <button class="category-filter-btn rounded-full px-4 py-2 text-sm font-medium transition-all bg-neutral-700 text-neutral-300 hover:bg-yellow-400 hover:text-black" data-category="Health">
+              Health
+            </button>
+            <button class="category-filter-btn rounded-full px-4 py-2 text-sm font-medium transition-all bg-neutral-700 text-neutral-300 hover:bg-yellow-400 hover:text-black" data-category="Legal">
+              Legal
+            </button>
+            <button class="category-filter-btn rounded-full px-4 py-2 text-sm font-medium transition-all bg-neutral-700 text-neutral-300 hover:bg-yellow-400 hover:text-black" data-category="Environment">
+              Environment
+            </button>
+            <button class="category-filter-btn rounded-full px-4 py-2 text-sm font-medium transition-all bg-neutral-700 text-neutral-300 hover:bg-yellow-400 hover:text-black" data-category="Adventure">
+              Adventure
+            </button>
+          </div>
         </div>
 
         <div class="space-y-4" id="topics-grid">
@@ -425,6 +471,7 @@ const seo: SEOProps = {
   let userVotes = new Set();
   let isSignedIn = false;
   let signingIn = false;
+  let currentFilter = 'all';
 
   // Generate browser fingerprint
   function generateFingerprint() {
@@ -460,6 +507,7 @@ const seo: SEOProps = {
     await loadTopicVotes();
     renderTopics();
     setupEventListeners();
+    setupCategoryFilters();
   }
 
   async function loadTopicVotes() {
@@ -497,8 +545,13 @@ const seo: SEOProps = {
     const grid = document.getElementById('topics-grid');
     if (!grid) return;
 
-    // Sort topics by vote count (highest first)
-    const sortedTopics = [...topicSuggestions].sort((a, b) => (b.vote_count || 0) - (a.vote_count || 0));
+    // Filter topics by selected category
+    let filteredTopics = currentFilter === 'all' 
+      ? topicSuggestions 
+      : topicSuggestions.filter(topic => topic.category === currentFilter);
+
+    // Sort filtered topics by vote count (highest first)
+    const sortedTopics = [...filteredTopics].sort((a, b) => (b.vote_count || 0) - (a.vote_count || 0));
 
     grid.innerHTML = sortedTopics.map(topic => {
       const isVoted = userVotes.has(topic.id);
@@ -513,7 +566,8 @@ const seo: SEOProps = {
         'Lifestyle': 'bg-pink-500/20 text-pink-300',
         'Technology': 'bg-cyan-500/20 text-cyan-300',
         'Photography': 'bg-indigo-500/20 text-indigo-300',
-        'Career': 'bg-violet-500/20 text-violet-300'
+        'Career': 'bg-violet-500/20 text-violet-300',
+        'Adventure': 'bg-red-500/20 text-red-300'
       };
 
       return `
@@ -610,6 +664,31 @@ const seo: SEOProps = {
     const emailBody = `Hi! I'd like to claim the topic "${topicTitle}" for my test article submission.%0A%0ATopic: ${topicTitle}%0A%0AMy proposed angle/approach:%0A%0AAbout me:%0A%0AEstimated delivery date:%0A%0APortfolio/writing samples:`;
     
     window.location.href = `mailto:hey@nomadgossip.com?subject=Article Submission: ${topicTitle}&body=${emailBody}`;
+  }
+
+  function setupCategoryFilters() {
+    const filterButtons = document.querySelectorAll('.category-filter-btn');
+    
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const category = button.dataset.category;
+        
+        // Update active state
+        filterButtons.forEach(btn => {
+          btn.classList.remove('active', 'bg-yellow-400', 'text-black');
+          btn.classList.add('bg-neutral-700', 'text-neutral-300', 'hover:bg-yellow-400', 'hover:text-black');
+        });
+        
+        button.classList.add('active', 'bg-yellow-400', 'text-black');
+        button.classList.remove('bg-neutral-700', 'text-neutral-300', 'hover:bg-yellow-400', 'hover:text-black');
+        
+        // Update filter and re-render
+        currentFilter = category;
+        renderTopics();
+        
+        console.log(`Filter changed to: ${category}`);
+      });
+    });
   }
 
   async function ensureSignedIn() {
