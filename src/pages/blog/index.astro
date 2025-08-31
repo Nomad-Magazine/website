@@ -13,11 +13,8 @@ const posts = allPosts
     return dateB.valueOf() - dateA.valueOf()
   })
 
-// Find July 2025 article to feature prominently
-const julyArticle = posts.find(post => post.slug === 'what-happened-in-the-digital-nomad-world-in-july-2025-key-updates-trends')
-
-// Use July 2025 article as the featured post (top hero section)
-const featuredPost = julyArticle || posts[0]
+// Use the most recent article as the featured post
+const featuredPost = posts[0]
 
 // Get posts with video content for YouTube section
 const videoPosts = posts.filter(post => 
@@ -27,25 +24,11 @@ const videoPosts = posts.filter(post =>
   post.data.title.toLowerCase().includes('video')
 ).slice(0, 3)
 
-// Get other posts for the grid (excluding featured post and video posts)
-const otherPosts = posts.filter(post => 
+// Get all posts in chronological order (excluding featured post and video posts)
+const regularPosts = posts.filter(post => 
   post.slug !== featuredPost?.slug && 
   !videoPosts.includes(post)
 )
-
-// Find Offsite article and Molly's article for featured stories section
-const offsiteArticle = posts.find(post => post.slug === 'insights-from-the-offsite-why-coliving-is-the-future-of-remote-work')
-const mollyArticle = posts.find(post => post.slug === 'molly-maine-nomad-exhibition-what-does-home-mean')
-
-// Put Offsite article first, Molly's article second, then other posts
-const featuredArticles = [offsiteArticle, mollyArticle].filter((post): post is NonNullable<typeof post> => post !== undefined)
-const regularPosts = [
-  ...featuredArticles,
-  ...otherPosts.filter(post => 
-    post.slug !== offsiteArticle?.slug && 
-    post.slug !== mollyArticle?.slug
-  )
-]
 
 // YouTube channel videos
 const youtubeVideos = [
@@ -214,19 +197,19 @@ const seo: SEOProps = {
                 </article>
               )}
 
-              {regularPosts[5] && (
+              {regularPosts[2] && (
                 <article class="space-y-3">
                   <div class="space-y-2">
                     <div class="text-xs uppercase tracking-wider text-neutral-400 font-bold">
                       Nomad Life
                     </div>
                     <h2 class="text-lg font-bold leading-tight text-white">
-                      <a href={`/blog/${regularPosts[5].slug}`} class="hover:text-neutral-300 transition-colors">
-                        {regularPosts[5].data.title}
+                      <a href={`/blog/${regularPosts[2].slug}`} class="hover:text-neutral-300 transition-colors">
+                        {regularPosts[2].data.title}
                       </a>
                     </h2>
                     <div class="text-xs text-neutral-500 font-bold uppercase">
-                      {regularPosts[5].data.pubDate?.toLocaleDateString('en-US', {
+                      {regularPosts[2].data.pubDate?.toLocaleDateString('en-US', {
                         month: 'short',
                         day: 'numeric',
                       })}
@@ -238,50 +221,20 @@ const seo: SEOProps = {
 
             <!-- Row 3: Three articles side by side -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {regularPosts[2] && (
+              {regularPosts[3] && (
                 <article class="space-y-3">
                   <div class="space-y-2">
                     <div class="text-xs uppercase tracking-wider text-neutral-400 font-bold">
                       Community
                     </div>
                     <h2 class="text-lg font-bold leading-tight text-white">
-                      <a href={`/blog/${regularPosts[2].slug}`} class="hover:text-neutral-300 transition-colors">
-                        {regularPosts[2].data.title}
-                      </a>
-                    </h2>
-                    <p class="text-neutral-300 text-sm leading-relaxed line-clamp-2">
-                      {regularPosts[2].data.description}
-                    </p>
-                    <div class="text-xs text-neutral-500 font-bold uppercase">
-                      {regularPosts[2].data.pubDate?.toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric',
-                      })}
-                    </div>
-                  </div>
-                </article>
-              )}
-
-              {regularPosts[3] && (
-                <article class="space-y-3">
-                  <div class="relative">
-                    <Image
-                      src={regularPosts[3].data.heroImage || "/images/edition-003-cover_holded_front_face.webp"}
-                      alt={regularPosts[3].data.heroImageAlt || regularPosts[3].data.title}
-                      width={300}
-                      height={200}
-                      class="w-full aspect-[3/2] object-cover rounded-2xl"
-                    />
-                  </div>
-                  <div class="space-y-2">
-                    <div class="text-xs uppercase tracking-wider text-neutral-400 font-bold">
-                      Digital Life
-                    </div>
-                    <h2 class="text-lg font-bold leading-tight text-white">
                       <a href={`/blog/${regularPosts[3].slug}`} class="hover:text-neutral-300 transition-colors">
                         {regularPosts[3].data.title}
                       </a>
                     </h2>
+                    <p class="text-neutral-300 text-sm leading-relaxed line-clamp-2">
+                      {regularPosts[3].data.description}
+                    </p>
                     <div class="text-xs text-neutral-500 font-bold uppercase">
                       {regularPosts[3].data.pubDate?.toLocaleDateString('en-US', {
                         month: 'short',
@@ -305,7 +258,7 @@ const seo: SEOProps = {
                   </div>
                   <div class="space-y-2">
                     <div class="text-xs uppercase tracking-wider text-neutral-400 font-bold">
-                      Lifestyle
+                      Digital Life
                     </div>
                     <h2 class="text-lg font-bold leading-tight text-white">
                       <a href={`/blog/${regularPosts[4].slug}`} class="hover:text-neutral-300 transition-colors">
@@ -314,6 +267,36 @@ const seo: SEOProps = {
                     </h2>
                     <div class="text-xs text-neutral-500 font-bold uppercase">
                       {regularPosts[4].data.pubDate?.toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                      })}
+                    </div>
+                  </div>
+                </article>
+              )}
+
+              {regularPosts[5] && (
+                <article class="space-y-3">
+                  <div class="relative">
+                    <Image
+                      src={regularPosts[5].data.heroImage || "/images/edition-003-cover_holded_front_face.webp"}
+                      alt={regularPosts[5].data.heroImageAlt || regularPosts[5].data.title}
+                      width={300}
+                      height={200}
+                      class="w-full aspect-[3/2] object-cover rounded-2xl"
+                    />
+                  </div>
+                  <div class="space-y-2">
+                    <div class="text-xs uppercase tracking-wider text-neutral-400 font-bold">
+                      Lifestyle
+                    </div>
+                    <h2 class="text-lg font-bold leading-tight text-white">
+                      <a href={`/blog/${regularPosts[5].slug}`} class="hover:text-neutral-300 transition-colors">
+                        {regularPosts[5].data.title}
+                      </a>
+                    </h2>
+                    <div class="text-xs text-neutral-500 font-bold uppercase">
+                      {regularPosts[5].data.pubDate?.toLocaleDateString('en-US', {
                         month: 'short',
                         day: 'numeric',
                       })}
@@ -473,9 +456,7 @@ const seo: SEOProps = {
                   {regularPosts[0] && (
                     <div class="aspect-[16/10] overflow-hidden rounded-l-2xl">
                       <Image
-                        src={regularPosts[0].slug === 'molly-maine-nomad-exhibition-what-does-home-mean' 
-                          ? "/images/molly_nomad_exhibition_H_1029.webp" 
-                          : (regularPosts[0].data.heroImage || "/images/edition-003-cover_holded_front_face.webp")}
+                        src={regularPosts[0].data.heroImage || "/images/edition-003-cover_holded_front_face.webp"}
                         alt={regularPosts[0].data.heroImageAlt || regularPosts[0].data.title}
                         width={600}
                         height={375}
@@ -593,7 +574,7 @@ const seo: SEOProps = {
           </div>
           
           <div id="archive-grid" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {regularPosts.slice(11).map((post, index) => (
+            {regularPosts.slice(6).map((post, index) => (
               <article 
                 class={`archive-post group relative overflow-hidden rounded-xl border border-neutral-800/50 bg-neutral-900/20 transition-all hover:border-neutral-700 hover:bg-neutral-900/40 ${index >= 8 ? 'hidden' : ''}`}
                 data-index={index}
@@ -641,7 +622,7 @@ const seo: SEOProps = {
             ))}
           </div>
           
-          {regularPosts.slice(11).length > 8 && (
+          {regularPosts.slice(6).length > 8 && (
             <div class="mt-12 text-center">
               <button 
                 id="load-more-btn"
