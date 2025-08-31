@@ -7,7 +7,7 @@ author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-04-03T10:37:26.261Z
 updated_at: 2025-08-11T06:39:18.437Z
-head_image: https://assets.seobotai.com/nomadgossip.com/67ee60a9ebbb9dc80641158a-1743676658354.jpg
+head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/67ee60a9ebbb9dc80641158a-1743676658354.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: digital nomads, community, coliving, travel coordination, remote work, meaningful connections
 tag: Digital, Expat, Travel

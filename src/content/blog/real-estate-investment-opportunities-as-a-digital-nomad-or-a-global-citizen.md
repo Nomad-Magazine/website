@@ -6,8 +6,8 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-03-18T03:50:44.322Z
-updated_at: 2025-03-18T03:51:08.042Z
-head_image: https://assets.seobotai.com/nomadgossip.com/67d8cefb767c46c9a31c9d42-1742269868042.jpg
+updated_at: 2025-08-30T14:29:25.532Z
+head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/67d8cefb767c46c9a31c9d42-1742269868042.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: real estate investment, digital nomad, remote work, property management, global citizen, Airbnb rentals, REITs, tax planning
 tag: Digital, Expat, Travel
@@ -41,7 +41,7 @@ Start by researching markets, assembling a remote management team, and choosing 
 
 ## Investment Options for Remote Investors
 
-Remote real estate investments provide opportunities to grow wealth without sacrificing your freedom to live and work anywhere.
+Remote [real estate investments](https://consulty.app) provide opportunities to grow wealth without sacrificing your freedom to live and work anywhere.
 
 ### [Airbnb](https://www.airbnb.com/) and Vacation Rentals
 
