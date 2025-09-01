@@ -7,10 +7,10 @@ author_image_url: /images/team/ngm-team.png
 author_url: https://nomad-magazine.com/about
 created_at: 2025-01-30T12:00:00.000Z
 updated_at: 2025-01-30T12:00:00.000Z
-head_image: /images/edition-002-japan-colive-fukuoka-interview.webp
-head_image_alt: Colive Fukuoka 2025 - Asia's Premier Digital Nomad Festival
-heroImage: /images/edition-002-japan-colive-fukuoka-interview.webp
-heroImageAlt: Colive Fukuoka 2025 - Asia's Premier Digital Nomad Festival
+head_image: /images/colive-fukuoka-10-volunteers.webp
+head_image_alt: Colive Fukuoka volunteers team
+heroImage: /images/colive-fukuoka-10-volunteers.webp
+heroImageAlt: Colive Fukuoka volunteers team
 keywords: Colive Fukuoka 2025, digital nomad festival Asia, Japan nomad events, RAMEN TECH, Fukuoka startup ecosystem, nomad community Japan
 tag: Events, Japan, Community
 published: false
@@ -32,6 +32,9 @@ Colive Fukuoka is Asia's premier digital nomad festival, uniquely designed for g
 > **📅 Mark Your Calendar:** October 1-31, 2025 | Fukuoka City, Japan  
 > **🌐 Official Website:** [colivefukuoka.com](https://colivefukuoka.com)
 
+![Colive Fukuoka co-founders on stage](/images/colive-fukuoka-2-founders.webp)
+
+
 ### The Numbers Speak for Themselves
 
 > **📊 2024 Impact Data:**  
@@ -50,6 +53,8 @@ Colive Fukuoka is Asia's premier digital nomad festival, uniquely designed for g
 
 Under the theme "Envision Tomorrow Together," the summit gathers inspiring speakers from Japan and abroad to explore cutting-edge insights into digital nomadism and diverse future lifestyles. Starting in 2025, special emphasis will be placed on uniquely Japanese philosophies such as "IKIGAI" and "Do (The Way)," offering deeper insights into these globally recognized concepts.
 
+![Colive Fukuoka summit venue](/images/colive-fukuoka-6-venue.webp)
+
 ### 2. Side Events & Cultural Excursions (October 6-10, 2025)
 **Venue:** Various locations throughout Fukuoka City
 
@@ -60,10 +65,14 @@ Explore traditional Japanese disciplines including:
 
 These practices embody beauty found within discipline, reflecting Japanese values of life. In an era driven by efficiency, participants can rediscover life's deeper meaning through structured activities focusing on invisible but essential spiritual values. Join morning "Asakatsu" sessions to experience these disciplines and nurture personal growth crucial for business and career advancement.
 
+![Do activities at Colive Fukuoka](/images/colive-fukuoka-8-activity.webp)
+
 ### 3. Synapse Festival (October 4, 2025)
 **Venue:** Nokonoshima Island, Fukuoka City
 
 The popular Synapse Festival returns with the theme "Be a Dancer in Your Own Life." Enjoy diverse experiences including music, art, sauna, yoga, and more on a beautiful beach. Reconnect with your authentic self through immersive sensory experiences, recapturing the expressive spirit of your youth. Participants can stay overnight on the island to enjoy a stunning sunrise.
+
+![Synapse Festival scene](/images/colive-fukuoka-4-experience-at-event.webp)
 
 ## RAMEN TECH: Fukuoka's Startup Week
 
@@ -79,10 +88,14 @@ The week includes:
 - Colive Fukuoka organized side events
 - Enhanced international communication support
 
+![RAMEN TECH Fukuoka](/images/colive-fukuoka-7-ramen-tech.webp)
+
 ### Closing Ceremony
 **October 10th, 2025 | Daimyo Conference**
 
 The program culminates with a special closing ceremony featuring inspiring speakers and celebration of the connections made throughout the festival.
+
+![Colive Fukuoka group photo](/images/colive-fukuoka-3-group-of-people.webp)
 
 ## Ticket Options and Pricing
 
@@ -112,6 +125,8 @@ The program culminates with a special closing ceremony featuring inspiring speak
 > • **Wednesday (8th):** Excursion Day - Ukiha Sake Brewery visit  
 > • **Thursday (9th):** Startup Day - Daimyo Conference
 
+![Colive Fukuoka schedule overview](/images/colive-fukuoka-1-schedule.webp)
+
 > **🌙 Evening Activities:**  
 > • **Morning Activities & Dinner Out**  
 > • **Side Events:** Culture experiences, meetups, skill-share workshops, karaoke nights  
@@ -127,6 +142,8 @@ The program culminates with a special closing ceremony featuring inspiring speak
 
 ### Volunteer Program Impact
 Colive Fukuoka is supported by nearly 50 Japanese digital nomads and local university student volunteers, plus international digital nomads who participated in 2024. This volunteer-powered support system plays a vital role in realizing the "co-creation" spirit that defines the event.
+
+![Volunteer team at Colive Fukuoka](/images/colive-fukuoka-10-volunteers.webp)
 
 ## What We Do Colive Fukuoka For?
 
@@ -153,6 +170,8 @@ Colive Fukuoka is supported by nearly 50 Japanese digital nomads and local unive
 - **Pitch competitions and networking**
 - **Access to Asia's fastest-growing startup ecosystem**
 - **International collaboration opportunities**
+
+![Colive Fukuoka 2024 data snapshot](/images/colive-fukuoka-9-stats.webp)
 
 ### Accommodation & Coliving
 The month-long coliving program at **Hakata Place** offers:
@@ -222,6 +241,17 @@ Colive Fukuoka 2025 isn't just an event—it's a movement toward more meaningful
 > **🎫 [Register at colivefukuoka.com](https://colivefukuoka.com)** with exclusive **20% discount code GOSSIP** and join hundreds of digital nomads, entrepreneurs, and local changemakers in creating the future of work and community in one of Asia's most dynamic cities.
 >
 > *Don't miss your chance to be part of Asia's premier digital nomad experience.*
+
+### Watch: Stories from Colive Fukuoka 2024
+
+Here are three short episodes we filmed during last year's edition — perfect for a taste of the vibe without stealing the spotlight:
+
+- **How This Japanese Couple Became a Thriving Digital Nomad Family 🇯🇵👶**  
+  [YouTube](https://www.youtube.com/watch?v=5Ms1V1uHuhQ&t=33s)
+- **Why Digital Nomads are Going to Japan: Mad Monkey’s Eric Solberg Talks Expansion & Community**  
+  [YouTube](https://www.youtube.com/watch?v=uDrFozLdM_0&t=24s)
+- **Building Community in Alt Chiang Mai: Insights from John Ho on Co-Living, Co-Working Business**  
+  [YouTube](https://www.youtube.com/watch?v=sOKP-sdQDI8&t=87s)
 
 ---
 
