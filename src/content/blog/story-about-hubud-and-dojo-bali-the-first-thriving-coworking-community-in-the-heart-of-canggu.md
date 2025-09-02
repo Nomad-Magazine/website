@@ -6,8 +6,8 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-04-02T09:34:21.720Z
-updated_at: 2025-04-02T09:34:32.981Z
-head_image: https://assets.seobotai.com/nomadgossip.com/67ecff32ebbb9dc8063fa67f-1743586472981.jpg
+updated_at: 2025-09-01T10:23:45.982Z
+head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/67ecff32ebbb9dc8063fa67f-1743586472981.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: coworking spaces, digital nomads, Bali, Hubud, Dojo Bali, community, remote work, lifestyle, collaboration
 tag: Career, Digital, Travel
@@ -16,7 +16,7 @@ locale: en
 next_blog: ''
 ---
 
-[Hubud](https://workfrom.co/hubud) and [Dojo Bali](https://dojobali.org/) transformed Bali into a digital nomad hotspot. They introduced coworking spaces that combined work, community, and lifestyle, attracting remote workers to Canggu and Ubud. Here's what you need to know:
+[Hubud](https://workfrom.co/hubud) and [Dojo Bali](https://dojobali.org/) transformed Bali into a digital nomad hotspot. They introduced coworking spaces that combined work, community, and lifestyle, attracting remote workers to [Canggu](https://findsurfcampbali.com) and Ubud. Here's what you need to know:
 
 -   **Hubud**: Opened in 2013 in Ubud, known for its bamboo design and focus on blending work with lifestyle.
 -   **Dojo Bali**: Established in Canggu near Echo Beach, offering high-speed internet, meeting rooms, and even a pool. It closed in 2022.
