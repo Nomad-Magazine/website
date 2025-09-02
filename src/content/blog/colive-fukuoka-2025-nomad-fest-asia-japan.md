@@ -5,8 +5,8 @@ description: Discover Colive Fukuoka 2025, the No.1 digital nomad festival in As
 author: Nomad Magazine Team
 author_image_url: /images/team/ngm-team.png
 author_url: https://nomad-magazine.com/about
-created_at: 2025-01-30T12:00:00.000Z
-updated_at: 2025-01-30T12:00:00.000Z
+created_at: 2025-09-02T12:00:00.000Z
+updated_at: 2025-09-02T12:00:00.000Z
 head_image: /images/colive-fukuoka-10-volunteers.webp
 head_image_alt: Colive Fukuoka volunteers team
 heroImage: /images/colive-fukuoka-10-volunteers.webp
@@ -16,7 +16,7 @@ tag: Events, Japan, Community
 published: false
 locale: en
 next_blog: ''
-pubDate: 2025-01-30T12:00:00.000Z
+pubDate: 2025-09-02T12:00:00.000Z
 ---
 
 **Colive Fukuoka returns in 2025 as one of Asia's premier digital nomad festivals.** The highly anticipated Colive Fukuoka 2025 takes place this October with an expanded program that promises to be one of the most comprehensive digital nomad experiences in Asia.
@@ -32,7 +32,7 @@ Colive Fukuoka is Asia's premier digital nomad festival, uniquely designed for g
 > **📅 Mark Your Calendar:** October 1-31, 2025 | Fukuoka City, Japan  
 > **🌐 Official Website:** [colivefukuoka.com](https://colivefukuoka.com)
 
-![Colive Fukuoka co-founders on stage](/images/colive-fukuoka-2-founders.webp)
+<img src="/images/colive-fukuoka-2-founders.webp" alt="Colive Fukuoka co-founders on stage" style="max-width:600px;width:100%;height:auto;display:block;margin:1rem auto;" />
 
 
 ### The Numbers Speak for Themselves
