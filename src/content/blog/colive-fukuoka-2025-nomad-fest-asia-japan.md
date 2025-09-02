@@ -7,10 +7,10 @@ author_image_url: /images/team/ngm-team.png
 author_url: https://nomad-magazine.com/about
 created_at: 2025-09-02T12:00:00.000Z
 updated_at: 2025-09-02T12:00:00.000Z
-head_image: /images/colive-fukuoka-10-volunteers.webp
-head_image_alt: Colive Fukuoka volunteers team
-heroImage: /images/colive-fukuoka-10-volunteers.webp
-heroImageAlt: Colive Fukuoka volunteers team
+head_image: /images/colive-fukuoka-3-group-of-people.webp
+head_image_alt: Colive Fukuoka group photo
+heroImage: /images/colive-fukuoka-3-group-of-people.webp
+heroImageAlt: Colive Fukuoka group photo
 keywords: Colive Fukuoka 2025, digital nomad festival Asia, Japan nomad events, RAMEN TECH, Fukuoka startup ecosystem, nomad community Japan
 tag: Events, Japan, Community
 published: false
