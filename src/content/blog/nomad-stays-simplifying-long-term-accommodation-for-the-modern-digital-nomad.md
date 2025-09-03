@@ -6,7 +6,7 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-03-30T01:13:04.771Z
-updated_at: 2025-08-22T09:35:06.998Z
+updated_at: 2025-09-02T10:36:05.737Z
 head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/67e88a41283d21cbd67a7c0c-1743297197302.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: digital nomad, remote work, long-term accommodation, coworking spaces, travel housing, flexible leases, online booking
@@ -210,7 +210,7 @@ Pay attention to these workspace essentials:
 -   **Ergonomics matter:** Check for proper lighting, comfortable seating, and back-up internet options. If not available, see if there are coworking spaces nearby.
 -   **Network with others:** Use shared areas to meet and connect with fellow nomads.
 
-If you're applying for a [digital nomad visa](https://www.nomadgossip.com/blog/remote-work-visas-top-10-countries-for-digital-nomads), keep in mind that some countries require proof of accommodations. In such cases, a **Letter of Approval in Principle** may be issued, showing that visa approval depends on securing suitable housing [\[6\]](https://blog.nomadstays.com/a-comprehensive-guide-to-discovering-digital-nomad-friendly-accommodations-worldwide/).
+If you're applying for a [digital nomad visa](https://www.nomadgossip.com/blog/remote-work-visas-top-10-countries-for-digital-nomads), keep in mind that some countries require proof of accommodations. In such cases, a **Letter of Approval in Principle** may be issued, showing that [visa approval](https://visadoc.co.uk) depends on securing suitable housing [\[6\]](https://blog.nomadstays.com/a-comprehensive-guide-to-discovering-digital-nomad-friendly-accommodations-worldwide/).
 
 Lastly, check the property's location. Being close to essential services and transport options can greatly affect how convenient and comfortable your stay will be [\[5\]](https://citizenremote.com/blog/accommodation-search-tips-every-digital-nomad-needs-to-know/). Following these steps ensures your booking aligns with both your work and lifestyle needs.
 

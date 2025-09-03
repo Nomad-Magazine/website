@@ -6,8 +6,8 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-03-27T01:48:05.302Z
-updated_at: 2025-08-09T09:58:49.874Z
-head_image: https://assets.seobotai.com/nomadgossip.com/67e496a710051fda3b635143-1743040097678.jpg
+updated_at: 2025-09-02T22:41:00.836Z
+head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/67e496a710051fda3b635143-1743040097678.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: coworking spaces, digital nomads, remote work, flexible plans, networking
 tag: Digital, Expat, Travel
@@ -16,7 +16,7 @@ locale: en
 next_blog: ''
 ---
 
-[GetCroissant](https://www.getcroissant.com/a/nomadgossip) helps digital nomads and remote workers find professional coworking spaces in over 70 cities globally. With flexible, pay-as-you-go plans starting at €19/month, users can access high-speed internet, quiet work environments, and amenities like meeting rooms and 24/7 access. Its mobile app simplifies booking, tracks hours, and connects members for networking. Ideal for those seeking flexibility, productivity, and community while traveling or working remotely.
+[GetCroissant](https://www.getcroissant.com/a/nomadgossip) helps digital nomads and remote workers find [professional coworking spaces](https://rooftop-office-berlin.webflow.io) in over 70 cities globally. With flexible, pay-as-you-go plans starting at €19/month, users can access high-speed internet, quiet work environments, and amenities like meeting rooms and 24/7 access. Its mobile app simplifies booking, tracks hours, and connects members for networking. Ideal for those seeking flexibility, productivity, and community while traveling or working remotely.
 
 **Key Features:**
 
