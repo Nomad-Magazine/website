@@ -17,7 +17,7 @@ next_blog: ''
 ---
 # **Trending Digital Nomad Cities: Where to Go Now**
 
-Digital nomadism is booming, with millions of remote workers seeking cities that offer fast internet, affordable living, coworking spaces, and [digital nomad visas](https://www.nomadgossip.com/blog/remote-work-visas-top-10-countries-for-digital-nomads). Here are six top destinations for digital nomads in 2025, each offering unique benefits:
+Digital nomadism is booming, with millions of remote workers seeking cities that offer fast internet, affordable living, coworking spaces, and [digital nomad visas](https://www.nomadgossip.com/blog/remote-work-visas-top-10-countries-for-digital-nomads). Here are six top destinations for digital nomads in 2025, each offering unique benefits. For detailed city guides, check out our comprehensive articles on [Lisbon](/blog/lisbon-digital-nomad-guide-2025-best-coworking-cost-and-living-tips), [Medellin](/blog/medellin-digital-nomad-guide-2025-weather-internet-and-best-coworking-spaces), and [Mexico City](/blog/mexico-city-digital-nomad-guide-2025-best-areas-cost-and-safety-tips):
 
 -   **Lisbon, Portugal**: Great internet (175 Mbps), vibrant expat community, and affordable living (~$2,890/month).
     

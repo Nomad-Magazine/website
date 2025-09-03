@@ -54,7 +54,7 @@ Digital nomad visas let you legally live and work abroad while enjoying new cult
 | Greece | €3,500/month | 1 year | 4-6 weeks | 50% tax reduction (7 years) | Yes |
 | Germany | €3,500/month | 6-12 months | 2-3 months | Standard taxation | Yes |
 
-Choose a destination based on your income, visa duration, and lifestyle preferences. Each country offers unique perks for remote workers.
+Choose a destination based on your income, visa duration, and lifestyle preferences. Each country offers unique perks for remote workers. Once you've selected your destination, explore our city guides for [Portugal](/blog/lisbon-digital-nomad-guide-2025-best-coworking-cost-and-living-tips), [Thailand](/blog/what-are-the-trending-digital-nomad-cities), and other popular nomad destinations. For gear essentials, check our [digital nomad travel gear guide](/blog/remote-ready-travel-gear-every-digital-nomad-needs-in-2025).
 
 ## Key Factors in Digital Nomad Visa Selection
 

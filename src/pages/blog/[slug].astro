@@ -2,6 +2,8 @@
 import { getCollection } from 'astro:content'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import SidebarSubscribe from '~/components/SidebarSubscribe.astro'
+import InternalLinks from '~/components/InternalLinks.astro'
+import Breadcrumbs from '~/components/Breadcrumbs.astro'
 
 export const prerender = true
 
@@ -111,11 +113,24 @@ const seo: SEOProps = {
     }
 
     <div class="px-8 py-16">
+      <div class="mx-auto max-w-7xl">
+        <Breadcrumbs 
+          items={[{ label: 'Blog', href: '/blog' }]} 
+          currentPage={post.data.title}
+        />
+      </div>
       <div class="mx-auto grid max-w-7xl grid-cols-1 lg:grid-cols-3 lg:gap-16">
         <div class="lg:col-span-2">
           <article class="prose mx-auto max-w-none">
             <Content />
           </article>
+          
+          <!-- Internal Links Component -->
+          <InternalLinks 
+            currentSlug={post.slug} 
+            tags={currentPostTags}
+          />
+          
           {
             finalRelatedPosts.length > 0 && (
               <section class="mt-16">

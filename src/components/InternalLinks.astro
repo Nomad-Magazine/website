@@ -1,0 +1,102 @@
+---
+interface Link {
+  url: string
+  title: string
+  description?: string
+}
+
+interface Props {
+  currentSlug?: string
+  tags?: string[]
+  category?: string
+  links?: Link[]
+}
+
+const { currentSlug, tags = [], category, links = [] } = Astro.props
+
+// Predefined link suggestions based on common topics
+const linkMappings = {
+  visa: [
+    { url: '/blog/remote-work-visas-top-10-countries-for-digital-nomads', title: 'Remote Work Visas: Top 10 Countries', description: 'Comprehensive guide to digital nomad visas' },
+    { url: '/blog/nepal-launches-digital-nomad-visa-work-remotely-with-a-view-of-the-himalayas', title: 'Nepal Digital Nomad Visa', description: 'Latest updates on Nepal\'s new visa program' },
+    { url: '/blog/vietnam-digital-nomad-visa', title: 'Vietnam Digital Nomad Visa', description: 'Everything about Vietnam\'s remote work visa' }
+  ],
+  coworking: [
+    { url: '/blog/7-reasons-remote-workers-love-using-getcroissant-for-coworking-spaces', title: 'GetCroissant for Coworking Spaces', description: '7 reasons remote workers love this platform' },
+    { url: '/blog/top-coworking-festivals-2025', title: 'Top Coworking Festivals 2025', description: 'Best coworking events and festivals' },
+    { url: '/blog/coworking-vs-cafes-best-workspaces-for-digital-nomads', title: 'Coworking vs Cafes', description: 'Compare workspace options for nomads' },
+    { url: '/nomad_directory', title: 'Nomad Directory', description: 'Find coworking spaces and nomad services' }
+  ],
+  cities: [
+    { url: '/blog/lisbon-digital-nomad-guide-2025-best-coworking-cost-and-living-tips', title: 'Lisbon Digital Nomad Guide', description: 'Complete guide to living in Lisbon' },
+    { url: '/blog/medellin-digital-nomad-guide-2025-weather-internet-and-best-coworking-spaces', title: 'Medellin Digital Nomad Guide', description: 'Everything about living in Medellin' },
+    { url: '/blog/mexico-city-digital-nomad-guide-2025-best-areas-cost-and-safety-tips', title: 'Mexico City Digital Nomad Guide', description: 'Complete Mexico City guide for nomads' },
+    { url: '/blog/what-are-the-trending-digital-nomad-cities', title: 'Trending Digital Nomad Cities', description: 'Top cities for digital nomads worldwide' }
+  ],
+  gear: [
+    { url: '/blog/remote-ready-travel-gear-every-digital-nomad-needs-in-2025', title: 'Essential Travel Gear 2025', description: 'Must-have gear for digital nomads' },
+    { url: '/blog/top-10-esims-for-travelers-and-nomads-stay-connected-anywhere', title: 'Top 10 eSIMs for Travelers', description: 'Best eSIM options for staying connected' },
+    { url: '/blog/ultimate-guide-to-convertible-luggage-for-nomads', title: 'Convertible Luggage Guide', description: 'Best luggage options for nomads' }
+  ],
+  events: [
+    { url: '/blog/top-coworking-festivals-2025', title: 'Top Coworking Festivals 2025', description: 'Best coworking events and festivals' },
+    { url: '/blog/digital-nomad-events-in-2025-the-best-conferences-retreats-and-festivals-worldwide', title: 'Digital Nomad Events 2025', description: 'Comprehensive events calendar' },
+    { url: '/nomad-events', title: 'Events Directory', description: 'Discover nomad events worldwide' }
+  ]
+}
+
+// Get relevant links based on tags and category
+let suggestedLinks: Link[] = []
+
+if (links.length > 0) {
+  suggestedLinks = links
+} else {
+  // Auto-suggest based on tags and category
+  const allTags = [...tags, category].filter(Boolean).map(tag => tag?.toLowerCase())
+  
+  for (const tag of allTags) {
+    if (tag.includes('visa') || tag.includes('expat')) {
+      suggestedLinks.push(...linkMappings.visa)
+    }
+    if (tag.includes('coworking') || tag.includes('work')) {
+      suggestedLinks.push(...linkMappings.coworking)
+    }
+    if (tag.includes('city') || tag.includes('travel') || tag.includes('living')) {
+      suggestedLinks.push(...linkMappings.cities)
+    }
+    if (tag.includes('gear') || tag.includes('tech')) {
+      suggestedLinks.push(...linkMappings.gear)
+    }
+    if (tag.includes('event') || tag.includes('festival')) {
+      suggestedLinks.push(...linkMappings.events)
+    }
+  }
+  
+  // Remove duplicates and filter out current page
+  suggestedLinks = suggestedLinks
+    .filter((link, index, self) => 
+      self.findIndex(l => l.url === link.url) === index && 
+      !link.url.includes(currentSlug || '')
+    )
+    .slice(0, 4) // Limit to 4 suggestions
+}
+---
+
+{suggestedLinks.length > 0 && (
+  <div class="my-8 rounded-lg border border-gray-200 bg-gray-50 p-6">
+    <h3 class="mb-4 text-lg font-semibold text-gray-900">Related Resources</h3>
+    <div class="grid gap-3 sm:grid-cols-2">
+      {suggestedLinks.map((link) => (
+        <a 
+          href={link.url} 
+          class="block rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-yellow-300 hover:shadow-md"
+        >
+          <h4 class="font-medium text-blue-600 hover:text-blue-800">{link.title}</h4>
+          {link.description && (
+            <p class="mt-1 text-sm text-gray-600">{link.description}</p>
+          )}
+        </a>
+      ))}
+    </div>
+  </div>
+)}
