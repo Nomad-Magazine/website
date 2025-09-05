@@ -6,8 +6,8 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-03-13T20:00:12.333Z
-updated_at: 2025-03-13T20:08:33.332Z
-head_image: https://assets.seobotai.com/nomadgossip.com/67d30551e6555faf3aa772eb-1741896025160.jpg
+updated_at: 2025-09-04T15:36:25.689Z
+head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/67d30551e6555faf3aa772eb-1741896025160.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: digital nomad, remote work, publications, travel, entrepreneurship, productivity, community, freelancing
 tag: Digital, Expat, Travel
@@ -170,9 +170,9 @@ The blog celebrates diversity, with 40% of its alumni being women, ensuring a va
 
 ## 6\. [Tropical MBA](https://tropicalmba.com/) Podcast
 
-![Tropical MBA](https://mars-images.imgix.net/seobot/screenshots/tropicalmba.com-ec694877bd467d076d5b0ce7d5fea45b-2025-03-13.jpg?auto=compress)
+![Tropical MBA](https://assets.seobotai.com/nomadgossip.com/67d30551e6555faf3aa772eb/9e6c9948e2df4e5b80b9c72c61b49af0.jpg)
 
-The **Tropical MBA Podcast** has been a go-to resource for remote entrepreneurs for over 15 years, amassing 10 million downloads. With weekly episodes, it dives into business management, team building, and strategies for growth - all tailored to the needs of location-independent business owners [\[8\]](https://tropicalmba.com/).
+The **Tropical MBA Podcast** has been a go-to resource for remote entrepreneurs for over 15 years, amassing 10 million downloads. With weekly episodes, it dives into business management, team building, and [strategies for growth](https://www.nemtrepreneur.com) - all tailored to the needs of location-independent business owners [\[8\]](https://tropicalmba.com/).
 
 The podcast focuses on three major themes that resonate with remote entrepreneurs:
 
