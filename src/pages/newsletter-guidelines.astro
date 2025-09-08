@@ -1,0 +1,675 @@
+---
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+
+const seo: SEOProps = {
+  title: 'Newsletter Guidelines - Partner with Nomad Magazine',
+  description:
+    'Guidelines for partners who want to contribute to the Nomad Magazine Newsletter. Learn how to create engaging content for our global community of digital nomads.',
+  image: `${Astro.site}images/hands_pointing-left.webp`,
+  keywords: 'newsletter guidelines, nomad magazine partnership, digital nomad newsletter, content guidelines',
+  ogType: 'website',
+}
+---
+
+<Layout seo={seo}>
+  <main class="min-h-screen bg-gray-50">
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-b from-gray-900 to-gray-800 text-white">
+      <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <div class="mb-6">
+            <span class="inline-flex items-center rounded-full bg-yellow-400/20 px-4 py-2 text-sm font-medium text-yellow-400">
+              📧 Partner Guidelines
+            </span>
+          </div>
+          <h1 class="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+            Newsletter Partnership Guide
+          </h1>
+          <p class="mt-6 text-xl text-gray-300 max-w-3xl mx-auto">
+            Share your insights with our engaged community of 650+ digital nomads, remote workers, 
+            creators, and travel-obsessed entrepreneurs worldwide.
+          </p>
+          <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <div class="flex items-center space-x-2 text-yellow-400">
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+              </svg>
+              <span class="font-semibold text-lg">650+ Subscribers</span>
+            </div>
+            <div class="flex items-center space-x-2 text-yellow-400">
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+              </svg>
+              <span class="font-semibold text-lg">~50% Open Rate</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Partnership Options -->
+    <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 mt-8">
+      <div class="text-center mb-8">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">Choose Your Partnership Option</h2>
+        <p class="text-gray-600">Select the format that works best for your content and goals</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <!-- Newsletter Takeover -->
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-8 relative">
+          <div class="absolute -top-3 left-6">
+            <span class="bg-blue-500 text-white px-4 py-1 rounded-full text-sm font-medium">Most Popular</span>
+          </div>
+          <div class="text-center mb-6">
+            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="h-8 w-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Newsletter Takeover</h3>
+            <p class="text-gray-600">Full feature section in our newsletter</p>
+          </div>
+          <div class="space-y-4">
+            <div class="flex items-center space-x-3">
+              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-gray-700">Up to 500 words</span>
+            </div>
+            <div class="flex items-center space-x-3">
+              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-gray-700">1-2 links included</span>
+            </div>
+            <div class="flex items-center space-x-3">
+              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-gray-700">Optional image</span>
+            </div>
+            <div class="flex items-center space-x-3">
+              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-gray-700">Full content structure</span>
+            </div>
+            <div class="flex items-center space-x-3">
+              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-gray-700">Maximum visibility</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Short Note -->
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-8">
+          <div class="text-center mb-6">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Short Note</h3>
+            <p class="text-gray-600">Quick mention or announcement</p>
+          </div>
+          <div class="space-y-4">
+            <div class="flex items-center space-x-3">
+              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-gray-700">One paragraph</span>
+            </div>
+            <div class="flex items-center space-x-3">
+              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-gray-700">1 link maximum</span>
+            </div>
+            <div class="flex items-center space-x-3">
+              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-gray-700">Quick & concise</span>
+            </div>
+            <div class="flex items-center space-x-3">
+              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-gray-700">Perfect for updates</span>
+            </div>
+            <div class="flex items-center space-x-3">
+              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-gray-700">Faster turnaround</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Overview -->
+    <div class="bg-yellow-50 border-l-4 border-yellow-400 mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 mt-8">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-6 w-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-lg font-medium text-yellow-800 mb-2">📌 Ready to Get Started?</h3>
+          <p class="text-yellow-700 mb-3">
+            Choose your preferred option above, then send your content via Google Doc to your NM contact person. We handle all formatting and editing to ensure it fits perfectly into our newsletter.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-200 text-yellow-800">
+              Google Doc submission
+            </span>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-200 text-yellow-800">
+              We handle formatting
+            </span>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-200 text-yellow-800">
+              Human & friendly tone
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <!-- Main Guidelines -->
+        <div class="lg:col-span-2 space-y-12">
+          
+          <!-- Newsletter Takeover Requirements -->
+          <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+            <div class="flex items-center mb-6">
+              <div class="h-12 w-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                </svg>
+              </div>
+              <h2 class="text-2xl font-bold text-gray-900">Newsletter Takeover Requirements</h2>
+            </div>
+            
+            <div class="space-y-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                  <h3 class="font-semibold text-gray-900 flex items-center">
+                    <span class="h-2 w-2 bg-blue-400 rounded-full mr-3"></span>
+                    Length & Format
+                  </h3>
+                  <ul class="space-y-2 text-gray-600 ml-5">
+                    <li>• Maximum 500 words</li>
+                    <li>• Short paragraphs work best</li>
+                    <li>• Bullet points encouraged</li>
+                    <li>• Bold highlights for emphasis</li>
+                  </ul>
+                </div>
+                
+                <div class="space-y-4">
+                  <h3 class="font-semibold text-gray-900 flex items-center">
+                    <span class="h-2 w-2 bg-blue-400 rounded-full mr-3"></span>
+                    Links & Media
+                  </h3>
+                  <ul class="space-y-2 text-gray-600 ml-5">
+                    <li>• 1-2 links maximum</li>
+                    <li>• Optional image</li>
+                    <li>• Share image URL or attach file</li>
+                    <li>• Emojis are welcome ✅</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div class="bg-blue-50 rounded-lg p-6">
+                <h3 class="font-semibold text-blue-900 mb-3 flex items-center">
+                  <span class="h-2 w-2 bg-blue-400 rounded-full mr-3"></span>
+                  Takeover Example
+                </h3>
+                <div class="bg-white rounded-lg p-4 border border-blue-200">
+                  <div class="text-sm text-gray-600 mb-2">From our newsletter:</div>
+                  <div class="space-y-3 text-sm">
+                    <p class="font-semibold text-gray-900">Meet our guest 👂</p>
+                    <p>Hi, I'm <strong>Ryo</strong> 👋 And this week, I'm in charge of the NGM newsletter 😈</p>
+                    <p>I've been a digital nomad based in Japan for the past eight years.</p>
+                    <p>Before that, I worked at Japan's largest advertising agency—often doing 200+ hours of <strong>overtime</strong>, joining every company dinner, and writing thank-you notes to senior colleagues before they arrived the next morning.</p>
+                    <p>From the outside, I was stuck in "typical Japanese work culture."</p>
+                    <p>But surprisingly, I found it <strong>deeply fulfilling</strong>—not because I was forced to, but because I had two things:</p>
+                    <p>1️⃣ Freedom in how I worked (we had a "super flex" system)<br/>
+                    2️⃣ A strong community of brilliant colleagues</p>
+                    <p>Even when things got intense, I could rest when I needed to. I had <strong>control</strong>. And I enjoyed spending time with the <strong>people</strong> I worked with. That's what kept my <strong>motivation</strong> alive.</p>
+                    <p>Now as a digital nomad, I realize these same two factors—<strong>freedom</strong> and <strong>community</strong>—are what sustain us in any workstyle.</p>
+                    <p>[...continues with personal story and call to action...]</p>
+                    <p class="font-semibold text-blue-600">
+                      <strong>Ryo Osera</strong><br/>
+                      Co-Host, <a href="#" class="underline">Colive Fukuoka</a> @colivefukuoka
+                    </p>
+                    <p class="text-xs text-gray-500 italic">*Use code GOSSIP for a 20% discount 👉 colivefukuoka.com</p>
+                  </div>
+                </div>
+                <p class="text-xs text-blue-700 mt-3">
+                  <strong>Note:</strong> This example shows personal storytelling, emotional connection, and clear value proposition with a soft CTA.
+                </p>
+                <div class="mt-3 pt-3 border-t border-blue-200">
+                  <p class="text-xs text-blue-800 font-medium mb-1">📖 More Examples</p>
+                  <p class="text-xs text-blue-700">
+                    See another takeover style: 
+                    <a href="https://us21.campaign-archive.com/?u=07f1911b0ed16f49aac50b510&id=6f75d20dff" 
+                       target="_blank" 
+                       class="underline hover:text-blue-900">
+                      Matt's Pangea App takeover
+                    </a> - showcases adventure storytelling and product integration.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Short Note Requirements -->
+          <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+            <div class="flex items-center mb-6">
+              <div class="h-12 w-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
+                </svg>
+              </div>
+              <h2 class="text-2xl font-bold text-gray-900">Short Note Requirements</h2>
+            </div>
+            
+            <div class="space-y-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                  <h3 class="font-semibold text-gray-900 flex items-center">
+                    <span class="h-2 w-2 bg-green-400 rounded-full mr-3"></span>
+                    Format
+                  </h3>
+                  <ul class="space-y-2 text-gray-600 ml-5">
+                    <li>• One paragraph only</li>
+                    <li>• Concise and focused</li>
+                    <li>• Clear message</li>
+                    <li>• Direct communication</li>
+                  </ul>
+                </div>
+                
+                <div class="space-y-4">
+                  <h3 class="font-semibold text-gray-900 flex items-center">
+                    <span class="h-2 w-2 bg-green-400 rounded-full mr-3"></span>
+                    Content
+                  </h3>
+                  <ul class="space-y-2 text-gray-600 ml-5">
+                    <li>• 1 link maximum</li>
+                    <li>• Perfect for announcements</li>
+                    <li>• Industry insights</li>
+                    <li>• Quick updates</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div class="bg-green-50 rounded-lg p-6">
+                <h3 class="font-semibold text-green-900 mb-3 flex items-center">
+                  <span class="h-2 w-2 bg-green-400 rounded-full mr-3"></span>
+                  Short Note Example
+                </h3>
+                <div class="bg-white rounded-lg p-4 border border-green-200">
+                  <div class="text-sm text-gray-600 mb-2">Example format:</div>
+                  <div class="space-y-3 text-sm">
+                    <p class="font-semibold text-gray-900">Note from Palermo</p>
+                    <p class="text-gray-700">
+                      In a world of hypermobility and hyperconnection, many digital nomads and entrepreneurs are rediscovering the need for something more grounded: community. Coliving is not just a practical solution, but a cultural response to loneliness and rootlessness—a way to turn temporary stays into meaningful shared experiences. Projects like BeetCommunity in Palermo reflect this shift, blending hospitality with local integration and social impact. Instead of offering simply a place to sleep, they invite travelers to become temporary citizens, contributing to a collective sense of belonging in a world that often feels fragmented.
+                    </p>
+                  </div>
+                </div>
+                <p class="text-xs text-green-700 mt-3">
+                  <strong>Note:</strong> This example shows thoughtful insight, cultural perspective, and subtle brand mention without being pushy.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Content Structure -->
+          <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+            <div class="flex items-center mb-6">
+              <div class="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
+                <svg class="h-6 w-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                </svg>
+              </div>
+              <h2 class="text-2xl font-bold text-gray-900">Suggested Structure</h2>
+            </div>
+            
+            <div class="space-y-8">
+              <!-- Structure Steps -->
+              <div class="relative">
+                <div class="absolute left-6 top-12 bottom-0 w-0.5 bg-gradient-to-b from-purple-200 to-transparent"></div>
+                
+                <div class="space-y-8">
+                  <!-- Subject Line -->
+                  <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0 w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                      <span class="text-purple-600 font-bold text-sm">1</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <h3 class="text-lg font-semibold text-gray-900 mb-2">🧠 Subject Line (Optional)</h3>
+                      <p class="text-gray-600 mb-3">Short, clear, maybe even a little cheeky. Emojis welcome!</p>
+                      <div class="bg-gray-50 rounded-lg p-4">
+                        <p class="text-sm text-gray-700 font-medium">Example:</p>
+                        <p class="text-sm text-gray-600 italic">"🌍 A Remote Work Hack You'll Actually Use"</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Intro -->
+                  <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0 w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                      <span class="text-purple-600 font-bold text-sm">2</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <h3 class="text-lg font-semibold text-gray-900 mb-2">👋 Intro Paragraph</h3>
+                      <p class="text-gray-600 mb-3">Tell readers who you are and why they should care. Keep it under 100 words.</p>
+                      <ul class="space-y-1 text-sm text-gray-600 ml-4">
+                        <li>• A bold benefit or insight</li>
+                        <li>• Your unique angle or offer</li>
+                        <li>• 1 link (if relevant)</li>
+                      </ul>
+                    </div>
+                  </div>
+                  
+                  <!-- Main Message -->
+                  <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0 w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                      <span class="text-purple-600 font-bold text-sm">3</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <h3 class="text-lg font-semibold text-gray-900 mb-2">🔍 Main Message (200-300 words)</h3>
+                      <p class="text-gray-600 mb-3">Your space to share value, insights, or behind-the-scenes content.</p>
+                      <div class="bg-green-50 rounded-lg p-4">
+                        <h4 class="font-medium text-green-800 mb-2">Focus on:</h4>
+                        <ul class="space-y-1 text-sm text-green-700">
+                          <li>• Unique perspectives or helpful tips</li>
+                          <li>• How your service/product helps nomads</li>
+                          <li>• Use bullet points for clarity</li>
+                          <li>• Avoid long blocks of text</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Inspiration Closing -->
+                  <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0 w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                      <span class="text-purple-600 font-bold text-sm">4</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <h3 class="text-lg font-semibold text-gray-900 mb-2">✨ Inspiration Closing & Special Offers</h3>
+                      <p class="text-gray-600 mb-3">End with inspiration or exclusive value for our nomad community.</p>
+                      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div>
+                          <h4 class="font-medium text-gray-700 mb-2">Inspiration Examples:</h4>
+                          <ul class="space-y-1 text-gray-600">
+                            <li>• Share your vision for nomad life</li>
+                            <li>• Encourage community building</li>
+                            <li>• Motivate readers to take action</li>
+                            <li>• Connect to bigger purpose</li>
+                          </ul>
+                        </div>
+                        <div>
+                          <h4 class="font-medium text-gray-700 mb-2">Special Offers:</h4>
+                          <ul class="space-y-1 text-gray-600">
+                            <li>• Exclusive discounts for readers</li>
+                            <li>• Free resources or guides</li>
+                            <li>• Early access to events</li>
+                            <li>• Community membership perks</li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="bg-purple-50 rounded-lg p-4 mt-4">
+                        <p class="text-xs text-purple-800 font-medium mb-2">💫 Example Closings</p>
+                        <div class="space-y-2 text-xs text-purple-700">
+                          <p><strong>Inspirational:</strong> "Let's envision tomorrow together" or "Share your story—it could inspire someone to choose a freer way of living"</p>
+                          <p><strong>Special Offer:</strong> "*Use code NOMAD20 for 20% off" or "Free guide for Nomad Magazine readers: [link]"</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Best Practices -->
+          <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+            <div class="flex items-center mb-6">
+              <div class="h-12 w-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <h2 class="text-2xl font-bold text-gray-900">What Makes Great Newsletter Content</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <!-- Do's -->
+              <div>
+                <h3 class="text-lg font-semibold text-green-700 mb-4 flex items-center">
+                  <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                  Do This
+                </h3>
+                <div class="space-y-4">
+                  <div class="flex items-start space-x-3">
+                    <div class="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
+                    <div>
+                      <h4 class="font-medium text-gray-900">Share something valuable</h4>
+                      <p class="text-sm text-gray-600">Unique insights, helpful tips, or behind-the-scenes content</p>
+                    </div>
+                  </div>
+                  <div class="flex items-start space-x-3">
+                    <div class="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
+                    <div>
+                      <h4 class="font-medium text-gray-900">Tell a story</h4>
+                      <p class="text-sm text-gray-600">Personal experiences resonate more than dry facts</p>
+                    </div>
+                  </div>
+                  <div class="flex items-start space-x-3">
+                    <div class="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
+                    <div>
+                      <h4 class="font-medium text-gray-900">Be genuinely helpful</h4>
+                      <p class="text-sm text-gray-600">Focus on how you can solve problems for nomads</p>
+                    </div>
+                  </div>
+                  <div class="flex items-start space-x-3">
+                    <div class="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
+                    <div>
+                      <h4 class="font-medium text-gray-900">Use your authentic voice</h4>
+                      <p class="text-sm text-gray-600">Let your personality shine through</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Don'ts -->
+              <div>
+                <h3 class="text-lg font-semibold text-red-700 mb-4 flex items-center">
+                  <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                  </svg>
+                  Avoid This
+                </h3>
+                <div class="space-y-4">
+                  <div class="flex items-start space-x-3">
+                    <div class="w-2 h-2 bg-red-400 rounded-full mt-2 flex-shrink-0"></div>
+                    <div>
+                      <h4 class="font-medium text-gray-900">Being too sales-heavy</h4>
+                      <p class="text-sm text-gray-600">Lead with value, not with your product pitch</p>
+                    </div>
+                  </div>
+                  <div class="flex items-start space-x-3">
+                    <div class="w-2 h-2 bg-red-400 rounded-full mt-2 flex-shrink-0"></div>
+                    <div>
+                      <h4 class="font-medium text-gray-900">Generic corporate speak</h4>
+                      <p class="text-sm text-gray-600">Avoid jargon and buzzwords that sound robotic</p>
+                    </div>
+                  </div>
+                  <div class="flex items-start space-x-3">
+                    <div class="w-2 h-2 bg-red-400 rounded-full mt-2 flex-shrink-0"></div>
+                    <div>
+                      <h4 class="font-medium text-gray-900">Long blocks of text</h4>
+                      <p class="text-sm text-gray-600">Break it up with short paragraphs and bullets</p>
+                    </div>
+                  </div>
+                  <div class="flex items-start space-x-3">
+                    <div class="w-2 h-2 bg-red-400 rounded-full mt-2 flex-shrink-0"></div>
+                    <div>
+                      <h4 class="font-medium text-gray-900">Irrelevant content</h4>
+                      <p class="text-sm text-gray-600">Keep it focused on nomads and remote workers</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="lg:col-span-1 space-y-8">
+          <!-- Quick Reference -->
+          <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-8">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+              <svg class="h-5 w-5 mr-2 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              Quick Reference
+            </h3>
+            <div class="space-y-4">
+              <div class="bg-gray-50 rounded-lg p-4">
+                <h4 class="font-medium text-gray-900 mb-2">📏 Length</h4>
+                <p class="text-sm text-gray-600">Maximum 500 words total</p>
+              </div>
+              <div class="bg-gray-50 rounded-lg p-4">
+                <h4 class="font-medium text-gray-900 mb-2">🔗 Links</h4>
+                <p class="text-sm text-gray-600">1-2 links maximum</p>
+              </div>
+              <div class="bg-gray-50 rounded-lg p-4">
+                <h4 class="font-medium text-gray-900 mb-2">📸 Images</h4>
+                <p class="text-sm text-gray-600">Optional banner image (URL or file)</p>
+              </div>
+              <div class="bg-gray-50 rounded-lg p-4">
+                <h4 class="font-medium text-gray-900 mb-2">✍️ Format</h4>
+                <p class="text-sm text-gray-600">Google Doc submission</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Promotion Support -->
+          <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl border border-yellow-200 p-6">
+            <h3 class="text-lg font-semibold text-yellow-900 mb-4 flex items-center">
+              <svg class="h-5 w-5 mr-2 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.121 2.122"/>
+              </svg>
+              Let's Amplify Together
+            </h3>
+            <p class="text-sm text-yellow-800 mb-4">
+              Share your newsletter takeover on your platforms and tag us for maximum reach!
+            </p>
+            <div class="space-y-2">
+              <div class="flex items-center space-x-2">
+                <svg class="h-4 w-4 text-yellow-600" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+                <span class="text-sm text-yellow-800 font-medium">@nomadmagazinecom</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Contact -->
+          <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+              <svg class="h-5 w-5 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+              </svg>
+              Need Help?
+            </h3>
+            <p class="text-sm text-gray-600 mb-4">
+              Questions about the guidelines or ready to submit? Reach out to your NM contact person.
+            </p>
+            <div class="bg-blue-50 rounded-lg p-4">
+              <p class="text-xs text-blue-800 font-medium mb-1">💡 Remember</p>
+              <p class="text-xs text-blue-700">
+                We reserve the right to edit or request rewrites to ensure content aligns with our tone and audience. We'll work with you to make it perfect!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer CTA -->
+    <div class="bg-gray-900 text-white">
+      <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <h2 class="text-3xl font-bold mb-4">Ready to Create Something Awesome?</h2>
+          <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            Send your content via Google Doc to your NM contact person. We'll handle the rest!
+          </p>
+          <div class="space-y-4">
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <a 
+                href="mailto:hey@nomadgossip.com" 
+                class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-gray-900 bg-yellow-400 hover:bg-yellow-300 transition-colors"
+              >
+                <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                </svg>
+                Submit Your Newsletter
+              </a>
+              <p class="text-gray-400 text-sm">
+                Not subscribed yet? 
+                <a href="/newsletter" class="text-yellow-400 hover:text-yellow-300 underline">Join here</a>
+              </p>
+            </div>
+            <div class="text-center mt-6">
+              <p class="text-gray-400 text-sm">
+                Want to see examples? Browse our 
+                <a href="https://us21.campaign-archive.com/home/?u=07f1911b0ed16f49aac50b510&id=7baada0b9e" 
+                   target="_blank" 
+                   class="text-yellow-400 hover:text-yellow-300 underline">
+                  newsletter archive
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  /* Custom animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+  }
+  
+  /* Line clamp utility */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
