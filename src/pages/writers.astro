@@ -4,24 +4,20 @@ import { supabaseUrl, supabaseAnonKey } from '../utils/supabase'
 
 // Predefined topic suggestions for voting
 const topicSuggestions = [
-  {
+{
+    id: 'adventure-nomadism',
+    title: 'Traveling with Purpose',
+    description: 'Combining remote work with kitesurfing, diving, hiking, yoga, and extreme sports',
+    category: 'Adventure'
+  },  
+{
     id: 'finding-remote-jobs',
     title: 'How to Land Your First Remote Job',
     description: 'Strategies for finding and securing remote work opportunities',
     category: 'Career'
   },
-  {
-    id: 'nomad-visa-guide-2025',
-    title: 'Complete Nomad Visa Guide 2025',
-    description: 'Latest visa requirements and processes for digital nomads',
-    category: 'Legal'
-  },
-  {
-    id: 'sustainable-nomadism',
-    title: 'Sustainable Digital Nomadism',
-    description: 'How to travel responsibly and minimize environmental impact',
-    category: 'Environment'
-  },
+
+
   {
     id: 'nomad-taxes-simplified',
     title: 'Tax Planning for Digital Nomads',
@@ -49,7 +45,7 @@ const topicSuggestions = [
   {
     id: 'nomadic-friendships',
     title: 'Building Deep Friendships on the Road',
-    description: 'How to create meaningful connections while constantly moving',
+    description: 'Share your friendship story while constantly moving',
     category: 'Lifestyle'
   },
   {
@@ -58,12 +54,7 @@ const topicSuggestions = [
     description: 'How to secure competitive compensation for location-independent roles',
     category: 'Finance'
   },
-  {
-    id: 'remote-work-productivity-tools',
-    title: 'Essential Remote Work Productivity Tools',
-    description: 'Apps, software, and systems that boost remote work efficiency',
-    category: 'Technology'
-  },
+
   {
     id: 'epic-travel-adventures',
     title: 'My Most Epic Travel Adventure',
@@ -90,15 +81,33 @@ const topicSuggestions = [
   },
   {
     id: 'nomad-photostory',
-    title: 'Visual Journey: A Nomad Photostory',
-    description: 'Tell your story through stunning photography with compelling narrative',
+    title: 'A Nomad Photostory',
+    description: 'Tell your story through photography with compelling narrative',
     category: 'Photography'
   },
   {
-    id: 'adventure-nomadism',
-    title: 'Adventure Nomadism: Traveling with Purpose',
-    description: 'Combining remote work with kitesurfing, diving, hiking, yoga, and extreme sports',
-    category: 'Adventure'
+    id: 'nomad-investment-strategies',
+    title: 'Investment Strategies for Digital Nomads',
+    description: 'Building wealth while traveling: international brokers, tax-efficient investing, and portfolio management',
+    category: 'Finance'
+  },
+  {
+    id: 'passive-income-nomads',
+    title: 'Building Passive Income as a Nomad',
+    description: 'Creating location-independent income streams: real estate, dividends, online businesses, and royalties',
+    category: 'Finance'
+  },
+  {
+    id: 'crypto-nomad-guide',
+    title: 'Cryptocurrency for Digital Nomads',
+    description: 'Using crypto for international payments, DeFi opportunities, and managing finances across borders',
+    category: 'Finance'
+  },
+  {
+    id: 'nomad-real-estate-investing',
+    title: 'Remote Real Estate Investing',
+    description: 'How to invest in property while living abroad: REITs, international markets, and remote management',
+    category: 'Finance'
   }
 ]
 
@@ -129,7 +138,7 @@ const seo: SEOProps = {
           Write for the World's First <span class="text-yellow-600">Global Digital Nomad Magazine</span>
         </h1>
         <p class="mx-auto mb-8 max-w-2xl text-xl text-gray-600">
-          Share your nomad expertise with thousands of readers worldwide. From online publication to premium print edition.
+          Start with fast online publication, then get selected for our prestigious print edition. Build your reputation step by step.
         </p>
       </div>
     </section>
@@ -138,8 +147,8 @@ const seo: SEOProps = {
     <section class="px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-6xl">
         <div class="mb-12 text-center">
-          <h2 class="mb-4 text-3xl font-bold text-gray-900">How We Work Together</h2>
-          <p class="text-lg text-gray-600">A transparent process designed for quality and mutual success</p>
+          <h2 class="mb-4 text-3xl font-bold text-gray-900">Your Writer Journey</h2>
+          <p class="text-lg text-gray-600">From fast online publication to prestigious print selection</p>
         </div>
 
         <!-- Flow Steps -->
@@ -155,18 +164,17 @@ const seo: SEOProps = {
                   <div class="flex h-12 w-12 items-center justify-center rounded-full bg-yellow-400 text-black font-bold text-lg mr-4 lg:mr-0 lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:z-10">
                     1
                   </div>
-                  <h3 class="text-2xl font-bold text-gray-900 lg:hidden">Test Article Submission</h3>
+                  <h3 class="text-2xl font-bold text-gray-900 lg:hidden">Website Publication First</h3>
                 </div>
                 <div class="lg:text-right">
-                  <h3 class="hidden lg:block text-2xl font-bold text-gray-900 mb-4">Test Article Submission</h3>
+                  <h3 class="hidden lg:block text-2xl font-bold text-gray-900 mb-4">Website Publication First</h3>
                   <p class="text-gray-600 mb-4">
-                    Submit a test article showcasing your writing style and expertise. This helps us understand your voice and ensures quality alignment.
+                    Get published online faster. Build your presence and get discovered by AI tools like ChatGPT.
                   </p>
                   <ul class="space-y-2 text-sm text-gray-500">
-                    <li>• 800-1,200 words</li>
-                    <li>• Original content only</li>
-                    <li>• Include personal experiences</li>
-                    <li>• Professional photos welcome</li>
+                    <li>• Published in weeks not months.</li>
+                    <li>• Full author attribution</li>
+                    <li>• AI & search engine indexed</li>
                   </ul>
                 </div>
               </div>
@@ -174,10 +182,10 @@ const seo: SEOProps = {
                 <div class="rounded-lg bg-white p-6 shadow-lg border border-gray-200">
                   <div class="flex items-center mb-4">
                     <div class="h-3 w-3 rounded-full bg-green-500 mr-2"></div>
-                    <span class="text-sm font-medium text-gray-600">WEBSITE PUBLICATION</span>
+                    <span class="text-sm font-medium text-gray-600">FAST & VISIBLE</span>
                   </div>
                   <p class="text-gray-700">
-                    Quality test articles get published on our website with full attribution and Instagram shoutout to our 3,500+ followers.
+                    <strong>Quick wins:</strong> Fast online visibility, Instagram promotion to 3,500+ followers, AI-searchable content.
                   </p>
                 </div>
               </div>
@@ -190,16 +198,16 @@ const seo: SEOProps = {
                   <div class="flex h-12 w-12 items-center justify-center rounded-full bg-yellow-400 text-black font-bold text-lg mr-4 lg:mr-0 lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:z-10">
                     2
                   </div>
-                  <h3 class="text-2xl font-bold text-gray-900 lg:hidden">Editorial Selection</h3>
+                  <h3 class="text-2xl font-bold text-gray-900 lg:hidden">Print Selection Process</h3>
                 </div>
                 <div>
-                  <h3 class="hidden lg:block text-2xl font-bold text-gray-900 mb-4">Editorial Selection</h3>
+                  <h3 class="hidden lg:block text-2xl font-bold text-gray-900 mb-4">Print Selection Process</h3>
                   <p class="text-gray-600 mb-4">
-                    Our editorial team reviews all submissions. The highest quality articles are selected for our premium print edition.
+                    Top website writers get invited for print. Expand your article or write something new.
                   </p>
                   <div class="bg-amber-50 border border-amber-200 rounded-lg p-4">
                     <p class="text-sm text-amber-800">
-                      <strong>Limited Space:</strong> Each print edition features only 12-15 articles. High printing costs mean every article must deliver exceptional value. We invest at least 500 euro in each edition's production quality.
+                      <strong>Exclusive:</strong> Only 12-15 articles per edition. Slower (2-3 months) but maximum prestige.
                     </p>
                   </div>
                 </div>
@@ -208,10 +216,10 @@ const seo: SEOProps = {
                 <div class="rounded-lg bg-white p-6 shadow-lg border border-gray-200">
                   <div class="flex items-center mb-4">
                     <div class="h-3 w-3 rounded-full bg-purple-500 mr-2"></div>
-                    <span class="text-sm font-medium text-gray-600">QUALITY FOCUS</span>
+                    <span class="text-sm font-medium text-gray-600">INVITATION ONLY</span>
                   </div>
                   <p class="text-gray-700">
-                    High printing costs mean every article must deliver exceptional value. We invest at least 500 euro in each edition's production quality.
+                    <strong>Invitation only:</strong> High printing costs mean we only select articles that deliver exceptional value nomads will pay for.
                   </p>
                 </div>
               </div>
@@ -224,17 +232,17 @@ const seo: SEOProps = {
                   <div class="flex h-12 w-12 items-center justify-center rounded-full bg-yellow-400 text-black font-bold text-lg mr-4 lg:mr-0 lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:z-10">
                     3
                   </div>
-                  <h3 class="text-2xl font-bold text-gray-900 lg:hidden">Print Publication</h3>
+                  <h3 class="text-2xl font-bold text-gray-900 lg:hidden">Premium Print Status</h3>
                 </div>
                 <div class="lg:text-right">
-                  <h3 class="hidden lg:block text-2xl font-bold text-gray-900 mb-4">Print Publication</h3>
+                  <h3 class="hidden lg:block text-2xl font-bold text-gray-900 mb-4">Premium Print Status</h3>
                   <p class="text-gray-600 mb-4">
-                    Selected articles are professionally designed and printed in our premium magazine, distributed globally to nomad communities.
+                    Maximum prestige. Your work becomes part of nomad history.
                   </p>
                   <ul class="space-y-2 text-sm text-gray-500">
-                    <li>• Professional layout and design</li>
-                    <li>• Global distribution network</li>
-                    <li>• Author bio and photo included</li>
+                    <li>• Elite industry recognition</li>
+                    <li>• Global distribution</li>
+                    <li>• Permanent legacy</li>
                   </ul>
                 </div>
               </div>
@@ -242,14 +250,106 @@ const seo: SEOProps = {
                 <div class="rounded-lg bg-gradient-to-br from-yellow-50 to-yellow-100 p-6 shadow-lg border border-yellow-200">
                   <div class="flex items-center mb-4">
                     <div class="h-3 w-3 rounded-full bg-yellow-500 mr-2"></div>
-                    <span class="text-sm font-medium text-yellow-700">PREMIUM PUBLICATION</span>
+                    <span class="text-sm font-medium text-yellow-700">MAXIMUM PRESTIGE</span>
                   </div>
                   <p class="text-yellow-800 font-medium">
-                    Your work reaches nomads worldwide through our premium print magazine, establishing you as a thought leader in the community.
+                    <strong>Ultimate recognition:</strong> Elite circle of print writers. Maximum credibility and lasting impact.
                   </p>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Website vs Print Comparison -->
+    <section class="bg-gradient-to-r from-gray-50 to-white px-4 py-16 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-6xl">
+        <div class="mb-12 text-center">
+          <h2 class="mb-4 text-3xl font-bold text-gray-900">Website vs Print: Choose Your Path</h2>
+          <p class="text-lg text-gray-600">Two different benefits for different goals</p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
+          <!-- Website Publication -->
+          <div class="rounded-2xl bg-white p-8 shadow-lg border-2 border-green-200">
+            <div class="mb-6 text-center">
+              <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-500">
+                <svg class="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+              </div>
+              <h3 class="text-2xl font-bold text-gray-900">Website Publication</h3>
+              <p class="text-green-600 font-medium">Fast & Discoverable</p>
+            </div>
+            
+            <div class="space-y-4">
+              <div class="flex items-center">
+                <div class="h-2 w-2 rounded-full bg-green-500 mr-3"></div>
+                <span class="text-gray-700"><strong>Speed:</strong> Published in weeks not months.</span>
+              </div>
+              <div class="flex items-center">
+                <div class="h-2 w-2 rounded-full bg-green-500 mr-3"></div>
+                <span class="text-gray-700"><strong>AI Discovery:</strong> Indexed by ChatGPT & search engines</span>
+              </div>
+              <div class="flex items-center">
+                <div class="h-2 w-2 rounded-full bg-green-500 mr-3"></div>
+                <span class="text-gray-700"><strong>Reach:</strong> Immediate global online audience</span>
+              </div>
+              <div class="flex items-center">
+                <div class="h-2 w-2 rounded-full bg-green-500 mr-3"></div>
+                <span class="text-gray-700"><strong>Social:</strong> Instagram promotion to 3,500+ followers</span>
+              </div>
+              <div class="flex items-center">
+                <div class="h-2 w-2 rounded-full bg-green-500 mr-3"></div>
+                <span class="text-gray-700"><strong>Portfolio:</strong> Build online writing presence</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Print Publication -->
+          <div class="rounded-2xl bg-gradient-to-br from-yellow-50 to-yellow-100 p-8 shadow-lg border-2 border-yellow-300">
+            <div class="mb-6 text-center">
+              <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-yellow-500">
+                <svg class="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                </svg>
+              </div>
+              <h3 class="text-2xl font-bold text-gray-900">Print Publication</h3>
+              <p class="text-yellow-700 font-medium">Prestigious & Exclusive</p>
+            </div>
+            
+            <div class="space-y-4">
+              <div class="flex items-center">
+                <div class="h-2 w-2 rounded-full bg-yellow-500 mr-3"></div>
+                <span class="text-gray-700"><strong>Timeline:</strong> Each 6 months (invitation only)</span>
+              </div>
+              <div class="flex items-center">
+                <div class="h-2 w-2 rounded-full bg-yellow-500 mr-3"></div>
+                <span class="text-gray-700"><strong>Exclusivity:</strong> Only 12-15 articles per edition</span>
+              </div>
+              <div class="flex items-center">
+                <div class="h-2 w-2 rounded-full bg-yellow-500 mr-3"></div>
+                <span class="text-gray-700"><strong>Status:</strong> Elite industry recognition</span>
+              </div>
+              <div class="flex items-center">
+                <div class="h-2 w-2 rounded-full bg-yellow-500 mr-3"></div>
+                <span class="text-gray-700"><strong>Distribution:</strong> Global nomad hubs & communities</span>
+              </div>
+              <div class="flex items-center">
+                <div class="h-2 w-2 rounded-full bg-yellow-500 mr-3"></div>
+                <span class="text-gray-700"><strong>Legacy:</strong> Permanent archive & collector's item</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-12 text-center">
+          <div class="rounded-lg bg-blue-50 border border-blue-200 p-6">
+            <p class="text-blue-800">
+              <strong>Pro Tip:</strong> Start with website publication to build your reputation, then get invited for print based on your article performance and engagement.
+            </p>
           </div>
         </div>
       </div>
