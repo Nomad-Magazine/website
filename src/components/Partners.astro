@@ -22,6 +22,7 @@ const partners = [
   },
   { name: 'Madeira Friends', url: 'https://madeirafriends.org/', logo: '/images/madeira-friends-logo.webp' },
   { name: 'Betahaus', url: 'https://www.betahaus.com/', logo: '/images/betahaus-logo.webp' },
+  { name: 'InterNations', url: 'https://www.internations.org/', logo: '/images/Internations-horizontal-logo-white.png' },
 ]
 ---
 
@@ -35,7 +36,13 @@ const partners = [
             <img
               src={partner.logo}
               alt={`${partner.name} logo`}
-              class="h-12 min-h-[48px] w-auto max-w-[150px] min-w-[100px] object-contain grayscale transition duration-300 hover:grayscale-0"
+              class={`w-auto object-contain grayscale transition duration-300 hover:grayscale-0 ${
+                partner.name === 'InterNations' 
+                  ? 'h-16 min-h-[64px] max-w-[200px] min-w-[120px]' 
+                  : partner.name === 'Pangea'
+                  ? 'h-10 min-h-[40px] max-w-[120px] min-w-[80px]'
+                  : 'h-12 min-h-[48px] max-w-[150px] min-w-[100px]'
+              }`}
             />
           </a>
         ))
