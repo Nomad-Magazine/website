@@ -1,0 +1,445 @@
+---
+export const prerender = true;
+
+import { fetchReportRecords } from '~/utils/smartsuite'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+
+// Fetch nomad directory records
+const { records = [] } = await fetchReportRecords('6857167d82358a0f5e038c3f')
+
+// Get latest 3 directory listings for web display
+const latestListings = records
+  .filter((record: any) => record.image && record.title && record.scea90e502)
+  .slice(0, 3)
+
+const seo: SEOProps = {
+  title: 'Best Designed Co-Working Spaces Contest | Nomad Magazine Newsletter',
+  description: 'Vote for the most beautifully designed co-working space on the planet. Plus get your magazine via partner pickup and watch our latest Chiang Mai episode.',
+  image: `${Astro.site}images/vote-for-coworking.webp`,
+  keywords: 'coworking spaces contest, nomad magazine, digital nomad newsletter, chiang mai episode, nomad summit',
+  ogType: 'website',
+}
+
+// YouTube Chiang Mai video
+const chiangMaiVideo = {
+  id: '_sBXTskL0gA',
+  title: 'Why Digital Nomads Choose Chiang Mai?',
+  description: 'Exploring what makes Chiang Mai, Thailand one of the top destinations for digital nomads worldwide.',
+  thumbnail: 'https://img.youtube.com/vi/_sBXTskL0gA/hqdefault.jpg',
+  duration: '16:33',
+  views: '15.9K',
+  publishedAt: '2025-01-15'
+}
+
+// Get tomorrow's date
+const tomorrow = new Date()
+tomorrow.setDate(tomorrow.getDate() + 1)
+const newsletterDate = tomorrow.toLocaleDateString('en-US', { 
+  weekday: 'long', 
+  year: 'numeric', 
+  month: 'long', 
+  day: 'numeric' 
+})
+---
+
+<Layout seo={seo}>
+  <main class="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+    
+    <!-- Newsletter Header -->
+    <header class="text-center mb-12">
+      <div class="mb-4">
+        <img src="/logo.svg" alt="Nomad Magazine" class="h-16 mx-auto" />
+      </div>
+      <p class="text-sm font-semibold text-yellow-400 uppercase tracking-wider mb-4">
+        {newsletterDate}
+      </p>
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+        <span class="block text-5xl mb-2">🖥️</span>
+        Best Designed Co-Working Spaces Contest
+      </h1>
+      <p class="text-xl text-gray-600 font-medium">
+        Nominate & Vote for the Most Beautiful Workspace
+      </p>
+    </header>
+
+    <!-- Contest Section -->
+    <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+      <div class="prose prose-lg max-w-none">
+        <p>
+          From day one of Nomad Magazine's existence, we dreamed of celebrating the spaces that fuel our productivity. We've been fortunate to work with <strong>beautiful coworking spaces hosting our magazine</strong> — and we've been blown away by the creativity owners and designers put into crafting environments with remote workers' comfort in mind.
+        </p>
+        
+        <p>
+          Sure, there are many criteria that make a great workspace — community, internet, location. Sometimes all you need is a table and a chair. But <strong>no one puts design and beauty on a pedestal anymore</strong>. We want to change that.
+        </p>
+
+        <div class="bg-gray-50 border-l-4 border-orange-500 p-6 my-6 rounded-r-lg">
+          <p class="text-lg font-semibold text-gray-900 mb-0">
+            💡 Help us find the most beautifully designed coworking spaces serving remote workers and digital nomads every day
+          </p>
+        </div>
+
+        <p>
+          <strong>How it works:</strong> The winner will be selected through public votes, with final curation by the Nomad Magazine team and our partners as jury. We'll feature the most beautiful spaces in print, sharing their stories and celebrating the artistry behind exceptional design.
+        </p>
+
+        <p class="text-gray-600 italic">
+          💭 Have ideas on how we can make this contest even better? We'd love to hear from you!
+        </p>
+
+        <p>Think: ✨ stunning interiors, 🌅 dreamy views, 🪑 ergonomic brilliance, and spaces that make you want to stay late 🌙</p>
+
+        <p>🗓️ <strong>Nominate your favorite by September 30, 2025</strong>, then help us crown the winner by <strong>voting</strong> 🗳️ before <strong>October 31</strong>.</p>
+
+        <p>❤️ Make your vote by reacting with a <strong>love heart</strong> to the co-working space you deem the best of the best.</p>
+
+        <p>🏅 <strong>The co-working space with the most votes will be:</strong></p>
+        <ul>
+          <li>Featured in an upcoming issue of <strong>Nomad Magazine</strong> 📰</li>
+        </ul>
+
+        <p>Let's celebrate the places that prove productivity 💼 and beauty 🌟 don't have to be mutually exclusive.</p>
+      </div>
+
+      <div class="text-center mt-8">
+        <a href="https://nomad-magazine.com/coworking-spaces/" 
+           class="inline-block bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-4 px-8 rounded-xl transition-colors text-lg">
+          🗳️ PLACE YOUR VOTE
+        </a>
+      </div>
+
+      <!-- Voting Example -->
+      <div class="mt-8 text-center">
+        <p class="text-sm font-semibold text-gray-600 mb-4">How to vote - Example:</p>
+        <div class="inline-block">
+          <img src="/images/vote-for-coworking.webp" 
+               alt="How to vote for coworking spaces - Example showing Betahaus Kreuzberg" 
+               class="rounded-xl shadow-lg max-w-md w-full" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Magazine Pickup Section -->
+    <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+      <h2 class="text-3xl font-bold text-gray-900 mb-4 text-center">
+        <span class="mr-2">📖</span>Get Your Magazine
+      </h2>
+      <p class="text-lg text-gray-600 text-center mb-6">Partner Pickup Available!</p>
+      
+      <div class="prose prose-lg max-w-none">
+        <p>
+          Great news! You can now get your <strong>Nomad Magazine Third Edition</strong> through self-pickup at one of our amazing partner locations. Skip the shipping and grab your copy directly!
+        </p>
+        
+        <p><strong>🏢 Partner pickup locations:</strong></p>
+        <ul>
+          <li>Selected co-working spaces worldwide</li>
+          <li>Digital nomad community hubs</li>
+          <li>Partner cafes and bookstores</li>
+        </ul>
+        
+        <p>Perfect for nomads who prefer the personal touch and want to support local businesses! 🌍</p>
+      </div>
+
+      <div class="text-center mt-8">
+        <a href="https://pay.nomad-magazine.com/b/28EeVdaYt1bd0G24lH8bS0g" 
+           class="inline-block bg-gray-900 hover:bg-gray-800 text-white font-bold py-4 px-8 rounded-xl transition-colors text-lg">
+          📖 ORDER PRINT MAGAZINE
+        </a>
+      </div>
+    </section>
+
+    <!-- Directory Listings Section -->
+    <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+      <h2 class="text-3xl font-bold text-gray-900 mb-4 text-center">
+        <span class="mr-2">🚀</span>Latest Directory Listings
+      </h2>
+      <p class="text-lg text-gray-600 text-center mb-8">New tools & services for nomads</p>
+      
+      <p class="text-gray-600 mb-8">
+        Discover the newest additions to our nomad directory - tools, services, and communities that are shaping the future of remote work:
+      </p>
+
+      <div class="grid gap-6 md:grid-cols-1 lg:grid-cols-1">
+        {latestListings.slice(0, 3).map((listing: any) => (
+          <div class="bg-gray-50 rounded-xl p-6 hover:shadow-md transition-all">
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0">
+                <div class="w-16 h-16 bg-white rounded-xl flex items-center justify-center p-2 border">
+                  {listing.image && listing.image !== '/logo.svg' ? (
+                    <img 
+                      src={listing.image} 
+                      alt={listing.title || 'Company'} 
+                      class="w-full h-full rounded-lg object-contain"
+                    />
+                  ) : (
+                    <span class="text-gray-800 font-bold text-xl">
+                      {(listing.title || 'C').charAt(0).toUpperCase()}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div class="flex-1">
+                <h3 class="text-xl font-bold text-gray-900 mb-2">
+                  {listing.title}
+                  {listing.sb685ab800?.label && (
+                    <span class="bg-yellow-400 text-black px-3 py-1 rounded-full text-xs font-semibold ml-2 uppercase">
+                      {listing.sb685ab800.label}
+                    </span>
+                  )}
+                </h3>
+                <p class="text-gray-600 mb-3 line-clamp-2">
+                  {listing.scea90e502}
+                </p>
+                {(listing.link || listing.sb788c266b?.[0]) && (
+                  <a 
+                    href={listing.link || listing.sb788c266b?.[0]} 
+                    target="_blank" 
+                    class="text-orange-600 hover:text-orange-700 font-semibold"
+                  >
+                    Learn more →
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="text-center mt-8">
+        <a href="/nomad_directory" 
+           class="inline-block bg-gray-900 hover:bg-gray-800 text-white font-bold py-4 px-8 rounded-xl transition-colors text-lg">
+          🚀 VIEW ALL LISTINGS
+        </a>
+      </div>
+    </section>
+
+    <!-- YouTube Section -->
+    <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+      <h2 class="text-3xl font-bold text-gray-900 mb-4 text-center">
+        <span class="mr-2">📺</span>YouTube: Why Chiang Mai?
+      </h2>
+      <p class="text-lg text-gray-600 text-center mb-6">New Episode Available Now</p>
+      
+      <div class="prose prose-lg max-w-none mb-8">
+        <p>
+          This episode explores what makes Chiang Mai, Thailand one of the top destinations for digital nomads worldwide. From affordable living costs to vibrant co-working spaces, discover why this city continues to attract remote workers from around the globe.
+        </p>
+        
+        <p>📍 <strong>Filmed in January 2025</strong> at Punspace, Chiang Mai during Nomad Summit 2025</p>
+
+        <div class="bg-gray-50 border-l-4 border-orange-500 p-6 my-6 rounded-r-lg">
+          <p class="font-semibold text-gray-900 mb-0">
+            🗓️ <strong>Next Nomad Summit:</strong> January 17-18, 2026 in Chiang Mai
+          </p>
+        </div>
+      </div>
+
+      <div class="text-center mb-8">
+        <a href={`https://www.youtube.com/watch?v=${chiangMaiVideo.id}`} target="_blank" class="block">
+          <img 
+            src={chiangMaiVideo.thumbnail} 
+            alt={chiangMaiVideo.title}
+            class="w-full max-w-2xl mx-auto rounded-xl shadow-lg"
+          />
+        </a>
+      </div>
+
+      <div class="text-center">
+        <a href={`https://www.youtube.com/watch?v=${chiangMaiVideo.id}`} 
+           class="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-8 rounded-xl transition-colors text-lg">
+          ▶️ WATCH EPISODE
+        </a>
+      </div>
+    </section>
+
+    <!-- Colive Fukuoka Section -->
+    <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+      <h2 class="text-3xl font-bold text-gray-900 mb-4 text-center">
+        <span class="mr-2">🇯🇵</span>Colive Fukuoka 2025
+      </h2>
+      <p class="text-lg text-gray-600 text-center mb-6">Asia's Premier Digital Nomad Festival</p>
+      
+      <div class="prose prose-lg max-w-none">
+        <p><strong>October 1-10, 2025</strong> | Fukuoka City, Japan 🗓️</p>
+        
+        <p>
+          Join Asia's premier digital nomad festival featuring the theme <strong>"Envision Tomorrow Together"</strong>. From startup conferences to traditional Japanese cultural experiences, this 10-day festival transforms Fukuoka into the epicenter of Asia's digital nomad movement.
+        </p>
+
+        <div class="bg-gray-50 border-l-4 border-orange-500 p-6 my-6 rounded-r-lg">
+          <p class="font-semibold text-gray-900 mb-0">
+            🎟️ <strong>Exclusive Offer:</strong> Use code <strong>GOSSIP</strong> for 20% off your ticket!
+          </p>
+        </div>
+
+        <p><strong>🌟 What's included:</strong></p>
+        <ul>
+          <li><strong>Colive Summit</strong> (Oct 1-3): Inspiring speakers exploring IKIGAI and Japanese philosophies</li>
+          <li><strong>Cultural Excursions</strong> (Oct 6-10): Traditional Judo, Tea Ceremony, Sauna experiences</li>
+          <li><strong>Synapse Festival</strong> (Oct 4-5): Music, art, and yoga on beautiful Nokonoshima Island</li>
+          <li><strong>RAMEN TECH</strong> (Oct 6-12): Access to Asia's fastest-growing startup ecosystem (4K+ participants)</li>
+        </ul>
+
+        <p class="text-gray-600 italic">
+          <em>2024 attracted 436 participants from 45 countries with 88% satisfaction rate</em>
+        </p>
+      </div>
+
+      <div class="text-center mt-8">
+        <a href="https://colivefukuoka.com" 
+           class="inline-block bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-4 px-8 rounded-xl transition-colors text-lg">
+          🇯🇵 REGISTER NOW
+        </a>
+      </div>
+    </section>
+
+    <!-- Directory Listings Section -->
+    <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+      <h2 class="text-3xl font-bold text-gray-900 mb-4 text-center">
+        <span class="mr-2">🚀</span>Latest Directory Listings
+      </h2>
+      <p class="text-lg text-gray-600 text-center mb-8">New tools & services for nomads</p>
+      
+      <p class="text-gray-600 mb-8">
+        Discover the newest additions to our nomad directory - tools, services, and communities that are shaping the future of remote work:
+      </p>
+
+      <div class="grid gap-6">
+        {latestListings.slice(0, 3).map((listing: any) => (
+          <div class="bg-gray-50 rounded-xl p-6 hover:shadow-md transition-all">
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0">
+                <div class="w-16 h-16 bg-white rounded-xl flex items-center justify-center p-2 border">
+                  {listing.image && listing.image !== '/logo.svg' ? (
+                    <img 
+                      src={listing.image} 
+                      alt={listing.title || 'Company'} 
+                      class="w-full h-full rounded-lg object-contain"
+                    />
+                  ) : (
+                    <span class="text-gray-800 font-bold text-xl">
+                      {(listing.title || 'C').charAt(0).toUpperCase()}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div class="flex-1">
+                <h3 class="text-xl font-bold text-gray-900 mb-2">
+                  {listing.title}
+                  {listing.sb685ab800?.label && (
+                    <span class="bg-yellow-400 text-black px-3 py-1 rounded-full text-xs font-semibold ml-2 uppercase">
+                      {listing.sb685ab800.label}
+                    </span>
+                  )}
+                </h3>
+                <p class="text-gray-600 mb-3 line-clamp-2">
+                  {listing.scea90e502}
+                </p>
+                {(listing.link || listing.sb788c266b?.[0]) && (
+                  <a 
+                    href={listing.link || listing.sb788c266b?.[0]} 
+                    target="_blank" 
+                    class="text-orange-600 hover:text-orange-700 font-semibold"
+                  >
+                    Learn more →
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="text-center mt-8">
+        <a href="/nomad_directory" 
+           class="inline-block bg-gray-900 hover:bg-gray-800 text-white font-bold py-4 px-8 rounded-xl transition-colors text-lg">
+          🚀 VIEW ALL LISTINGS
+        </a>
+      </div>
+    </section>
+
+    <!-- YouTube Section -->
+    <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+      <h2 class="text-3xl font-bold text-gray-900 mb-4 text-center">
+        <span class="mr-2">📺</span>YouTube: Why Chiang Mai?
+      </h2>
+      <p class="text-lg text-gray-600 text-center mb-6">New Episode Available Now</p>
+      
+      <div class="prose prose-lg max-w-none mb-8">
+        <p>
+          This episode explores what makes Chiang Mai, Thailand one of the top destinations for digital nomads worldwide. From affordable living costs to vibrant co-working spaces, discover why this city continues to attract remote workers from around the globe.
+        </p>
+        
+        <p>📍 <strong>Filmed in January 2025</strong> at Punspace, Chiang Mai during Nomad Summit 2025</p>
+
+        <div class="bg-gray-50 border-l-4 border-orange-500 p-6 my-6 rounded-r-lg">
+          <p class="font-semibold text-gray-900 mb-0">
+            🗓️ <strong>Next Nomad Summit:</strong> January 17-18, 2026 in Chiang Mai
+          </p>
+        </div>
+      </div>
+
+      <div class="text-center mb-8">
+        <a href={`https://www.youtube.com/watch?v=${chiangMaiVideo.id}`} target="_blank" class="block">
+          <img 
+            src={chiangMaiVideo.thumbnail} 
+            alt={chiangMaiVideo.title}
+            class="w-full max-w-2xl mx-auto rounded-xl shadow-lg"
+          />
+        </a>
+      </div>
+
+      <div class="text-center">
+        <a href={`https://www.youtube.com/watch?v=${chiangMaiVideo.id}`} 
+           class="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-8 rounded-xl transition-colors text-lg">
+          ▶️ WATCH EPISODE
+        </a>
+      </div>
+    </section>
+
+    <!-- Email Template Section -->
+    <section class="bg-gray-50 rounded-2xl shadow-lg p-8">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4 text-center">
+        📧 Email Template (Copy for Email Systems)
+      </h2>
+      <p class="text-gray-600 text-center mb-6">
+        Raw HTML email template ready to copy into your email system
+      </p>
+      
+      <div class="bg-white rounded-lg p-4 border">
+        <div class="flex justify-between items-center mb-4">
+          <span class="text-sm font-medium text-gray-700">Raw HTML Email Template</span>
+          <button 
+            onclick="copyEmailTemplate()" 
+            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+          >
+            📋 Copy Template
+          </button>
+        </div>
+        <iframe 
+          src="/newsletter-coworking-contest-email.html" 
+          class="w-full h-96 border rounded-lg"
+          title="Email Template Preview"
+        ></iframe>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    function copyEmailTemplate() {
+      fetch('/newsletter-coworking-contest-email.html')
+        .then(response => response.text())
+        .then(html => {
+          navigator.clipboard.writeText(html).then(() => {
+            alert('Email template copied to clipboard!');
+          });
+        })
+        .catch(err => {
+          console.error('Failed to copy template:', err);
+          alert('Failed to copy template. Please try again.');
+        });
+    }
+  </script>
+</Layout>
