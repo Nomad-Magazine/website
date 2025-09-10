@@ -1,37 +1,15 @@
 ---
-export const prerender = true;
-
 import { fetchReportRecords } from '~/utils/smartsuite'
-import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 
 // Fetch nomad directory records
 const { records = [] } = await fetchReportRecords('6857167d82358a0f5e038c3f')
 
-// Get latest 3 directory listings for web display
+// Get latest 13 directory listings with proper filtering
 const latestListings = records
   .filter((record: any) => record.image && record.title && record.scea90e502)
-  .slice(0, 3)
+  .slice(0, 13)
 
-const seo: SEOProps = {
-  title: 'Best Designed Co-Working Spaces Contest | Nomad Magazine Newsletter',
-  description: 'Vote for the most beautifully designed co-working space on the planet. Plus get your magazine via partner pickup and watch our latest Chiang Mai episode.',
-  image: `${Astro.site}images/vote-for-coworking.webp`,
-  keywords: 'coworking spaces contest, nomad magazine, digital nomad newsletter, chiang mai episode, nomad summit',
-  ogType: 'website',
-}
-
-// YouTube Chiang Mai video
-const chiangMaiVideo = {
-  id: '_sBXTskL0gA',
-  title: 'Why Digital Nomads Choose Chiang Mai?',
-  description: 'Exploring what makes Chiang Mai, Thailand one of the top destinations for digital nomads worldwide.',
-  thumbnail: 'https://img.youtube.com/vi/_sBXTskL0gA/hqdefault.jpg',
-  duration: '16:33',
-  views: '15.9K',
-  publishedAt: '2025-01-15'
-}
-
-// Get tomorrow's date
+// Get tomorrow's date for the newsletter
 const tomorrow = new Date()
 tomorrow.setDate(tomorrow.getDate() + 1)
 const newsletterDate = tomorrow.toLocaleDateString('en-US', { 
@@ -50,7 +28,7 @@ const newsletterDate = tomorrow.toLocaleDateString('en-US', {
   <meta name="x-apple-disable-message-reformatting">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta content="telephone=no" name="format-detection">
-  <title>🖥️ Best Designed Co-Working Spaces: Vote Now!</title>
+  <title>🖥️ Best Designed Co-Working Spaces Contest: Vote Now!</title>
   <!--[if (mso 16)]>
     <style type="text/css">
     a {text-decoration: none;}
@@ -446,7 +424,7 @@ const newsletterDate = tomorrow.toLocaleDateString('en-US', {
                               <tr>
                                 <td align="center" style="padding:0;Margin:0">
                                   <p class="brand-body" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;color:#fbbf24;text-align:center;font-weight:600;text-transform:uppercase;letter-spacing:1px">
-                                    {newsletterDate}
+                                    {newsletterDate.toUpperCase()}
                                   </p>
                                 </td>
                               </tr>
@@ -510,31 +488,25 @@ const newsletterDate = tomorrow.toLocaleDateString('en-US', {
                                     </p>
                                   </div>
                                   <p class="brand-body" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;color:#374151;margin-bottom:16px">
-                                    <strong style="color:#111827">How it works:</strong> The winner will be selected through public votes, with final curation by the Nomad Magazine team and our partners as jury. We'll feature the most beautiful spaces in print, sharing their stories and celebrating the artistry behind exceptional design.
-                                  </p>
-                                  <p class="brand-body" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;color:#6b7280;font-style:italic">
-                                    💭 Have ideas on how we can make this contest even better? We'd love to hear from you!
+                                    <strong style="color:#111827">How it works:</strong> The winner will be selected through public votes, with final curation by the Nomad Magazine team and our partners as jury. We'll feature the most beautiful spaces in the next edition, sharing their stories and featuring the artistry behind exceptional design.
                                   </p>
                                   <p class="brand-body" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;color:#374151;margin-bottom:16px">
                                     Think: ✨ stunning interiors, 🌅 dreamy views, 🪑 ergonomic brilliance, and spaces that make you want to stay late 🌙
                                   </p>
                                   <p class="brand-body" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;color:#374151;margin-bottom:16px">
-                                    🗓️ <strong style="color:#111827">Nominate your favorite by September 30, 2025</strong>, then help us crown the winner by <strong style="color:#111827">voting</strong> 🗳️ before <strong style="color:#111827">October 31</strong>.
+                                    🗓️ <strong style="color:#111827">Nominate your favorite by September 30, 2025</strong>, then help us crown the winner by <strong style="color:#111827">voting</strong> 🗳️ before <strong style="color:#111827">October 20</strong>.
                                   </p>
                                   <p class="brand-body" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;color:#374151;margin-bottom:16px">
                                     ❤️ Make your vote by reacting with a <strong style="color:#111827">love heart</strong> to the co-working space you deem the best of the best.
                                   </p>
                                   <p class="brand-body" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;color:#374151;margin-bottom:12px">
-                                    🏅 <strong style="color:#111827">The co-working space with the most votes will be:</strong>
+                                    🏅 The co-working space with the most votes will be featured in an upcoming issue of <strong style="color:#111827">Nomad Magazine</strong> 📰
                                   </p>
-                                  <ul style="font-family:'Inter',sans-serif;padding:0px 0px 0px 40px;margin:15px 0px">
-                                    <li style="color:#374151;margin:0px 0px 12px;font-size:16px;line-height:1.5">
-                                      Featured in an upcoming issue of <strong style="color:#111827">Nomad Magazine</strong> 📰
-                                    </li>
-        
-                                  </ul>
-                                  <p class="brand-body" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;color:#374151;margin-top:16px">
-                                    Let's celebrate the places that prove productivity 💼 and beauty 🌟 don't have to be mutually exclusive.
+                                  <p class="brand-body" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;color:#374151;margin-bottom:16px">
+                                    Let's celebrate the places that prove productivity 💼 and design 🌟 don't have to be mutually exclusive.
+                                  </p>
+                                  <p class="brand-body" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;color:#6b7280;font-style:italic">
+                                    💭 Have ideas on how we can make this contest even better? We'd love to hear from you!
                                   </p>
                                 </td>
                               </tr>
@@ -598,21 +570,18 @@ const newsletterDate = tomorrow.toLocaleDateString('en-US', {
 
                               <tr>
                                 <td align="left" class="esd-block-text es-p15b" style="padding:0;Margin:0;padding-bottom:15px">
-                                  <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
-                                    Great news! You can now get your <strong>Nomad Magazine Third Edition</strong> through self-pickup at one of our amazing partner locations. Skip the shipping and grab your copy directly!
+                                  <p class="brand-body" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;color:#374151;margin-bottom:16px">
+                                    Great news! You can now get your <strong style="color:#111827">Nomad Magazine Third Edition</strong> through self-pickup at one of our amazing partner locations. Skip the shipping and grab your copy directly!
                                   </p>
-                                  <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
-                                    <br>
+                                  <p class="brand-body" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;color:#374151;margin-bottom:16px">
+                                    🏢 <strong style="color:#111827">Partner pickup locations:</strong>
                                   </p>
-                                  <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
-                                    🏢 <strong>Partner pickup locations:</strong>
-                                  </p>
-                                  <ul style="font-family:arial, 'helvetica neue', helvetica, sans-serif;padding:0px 0px 0px 40px;margin:15px 0px">
-                                    <li style="color:#333333;margin:0px 0px 15px;font-size:14px">Selected co-working spaces worldwide</li>
-                                    <li style="color:#333333;margin:0px 0px 15px;font-size:14px">Digital nomad community hubs</li>
-                                    <li style="color:#333333;margin:0px 0px 15px;font-size:14px">Partner cafes and bookstores</li>
+                                  <ul style="font-family:'Inter',sans-serif;padding:0px 0px 0px 40px;margin:15px 0px">
+                                    <li style="color:#374151;margin:0px 0px 15px;font-size:16px;line-height:1.5">Selected co-working spaces worldwide</li>
+                                    <li style="color:#374151;margin:0px 0px 15px;font-size:16px;line-height:1.5">Digital nomad community hubs</li>
+                                    <li style="color:#374151;margin:0px 0px 15px;font-size:16px;line-height:1.5">Partner cafes and bookstores</li>
                                   </ul>
-                                  <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
+                                  <p class="brand-body" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;color:#374151">
                                     Perfect for nomads who prefer the personal touch and want to support local businesses! 🌍
                                   </p>
                                 </td>
@@ -621,8 +590,8 @@ const newsletterDate = tomorrow.toLocaleDateString('en-US', {
                               <!-- Magazine Order Button -->
                               <tr>
                                 <td align="center" class="esd-block-button" style="Margin:0;padding-top:10px;padding-bottom:10px;padding-left:10px;padding-right:10px">
-                                  <span class="msohide es-button-border" style="border-style:solid;border-color:#16140c;background:#16140c;border-width:0px;display:inline-block;border-radius:25px;width:auto">
-                                    <a href="https://pay.nomad-magazine.com/b/28EeVdaYt1bd0G24lH8bS0g" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#FFFFFF;font-size:18px;display:inline-block;background:#16140c;border-radius:25px;font-family:Parkinsans, 'helvetica neue', helvetica, arial, sans-serif;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center;padding:15px 30px 15px 30px;mso-padding-alt:0;mso-border-alt:10px solid #16140c">📖 ORDER PRINT MAGAZINE</a>
+                                  <span class="msohide es-button-border" style="border-style:solid;border-color:#16140c;background:#16140c;border-width:0px;display:inline-block;border-radius:12px;width:auto;box-shadow:0 4px 12px rgba(22, 20, 12, 0.3)">
+                                    <a href="https://pay.nomad-magazine.com/b/28EeVdaYt1bd0G24lH8bS0g" class="es-button brand-font" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#FFFFFF;font-size:16px;display:inline-block;background:#16140c;border-radius:12px;font-weight:700;font-style:normal;line-height:20px;width:auto;text-align:center;padding:16px 32px 16px 32px;mso-padding-alt:0;mso-border-alt:10px solid #16140c">📖 ORDER PRINT MAGAZINE</a>
                                   </span>
                                 </td>
                               </tr>
@@ -652,20 +621,67 @@ const newsletterDate = tomorrow.toLocaleDateString('en-US', {
 
                               <tr>
                                 <td align="left" class="esd-block-text es-p15b" style="padding:0;Margin:0;padding-bottom:15px">
-                                  <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">
+                                  <p class="brand-body" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;color:#374151">
                                     Discover the newest additions to our nomad directory - tools, services, and communities that are shaping the future of remote work:
                                   </p>
                                 </td>
                               </tr>
 
                               <!-- Directory Listings Grid -->
-                              <!-- Example Directory Listing -->
+                              <!-- Dynamic Directory Listings -->
+                              {latestListings.map((listing: any, index: number) => (
+                                <tr>
+                                  <td align="left" style="Margin:0;padding-top:8px;padding-bottom:8px;padding-left:0px;padding-right:0px">
+                                    <table cellpadding="0" cellspacing="0" width="100%" role="presentation" class="directory-card" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;margin-bottom:16px">
+                                      <tr>
+                                        <td align="left" style="padding:20px;Margin:0">
+                                          <table cellpadding="0" cellspacing="0" width="100%" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                                            <tr>
+                                              <td width="80" valign="top" align="left" style="padding:0;Margin:0;padding-right:16px">
+                                                <div class="logo-container" style="width:64px;height:64px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:#f8fafc;border:1px solid #e2e8f0;overflow:hidden">
+                                                  {listing.image && listing.image !== '/logo.svg' ? (
+                                                    <img src={listing.image} alt={listing.title || 'Company'} style="max-width:100%;max-height:100%;object-fit:contain;display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic">
+                                                  ) : (
+                                                    <div class="logo-fallback" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, #e76616, #f59e0b);color:white;font-weight:700;font-size:20px;font-family:'Inter',sans-serif">
+                                                      {(listing.title || 'C').charAt(0).toUpperCase()}
+                                                    </div>
+                                                  )}
+                                                </div>
+                                              </td>
+                                              <td width="470" valign="top" align="left" style="padding:0;Margin:0">
+                                                <h4 class="brand-heading" style="Margin:0;line-height:1.3;mso-line-height-rule:exactly;font-size:18px;font-style:normal;color:#111827;margin-bottom:4px">
+                                                  {listing.title}
+                                                  {listing.sb685ab800?.label && (
+                                                    <span style="background:linear-gradient(135deg, #fbbf24, #f59e0b);color:#1f2937;padding:4px 10px;border-radius:16px;font-size:11px;font-weight:600;margin-left:8px;text-transform:uppercase;letter-spacing:0.05em">
+                                                      {listing.sb685ab800.label}
+                                                    </span>
+                                                  )}
+                                                </h4>
+                                                <p class="brand-body" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;color:#6b7280;line-height:1.5;margin-top:8px">
+                                                  {listing.scea90e502 && listing.scea90e502.length > 120 
+                                                    ? listing.scea90e502.substring(0, 120) + '...' 
+                                                    : listing.scea90e502}
+                                                </p>
+                                                {(listing.link || listing.sb788c266b?.[0]) && (
+                                                  <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;color:#e76616;font-weight:600;margin-top:8px">
+                                                    <a href={listing.link || listing.sb788c266b?.[0]} target="_blank" style="color:#e76616;text-decoration:none;font-family:'Inter',sans-serif">
+                                                      Learn more →
+                                                    </a>
+                                                  </p>
+                                                )}
+                                              </td>
+                                            </tr>
+                                          </table>
+                                        </td>
+                                      </tr>
+                                    </table>
+                                  </td>
+                                </tr>
+                              ))}
+
+                              <!-- Directory Button -->
                               <tr>
-                                <td align="left" class="esd-block-text es-p15b" style="padding:0;Margin:0;padding-bottom:15px">
-                                  <!-- Max Browser Card -->
-                                  <table cellpadding="0" cellspacing="0" width="100%" role="presentation" class="directory-card" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;margin-bottom:16px">
-                                    <tr>
-                                      <td align="left" style="padding:20px;Margin:0">
+                                <td align="center" class="esd-block-button es-p15t" style="Margin:0;padding-top:15px;padding-bottom:10px;padding-left:10px;padding-right:10px">
                                         <table cellpadding="0" cellspacing="0" width="100%" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                                           <tr>
                                             <td width="80" valign="top" align="left" style="padding:0;Margin:0;padding-right:16px">
@@ -756,14 +772,148 @@ const newsletterDate = tomorrow.toLocaleDateString('en-US', {
                                       </td>
                                     </tr>
                                   </table>
+
+                                  <!-- Edge City -->
+                                  <table cellpadding="0" cellspacing="0" width="100%" role="presentation" class="directory-card" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;margin-bottom:16px">
+                                    <tr>
+                                      <td align="left" style="padding:20px;Margin:0">
+                                        <table cellpadding="0" cellspacing="0" width="100%" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                                          <tr>
+                                            <td width="80" valign="top" align="left" style="padding:0;Margin:0;padding-right:16px">
+                                              <div class="logo-container" style="width:64px;height:64px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:#ffffff;border:1px solid #e2e8f0;overflow:hidden">
+                                                <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#000;font-weight:700;font-size:20px;font-family:'Inter',sans-serif">
+                                                  E
+                                                </div>
+                                              </div>
+                                            </td>
+                                            <td width="470" valign="top" align="left" style="padding:0;Margin:0">
+                                              <h4 class="brand-heading" style="Margin:0;line-height:1.3;mso-line-height-rule:exactly;font-size:18px;font-style:normal;color:#111827;margin-bottom:4px">
+                                                Edge City
+                                                <span style="background:linear-gradient(135deg, #fbbf24, #f59e0b);color:#1f2937;padding:4px 10px;border-radius:16px;font-size:11px;font-weight:600;margin-left:8px;text-transform:uppercase;letter-spacing:0.05em">
+                                                  OTHER
+                                                </span>
+                                              </h4>
+                                              <p class="brand-body" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;color:#6b7280;line-height:1.5;margin-top:8px">
+                                                We host monthlong popup villages where people at the frontiers of technology, science, and culture live and work together. Each village is an environment for running real experiments on new ideas and collaborations.
+                                              </p>
+                                              <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;color:#e76616;font-weight:600;margin-top:8px">
+                                                <a href="https://edgecity.live" target="_blank" style="color:#e76616;text-decoration:none;font-family:'Inter',sans-serif">
+                                                  Learn more →
+                                                </a>
+                                              </p>
+                                            </td>
+                                          </tr>
+                                        </table>
+                                      </td>
+                                    </tr>
+                                  </table>
+
+                                  <!-- The New Rich -->
+                                  <table cellpadding="0" cellspacing="0" width="100%" role="presentation" class="directory-card" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;margin-bottom:16px">
+                                    <tr>
+                                      <td align="left" style="padding:20px;Margin:0">
+                                        <table cellpadding="0" cellspacing="0" width="100%" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                                          <tr>
+                                            <td width="80" valign="top" align="left" style="padding:0;Margin:0;padding-right:16px">
+                                              <div class="logo-fallback" style="width:64px;height:64px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, #e76616, #f59e0b);color:white;font-weight:700;font-size:20px;font-family:'Inter',sans-serif">
+                                                T
+                                              </div>
+                                            </td>
+                                            <td width="470" valign="top" align="left" style="padding:0;Margin:0">
+                                              <h4 class="brand-heading" style="Margin:0;line-height:1.3;mso-line-height-rule:exactly;font-size:18px;font-style:normal;color:#111827;margin-bottom:4px">
+                                                The New Rich
+                                                <span style="background:linear-gradient(135deg, #fbbf24, #f59e0b);color:#1f2937;padding:4px 10px;border-radius:16px;font-size:11px;font-weight:600;margin-left:8px;text-transform:uppercase;letter-spacing:0.05em">
+                                                  EDUCATION
+                                                </span>
+                                              </h4>
+                                              <p class="brand-body" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;color:#6b7280;line-height:1.5;margin-top:8px">
+                                                Teach people build AI business
+                                              </p>
+                                              <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;color:#e76616;font-weight:600;margin-top:8px">
+                                                <a href="https://thenewrich.com" target="_blank" style="color:#e76616;text-decoration:none;font-family:'Inter',sans-serif">
+                                                  Learn more →
+                                                </a>
+                                              </p>
+                                            </td>
+                                          </tr>
+                                        </table>
+                                      </td>
+                                    </tr>
+                                  </table>
+
+                                  <!-- Nomad Experience -->
+                                  <table cellpadding="0" cellspacing="0" width="100%" role="presentation" class="directory-card" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;margin-bottom:16px">
+                                    <tr>
+                                      <td align="left" style="padding:20px;Margin:0">
+                                        <table cellpadding="0" cellspacing="0" width="100%" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                                          <tr>
+                                            <td width="80" valign="top" align="left" style="padding:0;Margin:0;padding-right:16px">
+                                              <div class="logo-fallback" style="width:64px;height:64px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, #e76616, #f59e0b);color:white;font-weight:700;font-size:20px;font-family:'Inter',sans-serif">
+                                                N
+                                              </div>
+                                            </td>
+                                            <td width="470" valign="top" align="left" style="padding:0;Margin:0">
+                                              <h4 class="brand-heading" style="Margin:0;line-height:1.3;mso-line-height-rule:exactly;font-size:18px;font-style:normal;color:#111827;margin-bottom:4px">
+                                                Nomad Experience
+                                                <span style="background:linear-gradient(135deg, #fbbf24, #f59e0b);color:#1f2937;padding:4px 10px;border-radius:16px;font-size:11px;font-weight:600;margin-left:8px;text-transform:uppercase;letter-spacing:0.05em">
+                                                  EVENTS
+                                                </span>
+                                              </h4>
+                                              <p class="brand-body" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;color:#6b7280;line-height:1.5;margin-top:8px">
+                                                Nomad Experience is a one-month program in Shimoda, a beautiful coastal town just 2.5 hours from Tokyo. Here, you won't just sit in a coworking space; you'll try out 10 different remote-friendly jobs through hands-on workshops led by experienced...
+                                              </p>
+                                              <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;color:#e76616;font-weight:600;margin-top:8px">
+                                                <a href="https://nomadexperience.com" target="_blank" style="color:#e76616;text-decoration:none;font-family:'Inter',sans-serif">
+                                                  Learn more →
+                                                </a>
+                                              </p>
+                                            </td>
+                                          </tr>
+                                        </table>
+                                      </td>
+                                    </tr>
+                                  </table>
+
+                                  <!-- Diving Nomads -->
+                                  <table cellpadding="0" cellspacing="0" width="100%" role="presentation" class="directory-card" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;margin-bottom:16px">
+                                    <tr>
+                                      <td align="left" style="padding:20px;Margin:0">
+                                        <table cellpadding="0" cellspacing="0" width="100%" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                                          <tr>
+                                            <td width="80" valign="top" align="left" style="padding:0;Margin:0;padding-right:16px">
+                                              <div class="logo-fallback" style="width:64px;height:64px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, #e76616, #f59e0b);color:white;font-weight:700;font-size:20px;font-family:'Inter',sans-serif">
+                                                D
+                                              </div>
+                                            </td>
+                                            <td width="470" valign="top" align="left" style="padding:0;Margin:0">
+                                              <h4 class="brand-heading" style="Margin:0;line-height:1.3;mso-line-height-rule:exactly;font-size:18px;font-style:normal;color:#111827;margin-bottom:4px">
+                                                Diving Nomads
+                                                <span style="background:linear-gradient(135deg, #fbbf24, #f59e0b);color:#1f2937;padding:4px 10px;border-radius:16px;font-size:11px;font-weight:600;margin-left:8px;text-transform:uppercase;letter-spacing:0.05em">
+                                                  COMMUNITY
+                                                </span>
+                                              </h4>
+                                              <p class="brand-body" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;color:#6b7280;line-height:1.5;margin-top:8px">
+                                                Diving Nomads is a global community for remote workers who love scuba diving. We partner with dive centers, colivings, and coworking spaces to make it easier for digital nomads to combine work and diving. Members get access to exclusive...
+                                              </p>
+                                              <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;color:#e76616;font-weight:600;margin-top:8px">
+                                                <a href="https://divingnomads.com" target="_blank" style="color:#e76616;text-decoration:none;font-family:'Inter',sans-serif">
+                                                  Learn more →
+                                                </a>
+                                              </p>
+                                            </td>
+                                          </tr>
+                                        </table>
+                                      </td>
+                                    </tr>
+                                  </table>
                                 </td>
                               </tr>
 
                               <!-- Directory Button -->
                               <tr>
                                 <td align="center" class="esd-block-button es-p15t" style="Margin:0;padding-top:15px;padding-bottom:10px;padding-left:10px;padding-right:10px">
-                                  <span class="msohide es-button-border" style="border-style:solid;border-color:#16140c;background:#16140c;border-width:0px;display:inline-block;border-radius:25px;width:auto">
-                                    <a href="https://nomad-magazine.com/nomad_directory" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#FFFFFF;font-size:16px;display:inline-block;background:#16140c;border-radius:25px;font-family:Parkinsans, 'helvetica neue', helvetica, arial, sans-serif;font-weight:normal;font-style:normal;line-height:19px;width:auto;text-align:center;padding:12px 25px 12px 25px;mso-padding-alt:0;mso-border-alt:10px solid #16140c">🚀 VIEW ALL LISTINGS</a>
+                                  <span class="msohide es-button-border" style="border-style:solid;border-color:#16140c;background:#16140c;border-width:0px;display:inline-block;border-radius:12px;width:auto">
+                                    <a href="https://nomad-magazine.com/nomad_directory" class="es-button brand-font" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#FFFFFF;font-size:16px;display:inline-block;background:#16140c;border-radius:12px;font-weight:normal;font-style:normal;line-height:19px;width:auto;text-align:center;padding:12px 25px 12px 25px;mso-padding-alt:0;mso-border-alt:10px solid #16140c">🚀 VIEW ALL LISTINGS</a>
                                   </span>
                                 </td>
                               </tr>
@@ -819,8 +969,8 @@ const newsletterDate = tomorrow.toLocaleDateString('en-US', {
                               <!-- YouTube Button -->
                               <tr>
                                 <td align="center" class="esd-block-button" style="Margin:0;padding-top:10px;padding-bottom:10px;padding-left:10px;padding-right:10px">
-                                  <span class="msohide es-button-border" style="border-style:solid;border-color:#ff0000;background:#ff0000;border-width:0px;display:inline-block;border-radius:25px;width:auto">
-                                    <a href="https://www.youtube.com/watch?v=_sBXTskL0gA" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#FFFFFF;font-size:16px;display:inline-block;background:#ff0000;border-radius:25px;font-family:Parkinsans, 'helvetica neue', helvetica, arial, sans-serif;font-weight:normal;font-style:normal;line-height:19px;width:auto;text-align:center;padding:12px 25px 12px 25px;mso-padding-alt:0;mso-border-alt:10px solid #ff0000">▶️ WATCH EPISODE</a>
+                                  <span class="msohide es-button-border" style="border-style:solid;border-color:#ff0000;background:#ff0000;border-width:0px;display:inline-block;border-radius:12px;width:auto">
+                                    <a href="https://www.youtube.com/watch?v=_sBXTskL0gA" class="es-button brand-font" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#FFFFFF;font-size:16px;display:inline-block;background:#ff0000;border-radius:12px;font-weight:normal;font-style:normal;line-height:19px;width:auto;text-align:center;padding:12px 25px 12px 25px;mso-padding-alt:0;mso-border-alt:10px solid #ff0000">▶️ WATCH EPISODE</a>
                                   </span>
                                 </td>
                               </tr>
@@ -862,7 +1012,7 @@ const newsletterDate = tomorrow.toLocaleDateString('en-US', {
                                     </p>
                                   </div>
                                   <p class="brand-body" style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;color:#374151;margin-bottom:12px">
-                                    🌟 <strong>What's included:</strong>
+                                    🌟 <strong style="color:#111827">What's included:</strong>
                                   </p>
                                   <ul style="font-family:'Inter',sans-serif;padding:0px 0px 0px 40px;margin:15px 0px">
                                     <li style="color:#374151;margin:0px 0px 12px;font-size:14px;line-height:1.5"><strong>Colive Summit</strong> (Oct 1-3): Inspiring speakers exploring IKIGAI and Japanese philosophies</li>
@@ -932,3 +1082,4 @@ const newsletterDate = tomorrow.toLocaleDateString('en-US', {
   </div>
 </body>
 </html>
+
