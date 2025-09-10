@@ -1,7 +1,7 @@
 ---
 slug: colive-fukuoka-2025-nomad-fest-asia-japan
 title: "Colive Fukuoka 2025: Asia's Premier Digital Nomad Festival Returns to Japan"
-description: Discover Colive Fukuoka 2025, the No.1 digital nomad festival in Asia featuring a 10-day program, month-long coliving, RAMEN TECH startup week, and unique Japanese cultural experiences in Fukuoka City.
+description: Discover Colive Fukuoka 2025, the No.1 digital nomad festival in Asia featuring a 10-day program, RAMEN TECH startup week, and unique Japanese cultural experiences in Fukuoka City.
 author: Nomad Magazine Team
 author_image_url: /images/team/ngm-team.png
 author_url: https://nomad-magazine.com/about
@@ -13,7 +13,7 @@ heroImage: /images/colive-fukuoka-3-group-of-people.webp
 heroImageAlt: Colive Fukuoka group photo
 keywords: Colive Fukuoka 2025, digital nomad festival Asia, Japan nomad events, RAMEN TECH, Fukuoka startup ecosystem, nomad community Japan
 tag: Events, Japan, Community
-published: false
+published: true
 locale: en
 next_blog: ''
 pubDate: 2025-09-02T12:00:00.000Z
@@ -21,7 +21,7 @@ pubDate: 2025-09-02T12:00:00.000Z
 
 **Colive Fukuoka returns in 2025 as one of Asia's premier digital nomad festivals.** The highly anticipated Colive Fukuoka 2025 takes place this October with an expanded program that promises to be one of the most comprehensive digital nomad experiences in Asia.
 
-From October 1-31, 2025, Fukuoka City will transform into the epicenter of Asia's digital nomad movement, featuring everything from startup conferences to traditional Japanese cultural experiences, all designed around the theme "Envision Tomorrow Together."
+From October 1-10, 2025, Fukuoka City will transform into the epicenter of Asia's digital nomad movement, featuring everything from startup conferences to traditional Japanese cultural experiences, all designed around the theme "Envision Tomorrow Together."
 
 > **🎟️ Ready to Join?** [Register for Colive Fukuoka 2025](https://colivefukuoka.com) and use code **GOSSIP** for 20% off!
 
@@ -29,7 +29,7 @@ From October 1-31, 2025, Fukuoka City will transform into the epicenter of Asia'
 
 Colive Fukuoka is Asia's premier digital nomad festival, uniquely designed for global remote workers examining the future of business alongside their personal lifestyles and work styles. The 2025 edition builds on the remarkable success of previous years, with 2024 attracting over 436 participants from 45 countries, achieving an impressive 88% satisfaction rate.
 
-> **📅 Mark Your Calendar:** October 1-31, 2025 | Fukuoka City, Japan  
+> **📅 Mark Your Calendar:** October 1-10, 2025 | Fukuoka City, Japan  
 > **🌐 Official Website:** [colivefukuoka.com](https://colivefukuoka.com)
 
 <img src="/images/colive-fukuoka-2-founders.webp" alt="Colive Fukuoka co-founders on stage" style="max-width:600px;width:100%;height:auto;display:block;margin:1rem auto;" />
@@ -67,7 +67,7 @@ These practices embody beauty found within discipline, reflecting Japanese value
 
 ![Do activities at Colive Fukuoka](/images/colive-fukuoka-8-activity.webp)
 
-### 3. Synapse Festival (October 4, 2025)
+### 3. Synapse Festival (October 4-5, 2025)
 **Venue:** Nokonoshima Island, Fukuoka City
 
 The popular Synapse Festival returns with the theme "Be a Dancer in Your Own Life." Enjoy diverse experiences including music, art, sauna, yoga, and more on a beautiful beach. Reconnect with your authentic self through immersive sensory experiences, recapturing the expressive spirit of your youth. Participants can stay overnight on the island to enjoy a stunning sunrise.
@@ -76,7 +76,7 @@ The popular Synapse Festival returns with the theme "Be a Dancer in Your Own Lif
 
 ## RAMEN TECH: Fukuoka's Startup Week
 
-**October 5-12, 2025 | Various locations**
+**October 6-10, 2025 | Various locations**
 
 Fukuoka's renowned startup week returns as "RAMEN TECH," even more exciting and expansive than ever. With over 4,000 participants expected, this event represents **one of Asia's fastest-growing startup ecosystems**. 
 
@@ -101,14 +101,11 @@ The program culminates with a special closing ceremony featuring inspiring speak
 
 ### Available Plans:
 
-| Plan | Price | Duration | Accommodation | Key Events | Digital Community |
-|------|-------|----------|---------------|------------|-------------------|
-| **3 Days** | 297 EUR | Oct 2-3 | - | Inaugural Reception + Main Conference | ✓ |
-| **Local** | 126 EUR | Oct 2-3 | - | Inaugural Reception + Main Conference | ✓ |
-| **Students** | FREE | Oct 2-3 | - | Inaugural Reception + Main Conference | ✓ |
-| **10 Days** | **627 EUR** | Oct 1-10 | - | All events + networking + side events | ✓ |
-| **1 Month** | 1,190 EUR | Oct 1-31 | ✓ | Full program + accommodation | ✓ |
-| **VIP ACCESS** | TBD | Full access | ✓ | Premium experiences + VIP networking | ✓ |
+| Plan | Price | Duration | Key Events | Digital Community |
+|------|-------|----------|------------|-------------------|
+| **3 Days** | 297 EUR | Oct 2-3 | Inaugural Reception + Main Conference | ✓ |
+| **Students** | FREE | Oct 2-3 | Inaugural Reception + Main Conference | ✓ |
+| **10 Days** | **627 EUR** | Oct 1-10 | All events + networking + side events | ✓ |
 
 *All pricing in EUR. Flexible refunds available - refer to official Refund Policy for details*
 
@@ -173,11 +170,11 @@ Colive Fukuoka is supported by nearly 50 Japanese digital nomads and local unive
 
 ![Colive Fukuoka 2024 data snapshot](/images/colive-fukuoka-9-stats.webp)
 
-### Accommodation & Coliving
-The month-long coliving program at **Hakata Place** offers:
-- **Private rooms:** €1,165/month (60% off standard rate)
-- **30+ participants already signed up**
-- **Pop-up coliving experience** with community integration
+### Community Integration
+Participants can enjoy:
+- **Local community connections** through volunteer support
+- **Networking opportunities** throughout the 10-day program
+- **Cultural immersion** with authentic Japanese experiences
 
 ## Special Offer for Nomad Magazine Readers
 
