@@ -26,13 +26,12 @@ const distributionCoworkingSpaces = distributionRecords
   .filter((record: any) => 
     record.sb685ab800?.label === 'Coworking' && 
     record.s43a4b2808 && 
-    !record.s9744d6c51 && // Not "coming soon"
     record.title
   )
   .map((record: any) => ({
-    id: `dist_${record.id}`,
+    id: record.s9744d6c51 ? `coming_${record.id}` : `dist_${record.id}`,
     name: record.title,
-    description: record.scea90e502 || 'A great coworking space for digital nomads.',
+    description: record.scea90e502 || (record.s9744d6c51 ? 'Coming soon to this location.' : 'A great coworking space for digital nomads.'),
     location: record.sed1a49986 || 'Location not specified',
     city: record.sed1a49986?.split(',')[0]?.trim() || 'Unknown',
     country: record.sed1a49986?.split(',').slice(-1)[0]?.trim() || 'Unknown',
@@ -43,7 +42,8 @@ const distributionCoworkingSpaces = distributionRecords
     wifi_speed: null,
     is_verified: true,
     discount_code: record.s9c0ff01ed || null,
-    created_at: record.first_created?.on || new Date().toISOString()
+    created_at: record.first_created?.on || new Date().toISOString(),
+    isComingSoon: !!record.s9744d6c51
   }))
 
 console.log('DEBUG: Final coworking spaces count:', distributionCoworkingSpaces.length)
@@ -76,10 +76,13 @@ const seo: SEOProps = {
             Vote for the most beautifully designed coworking spaces worldwide! Help us select the best spaces that will be featured in the next Nomad Magazine edition. Winners chosen by public votes and our expert jury.
           </p>
           <div class="bg-yellow-400/10 border border-yellow-400/30 rounded-lg p-4 mb-8 max-w-2xl mx-auto">
-            <div class="text-yellow-400 font-bold text-lg mb-2">Contest Timeline</div>
-            <div class="text-sm text-neutral-300">
-              <p class="mb-1">📍 <strong>Submissions:</strong> Places can be added until end of September 2025</p>
-              <p>🗳️ <strong>Voting:</strong> Voting stops October 20, 2025</p>
+            <div class="text-yellow-400 font-bold text-lg mb-2">We're celebrating design and beauty first</div>
+            <div class="text-sm text-neutral-300 mb-4">
+              <p class="mb-2">Think: ✨ stunning interiors, 🌅 dreamy views, 🪑 ergonomic brilliance, and spaces that make you want to stay late 🌙</p>
+              <div class="border-t border-yellow-400/30 pt-3 mt-3">
+                <p class="mb-1">📍 <strong>Submissions:</strong> Places can be added until end of September 2025</p>
+                <p>🗳️ <strong>Voting:</strong> Voting stops October 20, 2025</p>
+              </div>
             </div>
           </div>
           <div class="flex flex-col sm:flex-row justify-center gap-4 mb-6">
