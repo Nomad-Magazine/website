@@ -1,11 +1,5 @@
 ---
-export const prerender = true;
-
-import { fetchReportRecords } from '~/utils/smartsuite'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
-
-// Fetch directory records
-const { records = [] } = await fetchReportRecords('6857167d82358a0f5e038c3f')
 
 const seo: SEOProps = {
   title: '🖥️ Best Designed Co-Working Spaces Contest: Vote Now! - Nomad Newsletter',
@@ -35,41 +29,89 @@ const seo: SEOProps = {
   },
 }
 
-// Hardcoded Monthly Supporters list (from nomad_directory.astro)
-const monthlySupporters = [
-  'DataBench',
-  'Max Browser',
-  'DataBench (Max Browser)',
-  'Max',
+// Static directory listings data (matching the email content)
+const directoryListings = [
+  {
+    name: "Max Browser",
+    category: "APP",
+    isSupporter: true,
+    description: "Max is Australia's first privacy-based browser and VPN combo. We offer free membership with 10gb of VPN data per month.",
+    url: "https://maxbrowser.com.au/",
+    logo: "https://uooo.stripocdnplugin.email/content/7cca085cfa4e41fd85b70a24e0f3df60/lib/pluginId_7cca085cfa4e41fd85b70a24e0f3df60_74602/max_master_logo.png"
+  },
+  {
+    name: "Entity Inc.",
+    category: "SERVICE", 
+    isSupporter: false,
+    description: "From forming a US company to tax filings, compliance, and bookkeeping, Entity Inc. ensures businesses are tax-efficient and fully compliant.",
+    url: "https://www.entity.inc/",
+    logo: "https://uooo.stripocdnplugin.email/content/7cca085cfa4e41fd85b70a24e0f3df60/lib/pluginId_7cca085cfa4e41fd85b70a24e0f3df60_74602/entityinclogo2.png"
+  },
+  {
+    name: "Nomad Summer Camp LLC",
+    category: "EVENTS",
+    isSupporter: false,
+    description: "Adult summer camps for digital nomads around the world",
+    url: "https://nomadsummercamp.com/",
+    logo: "https://uooo.stripocdnplugin.email/content/7cca085cfa4e41fd85b70a24e0f3df60/lib/pluginId_7cca085cfa4e41fd85b70a24e0f3df60_74602/text_1.png"
+  },
+  {
+    name: "Edge City",
+    category: "OTHER",
+    isSupporter: false,
+    description: "We host monthlong popup villages where people at the frontiers of technology, science, and culture live and work together. Each village is an environment for running real experiments on new ideas and collaborations.",
+    url: "https://www.edgecity.live/",
+    logo: "https://uooo.stripocdnplugin.email/content/7cca085cfa4e41fd85b70a24e0f3df60/lib/pluginId_7cca085cfa4e41fd85b70a24e0f3df60_74602/logotype_1.png"
+  },
+  {
+    name: "Diving Nomads",
+    category: "COMMUNITY",
+    isSupporter: false,
+    description: "Diving Nomads is a global community for remote workers who love scuba diving. We partner with dive centers, colivings, and coworking spaces to make it easier for digital nomads to combine work and diving. Members get access to exclusive...",
+    url: "https://divingnomads.club/",
+    logo: "https://uooo.stripocdnplugin.email/content/7cca085cfa4e41fd85b70a24e0f3df60/lib/pluginId_7cca085cfa4e41fd85b70a24e0f3df60_74602/logo_diving_nomads_transparent.png"
+  },
+  {
+    name: "Wanderwell Club",
+    category: "COACHING",
+    isSupporter: false,
+    description: "Wanderwell Club helps remote workers and digital nomads purposefully slow travel their way to financial freedom.",
+    url: "https://www.wanderwell.club/",
+    logo: "https://uooo.stripocdnplugin.email/content/7cca085cfa4e41fd85b70a24e0f3df60/lib/pluginId_7cca085cfa4e41fd85b70a24e0f3df60_74602/wanderwellclub.png"
+  },
+  {
+    name: "The Better Neighbors",
+    category: "COLIVING",
+    isSupporter: false,
+    description: "We organize workation retreats. Explore mountain spas in Romania or seaside coliving in Spain—for under €700 a month with your own private room and bathroom. We curate retreats for digital nomads that combine affordable, wellness-focused living...",
+    url: "https://www.thebetterneighbors.com/",
+    logo: "https://uooo.stripocdnplugin.email/content/7cca085cfa4e41fd85b70a24e0f3df60/lib/pluginId_7cca085cfa4e41fd85b70a24e0f3df60_74602/logo_betterneighbors.png"
+  },
+  {
+    name: "Remote Queer",
+    category: "COMMUNITY",
+    isSupporter: false,
+    description: "Remote work and travel resources for LGBTQ+ digital nomads.",
+    url: "https://remotequeer.co/",
+    logo: "https://uooo.stripocdnplugin.email/content/7cca085cfa4e41fd85b70a24e0f3df60/lib/pluginId_7cca085cfa4e41fd85b70a24e0f3df60_74602/rqlogoexportwhitebg.png"
+  },
+  {
+    name: "Casa Gori Coliving",
+    category: "COLIVING",
+    isSupporter: false,
+    description: "We're a Coliving for Nomadic Entrepreneurs in Valencia. Opening in 2026!",
+    url: "https://www.casagori.co/",
+    logo: "https://uooo.stripocdnplugin.email/content/7cca085cfa4e41fd85b70a24e0f3df60/lib/pluginId_7cca085cfa4e41fd85b70a24e0f3df60_74602/logo.png"
+  },
+  {
+    name: "TADAIMA SHIMODA",
+    category: "COLIVING",
+    isSupporter: false,
+    description: '"TADAIMA 2025" Coliving Program to Connect Digital Nomads and Locals This November.',
+    url: "https://tadaima-japan.jp/events/tadaima-shimoda-2025/",
+    logo: "https://uooo.stripocdnplugin.email/content/7cca085cfa4e41fd85b70a24e0f3df60/lib/pluginId_7cca085cfa4e41fd85b70a24e0f3df60_74602/mingchengweishedingsutekkazhengfangxing_1.png"
+  }
 ]
-
-// Get latest directory listings (first 10 active records)
-const directoryListings = records
-  .filter((record: any) => record.sf4ad525dd) // Only active records
-  .sort((a: any, b: any) => {
-    // Max Browser goes first (same logic as nomad_directory.astro)
-    const isMaxBrowserA = a.title?.toLowerCase().includes('max browser') || 
-                          a.title?.toLowerCase().includes('max') || 
-                          a.title === 'DataBench';
-    const isMaxBrowserB = b.title?.toLowerCase().includes('max browser') || 
-                          b.title?.toLowerCase().includes('max') || 
-                          b.title === 'DataBench';
-    
-    if (isMaxBrowserA && !isMaxBrowserB) return -1;
-    if (!isMaxBrowserA && isMaxBrowserB) return 1;
-    return 0;
-  })
-  .slice(0, 10) // Get first 10
-  .map((record: any) => ({
-    name: record.title || 'Company Name',
-    category: record.sb685ab800?.label || 'OTHER',
-    isSupporter: record.supporter || record.monthly_supporter || record.is_supporter || 
-                 record.supporter_status === 'Monthly Supporter' || record.status === 'Monthly Supporter' || 
-                 monthlySupporters.includes(record.title),
-    description: record.scea90e502 || 'Description not available',
-    url: record.link || record.sb788c266b?.[0] || '#',
-    logo: record.image && record.image !== '/logo.svg' ? record.image : null
-  }))
 
 const getCategoryColor = (category: string) => {
   switch(category) {
@@ -184,26 +226,30 @@ const getCategoryColor = (category: string) => {
           <p class="text-base text-gray-600 font-medium">Partner Pickup Available!</p>
         </div>
 
-        <div class="mb-6">
-          <img 
-            src="/images/issue-003-holding-magazine-in-hands.webp" 
-            alt="Nomad Magazine Third Edition"
-            class="w-full rounded-lg"
-          />
-        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-6">
+          <!-- Text Content -->
+          <div class="prose prose-base max-w-none">
+            <p class="text-base text-gray-700 mb-4 leading-relaxed">
+              You still can get your <strong class="text-gray-900">Nomad Magazine Third Edition</strong> through door-to-door <strong>delivery</strong> or <strong>self-pickup</strong> at one of our amazing partner locations in Berlin, Amsterdam, Lisbon, Porto, Madeira and others. Skip the shipping and grab your copy directly!
+            </p>
 
-        <div class="prose prose-base max-w-none mb-6">
-          <p class="text-base text-gray-700 mb-4 leading-relaxed">
-            You still can get your <strong class="text-gray-900">Nomad Magazine Third Edition</strong> through door-to-door <strong>delivery</strong> or <strong>self-pickup</strong> at one of our amazing partner locations in Berlin, Amsterdam, Lisbon, Porto, Madeira and others. Skip the shipping and grab your copy directly!
-          </p>
+            <p class="text-base text-gray-700 mb-4 leading-relaxed">
+              🏢 <strong class="text-gray-900">Partner pickup locations</strong> are the selected co-working spaces you'll visit.
+            </p>
 
-          <p class="text-base text-gray-700 mb-4 leading-relaxed">
-            🏢 <strong class="text-gray-900">Partner pickup locations</strong> are the selected co-working spaces you'll visit.
-          </p>
+            <p class="text-base text-gray-700 leading-relaxed">
+              Perfect for nomads who prefer the personal touch and want to support local businesses! 🌍
+            </p>
+          </div>
 
-          <p class="text-base text-gray-700 leading-relaxed">
-            Perfect for nomads who prefer the personal touch and want to support local businesses! 🌍
-          </p>
+          <!-- Image -->
+          <div class="flex justify-center md:justify-end">
+            <img 
+              src="/images/issue-003-on-yellow-background-with-flower.webp" 
+              alt="Nomad Magazine Third Edition on yellow background"
+              class="max-w-xs w-full rounded-lg shadow-md"
+            />
+          </div>
         </div>
 
         <div class="text-center">
