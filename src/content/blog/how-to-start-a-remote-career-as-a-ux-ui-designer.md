@@ -6,8 +6,8 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-04-05T02:38:08.681Z
-updated_at: 2025-04-05T02:38:27.441Z
-head_image: https://assets.seobotai.com/nomadgossip.com/67f08132ebbb9dc80643a571-1743820707441.jpg
+updated_at: 2025-09-11T00:38:59.740Z
+head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/67f08132ebbb9dc80643a571-1743820707441.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: UX design, UI design, remote work, portfolio building, design tools, job search, freelance opportunities
 tag: Career, Digital, Expat
@@ -43,7 +43,7 @@ next_blog: ''
     -   Manage projects effectively with tools like [Asana](https://asana.com/) or [Jira](https://www.atlassian.com/software/jira).
     -   Maintain work-life balance with clear boundaries and regular breaks.
 
-> Remote UX/UI design is growing fast. By 2025, millions of Americans are working remotely, and job opportunities are expanding. Master your skills, build a standout portfolio, and leverage the right tools to thrive in this field.
+> Remote [UX/UI design](https://exalt-studio.com) is growing fast. By 2025, millions of Americans are working remotely, and job opportunities are expanding. Master your skills, build a standout portfolio, and leverage the right tools to thrive in this field.
 
 ## Required Skills for Remote UX/UI Design
 
