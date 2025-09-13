@@ -437,6 +437,35 @@ const seo: SEOProps = {
   
   <!-- Sticky Brand Placement Banner -->
   <StickyBrandPlacement />
+  
+  <!-- Sticky Magazine CTA -->
+  <div id="sticky-cta" class="fixed bottom-4 right-4 z-50 hidden">
+    <div class="bg-black border-2 border-yellow-400 rounded-lg p-4 shadow-2xl max-w-sm">
+      <div class="flex items-center gap-3">
+        <img 
+          src="/images/third-edition-cover-hd.webp" 
+          alt="Nomad Magazine" 
+          class="w-16 h-20 object-cover rounded"
+        />
+        <div class="flex-1">
+          <h3 class="text-white font-bold text-sm">Get the Latest Edition</h3>
+          <p class="text-gray-300 text-xs mb-2">100+ pages of nomad wisdom</p>
+          <a 
+            href="/editions/third-edition"
+            class="inline-block bg-yellow-400 text-black text-xs font-bold px-3 py-1.5 rounded hover:bg-yellow-300 transition-colors"
+          >
+            Order Now
+          </a>
+        </div>
+        <button 
+          onclick="document.getElementById('sticky-cta').style.display = 'none'"
+          class="text-gray-400 hover:text-white text-xl leading-none"
+        >
+          ×
+        </button>
+      </div>
+    </div>
+  </div>
 </Layout>
 
 <style>
@@ -461,3 +490,18 @@ const seo: SEOProps = {
   overflow: hidden;
 }
 </style>
+
+<script>
+  // Show sticky CTA after scrolling past hero section
+  window.addEventListener('scroll', function() {
+    const stickyCTA = document.getElementById('sticky-cta');
+    const scrollPosition = window.scrollY;
+    const windowHeight = window.innerHeight;
+    
+    if (scrollPosition > windowHeight * 0.8) {
+      stickyCTA?.classList.remove('hidden');
+    } else {
+      stickyCTA?.classList.add('hidden');
+    }
+  });
+</script>
