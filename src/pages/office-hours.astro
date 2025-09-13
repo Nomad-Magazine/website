@@ -7,7 +7,7 @@ import PeopleIcon from '~icons/ic/baseline-people'
 
 const seo: SEOProps = {
   title: 'Office Hours - Connect with the Nomad Community | Nomad Magazine',
-  description: 'Join our bi-weekly Office Hours calls to share updates, announcements, and connect with the digital nomad community. Free and open for everyone.',
+  description: 'Join our weekly Office Hours calls to share updates, announcements, and connect with the digital nomad community. Free and open for everyone.',
   image: `${Astro.site}images/edition-001-nomad-mag-brand-placement.webp`,
   keywords: 'nomad office hours, digital nomad community, nomad networking, announcements, updates, community calls',
   ogType: 'website',
@@ -15,7 +15,7 @@ const seo: SEOProps = {
     '@context': 'https://schema.org',
     '@type': 'Event',
     name: 'Nomad Magazine Office Hours',
-    description: 'Bi-weekly community calls for digital nomads to share updates and connect',
+    description: 'Weekly 30 min calls for digital nomads to share updates and connect',
     url: `${Astro.site}office-hours`,
     organizer: {
       '@type': 'Organization',
@@ -50,7 +50,7 @@ const howItWorks = [
   {
     step: '1',
     title: 'Join the Call',
-    description: 'Click the link and join our bi-weekly video call'
+    description: 'Click the link and join our weekly 30 min video call'
   },
   {
     step: '2',
@@ -76,8 +76,13 @@ const howItWorks = [
     <section class="py-20 bg-gradient-to-br from-yellow-50 to-orange-50">
       <div class="mx-auto max-w-6xl px-6">
         <div class="text-center space-y-8">
-          <div class="inline-block bg-yellow-400 text-black px-6 py-3 rounded-full font-bold text-lg">
-            💬 Office Hours
+          <div class="flex items-center justify-center gap-3 mb-4">
+            <div class="inline-block bg-yellow-400 text-black px-6 py-3 rounded-full font-bold text-lg">
+              💬 Office Hours
+            </div>
+            <div class="inline-block bg-blue-500 text-white px-4 py-2 rounded-full font-bold text-sm">
+              BETA
+            </div>
           </div>
           
           <h1 class="text-6xl md:text-8xl font-black leading-tight text-gray-900">
@@ -173,8 +178,11 @@ const howItWorks = [
       <div class="mx-auto max-w-6xl px-6">
         <div class="text-center mb-12">
           <div class="text-6xl mb-6">🗓️</div>
-          <h2 class="text-4xl font-bold text-gray-900 mb-4">Upcoming Office Hours</h2>
-          <p class="text-xl text-gray-600">Bi-weekly calls alternating between Asia-friendly and US-friendly times</p>
+          <div class="flex items-center justify-center gap-3 mb-4">
+            <h2 class="text-4xl font-bold text-gray-900">Upcoming Office Hours</h2>
+            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-bold">Beta Testing</span>
+          </div>
+          <p class="text-xl text-gray-600">Weekly 30 min calls alternating between Asia-friendly and US-friendly times</p>
         </div>
 
         <div class="grid md:grid-cols-2 gap-8 mb-12">
@@ -182,16 +190,16 @@ const howItWorks = [
           <div class="bg-gray-900 text-white rounded-2xl p-8">
             <div class="flex items-center gap-3 mb-6">
               <CalendarIcon class="h-6 w-6 text-yellow-400" />
-              <h3 class="text-2xl font-bold">Thursday, Dec 19</h3>
+              <h3 class="text-2xl font-bold">Friday, Sep 19</h3>
             </div>
             <div class="space-y-3 mb-6">
-              <p class="text-xl font-bold text-yellow-400">11:00 AM UK Time</p>
+              <p class="text-xl font-bold text-yellow-400">11:00 AM - 11:30 AM UK Time</p>
               <p class="text-sm text-gray-300">Perfect for Asia & Europe</p>
               <div class="text-sm text-gray-400 space-y-1">
-                <p>🇸🇬 Singapore: 7:00 PM</p>
-                <p>🇯🇵 Tokyo: 8:00 PM</p>
-                <p>🇩🇪 Berlin: 12:00 PM</p>
-                <p>🇺🇸 NYC: 6:00 AM</p>
+                <p>🇸🇬 Singapore: 7:00 PM - 7:30 PM</p>
+                <p>🇯🇵 Tokyo: 8:00 PM - 8:30 PM</p>
+                <p>🇩🇪 Berlin: 12:00 PM - 12:30 PM</p>
+                <p>🇺🇸 NYC: 6:00 AM - 6:30 AM</p>
               </div>
             </div>
             <a
@@ -208,16 +216,16 @@ const howItWorks = [
           <div class="bg-gray-900 text-white rounded-2xl p-8">
             <div class="flex items-center gap-3 mb-6">
               <CalendarIcon class="h-6 w-6 text-yellow-400" />
-              <h3 class="text-2xl font-bold">Wednesday, Jan 8</h3>
+              <h3 class="text-2xl font-bold">Wednesday, Sep 25</h3>
             </div>
             <div class="space-y-3 mb-6">
-              <p class="text-xl font-bold text-yellow-400">7:00 PM UK Time</p>
+              <p class="text-xl font-bold text-yellow-400">7:00 PM - 7:30 PM UK Time</p>
               <p class="text-sm text-gray-300">Perfect for US & Europe</p>
               <div class="text-sm text-gray-400 space-y-1">
-                <p>🇺🇸 NYC: 2:00 PM</p>
-                <p>🇺🇸 LA: 11:00 AM</p>
-                <p>🇩🇪 Berlin: 8:00 PM</p>
-                <p>🇸🇬 Singapore: 3:00 AM</p>
+                <p>🇺🇸 NYC: 2:00 PM - 2:30 PM</p>
+                <p>🇺🇸 LA: 11:00 AM - 11:30 AM</p>
+                <p>🇩🇪 Berlin: 8:00 PM - 8:30 PM</p>
+                <p>🇸🇬 Singapore: 3:00 AM - 3:30 AM</p>
               </div>
             </div>
             <a
@@ -234,25 +242,25 @@ const howItWorks = [
           <div class="bg-gray-100 text-gray-900 rounded-2xl p-8 border-2 border-gray-200">
             <div class="flex items-center gap-3 mb-6">
               <CalendarIcon class="h-6 w-6 text-gray-500" />
-              <h3 class="text-2xl font-bold">Thursday, Jan 23</h3>
+              <h3 class="text-2xl font-bold">Friday, Oct 4</h3>
             </div>
             <div class="space-y-3 mb-6">
-              <p class="text-xl font-bold text-gray-600">11:00 AM UK Time</p>
+              <p class="text-xl font-bold text-gray-600">11:00 AM - 11:30 AM UK Time</p>
               <p class="text-sm text-gray-500">Perfect for Asia & Europe</p>
             </div>
-            <p class="text-sm text-gray-500">Booking opens 2 weeks before</p>
+            <p class="text-sm text-gray-500">Booking opens soon</p>
           </div>
 
           <div class="bg-gray-100 text-gray-900 rounded-2xl p-8 border-2 border-gray-200">
             <div class="flex items-center gap-3 mb-6">
               <CalendarIcon class="h-6 w-6 text-gray-500" />
-              <h3 class="text-2xl font-bold">Wednesday, Feb 5</h3>
+              <h3 class="text-2xl font-bold">Wednesday, Oct 9</h3>
             </div>
             <div class="space-y-3 mb-6">
-              <p class="text-xl font-bold text-gray-600">7:00 PM UK Time</p>
+              <p class="text-xl font-bold text-gray-600">7:00 PM - 7:30 PM UK Time</p>
               <p class="text-sm text-gray-500">Perfect for US & Europe</p>
             </div>
-            <p class="text-sm text-gray-500">Booking opens 2 weeks before</p>
+            <p class="text-sm text-gray-500">Booking opens soon</p>
           </div>
         </div>
 
@@ -263,7 +271,7 @@ const howItWorks = [
             <h3 class="text-2xl font-bold text-gray-900">Flexible Participation</h3>
           </div>
           <p class="text-lg text-gray-700 mb-4">
-            Jump in for 5 minutes or stay for the full hour - completely up to you
+            Jump in for 5 minutes or stay for the full 30 minutes - completely up to you
           </p>
           <div class="flex items-center justify-center gap-6 text-sm text-gray-600">
             <div class="flex items-center gap-2">
@@ -272,7 +280,7 @@ const howItWorks = [
             </div>
             <div class="flex items-center gap-2">
               <CalendarIcon class="h-5 w-5" />
-              <span>1 hour duration</span>
+              <span>30 minutes duration</span>
             </div>
           </div>
         </div>
@@ -362,11 +370,17 @@ const howItWorks = [
     </section>
 
     <!-- Final CTA -->
-    <section class="py-20 bg-gradient-to-br from-blue-500 to-purple-600 text-white">
+    <section class="py-20 bg-gradient-to-br from-gray-900 to-gray-800 text-white">
       <div class="mx-auto max-w-4xl px-6 text-center">
-        <h2 class="text-4xl font-bold mb-6">Ready to Join the Community?</h2>
-        <p class="text-xl mb-8 opacity-90">
-          Book your spot for the next Office Hours call and connect with fellow nomads
+        <div class="flex items-center justify-center gap-3 mb-6">
+          <h2 class="text-4xl font-bold">Ready to Join Our Beta?</h2>
+          <span class="bg-yellow-400 text-black px-3 py-1 rounded-full text-sm font-bold">New!</span>
+        </div>
+        <p class="text-xl mb-4 opacity-90">
+          Be among the first to experience Office Hours and help us shape this new community feature
+        </p>
+        <p class="text-sm mb-8 opacity-75">
+          As a beta tester, your feedback will help us improve the experience for everyone
         </p>
         
         <a
