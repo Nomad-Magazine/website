@@ -1,4 +1,6 @@
 ---
+export const prerender = true;
+
 import About from '~/components/About.astro'
 import Bridge from '~/components/Bridge.astro'
 import CheckIcon from '~icons/ic/baseline-check'
@@ -220,7 +222,7 @@ const seo: SEOProps = {
             }`}>
               <div class="p-6">
                 <div class="mb-4 flex items-center gap-3">
-                  <div class="flex h-16 w-16 items-center justify-center rounded-lg bg-yellow-400">
+                  <div class="flex h-16 w-16 items-center justify-center rounded-lg bg-white">
                     {entry.image && entry.image !== '/logo.svg' ? (
                       <img 
                         src={entry.image} 
@@ -271,9 +273,6 @@ const seo: SEOProps = {
         </div>
         
         <div class="mt-12 text-center">
-          <p class="text-sm text-neutral-400 mb-4">
-            Last updated: January 2025 • {records.filter((r: any) => r.sf4ad525dd).length}+ verified services
-          </p>
           <a
             href="/nomad_directory"
             class="inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-6 py-3 text-sm font-bold text-black transition-all hover:bg-yellow-300 hover:scale-105"
