@@ -1,0 +1,215 @@
+---
+export const prerender = true;
+
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import MaterialSymbolsCheck from '~icons/material-symbols/check'
+import MaterialSymbolsArrowOutward from '~icons/material-symbols/arrow-outward'
+
+const seo: SEOProps = {
+  title: 'Digital Package - Boost Your Brand Visibility | Nomad Magazine',
+  description: 'Amplify your brand with our digital marketing packages. Get featured on Instagram, newsletter, blog posts, and homepage placement to reach engaged nomads.',
+  image: `${Astro.site}images/edition-003-cover_holded_front_face.webp`,
+  keywords: 'digital marketing package, nomad brand boost, instagram marketing, newsletter marketing, blog content',
+  ogType: 'website',
+}
+
+const packages = [
+  {
+    id: 'social-boost',
+    name: 'Social Boost',
+    price: '€50',
+    description: 'Get featured on our Instagram and reach thousands of engaged nomads',
+    features: [
+      'Instagram post feature (3.5K+ followers)',
+      'Instagram story highlights',
+      'Professional post design',
+      'Hashtag optimization',
+      'Post goes live within 48 hours'
+    ],
+    ctaText: 'Get Social Boost',
+    ctaUrl: 'https://pay.nomad-magazine.com/b/social-boost-50',
+    popular: false,
+    bgColor: 'bg-gradient-to-br from-pink-500/10 to-purple-500/10',
+    borderColor: 'border-pink-300'
+  },
+  {
+    id: 'content-spotlight',
+    name: 'Content Spotlight',
+    price: '€150',
+    description: 'Multi-channel exposure with newsletter and blog content',
+    features: [
+      'Instagram post feature',
+      'Newsletter spotlight (500+ subscribers)',
+      'Blog mention or mini-feature',
+      'Homepage logo placement (1 week)',
+      'Social media cross-promotion',
+      'Analytics report included'
+    ],
+    ctaText: 'Get Content Spotlight',
+    ctaUrl: 'https://pay.nomad-magazine.com/b/content-spotlight-150',
+    popular: true,
+    bgColor: 'bg-gradient-to-br from-yellow-500/10 to-orange-500/10',
+    borderColor: 'border-yellow-400'
+  },
+  {
+    id: 'full-digital',
+    name: 'Full Digital Package',
+    price: '€250',
+    description: 'Complete digital marketing package with dedicated content',
+    features: [
+      'Dedicated blog post (500+ words)',
+      'Newsletter feature story',
+      'Instagram post + stories',
+      'Homepage logo placement (1 month)',
+      'Social media campaign (3 posts)',
+      'Backlinks to your website',
+      'Analytics & performance report',
+      'Content strategy consultation'
+    ],
+    ctaText: 'Get Full Package',
+    ctaUrl: 'https://pay.nomad-magazine.com/b/full-digital-250',
+    popular: false,
+    bgColor: 'bg-gradient-to-br from-indigo-500/10 to-purple-500/10',
+    borderColor: 'border-indigo-400'
+  }
+]
+---
+
+<Layout seo={seo}>
+  <!-- Hero Section -->
+  <div class="bg-black text-white py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <div class="inline-block bg-yellow-400 text-black px-6 py-3 rounded-full font-bold text-lg mb-8">
+          📱 Digital Marketing
+        </div>
+        <h1 class="text-5xl font-bold text-white mb-6 leading-tight md:text-6xl lg:text-7xl">
+          Amplify Your <span class="text-yellow-400">Digital Presence</span>
+        </h1>
+        <p class="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
+          Reach our engaged community of digital nomads through Instagram, newsletter, blog content, and homepage placement. Choose the package that fits your goals.
+        </p>
+        <div class="inline-flex items-center gap-2 bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-sm font-medium">
+          <span>⚡</span>
+          Content goes live within 48-72 hours
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Package Options -->
+  <div class="bg-white py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+        
+        {packages.map((pkg) => (
+          <div class={`rounded-2xl p-8 shadow-lg h-full flex flex-col relative ${pkg.bgColor} border-2 ${pkg.borderColor} ${pkg.popular ? 'ring-4 ring-yellow-400' : ''}`}>
+            {pkg.popular && (
+              <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                <span class="bg-yellow-400 text-black px-4 py-2 rounded-full text-sm font-bold">MOST POPULAR</span>
+              </div>
+            )}
+            
+            <div class="text-center flex-grow">
+              <h3 class="text-2xl font-bold text-gray-900 mb-4">{pkg.name}</h3>
+              <div class="text-4xl font-bold text-gray-900 mb-6">{pkg.price}</div>
+              <p class="text-gray-600 mb-8">{pkg.description}</p>
+              
+              <div class="space-y-3 mb-8 text-left">
+                {pkg.features.map((feature) => (
+                  <div class="flex items-start">
+                    <MaterialSymbolsCheck class="mr-3 h-5 w-5 flex-shrink-0 text-yellow-500 mt-0.5" />
+                    <span class="text-gray-700">{feature}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <a 
+              href={pkg.ctaUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class={`w-full inline-block rounded-xl px-8 py-4 text-center text-lg font-bold transition-all duration-200 hover:scale-105 hover:shadow-lg mt-auto ${
+                pkg.popular 
+                  ? 'bg-yellow-400 text-black hover:bg-yellow-300' 
+                  : 'bg-gray-900 text-white hover:bg-gray-800'
+              }`}
+            >
+              {pkg.ctaText}
+            </a>
+          </div>
+        ))}
+
+      </div>
+
+      <!-- Additional Info -->
+      <div class="mt-16 text-center">
+        <div class="bg-gray-50 rounded-2xl p-8 max-w-4xl mx-auto">
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">Why Choose Our Digital Packages?</h3>
+          <div class="grid md:grid-cols-3 gap-6 text-left">
+            <div>
+              <h4 class="font-bold text-gray-900 mb-2">🎯 Targeted Audience</h4>
+              <p class="text-gray-600 text-sm">Reach engaged digital nomads, remote workers, and location-independent entrepreneurs actively seeking tools and services.</p>
+            </div>
+            <div>
+              <h4 class="font-bold text-gray-900 mb-2">📈 Proven Results</h4>
+              <p class="text-gray-600 text-sm">Our community trusts our recommendations. Featured brands see increased traffic, signups, and brand awareness.</p>
+            </div>
+            <div>
+              <h4 class="font-bold text-gray-900 mb-2">⚡ Fast Delivery</h4>
+              <p class="text-gray-600 text-sm">Content goes live quickly with professional design and copywriting included in every package.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Section -->
+      <div class="mt-12 grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
+        <div class="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl p-6 border border-yellow-200">
+          <div class="text-3xl font-bold text-gray-900 mb-2">3.5K+</div>
+          <div class="text-sm text-gray-600">Instagram Followers</div>
+        </div>
+        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-200">
+          <div class="text-3xl font-bold text-gray-900 mb-2">500+</div>
+          <div class="text-sm text-gray-600">Newsletter Subscribers</div>
+        </div>
+        <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border border-green-200">
+          <div class="text-3xl font-bold text-gray-900 mb-2">2.6K+</div>
+          <div class="text-sm text-gray-600">Monthly Website Visitors</div>
+        </div>
+        <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6 border border-purple-200">
+          <div class="text-3xl font-bold text-gray-900 mb-2">85%</div>
+          <div class="text-sm text-gray-600">Engagement Rate</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA Section -->
+  <div class="bg-gradient-to-br from-gray-900 to-black text-white py-20">
+    <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold mb-6">Ready to Boost Your Brand?</h2>
+        <p class="text-xl text-gray-300 mb-8">
+          Join successful nomad brands that have amplified their reach through our digital packages.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a 
+            href="mailto:lera@nomadgossip.com?subject=Digital Package Inquiry"
+            class="inline-flex items-center gap-2 bg-yellow-400 text-black font-bold px-8 py-4 rounded-full hover:bg-yellow-300 transition-all hover:scale-105"
+          >
+            Ask Questions
+            <MaterialSymbolsArrowOutward width="18" height="18" />
+          </a>
+          <a 
+            href="/partnerships-new"
+            class="inline-flex items-center gap-2 border-2 border-yellow-400 text-yellow-400 font-bold px-8 py-4 rounded-full hover:bg-yellow-400 hover:text-black transition-all"
+          >
+            View All Options
+            <MaterialSymbolsArrowOutward width="18" height="18" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
