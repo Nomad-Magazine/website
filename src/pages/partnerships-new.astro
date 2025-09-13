@@ -1,0 +1,318 @@
+---
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import CheckIcon from '~icons/ic/baseline-check'
+import ArrowRightIcon from '~icons/ic/baseline-arrow-forward'
+
+const seo: SEOProps = {
+  title: 'Join the Nomad Ecosystem - Automatic Partnership with Nomad Magazine',
+  description: 'Welcome to the nomad ecosystem! If you\'re a digital nomad or part of the nomad community, you\'re automatically our partner. Access free features, Office Hours, and premium support options.',
+  image: `${Astro.site}images/edition-001-nomad-mag-brand-placement.webp`,
+  keywords: 'nomad ecosystem, digital nomad community, automatic partnership, nomad directory, office hours, nomad magazine',
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Join the Nomad Ecosystem',
+    description: 'Automatic partnership opportunities with Nomad Magazine for the digital nomad community',
+    url: `${Astro.site}partnerships-new`,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+  },
+}
+
+---
+
+<Layout seo={seo}>
+  <div class="bg-black text-white min-h-screen">
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-br from-yellow-500/10 via-transparent to-purple-500/10"></div>
+      <div class="relative mx-auto max-w-6xl px-6 py-24">
+        <div class="text-center space-y-8">
+          <div class="inline-block bg-yellow-400 text-black px-6 py-3 rounded-full font-bold text-lg">
+            🎉 Great news for you!
+          </div>
+          
+          <h1 class="text-6xl md:text-8xl font-black leading-tight">
+            You're already
+            <br />
+            <span class="text-yellow-400">our partner</span>
+          </h1>
+          
+          <p class="text-2xl md:text-3xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+            If you're a digital nomad or your project is part of the digital nomad ecosystem, you automatically become our partner. No need to reach out and say "let's partner".
+          </p>
+
+          <div class="pt-8">
+            <a
+              href="#how-it-works"
+              class="inline-flex items-center gap-3 bg-yellow-400 text-black px-10 py-5 rounded-full text-xl font-bold hover:bg-yellow-300 transition-all hover:scale-105"
+            >
+              See how it works
+              <ArrowRightIcon class="h-6 w-6" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- The Problem -->
+    <section class="py-20 bg-gray-950">
+      <div class="mx-auto max-w-4xl px-6 text-center">
+        <h2 class="text-4xl md:text-5xl font-bold mb-8">But we have one obstacle</h2>
+        <div class="text-2xl text-gray-300 space-y-6 leading-relaxed">
+          <p>
+            <strong class="text-white">Time and capacity</strong> are limited. While we want to support each of you when you need our help, we can't handle individual conversations with everyone.
+          </p>
+          <p>
+            We have to be mindful where our time goes.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- The Solution -->
+    <section id="how-it-works" class="py-20">
+      <div class="mx-auto max-w-6xl px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-bold mb-8">Our goal</h2>
+          <p class="text-2xl text-gray-300 max-w-3xl mx-auto">
+            Create an equal platform to feature your project, offer, announcement for <strong class="text-yellow-400">free</strong> but also easy and fast for us.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <!-- Nomad Directory -->
+          <div class="bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-3xl p-8 border border-green-500/30">
+            <div class="text-6xl mb-6">📍</div>
+            <h3 class="text-3xl font-bold mb-4">Nomad Directory</h3>
+            <p class="text-xl text-gray-300 mb-6">
+              Submit your project for free with or without exclusive offers.
+            </p>
+            <div class="space-y-3 mb-8">
+              <div class="flex items-center gap-3">
+                <CheckIcon class="h-5 w-5 text-green-400" />
+                <span>3-4 new projects featured on Instagram weekly</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <CheckIcon class="h-5 w-5 text-green-400" />
+                <span>Up to 7-10 in newsletter every 2-3 weeks</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <CheckIcon class="h-5 w-5 text-green-400" />
+                <span>No separate conversations needed</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <CheckIcon class="h-5 w-5 text-green-400" />
+                <span>No barter agreements</span>
+              </div>
+            </div>
+            <p class="text-yellow-400 font-bold text-lg mb-6">
+              You submit → We publish → Easy
+            </p>
+            <a
+              href="https://form.smartsuite.com/s4tmc086/8sFlvrVlDC"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="block w-full bg-green-500 text-white text-center py-4 rounded-xl font-bold text-lg hover:bg-green-400 transition-all"
+            >
+              Submit Your Project
+            </a>
+            <div class="mt-4 p-3 bg-black/30 rounded-lg">
+              <p class="text-sm text-gray-400 mb-2">See example:</p>
+              <a href="https://www.instagram.com/p/DNiNL84tfVR/?igsh=bzYwNWQyN3NwNHZ3" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:text-blue-300 text-sm">
+                Instagram Post Example →
+              </a>
+            </div>
+          </div>
+
+          <!-- Office Hours -->
+          <div class="bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-3xl p-8 border border-blue-500/30">
+            <div class="text-6xl mb-6">💬</div>
+            <h3 class="text-3xl font-bold mb-4">Office Hours</h3>
+            <p class="text-xl text-gray-300 mb-6">
+              New concept adapted from corporate world for anyone from the industry.
+            </p>
+            <div class="space-y-3 mb-8">
+              <div class="flex items-center gap-3">
+                <CheckIcon class="h-5 w-5 text-blue-400" />
+                <span>One call every two weeks</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <CheckIcon class="h-5 w-5 text-blue-400" />
+                <span>Share announcements</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <CheckIcon class="h-5 w-5 text-blue-400" />
+                <span>Ask personal questions about nomad life</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <CheckIcon class="h-5 w-5 text-blue-400" />
+                <span>Just listen and connect</span>
+              </div>
+            </div>
+            <p class="text-yellow-400 font-bold text-lg mb-6">
+              Anyone welcome to jump in and off
+            </p>
+            <a
+              href="https://calendly.com/nomadgossip"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="block w-full bg-blue-500 text-white text-center py-4 rounded-xl font-bold text-lg hover:bg-blue-400 transition-all"
+            >
+              Join Office Hours
+            </a>
+            <p class="text-sm text-gray-400 mt-4">
+              We'll cut video recordings and publish announcements on IG (personal questions stay private)
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Need More? -->
+    <section class="py-20 bg-gray-950">
+      <div class="mx-auto max-w-6xl px-6">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-bold mb-8">Need more attention and support?</h2>
+          <p class="text-2xl text-gray-300">
+            We have extra options available
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8 mb-12">
+          <!-- Support the Magazine -->
+          <div class="bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-2xl p-6 border border-yellow-500/30 text-center">
+            <div class="text-4xl mb-4">🤝</div>
+            <h3 class="text-2xl font-bold mb-4">Support the Magazine</h3>
+            <p class="text-gray-300 mb-6">
+              We love our supporters and we support back when we can.
+            </p>
+            <a
+              href="https://calendly.com/nomadgossip"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-block bg-yellow-500 text-black px-6 py-3 rounded-lg font-bold hover:bg-yellow-400 transition-all"
+            >
+              Let's Talk
+            </a>
+          </div>
+
+          <!-- Digital Package -->
+          <div class="bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-2xl p-6 border border-purple-500/30 text-center">
+            <div class="text-4xl mb-4">📱</div>
+            <h3 class="text-2xl font-bold mb-4">Digital Extra Features</h3>
+            <p class="text-gray-300 mb-4">
+              IG, newsletter, blog post, your logo on home page etc
+            </p>
+            <p class="text-xl font-bold text-purple-400 mb-6">€50-250</p>
+            <a
+              href="/nomad-directory-boost-options"
+              class="inline-block bg-purple-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-purple-400 transition-all"
+            >
+              View Options
+            </a>
+          </div>
+
+          <!-- Print + Digital -->
+          <div class="bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-2xl p-6 border border-indigo-500/30 text-center relative">
+            <div class="absolute -top-3 -right-3 bg-yellow-400 text-black px-3 py-1 rounded-full text-sm font-bold">
+              Extra Mile
+            </div>
+            <div class="text-4xl mb-4">📰</div>
+            <h3 class="text-2xl font-bold mb-4">Everything + Print Magazine</h3>
+            <p class="text-gray-300 mb-4">
+              Digital package plus print magazine features
+            </p>
+            <p class="text-xl font-bold text-indigo-400 mb-6">€75-1,100+</p>
+            <a
+              href="/brand-placement-next-edition-847291"
+              class="inline-block bg-indigo-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-indigo-400 transition-all"
+            >
+              Explore Print
+            </a>
+          </div>
+        </div>
+
+        <!-- Physical Places -->
+        <div class="bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-2xl p-8 border border-orange-500/30 text-center">
+          <div class="text-5xl mb-6">🏢</div>
+          <h3 class="text-3xl font-bold mb-4">Physical Places</h3>
+          <p class="text-xl text-gray-300 mb-8">
+            Order magazines for your Airbnb, coliving, coworking, hostel etc. and we'll make sure we support you back :)
+          </p>
+          <a
+            href="https://calendly.com/nomadgossip"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 bg-orange-500 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-orange-400 transition-all"
+          >
+            Order Magazines
+            <ArrowRightIcon class="h-5 w-5" />
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom Line -->
+    <section class="py-20">
+      <div class="mx-auto max-w-4xl px-6 text-center">
+        <h2 class="text-4xl md:text-5xl font-bold mb-8">That's said</h2>
+        <div class="text-2xl text-gray-300 space-y-6 leading-relaxed">
+          <p>
+            We love brands and projects within the ecosystem. We want to support and help the industry that supports digital nomads.
+          </p>
+          <p>
+            <strong class="text-yellow-400">But we are not NGO</strong> and we don't have any external funding.
+          </p>
+          <p class="text-3xl font-bold text-white">
+            Help us to help you 🤝
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-20 bg-gradient-to-br from-yellow-500/10 to-purple-500/10">
+      <div class="mx-auto max-w-4xl px-6 text-center">
+        <h2 class="text-4xl font-bold mb-12">Ready to start?</h2>
+        
+        <div class="flex flex-col sm:flex-row gap-6 justify-center">
+          <a
+            href="https://form.smartsuite.com/s4tmc086/8sFlvrVlDC"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-3 bg-yellow-400 text-black px-10 py-5 rounded-full text-xl font-bold hover:bg-yellow-300 transition-all hover:scale-105"
+          >
+            Submit to Directory (Free)
+            <ArrowRightIcon class="h-6 w-6" />
+          </a>
+          <a
+            href="https://calendly.com/nomadgossip"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-3 border-2 border-yellow-400 text-yellow-400 px-10 py-5 rounded-full text-xl font-bold hover:bg-yellow-400 hover:text-black transition-all"
+          >
+            Join Office Hours
+          </a>
+        </div>
+        
+        <p class="mt-8 text-gray-400">
+          Questions? Email us at <a href="mailto:partnerships@nomad-magazine.com" class="text-yellow-400 hover:text-yellow-300">partnerships@nomad-magazine.com</a>
+        </p>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+.hover\:scale-105:hover {
+  transform: scale(1.05);
+}
+</style>
