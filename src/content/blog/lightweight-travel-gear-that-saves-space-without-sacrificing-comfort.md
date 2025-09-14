@@ -6,8 +6,8 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-06-03T07:29:11.764Z
-updated_at: 2025-08-09T14:00:26.058Z
-head_image: https://assets.seobotai.com/nomadgossip.com/683e92a81bd3e223130036e7-1748935828282.jpg
+updated_at: 2025-09-13T03:33:29.717Z
+head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/683e92a81bd3e223130036e7-1748935828282.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: lightweight travel gear, travel essentials, packing tips, portable comfort, space-saving travel
 tag: Digital, Moving, Travel
@@ -298,7 +298,7 @@ In short, the Outdoor Research Helium Rain Jacket offers dependable, lightweight
 
 ## Product Comparison Chart
 
-When it comes to lightweight travel gear, comparing key specs side-by-side can make choosing the right items much easier. For digital nomads and frequent travelers, factors like **weight**, **dimensions**, **materials**, and **cost** play a big role in finding gear that fits your travel needs and budget.
+When it comes to [lightweight travel gear](https://wheelfeet.com), comparing key specs side-by-side can make choosing the right items much easier. For digital nomads and frequent travelers, factors like **weight**, **dimensions**, **materials**, and **cost** play a big role in finding gear that fits your travel needs and budget.
 
 | Product | Weight | Dimensions | Material | Price |
 | --- | --- | --- | --- | --- |
