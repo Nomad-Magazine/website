@@ -11,7 +11,7 @@ head_image: https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=r
 head_image_alt: Digital nomads planning travel destinations
 keywords: digital nomad destinations 2025, Pangea app data, bucket list travel, remote work destinations, nomad hotspots, Japan nomad destination, Bali digital nomads, Cape Town nomads
 tag: Digital, Travel, Destinations, Data
-published: true
+published: false
 locale: en
 next_blog: ''
 ---
@@ -22,7 +22,7 @@ next_blog: ''
 
 A common theme often arises as a digital nomad; with the world at our fingertips, our friends dotted across the globe, and a constant influx of information on social media about the 'hottest' and 'trendiest' places to work and travel remotely – where should we actually go next?
 
-With thousands of nomads in Pangea's global community, we decided to look beyond the noise and uncover where our community is actually heading. By analyzing over **80,000 places** that digital nomads added to the Pangea app - from wishlists to confirmed travel plans - we gained an authentic snapshot of the top destinations for 2025.
+With thousands of nomads in [Pangea's](https://www.thepangea.app/) global community, we decided to look beyond the noise and uncover where our community is actually heading. By analyzing over **80,000 places** that digital nomads added to the [Pangea app](https://www.thepangea.app/) - from wishlists to confirmed travel plans - we gained an authentic snapshot of the top destinations for 2025.
 
 So, what did we find? While some classic favorites continue to shine, certain destinations have clearly emerged as the hottest nomad spots this year. These are the places appearing again and again on bucket lists and in confirmed travel plans.
 
@@ -32,9 +32,11 @@ So if you're planning your next chapter or just feeling that pull to go somewher
 
 ### 🇯🇵 Japan – The Dream Destination
 
+![Japan destination with cherry blossoms and traditional architecture](/images/japan-Bucket-list-Destinations-pangea-data-article.webp)
+
 **📌 804 wishlists | Top 3 for 9/10 nationalities**
 
-Japan is the undisputed nomad bucket-list champion, topping wishlists across almost every nationality of Pangea users.
+Japan is the undisputed nomad bucket-list champion, topping wishlists across almost every nationality of [Pangea](https://www.thepangea.app/) users.
 
 It's not the cheapest destination, but it is one of the most culturally rich and gastronomically exciting - and thanks to excellent infrastructure and growing interest in long-stay tourism, it's more accessible than ever for remote workers.
 
@@ -46,17 +48,21 @@ While not yet among the most-traveled countries in future planned trips in-app, 
 
 ### 🇮🇩 Bali, Indonesia – Still Going Strong
 
+![Bali temple and tropical landscape with traditional architecture](/images/bali-Bucket-list-Destinations-pangea-data-article.webp)
+
 **📌 79 wishlists | 39 planned trips | #1 most wishlisted city**
 
 Though Bali isn't new to the digital nomad scene, it remains one of the most popular destinations. With its vibrant spiritual vibe, lush landscapes, and thriving coworking culture, it remains a top pick, especially for creative and wellness-focused nomads.
 
-It's also the single most wishlisted city in the Pangea app, with more planned trips than anywhere else.
+It's also the single most wishlisted city in the [Pangea app](https://www.thepangea.app/), with more planned trips than anywhere else.
 
 **Why it's trending:** Affordability, wellness culture, strong expat base  
 **Best for:** Creatives, coaches, entrepreneurs  
 **Make it work-friendly:** Canggu and Ubud are classic hubs, but Pererenan and Sanur offer a quieter pace with the same great infrastructure.
 
 ### 🇿🇦 Cape Town, South Africa – City Meets Beach: Nomad Paradise
+
+![Cape Town cityscape with Table Mountain and harbor](/images/cape-town-Bucket-list-Destinations-pangea-data-article.webp)
 
 **📌 283 total trips | 35 planned trips | #2 most wishlisted city**
 
@@ -67,6 +73,8 @@ Cape Town is a nomad classic that's growing rapidly in popularity. With absolute
 **Make it work-friendly:** Coworking/living spaces in Sea Point & Gardens make it easy to meet other nomads.
 
 ### 🇵🇹 Lisbon, Portugal – Europe's Nomad Hub
+
+![Lisbon colorful buildings along the waterfront with traditional trams](/images/lisbon-Bucket-list-Destinations-pangea-data-article.webp)
 
 **📌 184 total trips | 32 trips planned | 4th most popular future destination**
 
@@ -80,6 +88,8 @@ It consistently ranks in the top 5 destinations where nomads are actively planni
 
 ### 🇹🇭 Thailand – The Classic That Still Checks Every Box
 
+![Thailand golden temples and tropical landscape with elephants](/images/thailand-Bucket-list-Destinations-pangea-data-article.webp)
+
 **📌 666 wishlists | 77 planned trips | Top 3 for 6/10 nationalities**
 
 Thailand continues to dominate wishlists and future plans alike. From laid-back Chiang Mai to the chaos of Bangkok and the calm of the islands, there's a rhythm for every kind of remote worker here - and the cost of living is still hard to beat.
@@ -89,6 +99,8 @@ Thailand continues to dominate wishlists and future plans alike. From laid-back 
 **Make it work-friendly:** Chiang Mai remains a top coworking hotspot, while Koh Phangan and Krabi are gaining traction for work-from-paradise types.
 
 ### 🇮🇹 Italy – The Destination Getting a Remote Work Rethink
+
+![Italy hillside town with traditional architecture and mountains](/images/italy-Bucket-list-Destinations-pangea-data-article.webp)
 
 **📌 #4 on the global wishlist (610 adds) | Europe's top 3 for upcoming nomad plans (99 trips and counting)**
 
@@ -106,11 +118,13 @@ Beyond the regular bucket-list spots, the five Central Asian countries; Kazakhst
 
 **Madeira** is quickly carving out its place as one of Europe's most exciting digital nomad hubs. With its year-round mild weather, fast internet, and growing coliving/coworking ecosystem, it's becoming a go-to spot for remote workers who want both adventure and a tight-knit community.
 
-Meanwhile, **Australia and New Zealand** are showing massive demand among nomads worldwide – with almost 1,000 wishlist adds in the Pangea app. While these countries remain underrepresented in group nomad travel programs right now, this data highlights a huge gap in the market. The combination of high quality of life, stunning nature, and modern infrastructure makes Aus/NZ a dream destination for those willing to venture further afield.
+*Want to learn more about what makes Madeira special for digital nomads? [Watch our video](https://www.youtube.com/watch?v=NgG92Q8Uxgg&t=1130s) for in-depth insights on why nomads are choosing this Portuguese island paradise.*
+
+Meanwhile, **Australia and New Zealand** are showing massive demand among nomads worldwide – with almost 1,000 wishlist adds in the [Pangea app](https://www.thepangea.app/). While these countries remain underrepresented in group nomad travel programs right now, this data highlights a huge gap in the market. The combination of high quality of life, stunning nature, and modern infrastructure makes Aus/NZ a dream destination for those willing to venture further afield.
 
 ## 🗺 Where the World Wants to Go: Top wishlist destinations by nationality
 
-Where you're from often shapes your travel inspo. According to wishlist data from Pangea, where nomads are from plays a big role in where they want to go. Here's what Pangea's top wishlist destinations by nationality show:
+Where you're from often shapes your travel inspo. According to wishlist data from [Pangea](https://www.thepangea.app/), where nomads are from plays a big role in where they want to go. Here's what [Pangea's](https://www.thepangea.app/) top wishlist destinations by nationality show:
 
 | User Nationality | Top Wishlist Destinations |
 |------------------|---------------------------|
@@ -135,3 +149,7 @@ The lines between vacation, lifestyle, and career are blurring. Nomads in 2025 a
 So whether you're dreaming of cherry blossoms in Kyoto, coworking in a Lisbon café, or finding your tribe in the mountains of Kyrgyzstan, now is the time to rethink what your remote lifestyle could look like. The map is wide open, and the future of work isn't tied to a desk, but to the destinations that inspire us.
 
 **Where will you go next?**
+
+---
+
+Ready to connect with fellow nomads heading to these destinations? [Find your travel tribe on Pangea](https://www.thepangea.app/).
