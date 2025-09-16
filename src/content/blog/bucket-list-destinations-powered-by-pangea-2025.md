@@ -7,11 +7,11 @@ author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-09-15T10:00:00.000Z
 updated_at: 2025-09-15T10:00:00.000Z
-head_image: https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2835&q=80
+head_image: /images/thumbnail1-Bucket-list-Destinations-pangea-data-article.webp
 head_image_alt: Digital nomads planning travel destinations
 keywords: digital nomad destinations 2025, Pangea app data, bucket list travel, remote work destinations, nomad hotspots, Japan nomad destination, Bali digital nomads, Cape Town nomads
 tag: Digital, Travel, Destinations, Data
-published: false
+published: true
 locale: en
 next_blog: ''
 ---
