@@ -41,10 +41,15 @@ if (relatedPosts.length < 3) {
 const finalRelatedPosts = relatedPosts.slice(0, 3)
 
 // SEO configuration for blog post
+// Use head_image if available, otherwise heroImage, otherwise fallback
+const socialImage = post.data.heroImage 
+  ? (post.data.heroImage.startsWith('http') ? post.data.heroImage : `${Astro.site}${post.data.heroImage.startsWith('/') ? post.data.heroImage.slice(1) : post.data.heroImage}`)
+  : `${Astro.site}images/edition-003-cover_holded_front_face.webp`
+
 const seo: SEOProps = {
   title: post.data.title,
   description: post.data.description,
-  image: post.data.heroImage || `${Astro.site}images/edition-003-cover_holded_front_face.webp`,
+  image: socialImage,
   keywords: post.data.keywords || 'digital nomad, remote work, travel, nomad lifestyle',
   ogType: 'article',
   publishedTime: post.data.pubDate?.toISOString(),
@@ -57,7 +62,7 @@ const seo: SEOProps = {
     '@type': 'BlogPosting',
     headline: post.data.title,
     description: post.data.description,
-    image: post.data.heroImage || `${Astro.site}images/edition-003-cover_holded_front_face.webp`,
+    image: socialImage,
     author: {
       '@type': 'Person',
       name: post.data.author || 'Martin Donadieu',
