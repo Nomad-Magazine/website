@@ -6,8 +6,8 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-03-19T20:41:09.172Z
-updated_at: 2025-03-19T20:41:20.456Z
-head_image: https://assets.seobotai.com/nomadgossip.com/67db258d8d9574929cf0dc04-1742416880456.jpg
+updated_at: 2025-09-16T13:37:00.515Z
+head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/67db258d8d9574929cf0dc04-1742416880456.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: Barcelona, digital nomads, remote work, cafes, coworking spaces, neighborhoods, living costs, expat visa
 tag: Digital, Expat, Travel
@@ -148,7 +148,7 @@ Barcelona is also budget-friendly for day-to-day living. Excluding rent, it's 44
 
 ### 2025 Visa Information
 
-Spain's digital nomad visa makes relocating to Barcelona simpler. This visa is valid for one year, and you can extend your stay with a residence permit for up to three years, renewable in two-year increments [\[9\]](https://www.barcelona.cat/internationalwelcome/en/residency-digital-nomads-visa-and-permit). To qualify, you must work remotely for companies based outside of Spain.
+[Spain's digital nomad visa](https://sekretyhiszpanii.pl) makes relocating to Barcelona simpler. This visa is valid for one year, and you can extend your stay with a residence permit for up to three years, renewable in two-year increments [\[9\]](https://www.barcelona.cat/internationalwelcome/en/residency-digital-nomads-visa-and-permit). To qualify, you must work remotely for companies based outside of Spain.
 
 Here’s what you’ll need for the 2025 digital nomad visa:
 
