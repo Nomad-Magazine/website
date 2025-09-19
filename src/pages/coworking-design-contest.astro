@@ -40,7 +40,7 @@ const distributionCoworkingSpaces = distributionRecords
     id: record.s9744d6c51 ? `coming_${record.id}` : `dist_${record.id}`,
     name: record.title,
     description: record.scea90e502 || (record.s9744d6c51 ? 'Coming soon to this location.' : 'A great coworking space for digital nomads.'),
-    description_markdown: record.description_markdown || record.scea90e502 || null,
+    description_markdown: record.description_markdown || null,
     location: record.sed1a49986 || 'Location not specified',
     city: record.sed1a49986?.split(',')[0]?.trim() || 'Unknown',
     country: record.sed1a49986?.split(',').slice(-1)[0]?.trim() || 'Unknown',
@@ -480,7 +480,8 @@ const seo: SEOProps = {
           <p class="text-sm text-neutral-300 mb-4 line-clamp-3 cursor-pointer hover:text-yellow-400 transition-colors description-text" 
              data-space-id="${space.id}" 
              data-space-name="${space.name}"
-             data-full-description="${space.description_markdown ? space.description_markdown.replace(/"/g, '&quot;') : (space.description ? space.description.replace(/"/g, '&quot;') : '')}"
+             data-description="${space.description ? space.description.replace(/"/g, '&quot;') : ''}"
+             data-description-markdown="${space.description_markdown ? space.description_markdown.replace(/"/g, '&quot;') : ''}"
              title="Click to read full description">
             ${space.description}
           </p>
@@ -649,10 +650,13 @@ const seo: SEOProps = {
         e.preventDefault();
         e.stopPropagation();
         const spaceName = desc.dataset.spaceName;
-        const fullDescription = desc.dataset.fullDescription;
+        const description = desc.dataset.description;
+        const descriptionMarkdown = desc.dataset.descriptionMarkdown;
         
-        if (fullDescription && fullDescription.trim() && window.openDescriptionModal) {
-          window.openDescriptionModal(spaceName, fullDescription);
+        if ((description && description.trim()) || (descriptionMarkdown && descriptionMarkdown.trim())) {
+          if (window.openDescriptionModal) {
+            window.openDescriptionModal(spaceName, description, descriptionMarkdown);
+          }
         }
       });
     });

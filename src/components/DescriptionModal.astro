@@ -22,7 +22,7 @@ const { id = 'description-modal' } = Astro.props;
       </button>
       
       <!-- Modal Content -->
-      <div class="bg-neutral-900 rounded-lg p-6 max-h-full overflow-y-auto">
+      <div class="bg-neutral-700 rounded-lg p-6 max-h-full overflow-y-auto">
         <!-- Title -->
         <h2 id="description-modal-title" class="text-2xl font-bold text-white mb-4"></h2>
         
@@ -39,8 +39,8 @@ const { id = 'description-modal' } = Astro.props;
   // Description Modal functionality
   let currentDescriptionModal = { spaceName: '', description: '' };
 
-  function openDescriptionModal(spaceName, description) {
-    currentDescriptionModal = { spaceName, description };
+  function openDescriptionModal(spaceName, description, descriptionMarkdown) {
+    currentDescriptionModal = { spaceName, description, descriptionMarkdown };
     const modal = document.getElementById('description-modal');
     const modalTitle = document.getElementById('description-modal-title');
     const modalContent = document.getElementById('description-modal-content');
@@ -48,9 +48,28 @@ const { id = 'description-modal' } = Astro.props;
     if (modal && modalTitle && modalContent) {
       modalTitle.textContent = spaceName;
       
-      // Convert markdown to HTML (simple conversion)
-      const htmlContent = convertMarkdownToHtml(description);
-      modalContent.innerHTML = htmlContent;
+      let htmlContent = '';
+      
+      // Add regular description if available
+      if (description && description.trim()) {
+        htmlContent += `
+          <div class="mb-6">
+            <div class="text-gray-100 leading-relaxed text-base">${description}</div>
+          </div>
+        `;
+      }
+      
+      // Add markdown description if available and different from regular description
+      if (descriptionMarkdown && descriptionMarkdown.trim() && descriptionMarkdown !== description) {
+        const markdownHtml = convertMarkdownToHtml(descriptionMarkdown);
+        htmlContent += `
+          <div class="mb-6">
+            <div>${markdownHtml}</div>
+          </div>
+        `;
+      }
+      
+      modalContent.innerHTML = htmlContent || '<p class="text-neutral-400">No description available.</p>';
       
       modal.classList.remove('hidden');
       document.body.style.overflow = 'hidden';
@@ -69,28 +88,58 @@ const { id = 'description-modal' } = Astro.props;
   function convertMarkdownToHtml(markdown) {
     if (!markdown) return '';
     
+    console.log('Original markdown:', markdown);
+    
+    // First, convert escaped newlines to actual newlines
+    markdown = markdown.replace(/\\n/g, '\n');
+    
+    console.log('After unescaping newlines:', markdown);
+    
     let html = markdown
-      // Headers
+      // Headers first
       .replace(/^### (.*$)/gim, '<h3 class="text-lg font-bold text-white mt-6 mb-3">$1</h3>')
       .replace(/^## (.*$)/gim, '<h2 class="text-xl font-bold text-white mt-6 mb-4">$1</h2>')
       .replace(/^# (.*$)/gim, '<h1 class="text-2xl font-bold text-white mt-6 mb-4">$1</h1>')
       
       // Bold and Italic
       .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-white">$1</strong>')
-      .replace(/\*(.*?)\*/g, '<em class="italic text-neutral-300">$1</em>')
+      .replace(/\*(.*?)\*/g, '<em class="italic text-neutral-100">$1</em>')
       
       // Links
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-yellow-400 hover:text-yellow-300 underline">$1</a>')
-      
-      // Line breaks
-      .replace(/\n\n/g, '</p><p class="text-neutral-300 mb-4">')
-      .replace(/\n/g, '<br>');
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-yellow-400 hover:text-yellow-300 underline">$1</a>');
     
-    // Wrap in paragraph tags if not already wrapped
-    if (!html.startsWith('<h') && !html.startsWith('<p')) {
-      html = '<p class="text-neutral-300 mb-4">' + html + '</p>';
+    // Now handle paragraph breaks more intelligently
+    if (html.includes('\n\n')) {
+      // Has double line breaks - use those for paragraphs
+      html = html.split(/\n\s*\n/).map(para => {
+        if (!para.trim()) return '';
+        if (para.trim().startsWith('<h')) return para.trim();
+        return `<p class="text-gray-100 mb-4 leading-relaxed text-base">${para.trim().replace(/\n/g, '<br>')}</p>`;
+      }).filter(p => p).join('');
+    } else if (html.includes('\n')) {
+      // Has single line breaks - treat each as a new paragraph or use sentence detection
+      const sentences = html.split(/(?<=[.!?])\s*\n/);
+      if (sentences.length > 1) {
+        html = sentences.map(sentence => {
+          if (!sentence.trim()) return '';
+          if (sentence.trim().startsWith('<h')) return sentence.trim();
+          return `<p class="text-gray-100 mb-4 leading-relaxed text-base">${sentence.trim()}</p>`;
+        }).filter(p => p).join('');
+      } else {
+        // Try splitting long text by sentence endings followed by capital letters
+        html = html.replace(/([.!?])\s+([A-Z])/g, '$1</p><p class="text-gray-100 mb-4 leading-relaxed text-base">$2');
+        if (!html.startsWith('<h') && !html.startsWith('<p')) {
+          html = `<p class="text-gray-100 mb-4 leading-relaxed text-base">${html}</p>`;
+        }
+      }
+    } else {
+      // No line breaks - wrap in single paragraph
+      if (!html.startsWith('<h') && !html.startsWith('<p')) {
+        html = `<p class="text-gray-100 mb-4 leading-relaxed text-base">${html}</p>`;
+      }
     }
     
+    console.log('Final HTML:', html);
     return html;
   }
 
@@ -148,7 +197,8 @@ const { id = 'description-modal' } = Astro.props;
 
   /* Custom prose styles for dark theme */
   .prose.prose-invert {
-    color: #d1d5db;
+    color: #f9fafb;
+    line-height: 1.7;
   }
 
   .prose.prose-invert h1,
@@ -172,7 +222,13 @@ const { id = 'description-modal' } = Astro.props;
   }
 
   .prose.prose-invert em {
-    color: #d1d5db;
+    color: #f9fafb;
+  }
+
+  .prose.prose-invert p {
+    color: #f9fafb;
+    margin-bottom: 1rem;
+    font-size: 1rem;
   }
 
   /* Scrollbar styling */
