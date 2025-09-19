@@ -232,13 +232,28 @@ async function fetchReportRecords(globalCacheJSON, reportId) {
   if (responseJSON.records) {
     console.log('Fetching images for records...')
     await processBatch(responseJSON.records, async (record) => {
-      const handle = record.sc584fdf36?.[0]?.handle
-      if (handle) {
-        try {
-          const imageUrl = await fetchImageUrlFromHandle(handle)
-          if (imageUrl) record.image = imageUrl
-        } catch (error) {
-          console.error(`Error fetching image for record ${record.id}:`, error)
+      const imageHandles = record.sc584fdf36 || []
+      if (imageHandles.length > 0) {
+        // Fetch all images, handling individual failures gracefully
+        const imageUrls = []
+        for (const imageObj of imageHandles) {
+          if (imageObj?.handle) {
+            try {
+              const imageUrl = await fetchImageUrlFromHandle(imageObj.handle)
+              if (imageUrl) {
+                imageUrls.push(imageUrl)
+              }
+            } catch (error) {
+              console.error(`Error fetching image with handle ${imageObj.handle} for record ${record.id}:`, error)
+              // Continue processing other images
+            }
+          }
+        }
+        
+        // Set the first image as the main image and all images in the images array
+        if (imageUrls.length > 0) {
+          record.image = imageUrls[0] // Keep first image in main image field
+          record.images = imageUrls   // Store all images in images array
         }
       }
     })
