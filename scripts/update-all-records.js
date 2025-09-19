@@ -1,6 +1,6 @@
 import { writeFileSync } from 'node:fs'
 import path from 'node:path'
-import { convertSmartDocToMarkdown } from './smartdoc-converter.js'
+import { convertAllSmartDocFields } from './smartdoc-converter.js'
 
 const SMART_SUITE_APIKEY = process.env.SMART_SUITE_APIKEY ?? ''
 const SMART_SUITE_ACCOUNT_ID = process.env.SMART_SUITE_ACCOUNT_ID ?? ''
@@ -188,19 +188,23 @@ async function fetchGlobalCache() {
 
   const responseJSON = await response.json()
   
-  // Convert SmartDoc descriptions to Markdown for all records
+  // Convert SmartDoc fields to Markdown for all records
   if (responseJSON.items && Array.isArray(responseJSON.items)) {
-    console.log('Converting SmartDoc descriptions to Markdown...')
-    responseJSON.items.forEach((record, index) => {
-      if (record.description && typeof record.description === 'object') {
-        try {
-          record.description_markdown = convertSmartDocToMarkdown(record.description)
-        } catch (error) {
-          console.error(`Error converting SmartDoc to Markdown for record ${record.id}:`, error)
-          // Keep original description as fallback
-        }
+    console.log('Converting SmartDoc fields to Markdown...')
+    let totalConverted = 0
+    responseJSON.items.forEach((record) => {
+      try {
+        const convertedFields = convertAllSmartDocFields(record)
+        Object.assign(record, convertedFields)
+        totalConverted += Object.keys(convertedFields).length
+      } catch (error) {
+        console.error(`Error converting SmartDoc fields to Markdown for record ${record.id}:`, error)
+        // Keep original fields as fallback
       }
     })
+    if (totalConverted > 0) {
+      console.log(`Converted ${totalConverted} SmartDoc fields to Markdown across all records`)
+    }
   }
   
   writeFileSync(CACHE_PATH('global'), JSON.stringify(responseJSON, null, 0), 'utf-8')
@@ -242,14 +246,13 @@ async function fetchReportRecords(globalCacheJSON, reportId) {
       if (recordFromGlobalCache) {
         responseJSON.records[idx] = recordFromGlobalCache
       } else {
-        // Convert SmartDoc description for records not in global cache
-        if (record.description && typeof record.description === 'object') {
-          try {
-            record.description_markdown = convertSmartDocToMarkdown(record.description)
-          } catch (error) {
-            console.error(`Error converting SmartDoc to Markdown for record ${record.id}:`, error)
-            // Keep original description as fallback
-          }
+        // Convert SmartDoc fields for records not in global cache
+        try {
+          const convertedFields = convertAllSmartDocFields(record)
+          Object.assign(record, convertedFields)
+        } catch (error) {
+          console.error(`Error converting SmartDoc fields to Markdown for record ${record.id}:`, error)
+          // Keep original fields as fallback
         }
       }
     }

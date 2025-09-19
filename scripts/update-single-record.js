@@ -1,6 +1,6 @@
 import { writeFileSync, readFileSync, existsSync } from 'node:fs'
 import path from 'node:path'
-import { convertSmartDocToMarkdown } from './smartdoc-converter.js'
+import { convertAllSmartDocFields } from './smartdoc-converter.js'
 
 const SMART_SUITE_APIKEY = process.env.SMART_SUITE_APIKEY
 const SMART_SUITE_ACCOUNT_ID = process.env.SMART_SUITE_ACCOUNT_ID
@@ -50,15 +50,17 @@ async function updateSingleRecord(recordId, reportId) {
   // Fetch the single record
   const record = await fetchSingleRecord(recordId)
 
-  // Convert SmartDoc description field to Markdown if it exists
-  if (record.description && typeof record.description === 'object') {
-    try {
-      record.description_markdown = convertSmartDocToMarkdown(record.description)
-      console.log(`Converted SmartDoc description to Markdown for record ${recordId}`)
-    } catch (error) {
-      console.error(`Error converting SmartDoc to Markdown for record ${recordId}:`, error)
-      // Keep original description as fallback
+  // Convert all SmartDoc fields to Markdown
+  try {
+    const convertedFields = convertAllSmartDocFields(record)
+    Object.assign(record, convertedFields)
+    
+    if (Object.keys(convertedFields).length > 0) {
+      console.log(`Converted ${Object.keys(convertedFields).length} SmartDoc fields to Markdown for record ${recordId}`)
     }
+  } catch (error) {
+    console.error(`Error converting SmartDoc fields to Markdown for record ${recordId}:`, error)
+    // Keep original fields as fallback
   }
 
   // Fetch images if available

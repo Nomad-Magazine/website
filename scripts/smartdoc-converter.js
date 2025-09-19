@@ -4,18 +4,65 @@
  */
 
 export function convertSmartDocToMarkdown(smartDoc) {
-  if (!smartDoc || !smartDoc.data || !smartDoc.data.content) {
+  if (!smartDoc || !smartDoc.data) {
+    return ''
+  }
+
+  // If content is empty but html exists, try to use that
+  if (!smartDoc.data.content || smartDoc.data.content.length === 0) {
+    if (smartDoc.html && smartDoc.html.trim()) {
+      // Convert HTML to a simple text approximation
+      return smartDoc.html
+        .replace(/<br\s*\/?>/gi, '\n')
+        .replace(/<p[^>]*>/gi, '\n')
+        .replace(/<\/p>/gi, '\n')
+        .replace(/<[^>]+>/g, '')
+        .replace(/\n\s*\n/g, '\n\n')
+        .trim()
+    }
+    
+    // If preview exists, use that
+    if (smartDoc.preview && smartDoc.preview.trim()) {
+      return smartDoc.preview.trim()
+    }
+    
     return ''
   }
 
   return processContentArray(smartDoc.data.content)
 }
 
+// Helper function to convert all SmartDoc fields in a record
+export function convertAllSmartDocFields(record) {
+  const convertedFields = {}
+  
+  for (const [fieldName, fieldValue] of Object.entries(record)) {
+    if (isSmartDocField(fieldValue)) {
+      const markdown = convertSmartDocToMarkdown(fieldValue)
+      if (markdown) {
+        convertedFields[`${fieldName}_markdown`] = markdown
+      }
+    }
+  }
+  
+  return convertedFields
+}
+
+// Helper function to detect if a field contains SmartDoc data
+function isSmartDocField(value) {
+  return value && 
+         typeof value === 'object' && 
+         value.data && 
+         typeof value.data === 'object' && 
+         value.data.type === 'doc' &&
+         (value.data.content !== undefined || value.html !== undefined || value.preview !== undefined)
+}
+
 function processContentArray(contentArray) {
   if (!Array.isArray(contentArray)) {
     return ''
   }
-
+  
   return contentArray.map(processContentObject).join('')
 }
 
@@ -23,71 +70,71 @@ function processContentObject(obj) {
   if (!obj || !obj.type) {
     return ''
   }
-
+  
   switch (obj.type) {
     case 'paragraph':
       return processParagraph(obj)
-    
+      
     case 'heading':
       return processHeading(obj)
-    
+      
     case 'text':
       return processText(obj)
-    
+      
     case 'bullet_list':
       return processBulletList(obj)
-    
+      
     case 'ordered_list':
       return processOrderedList(obj)
-    
+      
     case 'list_item':
       return processListItem(obj)
-    
+      
     case 'table':
       return processTable(obj)
-    
+      
     case 'table_row':
       return processTableRow(obj)
-    
+      
     case 'table_header':
       return processTableHeader(obj)
-    
+      
     case 'table_cell':
       return processTableCell(obj)
-    
+      
     case 'code_block':
       return processCodeBlock(obj)
-    
+      
     case 'blockquote':
       return processBlockquote(obj)
-    
+      
     case 'hard_break':
       return '\n'
-    
+      
     case 'horizontal_rule':
       return '\n---\n\n'
-    
+      
     case 'check_list':
       return processCheckList(obj)
-    
+      
     case 'check_list_item':
       return processCheckListItem(obj)
-    
+      
     case 'mention':
       return processMention(obj)
-    
+      
     case 'attachment':
       return processAttachment(obj)
-    
+      
     case 'image':
       return processImage(obj)
-    
+      
     case 'callout':
       return processCallout(obj)
-    
+      
     case 'toc':
       return processTableOfContents(obj)
-    
+      
     default:
       // For unknown types, try to process content if it exists
       if (obj.content) {
@@ -133,38 +180,38 @@ function applyTextMark(text, mark) {
   switch (mark.type) {
     case 'bold':
       return `**${text}**`
-    
+      
     case 'italic':
       return `*${text}*`
-    
+      
     case 'underline':
       return `<u>${text}</u>`
-    
+      
     case 'strike':
       return `~~${text}~~`
-    
+      
     case 'code':
       return `\`${text}\``
-    
+      
     case 'link':
       const href = mark.attrs?.href || '#'
       const title = mark.attrs?.title ? ` "${mark.attrs.title}"` : ''
       return `[${text}](${href}${title})`
-    
+      
     case 'color':
       const color = mark.attrs?.color
       if (color) {
         return `<span style="color: ${color}">${text}</span>`
       }
       return text
-    
+      
     case 'highlight':
       const backgroundColor = mark.attrs?.color || mark.attrs?.backgroundColor
       if (backgroundColor) {
         return `<mark style="background-color: ${backgroundColor}">${text}</mark>`
       }
       return `<mark>${text}</mark>`
-    
+      
     default:
       return text
   }
@@ -300,4 +347,3 @@ function processTableOfContents(obj) {
   // We'll just add a placeholder
   return `## Table of Contents\n\n*[Table of contents will be generated automatically]*\n\n`
 }
-
