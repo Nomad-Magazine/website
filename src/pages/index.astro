@@ -38,10 +38,10 @@ const latestPosts = allPosts
   })
   .slice(0, 3)
 
-// Get first 3 featured directory entries (excluding entries without required fields)
-const featuredDirectoryEntries = records
+// Get first 6 directory entries for regular display (excluding entries without required fields)
+const regularDirectoryEntries = records
   .filter((record: any) => record.sf4ad525dd && record.title && record.scea90e502)
-  .slice(0, 3)
+  .slice(0, 6)
   .map((record: any, index: number) => ({
     title: record.title,
     description: record.scea90e502,
@@ -49,6 +49,24 @@ const featuredDirectoryEntries = records
     link: record.link || record.sb788c266b?.[0] || '/nomad_directory',
     image: record.image,
     isSupporter: record.supporter || record.monthly_supporter || record.is_supporter || record.supporter_status === 'Monthly Supporter'
+  }))
+
+// Get featured directory entries (supporters only)
+const featuredDirectoryEntries = records
+  .filter((record: any) => 
+    record.sf4ad525dd && 
+    record.title && 
+    record.scea90e502 && 
+    (record.supporter || record.monthly_supporter || record.is_supporter || record.supporter_status === 'Monthly Supporter')
+  )
+  .slice(0, 3)
+  .map((record: any, index: number) => ({
+    title: record.title,
+    description: record.scea90e502,
+    category: record.sb685ab800?.label || 'Service',
+    link: record.link || record.sb788c266b?.[0] || '/nomad_directory',
+    image: record.image,
+    isSupporter: true
   }))
 
 // YouTube channel videos
@@ -213,8 +231,81 @@ const seo: SEOProps = {
           </a>
         </div>
         
+        <!-- Featured Supporters Section -->
+        {featuredDirectoryEntries.length > 0 && (
+          <div class="mb-12">
+            <div class="mb-6 flex items-center gap-3">
+              <h3 class="text-xl font-bold text-white">Featured Supporters</h3>
+              <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" class="text-red-500">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            </div>
+            
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mb-12">
+              {featuredDirectoryEntries.map((entry: any, index: number) => (
+                <div class="group relative overflow-hidden rounded-2xl transition-all hover:scale-105 bg-gradient-to-br from-red-600/20 to-red-700/20 hover:from-red-600/30 hover:to-red-700/30 border border-red-500/30">
+                  <div class="p-6">
+                    <div class="mb-4 flex items-center gap-3">
+                      <div class={`flex h-16 w-16 items-center justify-center rounded-lg ${
+                        entry.title?.toLowerCase().includes('naio') || entry.title?.toLowerCase().includes('italia nomad fest') || entry.title?.toLowerCase().includes('inf')
+                          ? 'bg-white' 
+                          : 'bg-white'
+                      }`}>
+                        {entry.image && entry.image !== '/logo.svg' ? (
+                          <img 
+                            src={entry.image} 
+                            alt={entry.title} 
+                            class="w-full h-full rounded object-contain"
+                          />
+                        ) : (
+                          <span class="font-bold text-black text-xl">
+                            {entry.title.charAt(0).toUpperCase()}
+                          </span>
+                        )}
+                      </div>
+                      <div>
+                        <div class="flex items-center gap-2">
+                          <h3 class="text-lg font-bold text-white">{entry.title}</h3>
+                          <span class="inline-flex items-center gap-1 bg-gradient-to-r from-red-600 to-red-700 text-white px-2 py-0.5 rounded-full text-xs font-bold">
+                            <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
+                            Supporter
+                          </span>
+                        </div>
+                        <span class={`inline-block rounded-full px-2 py-1 text-xs ${
+                          entry.category === 'Insurance' ? 'bg-blue-500/20 text-blue-300' :
+                          entry.category === 'Community' ? 'bg-green-500/20 text-green-300' :
+                          entry.category === 'Platform' ? 'bg-purple-500/20 text-purple-300' :
+                          entry.category === 'Events' ? 'bg-orange-500/20 text-orange-300' :
+                          entry.category === 'App' ? 'bg-indigo-500/20 text-indigo-300' :
+                          'bg-gray-500/20 text-gray-300'
+                        }`}>
+                          {entry.category}
+                        </span>
+                      </div>
+                    </div>
+                    <p class="text-sm text-neutral-300 mb-4 line-clamp-3">
+                      {entry.description}
+                    </p>
+                    <a 
+                      href={entry.link}
+                      target={entry.link.startsWith('http') ? '_blank' : '_self'}
+                      rel={entry.link.startsWith('http') ? 'noopener noreferrer' : undefined}
+                      class="inline-flex items-center text-red-400 text-sm font-medium hover:text-red-300"
+                    >
+                      Learn more →
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        
+        <!-- Regular Directory Entries -->
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {featuredDirectoryEntries.map((entry: any, index: number) => (
+          {regularDirectoryEntries.map((entry: any, index: number) => (
             <div class={`group relative overflow-hidden rounded-2xl transition-all hover:scale-105 ${
               index === 0 
                 ? 'bg-gradient-to-br from-yellow-500/20 to-orange-500/20 hover:from-yellow-500/30 hover:to-orange-500/30' 
@@ -222,7 +313,11 @@ const seo: SEOProps = {
             }`}>
               <div class="p-6">
                 <div class="mb-4 flex items-center gap-3">
-                  <div class="flex h-16 w-16 items-center justify-center rounded-lg bg-white">
+                  <div class={`flex h-16 w-16 items-center justify-center rounded-lg ${
+                    entry.title?.toLowerCase().includes('naio') || entry.title?.toLowerCase().includes('italia nomad fest') || entry.title?.toLowerCase().includes('inf')
+                      ? 'bg-white' 
+                      : 'bg-white'
+                  }`}>
                     {entry.image && entry.image !== '/logo.svg' ? (
                       <img 
                         src={entry.image} 
@@ -250,6 +345,8 @@ const seo: SEOProps = {
                       entry.category === 'Insurance' ? 'bg-blue-500/20 text-blue-300' :
                       entry.category === 'Community' ? 'bg-green-500/20 text-green-300' :
                       entry.category === 'Platform' ? 'bg-purple-500/20 text-purple-300' :
+                      entry.category === 'Events' ? 'bg-orange-500/20 text-orange-300' :
+                      entry.category === 'App' ? 'bg-indigo-500/20 text-indigo-300' :
                       'bg-gray-500/20 text-gray-300'
                     }`}>
                       {entry.category}
