@@ -3,6 +3,7 @@ export const prerender = true;
 
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import ImageModal from '~/components/ImageModal.astro'
+import DescriptionModal from '~/components/DescriptionModal.astro'
 import { supabaseUrl, supabaseAnonKey } from '~/utils/supabase'
 import { fetchReportRecords } from '~/utils/smartsuite'
 
@@ -23,6 +24,7 @@ console.log('DEBUG: Sample record image fields:', distributionRecords[0] ? {
   sf4ad525dd: distributionRecords[0].sf4ad525dd,
   s4ad525dd: distributionRecords[0].s4ad525dd
 } : 'No records')
+console.log('DEBUG: Sample record description fields:', distributionRecords[0] ? Object.keys(distributionRecords[0]).filter(key => key.toLowerCase().includes('description') || key.toLowerCase().includes('markdown')) : 'No records')
 
 // Filter and transform distribution coworking spaces
 const allCoworkingRecords = distributionRecords.filter((record: any) => record.sb685ab800?.label === 'Coworking')
@@ -38,6 +40,7 @@ const distributionCoworkingSpaces = distributionRecords
     id: record.s9744d6c51 ? `coming_${record.id}` : `dist_${record.id}`,
     name: record.title,
     description: record.scea90e502 || (record.s9744d6c51 ? 'Coming soon to this location.' : 'A great coworking space for digital nomads.'),
+    description_markdown: record.description_markdown || record.scea90e502 || null,
     location: record.sed1a49986 || 'Location not specified',
     city: record.sed1a49986?.split(',')[0]?.trim() || 'Unknown',
     country: record.sed1a49986?.split(',').slice(-1)[0]?.trim() || 'Unknown',
@@ -241,6 +244,9 @@ const seo: SEOProps = {
 
     <!-- Image Modal Component -->
     <ImageModal />
+    
+    <!-- Description Modal Component -->
+    <DescriptionModal />
 
 
   </div>
@@ -409,7 +415,7 @@ const seo: SEOProps = {
       <div class="group relative overflow-hidden rounded-2xl bg-neutral-900/50 transition-all duration-300 hover:bg-neutral-900/80 hover:scale-105 hover:shadow-2xl flex flex-col h-full">
         
         <!-- Image Carousel -->
-        <div class="relative aspect-[4/3] overflow-hidden cursor-pointer">
+        <div class="image-container relative aspect-[4/3] overflow-hidden cursor-pointer">
           <div class="carousel-container" data-space-id="${space.id}">
             ${space.images && space.images.length > 0 ? 
               space.images.map((image, index) => `
@@ -471,7 +477,11 @@ const seo: SEOProps = {
             </button>
           </div>
 
-          <p class="text-sm text-neutral-300 mb-4 line-clamp-3">
+          <p class="text-sm text-neutral-300 mb-4 line-clamp-3 cursor-pointer hover:text-yellow-400 transition-colors description-text" 
+             data-space-id="${space.id}" 
+             data-space-name="${space.name}"
+             data-full-description="${space.description_markdown ? space.description_markdown.replace(/"/g, '&quot;') : (space.description ? space.description.replace(/"/g, '&quot;') : '')}"
+             title="Click to read full description">
             ${space.description}
           </p>
 
@@ -531,18 +541,31 @@ const seo: SEOProps = {
 
     setupCarousels();
     setupVoteButtons();
+    setupDescriptionClicks();
   }
 
   function setupCarousels() {
-    // Setup image modal clicks
-    document.querySelectorAll('.carousel-image').forEach(img => {
-      img.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const images = JSON.parse(img.dataset.images);
-        const index = parseInt(img.dataset.index);
-        const spaceName = img.dataset.spaceName;
-        if (window.openImageModal) {
-          window.openImageModal(spaceName, images, index);
+    // Setup image modal clicks on the image area containers
+    document.querySelectorAll('.image-container').forEach(container => {
+      container.addEventListener('click', (e) => {
+        // Don't trigger if clicking on navigation buttons or dots
+        if (e.target.classList.contains('carousel-prev') || 
+            e.target.classList.contains('carousel-next') || 
+            e.target.classList.contains('carousel-dot') ||
+            e.target.closest('.carousel-prev') ||
+            e.target.closest('.carousel-next') ||
+            e.target.closest('.carousel-dot')) {
+          return;
+        }
+        
+        // Find the visible image in this container
+        const visibleImage = container.querySelector('.carousel-image:not(.hidden)');
+        if (visibleImage && window.openImageModal) {
+          e.stopPropagation();
+          const images = JSON.parse(visibleImage.dataset.images);
+          const currentIndex = parseInt(visibleImage.dataset.index);
+          const spaceName = visibleImage.dataset.spaceName;
+          window.openImageModal(spaceName, images, currentIndex);
         }
       });
     });
@@ -616,6 +639,21 @@ const seo: SEOProps = {
         const spaceId = btn.dataset.spaceId; // Don't parseInt for string IDs
         console.log('Vote button clicked, space ID from dataset:', spaceId);
         await handleVote(spaceId, btn);
+      });
+    });
+  }
+
+  function setupDescriptionClicks() {
+    document.querySelectorAll('.description-text').forEach(desc => {
+      desc.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const spaceName = desc.dataset.spaceName;
+        const fullDescription = desc.dataset.fullDescription;
+        
+        if (fullDescription && fullDescription.trim() && window.openDescriptionModal) {
+          window.openDescriptionModal(spaceName, fullDescription);
+        }
       });
     });
   }
@@ -811,5 +849,21 @@ const seo: SEOProps = {
 /* Prevent text selection on interactive elements */
 .carousel-prev, .carousel-next, .carousel-dot {
   user-select: none;
+}
+
+/* Description text hover effects */
+.description-text {
+  position: relative;
+}
+
+.description-text:hover::after {
+  content: "Click to read full description";
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  font-size: 0.75rem;
+  color: #fbbf24;
+  opacity: 0.8;
+  pointer-events: none;
 }
 </style>

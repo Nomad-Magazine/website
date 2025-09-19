@@ -1,0 +1,196 @@
+---
+export interface Props {
+  id?: string;
+}
+
+const { id = 'description-modal' } = Astro.props;
+---
+
+<!-- Description Modal for Full Markdown View -->
+<div id={id} class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden">
+  <div class="flex items-center justify-center min-h-screen p-4">
+    <div class="relative max-w-4xl w-full max-h-[90vh] overflow-hidden">
+      <!-- Close Button -->
+      <button 
+        id="close-description-modal" 
+        class="absolute top-4 right-4 z-10 text-white hover:text-yellow-400 transition-colors duration-200 bg-black/50 rounded-full p-2"
+        aria-label="Close description modal"
+      >
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+      
+      <!-- Modal Content -->
+      <div class="bg-neutral-900 rounded-lg p-6 max-h-full overflow-y-auto">
+        <!-- Title -->
+        <h2 id="description-modal-title" class="text-2xl font-bold text-white mb-4"></h2>
+        
+        <!-- Description Content -->
+        <div id="description-modal-content" class="prose prose-invert max-w-none">
+          <!-- Markdown content will be rendered here -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  // Description Modal functionality
+  let currentDescriptionModal = { spaceName: '', description: '' };
+
+  function openDescriptionModal(spaceName, description) {
+    currentDescriptionModal = { spaceName, description };
+    const modal = document.getElementById('description-modal');
+    const modalTitle = document.getElementById('description-modal-title');
+    const modalContent = document.getElementById('description-modal-content');
+    
+    if (modal && modalTitle && modalContent) {
+      modalTitle.textContent = spaceName;
+      
+      // Convert markdown to HTML (simple conversion)
+      const htmlContent = convertMarkdownToHtml(description);
+      modalContent.innerHTML = htmlContent;
+      
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeDescriptionModal() {
+    const modal = document.getElementById('description-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+  }
+
+  // Simple markdown to HTML converter
+  function convertMarkdownToHtml(markdown) {
+    if (!markdown) return '';
+    
+    let html = markdown
+      // Headers
+      .replace(/^### (.*$)/gim, '<h3 class="text-lg font-bold text-white mt-6 mb-3">$1</h3>')
+      .replace(/^## (.*$)/gim, '<h2 class="text-xl font-bold text-white mt-6 mb-4">$1</h2>')
+      .replace(/^# (.*$)/gim, '<h1 class="text-2xl font-bold text-white mt-6 mb-4">$1</h1>')
+      
+      // Bold and Italic
+      .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-white">$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em class="italic text-neutral-300">$1</em>')
+      
+      // Links
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-yellow-400 hover:text-yellow-300 underline">$1</a>')
+      
+      // Line breaks
+      .replace(/\n\n/g, '</p><p class="text-neutral-300 mb-4">')
+      .replace(/\n/g, '<br>');
+    
+    // Wrap in paragraph tags if not already wrapped
+    if (!html.startsWith('<h') && !html.startsWith('<p')) {
+      html = '<p class="text-neutral-300 mb-4">' + html + '</p>';
+    }
+    
+    return html;
+  }
+
+  // Setup event listeners
+  function setupDescriptionModalListeners() {
+    const closeBtn = document.getElementById('close-description-modal');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeDescriptionModal);
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      const descriptionModal = document.getElementById('description-modal');
+      
+      if (descriptionModal && !descriptionModal.classList.contains('hidden')) {
+        if (e.key === 'Escape') closeDescriptionModal();
+      }
+    });
+
+    // Click outside modal to close
+    const modal = document.getElementById('description-modal');
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          closeDescriptionModal();
+        }
+      });
+    }
+  }
+
+  // Make functions globally available
+  window.openDescriptionModal = openDescriptionModal;
+  window.closeDescriptionModal = closeDescriptionModal;
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupDescriptionModalListeners);
+  } else {
+    setupDescriptionModalListeners();
+  }
+</script>
+
+<style>
+  /* Smooth transitions for modal */
+  #description-modal {
+    backdrop-filter: blur(4px);
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  /* Hover effects for close button */
+  #close-description-modal:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    transform: scale(1.1);
+  }
+
+  /* Custom prose styles for dark theme */
+  .prose.prose-invert {
+    color: #d1d5db;
+  }
+
+  .prose.prose-invert h1,
+  .prose.prose-invert h2,
+  .prose.prose-invert h3,
+  .prose.prose-invert h4 {
+    color: #ffffff;
+  }
+
+  .prose.prose-invert a {
+    color: #fbbf24;
+    text-decoration: underline;
+  }
+
+  .prose.prose-invert a:hover {
+    color: #fcd34d;
+  }
+
+  .prose.prose-invert strong {
+    color: #ffffff;
+  }
+
+  .prose.prose-invert em {
+    color: #d1d5db;
+  }
+
+  /* Scrollbar styling */
+  #description-modal .overflow-y-auto::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  #description-modal .overflow-y-auto::-webkit-scrollbar-track {
+    background: rgba(55, 65, 81, 0.5);
+    border-radius: 4px;
+  }
+
+  #description-modal .overflow-y-auto::-webkit-scrollbar-thumb {
+    background: rgba(156, 163, 175, 0.5);
+    border-radius: 4px;
+  }
+
+  #description-modal .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background: rgba(156, 163, 175, 0.8);
+  }
+</style>
