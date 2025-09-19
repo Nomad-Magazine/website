@@ -17,6 +17,12 @@ const { records: distributionRecords = [] } = await fetchReportRecords('68614a11
 
 console.log('DEBUG: Total records fetched:', distributionRecords.length)
 console.log('DEBUG: Sample record structure:', distributionRecords[0] ? Object.keys(distributionRecords[0]) : 'No records')
+console.log('DEBUG: Sample record image fields:', distributionRecords[0] ? {
+  image: distributionRecords[0].image,
+  images: distributionRecords[0].images,
+  sf4ad525dd: distributionRecords[0].sf4ad525dd,
+  s4ad525dd: distributionRecords[0].s4ad525dd
+} : 'No records')
 
 // Filter and transform distribution coworking spaces
 const allCoworkingRecords = distributionRecords.filter((record: any) => record.sb685ab800?.label === 'Coworking')
@@ -36,7 +42,21 @@ const distributionCoworkingSpaces = distributionRecords
     city: record.sed1a49986?.split(',')[0]?.trim() || 'Unknown',
     country: record.sed1a49986?.split(',').slice(-1)[0]?.trim() || 'Unknown',
     website_url: record.sb788c266b?.[0] || null,
-    images: record.image ? [record.image] : [],
+    images: (() => {
+      // Try multiple possible image fields
+      const imageFields = [
+        record.image,
+        record.images,
+        record.sf4ad525dd,
+        record.s4ad525dd
+      ].filter(Boolean);
+      
+      if (imageFields.length === 0) return [];
+      
+      // Flatten all image fields and remove duplicates
+      const allImages = imageFields.flat().filter(Boolean);
+      return [...new Set(allImages)];
+    })(),
     amenities: [],
     price_range: null,
     wifi_speed: null,
