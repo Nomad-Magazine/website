@@ -152,7 +152,7 @@ So whether you're dreaming of cherry blossoms in Kyoto, coworking in a Lisbon ca
 
 ## The Data Behind the Destinations
 
-![Pangea app screenshots showing nomad travel planning features](/images/PangeaApp-screenshot.jpeg)
+[![Pangea app screenshots showing nomad travel planning features](/images/PangeaApp-screenshot.jpeg)](https://www.thepangea.app/)
 
 All insights in this article are based on real data from the [Pangea app](https://www.thepangea.app/), where thousands of digital nomads plan their travels, connect with like-minded travelers, and discover their next adventure. From wishlists to confirmed trips, the app provides an authentic window into where the nomad community is actually heading.
 
