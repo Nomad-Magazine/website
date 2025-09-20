@@ -6,7 +6,7 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-03-13T20:00:12.333Z
-updated_at: 2025-09-04T15:36:25.689Z
+updated_at: 2025-09-19T13:40:19.425Z
 head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/67d30551e6555faf3aa772eb-1741896025160.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: digital nomad, remote work, publications, travel, entrepreneurship, productivity, community, freelancing
@@ -179,7 +179,7 @@ The podcast focuses on three major themes that resonate with remote entrepreneur
 | **Focus Area** | **Key Topics** | **Practical Examples** |
 | --- | --- | --- |
 | Remote Team Culture | Virtual communication, team retreats | Organizing retreats to improve team dynamics |
-| Business Systemization | Scaling strategies, operational efficiency | Applying frameworks like "Scaling Up" or "Traction" |
+| Business Systemization | Scaling strategies, [operational efficiency](https://www.hibambi.com) | Applying frameworks like "Scaling Up" or "Traction" |
 | Location Independence | Remote work locales, workspace solutions | Setting up productive remote workspaces |
 
 Host **Dan Andrews** highlights the importance of building a strong remote culture, calling it a cornerstone of sustainable business growth [\[7\]](https://tropicalmba.com/episodes/companyretreat/).
