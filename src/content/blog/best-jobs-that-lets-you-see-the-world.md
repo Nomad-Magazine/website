@@ -6,8 +6,8 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-04-26T15:55:41.799Z
-updated_at: 2025-04-26T15:56:29.556Z
-head_image: https://assets.seobotai.com/nomadgossip.com/680cf7285a08fca891799008-1745682989556.jpg
+updated_at: 2025-09-20T04:02:35.452Z
+head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/680cf7285a08fca891799008-1745682989556.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: travel jobs, work abroad, digital nomad, remote work, teaching English, freelance opportunities, tour guide, flight attendant
 tag: Career, Digital, Travel
@@ -488,7 +488,7 @@ Practical skills can also boost your chances of landing a role, such as:
 -   Fluency in foreign languages
 -   Cross-cultural communication abilities
 -   Project management experience
--   Emergency response training
+-   [Emergency response training](https://ehscareers.com)
 -   Technical expertise in areas like engineering, medicine, or technology
 
 If you're looking to build your knowledge, platforms like Coursera and edX offer courses tailored to humanitarian work [\[22\]](https://humanitariancareers.com/how-to-become-an-international-aid-worker/).
