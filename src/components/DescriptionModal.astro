@@ -59,15 +59,59 @@ const { id = 'description-modal' } = Astro.props;
         `;
       }
       
-      // Add markdown description if available and different from regular description
-      if (descriptionMarkdown && descriptionMarkdown.trim() && descriptionMarkdown !== description) {
-        const markdownHtml = convertMarkdownToHtml(descriptionMarkdown);
-        htmlContent += `
-          <div class="mb-6">
-            <div>${markdownHtml}</div>
-          </div>
-        `;
-      }
+                // Add markdown description if available and different from regular description
+                if (descriptionMarkdown && descriptionMarkdown.trim() && descriptionMarkdown !== description) {
+                  const markdownHtml = convertMarkdownToHtml(descriptionMarkdown);
+                  htmlContent += `
+                    <div class="mb-6">
+                      <div>${markdownHtml}</div>
+                    </div>
+                  `;
+                }
+                
+                // Add nominations section (MVP with example data)
+                htmlContent += `
+                  <div class="mt-8 pt-6 border-t border-neutral-600">
+                    <h3 class="text-lg font-bold text-white mb-4">Community Testimonials</h3>
+                    <div class="bg-neutral-800 rounded-lg p-6 border-l-4 border-yellow-400 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-neutral-600 scrollbar-track-neutral-800">
+                      <div class="space-y-4 text-gray-100 leading-relaxed">
+                        <div class="flex items-start">
+                          <div class="flex-shrink-0 w-2 h-2 bg-yellow-400 rounded-full mt-2 mr-3"></div>
+                          <div>
+                            <span class="font-semibold text-white">Vibrant Community:</span> Regular brunches and networking events create a strong sense of community and professional connection.
+                          </div>
+                        </div>
+                        <div class="flex items-start">
+                          <div class="flex-shrink-0 w-2 h-2 bg-yellow-400 rounded-full mt-2 mr-3"></div>
+                          <div>
+                            <span class="font-semibold text-white">Pet-Friendly:</span> It's one of the few places that welcome pets, making it a much more inclusive and enjoyable environment for animal lovers.
+                          </div>
+                        </div>
+                        <div class="flex items-start">
+                          <div class="flex-shrink-0 w-2 h-2 bg-yellow-400 rounded-full mt-2 mr-3"></div>
+                          <div>
+                            <span class="font-semibold text-white">Excellent Amenities and Flexibility:</span> With 24/7 access, modern facilities, and a variety of workspace solutions (from single desks to warehouses), it adapts to every need.
+                          </div>
+                        </div>
+                        <div class="flex items-start">
+                          <div class="flex-shrink-0 w-2 h-2 bg-yellow-400 rounded-full mt-2 mr-3"></div>
+                          <div>
+                            <span class="font-semibold text-white">Great Location:</span> It's well-located near the river, offering the perfect opportunity for a refreshing stroll along the water during a break.
+                          </div>
+                        </div>
+                        <div class="flex items-start">
+                          <div class="flex-shrink-0 w-2 h-2 bg-yellow-400 rounded-full mt-2 mr-3"></div>
+                          <div>
+                            <span class="font-semibold text-white">Great Accessibility:</span> Easy to get to via public transport and bike paths, with the bonus of free parking nearby.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="mt-4 pt-4 border-t border-neutral-700">
+                        <p class="text-sm text-neutral-400 italic">Shared by nomads who nominated this space</p>
+                      </div>
+                    </div>
+                  </div>
+                `;
       
       modalContent.innerHTML = htmlContent || '<p class="text-neutral-400">No description available.</p>';
       

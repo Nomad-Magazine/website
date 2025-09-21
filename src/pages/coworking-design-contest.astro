@@ -24,7 +24,6 @@ console.log('DEBUG: Sample record image fields:', distributionRecords[0] ? {
   sf4ad525dd: distributionRecords[0].sf4ad525dd,
   s4ad525dd: distributionRecords[0].s4ad525dd
 } : 'No records')
-console.log('DEBUG: Sample record description fields:', distributionRecords[0] ? Object.keys(distributionRecords[0]).filter(key => key.toLowerCase().includes('description') || key.toLowerCase().includes('markdown')) : 'No records')
 
 // Filter and transform distribution coworking spaces
 const allCoworkingRecords = distributionRecords.filter((record: any) => record.sb685ab800?.label === 'Coworking')
