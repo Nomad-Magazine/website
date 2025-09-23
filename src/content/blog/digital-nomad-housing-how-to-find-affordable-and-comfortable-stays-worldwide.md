@@ -6,8 +6,8 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-03-08T03:09:59.107Z
-updated_at: 2025-03-27T23:31:03.256Z
-head_image: https://assets.seobotai.com/nomadgossip.com/67cb8ed4fd908bf224e06835-1741403414179.jpg
+updated_at: 2025-09-22T10:29:49.770Z
+head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/67cb8ed4fd908bf224e06835-1741403414179.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: digital nomad housing, remote work, affordable stays, coliving spaces, short-term rentals
 tag: Digital, Expat, Travel
@@ -155,7 +155,7 @@ If you’re looking for something different, here are a few alternatives:
     
 -   **Extended-Stay Hotels**: Enjoy hotel perks with apartment-like space.
     
--   **Services like** [**Landing**](https://www.hellolanding.com/) **or** [**Blueground**](https://www.theblueground.com/): Furnished apartments with flexible leases.
+-   **Services like** [**Landing**](https://www.hellolanding.com/) **or** [**Blueground**](https://www.theblueground.com/): [Furnished apartments](https://tacostreetlocating.com) with flexible leases.
     
 
 Some options even come with coworking areas, stunning views, or extra amenities at competitive prices. Choose what fits your travel plans and work needs best.
