@@ -1,0 +1,199 @@
+---
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+
+const seo: SEOProps = {
+  title: 'Shipment Confirmation - Nomad Magazine',
+  description:
+    'Thank you for your purchase! Please provide your shipment details to complete your magazine delivery setup.',
+  image: `${Astro.site}images/edition-003-cover_holded_front_face.webp`,
+  keywords: 'magazine shipment confirmation, coworking magazine delivery, nomad magazine subscription',
+  ogType: 'website',
+}
+---
+
+<Layout seo={seo}>
+  <div class="bg-hoverw text-white min-h-screen">
+    <!-- Confirmation Hero Section -->
+    <section class="py-24">
+      <div class="mx-auto max-w-4xl px-4 text-center">
+        <div class="mb-8">
+          <div class="mx-auto w-20 h-20 bg-green-400 rounded-full flex items-center justify-center mb-6">
+            <span class="text-4xl">✅</span>
+          </div>
+        </div>
+        
+        <h1 class="text-5xl font-bold sm:text-6xl mb-6">
+          Thank You for Ordering Nomad Magazines!
+        </h1>
+        <p class="mx-auto mt-6 max-w-3xl text-xl text-neutral-300 leading-relaxed">
+          We're excited to start packing your magazines! Your payment has been processed successfully, 
+          and we'll begin preparing your shipment. To complete the delivery setup, please provide your 
+          shipment details below so we know where to send them.
+        </p>
+      </div>
+    </section>
+
+    <!-- Shipment Details Form Section -->
+    <section class="py-16 bg-white text-black">
+      <div class="mx-auto max-w-4xl px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-4xl font-bold mb-4">Shipment Details Required</h2>
+          <p class="text-xl text-gray-600 mb-8">
+            Please fill out the form below so we can deliver your magazines to the correct address.
+          </p>
+          
+          <!-- Important Notice -->
+          <div class="bg-blue-50 border-l-4 border-blue-400 p-6 mb-8 text-left">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <span class="text-2xl">ℹ️</span>
+              </div>
+              <div class="ml-3">
+                <h3 class="text-lg font-semibold text-blue-800 mb-2">Already in Our Database?</h3>
+                <p class="text-blue-700">
+                  If you have previously provided your shipment details to us or are already in our database, 
+                  you can safely ignore this form. We'll use your existing information for delivery.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Embedded Form -->
+        <div class="bg-gray-50 rounded-2xl p-8">
+          <h3 class="text-2xl font-bold mb-6 text-center">Delivery Information Form</h3>
+          <div class="rounded-lg overflow-hidden shadow-lg">
+            <iframe 
+              src="https://app.smartsuite.com/form/s4tmc086/QSutayfH1E?header=false" 
+              width="100%" 
+              height="600px" 
+              frameborder="0"
+              title="Shipment Details Form"
+              class="w-full"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- What Happens Next Section -->
+    <section class="py-16 bg-neutral-900">
+      <div class="mx-auto max-w-4xl px-4">
+        <h2 class="text-center text-4xl font-bold mb-12">What Happens Next?</h2>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="text-center">
+            <div class="mx-auto w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mb-4">
+              <span class="text-2xl">📋</span>
+            </div>
+            <h3 class="text-xl font-bold mb-4">1. Form Processing</h3>
+            <p class="text-neutral-300">
+              We'll review your shipment details and add them to our delivery system within 1-2 business days.
+            </p>
+          </div>
+          
+          <div class="text-center">
+            <div class="mx-auto w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mb-4">
+              <span class="text-2xl">📦</span>
+            </div>
+            <h3 class="text-xl font-bold mb-4">2. Shipment Preparation</h3>
+            <p class="text-neutral-300">
+              For subscriptions: You'll receive magazines with each new edition. For one-time purchases: We'll ship the current edition immediately.
+            </p>
+          </div>
+          
+          <div class="text-center">
+            <div class="mx-auto w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mb-4">
+              <span class="text-2xl">🚚</span>
+            </div>
+            <h3 class="text-xl font-bold mb-4">3. Delivery</h3>
+            <p class="text-neutral-300">
+              European deliveries: 5-10 business days. Overseas: 10-21 business days. You'll receive tracking information when available.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Share Your Experience Section -->
+    <section class="py-16">
+      <div class="mx-auto max-w-4xl px-4 text-center">
+        <h2 class="text-4xl font-bold mb-8">Share Your Magazines with the World!</h2>
+        <p class="text-xl text-neutral-300 mb-8">
+          When you receive your magazines, we'd love to see them in action at your space!
+        </p>
+        
+        <div class="bg-white rounded-2xl p-8 text-black mb-8">
+          <div class="grid md:grid-cols-2 gap-8 items-center">
+            <div class="text-left">
+              <h3 class="text-2xl font-bold mb-4">📸 Get Featured on Our Instagram!</h3>
+              <p class="text-lg mb-4">
+                Send us photos of your magazines at your coworking space, coliving, or Airbnb and we'll feature you on our Instagram account!
+              </p>
+              <ul class="text-left space-y-2 mb-6">
+                <li>• Show magazines in your space</li>
+                <li>• Tag guests reading them</li>
+                <li>• Capture the nomad vibe</li>
+                <li>• Get free promotion for your business</li>
+              </ul>
+              <div class="flex flex-col sm:flex-row gap-4">
+                <a
+                  href="https://www.instagram.com/nomadgossip"
+                  target="_blank"
+                  class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-purple-600 hover:to-pink-600 transition-colors"
+                >
+                  Follow @nomadgossip
+                </a>
+                <a
+                  href="mailto:lera@nomadgossip.com?subject=Magazine Photos for Instagram"
+                  class="border-2 border-gray-400 px-6 py-3 rounded-lg font-semibold hover:bg-gray-400 hover:text-white transition-colors"
+                >
+                  Send Photos
+                </a>
+              </div>
+            </div>
+            
+            <div class="text-center">
+              <div class="bg-gray-100 rounded-lg p-6">
+                <p class="text-sm text-gray-600 mb-4">Example: Magazine featured at a coworking space</p>
+                <div class="aspect-square bg-gradient-to-br from-yellow-100 to-orange-100 rounded-lg flex items-center justify-center">
+                  <span class="text-4xl">📖✨</span>
+                </div>
+                <p class="text-xs text-gray-500 mt-2">
+                  <a href="https://www.instagram.com/p/DMIpWK3oai9/" target="_blank" class="text-blue-600 hover:underline">
+                    View example on Instagram →
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Support Section -->
+    <section class="py-16 bg-yellow-400 text-black">
+      <div class="mx-auto max-w-4xl px-4 text-center">
+        <h2 class="text-4xl font-bold mb-4">Need Help?</h2>
+        <p class="text-xl mb-8">
+          Have questions about your order or shipment? We're here to help!
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="mailto:lera@nomadgossip.com"
+            class="bg-black text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-800 transition-colors"
+          >
+            Contact Support
+          </a>
+          <a
+            href="/coworking-coliving-shipments"
+            class="border-2 border-black px-8 py-4 rounded-lg font-semibold text-lg hover:bg-black hover:text-white transition-colors"
+          >
+            Back to Shipment Options
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>
