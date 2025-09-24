@@ -1,0 +1,379 @@
+---
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import CheckIcon from '~icons/ic/baseline-check'
+
+const seo: SEOProps = {
+  title: 'Free Magazine Shipments for Coworkings & Colivings - Nomad Magazine',
+  description:
+    'Get Nomad Magazine delivered to your coworking space or coliving. Apply for free shipments (next edition waiting list) or pay for immediate delivery. €25 within Europe, €30 overseas.',
+  image: `${Astro.site}images/edition-003-cover_holded_front_face.webp`,
+  keywords: 'coworking magazine, coliving magazine, nomad magazine distribution, free magazine shipment, coworking spaces',
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Magazine Shipments for Coworkings & Colivings',
+    description: 'Free and paid magazine shipment service for coworking spaces and coliving accommodations',
+    provider: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+    serviceType: 'Magazine Distribution',
+    areaServed: 'Worldwide',
+  },
+}
+---
+
+<Layout seo={seo}>
+  <div class="bg-hoverw text-white">
+    <!-- Hero Section -->
+    <section class="py-24">
+      <div class="mx-auto max-w-4xl px-4 text-center">
+        <p class="font-justme text-4xl text-yellow-400">For Coworkings & Colivings</p>
+        <h1 class="mt-4 text-5xl font-bold sm:text-6xl">
+          Get Nomad Magazine<br />Delivered to Your Space
+        </h1>
+        <p class="mx-auto mt-6 max-w-3xl text-xl text-neutral-300 leading-relaxed">
+          Enhance your guests' experience with <strong>5 copies</strong> of the world's first independent digital nomad magazine. 
+          Join our free waiting list for the next edition or get immediate delivery to anywhere in the world.
+        </p>
+        
+        <!-- Key Features -->
+        <div class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div class="text-center">
+            <div class="mx-auto w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mb-4">
+              <span class="text-2xl">📦</span>
+            </div>
+            <div class="text-xl font-bold text-yellow-400">5 Copies</div>
+            <div class="text-sm text-neutral-400">Per shipment package</div>
+          </div>
+          <div class="text-center">
+            <div class="mx-auto w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mb-4">
+              <span class="text-2xl">🌍</span>
+            </div>
+            <div class="text-xl font-bold text-yellow-400">Worldwide</div>
+            <div class="text-sm text-neutral-400">Delivery available</div>
+          </div>
+          <div class="text-center">
+            <div class="mx-auto w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mb-4">
+              <span class="text-2xl">✨</span>
+            </div>
+            <div class="text-xl font-bold text-yellow-400">Free Option</div>
+            <div class="text-sm text-neutral-400">Join waiting list</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Options Section -->
+    <section class="py-16 bg-neutral-900">
+      <div class="mx-auto max-w-6xl px-4">
+        <h2 class="text-center text-4xl font-bold mb-16">Choose Your Shipment Option</h2>
+        
+        <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <!-- Free Waiting List -->
+          <div class="bg-white rounded-2xl p-8 text-black relative flex flex-col">
+            <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+              <span class="bg-green-400 text-black px-4 py-2 rounded-full text-sm font-bold">MOST POPULAR</span>
+            </div>
+            <div class="text-center mb-8">
+              <h3 class="text-2xl font-bold mb-2">Free Waiting List</h3>
+              <div class="text-4xl font-bold text-green-600 mb-2">FREE</div>
+              <p class="text-gray-600">Next edition delivery</p>
+            </div>
+            
+            <ul class="space-y-4 mb-8 flex-grow">
+              <li class="flex items-start">
+                <CheckIcon class="w-5 h-5 text-green-500 mt-1 mr-3 flex-shrink-0" />
+                <span>5 copies of the next edition</span>
+              </li>
+              <li class="flex items-start">
+                <CheckIcon class="w-5 h-5 text-green-500 mt-1 mr-3 flex-shrink-0" />
+                <span>Delivered right after release</span>
+              </li>
+              <li class="flex items-start">
+                <CheckIcon class="w-5 h-5 text-green-500 mt-1 mr-3 flex-shrink-0" />
+                <span>Worldwide shipping included</span>
+              </li>
+              <li class="flex items-start">
+                <CheckIcon class="w-5 h-5 text-green-500 mt-1 mr-3 flex-shrink-0" />
+                <span>Perfect for guest amenities</span>
+              </li>
+              <li class="flex items-start">
+                <CheckIcon class="w-5 h-5 text-green-500 mt-1 mr-3 flex-shrink-0" />
+                <span>Support independent publishing</span>
+              </li>
+            </ul>
+            
+            <a
+              href="https://form.smartsuite.com/s4tmc086/VD8BBVMq11"
+              target="_blank"
+              class="block w-full rounded-md bg-green-600 px-8 py-4 text-center text-lg font-semibold text-white transition-colors hover:bg-green-700"
+            >
+              Apply for Free Shipment
+            </a>
+          </div>
+
+          <!-- Europe Subscription -->
+          <div class="bg-white rounded-2xl p-8 text-black flex flex-col">
+            <div class="text-center mb-8">
+              <h3 class="text-2xl font-bold mb-2">Europe Subscription</h3>
+              <div class="text-4xl font-bold text-blue-600 mb-2">€25</div>
+              <p class="text-gray-600">Guaranteed every edition</p>
+            </div>
+            
+            <ul class="space-y-4 mb-8 flex-grow">
+              <li class="flex items-start">
+                <CheckIcon class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" />
+                <span>5 copies of every new edition</span>
+              </li>
+              <li class="flex items-start">
+                <CheckIcon class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" />
+                <span>Guaranteed delivery within Europe</span>
+              </li>
+              <li class="flex items-start">
+                <CheckIcon class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" />
+                <span>Charged before each shipment</span>
+              </li>
+              <li class="flex items-start">
+                <CheckIcon class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" />
+                <span>Cancel anytime</span>
+              </li>
+              <li class="flex items-start">
+                <CheckIcon class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" />
+                <span>Never miss an edition</span>
+              </li>
+            </ul>
+            
+            <a
+              href="https://pay.nomad-magazine.com/b/subscription-europe-25"
+              target="_blank"
+              class="block w-full rounded-md border-2 border-blue-400 px-8 py-4 text-center text-lg font-semibold text-blue-600 transition-colors hover:bg-blue-400 hover:text-white"
+            >
+              Subscribe Europe (€25)
+            </a>
+          </div>
+
+          <!-- Overseas Subscription -->
+          <div class="bg-white rounded-2xl p-8 text-black flex flex-col">
+            <div class="text-center mb-8">
+              <h3 class="text-2xl font-bold mb-2">Overseas Subscription</h3>
+              <div class="text-4xl font-bold text-purple-600 mb-2">€30</div>
+              <p class="text-gray-600">Guaranteed every edition</p>
+            </div>
+            
+            <ul class="space-y-4 mb-8 flex-grow">
+              <li class="flex items-start">
+                <CheckIcon class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" />
+                <span>5 copies of every new edition</span>
+              </li>
+              <li class="flex items-start">
+                <CheckIcon class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" />
+                <span>Guaranteed worldwide delivery</span>
+              </li>
+              <li class="flex items-start">
+                <CheckIcon class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" />
+                <span>Charged before each shipment</span>
+              </li>
+              <li class="flex items-start">
+                <CheckIcon class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" />
+                <span>Cancel anytime</span>
+              </li>
+              <li class="flex items-start">
+                <CheckIcon class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" />
+                <span>Never miss an edition</span>
+              </li>
+            </ul>
+            
+            <a
+              href="https://pay.nomad-magazine.com/b/subscription-overseas-30"
+              target="_blank"
+              class="block w-full rounded-md border-2 border-purple-400 px-8 py-4 text-center text-lg font-semibold text-purple-600 transition-colors hover:bg-purple-400 hover:text-white"
+            >
+              Subscribe Overseas (€30)
+            </a>
+          </div>
+        </div>
+        
+        <div class="text-center mt-12">
+          <p class="text-neutral-400 max-w-2xl mx-auto">
+            <strong>Why add magazines to your space?</strong> Give your guests something meaningful to read during downtime. 
+            Our magazine features real nomad stories, practical tips, and industry insights that resonate with your community.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- One-Time Purchase Section -->
+    <section class="py-16">
+      <div class="mx-auto max-w-4xl px-4">
+        <div class="bg-gradient-to-r from-gray-100 to-gray-200 rounded-2xl p-8 md:p-12 text-black">
+          <div class="text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">One-Time Purchase</h2>
+            <p class="text-xl mb-8 opacity-90">
+              Need just the current edition? Get immediate delivery without commitment.
+            </p>
+            
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+              <div class="bg-white rounded-xl p-6 border">
+                <h3 class="text-xl font-bold mb-3">Europe Shipping</h3>
+                <div class="text-2xl font-bold mb-2">€25</div>
+                <p class="text-sm text-gray-600 mb-4">Current edition delivery</p>
+                <ul class="text-sm text-left space-y-2 mb-4">
+                  <li>• 5 copies of current edition</li>
+                  <li>• Delivery within Europe</li>
+                  <li>• Immediate processing</li>
+                </ul>
+              </div>
+              <div class="bg-white rounded-xl p-6 border">
+                <h3 class="text-xl font-bold mb-3">Overseas Shipping</h3>
+                <div class="text-2xl font-bold mb-2">€30</div>
+                <p class="text-sm text-gray-600 mb-4">Outside Europe delivery</p>
+                <ul class="text-sm text-left space-y-2 mb-4">
+                  <li>• 5 copies of current edition</li>
+                  <li>• Worldwide delivery</li>
+                  <li>• Premium international service</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+              <a
+                href="https://pay.nomad-magazine.com/b/coworking-europe-25"
+                target="_blank"
+                class="bg-gray-800 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-900 transition-colors"
+              >
+                Order Europe (€25)
+              </a>
+              <a
+                href="https://pay.nomad-magazine.com/b/coworking-overseas-30"
+                target="_blank"
+                class="bg-gray-800 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-900 transition-colors"
+              >
+                Order Overseas (€30)
+              </a>
+            </div>
+            
+            <p class="text-sm mt-4 opacity-75">One-time payment • No subscription • Immediate delivery</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Special Offer for Airbnb -->
+    <section class="py-16 bg-neutral-900">
+      <div class="mx-auto max-w-4xl px-4 text-center">
+        <h2 class="text-4xl font-bold mb-8">Special Offer for Airbnb Hosts</h2>
+        <p class="text-xl text-neutral-300 mb-8">
+          Get all <strong>3 editions as a complete package</strong> to create the perfect welcome experience for your guests.
+        </p>
+        
+        <div class="mb-8">
+          <img src="/images/edition-003-cover_holded_front_face.webp" alt="All three magazine editions stacked together" class="mx-auto max-w-md w-full rounded-lg shadow-lg" />
+        </div>
+
+        <div class="bg-yellow-400 text-black rounded-xl p-8">
+          <h3 class="text-2xl font-bold mb-4">🏠 Complete Edition Package</h3>
+          <p class="text-lg mb-4">All 3 editions (15 copies total) - Edition #1, #2, and #3</p>
+          <p class="text-sm mb-6 opacity-75">
+            📍 <strong>Shipped from Madeira, Portugal</strong> - Delivery may take slightly longer than usual due to island location
+          </p>
+          <a
+            href="https://form.smartsuite.com/s4tmc086/VD8BBVMq11"
+            target="_blank"
+            class="inline-block bg-black text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-800 transition-colors"
+          >
+            Request Complete Package
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-16">
+      <div class="mx-auto max-w-4xl px-4">
+        <h2 class="text-center text-4xl font-bold mb-12">Frequently Asked Questions</h2>
+        
+        <div class="space-y-8">
+          <div class="bg-white rounded-lg p-6">
+            <h3 class="text-xl font-bold text-black mb-3">How many copies do I get in each shipment?</h3>
+            <p class="text-gray-700">Each shipment contains 5 copies of the magazine. This is perfect for coworking spaces, coliving accommodations, or Airbnb properties to share with guests.</p>
+          </div>
+          
+          <div class="bg-white rounded-lg p-6">
+            <h3 class="text-xl font-bold text-black mb-3">What's the difference between the free waiting list and paid shipping?</h3>
+            <p class="text-gray-700">The free waiting list puts you on our list for potential free shipment of the next edition - however, we have a limited quota of free shipments and the waiting list does not guarantee delivery. Paid subscriptions guarantee you'll receive 5 copies of every new edition. One-time purchases get you 5 copies of the current edition shipped immediately. The €25/€30 covers shipping costs only.</p>
+          </div>
+          
+          <div class="bg-white rounded-lg p-6">
+            <h3 class="text-xl font-bold text-black mb-3">How does the subscription service work?</h3>
+            <p class="text-gray-700">With a subscription, you'll automatically receive 5 copies of the curreny and each new edition. You're charged before each shipment (€25 for Europe, €30 overseas) and can cancel anytime.</p>
+          </div>
+          
+          <div class="bg-white rounded-lg p-6">
+            <h3 class="text-xl font-bold text-black mb-3">Can I choose which editions to receive?</h3>
+            <p class="text-gray-700">Yes! For Airbnb hosts, we offer the complete 3-edition package shown above. If you need a custom package that's not offered on this page, please contact <a href="mailto:lera@nomadgossip.com" class="text-blue-600 hover:underline font-semibold">lera@nomadgossip.com</a> to discuss your specific requirements.</p>
+          </div>
+          
+          <div class="bg-white rounded-lg p-6">
+            <h3 class="text-xl font-bold text-black mb-3">How long does shipping take?</h3>
+            <p class="text-gray-700">European deliveries typically take 5-10 business days, while overseas shipments take 10-21 business days depending on the destination country and customs processing.</p>
+          </div>
+          
+          <div class="bg-white rounded-lg p-6">
+            <h3 class="text-xl font-bold text-black mb-3">What if my guests damage or take the magazines?</h3>
+            <p class="text-gray-700">That's totally fine! The magazines are meant to be enjoyed, taken, and shared. Many hosts find that guests appreciate having something quality to read and often take them as a nice memento of their stay.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-yellow-400 text-black">
+      <div class="mx-auto max-w-4xl px-4 text-center">
+        <h2 class="text-4xl font-bold mb-4">Ready to Elevate Your Space?</h2>
+        <p class="text-xl mb-8">
+          Join hundreds of coworking spaces and accommodations worldwide that offer Nomad Magazine to their communities.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="https://form.smartsuite.com/s4tmc086/VD8BBVMq11"
+            target="_blank"
+            class="bg-black text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-800 transition-colors"
+          >
+            Apply for Free Shipment
+          </a>
+          <a
+            href="#pricing"
+            class="border-2 border-black px-8 py-4 rounded-lg font-semibold text-lg hover:bg-black hover:text-white transition-colors"
+            onclick="document.querySelector('[data-section=pricing]').scrollIntoView({ behavior: 'smooth' })"
+          >
+            View Pricing Options
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<script>
+  // Smooth scroll for pricing link
+  document.addEventListener('DOMContentLoaded', function() {
+    const pricingLinks = document.querySelectorAll('a[href="#pricing"]');
+    pricingLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const pricingSection = document.querySelector('section:nth-of-type(2)'); // Second section is pricing
+        if (pricingSection) {
+          pricingSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  });
+</script>
+</Layout>
