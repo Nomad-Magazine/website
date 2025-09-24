@@ -56,6 +56,7 @@ const monthlySupporters = [
   'Max Browser',
   'DataBench (Max Browser)', // in case it's stored with the full name
   'Max',
+  'NomadTax Bulgaria Ltd.',
   // Add more supporter company names here as needed
 ]
 
@@ -168,7 +169,7 @@ const seo: SEOProps = {
                           <!-- Logo/Image -->
                           <div class="flex-shrink-0">
                             <div class={`w-32 h-32 rounded-xl flex items-center justify-center p-1 ${
-                              record.title?.toLowerCase().includes('naio') || record.title?.toLowerCase().includes('italia nomad fest') || record.title?.toLowerCase().includes('inf')
+                              record.title?.toLowerCase().includes('naio') || record.title?.toLowerCase().includes('italia nomad fest') || record.title?.toLowerCase().includes('inf') || record.title?.toLowerCase().includes('nomadtax bulgaria')
                                 ? 'bg-white' 
                                 : 'bg-white/10'
                             }`}>
@@ -180,7 +181,7 @@ const seo: SEOProps = {
                                 />
                               ) : (
                                 <span class={`font-bold text-3xl ${
-                                  record.title?.toLowerCase().includes('naio') || record.title?.toLowerCase().includes('italia nomad fest') || record.title?.toLowerCase().includes('inf')
+                                  record.title?.toLowerCase().includes('naio') || record.title?.toLowerCase().includes('italia nomad fest') || record.title?.toLowerCase().includes('inf') || record.title?.toLowerCase().includes('nomadtax bulgaria')
                                     ? 'text-black' 
                                     : 'text-white'
                                 }`}>
