@@ -3,18 +3,41 @@ import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import CheckIcon from '~icons/ic/baseline-check'
 import MagazineStack from '~/components/MagazineStack.astro'
 
+// Dynamic Open Graph image based on URL parameters
+const urlParams = new URLSearchParams(Astro.url.search)
+const source = urlParams.get('source') || 'default'
+const type = urlParams.get('type') || 'general'
+
+// Choose the best image based on context
+let ogImage = 'distribution_sowo_coworking_barcelona.webp'
+let customTitle = 'Free Magazine Shipments for Coworkings & Colivings - Nomad Magazine'
+let customDescription = 'Get Nomad Magazine delivered to your coworking space or coliving. Apply for free shipments (next edition waiting list) or pay for immediate delivery. €25 within Europe, €30 overseas.'
+
+if (source === 'social') {
+  ogImage = 'Nomad-Magazine-Three-Editions.webp'
+  customTitle = '📦 Free Nomad Magazine for Your Space - Coworking & Coliving Shipments'
+  customDescription = '🌍 Get 5 copies delivered worldwide! Perfect for guest amenities. Free waiting list or guaranteed delivery from €25.'
+} else if (type === 'airbnb') {
+  ogImage = 'edition-123-three-together-transparent.webp'
+  customTitle = '🏠 Complete Magazine Package for Airbnb Hosts - All 3 Editions'
+  customDescription = 'Create the perfect welcome experience! Get all 3 Nomad Magazine editions delivered to your Airbnb property.'
+} else if (type === 'coworking') {
+  ogImage = 'offsite-coworking-cafe.webp'
+  customTitle = '💼 Nomad Magazine for Coworking Spaces - Free & Paid Options'
+  customDescription = 'Enhance your coworking space with quality content. 5 copies per shipment, worldwide delivery available.'
+}
+
 const seo: SEOProps = {
-  title: 'Free Magazine Shipments for Coworkings & Colivings - Nomad Magazine',
-  description:
-    'Get Nomad Magazine delivered to your coworking space or coliving. Apply for free shipments (next edition waiting list) or pay for immediate delivery. €25 within Europe, €30 overseas.',
-  image: `${Astro.site}images/edition-003-cover_holded_front_face.webp`,
+  title: customTitle,
+  description: customDescription,
+  image: `${Astro.site}images/${ogImage}`,
   keywords: 'coworking magazine, coliving magazine, nomad magazine distribution, free magazine shipment, coworking spaces',
   ogType: 'website',
   ldJSON: {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    name: 'Magazine Shipments for Coworkings & Colivings',
-    description: 'Free and paid magazine shipment service for coworking spaces and coliving accommodations',
+    name: customTitle,
+    description: customDescription,
     provider: {
       '@type': 'Organization',
       name: 'Nomad Magazine',
