@@ -1,6 +1,7 @@
 ---
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import CheckIcon from '~icons/ic/baseline-check'
+import MagazineStack from '~/components/MagazineStack.astro'
 
 const seo: SEOProps = {
   title: 'Free Magazine Shipments for Coworkings & Colivings - Nomad Magazine',
@@ -146,12 +147,12 @@ const seo: SEOProps = {
               </li>
               <li class="flex items-start">
                 <CheckIcon class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" />
-                <span>Never miss an edition</span>
+                <span>€5 per magazine (5 magazines)</span>
               </li>
             </ul>
             
             <a
-              href="https://pay.nomad-magazine.com/b/subscription-europe-25"
+              href="https://pay.nomad-magazine.com/b/5kQbJ1feJbPRfAWcSd8bS0x"
               target="_blank"
               class="block w-full rounded-md border-2 border-blue-400 px-8 py-4 text-center text-lg font-semibold text-blue-600 transition-colors hover:bg-blue-400 hover:text-white"
             >
@@ -186,12 +187,12 @@ const seo: SEOProps = {
               </li>
               <li class="flex items-start">
                 <CheckIcon class="w-5 h-5 text-yellow-400 mt-1 mr-3 flex-shrink-0" />
-                <span>Never miss an edition</span>
+                <span>€6 per magazine (5 magazines)</span>
               </li>
             </ul>
             
             <a
-              href="https://pay.nomad-magazine.com/b/subscription-overseas-30"
+              href="https://pay.nomad-magazine.com/b/cNi5kD9UpaLN88uf0l8bS0y"
               target="_blank"
               class="block w-full rounded-md border-2 border-purple-400 px-8 py-4 text-center text-lg font-semibold text-purple-600 transition-colors hover:bg-purple-400 hover:text-white"
             >
@@ -227,7 +228,7 @@ const seo: SEOProps = {
                 <ul class="text-sm text-left space-y-2 mb-4">
                   <li>• 5 copies of current edition</li>
                   <li>• Delivery within Europe</li>
-                  <li>• Immediate processing</li>
+                  <li>• €5 per magazine (5 magazines)</li>
                 </ul>
               </div>
               <div class="bg-white rounded-xl p-6 border">
@@ -237,21 +238,21 @@ const seo: SEOProps = {
                 <ul class="text-sm text-left space-y-2 mb-4">
                   <li>• 5 copies of current edition</li>
                   <li>• Worldwide delivery</li>
-                  <li>• Premium international service</li>
+                  <li>• €6 per magazine (5 magazines)</li>
                 </ul>
               </div>
             </div>
 
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="https://pay.nomad-magazine.com/b/coworking-europe-25"
+                href="https://pay.nomad-magazine.com/b/28E7sL9Up4np4Wi19v8bS0z"
                 target="_blank"
                 class="bg-gray-800 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-900 transition-colors"
               >
                 Order Europe (€25)
               </a>
               <a
-                href="https://pay.nomad-magazine.com/b/coworking-overseas-30"
+                href="https://pay.nomad-magazine.com/b/fZueVd7Mh4np60m19v8bS0A"
                 target="_blank"
                 class="bg-gray-800 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-900 transition-colors"
               >
@@ -259,7 +260,7 @@ const seo: SEOProps = {
               </a>
             </div>
             
-            <p class="text-sm mt-4 opacity-75">One-time payment • No subscription • Immediate delivery</p>
+            <p class="text-sm mt-4 opacity-75">One-time payment • No subscription • No commitments</p>
           </div>
         </div>
       </div>
@@ -273,13 +274,13 @@ const seo: SEOProps = {
           Get all <strong>3 editions as a complete package</strong> to create the perfect welcome experience for your guests.
         </p>
         
-        <div class="mb-8">
-          <img src="/images/edition-003-cover_holded_front_face.webp" alt="All three magazine editions stacked together" class="mx-auto max-w-md w-full rounded-lg shadow-lg" />
+        <div class="mb-8 flex justify-center">
+          <MagazineStack showLatestBadge={false} className="scale-75 md:scale-90" />
         </div>
 
         <div class="bg-yellow-400 text-black rounded-xl p-8">
           <h3 class="text-2xl font-bold mb-4">🏠 Complete Edition Package</h3>
-          <p class="text-lg mb-4">All 3 editions (15 copies total) - Edition #1, #2, and #3</p>
+          <p class="text-lg mb-4">All 3 editions (3 copies total) - Edition #1, #2, and #3</p>
           <p class="text-sm mb-6 opacity-75">
             📍 <strong>Shipped from Madeira, Portugal</strong> - Delivery may take slightly longer than usual due to island location
           </p>
