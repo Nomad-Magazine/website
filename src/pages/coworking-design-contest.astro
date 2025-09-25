@@ -209,6 +209,56 @@ const seo: SEOProps = {
       </div>
     </section>
 
+    <!-- Magazine Distribution Info -->
+    <section class="px-4 py-12 sm:px-6 lg:px-8 bg-neutral-900/50">
+      <div class="mx-auto max-w-6xl">
+        <div class="bg-gradient-to-r from-neutral-800/80 to-neutral-700/80 rounded-xl p-6 border border-neutral-700/50">
+          <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex-1 text-center md:text-left">
+              <div class="flex items-center justify-center md:justify-start mb-3">
+                <span class="text-2xl mr-2">📦</span>
+                <h3 class="text-xl font-bold text-white">For Coworking Space Owners</h3>
+              </div>
+              <p class="text-neutral-300 mb-3">
+                Want to enhance your space with quality content? Get Nomad Magazine delivered to your coworking space.
+              </p>
+              <div class="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-neutral-400">
+                <span class="flex items-center">
+                  <svg class="w-4 h-4 mr-1 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                  5 copies per shipment
+                </span>
+                <span class="flex items-center">
+                  <svg class="w-4 h-4 mr-1 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                  Free waiting list option
+                </span>
+                <span class="flex items-center">
+                  <svg class="w-4 h-4 mr-1 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                  Worldwide delivery
+                </span>
+              </div>
+            </div>
+            <div class="flex-shrink-0">
+              <a
+                href="/coworking-coliving-shipments"
+                class="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-black px-6 py-3 rounded-lg font-semibold transition-all duration-200"
+              >
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                Learn More
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Bottom Call to Action -->
     <section class="px-4 py-16 sm:px-6 lg:px-8 border-t border-neutral-800">
       <div class="mx-auto max-w-4xl text-center">
@@ -774,8 +824,8 @@ const seo: SEOProps = {
             button.classList.remove('bg-red-600', 'text-white');
             button.classList.add('bg-neutral-700', 'text-gray-300', 'hover:bg-red-600', 'hover:text-white');
           } else {
-            button.classList.remove('bg-red-600', 'text-white');
-            button.classList.add('bg-neutral-800', 'text-neutral-400', 'hover:bg-red-600', 'hover:text-white');
+          button.classList.remove('bg-red-600', 'text-white');
+          button.classList.add('bg-neutral-800', 'text-neutral-400', 'hover:bg-red-600', 'hover:text-white');
           }
           
           if (heartIcon) heartIcon.classList.remove('fill-current');
@@ -807,8 +857,8 @@ const seo: SEOProps = {
             button.classList.remove('bg-neutral-700', 'text-gray-300', 'hover:bg-red-600', 'hover:text-white');
             button.classList.add('bg-red-600', 'text-white');
           } else {
-            button.classList.remove('bg-neutral-800', 'text-neutral-400', 'hover:bg-red-600', 'hover:text-white');
-            button.classList.add('bg-red-600', 'text-white');
+          button.classList.remove('bg-neutral-800', 'text-neutral-400', 'hover:bg-red-600', 'hover:text-white');
+          button.classList.add('bg-red-600', 'text-white');
           }
           
           if (heartIcon) heartIcon.classList.add('fill-current');
