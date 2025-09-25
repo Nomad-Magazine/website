@@ -7,24 +7,26 @@ const { id = 'description-modal' } = Astro.props;
 ---
 
 <!-- Description Modal for Full Markdown View -->
-<div id={id} class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden">
+<div id={id} class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden">
   <div class="flex items-center justify-center min-h-screen p-4">
-    <div class="relative max-w-4xl w-full max-h-[90vh] overflow-hidden">
+    <div class="relative max-w-7xl w-full max-h-[90vh] overflow-hidden animate-in fade-in-0 zoom-in-95 duration-300">
       <!-- Close Button -->
       <button 
         id="close-description-modal" 
-        class="absolute top-4 right-4 z-10 text-white hover:text-yellow-400 transition-colors duration-200 bg-black/50 rounded-full p-2"
+        class="absolute top-4 right-4 z-20 text-white hover:text-yellow-400 transition-all duration-200 bg-black/60 hover:bg-black/80 backdrop-blur-sm rounded-full p-3 hover:scale-110"
         aria-label="Close description modal"
       >
-        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
         </svg>
       </button>
       
       <!-- Modal Content -->
-      <div class="bg-neutral-700 rounded-lg p-6 max-h-full overflow-y-auto">
+      <div class="bg-gradient-to-br from-neutral-800 to-neutral-900 rounded-xl shadow-2xl overflow-hidden max-h-full border border-neutral-700/50">
         <!-- Title -->
-        <h2 id="description-modal-title" class="text-2xl font-bold text-white mb-4"></h2>
+        <div class="px-8 pt-6 pb-4 bg-gradient-to-r from-neutral-800 to-neutral-700 border-b border-neutral-600/50">
+          <h2 id="description-modal-title" class="text-3xl font-bold text-white tracking-tight"></h2>
+        </div>
         
         <!-- Description Content -->
         <div id="description-modal-content" class="prose prose-invert max-w-none">
