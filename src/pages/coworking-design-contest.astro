@@ -753,8 +753,11 @@ const seo: SEOProps = {
 
       const space = coworkingSpaces.find(s => s.id === spaceId);
       const isVoted = userVotes.has(spaceId);
-      const voteCountSpan = button.querySelector('.vote-count');
+      
+      // Handle both card vote buttons and unified vote buttons
+      const voteCountSpan = button.querySelector('.vote-count') || button.querySelector('.unified-vote-count');
       const heartIcon = button.querySelector('svg');
+      const isUnifiedButton = button.classList.contains('unified-vote-btn');
       
       if (isVoted) {
         // Remove vote
@@ -766,10 +769,17 @@ const seo: SEOProps = {
 
         if (!error) {
           userVotes.delete(spaceId);
-          button.classList.remove('bg-red-600', 'text-white');
-          button.classList.add('bg-neutral-800', 'text-neutral-400', 'hover:bg-red-600', 'hover:text-white');
-          heartIcon.classList.remove('fill-current');
-          voteCountSpan.textContent = parseInt(voteCountSpan.textContent) - 1;
+          
+          if (isUnifiedButton) {
+            button.classList.remove('bg-red-600', 'text-white');
+            button.classList.add('bg-neutral-700', 'text-gray-300', 'hover:bg-red-600', 'hover:text-white');
+          } else {
+            button.classList.remove('bg-red-600', 'text-white');
+            button.classList.add('bg-neutral-800', 'text-neutral-400', 'hover:bg-red-600', 'hover:text-white');
+          }
+          
+          if (heartIcon) heartIcon.classList.remove('fill-current');
+          if (voteCountSpan) voteCountSpan.textContent = parseInt(voteCountSpan.textContent) - 1;
           
           // Update local data
           if (space) space.vote_count = Math.max(0, space.vote_count - 1);
@@ -792,10 +802,17 @@ const seo: SEOProps = {
 
         if (!error) {
           userVotes.add(spaceId);
-          button.classList.remove('bg-neutral-800', 'text-neutral-400', 'hover:bg-red-600', 'hover:text-white');
-          button.classList.add('bg-red-600', 'text-white');
-          heartIcon.classList.add('fill-current');
-          voteCountSpan.textContent = parseInt(voteCountSpan.textContent) + 1;
+          
+          if (isUnifiedButton) {
+            button.classList.remove('bg-neutral-700', 'text-gray-300', 'hover:bg-red-600', 'hover:text-white');
+            button.classList.add('bg-red-600', 'text-white');
+          } else {
+            button.classList.remove('bg-neutral-800', 'text-neutral-400', 'hover:bg-red-600', 'hover:text-white');
+            button.classList.add('bg-red-600', 'text-white');
+          }
+          
+          if (heartIcon) heartIcon.classList.add('fill-current');
+          if (voteCountSpan) voteCountSpan.textContent = parseInt(voteCountSpan.textContent) + 1;
           
           // Update local data
           if (space) space.vote_count += 1;
@@ -874,7 +891,24 @@ const seo: SEOProps = {
           
           <!-- Right side - Scrollable Content -->
           <div class="lg:w-2/5 flex flex-col min-h-0 bg-neutral-800/50 backdrop-blur-sm">
-            <div class="overflow-y-auto flex-1 p-8" style="max-height: 80vh;">
+            <!-- Vote Section - Fixed at top -->
+            <div class="p-6 border-b border-neutral-700/50 bg-neutral-800/80">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h3 class="text-lg font-bold text-white mb-1">Like this space?</h3>
+                  <p class="text-sm text-gray-400">Vote for it in our design contest!</p>
+                </div>
+                <button class="unified-vote-btn flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 font-medium ${userVotes.has(space.id) ? 'bg-red-600 text-white' : 'bg-neutral-700 text-gray-300 hover:bg-red-600 hover:text-white'}" data-space-id="${space.id}">
+                  <svg class="h-5 w-5 ${userVotes.has(space.id) ? 'fill-current' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                  </svg>
+                  <span class="unified-vote-count">${space.vote_count}</span>
+                  <span>Vote!</span>
+                </button>
+              </div>
+            </div>
+            
+            <div class="overflow-y-auto flex-1 p-8" style="max-height: 65vh;">
               <!-- Description -->
               <div class="mb-8">
                 <div class="flex items-center mb-4">
@@ -1023,6 +1057,9 @@ const seo: SEOProps = {
         setupUnifiedCarousel(images, currentIndex);
       }
       
+      // Setup vote button
+      setupUnifiedVoteButton();
+      
       modal.classList.remove('hidden');
       document.body.style.overflow = 'hidden';
     }
@@ -1083,6 +1120,42 @@ const seo: SEOProps = {
         dot.classList.add('bg-white/50');
       }
     });
+  }
+  
+  function setupUnifiedVoteButton() {
+    const voteBtn = document.querySelector('.unified-vote-btn');
+    if (voteBtn) {
+      voteBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const spaceId = voteBtn.dataset.spaceId;
+        console.log('Unified vote button clicked, space ID:', spaceId);
+        await handleVote(spaceId, voteBtn);
+        
+        // Update the corresponding card vote button if visible
+        const cardVoteBtn = document.querySelector(`[data-space-id="${spaceId}"] .vote-btn`);
+        if (cardVoteBtn) {
+          const cardVoteCount = cardVoteBtn.querySelector('.vote-count');
+          const unifiedVoteCount = voteBtn.querySelector('.unified-vote-count');
+          if (cardVoteCount && unifiedVoteCount) {
+            cardVoteCount.textContent = unifiedVoteCount.textContent;
+          }
+          
+          // Sync button states
+          const isVoted = userVotes.has(spaceId);
+          const heartIcon = cardVoteBtn.querySelector('svg');
+          if (isVoted) {
+            cardVoteBtn.classList.remove('bg-neutral-800', 'text-neutral-400', 'hover:bg-red-600', 'hover:text-white');
+            cardVoteBtn.classList.add('bg-red-600', 'text-white');
+            if (heartIcon) heartIcon.classList.add('fill-current');
+          } else {
+            cardVoteBtn.classList.remove('bg-red-600', 'text-white');
+            cardVoteBtn.classList.add('bg-neutral-800', 'text-neutral-400', 'hover:bg-red-600', 'hover:text-white');
+            if (heartIcon) heartIcon.classList.remove('fill-current');
+          }
+        }
+      });
+    }
   }
   
   // Simple markdown to HTML converter (copied from DescriptionModal)
