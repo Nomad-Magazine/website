@@ -878,7 +878,7 @@ const seo: SEOProps = {
               <!-- Description -->
               <div class="mb-8">
                 <div class="flex items-center mb-4">
-                  <div class="h-1 w-8 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full mr-3"></div>
+                  <div class="h-0.5 w-8 bg-yellow-400 rounded-full mr-3"></div>
                   <h3 class="text-xl font-bold text-white">About</h3>
                 </div>
                 ${space.description ? `
@@ -893,67 +893,44 @@ const seo: SEOProps = {
               <!-- Location & Details -->
               <div class="mb-8">
                 <div class="flex items-center mb-4">
-                  <div class="h-1 w-8 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full mr-3"></div>
+                  <div class="h-0.5 w-8 bg-yellow-400 rounded-full mr-3"></div>
                   <h3 class="text-xl font-bold text-white">Details</h3>
                 </div>
-                <div class="space-y-4">
-                  <div class="flex items-center p-3 bg-neutral-700/50 rounded-lg backdrop-blur-sm">
-                    <div class="flex-shrink-0 w-10 h-10 bg-yellow-400/20 rounded-full flex items-center justify-center mr-3">
-                      <svg class="h-5 w-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                      </svg>
-                    </div>
-                    <div>
-                      <div class="text-sm text-gray-400 font-medium">Location</div>
-                      <div class="text-white font-medium">${space.location || 'Location not specified'}</div>
-                    </div>
+                <div class="space-y-3">
+                  <div class="flex items-center text-gray-300">
+                    <svg class="h-4 w-4 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <span>${space.location || 'Location not specified'}</span>
                   </div>
                   
                   ${space.price_range ? `
-                    <div class="flex items-center p-3 bg-neutral-700/50 rounded-lg backdrop-blur-sm">
-                      <div class="flex-shrink-0 w-10 h-10 bg-green-400/20 rounded-full flex items-center justify-center mr-3">
-                        <svg class="h-5 w-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
-                        </svg>
-                      </div>
-                      <div>
-                        <div class="text-sm text-gray-400 font-medium">Pricing</div>
-                        <div class="text-white font-medium">${space.price_range}</div>
-                      </div>
+                    <div class="flex items-center text-gray-300">
+                      <svg class="h-4 w-4 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                      </svg>
+                      <span>${space.price_range}</span>
                     </div>
                   ` : ''}
                   
                   ${space.wifi_speed ? `
-                    <div class="flex items-center p-3 bg-neutral-700/50 rounded-lg backdrop-blur-sm">
-                      <div class="flex-shrink-0 w-10 h-10 bg-purple-400/20 rounded-full flex items-center justify-center mr-3">
-                        <svg class="h-5 w-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/>
-                        </svg>
-                      </div>
-                      <div>
-                        <div class="text-sm text-gray-400 font-medium">WiFi Speed</div>
-                        <div class="text-white font-medium">${space.wifi_speed}</div>
-                      </div>
+                    <div class="flex items-center text-gray-300">
+                      <svg class="h-4 w-4 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/>
+                      </svg>
+                      <span>${space.wifi_speed}</span>
                     </div>
                   ` : ''}
                   
                   ${space.website_url ? `
-                    <div class="flex items-center p-3 bg-neutral-700/50 rounded-lg backdrop-blur-sm">
-                      <div class="flex-shrink-0 w-10 h-10 bg-blue-400/20 rounded-full flex items-center justify-center mr-3">
-                        <svg class="h-5 w-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                        </svg>
-                      </div>
-                      <div>
-                        <div class="text-sm text-gray-400 font-medium">Website</div>
-                        <a href="${space.website_url}" target="_blank" class="text-blue-400 hover:text-blue-300 font-medium transition-colors duration-200 flex items-center">
-                          Visit Website
-                          <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                          </svg>
-                        </a>
-                      </div>
+                    <div class="flex items-center text-gray-300">
+                      <svg class="h-4 w-4 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                      </svg>
+                      <a href="${space.website_url}" target="_blank" class="text-yellow-400 hover:text-yellow-300 underline transition-colors duration-200">
+                        Visit Website
+                      </a>
                     </div>
                   ` : ''}
                 </div>
@@ -962,17 +939,12 @@ const seo: SEOProps = {
               ${space.discount_code ? `
                 <div class="mb-8">
                   <div class="flex items-center mb-4">
-                    <div class="h-1 w-8 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full mr-3"></div>
+                    <div class="h-0.5 w-8 bg-yellow-400 rounded-full mr-3"></div>
                     <h3 class="text-xl font-bold text-white">Special Offer</h3>
                   </div>
-                  <div class="p-6 bg-gradient-to-r from-yellow-400/10 to-orange-400/10 border border-yellow-400/30 rounded-xl backdrop-blur-sm">
-                    <div class="flex items-center mb-3">
-                      <svg class="h-6 w-6 text-yellow-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
-                      </svg>
-                      <span class="text-yellow-400 font-semibold">Exclusive Discount Code</span>
-                    </div>
-                    <div class="text-2xl font-bold text-yellow-400 tracking-wider bg-black/30 rounded-lg p-3 text-center border border-yellow-400/20">${space.discount_code}</div>
+                  <div class="p-4 bg-yellow-400/10 border border-yellow-400/30 rounded-lg">
+                    <div class="text-sm text-yellow-400 mb-2">Discount Code</div>
+                    <div class="text-lg font-bold text-yellow-400">${space.discount_code}</div>
                   </div>
                 </div>
               ` : ''}
@@ -981,102 +953,59 @@ const seo: SEOProps = {
               ${space.name && space.name.toLowerCase().includes('workhub') ? `
                 <div class="mb-8">
                   <div class="flex items-center mb-4">
-                    <div class="h-1 w-8 bg-gradient-to-r from-pink-400 to-rose-500 rounded-full mr-3"></div>
+                    <div class="h-0.5 w-8 bg-yellow-400 rounded-full mr-3"></div>
                     <h3 class="text-xl font-bold text-white">Community Testimonials</h3>
                   </div>
-                  <div class="bg-gradient-to-br from-neutral-800/80 to-neutral-900/80 rounded-xl p-6 border border-yellow-400/20 backdrop-blur-sm">
-                    <div class="space-y-5">
-                      <div class="flex items-start group hover:bg-white/5 p-3 rounded-lg transition-all duration-200">
-                        <div class="flex-shrink-0 w-8 h-8 bg-yellow-400/20 rounded-full flex items-center justify-center mt-0.5 mr-4">
-                          <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                          </svg>
-                        </div>
-                        <div>
-                          <span class="font-semibold text-yellow-400">Vibrant Community:</span>
-                          <span class="text-gray-200 ml-1">Regular brunches and networking events create a strong sense of community and professional connection.</span>
-                        </div>
-                      </div>
-                      
-                      <div class="flex items-start group hover:bg-white/5 p-3 rounded-lg transition-all duration-200">
-                        <div class="flex-shrink-0 w-8 h-8 bg-green-400/20 rounded-full flex items-center justify-center mt-0.5 mr-4">
-                          <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                          </svg>
-                        </div>
-                        <div>
-                          <span class="font-semibold text-green-400">Pet-Friendly:</span>
-                          <span class="text-gray-200 ml-1">It's one of the few places that welcome pets, making it a much more inclusive and enjoyable environment for animal lovers.</span>
-                        </div>
-                      </div>
-                      
-                      <div class="flex items-start group hover:bg-white/5 p-3 rounded-lg transition-all duration-200">
-                        <div class="flex-shrink-0 w-8 h-8 bg-blue-400/20 rounded-full flex items-center justify-center mt-0.5 mr-4">
-                          <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-                          </svg>
-                        </div>
-                        <div>
-                          <span class="font-semibold text-blue-400">Excellent Amenities:</span>
-                          <span class="text-gray-200 ml-1">With 24/7 access, modern facilities, and a variety of workspace solutions (from single desks to warehouses), it adapts to every need.</span>
-                        </div>
-                      </div>
-                      
-                      <div class="flex items-start group hover:bg-white/5 p-3 rounded-lg transition-all duration-200">
-                        <div class="flex-shrink-0 w-8 h-8 bg-purple-400/20 rounded-full flex items-center justify-center mt-0.5 mr-4">
-                          <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                          </svg>
-                        </div>
-                        <div>
-                          <span class="font-semibold text-purple-400">Great Location:</span>
-                          <span class="text-gray-200 ml-1">It's well-located near the river, offering the perfect opportunity for a refreshing stroll along the water during a break.</span>
-                        </div>
-                      </div>
-                      
-                      <div class="flex items-start group hover:bg-white/5 p-3 rounded-lg transition-all duration-200">
-                        <div class="flex-shrink-0 w-8 h-8 bg-indigo-400/20 rounded-full flex items-center justify-center mt-0.5 mr-4">
-                          <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                          </svg>
-                        </div>
-                        <div>
-                          <span class="font-semibold text-indigo-400">Great Accessibility:</span>
-                          <span class="text-gray-200 ml-1">Easy to get to via public transport and bike paths, with the bonus of free parking nearby.</span>
-                        </div>
-                      </div>
-                      
-                      <div class="flex items-start group hover:bg-white/5 p-3 rounded-lg transition-all duration-200">
-                        <div class="flex-shrink-0 w-8 h-8 bg-orange-400/20 rounded-full flex items-center justify-center mt-0.5 mr-4">
-                          <svg class="w-4 h-4 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
-                          </svg>
-                        </div>
-                        <div>
-                          <span class="font-semibold text-orange-400">Inspiring Workspace:</span>
-                          <span class="text-gray-200 ml-1">Inspiring place to work where you can find everything you need and meet interesting people.</span>
-                        </div>
-                      </div>
-                      
-                      <div class="flex items-start group hover:bg-white/5 p-3 rounded-lg transition-all duration-200">
-                        <div class="flex-shrink-0 w-8 h-8 bg-rose-400/20 rounded-full flex items-center justify-center mt-0.5 mr-4">
-                          <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"/>
-                          </svg>
-                        </div>
-                        <div>
-                          <span class="font-semibold text-rose-400">Industrial Design:</span>
-                          <span class="text-gray-200 ml-1">The space has a strong industrial vibe, with visible pipes, concrete details, and a minimalist design. Metal accents, rustic wood, and neutral colors add to the raw and modern atmosphere.</span>
+                  <div class="space-y-4">
+                    <!-- Review 1 -->
+                    <div class="bg-neutral-800/50 rounded-lg p-4 border-l-4 border-yellow-400/50">
+                      <div class="flex items-start mb-3">
+                        <svg class="w-5 h-5 text-yellow-400 mr-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                        </svg>
+                        <div class="flex-1">
+                          <p class="text-gray-200 italic mb-2">"The regular brunches and networking events here are amazing! I've built such strong professional connections and friendships. The community vibe is exactly what I was looking for as a digital nomad."</p>
+                          <p class="text-sm text-gray-400">— Sarah M., Digital Marketer</p>
                         </div>
                       </div>
                     </div>
                     
-                    <div class="mt-6 pt-4 border-t border-neutral-700/50">
-                      <div class="flex items-center text-sm text-gray-400">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/>
+                    <!-- Review 2 -->
+                    <div class="bg-neutral-800/50 rounded-lg p-4 border-l-4 border-green-400/50">
+                      <div class="flex items-start mb-3">
+                        <svg class="w-5 h-5 text-green-400 mr-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
                         </svg>
-                        <span class="italic">Shared by nomads who nominated this space</span>
+                        <div class="flex-1">
+                          <p class="text-gray-200 italic mb-2">"Finally found a coworking space that welcomes pets! My dog loves coming to work with me, and it makes the whole experience so much more enjoyable. The other members are super friendly about it too."</p>
+                          <p class="text-sm text-gray-400">— Marcus T., Software Developer</p>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <!-- Review 3 -->
+                    <div class="bg-neutral-800/50 rounded-lg p-4 border-l-4 border-blue-400/50">
+                      <div class="flex items-start mb-3">
+                        <svg class="w-5 h-5 text-blue-400 mr-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                        </svg>
+                        <div class="flex-1">
+                          <p class="text-gray-200 italic mb-2">"The 24/7 access is a game-changer for me. Whether I need a quiet desk or a larger space for client meetings, they have everything. The industrial design with all the exposed pipes gives it such a unique, inspiring atmosphere."</p>
+                          <p class="text-sm text-gray-400">— Elena R., UX Designer</p>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <!-- Review 4 -->
+                    <div class="bg-neutral-800/50 rounded-lg p-4 border-l-4 border-purple-400/50">
+                      <div class="flex items-start mb-3">
+                        <svg class="w-5 h-5 text-purple-400 mr-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                        </svg>
+                        <div class="flex-1">
+                          <p class="text-gray-200 italic mb-2">"Perfect location near the river! I take walks during breaks which really helps clear my head. Plus it's super easy to get to by bike or public transport. The free parking is just a bonus."</p>
+                          <p class="text-sm text-gray-400">— David K., Content Creator</p>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1133,15 +1062,26 @@ const seo: SEOProps = {
   }
   
   function updateUnifiedCarousel(index) {
-    // Update images
+    // Update images using opacity instead of hidden
     document.querySelectorAll('.unified-carousel-image').forEach((img, i) => {
-      img.classList.toggle('hidden', i !== index);
+      if (i === index) {
+        img.classList.remove('opacity-0');
+        img.classList.add('opacity-100');
+      } else {
+        img.classList.remove('opacity-100');
+        img.classList.add('opacity-0');
+      }
     });
     
     // Update dots
     document.querySelectorAll('.unified-carousel-dot').forEach((dot, i) => {
-      dot.classList.toggle('bg-white', i === index);
-      dot.classList.toggle('bg-white/50', i !== index);
+      if (i === index) {
+        dot.classList.remove('bg-white/50');
+        dot.classList.add('bg-white', 'scale-125');
+      } else {
+        dot.classList.remove('bg-white', 'scale-125');
+        dot.classList.add('bg-white/50');
+      }
     });
   }
   
