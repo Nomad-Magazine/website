@@ -6,7 +6,7 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-04-03T10:37:26.261Z
-updated_at: 2025-08-11T06:39:18.437Z
+updated_at: 2025-09-25T16:55:09.306Z
 head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/67ee60a9ebbb9dc80641158a-1743676658354.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: digital nomads, community, coliving, travel coordination, remote work, meaningful connections
@@ -21,7 +21,7 @@ next_blog: ''
 -   **Travel Coordination**: Share travel plans and see where friends are headed to make meetups easier.
 -   **Community-Recommended Coliving Spaces**: Find trusted coliving spaces with verified reviews and community-focused amenities.
 -   **Real-Time Updates**: Share photos, text, and travel details to stay in touch with friends.
--   **Community Events**: Join or host workshops, retreats, and pop-up experiences.
+-   **[Community Events](https://sowal.co)**: Join or host workshops, retreats, and pop-up experiences.
 
 Founded in 2022, Mapmelon focuses on meaningful connections, not random interactions. It’s a platform designed to help nomads maintain relationships, plan trips, and discover community-approved spaces while embracing a location-independent lifestyle.
 
