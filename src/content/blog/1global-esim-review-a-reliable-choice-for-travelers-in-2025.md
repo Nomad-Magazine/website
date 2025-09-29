@@ -6,8 +6,8 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-03-18T22:50:45.293Z
-updated_at: 2025-03-18T22:50:57.870Z
-head_image: https://assets.seobotai.com/nomadgossip.com/67d9f35c31389773b3fed49d-1742338257870.jpg
+updated_at: 2025-09-28T11:56:10.305Z
+head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/67d9f35c31389773b3fed49d-1742338257870.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: eSIM, travel connectivity, global data plans, mobile data, network coverage, instant activation
 tag: Digital, Expat, Travel
@@ -81,7 +81,7 @@ Before setting up, confirm that your device supports eSIM technology. Most recen
 
 | Device Type | Compatible Models (2023-2025) |
 | --- | --- |
-| iPhone | iPhone 13/14/15 Series, iPhone SE (2nd/3rd gen) |
+| iPhone | [iPhone 13/14/15 Series](https://gadgetmedics.com), iPhone SE (2nd/3rd gen) |
 | Samsung | Galaxy S21/S22/S23/S24 Series, Z Fold3/4/5, Z Flip Series |
 
 ### Activation Process
