@@ -1,0 +1,674 @@
+---
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import CheckIcon from '~icons/ic/baseline-check'
+import ArrowRightIcon from '~icons/ic/baseline-arrow-forward'
+import ItalyMagazineStack from '~/components/ItalyMagazineStack.astro'
+
+const seo: SEOProps = {
+  title: "Put Italy on Our Magazine Cover | Premium Partnership with Nomad Magazine",
+  description: "Partner with Nomad Magazine to feature Palermo on our cover. Professional storytelling, premium distribution globally, and strategic collaboration with Italia Nomad Fest. €6,000 investment for 1,000 copies.",
+  keywords: "Italy destination marketing, Palermo tourism, digital nomad magazine, Italia Nomad Fest, premium sponsorship, travel marketing",
+  image: `${Astro.site}images/Italy-Palermo-cover-example.png`,
+  ogType: "website" as const
+}
+---
+
+<Layout seo={seo}>
+  <!-- Hero Section -->
+  <div class="bg-gradient-to-br from-green-600 via-white to-red-600 text-black min-h-screen flex items-center">
+    <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+      <div class="text-center space-y-12">
+        <div class="space-y-8">
+          <div class="text-8xl">🇮🇹</div>
+          <h1 class="text-5xl font-bold leading-tight md:text-6xl lg:text-7xl">
+            Put <span class="text-green-600">Italy</span> on Our <span class="text-red-600">Cover</span>
+          </h1>
+          <p class="text-xl text-gray-800 leading-relaxed max-w-4xl mx-auto">
+            Upgrade your Italia Nomad Fest investment into lasting destination marketing. 
+            Feature Palermo prominently in Europe's only print magazine for digital nomads, 
+            distributed across 100+ locations continent-wide.
+          </p>
+        </div>
+
+        <!-- Magazine Cover Preview -->
+        <div class="relative max-w-md mx-auto">
+          <div class="bg-white rounded-2xl shadow-2xl p-6 transform rotate-3 hover:rotate-0 transition-transform duration-300">
+            <img 
+              src="/images/Italy-Palermo-cover-example3.png" 
+              alt="Italy Palermo Magazine Cover Example" 
+              class="w-full rounded-lg shadow-lg"
+              loading="eager"
+            />
+            <div class="mt-4 text-center">
+              <p class="text-sm font-semibold text-gray-900">Your Cover Design</p>
+              <p class="text-xs text-gray-600">By Molly Maine</p>
+            </div>
+          </div>
+          <div class="absolute -bottom-6 -right-6 bg-yellow-400 text-black px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+            Cover Preview
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div class="flex items-center justify-center text-lg font-medium">
+            <CheckIcon class="mr-3 h-5 w-5 flex-shrink-0 text-green-600" />
+            <span>Italy & Palermo featured on magazine cover</span>
+          </div>
+          <div class="flex items-center justify-center text-lg font-medium">
+            <CheckIcon class="mr-3 h-5 w-5 flex-shrink-0 text-green-600" />
+            <span>Custom editorial content showcasing Palermo's nomad potential</span>
+          </div>
+          <div class="flex items-center justify-center text-lg font-medium">
+            <CheckIcon class="mr-3 h-5 w-5 flex-shrink-0 text-green-600" />
+            <span>1,000 copies distributed across Europe</span>
+          </div>
+          <div class="flex items-center justify-center text-lg font-medium">
+            <CheckIcon class="mr-3 h-5 w-5 flex-shrink-0 text-green-600" />
+            <span>Cover artwork by renowned illustrator Molly Maine</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Who We Are Section -->
+  <div class="bg-white py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-900 mb-6">Europe's Only Print Magazine for Digital Nomads</h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          Three successful editions, trusted by tourism boards worldwide, and the definitive voice in nomad destination marketing.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <div class="bg-gray-50 rounded-2xl p-8">
+            <h3 class="text-2xl font-bold text-gray-900 mb-6">Our Track Record</h3>
+            <div class="space-y-6">
+              <div class="flex items-start">
+                <div class="bg-yellow-400 text-black rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm mr-4 flex-shrink-0">3</div>
+                <div>
+                  <h4 class="font-semibold text-gray-900">Published Editions</h4>
+                  <p class="text-gray-600 text-sm">Consistent quality and growing readership across Europe</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div class="bg-yellow-400 text-black rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm mr-4 flex-shrink-0">5</div>
+                <div>
+                  <h4 class="font-semibold text-gray-900">Destination Partners</h4>
+                  <p class="text-gray-600 text-sm">Including Fukuoka Tourism Board, Madeira Regional Government</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div class="bg-yellow-400 text-black rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm mr-4 flex-shrink-0">100+</div>
+                <div>
+                  <h4 class="font-semibold text-gray-900">Distribution Points</h4>
+                  <p class="text-gray-600 text-sm">Coworking spaces, colivings, and nomad events across Europe</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-8">
+          <div class="flex justify-center">
+            <ItalyMagazineStack className="max-w-full" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Why Magazine Over Brochure Section -->
+  <div class="bg-yellow-400 py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-black mb-8 md:text-5xl">Why a Magazine Beats Any Brochure</h2>
+        <p class="text-xl text-gray-800 max-w-3xl mx-auto mb-6">
+          Brochures get thrown away. Magazines get kept, shared, and treasured. Here's why your investment works harder in our format.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        <!-- Brochure Column -->
+        <div class="bg-red-100 rounded-3xl p-8 border-2 border-red-300">
+          <div class="text-center mb-8">
+            <div class="text-6xl mb-4">📄</div>
+            <h3 class="text-2xl font-bold text-red-800 mb-2">Traditional Brochure</h3>
+            <p class="text-red-600">The forgettable approach</p>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="flex items-start">
+              <div class="text-red-500 mr-3 mt-1">❌</div>
+              <div>
+                <strong class="text-red-800">Thrown away immediately</strong>
+                <p class="text-red-700 text-sm">Seen as promotional material, discarded within hours</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="text-red-500 mr-3 mt-1">❌</div>
+              <div>
+                <strong class="text-red-800">Zero credibility</strong>
+                <p class="text-red-700 text-sm">Obviously biased, no editorial integrity</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="text-red-500 mr-3 mt-1">❌</div>
+              <div>
+                <strong class="text-red-800">Limited distribution</strong>
+                <p class="text-red-700 text-sm">Only given to people who already know about you</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="text-red-500 mr-3 mt-1">❌</div>
+              <div>
+                <strong class="text-red-800">No sharing value</strong>
+                <p class="text-red-700 text-sm">Nobody passes around promotional materials</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="text-red-500 mr-3 mt-1">❌</div>
+              <div>
+                <strong class="text-red-800">Static content</strong>
+                <p class="text-red-700 text-sm">Same generic template as every other destination</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Magazine Column -->
+        <div class="bg-green-50 rounded-3xl p-8 border-2 border-green-400">
+          <div class="text-center mb-8">
+            <div class="text-6xl mb-4">📖</div>
+            <h3 class="text-2xl font-bold text-green-800 mb-2">Premium Magazine Feature</h3>
+            <p class="text-green-600">The memorable investment</p>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="flex items-start">
+              <div class="text-green-500 mr-3 mt-1">✅</div>
+              <div>
+                <strong class="text-green-800">Kept and treasured</strong>
+                <p class="text-green-700 text-sm">Coffee table presence for months, referenced repeatedly</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="text-green-500 mr-3 mt-1">✅</div>
+              <div>
+                <strong class="text-green-800">Editorial credibility</strong>
+                <p class="text-green-700 text-sm">Trusted journalism, not advertising—readers believe it</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="text-green-500 mr-3 mt-1">✅</div>
+              <div>
+                <strong class="text-green-800">European-wide reach</strong>
+                <p class="text-green-700 text-sm">100+ distribution points across multiple countries</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="text-green-500 mr-3 mt-1">✅</div>
+              <div>
+                <strong class="text-green-800">Naturally shareable</strong>
+                <p class="text-green-700 text-sm">People lend magazines to friends, leave in coworking spaces</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="text-green-500 mr-3 mt-1">✅</div>
+              <div>
+                <strong class="text-green-800">Storytelling expertise</strong>
+                <p class="text-green-700 text-sm">Professional narrative that makes people want to visit</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-12">
+        <div class="bg-white rounded-2xl p-8 max-w-4xl mx-auto shadow-xl">
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">The Strategic Difference</h3>
+          <p class="text-gray-700 text-lg">
+            <strong>Brochures say "We want your money."</strong><br>
+            <strong>Magazine features say "We're worth your time."</strong><br><br>
+            When nomads discover Palermo through our editorial content, they don't feel sold to—they feel informed. 
+            That's the difference between a transaction and a transformation.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Premium Package Section -->
+  <div class="bg-hoverw text-white py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold mb-6 md:text-5xl">Your €6,000 Premium Package</h2>
+        <p class="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
+          Everything you need to position Palermo as Europe's next premier nomad destination. 
+          A strategic collaboration, not just advertising.
+        </p>
+        <div class="bg-yellow-400/20 rounded-xl p-6 max-w-4xl mx-auto border border-yellow-400/30">
+          <p class="text-yellow-200 text-lg">
+            <strong>Collaborative Editorial Process:</strong> We work together with Palermo municipality and local businesses 
+            to create authentic, compelling content that showcases your destination's unique nomad appeal.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div class="bg-neutral-900/50 rounded-3xl p-8 border border-neutral-800">
+          <div class="text-4xl mb-6">🎨</div>
+          <h3 class="text-2xl font-bold mb-4">Custom Cover Artwork</h3>
+          <p class="text-gray-300 mb-6">Original illustration by Molly Maine (@molly.creative) featuring Italy & Palermo as the hero destination.</p>
+          <div class="space-y-3">
+            <div class="flex items-center">
+              <CheckIcon class="mr-3 h-5 w-5 text-yellow-400" />
+              <span class="text-gray-300">Professional artist with 10K+ followers</span>
+            </div>
+            <div class="flex items-center">
+              <CheckIcon class="mr-3 h-5 w-5 text-yellow-400" />
+              <span class="text-gray-300">Custom Italian-themed design</span>
+            </div>
+            <div class="flex items-center">
+              <CheckIcon class="mr-3 h-5 w-5 text-yellow-400" />
+              <span class="text-gray-300">High-resolution files for your use</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-neutral-900/50 rounded-3xl p-8 border border-neutral-800">
+          <div class="text-4xl mb-6">✍️</div>
+          <h3 class="text-2xl font-bold mb-4">Collaborative Editorial</h3>
+          <p class="text-gray-300 mb-6">4-6 page feature article developed with local insights and nomad expertise to showcase Palermo's unique advantages.</p>
+          <div class="space-y-3">
+            <div class="flex items-center">
+              <CheckIcon class="mr-3 h-5 w-5 text-yellow-400" />
+              <span class="text-gray-300">Professional journalism standards</span>
+            </div>
+            <div class="flex items-center">
+              <CheckIcon class="mr-3 h-5 w-5 text-yellow-400" />
+              <span class="text-gray-300">Local business spotlights</span>
+            </div>
+            <div class="flex items-center">
+              <CheckIcon class="mr-3 h-5 w-5 text-yellow-400" />
+              <span class="text-gray-300">Practical nomad information</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-neutral-900/50 rounded-3xl p-8 border border-neutral-800">
+          <div class="text-4xl mb-6">🗺️</div>
+          <h3 class="text-2xl font-bold mb-4">European Distribution</h3>
+          <p class="text-gray-300 mb-6">1,000 copies strategically placed in 100+ coworking spaces, colivings, and nomad events across Europe.</p>
+          <div class="space-y-3">
+            <div class="flex items-center">
+              <CheckIcon class="mr-3 h-5 w-5 text-yellow-400" />
+              <span class="text-gray-300">Germany, Netherlands, Spain, Portugal</span>
+            </div>
+            <div class="flex items-center">
+              <CheckIcon class="mr-3 h-5 w-5 text-yellow-400" />
+              <span class="text-gray-300">Major nomad hubs prioritized</span>
+            </div>
+            <div class="flex items-center">
+              <CheckIcon class="mr-3 h-5 w-5 text-yellow-400" />
+              <span class="text-gray-300">Italia Nomad Fest distribution included</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Package Value Breakdown -->
+      <div class="bg-neutral-900/80 rounded-3xl p-8 border border-neutral-700 max-w-4xl mx-auto">
+        <h3 class="text-2xl font-bold mb-6 text-center">What €6,000 Includes</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-4">
+            <div class="flex justify-between items-center">
+              <span class="text-gray-300">Custom cover illustration</span>
+              <span class="text-yellow-400 font-semibold">€1,500 value</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-300">Professional editorial content</span>
+              <span class="text-yellow-400 font-semibold">€2,000 value</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-300">Magazine design & layout</span>
+              <span class="text-yellow-400 font-semibold">€800 value</span>
+            </div>
+          </div>
+          <div class="space-y-4">
+            <div class="flex justify-between items-center">
+              <span class="text-gray-300">1,000 copies printing</span>
+              <span class="text-yellow-400 font-semibold">€1,200 value</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-300">European distribution</span>
+              <span class="text-yellow-400 font-semibold">€1,000 value</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-300">Project management</span>
+              <span class="text-yellow-400 font-semibold">€500 value</span>
+            </div>
+          </div>
+        </div>
+        <div class="border-t border-gray-700 mt-6 pt-6">
+          <div class="flex justify-between items-center text-lg font-bold">
+            <span class="text-white">Total Value</span>
+            <span class="text-yellow-400">€7,000+</span>
+          </div>
+          <div class="flex justify-between items-center text-2xl font-bold mt-2">
+            <span class="text-white">Your Investment</span>
+            <span class="text-green-400">€6,000</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add-ons Section -->
+  <div class="bg-gray-50 py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-900 mb-6">Optional Upgrades</h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          Enhance your campaign with additional marketing channels and expanded distribution.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- YouTube Episode -->
+        <div class="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-xl transition-shadow">
+          <div class="text-4xl mb-6 text-center">📺</div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center">YouTube Episode</h3>
+          <div class="text-center mb-6">
+            <div class="text-3xl font-bold text-red-600">+€2,000</div>
+          </div>
+          <div class="space-y-3 mb-6">
+            <div class="flex items-center">
+              <CheckIcon class="mr-3 h-5 w-5 text-green-500" />
+              <span class="text-gray-700">15-20 minute dedicated episode</span>
+            </div>
+            <div class="flex items-center">
+              <CheckIcon class="mr-3 h-5 w-5 text-green-500" />
+              <span class="text-gray-700">Professional filming in Palermo</span>
+            </div>
+            <div class="flex items-center">
+              <CheckIcon class="mr-3 h-5 w-5 text-green-500" />
+              <span class="text-gray-700">Local business interviews</span>
+            </div>
+            <div class="flex items-center">
+              <CheckIcon class="mr-3 h-5 w-5 text-green-500" />
+              <span class="text-gray-700">10K+ expected views</span>
+            </div>
+            <div class="flex items-center">
+              <CheckIcon class="mr-3 h-5 w-5 text-green-500" />
+              <span class="text-gray-700">Cross-promotion with magazine</span>
+            </div>
+          </div>
+          <div class="text-center">
+            <p class="text-sm text-gray-600">Perfect complement to the magazine feature</p>
+          </div>
+        </div>
+
+        <!-- Enhanced Distribution -->
+        <div class="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-xl transition-shadow">
+          <div class="text-4xl mb-6 text-center">🏢</div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center">Enhanced Distribution</h3>
+          <div class="text-center mb-6">
+            <div class="text-3xl font-bold text-blue-600">Custom Quote</div>
+          </div>
+          <div class="space-y-3 mb-6">
+            <div class="flex items-center">
+              <CheckIcon class="mr-3 h-5 w-5 text-green-500" />
+              <span class="text-gray-700">Additional coworking spaces</span>
+            </div>
+            <div class="flex items-center">
+              <CheckIcon class="mr-3 h-5 w-5 text-green-500" />
+              <span class="text-gray-700">Premium coliving networks</span>
+            </div>
+            <div class="flex items-center">
+              <CheckIcon class="mr-3 h-5 w-5 text-green-500" />
+              <span class="text-gray-700">Nomad event partnerships</span>
+            </div>
+            <div class="flex items-center">
+              <CheckIcon class="mr-3 h-5 w-5 text-green-500" />
+              <span class="text-gray-700">Strategic city targeting</span>
+            </div>
+            <div class="flex items-center">
+              <CheckIcon class="mr-3 h-5 w-5 text-green-500" />
+              <span class="text-gray-700">Distribution tracking</span>
+            </div>
+          </div>
+          <div class="text-center">
+            <p class="text-sm text-gray-600">Tailored to your specific reach goals</p>
+          </div>
+        </div>
+
+        <!-- Additional Print Copies -->
+        <div class="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-xl transition-shadow">
+          <div class="text-4xl mb-6 text-center">📚</div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center">Extra Print Copies</h3>
+          <div class="text-center mb-6">
+            <div class="text-3xl font-bold text-purple-600">Custom Quote</div>
+          </div>
+          <div class="space-y-3 mb-6">
+            <div class="flex items-center">
+              <CheckIcon class="mr-3 h-5 w-5 text-green-500" />
+              <span class="text-gray-700">Additional 500-2000 copies</span>
+            </div>
+            <div class="flex items-center">
+              <CheckIcon class="mr-3 h-5 w-5 text-green-500" />
+              <span class="text-gray-700">Bulk pricing discounts</span>
+            </div>
+            <div class="flex items-center">
+              <CheckIcon class="mr-3 h-5 w-5 text-green-500" />
+              <span class="text-gray-700">Direct delivery to your events</span>
+            </div>
+            <div class="flex items-center">
+              <CheckIcon class="mr-3 h-5 w-5 text-green-500" />
+              <span class="text-gray-700">Perfect for local distribution</span>
+            </div>
+            <div class="flex items-center">
+              <CheckIcon class="mr-3 h-5 w-5 text-green-500" />
+              <span class="text-gray-700">Tourism office stock</span>
+            </div>
+          </div>
+          <div class="text-center">
+            <p class="text-sm text-gray-600">Scale your local impact</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pricing Guide -->
+      <div class="mt-16 bg-white rounded-xl p-8 shadow-lg max-w-4xl mx-auto">
+        <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">Investment Guide</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <h4 class="font-semibold text-gray-900 mb-4">Base Package: €6,000</h4>
+            <ul class="text-sm text-gray-600 space-y-2">
+              <li>• Cover feature + 4-6 page editorial</li>
+              <li>• Custom illustration by Molly Maine</li>
+              <li>• 1,000 copies printed</li>
+              <li>• European distribution network</li>
+              <li>• Italia Nomad Fest presence</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-semibold text-gray-900 mb-4">Popular Add-ons</h4>
+            <ul class="text-sm text-gray-600 space-y-2">
+              <li>• YouTube episode: +€2,000</li>
+              <li>• 500 extra copies: ~€600-800</li>
+              <li>• Enhanced distribution: €300-800</li>
+              <li>• Total premium package: ~€9,000</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Why This Investment Makes Sense Section -->
+  <div class="bg-white py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-900 mb-6">Why This Investment Transforms Palermo</h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          Digital nomads aren't just tourists—they're potential residents, entrepreneurs, and community builders who invest deeply in the places they love.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div class="space-y-8">
+          <div class="bg-blue-50 rounded-xl p-8 border border-blue-200">
+            <h3 class="text-2xl font-bold text-blue-900 mb-4">The Nomad Economy Advantage</h3>
+            <div class="space-y-4">
+              <div class="flex items-start">
+                <div class="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm mr-4 mt-1">€</div>
+                <div>
+                  <h4 class="font-semibold text-blue-900">High Spending Power</h4>
+                  <p class="text-blue-800 text-sm">Average nomad income: €50,000+/year, spending 25-30% locally</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div class="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm mr-4 mt-1">📅</div>
+                <div>
+                  <h4 class="font-semibold text-blue-900">Extended Stays</h4>
+                  <p class="text-blue-800 text-sm">Average 3-12 months vs. 3-5 days for traditional tourists</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div class="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm mr-4 mt-1">🏠</div>
+                <div>
+                  <h4 class="font-semibold text-blue-900">Property Investment</h4>
+                  <p class="text-blue-800 text-sm">40% eventually buy property in destinations they fall in love with</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-green-50 rounded-xl p-8 border border-green-200">
+            <h3 class="text-2xl font-bold text-green-900 mb-4">Strategic Positioning</h3>
+            <p class="text-green-800 mb-4">
+              This magazine positions Palermo as a <strong>serious nomad destination</strong> before your competitors catch on. 
+              You're not just buying advertising—you're buying first-mover advantage.
+            </p>
+            <div class="bg-green-100 rounded-lg p-4">
+              <p class="text-green-800 text-sm font-medium">
+                💡 <strong>Smart Timing:</strong> Launch during Italia Nomad Fest when nomads are actively evaluating Italy as their next base.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-8">
+          <div class="bg-yellow-50 rounded-xl p-8 border border-yellow-200">
+            <h3 class="text-2xl font-bold text-yellow-900 mb-6">ROI That Compounds</h3>
+            <div class="space-y-6">
+              <div>
+                <h4 class="font-semibold text-yellow-900 mb-2">Month 1-3: Immediate Impact</h4>
+                <ul class="text-yellow-800 text-sm space-y-1">
+                  <li>• Magazine distributed at Italia Nomad Fest</li>
+                  <li>• Initial nomad inquiries and visits</li>
+                  <li>• Local business awareness building</li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-semibold text-yellow-900 mb-2">Month 4-12: Growing Returns</h4>
+                <ul class="text-yellow-800 text-sm space-y-1">
+                  <li>• Word-of-mouth recommendations spread</li>
+                  <li>• Extended stays and repeat visits</li>
+                  <li>• Local nomad community establishment</li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-semibold text-yellow-900 mb-2">Year 2+: Compound Growth</h4>
+                <ul class="text-yellow-800 text-sm space-y-1">
+                  <li>• Property purchases and business creation</li>
+                  <li>• Palermo known as established nomad hub</li>
+                  <li>• Self-sustaining nomad ecosystem</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gray-100 rounded-xl p-8 border border-gray-300">
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">Beyond Italia Nomad Fest</h3>
+            <p class="text-gray-700 mb-4">
+              While your Italia Nomad Fest investment reaches hundreds of attendees for one week, 
+              this magazine reaches <strong>thousands of nomads across Europe for months.</strong>
+            </p>
+            <div class="bg-white rounded-lg p-4">
+              <p class="text-gray-800 font-medium text-center">
+                🚀 Transform a one-week event into a year-long marketing campaign
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Call to Action -->
+  <div class="bg-gradient-to-br from-green-600 via-white to-red-600 py-20">
+    <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-4xl font-bold text-black mb-6">Ready to Put Italy on the Map?</h2>
+      <p class="text-xl text-gray-800 mb-8 leading-relaxed">
+        Join the tourism boards and destinations already seeing results with Nomad Magazine. 
+        Let's work together to showcase Palermo's unique appeal to Europe's digital nomad community.
+      </p>
+      
+      <div class="space-y-6">
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="https://calendly.com/nomadgossip"
+            target="_blank"
+            class="inline-block rounded bg-black px-10 py-4 text-center text-xl font-bold text-white transition-all hover:bg-gray-800 hover:scale-105"
+          >
+            🇮🇹 Schedule Partnership Call
+          </a>
+          <a
+            href="mailto:partnerships@nomad-magazine.com?subject=Italy%20Cover%20Feature%20-%20€6K%20Package&body=Hi%2C%0D%0A%0D%0AI%27m%20interested%20in%20featuring%20Italy%20%26%20Palermo%20on%20your%20magazine%20cover.%0D%0A%0D%0APlease%20send%20more%20details%20about%20the%20€6%2C000%20premium%20package.%0D%0A%0D%0AThanks"
+            class="inline-block rounded border-2 border-black px-10 py-4 text-center text-xl font-bold text-black transition-all hover:bg-black hover:text-white"
+          >
+            📧 Request Details
+          </a>
+        </div>
+
+        <div class="bg-white/90 rounded-xl p-6 max-w-3xl mx-auto shadow-lg">
+          <h3 class="text-lg font-bold text-gray-900 mb-3">Partnership Contact</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+            <div>
+              <p class="font-medium text-gray-900">Email</p>
+              <p class="text-gray-700">partnerships@nomad-magazine.com</p>
+            </div>
+            <div>
+              <p class="font-medium text-gray-900">Direct Call</p>
+              <p class="text-gray-700">calendly.com/nomadgossip</p>
+            </div>
+          </div>
+        </div>
+
+        <p class="text-gray-800 text-sm">
+          ⏰ <strong>Limited opportunity:</strong> We can only feature one destination per edition. 
+          Multiple Italian cities are interested—secure Palermo's position today.
+        </p>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+.hover\:scale-105:hover {
+  transform: scale(1.05);
+}
+</style>
