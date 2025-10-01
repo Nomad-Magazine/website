@@ -57,8 +57,26 @@ const monthlySupporters = [
   'DataBench (Max Browser)', // in case it's stored with the full name
   'Max',
   'NomadTax Bulgaria Ltd.',
+  'Colive Fukuoka',
   // Add more supporter company names here as needed
 ]
+
+// Helper function to check if a record is a supporter
+const isSupporter = (record: any) => {
+  return record.supporter ||
+         record.monthly_supporter ||
+         record.is_supporter ||
+         record.supporter_status === 'Monthly Supporter' ||
+         record.status === 'Monthly Supporter' ||
+         monthlySupporters.includes(record.title)
+}
+
+// Helper function to check if a record is Max Browser/DataBench
+const isMaxBrowser = (record: any) => {
+  return record.title?.toLowerCase().includes('max browser') ||
+         record.title?.toLowerCase().includes('max') ||
+         record.title === 'DataBench'
+}
 
 const seo: SEOProps = {
   title: 'Nomad Directory - The Ultimate Resource for Digital Nomads',
@@ -144,20 +162,23 @@ const seo: SEOProps = {
         records
           .filter((i: any) => i.sf4ad525dd)
           .sort((a: any, b: any) => {
-            // Check if record is Max Browser/DataBench
-            const isMaxBrowserA = a.title?.toLowerCase().includes('max browser') || 
-                                  a.title?.toLowerCase().includes('max') || 
-                                  a.title === 'DataBench';
-            const isMaxBrowserB = b.title?.toLowerCase().includes('max browser') || 
-                                  b.title?.toLowerCase().includes('max') || 
-                                  b.title === 'DataBench';
-            
-            // Max Browser goes first
-            if (isMaxBrowserA && !isMaxBrowserB) return -1;
-            if (!isMaxBrowserA && isMaxBrowserB) return 1;
-            
+            const aSupporter = isSupporter(a)
+            const bSupporter = isSupporter(b)
+            const aMaxBrowser = isMaxBrowser(a)
+            const bMaxBrowser = isMaxBrowser(b)
+
+            // Supporters go first
+            if (aSupporter && !bSupporter) return -1
+            if (!aSupporter && bSupporter) return 1
+
+            // Among non-supporters, Max Browser goes next
+            if (!aSupporter && !bSupporter) {
+              if (aMaxBrowser && !bMaxBrowser) return -1
+              if (!aMaxBrowser && bMaxBrowser) return 1
+            }
+
             // Keep original order for others
-            return 0;
+            return 0
           })
                   .map((record: any, index: number) => {
                     // Use same link resolution logic as NomadDirectoryCard
@@ -169,9 +190,7 @@ const seo: SEOProps = {
                           <!-- Logo/Image -->
                           <div class="flex-shrink-0">
                             <div class={`w-32 h-32 rounded-xl flex items-center justify-center p-1 ${
-                              record.title?.toLowerCase().includes('naio') || record.title?.toLowerCase().includes('italia nomad fest') || record.title?.toLowerCase().includes('inf') || record.title?.toLowerCase().includes('nomadtax bulgaria')
-                                ? 'bg-white' 
-                                : 'bg-white/10'
+                              'bg-white'
                             }`}>
                               {record.image && record.image !== '/logo.svg' ? (
                                 <img 
@@ -181,9 +200,7 @@ const seo: SEOProps = {
                                 />
                               ) : (
                                 <span class={`font-bold text-3xl ${
-                                  record.title?.toLowerCase().includes('naio') || record.title?.toLowerCase().includes('italia nomad fest') || record.title?.toLowerCase().includes('inf') || record.title?.toLowerCase().includes('nomadtax bulgaria')
-                                    ? 'text-black' 
-                                    : 'text-white'
+                                  'text-black'
                                 }`}>
                                   {(record.title || 'C').charAt(0).toUpperCase()}
                                 </span>
