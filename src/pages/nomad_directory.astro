@@ -233,8 +233,20 @@ const seo: SEOProps = {
                                 <p class="text-gray-300 text-base leading-relaxed line-clamp-3 max-w-2xl">
                                   {record.scea90e502 || 'Description not available'}
                                 </p>
+
+                                <!-- Special Offer -->
+                                {record.s5576966ee && (
+                                  <div class="mt-3 p-3 bg-yellow-400/10 border-l-4 border-yellow-400 rounded-r-lg">
+                                    <div class="flex items-start gap-2">
+                                      <span class="text-yellow-400 font-bold text-xs uppercase tracking-wide">Special Offer:</span>
+                                    </div>
+                                    <p class="text-gray-200 text-sm mt-1 whitespace-pre-line">
+                                      {record.s5576966ee}
+                                    </p>
+                                  </div>
+                                )}
                               </div>
-                              
+
                               <!-- Category Badge and Number -->
                               <div class="flex items-center gap-4">
                                 {record.sb685ab800?.label && (
