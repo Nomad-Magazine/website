@@ -1,7 +1,6 @@
 ---
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import CheckIcon from '~icons/ic/baseline-check'
-import ArrowRightIcon from '~icons/ic/baseline-arrow-forward'
 import ItalyMagazineStack from '~/components/ItalyMagazineStack.astro'
 
 const seo: SEOProps = {
@@ -9,11 +8,7 @@ const seo: SEOProps = {
   description: "Feature Italy & Palermo on the cover of Nomad Magazine. Professional storytelling distributed to 70+ coworking spaces, colivings, and hostels across Europe. Perfect timing for Italia Nomad Fest.",
   keywords: "Italy destination marketing, Palermo tourism, digital nomad magazine, travel marketing, Italia Nomad Fest",
   image: `${Astro.site}images/edition-123-three-together-transparent.webp`,
-  ogType: "website" as const,
-  robots: {
-    index: false,
-    follow: false
-  }
+  ogType: "website" as const
 }
 ---
 
@@ -814,6 +809,9 @@ const seo: SEOProps = {
     </div>
   </div>
 
+  <!-- Spacer -->
+  <div class="py-12"></div>
+
   <!-- How This Works Section -->
   <div class="bg-black py-20">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -1128,6 +1126,10 @@ const seo: SEOProps = {
             <div class="flex items-center">
               <CheckIcon class="mr-3 h-5 w-5 text-purple-500" />
               <span class="text-gray-700">3 SEO articles for Palermo on nomad-magazine.com</span>
+            </div>
+            <div class="flex items-center">
+              <CheckIcon class="mr-3 h-5 w-5 text-purple-500" />
+              <span class="text-gray-700">Two more events</span>
             </div>
           </div>
           
