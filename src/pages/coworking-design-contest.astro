@@ -139,6 +139,12 @@ console.log('DEBUG: Sample testimonial:', smartSuiteTestimonials[0] ? smartSuite
 console.log('DEBUG: All testimonials:', smartSuiteTestimonials)
 console.log('DEBUG: Testimonial space names:', smartSuiteTestimonials.map(t => t.spaceName))
 
+// URGENT DEBUG: Check for any Loffice Wien testimonials
+const lofficeTestimonials = smartSuiteTestimonials.filter(t => 
+  t.spaceName && t.spaceName.toLowerCase().includes('loffice')
+);
+console.log('URGENT DEBUG: Loffice testimonials found:', lofficeTestimonials)
+
 // Pass distribution spaces and testimonials to client
 const distributionSpacesConfig = {
   spaces: distributionCoworkingSpaces,
@@ -690,7 +696,19 @@ const seo: SEOProps = {
               
               if (!textToUse) return '';
               
-              // Convert line breaks to HTML
+              // If it's already HTML (contains tags), return as-is but wrapped in paragraph
+              if (textToUse.includes('<')) {
+                // Clean up HTML and ensure proper paragraph structure
+                return textToUse
+                  .replace(/<span[^>]*>/g, '')  // Remove span tags
+                  .replace(/<\/span>/g, '')     // Remove closing span tags
+                  .replace(/\n\n+/g, '</p><p class="mb-2">')  // Double line breaks = new paragraph
+                  .replace(/\n/g, '<br>')  // Single line breaks = line break
+                  .replace(/^/, '<p class="mb-2">')  // Start with paragraph
+                  .replace(/$/, '</p>');  // End with paragraph
+              }
+              
+              // Convert line breaks to HTML for plain text
               return textToUse
                 .replace(/\n\n+/g, '</p><p class="mb-2">')  // Double line breaks = new paragraph
                 .replace(/\n/g, '<br>')  // Single line breaks = line break
@@ -1052,13 +1070,29 @@ const seo: SEOProps = {
                   <div class="h-0.5 w-8 bg-yellow-400 rounded-full mr-3"></div>
                   <h3 class="text-xl font-bold text-white">About</h3>
                 </div>
-                ${space.description ? `
-                  <div class="text-gray-200 leading-relaxed text-base mb-4 font-light">${space.description}</div>
-                ` : ''}
-                
-                ${space.description_markdown && space.description_markdown !== space.description ? `
-                  <div class="mb-4">${convertMarkdownToHtml(space.description_markdown)}</div>
-                ` : ''}
+                ${(() => {
+                  // Use description_markdown if available and different from description, otherwise use description
+                  const textToUse = space.description_markdown && space.description_markdown !== space.description 
+                    ? space.description_markdown 
+                    : space.description;
+                  
+                  if (!textToUse) return '';
+                  
+                  // If it's already HTML (contains tags), clean it up and render
+                  if (textToUse.includes('<')) {
+                    const cleanedHtml = textToUse
+                      .replace(/<span[^>]*>/g, '')  // Remove span tags
+                      .replace(/<\/span>/g, '')     // Remove closing span tags
+                      .replace(/\n\n+/g, '</p><p class="text-gray-200 leading-relaxed text-base mb-4">')
+                      .replace(/\n/g, '<br>')
+                      .replace(/^/, '<div class="text-gray-200 leading-relaxed text-base mb-4">')
+                      .replace(/$/, '</div>');
+                    return cleanedHtml;
+                  }
+                  
+                  // For plain text, use convertMarkdownToHtml
+                  return `<div class="mb-4">${convertMarkdownToHtml(textToUse)}</div>`;
+                })()}
               </div>
               
               <!-- Location & Details -->
@@ -1129,19 +1163,30 @@ const seo: SEOProps = {
                 const testimonialSpaceName = t.spaceName.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
                 const currentSpaceName = space.name.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
                 
-                // Debug logging for testimonial matching
+                // URGENT DEBUG: Log ALL matching attempts for Loffice Wien
                 if (currentSpaceName.includes('loffice')) {
-                  console.log('DEBUG LOFFICE MATCHING:', {
+                  console.log('URGENT DEBUG LOFFICE MATCHING:', {
                     currentSpace: space.name,
                     currentSpaceNormalized: currentSpaceName,
                     testimonialSpace: t.spaceName,
                     testimonialSpaceNormalized: testimonialSpaceName,
-                    exactMatch: testimonialSpaceName === currentSpaceName
+                    exactMatch: testimonialSpaceName === currentSpaceName,
+                    testimonialText: t.text ? t.text.substring(0, 50) + '...' : 'NO TEXT'
                   });
                 }
                 
-                // ONLY exact matches - no fuzzy matching to prevent false positives
-                return testimonialSpaceName === currentSpaceName;
+                // ABSOLUTELY STRICT: ONLY exact matches - no fuzzy matching to prevent false positives
+                const isExactMatch = testimonialSpaceName === currentSpaceName;
+                
+                // URGENT: If Loffice Wien somehow gets a match, log it as an ERROR
+                if (currentSpaceName.includes('loffice') && isExactMatch) {
+                  console.error('ERROR: Loffice Wien should NEVER have testimonials! This is a bug!', {
+                    space: space.name,
+                    testimonial: t
+                  });
+                }
+                
+                return isExactMatch;
               });
                 
                 if (spaceTestimonials.length === 0) return '';
