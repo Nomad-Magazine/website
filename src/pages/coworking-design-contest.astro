@@ -137,6 +137,7 @@ console.log('DEBUG: Sample coworking space:', distributionCoworkingSpaces[0] ? d
 console.log('DEBUG: Testimonials count:', smartSuiteTestimonials.length)
 console.log('DEBUG: Sample testimonial:', smartSuiteTestimonials[0] ? smartSuiteTestimonials[0] : 'No testimonials')
 console.log('DEBUG: All testimonials:', smartSuiteTestimonials)
+console.log('DEBUG: Testimonial space names:', smartSuiteTestimonials.map(t => t.spaceName))
 
 // Pass distribution spaces and testimonials to client
 const distributionSpacesConfig = {
@@ -1121,31 +1122,27 @@ const seo: SEOProps = {
               
               <!-- Dynamic Testimonials from SmartSuite -->
               ${(() => {
-                // Find testimonials for this specific space with more flexible matching
-                const spaceTestimonials = smartSuiteTestimonials.filter(t => {
-                  if (!t.spaceName || !space.name) return false;
-                  
-                  const testimonialSpaceName = t.spaceName.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
-                  const currentSpaceName = space.name.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
-                  
-                  // Try multiple matching strategies
-                  return (
-                    // Exact match
-                    testimonialSpaceName === currentSpaceName ||
-                    // Contains match (either direction)
-                    testimonialSpaceName.includes(currentSpaceName) ||
-                    currentSpaceName.includes(testimonialSpaceName) ||
-                    // First word match
-                    testimonialSpaceName.split(' ')[0] === currentSpaceName.split(' ')[0] ||
-                    // Partial word matching for compound names
-                    testimonialSpaceName.split(' ').some(word => 
-                      word.length > 3 && currentSpaceName.includes(word)
-                    ) ||
-                    currentSpaceName.split(' ').some(word => 
-                      word.length > 3 && testimonialSpaceName.includes(word)
-                    )
-                  );
-                });
+              // Find testimonials for this specific space - STRICT matching only
+              const spaceTestimonials = smartSuiteTestimonials.filter(t => {
+                if (!t.spaceName || !space.name) return false;
+                
+                const testimonialSpaceName = t.spaceName.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
+                const currentSpaceName = space.name.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
+                
+                // Debug logging for testimonial matching
+                if (currentSpaceName.includes('loffice')) {
+                  console.log('DEBUG LOFFICE MATCHING:', {
+                    currentSpace: space.name,
+                    currentSpaceNormalized: currentSpaceName,
+                    testimonialSpace: t.spaceName,
+                    testimonialSpaceNormalized: testimonialSpaceName,
+                    exactMatch: testimonialSpaceName === currentSpaceName
+                  });
+                }
+                
+                // ONLY exact matches - no fuzzy matching to prevent false positives
+                return testimonialSpaceName === currentSpaceName;
+              });
                 
                 if (spaceTestimonials.length === 0) return '';
                 
