@@ -1,0 +1,155 @@
+---
+export const prerender = true;
+
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+
+const seo: SEOProps = {
+  title: '🌍 InterNations: Connect with Fellow Expats Worldwide - Newsletter V2',
+  description: 'Starting fresh abroad? Don\'t do it alone. Join InterNations, the largest community for people who live and work abroad.',
+  image: `${Astro.site}images/internations-newsletter.webp`,
+  keywords: 'InterNations, expat community, international networking, digital nomad events, expat life abroad',
+  ogType: 'article',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'InterNations: Connect with Fellow Expats Worldwide',
+    description: 'Starting fresh abroad? Don\'t do it alone. Join InterNations, the largest community for people who live and work abroad.',
+    author: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+    datePublished: '2025-10-08',
+    url: `${Astro.site}newsletter-internations-v2`,
+  },
+}
+---
+
+<Layout seo={seo}>
+  <div class="bg-gray-50 min-h-screen">
+    <!-- View in Browser -->
+    <div class="bg-white border-b border-gray-200">
+      <div class="max-w-2xl mx-auto px-6 py-3 text-center">
+        <a href="/newsletter-internations-v2" class="text-blue-600 hover:text-blue-700 text-sm underline">
+          → View in browser for best experience
+        </a>
+      </div>
+    </div>
+
+    <!-- Header Section -->
+    <header class="bg-gray-900 text-white">
+      <div class="max-w-2xl mx-auto px-6 py-8 text-center">
+        <img src="/logo.svg" alt="Nomad Magazine" class="mx-auto mb-4 h-12 filter brightness-0 invert" />
+        
+        <!-- Takeover Banner -->
+        <div class="bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-4 rounded-xl mb-6 inline-block shadow-lg">
+          <h2 class="text-2xl font-bold">NL Takeover #2</h2>
+          <p class="text-sm opacity-90">A Special Guest</p>
+        </div>
+        
+        <p class="text-yellow-400 text-sm font-semibold uppercase tracking-wide">October 8, 2025</p>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-2xl mx-auto px-6 py-8 bg-white">
+
+      <!-- Main Headline -->
+      <div class="text-center mb-12">
+        <div class="text-6xl mb-6">🌍</div>
+        <h1 class="text-4xl md:text-5xl font-black text-gray-900 mb-6 leading-tight">
+          <strong>Starting Fresh Abroad?</strong><br>
+          Don't Do It Alone
+        </h1>
+        <p class="text-xl text-gray-600 font-medium">Connect with Fellow Expats Through InterNations</p>
+      </div>
+
+      <!-- Main Content Section -->
+      <article class="mb-12">
+        <p class="text-2xl text-gray-700 mb-8 leading-relaxed">
+          Moving to a new country is exciting … but also overwhelming. New language, new culture, new everything — and no familiar faces (yet).
+        </p>
+
+        <p class="text-2xl text-gray-700 mb-8 leading-relaxed">
+          That's why millions of expats turn to <a href="https://www.internations.org/?utm_source=partners&utm_medium=cpc&utm_term=textlink1&utm_content=NL-2025-10&utm_campaign=nomad" target="_blank" class="text-blue-600 hover:text-blue-700 font-semibold underline">InterNations</a>, the largest community for people who live and work abroad.
+        </p>
+
+        <p class="text-2xl text-gray-700 mb-8 leading-relaxed">
+          Whether you're looking for social events in your city, want to meet international people who understand your journey, or need to build career contacts and get real tips on local life — InterNations has you covered.
+        </p>
+
+        <p class="text-2xl text-gray-700 mb-12 leading-relaxed">
+          Instead of feeling like a stranger in a new place, you'll feel at home — fast. Join 5.7 million expats in 420 cities worldwide who've already discovered the power of community abroad.
+        </p>
+
+        <!-- Single InterNations Image -->
+        <div class="mb-12">
+          <img 
+            src="/images/internations-ad-message.webp" 
+            alt="Life abroad is better with friends - Find yours at events near you"
+            class="w-full rounded-xl shadow-lg"
+          />
+        </div>
+
+        <!-- Simple Testimonial -->
+        <div class="bg-gray-50 rounded-2xl p-8 text-center mb-12">
+          <blockquote class="text-xl text-gray-700 italic leading-relaxed mb-6">
+            "This is a community for open-minded people from across the world who get together, whether at smaller events or large parties. You make friends, you find business partners, you get new ideas."
+          </blockquote>
+          <p class="text-lg text-gray-600 font-semibold">
+            —Uli, InterNations member in Singapore
+          </p>
+        </div>
+      </article>
+
+      <!-- CTA Section -->
+      <div class="bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-10 text-center mb-12 text-white">
+        <h3 class="text-3xl font-bold mb-6">Ready to Connect?</h3>
+        <p class="text-blue-100 mb-8 text-xl">Join the world's largest expat community</p>
+        <a 
+          href="https://www.internations.org/?utm_source=partners&utm_medium=cpc&utm_term=textlink1&utm_content=NL-2025-10&utm_campaign=nomad" 
+          target="_blank"
+          class="inline-block bg-white text-blue-600 hover:bg-gray-100 font-bold py-5 px-10 rounded-xl shadow-lg transition-all duration-200 text-xl"
+        >
+          🌍 JOIN INTERNATIONS NOW
+        </a>
+        <p class="text-blue-100 text-lg mt-6">
+          Free to join • Instant access to events
+        </p>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+      <div class="max-w-2xl mx-auto px-6 py-8 text-center">
+        <p class="text-sm text-white">
+          © 2025 Nomad Magazine. All rights reserved.<br>
+          <a href="https://nomad-magazine.com" class="text-yellow-400 hover:underline">nomad-magazine.com</a> |
+          <a href="#" class="text-yellow-400 hover:underline">Unsubscribe</a>
+        </p>
+      </div>
+    </footer>
+
+    <!-- Back to Newsletter -->
+    <div class="text-center py-8 bg-gray-50">
+      <div class="max-w-2xl mx-auto px-6">
+        <a
+          href="/newsletter"
+          class="inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors duration-200 text-lg"
+        >
+          <svg class="mr-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          Back to Newsletter
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>
