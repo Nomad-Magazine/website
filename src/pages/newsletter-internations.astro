@@ -45,10 +45,10 @@ const monthlySupporters = [
   'Colive Fukuoka',
 ]
 
-// Get latest 10 directory listings
+// Get latest 6 directory listings
 const directoryListings = records
   .filter((record: any) => record.sf4ad525dd && record.title)
-  .slice(0, 10)
+  .slice(0, 6)
   .map((record: any) => ({
     name: record.title,
     category: record.sb685ab800?.label || 'OTHER',
@@ -74,10 +74,19 @@ const getCategoryColor = (category: string) => {
 
 <Layout seo={seo}>
   <div class="bg-gray-50 min-h-screen">
+    <!-- View in Browser -->
+    <div class="bg-white border-b border-gray-200">
+      <div class="max-w-4xl mx-auto px-4 py-3 text-center">
+        <a href="/newsletter-internations" class="text-blue-600 hover:text-blue-700 text-sm underline">
+          → View in browser for best experience
+        </a>
+      </div>
+    </div>
+
     <!-- Header Section -->
     <header class="bg-gray-900 text-white">
       <div class="max-w-4xl mx-auto px-4 py-8 text-center">
-        <img src="/logo.svg" alt="Nomad Magazine" class="mx-auto mb-4 h-12" />
+        <img src="/logo.svg" alt="Nomad Magazine" class="mx-auto mb-4 h-12 filter brightness-0 invert" />
         
         <!-- Takeover Banner -->
         <div class="bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-4 rounded-xl mb-6 inline-block shadow-lg">
@@ -173,17 +182,17 @@ const getCategoryColor = (category: string) => {
       </article>
 
       <!-- CTA Section -->
-      <div class="bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-8 text-center mb-12 text-white">
-        <h3 class="text-2xl font-bold mb-4">Ready to Connect?</h3>
-        <p class="text-blue-100 mb-6 text-lg">Join 5.7 million expats in 420 cities worldwide</p>
+      <div class="bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-10 text-center mb-12 text-white">
+        <h3 class="text-3xl font-bold mb-6">Ready to Connect?</h3>
+        <p class="text-blue-100 mb-8 text-xl">Join 5.7 million expats in 420 cities worldwide</p>
         <a 
           href="https://www.internations.org/?utm_source=partners&utm_medium=cpc&utm_term=textlink1&utm_content=NL-2025-10&utm_campaign=nomad" 
           target="_blank"
-          class="inline-block bg-white text-blue-600 hover:bg-gray-100 font-bold py-4 px-8 rounded-xl shadow-lg transition-all duration-200 text-lg"
+          class="inline-block bg-white text-blue-600 hover:bg-gray-100 font-bold py-5 px-10 rounded-xl shadow-lg transition-all duration-200 text-xl"
         >
           🌍 JOIN INTERNATIONS NOW
         </a>
-        <p class="text-blue-100 text-sm mt-4">
+        <p class="text-blue-100 text-lg mt-6">
           Free to join • Instant access to events
         </p>
       </div>
@@ -191,17 +200,17 @@ const getCategoryColor = (category: string) => {
       <!-- Directory Section -->
       <section class="mb-12 bg-gray-50 rounded-2xl p-8">
         <div class="text-center mb-8">
-          <h2 class="text-3xl font-black text-gray-900 mb-4">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
             🚀 Latest Directory Listings
           </h2>
-          <p class="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
-            While you're building your expat network, discover the latest tools and services helping nomads worldwide
+          <p class="text-xl text-gray-600 leading-relaxed">
+            Latest tools and services helping nomads worldwide
           </p>
         </div>
 
         <!-- Directory Grid -->
         <div class="space-y-4 mb-6">
-          {directoryListings.map((listing) => (
+          {directoryListings.map((listing: any) => (
             <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
               <div class="flex gap-4">
                 <div class="flex-shrink-0">
@@ -279,8 +288,8 @@ const getCategoryColor = (category: string) => {
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-white">
-      <div class="max-w-4xl mx-auto px-4 py-5 text-center">
-        <p class="text-xs text-white">
+      <div class="max-w-2xl mx-auto px-6 py-8 text-center">
+        <p class="text-sm text-white">
           © 2025 Nomad Magazine. All rights reserved.<br>
           <a href="https://nomad-magazine.com" class="text-yellow-400 hover:underline">nomad-magazine.com</a> |
           <a href="#" class="text-yellow-400 hover:underline">Unsubscribe</a>
@@ -289,16 +298,18 @@ const getCategoryColor = (category: string) => {
     </footer>
 
     <!-- Back to Newsletter -->
-    <div class="text-center py-6 bg-gray-50">
-      <a
-        href="/newsletter"
-        class="inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors duration-200"
-      >
-        <svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-        </svg>
-        Back to Newsletter
-      </a>
+    <div class="text-center py-8 bg-gray-50">
+      <div class="max-w-2xl mx-auto px-6">
+        <a
+          href="/newsletter"
+          class="inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors duration-200 text-lg"
+        >
+          <svg class="mr-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+          Back to Newsletter
+        </a>
+      </div>
     </div>
   </div>
 </Layout>
