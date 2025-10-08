@@ -1,0 +1,304 @@
+---
+export const prerender = true;
+
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import { fetchReportRecords } from '~/utils/smartsuite'
+
+const seo: SEOProps = {
+  title: '🌍 InterNations: Connect with Fellow Expats Worldwide - Nomad Newsletter',
+  description: 'Starting fresh abroad? Don\'t do it alone. Join InterNations, the largest community for people who live and work abroad.',
+  image: `${Astro.site}images/internations-newsletter.webp`,
+  keywords: 'InterNations, expat community, international networking, digital nomad events, expat life abroad',
+  ogType: 'article',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'InterNations: Connect with Fellow Expats Worldwide',
+    description: 'Starting fresh abroad? Don\'t do it alone. Join InterNations, the largest community for people who live and work abroad.',
+    author: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+    datePublished: '2025-10-08',
+    url: `${Astro.site}newsletter-internations`,
+  },
+}
+
+// Fetch directory listings from SmartSuite
+const { records = [] } = await fetchReportRecords('6857167d82358a0f5e038c3f')
+
+// Helper function to check if a record is a supporter
+const monthlySupporters = [
+  'DataBench',
+  'Max Browser',
+  'DataBench (Max Browser)',
+  'Max',
+  'NomadTax Bulgaria Ltd.',
+  'Colive Fukuoka',
+]
+
+// Get latest 10 directory listings
+const directoryListings = records
+  .filter((record: any) => record.sf4ad525dd && record.title)
+  .slice(0, 10)
+  .map((record: any) => ({
+    name: record.title,
+    category: record.sb685ab800?.label || 'OTHER',
+    isSupporter: record.supporter || record.monthly_supporter || record.is_supporter || record.supporter_status === 'Monthly Supporter' || record.status === 'Monthly Supporter' || monthlySupporters.includes(record.title),
+    description: record.scea90e502 || 'Description not available',
+    url: record.link || record.sb788c266b?.[0] || '#',
+    logo: record.image
+  }))
+
+const getCategoryColor = (category: string) => {
+  switch(category) {
+    case 'APP': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'SERVICE': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'EVENTS': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'OTHER': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'COMMUNITY': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'COACHING': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'COLIVING': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
+    default: return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
+  }
+}
+---
+
+<Layout seo={seo}>
+  <div class="bg-gray-50 min-h-screen">
+    <!-- Header Section -->
+    <header class="bg-gray-900 text-white">
+      <div class="max-w-4xl mx-auto px-4 py-8 text-center">
+        <img src="/logo.svg" alt="Nomad Magazine" class="mx-auto mb-4 h-12" />
+        
+        <!-- Takeover Banner -->
+        <div class="bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-4 rounded-xl mb-6 inline-block shadow-lg">
+          <h2 class="text-2xl font-bold">NL Takeover #2</h2>
+          <p class="text-sm opacity-90">A Special Guest</p>
+        </div>
+        
+        <p class="text-yellow-400 text-sm font-semibold uppercase tracking-wide">October 8, 2025</p>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 py-8 bg-white">
+
+      <!-- Main Headline -->
+      <div class="text-center mb-12">
+        <div class="text-6xl mb-4">🌍</div>
+        <h1 class="text-4xl md:text-5xl font-black text-gray-900 mb-4 leading-tight">
+          <strong>Starting Fresh Abroad?</strong><br>
+          Don't Do It Alone
+        </h1>
+        <p class="text-lg text-gray-600 font-medium">Connect with Fellow Expats Through InterNations</p>
+      </div>
+
+      <!-- Main Content Section -->
+      <article class="max-w-3xl mx-auto mb-12">
+        <p class="text-lg text-gray-700 mb-6 leading-relaxed">
+          Moving to a new country is exciting … but also overwhelming. New language, new culture, new everything — and no familiar faces (yet).
+        </p>
+
+        <p class="text-lg text-gray-700 mb-8 leading-relaxed">
+          That's why millions of expats turn to <a href="https://www.internations.org/?utm_source=partners&utm_medium=cpc&utm_term=textlink1&utm_content=NL-2025-10&utm_campaign=nomad" target="_blank" class="text-blue-600 hover:text-blue-700 font-semibold underline">InterNations</a>, the largest community for people who live and work abroad.
+        </p>
+
+        <!-- InterNations Hero Image -->
+        <div class="mb-8">
+          <img 
+            src="/images/internations-ad-message.webp" 
+            alt="Life abroad is better with friends - Find yours at events near you"
+            class="w-full rounded-xl shadow-lg"
+          />
+        </div>
+
+        <!-- Benefits Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 text-center">
+            <div class="text-4xl mb-4">🥂</div>
+            <h3 class="font-bold text-gray-900 mb-2">Social Events</h3>
+            <p class="text-gray-700">Join fun social events in your city</p>
+          </div>
+          <div class="bg-green-50 border border-green-200 rounded-xl p-6 text-center">
+            <div class="text-4xl mb-4">🌍</div>
+            <h3 class="font-bold text-gray-900 mb-2">Global Community</h3>
+            <p class="text-gray-700">Meet international people who "get" what you're going through</p>
+          </div>
+          <div class="bg-purple-50 border border-purple-200 rounded-xl p-6 text-center">
+            <div class="text-4xl mb-4">💼</div>
+            <h3 class="font-bold text-gray-900 mb-2">Career Network</h3>
+            <p class="text-gray-700">Build career contacts and get real tips on life in your new city</p>
+          </div>
+        </div>
+
+        <div class="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-2xl p-8 text-center mb-12">
+          <p class="text-2xl text-gray-900 font-semibold mb-4">
+            Instead of feeling like a stranger, you'll feel at home — fast.
+          </p>
+          <p class="text-lg text-gray-600">
+            Join the world's largest expat community today
+          </p>
+        </div>
+
+        <!-- Testimonial with Image -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center mb-8">
+          <!-- Image -->
+          <div>
+            <img 
+              src="/images/internations-group-of-people.webp" 
+              alt="InterNations members socializing at events"
+              class="w-full rounded-xl shadow-lg"
+            />
+          </div>
+          
+          <!-- Quote -->
+          <div>
+            <blockquote class="text-lg text-gray-700 italic leading-relaxed mb-4 pl-6 border-l-4 border-orange-500">
+              "This is a community for open-minded people from across the world who get together, whether at smaller events or large parties. You make friends, you find business partners, you get new ideas."
+            </blockquote>
+            <p class="text-base text-gray-600 font-semibold">
+              —Uli, InterNations member in Singapore
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <!-- CTA Section -->
+      <div class="bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-8 text-center mb-12 text-white">
+        <h3 class="text-2xl font-bold mb-4">Ready to Connect?</h3>
+        <p class="text-blue-100 mb-6 text-lg">Join 5.7 million expats in 420 cities worldwide</p>
+        <a 
+          href="https://www.internations.org/?utm_source=partners&utm_medium=cpc&utm_term=textlink1&utm_content=NL-2025-10&utm_campaign=nomad" 
+          target="_blank"
+          class="inline-block bg-white text-blue-600 hover:bg-gray-100 font-bold py-4 px-8 rounded-xl shadow-lg transition-all duration-200 text-lg"
+        >
+          🌍 JOIN INTERNATIONS NOW
+        </a>
+        <p class="text-blue-100 text-sm mt-4">
+          Free to join • Instant access to events
+        </p>
+      </div>
+
+      <!-- Directory Section -->
+      <section class="mb-12 bg-gray-50 rounded-2xl p-8">
+        <div class="text-center mb-8">
+          <h2 class="text-3xl font-black text-gray-900 mb-4">
+            🚀 Latest Directory Listings
+          </h2>
+          <p class="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
+            While you're building your expat network, discover the latest tools and services helping nomads worldwide
+          </p>
+        </div>
+
+        <!-- Directory Grid -->
+        <div class="space-y-4 mb-6">
+          {directoryListings.map((listing) => (
+            <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
+              <div class="flex gap-4">
+                <div class="flex-shrink-0">
+                  <div class={`w-16 h-16 rounded-xl flex items-center justify-center overflow-hidden p-1 ${
+                    listing.name?.toLowerCase().includes('imaginethat') ||
+                    listing.name?.toLowerCase().includes('imagine that') ||
+                    listing.name?.toLowerCase().includes('entity inc') ||
+                    listing.name?.toLowerCase().includes('edge city')
+                      ? 'bg-white border border-gray-200'
+                      : 'bg-gray-50 border border-gray-200'
+                  }`}>
+                    {listing.logo ? (
+                      <img
+                        src={listing.logo}
+                        alt={listing.name}
+                        class="max-w-full max-h-full object-contain"
+                      />
+                    ) : (
+                      <span class={`font-bold text-xl ${
+                        listing.name?.toLowerCase().includes('imaginethat') ||
+                        listing.name?.toLowerCase().includes('imagine that') ||
+                        listing.name?.toLowerCase().includes('entity inc') ||
+                        listing.name?.toLowerCase().includes('edge city')
+                          ? 'text-black'
+                          : 'text-gray-600'
+                      }`}>
+                        {(listing.name || 'C').charAt(0).toUpperCase()}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center gap-2 mb-2">
+                    <h4 class="text-xl font-bold text-gray-900">{listing.name}</h4>
+                    <span class={`px-2 py-1 rounded-full text-xs font-semibold uppercase tracking-wide ${getCategoryColor(listing.category)}`}>
+                      {listing.category}
+                    </span>
+                    {listing.isSupporter && (
+                      <a 
+                        href="/support-the-magazine" 
+                        class="inline-flex items-center gap-1 bg-gradient-to-r from-red-600 to-red-700 text-white px-2 py-1 rounded-full text-xs font-bold hover:from-red-700 hover:to-red-800 transition-all duration-200 shadow-lg"
+                        title="Monthly Supporter"
+                      >
+                        <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                        SUPPORTER
+                      </a>
+                    )}
+                  </div>
+                  <p class="text-base text-gray-600 leading-relaxed mb-3">{listing.description}</p>
+                  <a
+                    href={listing.url}
+                    target="_blank"
+                    class="text-base text-orange-600 font-semibold hover:text-orange-700"
+                  >
+                    Learn more →
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="text-center">
+          <a
+            href="https://nomad-magazine.com/nomad_directory"
+            class="inline-block bg-gray-900 hover:bg-gray-800 text-white font-normal py-3 px-6 rounded-xl transition-all duration-200"
+          >
+            🚀 VIEW ALL LISTINGS
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+      <div class="max-w-4xl mx-auto px-4 py-5 text-center">
+        <p class="text-xs text-white">
+          © 2025 Nomad Magazine. All rights reserved.<br>
+          <a href="https://nomad-magazine.com" class="text-yellow-400 hover:underline">nomad-magazine.com</a> |
+          <a href="#" class="text-yellow-400 hover:underline">Unsubscribe</a>
+        </p>
+      </div>
+    </footer>
+
+    <!-- Back to Newsletter -->
+    <div class="text-center py-6 bg-gray-50">
+      <a
+        href="/newsletter"
+        class="inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors duration-200"
+      >
+        <svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        Back to Newsletter
+      </a>
+    </div>
+  </div>
+</Layout>

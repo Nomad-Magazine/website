@@ -1,0 +1,199 @@
+---
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+
+const seo: SEOProps = {
+  title: '📰 New Newsletter - Nomad Magazine',
+  description: 'Latest updates from the Nomad Magazine community',
+  image: `${Astro.site}images/newsletter-placeholder.webp`,
+  keywords: 'nomad newsletter, digital nomad news, remote work updates',
+  ogType: 'article',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'New Newsletter',
+    description: 'Latest updates from the Nomad Magazine community',
+    author: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+    datePublished: '2025-01-01',
+    url: `${Astro.site}newsletter-internations`,
+  },
+}
+
+// Update directory listings data here with new content
+const directoryListings = [
+  {
+    name: "New Service Name",
+    category: "SERVICE",
+    isSupporter: false,
+    description: "Description of the new service for nomads",
+    url: "https://example.com",
+    logo: "https://example.com/logo.png"
+  },
+  // Add more listings as needed
+]
+
+const getCategoryColor = (category: string) => {
+  switch(category) {
+    case 'APP': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'SERVICE': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'EVENTS': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'OTHER': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'COMMUNITY': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'COACHING': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'COLIVING': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
+    default: return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
+  }
+}
+---
+
+<Layout seo={seo}>
+  <div class="bg-gray-50 min-h-screen">
+    <!-- Header Section -->
+    <header class="bg-gray-900 text-white">
+      <div class="max-w-4xl mx-auto px-4 py-8 text-center">
+        <img src="/logo.svg" alt="Nomad Magazine" class="mx-auto mb-4 h-12" />
+        <p class="text-yellow-400 text-sm font-semibold uppercase tracking-wide">Newsletter Date</p>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 py-8 bg-white">
+
+      <!-- Main Headline -->
+      <div class="text-center mb-12">
+        <div class="text-6xl mb-4">📧</div>
+        <h1 class="text-4xl md:text-5xl font-black text-gray-900 mb-4 leading-tight">
+          <strong>Newsletter Headline</strong>
+        </h1>
+        <p class="text-lg text-gray-600 font-medium">Newsletter Subtitle</p>
+      </div>
+
+      <!-- Main Content Section -->
+      <article class="prose prose-lg max-w-none mb-12">
+        <p class="text-base text-gray-700 mb-4 leading-relaxed">
+          Main newsletter content goes here...
+        </p>
+      </article>
+
+      <!-- Divider -->
+      <hr class="border-gray-900 my-8" />
+
+      <!-- Directory Section -->
+      <section class="mb-12">
+        <div class="text-center mb-6">
+          <h2 class="text-3xl font-black text-gray-900 mb-2">
+            🚀 Latest Directory Listings
+          </h2>
+          <p class="text-base text-gray-600 font-medium">New tools & services for nomads</p>
+        </div>
+
+        <p class="text-base text-gray-700 mb-6 leading-relaxed">
+          Discover the newest additions to our nomad directory:
+        </p>
+
+        <!-- Directory Grid -->
+        <div class="space-y-4 mb-6">
+          {directoryListings.map((listing) => (
+            <div class="border border-gray-200 rounded-2xl p-5 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
+              <div class="flex gap-4">
+                <div class="flex-shrink-0">
+                  <div class={`w-16 h-16 rounded-xl flex items-center justify-center overflow-hidden p-1 ${
+                    listing.name?.toLowerCase().includes('imaginethat') ||
+                    listing.name?.toLowerCase().includes('imagine that') ||
+                    listing.name?.toLowerCase().includes('entity inc') ||
+                    listing.name?.toLowerCase().includes('edge city')
+                      ? 'bg-white border border-gray-200'
+                      : 'bg-gray-50 border border-gray-200'
+                  }`}>
+                    {listing.logo ? (
+                      <img
+                        src={listing.logo}
+                        alt={listing.name}
+                        class="max-w-full max-h-full object-contain"
+                      />
+                    ) : (
+                      <span class={`font-bold text-xl ${
+                        listing.name?.toLowerCase().includes('imaginethat') ||
+                        listing.name?.toLowerCase().includes('imagine that') ||
+                        listing.name?.toLowerCase().includes('entity inc') ||
+                        listing.name?.toLowerCase().includes('edge city')
+                          ? 'text-black'
+                          : 'text-gray-600'
+                      }`}>
+                        {(listing.name || 'C').charAt(0).toUpperCase()}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center gap-2 mb-1">
+                    <h4 class="text-lg font-bold text-gray-900">{listing.name}</h4>
+                    <span class={`px-2 py-1 rounded-full text-xs font-semibold uppercase tracking-wide ${getCategoryColor(listing.category)}`}>
+                      {listing.category}
+                    </span>
+                    {listing.isSupporter && (
+                      <span class="bg-gradient-to-r from-red-600 to-red-700 text-white px-2 py-1 rounded-full text-xs font-semibold uppercase tracking-wide">
+                        SUPPORTER
+                      </span>
+                    )}
+                  </div>
+                  <p class="text-sm text-gray-600 leading-relaxed mb-2">{listing.description}</p>
+                  <a
+                    href={listing.url}
+                    target="_blank"
+                    class="text-sm text-orange-600 font-semibold hover:text-orange-700"
+                  >
+                    Learn more →
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="text-center">
+          <a
+            href="https://nomad-magazine.com/nomad_directory"
+            class="inline-block bg-gray-900 hover:bg-gray-800 text-white font-normal py-3 px-6 rounded-xl transition-all duration-200"
+          >
+            🚀 VIEW ALL LISTINGS
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+      <div class="max-w-4xl mx-auto px-4 py-5 text-center">
+        <p class="text-xs text-white">
+          © 2025 Nomad Magazine. All rights reserved.<br>
+          <a href="https://nomad-magazine.com" class="text-yellow-400 hover:underline">nomad-magazine.com</a> |
+          <a href="#" class="text-yellow-400 hover:underline">Unsubscribe</a>
+        </p>
+      </div>
+    </footer>
+
+    <!-- Back to Newsletter -->
+    <div class="text-center py-6 bg-gray-50">
+      <a
+        href="/newsletter"
+        class="inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors duration-200"
+      >
+        <svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        Back to Newsletter
+      </a>
+    </div>
+  </div>
+</Layout>
