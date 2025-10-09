@@ -97,7 +97,8 @@ const distributionCoworkingSpaces = distributionRecords
   .filter((record: any) => 
     record.sb685ab800?.label === 'Coworking' && 
     record.title &&
-    (record.image || record.images) // Exclude spaces without images
+    (record.image || record.images) && // Exclude spaces without images
+    record.styrldtq === 'Yes' // Only include spaces marked for contest
   )
   .map((record: any) => ({
     id: record.s9744d6c51 ? `coming_${record.id}` : `dist_${record.id}`,
