@@ -93,26 +93,9 @@ console.log('DEBUG: Sample record image fields:', distributionRecords[0] ? {
 const allCoworkingRecords = distributionRecords.filter((record: any) => record.sb685ab800?.label === 'Coworking')
 console.log('DEBUG: Records with Coworking category:', allCoworkingRecords.length)
 
-// Debug: Check how many are filtered at each step
-const withS43a4b2808 = allCoworkingRecords.filter(r => r.s43a4b2808)
-const withTitle = allCoworkingRecords.filter(r => r.title)
-const withImages = allCoworkingRecords.filter(r => r.image || r.images)
-console.log('DEBUG: With s43a4b2808 field:', withS43a4b2808.length)
-console.log('DEBUG: With title:', withTitle.length)
-console.log('DEBUG: With images:', withImages.length)
-
-// Show which records are missing what
-const missingS43a4b2808 = allCoworkingRecords.filter(r => !r.s43a4b2808).map(r => r.title || r.id)
-const missingTitle = allCoworkingRecords.filter(r => !r.title).map(r => r.id)
-const missingImages = allCoworkingRecords.filter(r => !r.image && !r.images).map(r => r.title || r.id)
-console.log('DEBUG: Missing s43a4b2808:', missingS43a4b2808)
-console.log('DEBUG: Missing title:', missingTitle)
-console.log('DEBUG: Missing images:', missingImages)
-
 const distributionCoworkingSpaces = distributionRecords
   .filter((record: any) => 
     record.sb685ab800?.label === 'Coworking' && 
-    record.s43a4b2808 && 
     record.title &&
     (record.image || record.images) // Exclude spaces without images
   )
