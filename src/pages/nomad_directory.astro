@@ -81,7 +81,7 @@ const isMaxBrowser = (record: any) => {
 const seo: SEOProps = {
   title: 'The Nomad Directory - Because Google Doesn\'t Get Our Lifestyle',
   description:
-    'Discover the best tools, services, coworking spaces, and communities for digital nomads. Your ultimate resource for the nomadic lifestyle - curated by nomads, for nomads.',
+    'The best new tools, services, and companies for digital nomads to help you discover what\'s new in the nomad ecosystem.',
   image: 'https://nomad-magazine.com/images/Nomad-directory.webp',
   keywords: 'nomad directory, digital nomad services, remote work tools, coworking spaces, nomad communities, nomad resources, digital nomad lifestyle, location independent',
   ogType: 'website',
@@ -673,7 +673,7 @@ const seo: SEOProps = {
   // Instagram share functionality
   if (instagramBtn) {
     instagramBtn.addEventListener('click', () => {
-      const text = `🌍 The Nomad Directory - Your ultimate guide to digital nomad tools, services & communities!\n\n✨ Discover coworking spaces, nomad-friendly services, and connect with the global remote work community.\n\n🔗 nomad-magazine.com/nomad_directory\n\n#DigitalNomad #RemoteWork #NomadLife #TravelAndWork #LocationIndependent`
+      const text = `🌍 The Nomad Directory\nBecause Google Doesn't Get Our Lifestyle\n\n✨ The best new tools, services, and companies for digital nomads to help you discover what's new in the nomad ecosystem.\n\n🔗 nomad-magazine.com/nomad_directory\n\n#DigitalNomad #RemoteWork #NomadLife #NomadDirectory #LocationIndependent #TravelAndWork`
       
       // Try to use the modern clipboard API
       if (navigator.clipboard && window.isSecureContext) {
@@ -763,7 +763,7 @@ const seo: SEOProps = {
   // Social sharing functions
   window.shareOnTwitter = function() {
     const url = 'https://nomad-magazine.com/nomad_directory'
-    const text = "🌍 Check out The Nomad Directory - The ultimate resource for digital nomads! Tools, services, communities & more for the nomadic lifestyle."
+    const text = "The Nomad Directory - Because Google Doesn't Get Our Lifestyle 🌍\n\nThe best new tools, services, and companies for digital nomads to help you discover what's new in the nomad ecosystem."
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}&via=NomadMagazine`
     window.open(twitterUrl, '_blank', 'width=550,height=420')
   }
