@@ -6,8 +6,8 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-05-08T09:28:57.802Z
-updated_at: 2025-05-08T09:30:32.621Z
-head_image: https://assets.seobotai.com/nomadgossip.com/681abeb97a153cb8e451924e-1746696632621.jpg
+updated_at: 2025-10-10T15:25:22.803Z
+head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/681abeb97a153cb8e451924e-1746696632621.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: coworking cafes, remote work, digital nomads, productivity, sustainable cafes, international coworking spaces, work-friendly cafes
 tag: Career, Digital, Travel
@@ -24,7 +24,7 @@ Remote work has redefined where we work, and [coworking cafes](https://www.nomad
 -   **[The Farm Soho](https://www.thefarmsoho.com/) (New York City, USA)**: Rooftop space, podcast studio, and daily happy hours.
 -   **[The Commons](https://thecommons.com.au/) (Melbourne, Australia)**: Community workshops and a relaxed café atmosphere.
 -   **[La Maquinita](https://lamaquinita.co/) (Buenos Aires, Argentina)**: Standing desks, weekly networking events, and a focus on sustainability.
--   **[Factory Berlin](https://factory.network/) (Berlin, Germany)**: Industrial design, free coffee, and mentorship programs.
+-   **[Factory Berlin](https://factory.network/) ([Berlin](https://kiezkaffeekraft.de), Germany)**: Industrial design, free coffee, and mentorship programs.
 -   **[Caffice](https://cafeandcowork.com/tokyo/caffice/) (Tokyo, Japan)**: Seasonal coffee menu and a central Shibuya location.
 -   **[S-TOKYO](https://www.valvehub.jp/s-tokyo-en) (Tokyo, Japan)**: Japanese-inspired design, 24/7 access, and networking events.
 -   **[Dojo Bali](https://dojobali.org/) (Canggu, Indonesia)**: Beachside vibe, sunrise yoga, and farm-to-table café.
