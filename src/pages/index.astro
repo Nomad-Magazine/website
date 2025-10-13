@@ -58,16 +58,24 @@ const isSupporter = (record: any) => {
          monthlySupporters.includes(record.title)
 }
 
-// Get all valid directory entries and sort supporters first
+// Get all valid directory entries and sort supporters first, then Internations
 const allValidEntries = records
   .filter((record: any) => record.sf4ad525dd && record.title && record.scea90e502)
   .sort((a: any, b: any) => {
     const aSupporterStatus = isSupporter(a)
     const bSupporterStatus = isSupporter(b)
+    const aIsInternations = a.title?.toLowerCase().includes('internations')
+    const bIsInternations = b.title?.toLowerCase().includes('internations')
     
     // Supporters go first
     if (aSupporterStatus && !bSupporterStatus) return -1
     if (!aSupporterStatus && bSupporterStatus) return 1
+    
+    // Among non-supporters, Internations goes first
+    if (!aSupporterStatus && !bSupporterStatus) {
+      if (aIsInternations && !bIsInternations) return -1
+      if (!aIsInternations && bIsInternations) return 1
+    }
     
     return 0 // Keep original order for same type
   })
