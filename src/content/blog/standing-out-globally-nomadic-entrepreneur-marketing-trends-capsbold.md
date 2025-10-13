@@ -124,7 +124,7 @@ We also track emerging trends through our annual Trendwatch Report — a compreh
 
 ## Want More?
 
-Everything you've read here is just a preview. To access deeper insights, campaign examples, and the tools we actually use at CAPSBOLD, get our full Trendwatch Report by sending us a DM in our Instagram with **"TRENDS CAPSBOLD"** code word.
+Everything you've read here is just a preview. To access deeper insights, campaign examples, and the tools we actually use at CAPSBOLD, get our full [Trendwatch Report](https://drive.google.com/file/d/1nwAAKznHXywujvYHHN1kNqo2-NvAzWoV/view?usp=sharing) by sending us a DM in our Instagram with **"TRENDS CAPSBOLD"** code word.
 
 Today doesn't reward the biggest brands. It rewards the boldest ones.
 
