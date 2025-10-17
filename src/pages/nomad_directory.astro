@@ -61,6 +61,15 @@ const monthlySupporters = [
   // Add more supporter company names here as needed
 ]
 
+// Hardcoded Featured Partners list (companies advertising in next edition)
+const featuredPartners = [
+  'Colive Fukuoka',
+  'Falmouth University',
+  'InterNations',
+  'NomadTax Bulgaria Ltd.',
+  'Max Browser'
+]
+
 // Helper function to check if a record is a supporter
 const isSupporter = (record: any) => {
   return record.supporter ||
@@ -271,7 +280,7 @@ const seo: SEOProps = {
                           <div class="flex-1 min-w-0">
                             <div class="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
                               <div class="mb-4 md:mb-0">
-                                <div class="flex items-center gap-3 mb-2">
+                                <div class="flex items-center gap-3 mb-2 flex-wrap">
                                   <h3 class="text-2xl font-bold text-white group-hover:text-yellow-400 transition-colors">
                                     {record.title || 'Company Name'}
                                   </h3>
@@ -287,6 +296,18 @@ const seo: SEOProps = {
                                       </svg>
                                       Supporter
                                     </a>
+                                  )}
+                                  {/* Featured Partner Badge */}
+                                  {featuredPartners.includes(record.title) && (
+                                    <span 
+                                      class="inline-flex items-center gap-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg"
+                                      title="Featured Partner"
+                                    >
+                                      <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                      </svg>
+                                      Featured Partner
+                                    </span>
                                   )}
                                 </div>
                                 <p class="text-gray-300 text-base leading-relaxed line-clamp-3 max-w-2xl">
