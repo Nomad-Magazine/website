@@ -49,6 +49,15 @@ const monthlySupporters = [
   // Add more supporter company names here as needed
 ]
 
+// Hardcoded Featured Partners list (companies advertising in next edition)
+const featuredPartners = [
+  'Colive Fukuoka',
+  'Falmouth University',
+  'InterNations',
+  'NomadTax Bulgaria Ltd.',
+  'Max Browser'
+]
+
 // Helper function to check if a record is a supporter
 const isSupporter = (record: any) => {
   return record.supporter || 
@@ -58,24 +67,22 @@ const isSupporter = (record: any) => {
          monthlySupporters.includes(record.title)
 }
 
-// Get all valid directory entries and sort supporters first, then Internations
+// Get all valid directory entries and sort featured partners first, then supporters
 const allValidEntries = records
   .filter((record: any) => record.sf4ad525dd && record.title && record.scea90e502)
   .sort((a: any, b: any) => {
+    const aIsFeatured = featuredPartners.includes(a.title)
+    const bIsFeatured = featuredPartners.includes(b.title)
     const aSupporterStatus = isSupporter(a)
     const bSupporterStatus = isSupporter(b)
-    const aIsInternations = a.title?.toLowerCase().includes('internations')
-    const bIsInternations = b.title?.toLowerCase().includes('internations')
     
-    // Supporters go first
+    // Featured partners go first
+    if (aIsFeatured && !bIsFeatured) return -1
+    if (!aIsFeatured && bIsFeatured) return 1
+    
+    // Then supporters
     if (aSupporterStatus && !bSupporterStatus) return -1
     if (!aSupporterStatus && bSupporterStatus) return 1
-    
-    // Among non-supporters, Internations goes first
-    if (!aSupporterStatus && !bSupporterStatus) {
-      if (aIsInternations && !bIsInternations) return -1
-      if (!aIsInternations && bIsInternations) return 1
-    }
     
     return 0 // Keep original order for same type
   })
@@ -85,11 +92,12 @@ const allValidEntries = records
     category: record.sb685ab800?.label || 'Service',
     link: record.link || record.sb788c266b?.[0] || '/nomad_directory',
     image: record.image,
-    isSupporter: isSupporter(record)
+    isSupporter: isSupporter(record),
+    isFeatured: featuredPartners.includes(record.title)
   }))
 
-// Get first 6 entries for regular display (now sorted with supporters first)
-const regularDirectoryEntries = allValidEntries.slice(0, 6)
+// Get first 12 entries for regular display (4 rows x 3 columns, with featured partners first)
+const regularDirectoryEntries = allValidEntries.slice(0, 12)
 
 // Get featured directory entries (supporters only)
 const featuredDirectoryEntries = allValidEntries
@@ -259,71 +267,98 @@ const seo: SEOProps = {
         </div>
         
         <!-- Regular Directory Entries -->
-        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
           {regularDirectoryEntries.map((entry: any, index: number) => (
-            <div class={`group relative overflow-hidden rounded-2xl transition-all hover:scale-105 ${
-              index === 0 
-                ? 'bg-gradient-to-br from-yellow-500/20 to-orange-500/20 hover:from-yellow-500/30 hover:to-orange-500/30' 
-                : 'bg-neutral-900/50 hover:bg-neutral-900/80'
+            <div class={`group relative overflow-hidden rounded-xl border transition-all hover:border-yellow-400/50 ${
+              entry.isFeatured
+                ? 'bg-gradient-to-br from-purple-900/20 to-blue-900/20 border-purple-500/30' 
+                : 'bg-neutral-900/50 border-white/10'
             }`}>
-              <div class="p-6">
-                <div class="mb-4 flex items-center gap-3">
-                  <div class={`flex h-16 w-16 items-center justify-center rounded-lg ${
-                    entry.title?.toLowerCase().includes('naio') || entry.title?.toLowerCase().includes('italia nomad fest') || entry.title?.toLowerCase().includes('inf')
-                      ? 'bg-white' 
-                      : 'bg-white'
-                  }`}>
-                    {entry.image && entry.image !== '/logo.svg' ? (
-                      <img 
-                        src={entry.image} 
-                        alt={entry.title} 
-                        class="w-full h-full rounded object-contain"
-                      />
-                    ) : (
-                      <span class="font-bold text-black text-xl">
-                        {entry.title.charAt(0).toUpperCase()}
-                      </span>
-                    )}
-                  </div>
-                  <div>
-                    <div class="flex items-center gap-2">
-                      <h3 class="text-lg font-bold text-white">{entry.title}</h3>
-                      {entry.isSupporter && (
-                        <a 
-                          href="/support-the-magazine" 
-                          class="inline-flex items-center gap-1 bg-gradient-to-r from-red-600 to-red-700 text-white px-2 py-0.5 rounded-full text-xs font-bold hover:from-red-700 hover:to-red-800 transition-all duration-200 shadow-lg"
-                          title="Monthly Supporter"
-                        >
-                          <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                          </svg>
-                          Supporter
-                        </a>
+              <div class="p-5">
+                <div class="flex gap-4">
+                  <!-- Logo -->
+                  <div class="flex-shrink-0">
+                    <div class={`w-28 h-28 flex items-center justify-center rounded-xl p-3 ${
+                      ['Fresh Global', 'Falmouth University', 'SUMA', 'Scaglia y Asociados', 'goldenweeks'].includes(entry.title)
+                        ? 'bg-gray-800' 
+                        : 'bg-white'
+                    }`}>
+                      {entry.image && entry.image !== '/logo.svg' ? (
+                        <img 
+                          src={entry.image} 
+                          alt={entry.title} 
+                          class="w-full h-full object-contain"
+                        />
+                      ) : (
+                        <span class={`font-bold text-3xl ${
+                          ['Fresh Global', 'Falmouth University', 'SUMA', 'Scaglia y Asociados', 'goldenweeks'].includes(entry.title)
+                            ? 'text-white'
+                            : 'text-black'
+                        }`}>
+                          {entry.title.charAt(0).toUpperCase()}
+                        </span>
                       )}
                     </div>
-                    <span class={`inline-block rounded-full px-2 py-1 text-xs ${
-                      entry.category === 'Insurance' ? 'bg-blue-500/20 text-blue-300' :
-                      entry.category === 'Community' ? 'bg-green-500/20 text-green-300' :
-                      entry.category === 'Platform' ? 'bg-purple-500/20 text-purple-300' :
-                      entry.category === 'Events' ? 'bg-orange-500/20 text-orange-300' :
-                      entry.category === 'App' ? 'bg-indigo-500/20 text-indigo-300' :
-                      'bg-gray-500/20 text-gray-300'
-                    }`}>
-                      {entry.category}
-                    </span>
+                  </div>
+                  
+                  <!-- Content -->
+                  <div class="flex-1 min-w-0">
+                    <!-- Title and Badges -->
+                    <div class="mb-2">
+                      <h3 class="text-lg font-bold text-white mb-1.5">{entry.title}</h3>
+                      <div class="flex items-center gap-2 flex-wrap">
+                        <span class={`inline-block rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                          entry.category === 'Insurance' ? 'bg-blue-500/20 text-blue-300' :
+                          entry.category === 'Community' ? 'bg-green-500/20 text-green-300' :
+                          entry.category === 'Platform' ? 'bg-purple-500/20 text-purple-300' :
+                          entry.category === 'Events' ? 'bg-orange-500/20 text-orange-300' :
+                          entry.category === 'App' ? 'bg-indigo-500/20 text-indigo-300' :
+                          'bg-gray-500/20 text-gray-300'
+                        }`}>
+                          {entry.category}
+                        </span>
+                        {entry.isSupporter && (
+                          <a 
+                            href="/support-the-magazine" 
+                            class="inline-flex items-center gap-1 bg-gradient-to-r from-red-600 to-red-700 text-white px-2 py-0.5 rounded-full text-xs font-bold hover:from-red-700 hover:to-red-800 transition-all duration-200"
+                            title="Monthly Supporter"
+                          >
+                            <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
+                            Supporter
+                          </a>
+                        )}
+                        {entry.isFeatured && (
+                          <span 
+                            class="inline-flex items-center gap-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-2 py-0.5 rounded-full text-xs font-bold"
+                            title="Featured Partner"
+                          >
+                            <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                            Featured
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    
+                    <!-- Description -->
+                    <p class="text-sm text-neutral-300 line-clamp-2 mb-3 leading-relaxed">
+                      {entry.description}
+                    </p>
+                    
+                    <!-- CTA -->
+                    <a 
+                      href={entry.link}
+                      target={entry.link.startsWith('http') ? '_blank' : '_self'}
+                      rel={entry.link.startsWith('http') ? 'noopener noreferrer' : undefined}
+                      class="inline-flex items-center text-yellow-400 text-sm font-medium hover:text-yellow-300 transition-colors"
+                    >
+                      Learn more →
+                    </a>
                   </div>
                 </div>
-                <p class="text-sm text-neutral-300 mb-4 line-clamp-3">
-                  {entry.description}
-                </p>
-                <a 
-                  href={entry.link}
-                  target={entry.link.startsWith('http') ? '_blank' : '_self'}
-                  rel={entry.link.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  class="inline-flex items-center text-yellow-400 text-sm font-medium hover:text-yellow-300"
-                >
-                  Learn more →
-                </a>
               </div>
             </div>
           ))}
