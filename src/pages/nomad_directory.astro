@@ -249,7 +249,7 @@ const seo: SEOProps = {
                           <!-- Logo/Image -->
                           <div class="flex-shrink-0">
                             <div class={`w-32 h-32 rounded-xl flex items-center justify-center p-1 ${
-                              ['Fresh Global', 'Falmouth University', 'SUMA', 'Scaglia y Asociados'].includes(record.title) ? 'bg-gray-800' : 'bg-white'
+                              ['Fresh Global', 'Falmouth University', 'SUMA', 'Scaglia y Asociados', 'goldenweeks'].includes(record.title) ? 'bg-gray-800' : 'bg-white'
                             }`}>
                               {record.image && record.image !== '/logo.svg' ? (
                                 <img 
@@ -259,7 +259,7 @@ const seo: SEOProps = {
                                 />
                               ) : (
                                 <span class={`font-bold text-3xl ${
-                                  ['Fresh Global', 'Falmouth University', 'SUMA', 'Scaglia y Asociados'].includes(record.title) ? 'text-white' : 'text-black'
+                                  ['Fresh Global', 'Falmouth University', 'SUMA', 'Scaglia y Asociados', 'goldenweeks'].includes(record.title) ? 'text-white' : 'text-black'
                                 }`}>
                                   {(record.title || 'C').charAt(0).toUpperCase()}
                                 </span>
