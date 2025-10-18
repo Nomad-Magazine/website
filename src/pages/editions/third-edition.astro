@@ -232,57 +232,147 @@ const seo: SEOProps = {
     digitalPrice="€9"
     printPrice="€32"
   />
+  
+  <!-- ZINIO Availability Banner -->
+  <section class="bg-gradient-to-r from-purple-600 to-indigo-600 py-8">
+    <div class="container mx-auto px-4">
+      <div class="text-center text-white">
+        <h3 class="text-2xl md:text-3xl font-bold mb-3">📱 Now Available on ZINIO</h3>
+        <p class="text-lg mb-6 opacity-90">Read on your favorite device with the best digital magazine experience</p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="https://www.zinio.com/pt/publications/nomad-magazine/45331" target="_blank" rel="noopener" class="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition inline-flex items-center gap-2">
+            🌐 Web Reader
+          </a>
+          <a href="https://apps.apple.com/us/app/zinio-magazine-newsstand/id364297166" target="_blank" rel="noopener" class="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition inline-flex items-center gap-2">
+            🍎 iOS App
+          </a>
+          <a href="https://play.google.com/store/apps/details?id=com.zinio.mobile.android.reader&pli=1" target="_blank" rel="noopener" class="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition inline-flex items-center gap-2">
+            🤖 Android App
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
   <EditionStats
     stats={[
-      { value: '1000', label: 'Limited Print Copies' },
-      { value: '112', label: 'Pages' },
-      { value: '17', label: 'Articles' },
+      { value: '75', label: 'Print Copies Left' },
+      { value: '112', label: 'Pages of Expert Content' },
+      { value: '17', label: 'Industry Leaders Featured' },
     ]}
   />
+
+  <!-- Quick Social Proof -->
+  <section class="py-8 bg-yellow-50 border-y-2 border-yellow-200">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-wrap items-center justify-center gap-8 text-center">
+        <div class="flex items-center gap-3">
+          <span class="text-3xl">⭐⭐⭐⭐⭐</span>
+        </div>
+        <p class="text-lg font-semibold text-gray-800 max-w-2xl">"The print quality is excellent, the paper feels great, and the graphics are truly stunning!" - Teresa Z., TripOffice.com</p>
+      </div>
+    </div>
+  </section>
+
   <Sponsors {sponsors} title="Vol. 3 Sponsored By" />
-  <EditionWelcome
-    heading="Welcome to our third edition, dear reader."
-    bodyHtml={`<p>Three editions might not sound like much, but for our team—and for me especially as its founder—it's a huge milestone. And yet, here we are, delivering our third baby into the world—thanks to our friends, partners, and to you, our readers.</p><p>I often reflect on the value this magazine brings, especially in a world where you can ask ChatGPT almost anything. But AI will never replace personal experiences, values, or the topics we deeply care about. We curate stories you might never search for on Google, but hope that, while flipping through the pages, you'll find something that resonates, teaches, or even inspires you. We invite experts we trust—people who share from the heart. And then we carefully edit their words by hand, not with AI.</p><p>In this edition, we allowed ourselves to explore more around wellness, therapy, building meaningful connections, and, of course, the endless pursuit of finding the perfect balance between work and life. We also invite you to take a journey with us to <a href="/blog/best-se-asia-spots-for-reliable-internet" class="font-normal underline">Asian destinations</a>, discover <a href="/blog/how-to-adjust-to-new-cultures-as-a-nomad" class="font-normal underline">cultural adaptation tips</a>, and explore <a href="/blog/7-tips-for-balancing-work-and-travel" class="font-normal underline">practical work-life balance strategies</a>.</p><p>We're particularly excited about our feature on <a href="/blog/coworking-vs-cafes-best-workspaces-for-digital-nomads" class="font-normal underline">digital nomad workspaces</a> and insights into <a href="/blog/how-to-find-cheap-flights-for-remote-workers" class="font-normal underline">affordable travel planning</a>. Each story in this edition reflects our commitment to real experiences over algorithm-generated content.</p><p>So grab a coffee, find a comfortable spot, and dive into the stories that matter. Thank you for being part of this journey.</p>`}
-  />
+  
+  <!-- Value Proposition Section -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">Why This Magazine Is Different</h2>
+        <p class="text-xl text-gray-700 leading-relaxed mb-8">In a world of AI-generated content, we bring you authentic stories from real nomads and industry experts. No algorithms, no fluff—just hand-curated insights you won't find on Google.</p>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-12">
+        <div class="text-center p-6">
+          <div class="text-4xl mb-4">✍️</div>
+          <h3 class="font-bold text-xl mb-3">100% Human-Written</h3>
+          <p class="text-gray-600">Every article carefully edited by hand, not AI. Real experiences from trusted experts.</p>
+        </div>
+        <div class="text-center p-6">
+          <div class="text-4xl mb-4">🌍</div>
+          <h3 class="font-bold text-xl mb-3">17 Expert Contributors</h3>
+          <p class="text-gray-600">From Mindvalley speakers to successful founders sharing their hard-earned wisdom.</p>
+        </div>
+        <div class="text-center p-6">
+          <div class="text-4xl mb-4">💎</div>
+          <h3 class="font-bold text-xl mb-3">Limited Print Edition</h3>
+          <p class="text-gray-600">Only 75 copies left. Collector's item for the nomad community.</p>
+        </div>
+      </div>
+    </div>
+  </section>
   
   <!-- Payment Options Section -->
-  <section id="payment-options" class="my-12 flex flex-col items-start justify-center gap-8 md:flex-row">
-    <!-- Carousel/Slider -->
-    <div class="w-full flex-shrink-0 px-4 sm:px-8 md:w-1/2 md:px-0">
-      <ProductCarousel slides={slides} firstSlideMaxWidth={false} />
-    </div>
-    <!-- Product Info -->
-    <div class="w-full max-w-md md:w-1/2">
-      <PaymentPlan
-        issueNumber="EDITION 003"
-        issueDescription="Wellness, Therapy & Digital Health - 112 pages of exclusive content."
-        digitalPlans={[
-          {
-            id: 'single-purchase',
-            title: 'Single Purchase',
-            subtitle: 'Pay for one issue',
-            features: [
-              { text: 'Exclusive NGM newsletters' },
-              { text: 'First to unlock the new NGM issue' },
-              { text: 'Lifetime access to digital magazine' },
-            ],
-            price: '€9',
-            priceNote: "will increase to €14 after 5 more copies sold",
-            url: 'https://buy.stripe.com/8x27sL4A51bdewS6tP8bS0b',
-            defaultChecked: false,
-          },
-        ]}
-        printPlan={{
-          id: 'print',
-          title: 'Single Purchase',
-          subtitle: 'Pay for one issue',
-          features: [{ text: 'Printed NGM issue' }, { text: 'Exclusive NGM newsletters' }],
-          price: '€30',
-          priceNote: "Limited edition - only 250 copies left",
-          url: 'https://pay.nomad-magazine.com/b/28EeVdaYt1bd0G24lH8bS0g',
-        }}
-        orderButtonText="Order Now"
-      />
+  <section id="payment-options" class="my-12 bg-gradient-to-b from-gray-50 to-white py-16">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Get Your Copy Today</h2>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">Choose your preferred format and start reading immediately</p>
+      </div>
+      
+      <div class="flex flex-col items-start justify-center gap-8 md:flex-row max-w-6xl mx-auto">
+        <!-- Carousel/Slider -->
+        <div class="w-full flex-shrink-0 px-4 sm:px-8 md:w-1/2 md:px-0">
+          <ProductCarousel slides={slides} firstSlideMaxWidth={false} />
+        </div>
+        <!-- Product Info -->
+        <div class="w-full max-w-md md:w-1/2">
+          <!-- ZINIO Option Highlight -->
+          <div class="bg-purple-50 border-2 border-purple-300 rounded-2xl p-6 mb-6">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="text-2xl">📱</span>
+              <h3 class="font-bold text-xl">Read on ZINIO App</h3>
+            </div>
+            <p class="text-gray-700 mb-4">Best reading experience on iOS, Android & Web. Enhanced features for digital magazines.</p>
+            <a href="https://www.zinio.com/pt/publications/nomad-magazine/45331" target="_blank" rel="noopener" class="block w-full text-center bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition">
+              View on ZINIO →
+            </a>
+          </div>
+          
+          <PaymentPlan
+            issueNumber="EDITION 003"
+            issueDescription="Wellness, Therapy & Digital Health - 112 pages of exclusive content."
+            digitalPlans={[
+              {
+                id: 'single-purchase',
+                title: 'Digital Edition',
+                subtitle: 'Instant access',
+                features: [
+                  { text: '✓ Instant download (PDF)' },
+                  { text: '✓ Read on any device' },
+                  { text: '✓ Lifetime access' },
+                  { text: '✓ Exclusive NGM newsletters' },
+                ],
+                price: '€9',
+                priceNote: "⚡ Price increases to €14 after 5 more sales",
+                url: 'https://buy.stripe.com/8x27sL4A51bdewS6tP8bS0b',
+                defaultChecked: false,
+              },
+            ]}
+            printPlan={{
+              id: 'print',
+              title: 'Print Edition (Collector\'s Item)',
+              subtitle: 'Premium quality',
+              features: [
+                { text: '✓ High-quality print on premium paper' },
+                { text: '✓ Stunning graphics & layout' },
+                { text: '✓ Limited edition - 75 left' },
+                { text: '✓ Ships worldwide' },
+                { text: '✓ Exclusive NGM newsletters' }
+              ],
+              price: '€32',
+              priceNote: "🔥 Only 75 copies remaining - Once sold out, gone forever!",
+              url: 'https://pay.nomad-magazine.com/b/28EeVdaYt1bd0G24lH8bS0g',
+            }}
+            orderButtonText="🛒 Get My Copy Now"
+          />
+          
+          <div class="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+            <p class="text-sm text-center text-gray-700"><strong>💰 Money-Back Guarantee:</strong> Not satisfied? Get a full refund within 30 days, no questions asked.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -290,13 +380,13 @@ const seo: SEOProps = {
   <section class="py-16 bg-white">
     <div class="container mx-auto px-4">
       <div class="text-center mb-12">
-        <h2 class="text-4xl md:text-5xl font-bold mb-4">What Our Readers Say</h2>
-        <p class="text-lg text-gray-600 max-w-2xl mx-auto">Hear from digital nomads and industry leaders who love our magazine</p>
+        <h2 class="text-4xl md:text-5xl font-bold mb-4">Loved by Digital Nomads & Industry Leaders</h2>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">Join thousands of readers who trust our content</p>
       </div>
       
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
         <!-- Ramon's Testimonial - Featured -->
-        <div class="bg-gradient-to-br from-yellow-50 to-orange-50 p-8 rounded-2xl border-2 border-yellow-200 relative">
+        <div class="bg-gradient-to-br from-yellow-50 to-orange-50 p-8 rounded-2xl border-2 border-yellow-200 relative hover:shadow-xl transition">
           <div class="absolute top-4 right-4 text-2xl">🧡</div>
           <div class="flex items-center mb-4">
             <img src="/images/edition-003-ramon-morcillo.webp" alt="Ramon Morcillo" class="w-16 h-16 rounded-full object-cover mr-4" />
@@ -305,20 +395,22 @@ const seo: SEOProps = {
               <p class="text-sm text-gray-600 uppercase tracking-wide">CO-FOUNDER @ MAPMELON</p>
             </div>
           </div>
+          <div class="mb-2">⭐⭐⭐⭐⭐</div>
           <p class="text-gray-700 leading-relaxed">"The issue looks beautiful, loved flipping through it 🧡 Congrats on the amazing work, and thanks again for having us as part of it! Big hug,"</p>
         </div>
 
         <!-- Teresa's Testimonial -->
-        <div class="bg-gray-50 p-8 rounded-2xl">
+        <div class="bg-gray-50 p-8 rounded-2xl hover:shadow-xl transition">
           <div class="mb-4">
             <h3 class="font-bold text-lg">Teresa Zielonka</h3>
             <p class="text-sm text-gray-600 uppercase tracking-wide">CO-FOUNDER, TRIPOFFICE.COM</p>
           </div>
+          <div class="mb-2">⭐⭐⭐⭐⭐</div>
           <p class="text-gray-700 leading-relaxed">"I love the magazine! The print quality is excellent, the paper feels great, and the graphics are truly stunning. Congratulations on creating such a fantastic publication!"</p>
         </div>
 
         <!-- Francesco's Testimonial -->
-        <div class="bg-gray-50 p-8 rounded-2xl">
+        <div class="bg-gray-50 p-8 rounded-2xl hover:shadow-xl transition">
           <div class="flex items-center mb-4">
             <img src="/images/edition-002-francesco-silicani.webp" alt="Francesco Silicani" class="w-16 h-16 rounded-full object-cover mr-4" />
             <div>
@@ -326,15 +418,29 @@ const seo: SEOProps = {
               <p class="text-sm text-gray-600 uppercase tracking-wide">BUSINESS DEVELOPER</p>
             </div>
           </div>
+          <div class="mb-2">⭐⭐⭐⭐⭐</div>
           <p class="text-gray-700 leading-relaxed">"Nomad Magazine is like having that well-traveled, fascinating friend who always knows the best places to go, how to settle in, and how to avoid common expat headaches."</p>
         </div>
       </div>
+      
+    </div>
+  </section>
+  
+  <!-- Urgency CTA Section -->
+  <section class="py-12 bg-gradient-to-r from-orange-500 to-red-500">
+    <div class="container mx-auto px-4 text-center text-white">
+      <h3 class="text-3xl md:text-4xl font-bold mb-4">⏰ Don't Miss Out</h3>
+      <p class="text-xl mb-2">Only 75 print copies left - Once they're gone, they're gone forever</p>
+      <p class="text-lg mb-6 opacity-90">Digital price increases to €14 after next 5 sales</p>
+      <a href="#payment-options" class="inline-block bg-white text-orange-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition shadow-lg">
+        🛒 Get My Copy Before It's Too Late
+      </a>
     </div>
   </section>
 
   <WhatsComingCarousel
-    heading="Story Previews"
-    subtitle="Get a sneak peek at the exclusive stories, insights, and expert perspectives coming in this edition — from wellness breakthroughs to nomad success stories."
+    heading="What You'll Discover Inside"
+    subtitle="112 pages packed with actionable insights from 17 industry experts - here's a preview of what awaits you"
     slides={[
       {
         image: '/images/Jimmy-Naraine-nomad-magazine-12-lessons.webp',
@@ -434,8 +540,48 @@ const seo: SEOProps = {
       },
     ]}
   />
-  <PreOrderSection name="👀  GET MY MAGAZINE" preOrderUrl="https://pay.nomad-magazine.com/b/28EeVdaYt1bd0G24lH8bS0g" waitlistUrl="https://form.smartsuite.com/s4tmc086/VD8BBVMq11" scrollToPayment={true} />
+  <!-- Final CTA Before Authors -->
+  <section class="py-12 bg-gray-900 text-white">
+    <div class="container mx-auto px-4 text-center">
+      <h3 class="text-2xl md:text-3xl font-bold mb-4">Ready to Level Up Your Nomad Life?</h3>
+      <p class="text-lg mb-6 opacity-90 max-w-2xl mx-auto">Join the community of informed nomads who invest in quality content</p>
+      <a href="#payment-options" class="inline-block bg-yellow-400 text-gray-900 px-8 py-4 rounded-lg font-bold text-lg hover:bg-yellow-300 transition shadow-lg">
+        🚀 Yes, I Want This Magazine
+      </a>
+    </div>
+  </section>
+  
   <AuthorsGrid {authors} />
+  
+  <!-- FAQ Section -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+      <div class="max-w-3xl mx-auto space-y-6">
+        <details class="bg-gray-50 p-6 rounded-lg">
+          <summary class="font-bold text-lg cursor-pointer">What format will I receive?</summary>
+          <p class="mt-3 text-gray-700">Digital version: Instant PDF download. Print version: High-quality physical magazine shipped worldwide. ZINIO: Interactive digital magazine through their app.</p>
+        </details>
+        <details class="bg-gray-50 p-6 rounded-lg">
+          <summary class="font-bold text-lg cursor-pointer">How long does shipping take?</summary>
+          <p class="mt-3 text-gray-700">Shipping takes 7-14 business days depending on your location. Digital version is available immediately after purchase.</p>
+        </details>
+        <details class="bg-gray-50 p-6 rounded-lg">
+          <summary class="font-bold text-lg cursor-pointer">What if I'm not satisfied?</summary>
+          <p class="mt-3 text-gray-700">We offer a 30-day money-back guarantee. If you're not happy, we'll refund you - no questions asked.</p>
+        </details>
+        <details class="bg-gray-50 p-6 rounded-lg">
+          <summary class="font-bold text-lg cursor-pointer">Can I read it on my phone/tablet?</summary>
+          <p class="mt-3 text-gray-700">Yes! The digital PDF works on any device. For the best mobile experience, we recommend the ZINIO app available for iOS, Android, and web.</p>
+        </details>
+        <details class="bg-gray-50 p-6 rounded-lg">
+          <summary class="font-bold text-lg cursor-pointer">Why is the print version limited?</summary>
+          <p class="mt-3 text-gray-700">We only print 1000 copies per edition to maintain quality and exclusivity. Once they're sold out, we don't reprint, making each edition a collector's item.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+  
   <MagazinePreview
     titleClass="mt-4"
     sectionClass="bg-gray-50"
@@ -443,6 +589,25 @@ const seo: SEOProps = {
     subTitle="Magazine Preview"
     subTitleClass="font-justme !text-black !text-2xl !font-medium"
   />
-  <PreOrderSection preOrderUrl="https://pay.nomad-magazine.com/b/28EeVdaYt1bd0G24lH8bS0g" waitlistUrl="https://form.smartsuite.com/s4tmc086/VD8BBVMq11" scrollToPayment={true} />
+  
+  <!-- Final Strong CTA -->
+  <section class="py-16 bg-gradient-to-br from-blue-600 to-purple-600 text-white">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="text-4xl md:text-5xl font-bold mb-6">Your Next Adventure Starts Here</h2>
+        <p class="text-xl mb-8">112 pages of expert insights. 17 contributors. Zero AI-generated fluff.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center mb-6">
+          <a href="https://buy.stripe.com/8x27sL4A51bdewS6tP8bS0b" class="bg-white text-purple-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition shadow-lg inline-block">
+            📱 Get Digital - €9
+          </a>
+          <a href="https://pay.nomad-magazine.com/b/28EeVdaYt1bd0G24lH8bS0g" class="bg-yellow-400 text-gray-900 px-8 py-4 rounded-lg font-bold text-lg hover:bg-yellow-300 transition shadow-lg inline-block">
+            📚 Get Print - €32
+          </a>
+        </div>
+        <p class="text-sm opacity-80">✅ 30-Day Money-Back Guarantee | 🔒 Secure Payment | 📦 Worldwide Shipping</p>
+      </div>
+    </div>
+  </section>
+  
   <Testimonials sectionClass="bg-hoverw [&_h2]:text-white" />
 </Layout>
