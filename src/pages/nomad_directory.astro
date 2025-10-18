@@ -80,11 +80,11 @@ const isSupporter = (record: any) => {
          monthlySupporters.includes(record.title)
 }
 
-// Helper function to check if a record is Max Browser/DataBench
-const isMaxBrowser = (record: any) => {
-  return record.title?.toLowerCase().includes('max browser') ||
-         record.title?.toLowerCase().includes('max') ||
-         record.title === 'DataBench'
+
+// Helper function to check if a record is NordVPN or Saily (priority listings)
+const isPriorityListing = (record: any) => {
+  return record.title?.toLowerCase().includes('nordvpn') ||
+         record.title?.toLowerCase().includes('saily')
 }
 
 const seo: SEOProps = {
@@ -232,17 +232,17 @@ const seo: SEOProps = {
           .sort((a: any, b: any) => {
             const aSupporter = isSupporter(a)
             const bSupporter = isSupporter(b)
-            const aMaxBrowser = isMaxBrowser(a)
-            const bMaxBrowser = isMaxBrowser(b)
+            const aPriority = isPriorityListing(a)
+            const bPriority = isPriorityListing(b)
 
             // Supporters go first
             if (aSupporter && !bSupporter) return -1
             if (!aSupporter && bSupporter) return 1
 
-            // Among non-supporters, Max Browser goes next
+            // Among non-supporters, priority listings (NordVPN, Saily) go next
             if (!aSupporter && !bSupporter) {
-              if (aMaxBrowser && !bMaxBrowser) return -1
-              if (!aMaxBrowser && bMaxBrowser) return 1
+              if (aPriority && !bPriority) return -1
+              if (!aPriority && bPriority) return 1
             }
 
             // Keep original order for others
