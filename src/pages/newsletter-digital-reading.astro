@@ -1,0 +1,427 @@
+---
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import { fetchReportRecords } from '~/utils/smartsuite'
+
+// Fetch coworking spaces for contest section
+const { records: distributionRecords = [] } = await fetchReportRecords('68614a111208586bd05d3c3a')
+
+// Filter and get a few coworking spaces with images for display
+const contestCoworkingSpaces = distributionRecords
+  .filter((record: any) => 
+    record.sb685ab800?.label === 'Coworking' && 
+    record.title &&
+    (record.image || record.images) &&
+    record.styrldtq === true
+  )
+  .slice(0, 6) // Get first 6 spaces
+  .map((record: any) => {
+    // Get the first image from multiple possible fields
+    let imageUrl = '';
+    const imageFields = [
+      record.image,
+      record.images,
+      record.sf4ad525dd,
+      record.s4ad525dd
+    ].filter(Boolean);
+    
+    if (imageFields.length > 0) {
+      const allImages = imageFields.flat().filter(Boolean);
+      imageUrl = allImages[0] || '';
+    }
+    
+    return {
+      name: record.title,
+      image: imageUrl,
+      location: record.sed1a49986 || 'Location not specified'
+    };
+  })
+  .filter((space: any) => space.image) // Only include spaces with valid images
+
+const seo: SEOProps = {
+  title: '📱 Better Digital Reading Experience - Nomad Magazine on ZINIO',
+  description: 'Read Nomad Magazine digitally with ZINIO - the premium magazine platform. Available on web, iOS, Android, and desktop apps with rich reading features.',
+  image: `${Astro.site}images/issue-003-on-yellow-background-with-flower.webp`,
+  keywords: 'digital magazine, zinio, nomad magazine digital, magazine reader app, digital nomad magazine, online magazine',
+  ogType: 'article',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Better Digital Reading Experience - Nomad Magazine on ZINIO',
+    description: 'Read Nomad Magazine digitally with ZINIO - the premium magazine platform. Available across all devices.',
+    author: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+    datePublished: '2025-10-18',
+    url: `${Astro.site}newsletter-digital-reading`,
+  },
+}
+---
+
+<Layout seo={seo}>
+  <div class="bg-gray-50 min-h-screen">
+    <!-- Header Section -->
+    <header class="bg-gray-900 text-white">
+      <div class="max-w-4xl mx-auto px-4 py-8 text-center">
+        <img src="/images/logo white png.png" alt="Nomad Magazine" class="mx-auto mb-4 h-12" />
+        <p class="text-yellow-400 text-sm font-semibold uppercase tracking-wide">October 18, 2025</p>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 py-8 bg-white">
+
+      <!-- Main Headline -->
+      <div class="text-center mb-12">
+        <div class="text-6xl mb-4">📱</div>
+        <h1 class="text-4xl md:text-5xl font-black text-gray-900 mb-4 leading-tight">
+          Your <strong>Digital Reading Experience</strong> Just Got Better
+        </h1>
+        <p class="text-lg text-gray-600 font-medium">Nomad Magazine × ZINIO Partnership</p>
+      </div>
+
+      <!-- Main Content -->
+      <article class="prose prose-lg max-w-none mb-12">
+        <p class="text-xl text-gray-700 mb-6 leading-relaxed">
+          <strong class="text-gray-900">You asked, we listened.</strong> You've been requesting a better digital reading experience beyond flipbooks and PDFs. We heard you loud and clear.
+        </p>
+
+        <p class="text-xl text-gray-700 mb-6 leading-relaxed">
+          Digital development has been a challenge for us. We've explored various service providers, some charging upwards of <strong class="text-gray-900">€700 per month</strong> (we hope to afford premium solutions like these in the future). But we believe in finding smart solutions that work for our community now. When you look hard enough, solutions come your way.
+        </p>
+
+        <p class="text-xl text-gray-700 mb-6 leading-relaxed">
+          We're excited to announce our partnership with <strong class="text-gray-900">ZINIO</strong>, a leading digital magazine platform and distributor trusted by millions of readers worldwide. ZINIO offers a premium app with rich functionality designed specifically for an exceptional magazine reading experience.
+        </p>
+
+        <div class="bg-gray-50 border-l-4 border-orange-500 p-6 rounded-r-lg my-6">
+          <p class="text-2xl font-semibold text-gray-900 mb-4">
+            📱 Read Nomad Magazine Anywhere
+          </p>
+          <ul class="list-disc pl-6 space-y-3 text-lg text-gray-700">
+            <li><strong>Offline Reading:</strong> Download and read without internet</li>
+            <li><strong>Interactive Features:</strong> Tap on links, zoom into images</li>
+            <li><strong>Customizable Reading:</strong> Adjust text size, colors, and background</li>
+            <li><strong>Beautiful Layout:</strong> Optimized for every screen size</li>
+            <li><strong>Cloud Sync:</strong> Start on mobile, continue on desktop</li>
+            <li><strong>Library Access:</strong> All your issues in one place</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- Platform Section -->
+      <section class="mb-12">
+        <div class="text-center mb-6">
+          <h2 class="text-3xl font-black text-gray-900 mb-2">
+            🌐 Available on All Your Devices
+          </h2>
+          <p class="text-base text-gray-600 font-medium">Choose your preferred platform</p>
+        </div>
+
+        <div class="space-y-4 mb-8">
+          <!-- Web Version -->
+          <div class="border-2 border-orange-500 rounded-2xl p-6 hover:shadow-lg transition-all duration-200 bg-gradient-to-r from-orange-50 to-yellow-50 text-center">
+            <div class="flex flex-col items-center mb-4">
+              <div class="text-4xl mb-2">🌐</div>
+              <h3 class="text-xl font-bold text-gray-900">Web Reader</h3>
+              <p class="text-sm text-gray-600">Read instantly in your browser</p>
+            </div>
+            <a 
+              href="https://www.zinio.com/pt/publications/nomad-magazine/45331" 
+              target="_blank"
+              class="inline-block font-bold py-3 px-6 rounded-xl transition-all duration-200"
+              style="background-color: #ea580c !important; color: white !important; text-decoration: none !important; border: 2px solid #ea580c !important;"
+            >
+              📖 Read Issue #3 Online
+            </a>
+          </div>
+
+          <!-- iOS, Android, and Desktop in one line -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- iOS App -->
+            <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
+              <div class="flex flex-col items-center text-center mb-3">
+                <div class="text-4xl mb-2">📱</div>
+                <h3 class="text-xl font-bold text-gray-900">iOS App</h3>
+                <p class="text-sm text-gray-600 mb-3">iPhone & iPad optimized</p>
+              </div>
+              <div class="text-center">
+                <a 
+                  href="https://apps.apple.com/us/app/zinio-magazine-newsstand/id364297166" 
+                  target="_blank"
+                  class="text-orange-600 hover:text-orange-700 underline font-semibold transition-colors"
+                >
+                  🍎 Download
+                </a>
+              </div>
+            </div>
+
+            <!-- Android App -->
+            <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
+              <div class="flex flex-col items-center text-center mb-3">
+                <div class="text-4xl mb-2">🤖</div>
+                <h3 class="text-xl font-bold text-gray-900">Android App</h3>
+                <p class="text-sm text-gray-600 mb-3">Available on Google Play</p>
+              </div>
+              <div class="text-center">
+                <a 
+                  href="https://play.google.com/store/apps/details?id=com.zinio.mobile.android.reader&pli=1" 
+                  target="_blank"
+                  class="text-orange-600 hover:text-orange-700 underline font-semibold transition-colors"
+                >
+                  🤖 Download
+                </a>
+              </div>
+            </div>
+
+            <!-- Desktop App -->
+            <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
+              <div class="flex flex-col items-center text-center mb-3">
+                <div class="text-4xl mb-2">💻</div>
+                <h3 class="text-xl font-bold text-gray-900">Desktop App</h3>
+                <p class="text-sm text-gray-600 mb-3">Windows & Mac</p>
+              </div>
+              <div class="text-center">
+                <a 
+                  href="https://www.zinio.com/pt/desktop/reader" 
+                  target="_blank"
+                  class="text-orange-600 hover:text-orange-700 underline font-semibold transition-colors"
+                >
+                  💻 Download
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Divider -->
+      <hr class="border-gray-900 my-8" />
+
+      <!-- Call to Action -->
+      <section class="mb-12">
+        <div class="bg-gradient-to-r from-orange-500 to-yellow-500 rounded-2xl p-8 text-center text-white">
+          <h2 class="text-3xl font-black mb-4">
+            🎉 Start Reading Today
+          </h2>
+          <p class="text-lg mb-6">
+            Experience Nomad Magazine Issue #3 on ZINIO now
+          </p>
+          <a 
+            href="https://www.zinio.com/pt/publications/nomad-magazine/45331" 
+            target="_blank"
+            class="inline-block bg-white text-orange-600 font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+          >
+            📱 Open in ZINIO
+          </a>
+        </div>
+      </section>
+
+      <!-- Divider -->
+      <hr class="border-gray-900 my-8" />
+
+      <!-- Still Want Print? -->
+      <section class="mb-12">
+        <div class="text-center mb-6">
+          <h2 class="text-3xl font-black text-gray-900 mb-2">
+            📖 Still Love Print?
+          </h2>
+          <p class="text-base text-gray-600 font-medium">We've got you covered</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-6">
+          <!-- Text Content -->
+          <div class="prose prose-base max-w-none">
+            <p class="text-base text-gray-700 mb-4 leading-relaxed">
+              We know many of you still love the feel of <strong class="text-gray-900">printed magazines</strong>. That's why we continue to offer <strong class="text-gray-900">door-to-door delivery</strong> worldwide.
+            </p>
+
+            <p class="text-base text-gray-700 leading-relaxed">
+              Perfect for collectors and those who prefer physical magazines! 🌍
+            </p>
+          </div>
+
+          <!-- Image -->
+          <div class="flex justify-center md:justify-end">
+            <img 
+              src="/images/issue-003-on-yellow-background-with-flower.webp" 
+              alt="Nomad Magazine Third Edition on yellow background"
+              class="max-w-xs w-full rounded-lg shadow-md"
+            />
+          </div>
+        </div>
+
+        <div class="text-center">
+          <a 
+            href="https://nomad-magazine.com/editions/third-edition" 
+            class="inline-block bg-gray-900 hover:bg-gray-800 text-white font-bold py-4 px-8 rounded-xl shadow-lg transition-all duration-200"
+          >
+            📖 ORDER PRINT MAGAZINE
+          </a>
+        </div>
+      </section>
+
+      <!-- Divider -->
+      <hr class="border-gray-900 my-8" />
+
+      <!-- Coworking Contest Section -->
+      <section class="mb-12">
+        <div class="text-center mb-6">
+          <h2 class="text-3xl font-black text-gray-900 mb-2">
+            🏆 Best Coworking Design Contest
+          </h2>
+          <p class="text-base text-gray-600 font-medium">Vote for the most beautifully designed spaces</p>
+        </div>
+
+        <div class="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl p-8 border-2 border-orange-200 mb-6">
+          <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-8">
+            <div class="flex-1">
+              <p class="text-xl text-gray-800 mb-4 leading-relaxed">
+                Help us find the most beautifully designed coworking spaces worldwide! Vote for stunning interiors, dreamy views, and ergonomic brilliance.
+              </p>
+              <div class="flex items-center gap-2 text-orange-600 font-bold">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <span id="contest-countdown" class="text-2xl">Loading...</span>
+              </div>
+            </div>
+            <div class="flex-shrink-0">
+              <a 
+                href="https://nomad-magazine.com/coworking-contest" 
+                class="inline-block font-bold py-4 px-8 rounded-xl shadow-lg transition-all duration-200"
+                style="background-color: #ea580c !important; color: white !important; text-decoration: none !important; border: 2px solid #ea580c !important;"
+              >
+                🗳️ Vote Now
+              </a>
+            </div>
+          </div>
+
+          {contestCoworkingSpaces.length > 0 && (
+            <div>
+              <p class="text-sm text-gray-600 font-semibold mb-4 text-center">Featured Contest Entries:</p>
+              <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+                {contestCoworkingSpaces.map((space: any) => (
+                  <div class="group relative overflow-hidden rounded-lg aspect-square">
+                    <img 
+                      src={space.image} 
+                      alt={space.name}
+                      class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
+                      <p class="text-white text-sm font-bold line-clamp-2 drop-shadow-lg">{space.name}</p>
+                      <p class="text-white/90 text-xs line-clamp-1 drop-shadow-md">{space.location}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <!-- Divider -->
+      <hr class="border-gray-900 my-8" />
+
+      <!-- Feedback Section -->
+      <section class="mb-12">
+        <div class="bg-gray-50 border-2 border-gray-200 rounded-2xl p-8 text-center">
+          <div class="text-4xl mb-4">💬</div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">We'd Love Your Feedback</h3>
+          <p class="text-base text-gray-700 mb-6 max-w-2xl mx-auto">
+            This is our first step towards better digital reading. Let us know what you think about ZINIO and how we can improve your reading experience even further.
+          </p>
+          <a 
+            href="mailto:lera@nomadgossip.com" 
+            class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-6 rounded-xl transition-all duration-200"
+          >
+            📧 Share Your Thoughts
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+      <div class="max-w-4xl mx-auto px-4 py-5 text-center">
+        <p class="text-xs text-white">
+          © 2025 Nomad Magazine. All rights reserved.<br>
+          <a href="https://nomad-magazine.com" class="text-yellow-400 hover:underline">nomad-magazine.com</a> | 
+          <a href="#" class="text-yellow-400 hover:underline">Unsubscribe</a>
+        </p>
+      </div>
+    </footer>
+
+    <!-- Back to Newsletter -->
+    <div class="text-center py-6 bg-gray-50">
+      <a 
+        href="/newsletter" 
+        class="inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors duration-200"
+      >
+        <svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        Back to Newsletter
+      </a>
+    </div>
+  </div>
+
+  <!-- Countdown Timer Script -->
+  <script is:inline>
+    function updateCountdown() {
+      const countdownElement = document.getElementById('contest-countdown');
+      if (!countdownElement) return;
+      
+      const endDate = new Date('2025-10-31T23:59:59');
+      const now = new Date();
+      const diff = endDate.getTime() - now.getTime();
+      
+      if (diff <= 0) {
+        countdownElement.textContent = 'Contest Ended';
+        return;
+      }
+      
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      
+      if (days > 0) {
+        countdownElement.textContent = days + ' day' + (days !== 1 ? 's' : '') + ' left to vote';
+      } else {
+        countdownElement.textContent = hours + ' hour' + (hours !== 1 ? 's' : '') + ' left to vote';
+      }
+    }
+    
+    // Update immediately and then every hour
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', updateCountdown);
+    } else {
+      updateCountdown();
+    }
+    setInterval(updateCountdown, 3600000);
+  </script>
+
+  <style>
+    .line-clamp-1 {
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  </style>
+</Layout>
+
