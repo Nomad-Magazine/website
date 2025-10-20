@@ -1,4 +1,4 @@
-name: Deploy Cloudflare Workers
+name: Deploy Smartsuite Dashboard
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -11,12 +11,12 @@ on:
       - main
     paths:
       - 'cloudflare_workers/**'
-      - '.github/workflows/deploy-workers.yml'
+      - '.github/workflows/deploy_smart_suite_dashboard.yml'
   repository_dispatch:
     types: [deploy-workers]
 
 jobs:
-  deploy-workers:
+  deploy-dashboard:
     runs-on: ubuntu-latest
     
     steps:
@@ -29,17 +29,12 @@ jobs:
       - name: Deploy smartsuite-dashboard worker
         run: |
           set -e
-          sed -i 's/OPENAI_API_KEY_PLACEHOLDER/${{ secrets.OPENAI_API_KEY }}/g' wrangler.jsonc
-          sed -i 's/STRIPE_SECRET_KEY_PLACEHOLDER/${{ secrets.STRIPE_SECRET_KEY }}/g' wrangler.jsonc
-          sed -i 's/STRIPE_WEBHOOK_SECRET_PLACEHOLDER/${{ secrets.STRIPE_WEBHOOK_SECRET }}/g' wrangler.jsonc
-          sed -i 's/BENTO_SITE_UUID_PLACEHOLDER/${{ secrets.BENTO_SITE_UUID }}/g' wrangler.jsonc
-          sed -i 's/BENTO_PUBLISHABLE_KEY_PLACEHOLDER/${{ secrets.BENTO_PUBLISHABLE_KEY }}/g' wrangler.jsonc
-          sed -i 's/BENTO_SECRET_KEY_PLACEHOLDER/${{ secrets.BENTO_SECRET_KEY }}/g' wrangler.jsonc
+          sed -i 's/GITHUB_TOKEN_PLACEHOLDER/${{ secrets.GITHUB_TOKEN }}/g' wrangler.jsonc
           output=$(bunx wrangler@latest deploy --env production)
           echo "$output"
           url=$(echo "$output" | grep -Eo 'https://[^[:space:]]*\.nomad-magazine\.com|https://[^[:space:]]*\.workers\.dev' | head -1)
           if [ -z "$url" ]; then
-            url="https://nomad-magazine.com"
+            url="https://dashboard.smartsuite.nomad-magazine.com"
           fi
           echo "deployment_url=$url" >> $GITHUB_OUTPUT
         env:

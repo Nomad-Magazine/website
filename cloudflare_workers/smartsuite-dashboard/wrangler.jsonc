@@ -1,0 +1,19 @@
+{
+  "name": "smartsuite-dashboard",
+  "main": "index.js",
+  "compatibility_date": "2025-06-17",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "tsconfig": "tsconfig.json",
+  "observability": {
+    "enabled": true
+  },
+  "route": {
+    "pattern": "dashboard.smartsuite.nomad-magazine.com",
+    "custom_domain": true
+  },
+  "vars": {
+    "GITHUB_TOKEN": "GITHUB_TOKEN_PLACEHOLDER"
+  }
+}
