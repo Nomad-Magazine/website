@@ -32,7 +32,7 @@
       "workers_dev": false,
       "routes": [
         {
-          "pattern": "workers.nomad-magazine.com",
+          "pattern": "nomad-magazine.com",
           "custom_domain": true
         }
       ]

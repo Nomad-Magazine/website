@@ -28,9 +28,20 @@ jobs:
       
       - name: Deploy smartsuite-dashboard worker
         run: |
-          cd cloudflare_workers/smartsuite-dashboard
-          sed -i 's/GITHUB_TOKEN_PLACEHOLDER/${{ secrets.PERSONAL_ACCESS_TOKEN }}/g' wrangler.toml
-          bunx wrangler@latest deploy
+          set -e
+          sed -i 's/OPENAI_API_KEY_PLACEHOLDER/${{ secrets.OPENAI_API_KEY }}/g' wrangler.toml
+          sed -i 's/STRIPE_SECRET_KEY_PLACEHOLDER/${{ secrets.STRIPE_SECRET_KEY }}/g' wrangler.toml
+          sed -i 's/STRIPE_WEBHOOK_SECRET_PLACEHOLDER/${{ secrets.STRIPE_WEBHOOK_SECRET }}/g' wrangler.toml
+          sed -i 's/BENTO_SITE_UUID_PLACEHOLDER/${{ secrets.BENTO_SITE_UUID }}/g' wrangler.toml
+          sed -i 's/BENTO_PUBLISHABLE_KEY_PLACEHOLDER/${{ secrets.BENTO_PUBLISHABLE_KEY }}/g' wrangler.toml
+          sed -i 's/BENTO_SECRET_KEY_PLACEHOLDER/${{ secrets.BENTO_SECRET_KEY }}/g' wrangler.toml
+          output=$(bunx wrangler@latest deploy --env production)
+          echo "$output"
+          url=$(echo "$output" | grep -Eo 'https://[^[:space:]]*\.nomad-magazine\.com|https://[^[:space:]]*\.workers\.dev' | head -1)
+          if [ -z "$url" ]; then
+            url="https://nomad-magazine.com"
+          fi
+          echo "deployment_url=$url" >> $GITHUB_OUTPUT
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }} 

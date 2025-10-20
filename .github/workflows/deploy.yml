@@ -67,9 +67,9 @@ jobs:
           sed -i 's/BENTO_SECRET_KEY_PLACEHOLDER/${{ secrets.BENTO_SECRET_KEY }}/g' wrangler.toml
           output=$(bunx wrangler@latest deploy --env production)
           echo "$output"
-          url=$(echo "$output" | grep -Eo 'https://[^[:space:]]*workers\.nomad-magazine\.com|https://[^[:space:]]*\.workers\.dev' | head -1)
+          url=$(echo "$output" | grep -Eo 'https://[^[:space:]]*\.nomad-magazine\.com|https://[^[:space:]]*\.workers\.dev' | head -1)
           if [ -z "$url" ]; then
-            url="https://workers.nomad-magazine.com"
+            url="https://nomad-magazine.com"
           fi
           echo "deployment_url=$url" >> $GITHUB_OUTPUT
         env:
