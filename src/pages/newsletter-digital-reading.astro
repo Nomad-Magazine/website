@@ -1,54 +1,49 @@
 ---
+export const prerender = true;
+
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import { fetchReportRecords } from '~/utils/smartsuite'
 
-// Fetch coworking spaces for contest section
-const { records: distributionRecords = [] } = await fetchReportRecords('68614a111208586bd05d3c3a')
+// Fetch coworking spaces for contest section with error handling
+let contestCoworkingSpaces: any[] = [];
 
-// Filter and get a few coworking spaces with images for display
-console.log('DEBUG: Total distribution records:', distributionRecords.length);
-console.log('DEBUG: Sample record structure:', distributionRecords[0] ? Object.keys(distributionRecords[0]) : 'No records');
-
-const contestCoworkingSpaces = distributionRecords
-  .filter((record: any) => 
-    record.sb685ab800?.label === 'Coworking' && 
-    record.title &&
-    record.styrldtq === true
-  )
-  .slice(0, 8) // Get first 8 spaces (increased to have more options)
-  .map((record: any) => {
-    // Get the first image from multiple possible fields
-    let imageUrl = '';
-    const imageFields = [
-      record.image,
-      record.images,
-      record.sf4ad525dd,
-      record.s4ad525dd
-    ].filter(Boolean);
-    
-    console.log(`DEBUG: ${record.title} - Image fields:`, {
-      image: record.image,
-      images: record.images,
-      sf4ad525dd: record.sf4ad525dd,
-      s4ad525dd: record.s4ad525dd
-    });
-    
-    if (imageFields.length > 0) {
-      const allImages = imageFields.flat().filter(Boolean);
-      imageUrl = allImages[0] || '';
-      console.log(`DEBUG: ${record.title} - Final image URL:`, imageUrl);
-    }
-    
-    return {
-      name: record.title,
-      image: imageUrl,
-      location: record.sed1a49986 || 'Location not specified'
-    };
-  })
-  .filter((space: any) => space.image) // Only include spaces with valid images
-
-console.log('DEBUG: Final contest coworking spaces:', contestCoworkingSpaces.length);
-console.log('DEBUG: Contest spaces with images:', contestCoworkingSpaces.map(s => ({ name: s.name, hasImage: !!s.image })));
+try {
+  const { records: distributionRecords = [] } = await fetchReportRecords('68614a111208586bd05d3c3a')
+  
+  // Filter and get a few coworking spaces with images for display
+  contestCoworkingSpaces = distributionRecords
+    .filter((record: any) => 
+      record.sb685ab800?.label === 'Coworking' && 
+      record.title &&
+      record.styrldtq === true
+    )
+    .slice(0, 8) // Get first 8 spaces (increased to have more options)
+    .map((record: any) => {
+      // Get the first image from multiple possible fields
+      let imageUrl = '';
+      const imageFields = [
+        record.image,
+        record.images,
+        record.sf4ad525dd,
+        record.s4ad525dd
+      ].filter(Boolean);
+      
+      if (imageFields.length > 0) {
+        const allImages = imageFields.flat().filter(Boolean);
+        imageUrl = allImages[0] || '';
+      }
+      
+      return {
+        name: record.title,
+        image: imageUrl,
+        location: record.sed1a49986 || 'Location not specified'
+      };
+    })
+    .filter((space: any) => space.image) // Only include spaces with valid images
+} catch (error) {
+  // Fallback: use empty array if SmartSuite fetch fails during build
+  contestCoworkingSpaces = [];
+}
 
 const seo: SEOProps = {
   title: '📱 Better Digital Reading Experience - Nomad Magazine on ZINIO',
@@ -328,7 +323,7 @@ const seo: SEOProps = {
                       src={space.image} 
                       alt={space.name}
                       class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                      onError="this.src='/images/coworking-placeholder.jpg'"
+                      onerror="this.src='/images/coworking-placeholder.jpg'"
                     />
                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
                       <p class="text-white text-sm font-bold line-clamp-2 drop-shadow-lg">{space.name}</p>
@@ -340,7 +335,6 @@ const seo: SEOProps = {
             ) : (
               <div class="text-center py-8">
                 <p class="text-gray-500">Contest entries loading...</p>
-                <p class="text-xs text-gray-400 mt-2">Check console for debug information</p>
               </div>
             )}
           </div>

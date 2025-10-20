@@ -2,13 +2,11 @@ name = "nomad-magazine"
 main = "dist/_worker.js"
 compatibility_date = "2025-06-17"
 compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = "dist"
 
 # Enable preview URLs for PR deployments
 preview_urls = true
 
-[assets]
-directory = "./dist"
-binding = "ASSETS"
 
 [observability]
 enabled = true
