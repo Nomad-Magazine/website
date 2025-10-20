@@ -1,25 +1,21 @@
-ˆ¥˚ˆö---
+---
 import { getCollection } from 'astro:content'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import { Image } from 'astro:assets'
 
-// Get all blog posts and filter for SeoBot articles only (AI-generated)
+// Get all blog posts and filter for custom articles only (non-SeoBot)
 const allPosts = await getCollection('blog')
 const posts = allPosts
   .filter((post) => {
     // Filter for published posts
     if (post.data.published === false) return false
     
-    // Custom articles have heroImage in frontmatter - exclude them
-    // Check the original data before schema transformation
-    const hasHeroImage = post.data.heroImage && !post.data.heroImage.includes('seobotai.com')
-    if (hasHeroImage) return false
-    
+    // Custom articles are those that are NOT from SeoBot
     // SeoBot articles have: author === 'Martin Donadieu' AND author_url === 'https://github.com/riderx'
     const isSeoBot = post.data.author === 'Martin Donadieu' && 
                      post.data.authorUrl === 'https://github.com/riderx'
     
-    return isSeoBot
+    return !isSeoBot
   })
   .sort((a, b) => {
     const dateA = a.data.pubDate || new Date(0)
@@ -76,17 +72,17 @@ const youtubeVideos = [
 ]
 
 const seo: SEOProps = {
-  title: 'Nomad Blog - Digital Nomad Articles & Tips',
-  description: 'In-depth articles and useful tips on how to improve your nomadic journey. Expert insights on remote work, travel, and the digital nomad lifestyle.',
+  title: 'Articles - Nomad Magazine Exclusive Content',
+  description: 'Exclusive articles and stories from the Nomad Magazine team and our community contributors. Deep dives into digital nomad culture, events, and lifestyle.',
   image: `${Astro.site}images/edition-003-cover_holded_front_face.webp`,
-  keywords: 'digital nomad blog, remote work tips, nomad lifestyle, travel guides, coworking, nomad community',
+  keywords: 'nomad magazine articles, digital nomad stories, nomad culture, community stories, nomad events',
   ogType: 'website',
   ldJSON: {
     '@context': 'https://schema.org',
     '@type': 'Blog',
-    name: 'Nomad Blog',
-    description: 'In-depth articles and useful tips on how to improve your nomadic journey',
-    url: `${Astro.site}blog`,
+    name: 'Nomad Magazine Articles',
+    description: 'Exclusive articles and stories from the Nomad Magazine team and our community contributors',
+    url: `${Astro.site}articles`,
     publisher: {
       '@type': 'Organization',
       name: 'Nomad Magazine',
@@ -101,7 +97,7 @@ const seo: SEOProps = {
       description: post.data.description,
       author: {
         '@type': 'Person',
-        name: post.data.author || 'Martin Donadieu',
+        name: post.data.author || 'Nomad Magazine',
       },
       datePublished: post.data.pubDate?.toISOString(),
       url: `${Astro.site}blog/${post.slug}`,
@@ -121,23 +117,7 @@ const seo: SEOProps = {
           <!-- Today's Picks Header -->
           <div class="mb-8">
             <div class="inline-block bg-white text-black px-4 py-2 text-sm font-bold uppercase tracking-wider mb-6">
-              Today's Picks
-            </div>
-
-            <!-- Honest Notice Banner -->
-            <div class="mb-8 rounded-2xl border-2 border-yellow-400 bg-gradient-to-r from-yellow-50 to-orange-50 p-6">
-              <div class="flex items-start gap-4">
-                <div class="flex-shrink-0 text-3xl">🤖</div>
-                <div class="space-y-2">
-                  <p class="text-gray-700 leading-relaxed">
-                    <span class="font-bold">Honestly?</span> This blog is AI-written for SEO. If you want the good stuff—actual humans writing 
-                    <a href="/articles" class="font-bold text-yellow-600 hover:text-yellow-700 underline transition-colors">custom web articles</a> 
-                    and designing beautiful magazines you can hold in your hands—
-                    <a href="/editions" class="font-bold text-yellow-600 hover:text-yellow-700 underline transition-colors">check out our print editions</a>. 
-                    That's where we put our soul. 📖✨
-                  </p>
-                </div>
-              </div>
+              Featured Articles
             </div>
             
             <!-- Row 1: Large center article -->
@@ -154,7 +134,7 @@ const seo: SEOProps = {
                 </div>
                 <div class="mt-4 space-y-3">
                   <div class="text-xs uppercase tracking-wider text-neutral-400 font-bold">
-                    Digital Nomads
+                    {featuredPost.data.author || 'Nomad Magazine'}
                   </div>
                   <h1 class="text-3xl lg:text-4xl font-bold leading-tight text-white">
                     <a href={`/blog/${featuredPost.slug}`} class="hover:text-neutral-300 transition-colors">
@@ -189,7 +169,7 @@ const seo: SEOProps = {
                   </div>
                   <div class="space-y-2">
                     <div class="text-xs uppercase tracking-wider text-neutral-400 font-bold">
-                      Remote Work
+                      {regularPosts[0].data.author || 'Nomad Magazine'}
                     </div>
                     <h2 class="text-lg font-bold leading-tight text-white">
                       <a href={`/blog/${regularPosts[0].slug}`} class="hover:text-neutral-300 transition-colors">
@@ -210,7 +190,7 @@ const seo: SEOProps = {
                 <article class="space-y-3">
                   <div class="space-y-2">
                     <div class="text-xs uppercase tracking-wider text-neutral-400 font-bold">
-                      Travel Tips
+                      {regularPosts[1].data.author || 'Nomad Magazine'}
                     </div>
                     <h2 class="text-lg font-bold leading-tight text-white">
                       <a href={`/blog/${regularPosts[1].slug}`} class="hover:text-neutral-300 transition-colors">
@@ -231,7 +211,7 @@ const seo: SEOProps = {
                 <article class="space-y-3">
                   <div class="space-y-2">
                     <div class="text-xs uppercase tracking-wider text-neutral-400 font-bold">
-                      Nomad Life
+                      {regularPosts[2].data.author || 'Nomad Magazine'}
                     </div>
                     <h2 class="text-lg font-bold leading-tight text-white">
                       <a href={`/blog/${regularPosts[2].slug}`} class="hover:text-neutral-300 transition-colors">
@@ -255,7 +235,7 @@ const seo: SEOProps = {
                 <article class="space-y-3">
                   <div class="space-y-2">
                     <div class="text-xs uppercase tracking-wider text-neutral-400 font-bold">
-                      Community
+                      {regularPosts[3].data.author || 'Nomad Magazine'}
                     </div>
                     <h2 class="text-lg font-bold leading-tight text-white">
                       <a href={`/blog/${regularPosts[3].slug}`} class="hover:text-neutral-300 transition-colors">
@@ -288,7 +268,7 @@ const seo: SEOProps = {
                   </div>
                   <div class="space-y-2">
                     <div class="text-xs uppercase tracking-wider text-neutral-400 font-bold">
-                      Digital Life
+                      {regularPosts[4].data.author || 'Nomad Magazine'}
                     </div>
                     <h2 class="text-lg font-bold leading-tight text-white">
                       <a href={`/blog/${regularPosts[4].slug}`} class="hover:text-neutral-300 transition-colors">
@@ -318,7 +298,7 @@ const seo: SEOProps = {
                   </div>
                   <div class="space-y-2">
                     <div class="text-xs uppercase tracking-wider text-neutral-400 font-bold">
-                      Lifestyle
+                      {regularPosts[5].data.author || 'Nomad Magazine'}
                     </div>
                     <h2 class="text-lg font-bold leading-tight text-white">
                       <a href={`/blog/${regularPosts[5].slug}`} class="hover:text-neutral-300 transition-colors">
@@ -374,8 +354,42 @@ const seo: SEOProps = {
               ))}
             </div>
 
-            <!-- Featured Box -->
-            <div class="mt-12 bg-neutral-800 border border-neutral-700 text-white p-6 space-y-4 rounded-lg">
+            <!-- Magazine Box -->
+            <div class="mt-12 bg-gradient-to-br from-yellow-400 to-orange-500 text-black rounded-lg overflow-hidden">
+              <div class="relative">
+                <Image
+                  src="/images/edition-002-multiple-cover-background-purple.webp"
+                  alt="Nomad Magazine Editions"
+                  width={300}
+                  height={400}
+                  class="w-full h-48 object-cover"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+              </div>
+              <div class="p-6 space-y-4">
+                <div class="text-xs uppercase tracking-wider font-bold">
+                  Nomad Magazine
+                </div>
+                <div class="text-lg font-bold">
+                  Get Your Print Edition
+                </div>
+                <p class="text-sm leading-relaxed">
+                  Dive deeper into nomad stories, exclusive interviews, and stunning photography. Available worldwide.
+                </p>
+                <a 
+                  href="/#magazine" 
+                  class="inline-flex items-center gap-2 bg-black text-white px-4 py-2 rounded-lg hover:bg-neutral-800 transition-colors text-sm font-bold"
+                >
+                  Order Magazine
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            <!-- Nomad Directory Box -->
+            <div class="mt-8 bg-neutral-800 border border-neutral-700 text-white p-6 space-y-4 rounded-lg">
               <div class="text-xs uppercase tracking-wider font-bold text-yellow-400">
                 Featured
               </div>
@@ -387,14 +401,14 @@ const seo: SEOProps = {
                     </svg>
                   </div>
                   <div class="text-sm font-bold">
-                    Discover Nomad Directory
+                    Nomad Directory
                   </div>
                 </div>
                 <p class="text-sm leading-relaxed text-neutral-300">
-                  Find your perfect nomad destination, coworking spaces, and connect with the global digital nomad community. Browse our comprehensive directory of nomad-friendly locations worldwide.
+                  The best new tools, services, and companies for digital nomads to help you discover what's new in the nomad ecosystem.
                 </p>
                 <a 
-                  href="/nomad-directory" 
+                  href="/nomad_directory" 
                   class="inline-flex items-center gap-2 text-yellow-400 hover:text-yellow-300 transition-colors text-sm font-medium"
                 >
                   Explore Directory
@@ -474,7 +488,7 @@ const seo: SEOProps = {
       <div class="mx-auto max-w-7xl">
         <div class="mb-12 text-center">
           <h2 class="text-3xl font-bold text-white">Featured Stories</h2>
-          <p class="mt-2 text-lg text-neutral-400">Essential reads for digital nomads</p>
+          <p class="mt-2 text-lg text-neutral-400">Essential reads from our community</p>
         </div>
         
         <!-- Featured Layout: One Big Article -->
@@ -599,7 +613,7 @@ const seo: SEOProps = {
       <section class="bg-hoverw px-4 py-16 sm:px-6 lg:px-8">
         <div class="mx-auto max-w-7xl">
           <div class="mb-12 text-center">
-            <h2 class="text-3xl font-bold text-white mb-4">From the Archive</h2>
+            <h2 class="text-3xl font-bold text-white mb-4">More Articles</h2>
             <p class="text-lg text-neutral-400">Discover more stories from our community</p>
           </div>
           
@@ -748,5 +762,6 @@ const seo: SEOProps = {
     }
   });
 </script>
+
 
 
