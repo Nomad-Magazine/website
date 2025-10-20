@@ -2,18 +2,14 @@ name = "nomad-magazine"
 main = "dist/_worker.js"
 compatibility_date = "2025-06-17"
 compatibility_flags = ["nodejs_compat"]
-pages_build_output_dir = "dist"
 
-# Enable preview URLs for PR deployments
-preview_urls = true
-
+routes = [
+  { pattern = "nomad-magazine.com/*", zone_name = "nomad-magazine.com" },
+  { pattern = "www.nomad-magazine.com/*", zone_name = "nomad-magazine.com" }
+]
 
 [observability]
 enabled = true
-
-[route]
-pattern = "nomad-magazine.com"
-custom_domain = true
 
 [vars]
 SMART_SUITE_APIKEY = "SMART_SUITE_APIKEY_PLACEHOLDER"
@@ -25,17 +21,3 @@ STRIPE_WEBHOOK_SECRET = "STRIPE_WEBHOOK_SECRET_PLACEHOLDER"
 BENTO_SITE_UUID = "BENTO_SITE_UUID_PLACEHOLDER"
 BENTO_PUBLISHABLE_KEY = "BENTO_PUBLISHABLE_KEY_PLACEHOLDER"
 BENTO_SECRET_KEY = "BENTO_SECRET_KEY_PLACEHOLDER"
-
-# Environment-specific configurations
-[env.preview]
-# Preview environment - inherits from main config but with preview-specific settings
-workers_dev = true
-# No custom domain for previews, use workers.dev subdomain
-
-[env.production]
-# Production environment - explicit production settings
-workers_dev = false
-routes = [
-  { pattern = "nomad-magazine.com/*", zone_name = "nomad-magazine.com" },
-  { pattern = "www.nomad-magazine.com/*", zone_name = "nomad-magazine.com" }
-]
