@@ -20,6 +20,9 @@
     "supabase": "^2.51.0",
     "tailwindcss": "^4.1.14"
   },
+  "overrides": {
+    "vite": "npm:rolldown-vite@latest"
+  },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
     "@dotenvx/dotenvx": "^1.51.0",
