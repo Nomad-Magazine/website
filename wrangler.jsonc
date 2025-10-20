@@ -1,5 +1,5 @@
 {
-  "name": "nomad-magazine2",
+  "name": "nomad-magazine-website",
   "main": "dist/_worker.js/index.js",
   "compatibility_date": "2025-06-17",
   "compatibility_flags": ["nodejs_compat"],
@@ -21,21 +21,12 @@
     "BENTO_PUBLISHABLE_KEY": "BENTO_PUBLISHABLE_KEY_PLACEHOLDER",
     "BENTO_SECRET_KEY": "BENTO_SECRET_KEY_PLACEHOLDER"
   },
-  // Environment-specific configuration
-  "env": {
-    "preview": {
-      // Preview keeps workers.dev enabled
-      "workers_dev": true
-    },
-    "production": {
-      // Production uses a custom domain
-      "workers_dev": false,
-      "routes": [
-        {
-          "pattern": "nomad-magazine.com",
-          "custom_domain": true
-        }
-      ]
+  // Production deploy uses custom domain; no workers.dev fallback
+  "workers_dev": false,
+  "routes": [
+    {
+      "pattern": "nomad-magazine.com",
+      "custom_domain": true
     }
-  }
+  ]
 }
