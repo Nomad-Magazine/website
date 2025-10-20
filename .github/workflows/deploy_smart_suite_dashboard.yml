@@ -30,7 +30,7 @@ jobs:
         run: |
           set -e
           sed -i 's/GITHUB_TOKEN_PLACEHOLDER/${{ secrets.GITHUB_TOKEN }}/g' wrangler.jsonc
-          output=$(bunx wrangler@latest deploy --env production)
+          output=$(bunx wrangler@latest deploy)
           echo "$output"
           url=$(echo "$output" | grep -Eo 'https://[^[:space:]]*\.nomad-magazine\.com|https://[^[:space:]]*\.workers\.dev' | head -1)
           if [ -z "$url" ]; then
