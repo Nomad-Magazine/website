@@ -38,11 +38,7 @@ const { id = 'description-modal' } = Astro.props;
 </div>
 
 <script is:inline>
-  // Description Modal functionality
-  let currentDescriptionModal = { spaceName: '', description: '' };
-
   function openDescriptionModal(spaceName, description, descriptionMarkdown) {
-    currentDescriptionModal = { spaceName, description, descriptionMarkdown };
     const modal = document.getElementById('description-modal');
     const modalTitle = document.getElementById('description-modal-title');
     const modalContent = document.getElementById('description-modal-content');

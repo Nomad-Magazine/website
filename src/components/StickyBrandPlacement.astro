@@ -63,8 +63,6 @@
           scrollTimeout = setTimeout(() => {
             const scrollY = window.scrollY;
             const windowHeight = window.innerHeight;
-            const documentHeight = document.documentElement.scrollHeight;
-            
             // Show when user scrolls past 50% of the page
             if (scrollY > windowHeight * 0.5) {
               showBanner();

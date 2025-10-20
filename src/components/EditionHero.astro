@@ -58,17 +58,27 @@ const defaultFooterText = `* Prefer instant access? Digital edition available fo
           >
             {digitalButtonText || defaultDigitalButtonText}
           </a>
-          <div class="flex flex-col items-center order-last sm:order-first">
+          <div class="flex flex-col items-center order-last sm:order-first space-y-3">
             <span class="mb-1 inline-block rounded-full bg-yellow-400 px-3 py-1 text-xs font-bold text-black uppercase tracking-wide shadow">Recommended</span>
             <a
-              href="#payment-plan"
+              href={printUrl || '#payment-plan'}
               data-event="reserve magazine"
               data-plan="print"
               class="w-full sm:w-auto inline-block rounded bg-yellow-400 px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-black shadow-md transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300"
-              onclick="return scrollToPaymentPlan()"
+              target={printUrl ? '_blank' : '_self'}
+              onclick={!printUrl ? 'return scrollToPaymentPlan()' : undefined}
             >
               {printButtonText || defaultPrintButtonText}
             </a>
+            {waitlistUrl && waitlistUrl.trim() && (
+              <a
+                href={waitlistUrl}
+                class="text-xs text-gray-700 font-semibold underline underline-offset-4 hover:text-yellow-500 transition-colors"
+                target="_blank"
+              >
+                Join the print waitlist
+              </a>
+            )}
           </div>
         </div>
         <div class="mt-2 text-xs sm:text-sm text-gray-700" style="white-space: pre-line;">
@@ -91,22 +101,22 @@ const defaultFooterText = `* Prefer instant access? Digital edition available fo
 </div>
 
 <script is:inline>
-function scrollToPaymentPlan() {
+globalThis.scrollToPaymentPlan = function scrollToPaymentPlan() {
   // Set hash to trigger print selection
   window.location.hash = 'payment-plan-print';
-  
+
   // Scroll to payment plan component
   const paymentPlan = document.getElementById('payment-plan');
   if (paymentPlan) {
-    paymentPlan.scrollIntoView({ 
+    paymentPlan.scrollIntoView({
       behavior: 'smooth',
       block: 'center'
     });
   }
-  
+
   // Prevent default link behavior
   return false;
-}
+};
 </script>
 
 <style>

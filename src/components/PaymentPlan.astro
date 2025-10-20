@@ -43,10 +43,6 @@ const instanceId = `payment-plan-${Math.random().toString(36).substring(2, 9)}`
 const digitalRadioId = `${instanceId}-digital-radio`
 const printRadioId = `${instanceId}-print-radio`
 const orderBtnId = `${instanceId}-order-now-btn`
-const plansRowId = `${instanceId}-plans-row`
-
-// Get default digital plan (first one that's defaultChecked, or first one)
-const defaultDigitalPlan = digitalPlans.find((plan) => plan.defaultChecked) || digitalPlans[0]
 ---
 <div id="payment-plan" class="w-full max-w-lg mx-auto bg-white rounded-lg border border-gray-200 p-6">
   <!-- Header -->
@@ -214,27 +210,79 @@ const defaultDigitalPlan = digitalPlans.find((plan) => plan.defaultChecked) || d
     showPickup,
   }}
 >
+  // no imports here; just stash the data
+  window.__PAYMENT_DATA__ = {     
+    instanceId,
+    digitalRadioId,
+    printRadioId,
+    orderBtnId,
+    digitalPlans,
+    printPlan,
+    showPickup,
+  };
+</script>
+<script>
+/* global instanceId, digitalRadioId, printRadioId, orderBtnId, digitalPlans, printPlan */
+declare global {
+  interface Window {
+  __PAYMENT_DATA__: {
+    instanceId: string
+    digitalRadioId: string
+    printRadioId: string
+    orderBtnId: string
+    digitalPlans: Array<{
+      id: string
+      name: string
+      price: string
+      url: string
+      defaultChecked: boolean
+      priceNote?: string
+    }>
+    printPlan: {
+      id: string
+      name: string
+      price: string
+      url: string
+      priceNote?: string
+    }
+    showPickup: boolean
+  };
+  }
+};
 document.addEventListener('DOMContentLoaded', function () {
+
+  var instanceId = window.__PAYMENT_DATA__ .instanceId || '';
+  var digitalRadioId = window.__PAYMENT_DATA__.digitalRadioId || '';
+  var printRadioId = window.__PAYMENT_DATA__.printRadioId || '';
+  var orderBtnId = window.__PAYMENT_DATA__.orderBtnId || '';
+  var showPickupEnabled = window.__PAYMENT_DATA__.showPickup;
+  var digitalPlans = window.__PAYMENT_DATA__.digitalPlans || [];
+  var printPlan = window.__PAYMENT_DATA__.printPlan || {};
+
   // Get main control elements
-  var digitalRadio = document.getElementById(digitalRadioId);
-  var printRadio = document.getElementById(printRadioId);
+  var digitalRadio = document.getElementById(digitalRadioId) as HTMLInputElement;
+  var printRadio = document.getElementById(printRadioId) as HTMLInputElement;
   var digitalPlansElement = document.getElementById(instanceId + '-digital-plans');
   var printPlanElement = document.getElementById(instanceId + '-print-plan');
   var orderBtn = document.getElementById(orderBtnId);
   var priceDisplay = document.getElementById('price-display-' + instanceId);
   var priceNoteDisplay = document.getElementById('price-note-' + instanceId);
 
-  function showPlan(type) {
+  function showPlan(type: string) {
     if (type === 'digital') {
+      var firstDigitalPlan = digitalPlans[0];
+      if (!firstDigitalPlan) {
+        return;
+      }
       // Show digital plans
       if (digitalPlansElement) digitalPlansElement.style.display = 'block';
       // Hide print plan
       if (printPlanElement) printPlanElement.style.display = 'none';
       // Update price and button for digital
-      if (priceDisplay) priceDisplay.textContent = digitalPlans[0].price;
-      if (orderBtn) orderBtn.setAttribute('href', digitalPlans[0].url);
+      if (priceDisplay) priceDisplay.textContent = firstDigitalPlan.price;
+      if (orderBtn) orderBtn.setAttribute('href', firstDigitalPlan.url);
       // Update price note for digital
-      if (priceNoteDisplay) priceNoteDisplay.textContent = digitalPlans[0].priceNote || '';
+      if (priceNoteDisplay) priceNoteDisplay.textContent = firstDigitalPlan.priceNote || '';
     } else if (type === 'print') {
       // Hide digital plans
       if (digitalPlansElement) digitalPlansElement.style.display = 'none';
@@ -272,13 +320,13 @@ document.addEventListener('DOMContentLoaded', function () {
     'Warsaw': 'https://pay.nomad-magazine.com/b/4gMaEXaYtaLN0G219v8bS0s'
   };
 
-  var pickupRadio = document.getElementById('pickup-radio-' + instanceId);
-  var deliveryRadio = document.getElementById('delivery-radio-' + instanceId);
+  var pickupRadio = document.getElementById('pickup-radio-' + instanceId) as HTMLInputElement;
+  var deliveryRadio = document.getElementById('delivery-radio-' + instanceId) as HTMLInputElement;
   var pickupCityGroup = document.getElementById('pickup-city-group-' + instanceId);
-  var pickupCity = document.getElementById('pickup-city-' + instanceId);
+  var pickupCity = document.getElementById('pickup-city-' + instanceId) as any as HTMLSelectElement;
 
   function updatePrintUI() {
-    if (!showPickup) {
+    if (!showPickupEnabled) {
       // If pickup is not available, default to delivery
       var deliveryUrl = 'https://pay.nomad-magazine.com/b/28EeVdaYt1bd0G24lH8bS0g';
       if (priceDisplay) priceDisplay.textContent = '€32';
@@ -288,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (priceDisplay) priceDisplay.textContent = '€20';
       if (pickupCityGroup) pickupCityGroup.style.display = 'block';
       var city = pickupCity ? pickupCity.value : 'Amsterdam';
-      var link = pickupLinks[city] || pickupLinks['Amsterdam'];
+      var link = pickupLinks[city as keyof typeof pickupLinks] || pickupLinks['Amsterdam'];
       if (orderBtn) orderBtn.setAttribute('href', link);
     } else if (deliveryRadio && deliveryRadio.checked) {
       var deliveryUrl = 'https://pay.nomad-magazine.com/b/28EeVdaYt1bd0G24lH8bS0g';
@@ -298,7 +346,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  if (showPickup) {
+  if (showPickupEnabled) {
     if (pickupRadio && deliveryRadio) {
       pickupRadio.addEventListener('change', function() {
         updatePrintUI();
@@ -324,7 +372,7 @@ document.addEventListener('DOMContentLoaded', function () {
       digitalRadio.checked = false;
       showPlan('print');
       // Clear the hash to avoid confusion
-      history.replaceState(null, null, window.location.pathname);
+      history.replaceState(null, '', window.location.pathname);
       return true;
     }
     return false;

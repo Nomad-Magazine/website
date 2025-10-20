@@ -52,7 +52,7 @@ const seoProps = {
     <!-- Clarity -->
     {
       !isLocalhost && (
-      <script type="text/javascript">
+      <script is:inline type="text/javascript">
         (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
@@ -79,7 +79,7 @@ const seoProps = {
     <!-- Ahrefs Analytics -->
     {
       !isLocalhost && (
-        <script src="https://analytics.ahrefs.com/analytics.js" data-key="FgpboX6IT3IsYjFNlB1Wag" async></script>
+        <script is:inline src="https://analytics.ahrefs.com/analytics.js" data-key="FgpboX6IT3IsYjFNlB1Wag" async></script>
       )
     }
     <!-- End Ahrefs Analytics -->

@@ -2,6 +2,25 @@
 import Layout from '../layouts/Layout.astro';
 import { supabase, supabaseUrl, supabaseAnonKey } from '../utils/supabase';
 
+type ArticleRow = {
+  id: number;
+  title: string;
+  content: string;
+  author: string | null;
+  published_at: string | null;
+  created_at: string | null;
+  updated_at: string | null;
+};
+
+type LikeCountRow = {
+  article_id: number;
+  like_count: number | null;
+};
+
+type ArticleWithLikes = ArticleRow & {
+  like_count: number;
+};
+
 // Get Supabase config to pass to client
 const supabaseConfig = {
   url: supabaseUrl,
@@ -20,10 +39,16 @@ const { data: likeCounts } = await supabase
   .select('*');
 
 // Combine articles with like counts
-const articlesWithLikes = articles?.map(article => ({
-  ...article,
-  like_count: likeCounts?.find(lc => lc.article_id === article.id)?.like_count || 0
-})) || [];
+const articleRows: ArticleRow[] = (articles ?? []) as ArticleRow[];
+const likeCountRows: LikeCountRow[] = (likeCounts ?? []) as LikeCountRow[];
+
+const articlesWithLikes: ArticleWithLikes[] = articleRows.map((article) => {
+  const matchingLikeCount = likeCountRows.find((lc) => lc.article_id === article.id);
+  return {
+    ...article,
+    like_count: matchingLikeCount?.like_count ?? 0,
+  };
+});
 
 if (error) {
   console.error('Error fetching articles:', error);
@@ -73,10 +98,10 @@ if (error) {
                       ID: {article.id}
                     </span>
                     <span class="text-sm text-gray-500">
-                      by {article.author}
+                      by {article.author ?? 'Unknown Author'}
                     </span>
                   </div>
-                  <time class="text-sm text-gray-500" datetime={article.published_at}>
+                  <time class="text-sm text-gray-500" datetime={article.published_at ?? undefined}>
                     {new Date(article.published_at || Date.now()).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'long',
@@ -102,7 +127,7 @@ if (error) {
                     <div class="flex items-center space-x-2">
                       <button 
                         class="like-btn flex items-center space-x-1 px-3 py-1 rounded-full text-sm font-medium transition-colors duration-200 hover:bg-red-50 hover:text-red-600"
-                        data-article-id={article.id}
+                        data-article-id={String(article.id)}
                       >
                         <svg class="w-4 h-4 heart-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />

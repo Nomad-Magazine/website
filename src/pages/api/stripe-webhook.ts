@@ -394,7 +394,7 @@ async function sendBentoEvent(email: string, eventType: string, eventData: any, 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Basic ${btoa(`${bentoPublishableKey}:${bentoSecretKey}`)}`,
+        'Authorization': `Basic ${Buffer.from(`${bentoPublishableKey}:${bentoSecretKey}`).toString('base64')}`,
         'User-Agent': 'Nomad-Magazine-Webhook/1.0'
       },
       body: JSON.stringify(requestBody)

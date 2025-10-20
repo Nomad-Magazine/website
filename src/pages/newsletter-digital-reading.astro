@@ -323,7 +323,7 @@ const seo: SEOProps = {
                       src={space.image} 
                       alt={space.name}
                       class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                      onerror="this.src='/images/coworking-placeholder.jpg'"
+                      data-fallback-src="/images/coworking-placeholder.jpg"
                     />
                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
                       <p class="text-white text-sm font-bold line-clamp-2 drop-shadow-lg">{space.name}</p>
@@ -411,12 +411,29 @@ const seo: SEOProps = {
         countdownElement.textContent = hours + ' hour' + (hours !== 1 ? 's' : '') + ' left to vote';
       }
     }
+
+    function initializeFallbackImages() {
+      const fallbackImages = document.querySelectorAll('[data-fallback-src]');
+      fallbackImages.forEach((node) => {
+        if (!(node instanceof HTMLImageElement)) return;
+        const fallbackSrc = node.getAttribute('data-fallback-src');
+        if (!fallbackSrc) return;
+        node.addEventListener('error', () => {
+          if (node.src === fallbackSrc) return;
+          node.src = fallbackSrc;
+        }, { once: true });
+      });
+    }
     
     // Update immediately and then every hour
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', updateCountdown);
+      document.addEventListener('DOMContentLoaded', () => {
+        updateCountdown();
+        initializeFallbackImages();
+      });
     } else {
       updateCountdown();
+      initializeFallbackImages();
     }
     setInterval(updateCountdown, 3600000);
   </script>
@@ -437,4 +454,3 @@ const seo: SEOProps = {
     }
   </style>
 </Layout>
-

@@ -8,5 +8,5 @@
     "types": ["unplugin-icons/types/astro"]
   },
   "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist"]
+  "exclude": ["dist", "public/**/*"]
 }

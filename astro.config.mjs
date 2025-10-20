@@ -4,6 +4,8 @@ import tailwindcss from '@tailwindcss/vite'
 import cloudflare from '@astrojs/cloudflare'
 import { defineConfig, envField } from 'astro/config'
 
+const site = process.env.SITE_URL ?? 'https://workers.nomad-magazine.com'
+
 export default defineConfig({
   output: 'server',
   server: {
@@ -21,7 +23,7 @@ export default defineConfig({
     ],
   },
   integrations: [sitemap()],
-  site: 'https://nomad-magazine.com',
+  site,
   env: {
     schema: {
       OPENAI_API_KEY: envField.string({ context: 'server', access: 'secret' }),

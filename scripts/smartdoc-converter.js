@@ -342,7 +342,7 @@ function processCallout(obj) {
   return `> ${icon} **${type.toUpperCase()}**\n> \n> ${content.replace(/\n/g, '\n> ')}\n\n`
 }
 
-function processTableOfContents(obj) {
+function processTableOfContents() {
   // Table of contents is typically generated automatically
   // We'll just add a placeholder
   return `## Table of Contents\n\n*[Table of contents will be generated automatically]*\n\n`

@@ -387,11 +387,9 @@ const seo: SEOProps = {
   console.log('CLIENT DEBUG: Testimonials data:', smartSuiteTestimonials);
   
   let supabase = null;
-  let currentUser = null;
   let userFingerprint = null;
   let coworkingSpaces = [];
   let userVotes = new Set();
-  let currentImageModal = { images: [], currentIndex: 0 };
 
   // Generate user fingerprint for anonymous voting
   function generateFingerprint() {
@@ -459,17 +457,14 @@ const seo: SEOProps = {
         ]);
         
     if (!user) {
-          const { data: authData } = await Promise.race([
+          await Promise.race([
             supabase.auth.signInAnonymously(),
             authTimeout
           ]);
-      currentUser = authData?.user;
     } else {
-      currentUser = user;
         }
       } catch (authError) {
         console.warn('Auth failed, continuing without authentication:', authError);
-        currentUser = null;
     }
 
     await loadCoworkingSpaces();
@@ -497,8 +492,6 @@ const seo: SEOProps = {
       );
       
       let voteCounts = null;
-      let userVoteData = null;
-      
       try {
         // Load vote counts for all spaces with timeout
         const { data: voteData, error: voteError } = await Promise.race([
@@ -837,8 +830,6 @@ const seo: SEOProps = {
   function navigateCarousel(spaceId, direction) {
     const container = document.querySelector(`[data-space-id="${spaceId}"]`);
     const images = container.querySelectorAll('.carousel-image');
-    const dots = document.querySelectorAll(`[data-space-id="${spaceId}"].carousel-dot`);
-    
     let currentIndex = 0;
     images.forEach((img, index) => {
       if (!img.classList.contains('hidden')) {

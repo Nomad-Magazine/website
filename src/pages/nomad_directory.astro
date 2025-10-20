@@ -1,17 +1,12 @@
 ---
 export const prerender = true;
 
-import { getCollection } from 'astro:content'
 import { fetchReportRecords } from '~/utils/smartsuite'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
-import MaterialSymbolsArrowOutward from '~icons/material-symbols/arrow-outward'
-
 const { records = [] } = await fetchReportRecords('6857167d82358a0f5e038c3f')
 
 // Get Molly's exhibition article specifically
-const allPosts = await getCollection('blog')
-const mollyPost = allPosts.find(post => post.slug === 'molly-maine-nomad-exhibition-what-does-home-mean')
 
 // YouTube videos data
 const youtubeVideos = [
@@ -206,7 +201,7 @@ const seo: SEOProps = {
                   <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                 </svg>
           </button>
-              <button onclick="copyDirectoryUrl(event)" class="p-2 bg-white/10 hover:bg-green-500/20 rounded-lg transition-all duration-200 group">
+              <button onclick="copyDirectoryUrl(this)" class="p-2 bg-white/10 hover:bg-green-500/20 rounded-lg transition-all duration-200 group">
                 <svg class="w-4 h-4 text-gray-400 group-hover:text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
                 </svg>
@@ -703,31 +698,21 @@ const seo: SEOProps = {
           showNotification('📋 Caption copied! Open Instagram and paste it into your story or post.', 'success')
         }).catch((err) => {
           console.error('Failed to copy: ', err)
-          fallbackCopy(text)
+          showManualCopyPrompt(text)
         })
       } else {
-        fallbackCopy(text)
+        showManualCopyPrompt(text)
       }
     })
   }
 
-  function fallbackCopy(text: string) {
-    const textArea = document.createElement('textarea')
-    textArea.value = text
-    textArea.style.position = 'fixed'
-    textArea.style.left = '-999999px'
-    textArea.style.top = '-999999px'
-    document.body.appendChild(textArea)
-    textArea.focus()
-    textArea.select()
-    try {
-      document.execCommand('copy')
-      showNotification('📋 Caption copied! Open Instagram and paste it into your story or post.', 'success')
-    } catch (err) {
-      console.error('Failed to copy: ', err)
-      showNotification('❌ Failed to copy. Please copy manually.', 'error')
+  function showManualCopyPrompt(text: string) {
+    const userConfirmed = window.prompt('Clipboard access is unavailable.\nCopy the text below to share on Instagram:', text)
+    if (userConfirmed !== null) {
+      showNotification('📋 Text ready! Copy it from the prompt and share on Instagram.', 'success')
+    } else {
+      showNotification('❌ Unable to copy automatically. Please copy the caption manually.', 'error')
     }
-    document.body.removeChild(textArea)
   }
 
   function showNotification(message: string, type: 'success' | 'error') {
@@ -765,7 +750,7 @@ const seo: SEOProps = {
       clearCategory: () => void;
       shareOnTwitter: () => void;
       shareOnLinkedIn: () => void;
-      copyDirectoryUrl: (event?: Event) => void;
+      copyDirectoryUrl: (button?: HTMLElement | null) => void;
     }
   }
 
@@ -795,14 +780,13 @@ const seo: SEOProps = {
     window.open(linkedInUrl, '_blank', 'width=550,height=550')
   }
 
-  window.copyDirectoryUrl = function(event?: Event) {
+  window.copyDirectoryUrl = function(button?: HTMLElement | null) {
     const url = 'https://nomad-magazine.com/nomad_directory'
     
     if (navigator.clipboard && window.isSecureContext) {
       navigator.clipboard.writeText(url).then(() => {
         showNotification('🔗 Link copied to clipboard!', 'success')
         // Also show visual feedback on button
-        const button = event?.target as HTMLElement
         const originalContent = button?.innerHTML
         if (button) {
           button.innerHTML = '<svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>'
@@ -811,28 +795,11 @@ const seo: SEOProps = {
           }, 2000)
         }
       }).catch(() => {
-        // Fallback for older browsers
-        fallbackCopyUrl(url)
+        showManualCopyPrompt(url)
       })
     } else {
-      fallbackCopyUrl(url)
+      showManualCopyPrompt(url)
     }
-  }
-
-  function fallbackCopyUrl(url: string) {
-    const textArea = document.createElement('textarea')
-    textArea.value = url
-    textArea.style.position = 'fixed'
-    textArea.style.left = '-999999px'
-    document.body.appendChild(textArea)
-    textArea.select()
-    try {
-      document.execCommand('copy')
-      showNotification('🔗 Link copied to clipboard!', 'success')
-    } catch (err) {
-      showNotification('❌ Failed to copy link', 'error')
-    }
-    document.body.removeChild(textArea)
   }
   
   // Initial empty state check

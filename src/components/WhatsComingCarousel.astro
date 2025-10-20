@@ -153,8 +153,9 @@ const initialLikes = [
   }
 </style>
 
-<script define:vars={{ slides, initialLikes }}>
-  document.addEventListener('DOMContentLoaded', function() {
+<script is:inline define:vars={{ slides, initialLikes }}>
+  (function(initialLikesValues) {
+    document.addEventListener('DOMContentLoaded', function() {
     // Read More functionality
     const readMoreButtons = document.querySelectorAll('.read-more-btn');
     readMoreButtons.forEach(button => {
@@ -194,7 +195,7 @@ const initialLikes = [
         const heartIcon = button.querySelector('.heart-icon');
         
         // Set like count (saved + initial)
-        const currentLikes = savedLikes[storyId] || initialLikes[index];
+        const currentLikes = savedLikes[storyId] || initialLikesValues[index];
         counter.textContent = currentLikes;
         
         // Set user's like state
@@ -216,7 +217,7 @@ const initialLikes = [
         const savedLikes = JSON.parse(localStorage.getItem('story-likes') || '{}');
         const userLikes = JSON.parse(localStorage.getItem('user-story-likes') || '{}');
         
-        const currentLikes = savedLikes[storyId] || initialLikes[index];
+        const currentLikes = savedLikes[storyId] || initialLikesValues[index];
         const isLiked = userLikes[storyId] || false;
         
         // Toggle like
@@ -247,7 +248,8 @@ const initialLikes = [
       });
     });
     
-    // Initialize on page load
-    initializeLikes();
-  });
+      // Initialize on page load
+      initializeLikes();
+    });
+  })(initialLikes);
 </script>
