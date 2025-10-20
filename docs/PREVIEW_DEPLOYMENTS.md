@@ -65,7 +65,7 @@ Each PR gets a detailed comment with:
 
 ### Wrangler Configuration
 
-The `wrangler.toml` includes preview-specific settings:
+The `wrangler.jsonc` includes preview-specific settings:
 
 ```toml
 # Enable preview URLs for PR deployments
