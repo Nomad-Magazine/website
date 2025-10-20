@@ -1,5 +1,5 @@
 {
-  "name": "nomad-magazine-website",
+  "name": "nomad-magazine",
   "main": "dist/_worker.js/index.js",
   "compatibility_date": "2025-06-17",
   "compatibility_flags": ["nodejs_compat"],
