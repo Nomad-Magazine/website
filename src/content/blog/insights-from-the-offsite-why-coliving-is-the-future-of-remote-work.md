@@ -2,10 +2,12 @@
 slug: insights-from-the-offsite-why-coliving-is-the-future-of-remote-work
 title: "Insights from The Offsite: Why Coliving is the Future of Remote Work"
 description: Discover how The Offsite created a thriving coliving community across 21 trips and 7 countries, transforming the way digital nomads work and live together.
-author: Martin Donadieu
+author: The Offsite Team
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
-author_url: https://github.com/riderx
+author_url: https://theoffsite.uk
 pubDate: 2025-08-04T16:30:00.000Z
+heroImage: /images/Offsite-coliving-with-pool.webp
+heroImageAlt: The Offsite community members working with laptops around a pool in a beautiful villa setting
 head_image: /images/Offsite-coliving-with-pool.webp
 head_image_alt: The Offsite community members working with laptops around a pool in a beautiful villa setting
 keywords: coliving, business, The Offsite, remote work, digital nomads, community living, travel adventures, work-life balance, unique experiences

@@ -2,11 +2,14 @@
 slug: bucket-list-destinations-powered-by-pangea-2025
 title: "Bucket-list Destinations: Powered by Pangea - Where Digital Nomads Are Dreaming of Going in 2025"
 description: Discover the top bucket-list destinations for digital nomads in 2025 based on data from 80,000+ places added to the Pangea app, revealing where nomads are actually planning to go.
-author: Martin Donadieu
+author: Pangea Team
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
-author_url: https://github.com/riderx
+author_url: https://pangeaapp.co
 created_at: 2025-09-15T10:00:00.000Z
 updated_at: 2025-09-15T10:00:00.000Z
+pubDate: 2025-09-15T10:00:00.000Z
+heroImage: /images/thumbnail1-Bucket-list-Destinations-pangea-data-article.webp
+heroImageAlt: Digital nomads planning travel destinations
 head_image: /images/thumbnail1-Bucket-list-Destinations-pangea-data-article.webp
 head_image_alt: Digital nomads planning travel destinations
 keywords: digital nomad destinations 2025, Pangea app data, bucket list travel, remote work destinations, nomad hotspots, Japan nomad destination, Bali digital nomads, Cape Town nomads

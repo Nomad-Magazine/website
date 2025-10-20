@@ -3,10 +3,24 @@ import { getCollection } from 'astro:content'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import { Image } from 'astro:assets'
 
-// Get all blog posts and filter for published ones
+// Get all blog posts and filter for SeoBot articles only (AI-generated)
 const allPosts = await getCollection('blog')
 const posts = allPosts
-  .filter((post) => post.data.published !== false)
+  .filter((post) => {
+    // Filter for published posts
+    if (post.data.published === false) return false
+    
+    // Custom articles have heroImage in frontmatter - exclude them
+    // Check the original data before schema transformation
+    const hasHeroImage = post.data.heroImage && !post.data.heroImage.includes('seobotai.com')
+    if (hasHeroImage) return false
+    
+    // SeoBot articles have: author === 'Martin Donadieu' AND author_url === 'https://github.com/riderx'
+    const isSeoBot = post.data.author === 'Martin Donadieu' && 
+                     post.data.authorUrl === 'https://github.com/riderx'
+    
+    return isSeoBot
+  })
   .sort((a, b) => {
     const dateA = a.data.pubDate || new Date(0)
     const dateB = b.data.pubDate || new Date(0)

@@ -355,11 +355,21 @@ const seo: SEOProps = {
             </div>
 
             <!-- Magazine Box -->
-            <div class="mt-12 bg-gradient-to-br from-yellow-400 to-orange-500 text-black p-6 space-y-4 rounded-lg">
-              <div class="text-xs uppercase tracking-wider font-bold">
-                Nomad Magazine
+            <div class="mt-12 bg-gradient-to-br from-yellow-400 to-orange-500 text-black rounded-lg overflow-hidden">
+              <div class="relative">
+                <Image
+                  src="/images/edition-002-multiple-cover-background-purple.webp"
+                  alt="Nomad Magazine Editions"
+                  width={300}
+                  height={400}
+                  class="w-full h-48 object-cover"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
               </div>
-              <div class="space-y-4">
+              <div class="p-6 space-y-4">
+                <div class="text-xs uppercase tracking-wider font-bold">
+                  Nomad Magazine
+                </div>
                 <div class="text-lg font-bold">
                   Get Your Print Edition
                 </div>
@@ -395,10 +405,10 @@ const seo: SEOProps = {
                   </div>
                 </div>
                 <p class="text-sm leading-relaxed text-neutral-300">
-                  Find your perfect nomad destination, coworking spaces, and connect with the global digital nomad community.
+                  The best new tools, services, and companies for digital nomads to help you discover what's new in the nomad ecosystem.
                 </p>
                 <a 
-                  href="/nomad-directory" 
+                  href="/nomad_directory" 
                   class="inline-flex items-center gap-2 text-yellow-400 hover:text-yellow-300 transition-colors text-sm font-medium"
                 >
                   Explore Directory
