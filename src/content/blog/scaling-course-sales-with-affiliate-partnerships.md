@@ -6,8 +6,8 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-03-25T23:41:55.752Z
-updated_at: 2025-03-25T23:42:08.029Z
-head_image: https://assets.seobotai.com/nomadgossip.com/67e33c3410051fda3b61c975-1742946128029.jpg
+updated_at: 2025-10-20T08:16:29.335Z
+head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/67e33c3410051fda3b61c975-1742946128029.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: affiliate marketing, course sales, partnerships, commission structure, marketing materials, affiliate management
 tag: Digital, Moving, Travel
@@ -47,7 +47,7 @@ Your commission structure should encourage affiliates while keeping your margins
 | Course Price Range | Suggested Commission | Why It Works |
 | --- | --- | --- |
 | Under $100 | 40–50% | Higher percentages can motivate affiliates to promote lower-priced courses. |
-| $100–$500 | 30–40% | Strikes a balance between affiliate rewards and course profitability. |
+| $100–$500 | 30–40% | Strikes a balance between affiliate rewards and course [profitability](https://predictableprofits.com). |
 | $500+ | 25–35% | Even a smaller percentage can result in good earnings for high-ticket courses. |
 
 When deciding on rates, consider factors like delivery costs, transaction fees, and your profit margins. Use practical examples to show affiliates how they can earn while ensuring the program stays profitable.

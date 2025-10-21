@@ -2,14 +2,11 @@
 slug: how-to-travel-the-world-through-digital-nomad-events-the-2025-fall-festival-route
 title: "How to Travel the World Through Digital Nomad Events: The 2025 Fall Festival Route"
 description: Explore the 2025 Fall Festival Route for digital nomads, featuring global events that blend work, travel, and networking opportunities.
-author: Nomad Magazine Team
+author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
-author_url: https://nomadgossip.com
+author_url: https://github.com/riderx
 created_at: 2025-08-25T09:55:22.460Z
 updated_at: 2025-08-25T12:34:05.515Z
-pubDate: 2025-08-25T09:55:22.460Z
-heroImage: /images/colive-fukuoka-3-group-of-people.webp
-heroImageAlt: Digital Nomad Events and Festivals
 head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/68ac2c39ea58e75d51117384-1756117605668.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: digital nomad events, travel, networking, 2025 festivals, remote work, international events, budget travel, visa requirements
