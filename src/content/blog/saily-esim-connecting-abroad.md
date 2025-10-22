@@ -7,7 +7,7 @@ author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-10-18T14:43:24.859Z
 updated_at: 2025-10-18T14:44:41.901Z
-head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/68f39f961019c13c0b2f4f99-1760798681901.jpg
+head_image: /images/saily-banners-affordable-esim-640x250-v1.png
 head_image_alt: Digital Nomad Lifestyle
 keywords: eSIM, travel connectivity, data plans, digital nomads, internet security
 tag: Digital, Expat, Travel
@@ -77,6 +77,8 @@ Need more data mid-trip? You can quickly purchase additional eSIMs or top up thr
 Saily eSIM takes the complexity out of staying connected, making travel smoother and more secure.
 
 ###### sbb-itb-574d71c
+
+[![Get Saily eSIM](/images/saily-banners-affordable-esim-970x90.png)](https://go.saily.site/aff_c?offer_id=101&aff_id=10610)
 
 ## Step-by-Step Guide: Setting Up and Using Saily eSIM
 
