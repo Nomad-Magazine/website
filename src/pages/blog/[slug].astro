@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
-import SidebarSubscribe from '~/components/SidebarSubscribe.astro'
+import SidebarMagazineDirectory from '~/components/SidebarMagazineDirectory.astro'
 
 export const prerender = true
 
@@ -153,26 +153,7 @@ const seo: SEOProps = {
         </div>
         <aside>
           <div class="sticky top-24 mt-8 space-y-8 lg:mt-0">
-            <div class="relative">
-              <img src="/images/edition-003-cover_holded_front_face.webp" alt="Discover the nomad trend" class="w-full rounded-lg" />
-            </div>
-            <SidebarSubscribe tag="blog" />
-            {
-              relatedPosts.length > 0 && (
-                <section class="mt-16">
-                  <h2 class="text-lg font-bold">Related posts</h2>
-                  <ul class="mt-4 list-none space-y-2">
-                    {relatedPosts.slice(0, 9).map((relatedPost) => (
-                      <li>
-                        <a href={`/blog/${relatedPost.slug}`} class="font-semibold hover:underline">
-                          {relatedPost.data.title}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </section>
-              )
-            }
+            <SidebarMagazineDirectory />
           </div>
         </aside>
       </div>
