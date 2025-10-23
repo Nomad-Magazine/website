@@ -23,8 +23,9 @@ const posts = allPosts
     return dateB.valueOf() - dateA.valueOf()
   })
 
-// Use the most recent article as the featured post
-const featuredPost = posts[0]
+// Pin the bucket-list article as featured post
+const pinnedSlug = 'bucket-list-destinations-powered-by-pangea-2025'
+const featuredPost = posts.find(post => post.slug === pinnedSlug) || posts[0]
 
 // Get posts with video content for YouTube section
 const videoPosts = posts.filter(post => 
@@ -188,6 +189,15 @@ const seo: SEOProps = {
 
               {regularPosts[1] && (
                 <article class="space-y-3">
+                  <div class="relative">
+                    <Image
+                      src={regularPosts[1].data.heroImage || "/images/edition-003-cover_holded_front_face.webp"}
+                      alt={regularPosts[1].data.heroImageAlt || regularPosts[1].data.title}
+                      width={400}
+                      height={250}
+                      class="w-full aspect-[8/5] object-cover rounded-2xl"
+                    />
+                  </div>
                   <div class="space-y-2">
                     <div class="text-xs uppercase tracking-wider text-neutral-400 font-bold">
                       {regularPosts[1].data.author || 'Nomad Magazine'}
@@ -209,6 +219,15 @@ const seo: SEOProps = {
 
               {regularPosts[2] && (
                 <article class="space-y-3">
+                  <div class="relative">
+                    <Image
+                      src={regularPosts[2].data.heroImage || "/images/edition-003-cover_holded_front_face.webp"}
+                      alt={regularPosts[2].data.heroImageAlt || regularPosts[2].data.title}
+                      width={400}
+                      height={250}
+                      class="w-full aspect-[8/5] object-cover rounded-2xl"
+                    />
+                  </div>
                   <div class="space-y-2">
                     <div class="text-xs uppercase tracking-wider text-neutral-400 font-bold">
                       {regularPosts[2].data.author || 'Nomad Magazine'}
@@ -233,6 +252,15 @@ const seo: SEOProps = {
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
               {regularPosts[3] && (
                 <article class="space-y-3">
+                  <div class="relative">
+                    <Image
+                      src={regularPosts[3].data.heroImage || "/images/edition-003-cover_holded_front_face.webp"}
+                      alt={regularPosts[3].data.heroImageAlt || regularPosts[3].data.title}
+                      width={300}
+                      height={200}
+                      class="w-full aspect-[3/2] object-cover rounded-2xl"
+                    />
+                  </div>
                   <div class="space-y-2">
                     <div class="text-xs uppercase tracking-wider text-neutral-400 font-bold">
                       {regularPosts[3].data.author || 'Nomad Magazine'}
@@ -242,9 +270,6 @@ const seo: SEOProps = {
                         {regularPosts[3].data.title}
                       </a>
                     </h2>
-                    <p class="text-neutral-300 text-sm leading-relaxed line-clamp-2">
-                      {regularPosts[3].data.description}
-                    </p>
                     <div class="text-xs text-neutral-500 font-bold uppercase">
                       {regularPosts[3].data.pubDate?.toLocaleDateString('en-US', {
                         month: 'short',
