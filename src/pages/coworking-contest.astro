@@ -80,6 +80,35 @@ const parseTestimonials = (testimonialsData: any[]) => {
 
 const smartSuiteTestimonials = parseTestimonials(testimonialsRecords)
 
+// Manually add Cowork Funchal testimonial
+smartSuiteTestimonials.push({
+  text: "The first coworking space that started it all, I was a proud member for 5 years & was a big part of my life in Madeira so definitely merits an inclusion along with other great coworking spaces in the world.",
+  author: "Kash Bhattacharya",
+  spaceName: "Cowork Funchal"
+})
+
+console.log('🔍 TESTIMONIALS DEBUG:')
+console.log('Total testimonial records fetched:', testimonialsRecords.length)
+console.log('Parsed testimonials count:', smartSuiteTestimonials.length)
+
+// Find Cowork Funchal testimonial specifically
+const funchalTestimonials = testimonialsRecords.filter((record: any) => 
+  record.title?.toLowerCase().includes('funchal')
+)
+console.log('Funchal testimonial records found:', funchalTestimonials.length)
+if (funchalTestimonials.length > 0) {
+  funchalTestimonials.forEach((record: any) => {
+    console.log('Funchal record title:', record.title)
+    console.log('Funchal s5716bab58 field:', record.s5716bab58)
+  })
+}
+
+// Show parsed testimonials for Funchal
+const funchalParsed = smartSuiteTestimonials.filter(t => 
+  t.spaceName?.toLowerCase().includes('funchal')
+)
+console.log('Parsed Funchal testimonials:', funchalParsed)
+
 console.log('DEBUG: Total records fetched:', distributionRecords.length)
 console.log('DEBUG: Sample record structure:', distributionRecords[0] ? Object.keys(distributionRecords[0]) : 'No records')
 console.log('DEBUG: Sample record image fields:', distributionRecords[0] ? {
@@ -384,7 +413,13 @@ const seo: SEOProps = {
   const smartSuiteTestimonials = distributionSpacesConfig.testimonials;
   
   console.log('CLIENT DEBUG: SmartSuite testimonials received:', smartSuiteTestimonials.length);
-  console.log('CLIENT DEBUG: Testimonials data:', smartSuiteTestimonials);
+  console.log('CLIENT DEBUG: All testimonials:', smartSuiteTestimonials);
+  
+  // Debug Funchal testimonials specifically
+  const funchalClientTestimonials = smartSuiteTestimonials.filter(t => 
+    t.spaceName?.toLowerCase().includes('funchal')
+  );
+  console.log('CLIENT DEBUG: Funchal testimonials:', funchalClientTestimonials);
   
   let supabase = null;
   let userFingerprint = null;
@@ -1154,28 +1189,21 @@ const seo: SEOProps = {
                 const testimonialSpaceName = t.spaceName.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
                 const currentSpaceName = space.name.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
                 
-                // URGENT DEBUG: Log ALL matching attempts for Loffice Wien
-                if (currentSpaceName.includes('loffice')) {
-                  console.log('URGENT DEBUG LOFFICE MATCHING:', {
+                // DEBUG: Log matching for Funchal
+                if (currentSpaceName.includes('funchal')) {
+                  console.log('🔍 FUNCHAL TESTIMONIAL MATCHING:', {
                     currentSpace: space.name,
                     currentSpaceNormalized: currentSpaceName,
                     testimonialSpace: t.spaceName,
                     testimonialSpaceNormalized: testimonialSpaceName,
                     exactMatch: testimonialSpaceName === currentSpaceName,
-                    testimonialText: t.text ? t.text.substring(0, 50) + '...' : 'NO TEXT'
+                    testimonialText: t.text ? t.text.substring(0, 80) + '...' : 'NO TEXT',
+                    testimonialAuthor: t.author
                   });
                 }
                 
                 // ABSOLUTELY STRICT: ONLY exact matches - no fuzzy matching to prevent false positives
                 const isExactMatch = testimonialSpaceName === currentSpaceName;
-                
-                // URGENT: If Loffice Wien somehow gets a match, log it as an ERROR
-                if (currentSpaceName.includes('loffice') && isExactMatch) {
-                  console.error('ERROR: Loffice Wien should NEVER have testimonials! This is a bug!', {
-                    space: space.name,
-                    testimonial: t
-                  });
-                }
                 
                 return isExactMatch;
               });
