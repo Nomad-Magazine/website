@@ -68,7 +68,7 @@ const seo: SEOProps = {
         url: `${Astro.site}logo.svg`,
       },
     },
-    datePublished: '2025-10-18',
+    datePublished: '2025-10-29',
     url: `${Astro.site}newsletter-digital-reading`,
   },
 }
@@ -80,18 +80,22 @@ const seo: SEOProps = {
     <header class="bg-gray-900 text-white">
       <div class="max-w-4xl mx-auto px-4 py-8 text-center">
         <img src="/images/logo white png.png" alt="Nomad Magazine" class="mx-auto mb-4 h-12" />
-        <p class="text-yellow-400 text-sm font-semibold uppercase tracking-wide">October 18, 2025</p>
+        <p class="text-yellow-400 text-sm font-semibold uppercase tracking-wide">October 29, 2025</p>
       </div>
     </header>
+
+    <!-- Header Image -->
+    <div class="max-w-4xl mx-auto">
+      <img src="/images/Newsletter-Covers.jpg" alt="Nomad Magazine Digital Reading" class="w-full" />
+    </div>
 
     <!-- Main Content -->
     <main class="max-w-4xl mx-auto px-4 py-8 bg-white">
 
       <!-- Main Headline -->
       <div class="text-center mb-12">
-        <div class="text-6xl mb-4">📱</div>
         <h1 class="text-4xl md:text-5xl font-black text-gray-900 mb-4 leading-tight">
-          Your <strong>Digital Reading Experience</strong> Just Got Better
+          Finally, <strong>Mobile Reading</strong> That Feels Right
         </h1>
         <p class="text-lg text-gray-600 font-medium">Nomad Magazine × ZINIO Partnership</p>
       </div>
@@ -249,11 +253,11 @@ const seo: SEOProps = {
           <!-- Text Content -->
           <div class="prose prose-base max-w-none">
             <p class="text-base text-gray-700 mb-4 leading-relaxed">
-              We know many of you still love the feel of <strong class="text-gray-900">printed magazines</strong>. That's why we continue to offer <strong class="text-gray-900">door-to-door delivery</strong> worldwide.
+              Haven't grabbed your <strong class="text-gray-900">printed copy</strong> yet? There's still time! Get Issue #3 delivered straight to your door, anywhere in the world.
             </p>
 
             <p class="text-base text-gray-700 leading-relaxed">
-              Perfect for collectors and those who prefer physical magazines! 🌍
+              Perfect for collectors and those who love the feel of a real magazine in their hands! 🌍
             </p>
           </div>
 
@@ -295,11 +299,21 @@ const seo: SEOProps = {
               <p class="text-xl text-gray-800 mb-4 leading-relaxed">
                 Help us find the most beautifully designed coworking spaces worldwide! Vote for stunning interiors, dreamy views, and ergonomic brilliance.
               </p>
-              <div class="flex items-center gap-2 text-orange-600 font-bold">
+              <div class="flex items-center gap-2 text-orange-600 font-bold mb-4">
                 <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
                 <span id="contest-countdown" class="text-2xl">Loading...</span>
+              </div>
+              <div class="grid grid-cols-2 gap-4 text-center">
+                <div class="bg-white/50 rounded-lg p-3">
+                  <div class="text-2xl font-bold text-orange-600" id="newsletter-total-spaces">52</div>
+                  <div class="text-xs text-gray-600">Contest Entries</div>
+                </div>
+                <div class="bg-white/50 rounded-lg p-3">
+                  <div class="text-2xl font-bold text-orange-600" id="newsletter-total-votes">577</div>
+                  <div class="text-xs text-gray-600">Public Votes</div>
+                </div>
               </div>
             </div>
             <div class="flex-shrink-0">
@@ -316,7 +330,7 @@ const seo: SEOProps = {
           <div>
             <p class="text-sm text-gray-600 font-semibold mb-4 text-center">Featured Contest Entries:</p>
             {contestCoworkingSpaces.length > 0 ? (
-              <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+              <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {contestCoworkingSpaces.map((space: any) => (
                   <div class="group relative overflow-hidden rounded-lg aspect-square">
                     <img 
@@ -348,7 +362,7 @@ const seo: SEOProps = {
       <section class="mb-12">
         <div class="bg-gray-50 border-2 border-gray-200 rounded-2xl p-8 text-center">
           <div class="text-4xl mb-4">💬</div>
-          <h3 class="text-2xl font-bold text-gray-900 mb-4">We'd Love Your Feedback</h3>
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">Any Questions?</h3>
           <p class="text-base text-gray-700 mb-6 max-w-2xl mx-auto">
             This is our first step towards better digital reading. Let us know what you think about ZINIO and how we can improve your reading experience even further.
           </p>
