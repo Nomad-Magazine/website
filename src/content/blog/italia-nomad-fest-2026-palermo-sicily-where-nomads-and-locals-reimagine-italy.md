@@ -16,6 +16,7 @@ tag: Events, Italy, Community
 published: true
 locale: en
 next_blog: ''
+category: article
 pubDate: 2025-10-20T12:00:00.000Z
 ---
 

@@ -28,6 +28,7 @@ const blog = defineCollection({
     published: z.boolean().optional(),
     locale: z.string().optional(),
     next_blog: z.string().optional(),
+    category: z.enum(['article', 'blog']).optional(),
   }).transform((data) => {
     // Transform the data to have consistent field names
     return {
@@ -45,6 +46,7 @@ const blog = defineCollection({
       published: data.published ?? true,
       locale: data.locale || 'en',
       nextBlog: data.next_blog,
+      category: data.category,
     }
   }),
 })

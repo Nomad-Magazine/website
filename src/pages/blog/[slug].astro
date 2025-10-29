@@ -18,9 +18,15 @@ const { Content } = await post.render()
 
 const allPosts = await getCollection('blog')
 const currentPostTags = post.data.tag ? post.data.tag.split(',').map((t) => t.trim()) : []
+const currentPostCategory = post.data.category
 
-// Find posts with at least one common tag
-let relatedPosts = allPosts
+// Filter posts by category first (if current post has a category)
+const categoryFilteredPosts = currentPostCategory 
+  ? allPosts.filter((p) => p.data.category === currentPostCategory)
+  : allPosts
+
+// Find posts with at least one common tag (within the same category if applicable)
+let relatedPosts = categoryFilteredPosts
   .filter((p) => {
     if (p.slug === post.slug || !p.data.tag || !currentPostTags.length) return false
     const otherPostTags = p.data.tag.split(',').map((t) => t.trim())
@@ -28,9 +34,9 @@ let relatedPosts = allPosts
   })
   .sort((a, b) => (b.data.pubDate || new Date(0)).valueOf() - (a.data.pubDate || new Date(0)).valueOf())
 
-// If we need more posts, get the latest ones (that are not already included)
+// If we need more posts, get the latest ones (that are not already included) from same category
 if (relatedPosts.length < 3) {
-  const latestPosts = allPosts
+  const latestPosts = categoryFilteredPosts
     .filter((p) => p.slug !== post.slug && !relatedPosts.find((rp) => rp.slug === p.slug))
     .sort((a, b) => (b.data.pubDate || new Date(0)).valueOf() - (a.data.pubDate || new Date(0)).valueOf())
   const needed = 9 - relatedPosts.length

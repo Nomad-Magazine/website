@@ -16,6 +16,7 @@ tag: Events, Japan, Community
 published: true
 locale: en
 next_blog: ''
+category: article
 pubDate: 2025-09-02T12:00:00.000Z
 ---
 

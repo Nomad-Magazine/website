@@ -15,6 +15,7 @@ tag: Career, Digital, Travel
 published: true
 locale: en
 next_blog: ''
+category: article
 ---
 
 Let's be honest: we all crave a sense of community. But what if you can't find one that aligns with your interests? What then? Well, you could create your own…

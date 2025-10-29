@@ -17,6 +17,7 @@ tag: Digital, Travel, Destinations, Data
 published: true
 locale: en
 next_blog: ''
+category: article
 ---
 
 # Bucket-list Destinations: Powered by Pangea
