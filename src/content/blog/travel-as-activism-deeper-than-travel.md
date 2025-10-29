@@ -22,6 +22,8 @@ category: article
 
 # Travel as Activism
 
+*By Ms. Priyanka Surio*
+
 *Deeper than Travel*
 
 **Another unnamed black man was killed in America.**
