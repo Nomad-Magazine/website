@@ -1,6 +1,6 @@
 ---
 slug: travel-as-activism-deeper-than-travel
-title: "Travel as Activism: Deeper than Travel"
+title: "Travel as Activism"
 description: "At the time of George Floyd's murder amidst a global pandemic, I had no idea how much antiracism and global civil rights movements would come to influence my perspective and writings on travel. When I worked on my first non-fiction book highlighting sustainable travel as a practice, I realized that I could not promote mindful, responsible travel without illuminating the bias and racism that still exists for locals and certain groups of people traveling the world for whom harmful stereotypes still exist."
 author: Ms. Priyanka Surio
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
