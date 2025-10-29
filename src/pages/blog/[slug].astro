@@ -133,8 +133,8 @@ const seo: SEOProps = {
             <div>
               <div class="mb-2 text-xs font-bold uppercase tracking-wider text-gray-500">Content</div>
               <div class="space-y-1">
+                <a href="/newsletter" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Newsletter</a>
                 <a href="/editions" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Magazine Editions</a>
-                <a href="/office-hours" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Office Hours</a>
                 <a href="/horoscope" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Travel Horoscope</a>
                 <a href="/articles" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Articles</a>
               </div>
@@ -144,9 +144,10 @@ const seo: SEOProps = {
             <div>
               <div class="mb-2 text-xs font-bold uppercase tracking-wider text-gray-500">Partners</div>
               <div class="space-y-1">
-                <a href="/partners" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">For Partners</a>
-                <a href="/writers" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">For Writers</a>
+                <a href="/brand-placement-next-edition-847291" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Brand Placement</a>
                 <a href="/nomad_directory" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Nomad Directory</a>
+                <a href="/office-hours" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Office Hours</a>
+                <a href="/writers" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">For Writers</a>
                 <a href="/coworking-contest" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Coworking Contest</a>
               </div>
             </div>
@@ -155,6 +156,7 @@ const seo: SEOProps = {
             <div>
               <div class="mb-2 text-xs font-bold uppercase tracking-wider text-gray-500">Support</div>
               <div class="space-y-1">
+                <a href="/our-story" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Our Story</a>
                 <a href="/support-the-magazine" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Support Magazine</a>
                 <a href="/add-testimonials" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Submit Review</a>
               </div>
@@ -170,16 +172,16 @@ const seo: SEOProps = {
           
           {
             finalRelatedPosts.length > 0 && (
-              <section class="mt-16 border-t border-neutral-800 pt-12">
-                <h2 class="text-2xl font-semibold text-white">Related Articles</h2>
+              <section class="mt-16 border-t border-gray-200 pt-12">
+                <h2 class="text-2xl font-semibold text-gray-900">Related Articles</h2>
                 <div class="mt-6 grid gap-6 sm:grid-cols-3">
                   {finalRelatedPosts.map((relatedPost) => (
-                    <a href={`/blog/${relatedPost.slug}`} class="group block rounded-lg border border-neutral-800 p-4 transition-all hover:border-neutral-600 hover:bg-neutral-900/50">
-                      <h3 class="text-base font-semibold leading-tight text-white group-hover:text-yellow-400">
+                    <a href={`/blog/${relatedPost.slug}`} class="group block rounded-lg border border-gray-200 p-4 transition-all hover:border-gray-400 hover:bg-gray-50">
+                      <h3 class="text-base font-semibold leading-tight text-gray-900 group-hover:text-yellow-600">
                         {relatedPost.data.title}
                       </h3>
                       {relatedPost.data.description && (
-                        <p class="mt-2 line-clamp-2 text-sm text-neutral-400">
+                        <p class="mt-2 line-clamp-2 text-sm text-gray-600">
                           {relatedPost.data.description}
                         </p>
                       )}
@@ -191,7 +193,7 @@ const seo: SEOProps = {
           }
 
           <!-- Magazine & Directory CTAs at bottom -->
-          <div class="mt-16 grid gap-6 border-t border-neutral-800 pt-12 sm:grid-cols-2">
+          <div class="mt-16 grid gap-6 border-t border-gray-200 pt-12 sm:grid-cols-2">
             <SidebarMagazineDirectory />
           </div>
         </div>
