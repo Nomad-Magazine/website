@@ -242,9 +242,9 @@ const seo: SEOProps = {
                             <div class={`w-32 h-32 rounded-xl flex items-center justify-center p-1 ${
                               ['Fresh Global', 'Falmouth University', 'SUMA', 'Scaglia y Asociados', 'goldenweeks'].includes(record.title) ? 'bg-gray-800' : 'bg-white'
                             }`}>
-                              {record.sf4ad525dd && record.sf4ad525dd !== '/logo.svg' ? (
+                              {(record.image || record.sf4ad525dd) && (record.image || record.sf4ad525dd) !== '/logo.svg' ? (
                                 <img 
-                                  src={record.sf4ad525dd} 
+                                  src={record.image || record.sf4ad525dd} 
                                   alt={record.title || 'Company'} 
                                   class="w-full h-full rounded-lg object-contain"
                                 />
