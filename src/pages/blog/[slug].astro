@@ -124,45 +124,79 @@ const seo: SEOProps = {
       )
     }
 
-    <div class="px-8 py-16">
-      <div class="mx-auto grid max-w-7xl grid-cols-1 lg:grid-cols-3 lg:gap-16">
-        <div class="lg:col-span-2">
-          <article class="prose prose-lg mx-auto max-w-none">
+    <div class="relative px-4 py-16">
+      <div class="mx-auto flex max-w-7xl gap-12">
+        <!-- Left Sidebar - More Menu -->
+        <aside class="hidden lg:block lg:w-48">
+          <div class="sticky top-24 space-y-6 text-sm">
+            <!-- Content Section -->
+            <div>
+              <div class="mb-2 text-xs font-bold uppercase tracking-wider text-gray-500">Content</div>
+              <div class="space-y-1">
+                <a href="/editions" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Magazine Editions</a>
+                <a href="/office-hours" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Office Hours</a>
+                <a href="/horoscope" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Travel Horoscope</a>
+                <a href="/articles" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Articles</a>
+              </div>
+            </div>
+            
+            <!-- Partners Section -->
+            <div>
+              <div class="mb-2 text-xs font-bold uppercase tracking-wider text-gray-500">Partners</div>
+              <div class="space-y-1">
+                <a href="/partners" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">For Partners</a>
+                <a href="/writers" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">For Writers</a>
+                <a href="/nomad_directory" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Nomad Directory</a>
+                <a href="/coworking-contest" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Coworking Contest</a>
+              </div>
+            </div>
+            
+            <!-- Support Section -->
+            <div>
+              <div class="mb-2 text-xs font-bold uppercase tracking-wider text-gray-500">Support</div>
+              <div class="space-y-1">
+                <a href="/support-the-magazine" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Support Magazine</a>
+                <a href="/add-testimonials" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Submit Review</a>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="mx-auto w-full max-w-3xl flex-1">
+          <article class="prose prose-lg mx-auto max-w-none prose-headings:text-gray-900 prose-p:text-gray-900 prose-a:text-blue-600 prose-strong:text-gray-900 prose-li:text-gray-900 prose-em:text-gray-700">
             <Content />
           </article>
+          
           {
             finalRelatedPosts.length > 0 && (
-              <section class="mt-16">
-                <h2 class="text-3xl font-semibold">Related posts</h2>
-                <ul class="mt-8 list-disc space-y-2 pl-5">
+              <section class="mt-16 border-t border-neutral-800 pt-12">
+                <h2 class="text-2xl font-semibold text-white">Related Articles</h2>
+                <div class="mt-6 grid gap-6 sm:grid-cols-3">
                   {finalRelatedPosts.map((relatedPost) => (
-                    <li>
-                      <a href={`/blog/${relatedPost.slug}`} class="text-xl text-blue-600 hover:underline">
+                    <a href={`/blog/${relatedPost.slug}`} class="group block rounded-lg border border-neutral-800 p-4 transition-all hover:border-neutral-600 hover:bg-neutral-900/50">
+                      <h3 class="text-base font-semibold leading-tight text-white group-hover:text-yellow-400">
                         {relatedPost.data.title}
-                      </a>
-                    </li>
+                      </h3>
+                      {relatedPost.data.description && (
+                        <p class="mt-2 line-clamp-2 text-sm text-neutral-400">
+                          {relatedPost.data.description}
+                        </p>
+                      )}
+                    </a>
                   ))}
-                </ul>
+                </div>
               </section>
             )
           }
-          {/* Next blog link */}
-          <!-- {post.data.nextBlog && (
-            <div class="mt-12 text-center">
-              <p class="text-neutral-400">
-                Next: <a href={post.data.nextBlog} class="text-blue-400 hover:underline">
-                  Continue reading
-                </a>
-              </p>
-            </div>
-          )} -->
-        </div>
-        <aside>
-          <div class="sticky top-24 mt-8 space-y-8 lg:mt-0">
+
+          <!-- Magazine & Directory CTAs at bottom -->
+          <div class="mt-16 grid gap-6 border-t border-neutral-800 pt-12 sm:grid-cols-2">
             <SidebarMagazineDirectory />
           </div>
-        </aside>
+        </div>
       </div>
     </div>
   </main>
 </Layout>
+
