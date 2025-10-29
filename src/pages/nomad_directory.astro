@@ -76,11 +76,6 @@ const isSupporter = (record: any) => {
 }
 
 
-// Helper function to check if a record is NordVPN or Saily (priority listings)
-const isPriorityListing = (record: any) => {
-  return record.title?.toLowerCase().includes('nordvpn') ||
-         record.title?.toLowerCase().includes('saily')
-}
 
 const seo: SEOProps = {
   title: 'The Nomad Directory - Because Google Doesn\'t Get Our Lifestyle',
@@ -227,18 +222,10 @@ const seo: SEOProps = {
           .sort((a: any, b: any) => {
             const aSupporter = isSupporter(a)
             const bSupporter = isSupporter(b)
-            const aPriority = isPriorityListing(a)
-            const bPriority = isPriorityListing(b)
 
             // Supporters go first
             if (aSupporter && !bSupporter) return -1
             if (!aSupporter && bSupporter) return 1
-
-            // Among non-supporters, priority listings (NordVPN, Saily) go next
-            if (!aSupporter && !bSupporter) {
-              if (aPriority && !bPriority) return -1
-              if (!aPriority && bPriority) return 1
-            }
 
             // Keep original order for others
             return 0
