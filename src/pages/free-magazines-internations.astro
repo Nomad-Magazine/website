@@ -112,8 +112,19 @@ const seo: SEOProps = {
           <div class="bento-formkit-headline">Download All 3 Editions</div>
           <div class="bento-formkit-subheader">Enter your email and we'll send you the download link and password right away.</div>
           <input type="hidden" name="redirect" value="https://nomad-magazine.com/thank-you">
-          <input type="text" name="fields_country" class="bento-formkit-input" placeholder="Where are you from?" required/>
-          <input type="email" name="email" placeholder="Email" class="bento-formkit-input" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$"/>
+          
+          <div class="field-group">
+            <label for="fields_country" class="field-label">Where are you from? <span class="required">*</span></label>
+            <p class="field-helper">e.g., Germany, United States, Brazil</p>
+            <input type="text" id="fields_country" name="fields_country" class="bento-formkit-input" placeholder="Your country" required/>
+          </div>
+          
+          <div class="field-group">
+            <label for="email" class="field-label">Email Address <span class="required">*</span></label>
+            <p class="field-helper">We'll send your magazines here</p>
+            <input type="email" id="email" name="email" placeholder="your@email.com" class="bento-formkit-input" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"/>
+          </div>
+          
           <button type="submit" class="bento-formkit-button">Get My Free Magazines</button>
           <div class="bento-formkit-disclosure">By entering your email, you'll get instant access to 3 digital editions of Nomad Magazine and occasional updates about new stories, future issues, and special projects. You can unsubscribe anytime. <a href="https://track.bentonow.com/forms/1685a00cdc1fc329724616bec1de09c6/$freemag?hardened=true" target="_blank" rel="noopener noreferrer">Privacy Policy</a></div>
         </form>
@@ -177,6 +188,29 @@ const seo: SEOProps = {
     line-height: 1.4 !important;
   }
 
+  .field-group {
+    margin-bottom: 1.5rem !important;
+  }
+
+  .field-label {
+    display: block !important;
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    color: #333 !important;
+    margin-bottom: 0.35rem !important;
+  }
+
+  .field-label .required {
+    color: #ff3b30 !important;
+  }
+
+  .field-helper {
+    font-size: 0.85rem !important;
+    color: #777 !important;
+    margin: 0 0 0.5rem 0 !important;
+    font-style: italic !important;
+  }
+
   #bento-formkit-uugzwmxk input[type="text"],
   #bento-formkit-uugzwmxk input[type="email"],
   #bento-formkit-uugzwmxk input[type="password"],
@@ -190,7 +224,7 @@ const seo: SEOProps = {
     border: 1px solid #ddd !important;
     color: #333 !important;
     cursor: text !important;
-    margin: 0 0 1rem !important;
+    margin: 0 !important;
     padding: 0.75rem 1rem !important;
     box-sizing: border-box !important;
     font-size: 1rem !important;
