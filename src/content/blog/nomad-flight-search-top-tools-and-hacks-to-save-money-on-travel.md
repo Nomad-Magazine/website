@@ -6,8 +6,8 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-03-09T02:52:07.343Z
-updated_at: 2025-03-09T02:52:31.521Z
-head_image: https://assets.seobotai.com/nomadgossip.com/67cce486fb850c7501c03733-1741488751521.jpg
+updated_at: 2025-10-29T10:44:48.895Z
+head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/67cce486fb850c7501c03733-1741488751521.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: cheap flights, travel tools, price alerts, digital nomads, flight hacks, budget airlines, travel rewards, multi-stop flights
 tag: Digital, Expat, Travel
@@ -193,7 +193,7 @@ While Hopper is powerful, it has its drawbacks. The app is mobile-only, and its 
 
 ## 6\. Scott's Cheap Flights: Deal Alerts
 
-Going™ employs a team of 25 experts who manually search for flight deals, offering discounts of 40%–90% [\[15\]](https://www.nomadicmatt.com/travel-blogs/scotts-cheap-flights)[\[14\]](https://www.going.com).
+Going™ employs a team of 25 experts who manually search for [flight deals](https://joesflights.com), offering discounts of 40%–90% [\[15\]](https://www.nomadicmatt.com/travel-blogs/scotts-cheap-flights)[\[14\]](https://www.going.com).
 
 ### How the Service Works
 
