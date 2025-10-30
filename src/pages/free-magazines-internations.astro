@@ -1,0 +1,291 @@
+---
+export const prerender = true;
+
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+
+const seo: SEOProps = {
+  title: 'Free Digital Nomad Magazines - Download Now | Nomad Magazine',
+  description: 'Download three free digital nomad magazines instantly. Get inspiring stories, practical tips, and insights from the global nomad community.',
+  image: `${Astro.site}images/edition-123-three-together-transparent.webp`,
+  keywords: 'free digital nomad magazine, free download, digital nomad stories, remote work magazine, nomad lifestyle',
+}
+---
+
+<Layout seo={seo}>
+  <div class="min-h-screen bg-gradient-to-b from-white to-gray-50">
+    <div class="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
+      <!-- Header -->
+      <div class="mb-12 text-center">
+        <p class="font-justme text-3xl text-gray-800 mb-4">free magazines</p>
+        <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 mb-6">
+          Get 3 Free Nomad Magazines 🎁
+        </h1>
+        <p class="text-xl text-gray-700 max-w-2xl mx-auto">
+          Download all three editions instantly and dive into stories, tips, and insights from digital nomads around the world.
+        </p>
+        
+        <!-- Countdown Timer -->
+        <div class="mt-8 inline-block bg-gradient-to-r from-red-500 to-orange-500 text-white px-6 py-4 rounded-xl shadow-lg">
+          <p class="text-sm font-semibold uppercase tracking-wider mb-2">⏰ Limited Time Offer Ends In:</p>
+          <div id="countdown" class="flex gap-4 justify-center text-center">
+            <div>
+              <div class="text-3xl font-bold" id="days">00</div>
+              <div class="text-xs uppercase">Days</div>
+            </div>
+            <div class="text-3xl font-bold">:</div>
+            <div>
+              <div class="text-3xl font-bold" id="hours">00</div>
+              <div class="text-xs uppercase">Hours</div>
+            </div>
+            <div class="text-3xl font-bold">:</div>
+            <div>
+              <div class="text-3xl font-bold" id="minutes">00</div>
+              <div class="text-xs uppercase">Minutes</div>
+            </div>
+            <div class="text-3xl font-bold">:</div>
+            <div>
+              <div class="text-3xl font-bold" id="seconds">00</div>
+              <div class="text-xs uppercase">Seconds</div>
+            </div>
+          </div>
+          <p class="text-xs mt-3 opacity-90">Offer valid: November 28 - December 5, 2025</p>
+        </div>
+      </div>
+
+      <!-- Magazine Covers -->
+      <div class="mb-12 grid grid-cols-1 sm:grid-cols-3 gap-6 items-center justify-items-center max-w-5xl mx-auto">
+        <div class="group transition-all duration-300 hover:scale-105 w-full">
+          <div class="relative rounded-xl overflow-hidden shadow-lg aspect-[5/6]">
+            <img 
+              src="/images/first-edition-cover-hd.webp" 
+              alt="Nomad Magazine First Edition" 
+              class="w-full h-full object-cover"
+              loading="eager"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div class="absolute bottom-4 left-4 text-white">
+                <p class="font-bold text-lg">Edition 1</p>
+                <p class="text-sm">Launch Edition</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="group transition-all duration-300 hover:scale-105 w-full">
+          <div class="relative rounded-xl overflow-hidden shadow-lg aspect-[5/6]">
+            <img 
+              src="/images/edition-002-cover.webp" 
+              alt="Nomad Magazine Second Edition" 
+              class="w-full h-full object-cover"
+              loading="eager"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div class="absolute bottom-4 left-4 text-white">
+                <p class="font-bold text-lg">Edition 2</p>
+                <p class="text-sm">Japan Special</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="group transition-all duration-300 hover:scale-105 w-full">
+          <div class="relative rounded-xl overflow-hidden shadow-lg aspect-[5/6]">
+            <img 
+              src="/images/third-edition-cover-hd.webp" 
+              alt="Nomad Magazine Third Edition" 
+              class="w-full h-full object-cover"
+              loading="eager"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div class="absolute bottom-4 left-4 text-white">
+                <p class="font-bold text-lg">Edition 3</p>
+                <p class="text-sm">Connection Edition</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Container -->
+      <div class="max-w-2xl mx-auto">
+        <form action="https://track.bentonow.com/forms/1685a00cdc1fc329724616bec1de09c6/$freemag?hardened=true" method="POST" enctype="multipart/form-data" class="bento-formkit" id="bento-formkit-uugzwmxk" onkeydown="if(event.keyCode === 13) { event.preventDefault(); this.submit(); }">
+          <div class="bento-formkit-headline">Download All 3 Editions</div>
+          <div class="bento-formkit-subheader">Enter your email and we'll send you the download link and password right away.</div>
+          <input type="hidden" name="redirect" value="https://nomad-magazine.com/thank-you">
+          <input type="text" name="fields_country" class="bento-formkit-input" placeholder="Where are you from?" required/>
+          <input type="email" name="email" placeholder="Email" class="bento-formkit-input" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$"/>
+          <button type="submit" class="bento-formkit-button">Get My Free Magazines</button>
+          <div class="bento-formkit-disclosure">By entering your email, you'll get instant access to 3 digital editions of Nomad Magazine and occasional updates about new stories, future issues, and special projects. You can unsubscribe anytime. <a href="https://track.bentonow.com/forms/1685a00cdc1fc329724616bec1de09c6/$freemag?hardened=true" target="_blank" rel="noopener noreferrer">Privacy Policy</a></div>
+        </form>
+      </div>
+
+      <!-- Features -->
+      <div class="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <div class="text-center">
+          <div class="text-4xl mb-3">📚</div>
+          <h3 class="font-bold text-gray-900 mb-2">300+ Pages</h3>
+          <p class="text-sm text-gray-600">Combined content across three editions</p>
+        </div>
+        
+        <div class="text-center">
+          <div class="text-4xl mb-3">✍️</div>
+          <h3 class="font-bold text-gray-900 mb-2">50+ Stories</h3>
+          <p class="text-sm text-gray-600">From digital nomads worldwide</p>
+        </div>
+        
+        <div class="text-center">
+          <div class="text-4xl mb-3">🌍</div>
+          <h3 class="font-bold text-gray-900 mb-2">Global Community</h3>
+          <p class="text-sm text-gray-600">Join thousands of nomads</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .font-justme {
+    font-family: 'Just Me Again Down Here', cursive;
+  }
+
+  #bento-formkit-uugzwmxk {
+    width: 100% !important;
+    line-height: 1.5 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 2rem !important;
+    border-radius: 12px !important;
+    background: #fff !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+    position: relative !important;
+  }
+
+  .bento-formkit-headline {
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: #333 !important;
+    margin-bottom: 0.75rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .bento-formkit-subheader {
+    font-size: 1rem !important;
+    color: #555 !important;
+    margin-bottom: 1.5rem !important;
+    line-height: 1.4 !important;
+  }
+
+  #bento-formkit-uugzwmxk input[type="text"],
+  #bento-formkit-uugzwmxk input[type="email"],
+  #bento-formkit-uugzwmxk input[type="password"],
+  #bento-formkit-uugzwmxk input[type="number"],
+  #bento-formkit-uugzwmxk input[type="date"],
+  #bento-formkit-uugzwmxk input[type="range"] {
+    display: block !important;
+    width: 100% !important;
+    background-color: #fff !important;
+    border-radius: 8px !important;
+    border: 1px solid #ddd !important;
+    color: #333 !important;
+    cursor: text !important;
+    margin: 0 0 1rem !important;
+    padding: 0.75rem 1rem !important;
+    box-sizing: border-box !important;
+    font-size: 1rem !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+  }
+
+  #bento-formkit-uugzwmxk input:focus {
+    outline: none !important;
+    border-color: #f2e41d !important;
+    box-shadow: 0 0 0 3px rgba(242, 228, 29, 0.15) !important;
+  }
+
+  #bento-formkit-uugzwmxk input:focus:valid {
+    border-color: #34c759 !important;
+  }
+
+  #bento-formkit-uugzwmxk input:focus:invalid {
+    border-color: #ff3b30 !important;
+  }
+
+  #bento-formkit-uugzwmxk button {
+    text-align: center !important;
+    background-color: #FFC72C !important;
+    font-weight: 600 !important;
+    color: #222 !important;
+    padding: 0.75rem 1.25rem !important;
+    margin: 0.5rem 0 0 !important;
+    border: none !important;
+    cursor: pointer !important;
+    width: 100% !important;
+    border-radius: 8px !important;
+    box-sizing: border-box !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    font-size: 1rem !important;
+    transition: background-color 0.2s ease, transform 0.1s ease !important;
+  }
+
+  #bento-formkit-uugzwmxk button:hover {
+    background-color: #ffd740 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  #bento-formkit-uugzwmxk button:active {
+    transform: translateY(0) !important;
+  }
+
+  .bento-formkit-disclosure {
+    font-size: 0.8rem !important;
+    color: #777 !important;
+    margin-top: 1rem !important;
+    line-height: 1.4 !important;
+  }
+
+  .bento-formkit-disclosure a {
+    color: #333 !important;
+    text-decoration: underline !important;
+    font-weight: 600 !important;
+  }
+
+  .bento-formkit-disclosure a:hover {
+    color: #000 !important;
+  }
+</style>
+
+<script>
+  // Countdown timer - expires December 5, 2025 at 23:59:59
+  const countdownDate = new Date('December 5, 2025 23:59:59').getTime();
+
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = countdownDate - now;
+
+    if (distance < 0) {
+      document.getElementById('days')!.textContent = '00';
+      document.getElementById('hours')!.textContent = '00';
+      document.getElementById('minutes')!.textContent = '00';
+      document.getElementById('seconds')!.textContent = '00';
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById('days')!.textContent = String(days).padStart(2, '0');
+    document.getElementById('hours')!.textContent = String(hours).padStart(2, '0');
+    document.getElementById('minutes')!.textContent = String(minutes).padStart(2, '0');
+    document.getElementById('seconds')!.textContent = String(seconds).padStart(2, '0');
+  }
+
+  // Update immediately and then every second
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+</script>
+</Layout>
+
