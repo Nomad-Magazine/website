@@ -45,6 +45,9 @@ const latestVideo = youtubeVideos[0]
 // Extract unique categories for filtering
 const categories = [...new Set(records.filter((record: any) => record.sf4ad525dd && record.sb685ab800?.label).map((record: any) => record.sb685ab800.label))].sort()
 
+// Get actual count of active companies
+const activeCompaniesCount = records.filter((record: any) => record.sf4ad525dd).length
+
 // Hardcoded Monthly Supporters list
 const monthlySupporters = [
   'DataBench',
@@ -78,11 +81,11 @@ const isSupporter = (record: any) => {
 
 
 const seo: SEOProps = {
-  title: 'The Nomad Directory - Because Google Doesn\'t Get Our Lifestyle',
+  title: 'The Nomad Directory - The Living Database of the Nomad Economy',
   description:
-    'The best new tools, services, and companies for digital nomads to help you discover what\'s new in the nomad ecosystem.',
+    'The definitive intelligence hub tracking trends, opportunities, and innovations in the digital nomad ecosystem. Discover emerging tools and services while contributing to nomad economy intelligence.',
   image: 'https://nomad-magazine.com/images/Nomad-directory.webp',
-  keywords: 'nomad directory, digital nomad services, remote work tools, coworking spaces, nomad communities, nomad resources, digital nomad lifestyle, location independent',
+  keywords: 'nomad directory, digital nomad economy, nomad business intelligence, remote work trends, nomad startup database, digital nomad market data, location independent business',
   ogType: 'website',
   ldJSON: {
     '@context': 'https://schema.org',
@@ -116,11 +119,11 @@ const seo: SEOProps = {
           The <span class="text-yellow-400">Nomad Directory</span>
         </h1>
         <h2 class="mx-auto max-w-4xl text-2xl leading-tight font-bold md:text-4xl mb-6">
-          Because Google Doesn't Get Our Lifestyle
+          The Living Database of the Nomad Economy
         </h2>
         
         <p class="mx-auto max-w-3xl text-base text-gray-300 md:text-lg mb-8">
-          The best new tools, services, and companies for digital nomads to help you discover what's new in the nomad ecosystem.
+          Discover emerging tools and services while contributing to the definitive intelligence hub tracking trends, opportunities, and innovations in the digital nomad ecosystem.
         </p>
         
                 <div class="flex justify-center mb-8">
@@ -130,7 +133,7 @@ const seo: SEOProps = {
             class="inline-flex items-center justify-center gap-2 bg-black hover:bg-gray-900 border-2 border-yellow-400 px-8 py-3 rounded-lg text-yellow-400 font-bold text-lg transition-all duration-200"
           >
             <MaterialSymbolsElectricBolt width="20" height="20" />
-            List Your Project
+            Join the Database
           </a>
         </div>
 
@@ -207,7 +210,27 @@ const seo: SEOProps = {
     </div>
     </section>
 
-
+    <!-- Intelligence Hub Info -->
+    <section class="py-12 bg-gray-900/50">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <h3 class="text-3xl font-bold text-white mb-6">Powering Nomad Economy Intelligence</h3>
+          <p class="text-gray-300 text-lg mb-8 leading-relaxed">
+            Our living database tracks {activeCompaniesCount}+ nomad-focused companies, emerging trends, and market movements. This intelligence powers quarterly reports and insights for tourism boards, visa programs, and remote work platforms.
+          </p>
+          <div class="grid md:grid-cols-2 gap-6 text-center">
+            <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6">
+              <div class="text-3xl font-bold text-yellow-400 mb-2">{activeCompaniesCount}</div>
+              <div class="text-gray-300">Companies Tracked</div>
+            </div>
+            <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6">
+              <div class="text-3xl font-bold text-yellow-400 mb-2">Q4</div>
+              <div class="text-gray-300">Next Intelligence Report</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Main Content with Sidebar -->
     <section class="pt-4 pb-16">
@@ -495,9 +518,9 @@ const seo: SEOProps = {
     <section class="pb-20">
       <div class="container mx-auto px-4">
         <div class="bg-yellow-400/10 border border-yellow-400/20 rounded-2xl p-12 text-center">
-          <h2 class="text-3xl font-bold text-white mb-6">Have a product for nomads?</h2>
+          <h2 class="text-3xl font-bold text-white mb-6">Building for nomads?</h2>
           <p class="text-gray-300 text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
-            Join hundreds of companies serving the digital nomad community. Get featured in our directory and reach thousands of potential customers worldwide.
+            Join our living database and become part of the definitive intelligence source on the nomad economy. Free listings contribute to quarterly market insights that shape the future of remote work.
           </p>
           <a
             target="_blank"
@@ -505,7 +528,7 @@ const seo: SEOProps = {
             class="inline-flex items-center gap-2 bg-black hover:bg-gray-900 border-2 border-yellow-400 px-8 py-3 rounded-lg text-yellow-400 font-bold text-lg transition-all duration-200"
           >
             <MaterialSymbolsElectricBolt width="20" height="20" />
-            List Your Project
+            Join the Database
           </a>
         </div>
     </div>
