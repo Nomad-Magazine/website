@@ -118,9 +118,12 @@ const seo: SEOProps = {
                 <h1 class="mx-auto max-w-4xl text-4xl leading-tight font-bold md:text-6xl mb-4">
           The <span class="text-yellow-400">Nomad Directory</span>
         </h1>
-        <h2 class="mx-auto max-w-4xl text-2xl leading-tight font-bold md:text-4xl mb-6">
+        <h2 class="mx-auto max-w-4xl text-2xl leading-tight font-bold md:text-4xl mb-2">
           The Living Database of the Nomad Economy
         </h2>
+        <p class="mx-auto max-w-3xl text-lg text-gray-400 mb-6 italic">
+          Because Google Doesn't Get Our Lifestyle
+        </p>
         
         <p class="mx-auto max-w-3xl text-base text-gray-300 md:text-lg mb-8">
           Discover emerging tools and services while contributing to the definitive intelligence hub tracking trends, opportunities, and innovations in the digital nomad ecosystem.
@@ -210,23 +213,13 @@ const seo: SEOProps = {
     </div>
     </section>
 
-    <!-- Intelligence Hub Info -->
+    <!-- Company Stats -->
     <section class="py-12 bg-gray-900/50">
       <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto text-center">
-          <h3 class="text-3xl font-bold text-white mb-6">Powering Nomad Economy Intelligence</h3>
-          <p class="text-gray-300 text-lg mb-8 leading-relaxed">
-            Our living database tracks {activeCompaniesCount}+ nomad-focused companies, emerging trends, and market movements. This intelligence powers quarterly reports and insights for tourism boards, visa programs, and remote work platforms.
-          </p>
-          <div class="grid md:grid-cols-2 gap-6 text-center">
-            <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6">
-              <div class="text-3xl font-bold text-yellow-400 mb-2">{activeCompaniesCount}</div>
-              <div class="text-gray-300">Companies Tracked</div>
-            </div>
-            <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6">
-              <div class="text-3xl font-bold text-yellow-400 mb-2">Q4</div>
-              <div class="text-gray-300">Next Intelligence Report</div>
-            </div>
+        <div class="max-w-md mx-auto text-center">
+          <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-8">
+            <div class="text-4xl font-bold text-yellow-400 mb-3">{activeCompaniesCount}</div>
+            <div class="text-gray-300 text-lg">Companies</div>
           </div>
         </div>
       </div>
