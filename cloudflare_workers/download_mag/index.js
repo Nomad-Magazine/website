@@ -57,6 +57,53 @@ export default {
 
       if (isValid && email) {
         console.log(`[AUTH] Valid credentials for email: ${email}`);
+
+        // Submit to Bento API (fire-and-forget, never block the download)
+        if (env.BENTO_SITE_UUID && env.BENTO_PUBLISHABLE_KEY && env.BENTO_SECRET_KEY) {
+          console.log("[BENTO] Submitting subscriber via API (fire-and-forget)");
+
+          // Use waitUntil to run this in background without blocking the response
+          ctx.waitUntil(
+            (async () => {
+              try {
+                // Create base64 auth header: publishableKey:secretKey
+                const authString = `${env.BENTO_PUBLISHABLE_KEY}:${env.BENTO_SECRET_KEY}`;
+                const base64 = Buffer.from(authString).toString('base64');
+                console.log("[BENTO] Making API request...");
+
+                const bentoResponse = await fetch(`https://app.bentonow.com/api/v1/fetch/subscribers`, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Basic ${base64}`
+                  },
+                  body: JSON.stringify({
+                    site_uuid: env.BENTO_SITE_UUID,
+                    email: email,
+                    fields: {
+                      direct_download: "true"
+                    }
+                  })
+                });
+
+                console.log(`[BENTO] API response status: ${bentoResponse.status}`);
+
+                if (!bentoResponse.ok) {
+                  const errorText = await bentoResponse.text();
+                  console.error(`[BENTO] API error (status ${bentoResponse.status}): ${errorText}`);
+                } else {
+                  const responseData = await bentoResponse.json();
+                  console.log("[BENTO] Successfully submitted subscriber via API:", JSON.stringify(responseData));
+                }
+              } catch (e) {
+                console.error("[BENTO] API request failed:", e.message, e.stack);
+              }
+            })()
+          );
+        } else {
+          console.warn("[BENTO] Missing required env vars (BENTO_SITE_UUID, BENTO_PUBLISHABLE_KEY, BENTO_SECRET_KEY) - skipping Bento tracking");
+        }
+
         console.log("[AUTH] Setting authentication cookie and redirecting");
         // set cookie and redirect to same URL (GET)
         const headers = new Headers({
@@ -131,88 +178,31 @@ function passwordForm(pathname, msg = "") {
   <title>Password required</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
-    body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background:#f5f5f5; display:flex; align-items:center; justify-content:center; min-height:100vh; }
-    .box { background:white; padding:1.5rem 1.75rem; border-radius:0.75rem; box-shadow:0 10px 30px rgba(0,0,0,.06); width: min(360px, 100% - 2rem); }
-    h1 { font-size:1.1rem; margin-bottom:.4rem; }
-    p.msg { color:#b00020; margin-bottom:.5rem; }
-    label { display:block; font-size:.8rem; margin-bottom:.35rem; margin-top:.75rem; }
-    input[type=password], input[type=email] { width:100%; padding:.5rem .6rem; border:1px solid #ddd; border-radius: .4rem; font-size:.9rem; box-sizing: border-box; }
-    input:focus { outline: none; border-color: #FFC72C; }
-    button { margin-top:.75rem; width:100%; background:#FFC72C; color:#222; border:none; padding:.5rem; border-radius:.4rem; font-weight:600; cursor:pointer; }
-    button:hover { background:#ffd740; }
-    small { display:block; margin-top:.75rem; color:#888; font-size:.7rem; text-align:center; }
+    body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background:#f5f5f5; display:flex; align-items:center; justify-content:center; min-height:100vh; padding:1rem; }
+    .box { background:white; padding:2rem 1.75rem; border-radius:0.75rem; box-shadow:0 10px 30px rgba(0,0,0,.06); width: min(400px, 100% - 2rem); }
+    .logo { max-width:150px; height:auto; margin:0 auto 1.5rem; display:block; }
+    h1 { font-size:1.3rem; margin-bottom:.5rem; text-align:center; color:#333; }
+    p.msg { color:#b00020; margin-bottom:.75rem; text-align:center; }
+    label { display:block; font-size:.85rem; margin-bottom:.35rem; margin-top:.75rem; font-weight:500; }
+    input[type=password], input[type=email] { width:100%; padding:.6rem .75rem; border:1px solid #ddd; border-radius: .5rem; font-size:.95rem; box-sizing: border-box; }
+    input:focus { outline: none; border-color: #FFC72C; box-shadow: 0 0 0 3px rgba(255,199,44,0.1); }
+    button { margin-top:1rem; width:100%; background:#FFC72C; color:#222; border:none; padding:.65rem; border-radius:.5rem; font-weight:600; cursor:pointer; font-size:.95rem; transition:all 0.2s; }
+    button:hover { background:#ffd740; transform:translateY(-1px); box-shadow:0 2px 8px rgba(255,199,44,0.3); }
+    small { display:block; margin-top:1rem; color:#888; font-size:.75rem; text-align:center; line-height:1.4; }
   </style>
 </head>
 <body>
-  <!-- Step 1: Submit email to Bento, then validate password -->
-  <form class="box" id="bentoForm" method="POST" action="https://track.bentonow.com/forms/1685a00cdc1fc329724616bec1de09c6/$dl_link?hardened=false" enctype="multipart/form-data" style="display:none;">
-    <input type="hidden" name="email" id="bentoEmail" />
-    <input type="hidden" name="fields_direct_download" value="true" />
-    <input type="hidden" name="redirect" id="bentoRedirect" />
-  </form>
-
-  <!-- Step 2: Validate password with worker -->
-  <form class="box" id="passwordForm" method="POST" action="${pathname}" style="display:none;">
-    <input type="hidden" name="email" id="passwordEmail" />
-    <input type="hidden" name="password" id="passwordValue" />
-  </form>
-
-  <!-- User-facing form -->
-  <form class="box" id="downloadForm">
-    <h1>Protected download</h1>
+  <form class="box" method="POST" action="${pathname}">
+    <img src="https://nomad-magazine.com/logo.svg" alt="Nomad Magazine" class="logo" onerror="this.style.display='none'">
+    <h1>Protected Download</h1>
     ${msg ? `<p class="msg">${msg}</p>` : ""}
     <label for="email">Email Address</label>
     <input name="email" id="email" type="email" placeholder="your@email.com" required autofocus />
     <label for="password">Password</label>
     <input name="password" id="password" type="password" placeholder="From your email" required />
-    <button type="submit" id="submitBtn">Download Magazine</button>
+    <button type="submit">Download Magazine</button>
     <small>This link is protected. Enter your email and the password we sent you.</small>
   </form>
-
-  <script>
-    // Check if we're coming back from Bento redirect
-    const urlParams = new URLSearchParams(window.location.search);
-    const fromBento = urlParams.get('from_bento');
-    const savedEmail = sessionStorage.getItem('dl_email');
-    const savedPassword = sessionStorage.getItem('dl_password');
-
-    if (fromBento === '1' && savedEmail && savedPassword) {
-      // Submit password validation automatically
-      document.getElementById('passwordEmail').value = savedEmail;
-      document.getElementById('passwordValue').value = savedPassword;
-      sessionStorage.removeItem('dl_email');
-      sessionStorage.removeItem('dl_password');
-      document.getElementById('passwordForm').submit();
-    }
-
-    document.getElementById('downloadForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      const submitBtn = document.getElementById('submitBtn');
-
-      // Disable button and show loading state
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Processing...';
-
-      // Save credentials in session storage
-      sessionStorage.setItem('dl_email', email);
-      sessionStorage.setItem('dl_password', password);
-
-      // Build redirect URL back to this page with flag
-      const currentUrl = new URL(window.location.href);
-      currentUrl.searchParams.set('from_bento', '1');
-
-      // Set values in hidden form BEFORE submitting
-      const bentoForm = document.getElementById('bentoForm');
-      document.getElementById('bentoEmail').value = email;
-      document.getElementById('bentoRedirect').value = currentUrl.toString();
-
-      // Now submit
-      bentoForm.submit();
-    });
-  </script>
 </body>
 </html>`;
   return new Response(html, {
@@ -235,31 +225,56 @@ function downloadPage(pathname) {
   <title>Download Started</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
-    body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background:#f5f5f5; display:flex; align-items:center; justify-content:center; min-height:100vh; margin:0; }
-    .box { background:white; padding:2rem; border-radius:0.75rem; box-shadow:0 10px 30px rgba(0,0,0,.06); width: min(420px, 100% - 2rem); text-align:center; }
-    h1 { font-size:1.5rem; margin:0 0 1rem 0; color:#333; }
+    body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background:#f5f5f5; display:flex; align-items:center; justify-content:center; min-height:100vh; margin:0; padding:1rem; }
+    .box { background:white; padding:2.5rem 2rem; border-radius:0.75rem; box-shadow:0 10px 30px rgba(0,0,0,.06); width: min(480px, 100% - 2rem); text-align:center; }
+    .logo { max-width:180px; height:auto; margin:0 auto 1.5rem; display:block; }
+    h1 { font-size:1.75rem; margin:0 0 0.5rem 0; color:#333; font-weight:700; }
+    .tagline { font-size:1.1rem; color:#666; margin:0 0 1.5rem 0; font-weight:400; }
     .icon { font-size:3rem; margin-bottom:1rem; }
-    p { color:#666; margin:0.5rem 0; line-height:1.5; }
-    .filename { font-weight:600; color:#333; word-break:break-all; }
-    a { display:inline-block; margin-top:1.5rem; padding:.75rem 1.5rem; background:#FFC72C; color:#222; text-decoration:none; border-radius:.5rem; font-weight:600; transition:background 0.2s; }
-    a:hover { background:#ffd740; }
-    .loading { display:inline-block; width:1rem; height:1rem; border:2px solid #FFC72C; border-top-color:transparent; border-radius:50%; animation:spin 0.8s linear infinite; margin-right:0.5rem; }
+    p { color:#666; margin:0.5rem 0; line-height:1.6; }
+    .filename { font-weight:600; color:#333; word-break:break-all; background:#f8f9fa; padding:0.5rem 1rem; border-radius:0.5rem; display:inline-block; margin:1rem 0; }
+    a { display:inline-block; margin-top:1.5rem; padding:.75rem 1.5rem; background:#FFC72C; color:#222; text-decoration:none; border-radius:.5rem; font-weight:600; transition:all 0.2s; box-shadow:0 2px 8px rgba(255,199,44,0.3); }
+    a:hover { background:#ffd740; transform:translateY(-1px); box-shadow:0 4px 12px rgba(255,199,44,0.4); }
+    .loading { display:inline-block; width:1rem; height:1rem; border:2px solid #FFC72C; border-top-color:transparent; border-radius:50%; animation:spin 0.8s linear infinite; margin-right:0.5rem; vertical-align:middle; }
     @keyframes spin { to { transform:rotate(360deg); } }
+    .footer-text { font-size:0.85rem; color:#999; margin-top:1.5rem; }
   </style>
 </head>
 <body>
   <div class="box">
+    <img src="https://nomad-magazine.com/logo.svg" alt="Nomad Magazine" class="logo" onerror="this.style.display='none'">
     <div class="icon">📥</div>
-    <h1>Download Started!</h1>
-    <p>Your download should begin shortly.</p>
-    <p class="filename">${filename}</p>
+    <h1>Your Download is Ready!</h1>
+    <p class="tagline">Thanks for being part of the nomad community</p>
+    <p>Your magazine download should begin in just a moment.</p>
+    <div class="filename">${filename}</div>
     <p style="margin-top:1.5rem;"><span class="loading"></span>Preparing your file...</p>
     <a href="${downloadUrl}" id="retryLink" style="display:none;">Click here if download doesn't start</a>
+    <p class="footer-text">Enjoy your read and happy travels! 🌍</p>
   </div>
 
   <script>
-    // Auto-trigger download
-    window.location.href = '${downloadUrl}';
+    // Auto-trigger download using multiple methods for reliability
+
+    // Method 1: Try with a dynamically created link with download attribute
+    function triggerDownload() {
+      const link = document.createElement('a');
+      link.href = '${downloadUrl}';
+      link.download = '${filename}';
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // Method 2: Also create a hidden iframe as fallback
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = '${downloadUrl}';
+    document.body.appendChild(iframe);
+
+    // Trigger both methods
+    triggerDownload();
 
     // Show retry link after 3 seconds
     setTimeout(() => {
@@ -267,6 +282,13 @@ function downloadPage(pathname) {
       document.querySelector('.loading').style.display = 'none';
       document.querySelector('p:last-of-type').textContent = 'Download not starting?';
     }, 3000);
+
+    // Remove iframe after 10 seconds to clean up
+    setTimeout(() => {
+      if (iframe.parentNode) {
+        document.body.removeChild(iframe);
+      }
+    }, 10000);
   </script>
 </body>
 </html>`;
