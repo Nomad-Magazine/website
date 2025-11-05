@@ -11,9 +11,6 @@ export default {
 
     console.log(`[CONFIG] Found ${validPasswords.length} valid password(s) configured`);
 
-    const COOKIE_NAME = "r2_auth";
-    const AUTH_DURATION_HOURS = 24;
-
     const url = new URL(request.url);
     const path = url.pathname.replace(/^\/+/, ""); // remove leading /
 
@@ -37,12 +34,7 @@ export default {
       );
     }
 
-    // 2) check cookie
-    const cookieHeader = request.headers.get("Cookie") || "";
-    const hasAuth = cookieHeader.split(";").some((c) => c.trim() === `${COOKIE_NAME}=ok`);
-    console.log(`[AUTH] Cookie present: ${cookieHeader ? "yes" : "no"}, Authenticated: ${hasAuth}`);
-
-    // 3) if POST, validate password and email
+    // 2) if POST, validate password and email
     if (request.method === "POST") {
       console.log("[POST] Processing form submission");
       const formData = await request.formData();
@@ -68,21 +60,25 @@ export default {
               try {
                 // Create base64 auth header: publishableKey:secretKey
                 const authString = `${env.BENTO_PUBLISHABLE_KEY}:${env.BENTO_SECRET_KEY}`;
-                const base64 = Buffer.from(authString).toString('base64');
+                const base64 = btoa(authString);
                 console.log("[BENTO] Making API request...");
 
-                const bentoResponse = await fetch(`https://app.bentonow.com/api/v1/fetch/subscribers`, {
+                const bentoResponse = await fetch(`https://app.bentonow.com/api/v1/batch/events`, {
                   method: "POST",
                   headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Basic ${base64}`
+                    "Authorization": `Basic ${base64}`,
+                    "User-Agent": "Nomad-Magazine-Worker/1.0"
                   },
                   body: JSON.stringify({
                     site_uuid: env.BENTO_SITE_UUID,
-                    email: email,
-                    fields: {
-                      direct_download: "true"
-                    }
+                    events: [{
+                      email: email,
+                      type: "$direct_download",
+                      details: {
+                        file_path: path
+                      }
+                    }]
                   })
                 });
 
@@ -104,18 +100,9 @@ export default {
           console.warn("[BENTO] Missing required env vars (BENTO_SITE_UUID, BENTO_PUBLISHABLE_KEY, BENTO_SECRET_KEY) - skipping Bento tracking");
         }
 
-        console.log("[AUTH] Setting authentication cookie and redirecting");
-        // set cookie and redirect to same URL (GET)
-        const headers = new Headers({
-          Location: url.pathname + url.search,
-        });
-        const expires = new Date(Date.now() + AUTH_DURATION_HOURS * 60 * 60 * 1000).toUTCString();
-        headers.append(
-          "Set-Cookie",
-          `${COOKIE_NAME}=ok; Expires=${expires}; Path=/; HttpOnly; SameSite=Lax; Secure`
-        );
-        console.log(`[AUTH] Cookie expires: ${expires}`);
-        return new Response(null, { status: 302, headers });
+        console.log("[AUTH] Showing download page");
+        // Directly show download page
+        return downloadPage(path);
       } else if (isValid && !email) {
         console.log("[ERROR] Valid password but missing email");
         return passwordForm(url.pathname, "Email address is required.");
@@ -125,46 +112,42 @@ export default {
       }
     }
 
-    // 4) if not authorized, show form
-    if (!hasAuth) {
-      console.log("[RESPONSE] User not authenticated, showing password form");
-      return passwordForm(url.pathname);
-    }
+    // 3) if GET without password, show form
+    console.log("[RESPONSE] Showing password form");
 
-    // 5) authorized → check if user wants direct download or landing page
+    // Check if user wants direct download or landing page
     const wantsDownload = url.searchParams.get('download') === '1';
 
-    if (!wantsDownload) {
-      // Show "Download started" page with auto-download
-      console.log("[RESPONSE] Showing download page");
-      return downloadPage(path);
+    if (wantsDownload) {
+      // Direct download requested
+      console.log(`[R2] Fetching file from R2: ${path}`);
+      const object = await env.MAG.get(path);
+      if (!object) {
+        console.error(`[R2] File not found: ${path}`);
+        return new Response("File not found", { status: 404 });
+      }
+
+      console.log(`[R2] File found, size: ${object.size} bytes`);
+      console.log(`[R2] Content-Type: ${object.httpMetadata?.contentType || "unknown"}`);
+
+      // fill headers from R2 if present
+      const headers = new Headers(object.httpMetadata || {});
+      // force download
+      const filename = path.split("/").pop() || "file";
+      headers.set("Content-Disposition", `attachment; filename="${filename}"`);
+      if (!headers.has("Content-Type")) {
+        headers.set("Content-Type", "application/octet-stream");
+      }
+
+      console.log(`[RESPONSE] Serving file: ${filename}`);
+      return new Response(object.body, {
+        status: 200,
+        headers,
+      });
     }
 
-    // Direct download requested
-    console.log(`[R2] Fetching file from R2: ${path}`);
-    const object = await env.MAG.get(path);
-    if (!object) {
-      console.error(`[R2] File not found: ${path}`);
-      return new Response("File not found", { status: 404 });
-    }
-
-    console.log(`[R2] File found, size: ${object.size} bytes`);
-    console.log(`[R2] Content-Type: ${object.httpMetadata?.contentType || "unknown"}`);
-
-    // fill headers from R2 if present
-    const headers = new Headers(object.httpMetadata || {});
-    // force download
-    const filename = path.split("/").pop() || "file";
-    headers.set("Content-Disposition", `attachment; filename="${filename}"`);
-    if (!headers.has("Content-Type")) {
-      headers.set("Content-Type", "application/octet-stream");
-    }
-
-    console.log(`[RESPONSE] Serving file: ${filename}`);
-    return new Response(object.body, {
-      status: 200,
-      headers,
-    });
+    // Show password form
+    return passwordForm(url.pathname);
   },
 };
 

@@ -38,19 +38,24 @@ export const POST: APIRoute = async ({ request }) => {
     const authString = `${BENTO_PUBLISHABLE_KEY}:${BENTO_SECRET_KEY}`
     const base64 = Buffer.from(authString).toString('base64')
 
-    const bentoResponse = await fetch(`https://app.bentonow.com/api/v1/fetch/subscribers`, {
+    const bentoResponse = await fetch(`https://app.bentonow.com/api/v1/batch/events`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Basic ${base64}`,
+        'User-Agent': 'Nomad-Magazine-API/1.0',
       },
       body: JSON.stringify({
         site_uuid: BENTO_SITE_UUID,
-        email: email,
-        fields: {
-          first_name: firstName || '',
-          free_article: 'true',
-        },
+        events: [
+          {
+            email: email,
+            type: '$free_article_download',
+            fields: {
+              first_name: firstName || '',
+            },
+          },
+        ],
       }),
     })
 
