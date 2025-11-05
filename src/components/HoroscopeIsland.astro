@@ -196,17 +196,13 @@ if (shouldGenerate && name && birthdate) {
   <h2>Enter your details to get your personalized horoscope</h2>
   
   {!shouldGenerate && (
-    <form
-      method="POST"
-      action="https://track.bentonow.com/forms/1685a00cdc1fc329724616bec1de09c6/$subscribe_horoscope?hardened=true"
-      enctype="multipart/form-data"
-    >
+    <form id="horoscope-form" method="POST">
+      <input type="hidden" name="event_type" value="$subscribe_horoscope" />
       <input type="text" name="name" id="name" placeholder="Your full name" required>
       <input type="email" name="email" id="email" placeholder="Your email address" required>
       <label for="birthdate" style="color: #7c2d12; font-size: 0.9rem; margin-bottom: 8px; display: block; text-align: left; font-style: italic;">Your birthdate</label>
       <input type="date" name="birthdate" id="birthdate" placeholder="Select your birthdate" required>
-      <input type="hidden" name="redirect" id="redirect" value="">
-      <button type="submit">Get My Horoscope</button>
+      <button type="submit" id="horoscope-submit">Get My Horoscope</button>
     </form>
   )}
   
@@ -285,26 +281,50 @@ if (shouldGenerate && name && birthdate) {
 </div>
 
 <script>
-  function updateRedirect() {
-    const nameInput = document.getElementById('name');
-    const birthdateInput = document.getElementById('birthdate');
-    const redirectInput = document.getElementById('redirect');
-    
-    if (nameInput && birthdateInput && redirectInput) {
-      const name = (nameInput as HTMLInputElement).value || '';
-      const birthdate = (birthdateInput as HTMLInputElement).value || '';
-      const redirectUrl = `${window.location.origin}/horoscope/?name=${encodeURIComponent(name)}&birthdate=${encodeURIComponent(birthdate)}&generate=true`;
-      (redirectInput as HTMLInputElement).value = redirectUrl;
-    }
-  }
+  const horoscopeForm = document.getElementById('horoscope-form');
+  const horoscopeSubmit = document.getElementById('horoscope-submit');
 
-  // Since this component is deferred, DOM is already loaded
-  const nameInput = document.getElementById('name');
-  const birthdateInput = document.getElementById('birthdate');
-  
-  if (nameInput && birthdateInput) {
-    nameInput.addEventListener('input', updateRedirect);
-    birthdateInput.addEventListener('input', updateRedirect);
-    birthdateInput.addEventListener('change', updateRedirect);
+  if (horoscopeForm && horoscopeSubmit && horoscopeSubmit instanceof HTMLButtonElement) {
+    horoscopeForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const nameInput = document.getElementById('name') as HTMLInputElement;
+      const birthdateInput = document.getElementById('birthdate') as HTMLInputElement;
+
+      if (!nameInput || !birthdateInput) return;
+
+      const name = nameInput.value;
+      const birthdate = birthdateInput.value;
+
+      // Disable submit button
+      horoscopeSubmit.disabled = true;
+      const originalText = horoscopeSubmit.textContent;
+      horoscopeSubmit.textContent = 'Submitting...';
+
+      const formData = new FormData(horoscopeForm as HTMLFormElement);
+
+      try {
+        const response = await fetch('/api/bento-event', {
+          method: 'POST',
+          body: formData,
+        });
+
+        const data = (await response.json()) as { success?: boolean; error?: string };
+
+        if (response.ok && data.success) {
+          // Redirect to horoscope page with params
+          const redirectUrl = `${window.location.origin}/horoscope/?name=${encodeURIComponent(name)}&birthdate=${encodeURIComponent(birthdate)}&generate=true`;
+          window.location.href = redirectUrl;
+        } else {
+          alert(data.error || 'Failed to subscribe. Please try again.');
+          horoscopeSubmit.disabled = false;
+          horoscopeSubmit.textContent = originalText || 'Get My Horoscope';
+        }
+      } catch (error) {
+        alert('An error occurred. Please try again.');
+        horoscopeSubmit.disabled = false;
+        horoscopeSubmit.textContent = originalText || 'Get My Horoscope';
+      }
+    });
   }
 </script> 

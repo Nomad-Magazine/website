@@ -46,9 +46,6 @@ if (relatedPosts.length < 3) {
 // Ensure we only have 3 posts
 const finalRelatedPosts = relatedPosts.slice(0, 3)
 
-// Check if this is a SeoBot article (AI-generated)
-const isSeoBot = post.data.author === 'Martin Donadieu' && post.data.authorUrl === 'https://github.com/riderx'
-
 // SEO configuration for blog post
 // Use head_image if available, otherwise heroImage, otherwise fallback
 const socialImage = post.data.heroImage 

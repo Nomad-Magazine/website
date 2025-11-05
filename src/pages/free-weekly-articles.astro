@@ -54,42 +54,36 @@ const seo: SEOProps = {
     <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
       <div class="rounded-2xl bg-gray-50 p-8 shadow-lg">
         <div class="space-y-6">
-          <div class="space-y-4">
-            <label for="email" class="block text-lg font-semibold text-gray-900"> Email Address </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              placeholder="Enter your email address"
-              class="w-full rounded-lg border border-gray-300 px-4 py-3 text-lg focus:border-transparent focus:ring-2 focus:ring-yellow-400 focus:outline-none"
-            />
-          </div>
+          <form id="weekly-article-form" class="space-y-6">
+            <input type="hidden" name="event_type" value="$subscribe_weekly_articles" />
 
-          <div class="space-y-4">
-            <label for="first-name" class="block text-lg font-semibold text-gray-900"> First Name </label>
-            <input
-              id="first-name"
-              name="first_name"
-              type="text"
-              required
-              placeholder="Enter your first name"
-              class="w-full rounded-lg border border-gray-300 px-4 py-3 text-lg focus:border-transparent focus:ring-2 focus:ring-yellow-400 focus:outline-none"
-            />
-          </div>
+            <div class="space-y-4">
+              <label for="email" class="block text-lg font-semibold text-gray-900"> Email Address </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                placeholder="Enter your email address"
+                class="w-full rounded-lg border border-gray-300 px-4 py-3 text-lg focus:border-transparent focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+              />
+            </div>
 
-          <form
-            method="POST"
-            target="_blank"
-            enctype="multipart/form-data"
-            action="https://track.bentonow.com/forms/1685a00cdc1fc329724616bec1de09c6/$subscribe_weekly_articles?hardened=true"
-            class="space-y-6"
-          >
-            <input type="hidden" name="email" id="hidden-email" />
-            <input type="hidden" name="first_name" id="hidden-first-name" />
-            <input type="hidden" name="redirect" value={`${Astro.site}free-weekly-articles?form=true`} />
+            <div class="space-y-4">
+              <label for="first-name" class="block text-lg font-semibold text-gray-900"> First Name </label>
+              <input
+                id="first-name"
+                name="first_name"
+                type="text"
+                required
+                placeholder="Enter your first name"
+                class="w-full rounded-lg border border-gray-300 px-4 py-3 text-lg focus:border-transparent focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+              />
+            </div>
 
-            <button type="submit" class="w-full rounded-lg bg-black px-8 py-4 text-xl font-semibold text-white transition-all duration-200 hover:bg-gray-800">
+            <div id="error-message" class="hidden rounded-lg bg-red-50 p-4 text-red-800"></div>
+
+            <button type="submit" id="submit-button" class="w-full rounded-lg bg-black px-8 py-4 text-xl font-semibold text-white transition-all duration-200 hover:bg-gray-800">
               Grab FREE Article
             </button>
           </form>
@@ -270,16 +264,48 @@ const seo: SEOProps = {
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      const emailInput = document.getElementById('email') as HTMLInputElement
-      const firstNameInput = document.getElementById('first-name') as HTMLInputElement
-      const hiddenEmailInput = document.getElementById('hidden-email') as HTMLInputElement
-      const hiddenFirstNameInput = document.getElementById('hidden-first-name') as HTMLInputElement
-      const form = document.querySelector('form[action*="bentonow"]')
+      const form = document.getElementById('weekly-article-form') as HTMLFormElement
+      const submitButton = document.getElementById('submit-button') as HTMLButtonElement
+      const errorMessage = document.getElementById('error-message') as HTMLDivElement
 
-      if (form && emailInput && firstNameInput && hiddenEmailInput && hiddenFirstNameInput) {
-        form.addEventListener('submit', function () {
-          hiddenEmailInput.value = emailInput.value
-          hiddenFirstNameInput.value = firstNameInput.value
+      if (form) {
+        form.addEventListener('submit', async function (e) {
+          e.preventDefault()
+
+          // Disable submit button to prevent double submission
+          submitButton.disabled = true
+          submitButton.textContent = 'Submitting...'
+          errorMessage.classList.add('hidden')
+
+          const formData = new FormData(form)
+
+          try {
+            console.log('[WEEKLY-ARTICLE-FORM] Submitting to API endpoint')
+            const response = await fetch('/api/bento-event', {
+              method: 'POST',
+              body: formData,
+            })
+
+            const data = (await response.json()) as { success?: boolean; error?: string }
+
+            if (response.ok && data.success) {
+              console.log('[WEEKLY-ARTICLE-FORM] Successfully subscribed')
+              // Redirect to success page
+              window.location.href = '/free-weekly-articles?form=true'
+            } else {
+              console.error('[WEEKLY-ARTICLE-FORM] Subscription failed:', data.error)
+              errorMessage.textContent = data.error || 'Failed to subscribe. Please try again.'
+              errorMessage.classList.remove('hidden')
+              submitButton.disabled = false
+              submitButton.textContent = 'Grab FREE Article'
+            }
+          } catch (error) {
+            console.error('[WEEKLY-ARTICLE-FORM] Error:', error)
+            errorMessage.textContent = 'An error occurred. Please try again.'
+            errorMessage.classList.remove('hidden')
+            submitButton.disabled = false
+            submitButton.textContent = 'Grab FREE Article'
+          }
         })
       }
     })
