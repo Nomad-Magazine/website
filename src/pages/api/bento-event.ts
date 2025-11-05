@@ -1,7 +1,30 @@
 import type { APIRoute } from 'astro'
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, site }) => {
   console.log('[BENTO-EVENT] Processing event request')
+
+  // Check origin/referer to ensure request is from our website
+  const origin = request.headers.get('origin')
+  const referer = request.headers.get('referer')
+  const allowedOrigins = [
+    site?.origin || 'https://nomad-magazine.com',
+    'http://localhost:4321',
+    'http://localhost:3000',
+  ]
+
+  const isValidOrigin = origin && allowedOrigins.some((allowed) => origin.startsWith(allowed))
+  const isValidReferer = referer && allowedOrigins.some((allowed) => referer.startsWith(allowed))
+
+  if (!isValidOrigin && !isValidReferer) {
+    console.error('[BENTO-EVENT] Unauthorized request - invalid origin/referer')
+    console.error(`[BENTO-EVENT] Origin: ${origin}, Referer: ${referer}`)
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 403,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  }
+
+  console.log('[BENTO-EVENT] Request authorized from:', origin || referer)
 
   try {
     const formData = await request.formData()
