@@ -157,7 +157,7 @@ const seo: SEOProps = {
               body: formData,
             })
 
-            const data = await response.json()
+            const data = (await response.json()) as { success?: boolean; error?: string }
 
             if (response.ok && data.success) {
               console.log('[SUBSCRIBE-FORM] Successfully subscribed')
