@@ -108,25 +108,28 @@ const seo: SEOProps = {
 
       <!-- Form Container -->
       <div class="max-w-2xl mx-auto">
-        <form action="https://track.bentonow.com/forms/1685a00cdc1fc329724616bec1de09c6/$freemag?hardened=false" method="POST" enctype="multipart/form-data" class="bento-formkit" id="bento-formkit-uugzwmxk" onkeydown="if(event.keyCode === 13) { event.preventDefault(); this.submit(); }">
+        <form id="bento-formkit-uugzwmxk" class="bento-formkit">
           <div class="bento-formkit-headline">Download All 3 Editions</div>
           <div class="bento-formkit-subheader">Enter your email and we'll send you the download link and password right away.</div>
-          <input type="hidden" name="redirect" value="https://nomad-magazine.com/thank-you">
-          
+
+          <input type="hidden" name="event_type" value="$freemag_download" />
+
           <div class="field-group">
-            <label for="fields_country" class="field-label">Where are you from? <span class="required">*</span></label>
+            <label for="country" class="field-label">Where are you from? <span class="required">*</span></label>
             <p class="field-helper">e.g., Germany, United States, Brazil</p>
-            <input type="text" id="fields_country" name="fields_country" class="bento-formkit-input" placeholder="Your country" required/>
+            <input type="text" id="country" name="country" class="bento-formkit-input" placeholder="Your country" required/>
           </div>
-          
+
           <div class="field-group">
             <label for="email" class="field-label">Email Address <span class="required">*</span></label>
             <p class="field-helper">We'll send your magazines here</p>
             <input type="email" id="email" name="email" placeholder="your@email.com" class="bento-formkit-input" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"/>
           </div>
-          
-          <button type="submit" class="bento-formkit-button">Get My Free Magazines</button>
-          <div class="bento-formkit-disclosure">By entering your email, you'll get instant access to 3 digital editions of Nomad Magazine and occasional updates about new stories, future issues, and special projects. You can unsubscribe anytime. <a href="https://track.bentonow.com/forms/1685a00cdc1fc329724616bec1de09c6/$freemag?hardened=true" target="_blank" rel="noopener noreferrer">Privacy Policy</a></div>
+
+          <div id="error-message" class="hidden" style="margin-bottom: 1rem; padding: 0.75rem; background-color: #fee; border: 1px solid #fcc; border-radius: 8px; color: #c00;"></div>
+
+          <button type="submit" id="submit-button" class="bento-formkit-button">Get My Free Magazines</button>
+          <div class="bento-formkit-disclosure">By entering your email, you'll get instant access to 3 digital editions of Nomad Magazine and occasional updates about new stories, future issues, and special projects. You can unsubscribe anytime.</div>
         </form>
       </div>
 
@@ -320,6 +323,54 @@ const seo: SEOProps = {
   // Update immediately and then every second
   updateCountdown();
   setInterval(updateCountdown, 1000);
+
+  // Form submission handler
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('bento-formkit-uugzwmxk') as HTMLFormElement
+    const submitButton = document.getElementById('submit-button') as HTMLButtonElement
+    const errorMessage = document.getElementById('error-message') as HTMLDivElement
+
+    if (form) {
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault()
+
+        // Disable submit button to prevent double submission
+        submitButton.disabled = true
+        submitButton.textContent = 'Submitting...'
+        errorMessage.classList.add('hidden')
+
+        const formData = new FormData(form)
+
+        try {
+          console.log('[FREEMAG-FORM] Submitting to API endpoint')
+          const response = await fetch('/api/bento-event', {
+            method: 'POST',
+            body: formData,
+          })
+
+          const data = (await response.json()) as { success?: boolean; error?: string }
+
+          if (response.ok && data.success) {
+            console.log('[FREEMAG-FORM] Successfully subscribed')
+            // Redirect to thank you page
+            window.location.href = '/thank-you'
+          } else {
+            console.error('[FREEMAG-FORM] Subscription failed:', data.error)
+            errorMessage.textContent = data.error || 'Failed to subscribe. Please try again.'
+            errorMessage.classList.remove('hidden')
+            submitButton.disabled = false
+            submitButton.textContent = 'Get My Free Magazines'
+          }
+        } catch (error) {
+          console.error('[FREEMAG-FORM] Error:', error)
+          errorMessage.textContent = 'An error occurred. Please try again.'
+          errorMessage.classList.remove('hidden')
+          submitButton.disabled = false
+          submitButton.textContent = 'Get My Free Magazines'
+        }
+      })
+    }
+  })
 </script>
 </Layout>
 

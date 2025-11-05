@@ -47,6 +47,8 @@ const seo: SEOProps = {
       <div class="rounded-2xl bg-gray-50 p-8 shadow-lg">
         <div class="space-y-6">
           <form id="subscribe-form" class="space-y-6">
+            <input type="hidden" name="event_type" value="$free_article_download" />
+
             <div class="space-y-4">
               <label for="email" class="block text-lg font-semibold text-gray-900"> Email Address </label>
               <input
@@ -152,7 +154,7 @@ const seo: SEOProps = {
 
           try {
             console.log('[SUBSCRIBE-FORM] Submitting to API endpoint')
-            const response = await fetch('/api/subscribe-article', {
+            const response = await fetch('/api/bento-event', {
               method: 'POST',
               body: formData,
             })

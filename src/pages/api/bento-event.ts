@@ -1,19 +1,27 @@
 import type { APIRoute } from 'astro'
 
 export const POST: APIRoute = async ({ request }) => {
-  console.log('[SUBSCRIBE-ARTICLE] Processing subscription request')
+  console.log('[BENTO-EVENT] Processing event request')
 
   try {
     const formData = await request.formData()
     const email = formData.get('email')
-    const firstName = formData.get('first_name')
+    const eventType = formData.get('event_type')
 
-    console.log(`[SUBSCRIBE-ARTICLE] Email provided: ${email ? 'yes' : 'no'}`)
-    console.log(`[SUBSCRIBE-ARTICLE] First name provided: ${firstName ? 'yes' : 'no'}`)
+    console.log(`[BENTO-EVENT] Email provided: ${email ? 'yes' : 'no'}`)
+    console.log(`[BENTO-EVENT] Event type: ${eventType}`)
 
     if (!email) {
-      console.error('[SUBSCRIBE-ARTICLE] Missing email')
+      console.error('[BENTO-EVENT] Missing email')
       return new Response(JSON.stringify({ error: 'Email is required' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    }
+
+    if (!eventType) {
+      console.error('[BENTO-EVENT] Missing event_type')
+      return new Response(JSON.stringify({ error: 'Event type is required' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' },
       })
@@ -25,14 +33,23 @@ export const POST: APIRoute = async ({ request }) => {
     const BENTO_SECRET_KEY = import.meta.env.BENTO_SECRET_KEY
 
     if (!BENTO_SITE_UUID || !BENTO_PUBLISHABLE_KEY || !BENTO_SECRET_KEY) {
-      console.error('[SUBSCRIBE-ARTICLE] Missing Bento environment variables')
+      console.error('[BENTO-EVENT] Missing Bento environment variables')
       return new Response(JSON.stringify({ error: 'Configuration error' }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
       })
     }
 
-    console.log('[SUBSCRIBE-ARTICLE] Submitting to Bento API')
+    // Collect all form fields except email and event_type
+    const fields: Record<string, string> = {}
+    for (const [key, value] of formData.entries()) {
+      if (key !== 'email' && key !== 'event_type' && typeof value === 'string') {
+        fields[key] = value
+      }
+    }
+
+    console.log('[BENTO-EVENT] Submitting to Bento Events API')
+    console.log(`[BENTO-EVENT] Fields: ${JSON.stringify(fields)}`)
 
     // Create base64 auth header: publishableKey:secretKey
     const authString = `${BENTO_PUBLISHABLE_KEY}:${BENTO_SECRET_KEY}`
@@ -50,35 +67,33 @@ export const POST: APIRoute = async ({ request }) => {
         events: [
           {
             email: email,
-            type: '$free_article_download',
-            fields: {
-              first_name: firstName || '',
-            },
+            type: eventType,
+            fields: fields,
           },
         ],
       }),
     })
 
-    console.log(`[SUBSCRIBE-ARTICLE] Bento API response status: ${bentoResponse.status}`)
+    console.log(`[BENTO-EVENT] Bento API response status: ${bentoResponse.status}`)
 
     if (!bentoResponse.ok) {
       const errorText = await bentoResponse.text()
-      console.error(`[SUBSCRIBE-ARTICLE] Bento API error (status ${bentoResponse.status}): ${errorText}`)
-      return new Response(JSON.stringify({ error: 'Failed to subscribe' }), {
+      console.error(`[BENTO-EVENT] Bento API error (status ${bentoResponse.status}): ${errorText}`)
+      return new Response(JSON.stringify({ error: 'Failed to track event' }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
       })
     }
 
     const responseData = await bentoResponse.json()
-    console.log('[SUBSCRIBE-ARTICLE] Successfully submitted subscriber:', JSON.stringify(responseData))
+    console.log('[BENTO-EVENT] Successfully submitted event:', JSON.stringify(responseData))
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     })
   } catch (error) {
-    console.error('[SUBSCRIBE-ARTICLE] Error:', error)
+    console.error('[BENTO-EVENT] Error:', error)
     return new Response(JSON.stringify({ error: 'Internal server error' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
