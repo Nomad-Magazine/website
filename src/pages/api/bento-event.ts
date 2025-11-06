@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro'
+import { getSecret } from 'astro:env/server'
 
 export const POST: APIRoute = async ({ request }) => {
   console.log('[BENTO-EVENT] Processing event request')
@@ -72,9 +73,9 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     // Get Bento credentials from environment
-    const BENTO_SITE_UUID = import.meta.env.BENTO_SITE_UUID
-    const BENTO_PUBLISHABLE_KEY = import.meta.env.BENTO_PUBLISHABLE_KEY
-    const BENTO_SECRET_KEY = import.meta.env.BENTO_SECRET_KEY
+    const BENTO_SITE_UUID = getSecret('BENTO_SITE_UUID')
+    const BENTO_PUBLISHABLE_KEY = getSecret('BENTO_PUBLISHABLE_KEY')
+    const BENTO_SECRET_KEY = getSecret('BENTO_SECRET_KEY')
 
     if (!BENTO_SITE_UUID || !BENTO_PUBLISHABLE_KEY || !BENTO_SECRET_KEY) {
       console.error('[BENTO-EVENT] Missing Bento environment variables')
