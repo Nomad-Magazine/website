@@ -1,58 +1,51 @@
 import type { APIRoute } from 'astro'
 
-export const POST: APIRoute = async ({ request, site }) => {
+export const POST: APIRoute = async ({ request }) => {
   console.log('[BENTO-EVENT] Processing event request')
 
   // Check origin/referer to ensure request is from our website
   const originHeader = request.headers.get('origin')
   const refererHeader = request.headers.get('referer')
-  const allowedOrigins = [
-    site?.origin || 'https://nomad-magazine.com',
-    'http://localhost:4321',
-    'http://localhost:3000',
-  ]
 
-  console.log(`[BENTO-EVENT] Origin header: ${originHeader}, Referer header: ${refererHeader}`)
-  console.log(`[BENTO-EVENT] Allowed origins: ${allowedOrigins.join(', ')}`)
+  const allowedDomains = ['nomad-magazine.com', 'localhost']
 
-  // Parse and validate origin
+  console.log(`[BENTO-EVENT] Origin: ${originHeader}, Referer: ${refererHeader}`)
+
+  // Extract and validate domain from origin
   let isValidOrigin = false
   if (originHeader) {
     try {
       const originUrl = new URL(originHeader)
-      isValidOrigin = allowedOrigins.some((allowed) => {
-        const allowedUrl = new URL(allowed)
-        return originUrl.origin === allowedUrl.origin
-      })
+      const domain = originUrl.hostname
+      isValidOrigin = allowedDomains.some((allowed) => domain === allowed || domain.endsWith(`.${allowed}`))
+      console.log(`[BENTO-EVENT] Origin domain: ${domain}, valid: ${isValidOrigin}`)
     } catch (e) {
       console.error('[BENTO-EVENT] Invalid origin URL:', originHeader)
     }
   }
 
-  // Parse and validate referer
+  // Extract and validate domain from referer
   let isValidReferer = false
   if (refererHeader) {
     try {
       const refererUrl = new URL(refererHeader)
-      isValidReferer = allowedOrigins.some((allowed) => {
-        const allowedUrl = new URL(allowed)
-        return refererUrl.origin === allowedUrl.origin
-      })
+      const domain = refererUrl.hostname
+      isValidReferer = allowedDomains.some((allowed) => domain === allowed || domain.endsWith(`.${allowed}`))
+      console.log(`[BENTO-EVENT] Referer domain: ${domain}, valid: ${isValidReferer}`)
     } catch (e) {
       console.error('[BENTO-EVENT] Invalid referer URL:', refererHeader)
     }
   }
 
   if (!isValidOrigin && !isValidReferer) {
-    console.error('[BENTO-EVENT] Unauthorized request - invalid origin/referer')
-    console.error(`[BENTO-EVENT] Origin: ${originHeader}, Referer: ${refererHeader}`)
+    console.error('[BENTO-EVENT] Unauthorized - invalid domain')
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 403,
       headers: { 'Content-Type': 'application/json' },
     })
   }
 
-  console.log('[BENTO-EVENT] Request authorized from:', originHeader || refererHeader)
+  console.log('[BENTO-EVENT] Authorized')
 
   try {
     const formData = await request.formData()
