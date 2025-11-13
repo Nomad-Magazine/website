@@ -1,0 +1,536 @@
+---
+export const prerender = true;
+
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import { fetchReportRecords } from '~/utils/smartsuite'
+
+const seo: SEOProps = {
+  title: '📢 Community Announcements: Nomad Directory Members Share - Nomad Newsletter',
+  description: 'A special newsletter featuring announcements from our Nomad Directory members - hiring, co-founders, investments, and opportunities from the nomad ecosystem.',
+  image: `${Astro.site}images/community-announcements-newsletter.webp`,
+  keywords: 'nomad community, digital nomad opportunities, remote work hiring, startup investments, nomad directory, community announcements',
+  ogType: 'article',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Community Announcements: Nomad Directory Members Share',
+    description: 'A special newsletter featuring announcements from our Nomad Directory members - hiring, co-founders, investments, and opportunities from the nomad ecosystem.',
+    author: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+    datePublished: '2025-11-17',
+    url: `${Astro.site}newsletter-november-17-2025-hiring-founders-sale-investments`,
+  },
+}
+
+// Fetch directory listings from SmartSuite
+const { records = [] } = await fetchReportRecords('6857167d82358a0f5e038c3f')
+
+// Helper function to check if a record is a supporter
+const monthlySupporters = [
+  'DataBench',
+  'Max Browser',
+  'DataBench (Max Browser)',
+  'Max',
+  'NomadTax Bulgaria Ltd.',
+  'Colive Fukuoka',
+]
+
+// Get latest 10 directory listings
+const directoryListings = records
+  .filter((record: any) => record.sf4ad525dd && record.title)
+  .slice(0, 10)
+  .map((record: any) => ({
+    name: record.title,
+    category: record.sb685ab800?.label || 'OTHER',
+    isSupporter: record.supporter || record.monthly_supporter || record.is_supporter || record.supporter_status === 'Monthly Supporter' || record.status === 'Monthly Supporter' || monthlySupporters.includes(record.title),
+    description: record.scea90e502 || 'Description not available',
+    url: record.link || record.sb788c266b?.[0] || '#',
+    logo: record.image
+  }))
+
+const getCategoryColor = (category: string) => {
+  switch(category) {
+    case 'APP': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'SERVICE': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'EVENTS': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'OTHER': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'COMMUNITY': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'COACHING': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'COLIVING': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
+    default: return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
+  }
+}
+---
+
+<Layout seo={seo}>
+  <div class="bg-gray-50 min-h-screen">
+    <!-- View in Browser -->
+    <div class="bg-white border-b border-gray-200">
+      <div class="max-w-4xl mx-auto px-4 py-3 text-center">
+        <a href="/newsletter-november-17-2025-hiring-founders-sale-investments" class="text-blue-600 hover:text-blue-700 text-sm underline">
+          → View in browser for best experience
+        </a>
+      </div>
+    </div>
+
+    <!-- Header Section -->
+    <header class="bg-gray-900 text-white">
+      <div class="max-w-4xl mx-auto px-4 py-8 text-center">
+        <img src="/logo.svg" alt="Nomad Magazine" class="mx-auto mb-4 h-12 filter brightness-0 invert" />
+        
+        <p class="text-yellow-400 text-sm font-semibold uppercase tracking-wide">November 17, 2025</p>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 py-8 bg-white">
+
+      <!-- Main Headline -->
+      <div class="text-center mb-12">
+        <div class="text-6xl mb-4">📢</div>
+        <h1 class="text-4xl md:text-5xl font-black text-gray-900 mb-4 leading-tight">
+          <strong>Nomad Community Opportunities</strong>
+        </h1>
+        <p class="text-lg text-gray-600 font-medium">Opportunities, Investments & Collaborations</p>
+      </div>
+
+      <!-- Intro Section -->
+      <article class="max-w-3xl mx-auto mb-12">
+        <div class="mb-8">
+          <p class="text-lg text-gray-800 mb-4 leading-relaxed font-medium">
+            <strong>This newsletter is different from our usual editions.</strong>
+          </p>
+          <p class="text-lg text-gray-700 leading-relaxed">
+            We asked our members from <a href="https://nomad-magazine.com/nomad_directory" class="text-blue-600 hover:text-blue-700 font-semibold underline">Nomad Directory</a> to share their announcements about hiring, searching for co-founders, interns, investments, or even selling a 140K newsletter.
+          </p>
+          <p class="text-lg text-gray-700 mt-4 leading-relaxed">
+            Our goal is always to support both digital nomads and slow travelers, and connect with brands that are working hard to create a nomad ecosystem that eventually makes traveling more comfortable and easy for everyone.
+          </p>
+        </div>
+
+        <!-- Featured Article Section -->
+        <div class="bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200 rounded-2xl p-8 mb-8">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="text-2xl">✊</div>
+            <span class="bg-orange-600 text-white px-3 py-1 rounded-full text-sm font-bold uppercase">Featured Article</span>
+          </div>
+          
+          <blockquote class="text-2xl font-bold text-gray-900 mb-4 italic leading-relaxed">
+            "Travel at its best is activism with a passport"
+          </blockquote>
+          <p class="text-base text-orange-700 mb-6">
+            — Melissa J. Rowley, Rolling Stone
+          </p>
+          
+          <h3 class="text-xl font-bold text-gray-900 mb-3">Travel as Activism: Deeper than Travel</h3>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            Ms. Priyanka Surio explores how modern nomads can transform their journeys into forces for good. From visiting eco-villages in India to participating in climate weeks across America, discover how intentional travel can dismantle racism, bridge cultures, and create positive change in communities worldwide.
+          </p>
+          <p class="text-gray-700 leading-relaxed mb-6">
+            Learn about sustainable travel formulas, cultural activism, and how nomads can serve as bridges between cultures while leaving places better than when they arrived.
+          </p>
+          <a href="https://nomad-magazine.com/blog/travel-as-activism-deeper-than-travel/" target="_blank" class="inline-block bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-6 rounded-xl transition-all duration-200">
+            Read Full Article →
+          </a>
+        </div>
+
+        <!-- Investment Section -->
+        <section class="mb-10">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="text-3xl">💰</div>
+            <h2 class="text-3xl font-black text-gray-900">Investment Opportunities</h2>
+          </div>
+          
+          <div class="space-y-6">
+            <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
+              <h3 class="text-xl font-bold text-gray-900 mb-3">Casa Gori - Co-living Ecosystems</h3>
+              <p class="text-gray-700 leading-relaxed mb-4">
+                Casa Gori is re-imagining living. They're building Co-living ecosystems blending Entrepreneurship, Art & Regenerative gardening, enabling people to live in a more sustainable and fulfilling way. Currently seeking a pre-seed investment of 250k to launch their Proof of Concept site in Valencia, Spain.
+              </p>
+              <a href="https://brieflink.com/v/0ij9y" target="_blank" class="text-orange-600 font-semibold hover:text-orange-700">
+                Learn More →
+              </a>
+            </div>
+
+            <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
+              <h3 class="text-xl font-bold text-gray-900 mb-3">NAiO LLC - All-in-One Nomad Platform</h3>
+              <p class="text-gray-700 leading-relaxed mb-4">
+                NAiO LLC is building an All-in-One platform for digital nomads, connecting all essential services for nomadic life – from accommodation and transport to insurance, visas, activities, community and much more – into one seamless app. NAiO is currently looking for early-stage investors to accelerate product development and partnerships with key travel-tech providers.
+              </p>
+              <p class="text-gray-700">
+                <strong>Contact:</strong> 
+                <a href="mailto:noah.haidl@naio.one" class="text-orange-600 font-semibold hover:text-orange-700">noah.haidl@naio.one</a>
+              </p>
+            </div>
+
+            <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
+              <h3 class="text-xl font-bold text-gray-900 mb-3">Fairytrail - Friend-making & Bucket List App</h3>
+              <p class="text-gray-700 leading-relaxed mb-4">
+                Taige Zhang is a product manager from San Francisco who has worked at Apple, Indeed, and marketplace startups. He's now building Fairytrail, a friend-making & bucket list app and looking for investors. Fairytrail is currently at $350k ARR and profitable.
+              </p>
+              <p class="text-gray-700">
+                <strong>Contact:</strong> 
+                <a href="mailto:team@fairytrail.app" class="text-orange-600 font-semibold hover:text-orange-700">team@fairytrail.app</a>
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Extra Income Section -->
+        <section class="mb-10">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="text-3xl">💸</div>
+            <h2 class="text-3xl font-black text-gray-900">Extra Income Opportunities</h2>
+          </div>
+          
+          <div class="space-y-6">
+            <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
+              <h3 class="text-xl font-bold text-gray-900 mb-3">NomadTax Bulgaria - Ambassador Program</h3>
+              <p class="text-gray-700 leading-relaxed mb-4">
+                Looking to generate additional income? Chris from NomadTax Bulgaria Ltd. hires Ambassadors to further promote Bulgaria and accelerate the company's growth. Earn 400 EUR provision for each new client win by this fully remote freelance position.
+              </p>
+              <p class="text-gray-700">
+                <strong>Contact:</strong> 
+                <a href="mailto:careers@nomadtax.bg" class="text-orange-600 font-semibold hover:text-orange-700">careers@nomadtax.bg</a>
+              </p>
+            </div>
+
+            <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
+              <h3 class="text-xl font-bold text-gray-900 mb-3">NAiO LLC - Creator & Partner Program</h3>
+              <p class="text-gray-700 leading-relaxed mb-4">
+                NAiO LLC just launched the first Creator & Partner Program for the All-in-One platform for digital nomads and long-term travelers. Everyone can join and benefit from exclusive perks like a personal referral code, up to 15% revenue share, in-app co-branding, lifetime Premium access, and 3 months Premium for their community at launch - plus beta tester access and monthly payouts with transparent reporting.
+              </p>
+              <p class="text-gray-700">
+                <strong>Contact:</strong> 
+                <a href="mailto:noah.haidl@naio.one" class="text-orange-600 font-semibold hover:text-orange-700">noah.haidl@naio.one</a>
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Co-Founders Section -->
+        <section class="mb-10">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="text-3xl">🤝</div>
+            <h2 class="text-3xl font-black text-gray-900">Co-Founder Opportunities</h2>
+          </div>
+          
+          <div class="space-y-6">
+            <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
+              <h3 class="text-xl font-bold text-gray-900 mb-3">Fairytrail - Co-Founder with Marketing/Design/Engineering Background</h3>
+              <p class="text-gray-700 leading-relaxed mb-4">
+                Taige Zhang is a product manager from San Francisco who has worked at Apple, Indeed, and marketplace startups. He's now building Fairytrail, a friend-making & bucket list app and looking for a co-founder with a strong background in marketing, design, or engineering.
+              </p>
+              <p class="text-gray-700">
+                <strong>Contact:</strong> 
+                <a href="mailto:team@fairytrail.app" class="text-orange-600 font-semibold hover:text-orange-700">team@fairytrail.app</a>
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- For Sale Section -->
+        <section class="mb-10">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="text-3xl">🏷️</div>
+            <h2 class="text-3xl font-black text-gray-900">For Sale</h2>
+          </div>
+          
+          <div class="space-y-6">
+            <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
+              <h3 class="text-xl font-bold text-gray-900 mb-3">Nomad for Less Newsletter - 140K Subscribers</h3>
+              <p class="text-gray-700 leading-relaxed mb-4">
+                Kevin from Nomad for Less is selling his travel and remote work newsletter that helps digital nomads find affordable destinations, remote job opportunities, and travel hacks. The publication reaches a highly engaged audience of 140,000+ remote workers and digital nomads around the world. 🌍 
+                <a href="https://blog.nomadforless.com" target="_blank" class="text-blue-600 hover:text-blue-700 underline">blog.nomadforless.com</a>
+              </p>
+              <p class="text-gray-700">
+                <strong>Interested in acquiring it? Contact:</strong> 
+                <a href="mailto:kevin@nomadforless.com" class="text-orange-600 font-semibold hover:text-orange-700">kevin@nomadforless.com</a>
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Hiring Section (moved after For Sale) -->
+        <section class="mb-10">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="text-3xl">👥</div>
+            <h2 class="text-3xl font-black text-gray-900">Hiring & Intern Opportunities</h2>
+          </div>
+          
+          <div class="space-y-6">
+            <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
+              <h3 class="text-xl font-bold text-gray-900 mb-3">Fairytrail - Content Creators / Marketers</h3>
+              <p class="text-gray-700 leading-relaxed mb-4">
+                Taige Zhang from Fairytrail is building a friend-making and bucket list app. They are hiring content creators / marketers because they don't currently have anyone doing marketing.
+              </p>
+              <p class="text-gray-700">
+                <strong>Contact:</strong> 
+                <a href="mailto:team@fairytrail.app" class="text-orange-600 font-semibold hover:text-orange-700">team@fairytrail.app</a>
+              </p>
+            </div>
+
+            <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
+              <h3 class="text-xl font-bold text-gray-900 mb-3">Casa Gori Valencia - Multiple Roles</h3>
+              <p class="text-gray-700 leading-relaxed mb-4">
+                Casa Gori Valencia is looking for people passionate about making an impact around the way we live. Their mission is to make living more fulfilling and sustainable both for people & the environment. They'd love your help with launching our Proof of Concept Co-living site in Valencia, Spain. Topics they'd like help with: Social Media, Marketing, Community Engagement & Office Management (for our art studio).
+              </p>
+              <p class="text-gray-700">
+                <strong>Contact:</strong> 
+                <a href="mailto:hellocasagori@gmail.com" class="text-orange-600 font-semibold hover:text-orange-700">hellocasagori@gmail.com</a>
+              </p>
+            </div>
+
+            <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
+              <h3 class="text-xl font-bold text-gray-900 mb-3">Inside Job Concierge - Social Media Intern</h3>
+              <p class="text-gray-700 leading-relaxed mb-4">
+                Daria from Inside Job Concierge is building an advisory for buying real estate in Spain. They are hiring a Social Media Intern and looking to grow the community.
+              </p>
+              <p class="text-gray-700">
+                <strong>Contact:</strong> 
+                <a href="mailto:insidejobconcierge@gmail.com" class="text-orange-600 font-semibold hover:text-orange-700">insidejobconcierge@gmail.com</a>
+              </p>
+            </div>
+
+            <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
+              <h3 class="text-xl font-bold text-gray-900 mb-3">ImagineThat - Partnerships Manager</h3>
+              <p class="text-gray-700 leading-relaxed mb-4">
+                Niluka from ImagineThat is building a global community for new online founders. They are looking for a partnerships manager who can use the power of partnerships (or otherwise) to increase membership numbers. The role is paid based on performance and sign-ups.
+              </p>
+              <p class="text-gray-700">
+                <strong>Contact:</strong> 
+                <a href="mailto:niluka@imaginethatclub.com" class="text-orange-600 font-semibold hover:text-orange-700">niluka@imaginethatclub.com</a>
+              </p>
+            </div>
+
+            <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
+              <h3 class="text-xl font-bold text-gray-900 mb-3">Wonder House - Social Media Volunteer</h3>
+              <p class="text-gray-700 leading-relaxed mb-4">
+                Anya from Wonder House is looking for a social media volunteer to help spread the word about our new coliving space in a stunning natural setting, just 1h from Barcelona. Approximate commitment of 25h per week in exchange for accommodation.
+              </p>
+              <p class="text-gray-700">
+                <strong>Contact:</strong> 
+                <a href="mailto:hello@wonderhousecoliving.com" class="text-orange-600 font-semibold hover:text-orange-700">hello@wonderhousecoliving.com</a>
+              </p>
+            </div>
+          </div>
+        </section>
+      </article>
+
+      <!-- Nomad Cruise Section -->
+      <section class="mb-12">
+        <div class="bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200 rounded-2xl p-8">
+          <div class="text-center mb-8">
+            <div class="flex items-center justify-center gap-3 mb-6">
+              <div class="text-3xl">🚢</div>
+              <span class="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-bold uppercase">Next Adventure</span>
+            </div>
+            
+            <h3 class="text-3xl font-black text-gray-900 mb-4">
+              Nomad Cruise Asia 2026
+            </h3>
+            <p class="text-xl text-gray-800 font-medium mb-6">
+              Hong Kong → Japan → South Korea → Philippines
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center mb-8">
+            <!-- Route Image -->
+            <div class="order-2 lg:order-1">
+              <img 
+                src="/images/nomad-cruise-asia.webp" 
+                alt="Nomad Cruise Asia 2026 Route Map showing Hong Kong to Japan to South Korea to Philippines"
+                class="w-full rounded-xl shadow-lg"
+              />
+            </div>
+            
+            <!-- Content -->
+            <div class="order-1 lg:order-2 text-center lg:text-left">
+              <div class="bg-white rounded-xl p-6 mb-6">
+                <div class="grid grid-cols-1 gap-3 text-gray-700">
+                  <div>
+                    <strong>📅 Dates:</strong> February 14-25, 2026
+                  </div>
+                  <div>
+                    <strong>⚓ Duration:</strong> 12 Days
+                  </div>
+                  <div>
+                    <strong>👥 Community:</strong> 300+ Digital Nomads
+                  </div>
+                  <div>
+                    <strong>🌐 Connection:</strong> Starlink Wi-Fi
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="text-lg text-gray-700 leading-relaxed mb-6 max-w-3xl mx-auto text-center">
+            Join the world's largest workation at sea! Connect with digital nomads and entrepreneurs while exploring Asia's most vibrant destinations. Workshops, masterminds, networking, and unforgettable experiences await.
+          </p>
+
+          <div class="text-center">
+            <div class="bg-gradient-to-r from-green-100 to-emerald-100 border border-green-300 rounded-xl p-4 mb-6 inline-block">
+              <p class="text-green-800 font-bold text-lg">
+                💰 Special Offer: 10% off with code <span class="bg-green-600 text-white px-2 py-1 rounded font-mono text-sm">GOSSIP</span>
+              </p>
+            </div>
+
+            <a 
+              href="https://www.nomadcruise.com/?ref=7432&utm_source=aff" 
+              target="_blank"
+              class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg transition-all duration-200 text-lg"
+            >
+              🚢 Book Your Adventure
+            </a>
+            <p class="text-gray-600 text-sm mt-4">
+              Early bird pricing available • Solo travelers welcome
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-8 text-center mb-12">
+        <h3 class="text-2xl font-bold text-gray-900 mb-4">Want to Share Your Announcement?</h3>
+        <p class="text-gray-700 mb-6 text-lg">Join our Nomad Directory and be part of future community newsletters</p>
+        <a 
+          href="https://nomad-magazine.com/nomad_directory" 
+          target="_blank"
+          class="inline-block bg-gray-900 hover:bg-gray-800 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-200 text-lg"
+        >
+          🚀 Join Nomad Directory
+        </a>
+        <p class="text-gray-600 text-sm mt-4">
+          Connect with the nomad ecosystem
+        </p>
+        <p class="text-gray-800 text-sm mt-2">
+          <strong>Bonus:</strong> Companies that join by November 30 will be listed in our next print edition.
+        </p>
+      </div>
+
+      <!-- Directory Section -->
+      <section class="mb-12 bg-gray-50 rounded-2xl p-8">
+        <div class="text-center mb-8">
+          <h2 class="text-3xl font-black text-gray-900 mb-4">
+            🚀 Latest Directory Listings
+          </h2>
+          <p class="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
+            Discover more tools and services helping nomads worldwide beyond our community announcements
+          </p>
+        </div>
+
+        <!-- Directory Grid -->
+        <div class="space-y-4 mb-6">
+          {directoryListings.map((listing: any) => (
+            <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
+              <div class="flex gap-4">
+                <div class="flex-shrink-0">
+                  <div class={`w-16 h-16 rounded-xl flex items-center justify-center overflow-hidden p-1 ${
+                    listing.name?.toLowerCase().includes('imaginethat') ||
+                    listing.name?.toLowerCase().includes('imagine that') ||
+                    listing.name?.toLowerCase().includes('entity inc') ||
+                    listing.name?.toLowerCase().includes('edge city')
+                      ? 'bg-white border border-gray-200'
+                      : 'bg-gray-50 border border-gray-200'
+                  }`}>
+                    {listing.logo ? (
+                      <img
+                        src={listing.logo}
+                        alt={listing.name}
+                        class="max-w-full max-h-full object-contain"
+                      />
+                    ) : (
+                      <span class={`font-bold text-xl ${
+                        listing.name?.toLowerCase().includes('imaginethat') ||
+                        listing.name?.toLowerCase().includes('imagine that') ||
+                        listing.name?.toLowerCase().includes('entity inc') ||
+                        listing.name?.toLowerCase().includes('edge city')
+                          ? 'text-black'
+                          : 'text-gray-600'
+                      }`}>
+                        {(listing.name || 'C').charAt(0).toUpperCase()}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center gap-2 mb-2">
+                    <h4 class="text-xl font-bold text-gray-900">{listing.name}</h4>
+                    <span class={`px-2 py-1 rounded-full text-xs font-semibold uppercase tracking-wide ${getCategoryColor(listing.category)}`}>
+                      {listing.category}
+                    </span>
+                    {listing.isSupporter && (
+                      <a 
+                        href="/support-the-magazine" 
+                        class="inline-flex items-center gap-1 bg-gradient-to-r from-red-600 to-red-700 text-white px-2 py-1 rounded-full text-xs font-bold hover:from-red-700 hover:to-red-800 transition-all duration-200 shadow-lg"
+                        title="Monthly Supporter"
+                      >
+                        <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                        SUPPORTER
+                      </a>
+                    )}
+                  </div>
+                  <p class="text-base text-gray-600 leading-relaxed mb-3">{listing.description}</p>
+                  <a
+                    href={listing.url}
+                    target="_blank"
+                    class="text-base text-orange-600 font-semibold hover:text-orange-700"
+                  >
+                    Learn more →
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="text-center">
+          <a
+            href="https://nomad-magazine.com/nomad_directory"
+            class="inline-block bg-gray-900 hover:bg-gray-800 text-white font-normal py-3 px-6 rounded-xl transition-all duration-200"
+          >
+            🚀 VIEW ALL LISTINGS
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+      <div class="max-w-4xl mx-auto px-4 py-5 text-center">
+        <p class="text-xs text-white">
+          © 2025 Nomad Magazine. All rights reserved.<br>
+          <a href="https://nomad-magazine.com" class="text-yellow-400 hover:underline">nomad-magazine.com</a> |
+          <a href="#" class="text-yellow-400 hover:underline">Unsubscribe</a>
+        </p>
+      </div>
+    </footer>
+
+    <!-- Back to Newsletter -->
+    <div class="text-center py-6 bg-gray-50">
+      <a
+        href="/newsletter"
+        class="inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors duration-200"
+      >
+        <svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        Back to Newsletter
+      </a>
+    </div>
+  </div>
+</Layout>
+
