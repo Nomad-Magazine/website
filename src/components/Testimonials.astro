@@ -50,7 +50,15 @@ const testimonials = [
     title: 'CO-FOUNDER @ MAPMELON',
     avatar: '/images/edition-003-ramon-morcillo.webp',
   },
+  {
+    text: 'I find the content amazing so far, it teaches a lot of valuable lessons and gives ideas. I also enjoy the variety of the topics. Overall, it is awesome! That is what I expected, as I am digging the digital nomad topic to one day make the leap and become one.',
+    author: 'Alexis Bastou',
+    title: 'MAGAZINE READER',
+  },
 ]
+
+// Sort testimonials by text length for better visual balance
+const sortedTestimonials = [...testimonials].sort((a, b) => a.text.length - b.text.length)
 
 interface Props {
   sectionClass?: string
@@ -59,43 +67,51 @@ interface Props {
 const { sectionClass }: Props = Astro.props
 ---
 
-<section id="Testimonials" class:list={['py-16', sectionClass]}>
-  <div class="container mx-auto px-4">
-    <div class="mb-12 flex items-center justify-between">
-      <div>
-        <h2 class="text-3xl font-bold text-white">What People Say</h2>
-        <p class="mt-2 text-lg text-neutral-400">Trusted by digital nomads worldwide</p>
-      </div>
+<section id="Testimonials" class:list={['py-20 bg-white', sectionClass]}>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold text-gray-900 mb-4">What Our Readers Say</h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
+        Real stories from nomads who use our content to make life-changing travel decisions
+      </p>
       <a href="/add-testimonials" class="inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-4 py-2 text-sm font-bold text-black transition-all hover:bg-yellow-300">
         <SubmitIcon class="h-4 w-4" />
         <span>Submit Review</span>
       </a>
     </div>
     
-    <!-- Grid layout showing all testimonials -->
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <!-- Masonry-style layout for better balance -->
+    <div class="columns-1 gap-8 md:columns-2 lg:columns-3 max-w-6xl mx-auto space-y-0">
       {
-        testimonials.map((testimonial, index) => (
-          <div class={`rounded-2xl p-6 transition-all hover:scale-105 ${
-            index === 0 
-              ? 'bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border border-yellow-500/20' 
-              : 'bg-neutral-900/50 border border-neutral-800'
+        sortedTestimonials.map((testimonial, index) => (
+          <div class={`p-8 rounded-2xl transition-all hover:scale-105 mb-8 break-inside-avoid ${
+            index % 6 === 0 
+              ? 'bg-gradient-to-br from-yellow-50 to-orange-50 border-2 border-yellow-200' 
+              : index % 6 === 1 
+              ? 'bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200'
+              : index % 6 === 2
+              ? 'bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200'
+              : index % 6 === 3
+              ? 'bg-gradient-to-br from-purple-50 to-violet-50 border border-purple-200'
+              : index % 6 === 4
+              ? 'bg-gradient-to-br from-pink-50 to-rose-50 border border-pink-200'
+              : 'bg-gray-50 border border-gray-200'
           }`}>
             <div class="mb-4">
-              <BiQuote class="h-8 w-8 text-yellow-400 opacity-60" />
+              <BiQuote class="h-8 w-8 text-gray-600 opacity-60" />
             </div>
-            <p class="text-sm text-neutral-300 leading-relaxed line-clamp-4 mb-6">{testimonial.text}</p>
+            <p class="text-gray-700 leading-relaxed mb-6">{testimonial.text}</p>
             <div class="flex items-center">
               {testimonial.avatar && (
                 <img 
                   src={testimonial.avatar} 
                   alt={testimonial.author} 
-                  class="mr-3 h-10 w-10 rounded-full object-cover border-2 border-neutral-700" 
+                  class="mr-3 h-10 w-10 rounded-full object-cover border-2 border-gray-300" 
                 />
               )}
               <div>
-                <p class="font-semibold text-white text-sm">{testimonial.author}</p>
-                <p class="text-xs text-neutral-400 uppercase tracking-wide">{testimonial.title}</p>
+                <p class="font-bold text-gray-900">{testimonial.author}</p>
+                <p class="text-sm text-gray-600">{testimonial.title}</p>
               </div>
             </div>
           </div>
@@ -109,6 +125,12 @@ const { sectionClass }: Props = Astro.props
 .line-clamp-4 {
   display: -webkit-box;
   -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.line-clamp-6 {
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

@@ -493,14 +493,14 @@ const seo: SEOProps = {
             </div>
           </div>
           
-          <!-- Next Call Info -->
+          <!-- Schedule Info -->
           <div class="bg-gradient-to-br from-yellow-500/10 to-orange-500/10 rounded-2xl p-8 border border-yellow-500/20">
             <div class="text-center space-y-4">
               <div class="text-4xl">🗓️</div>
-              <h3 class="text-xl font-bold text-gray-900">Next Office Hours</h3>
+              <h3 class="text-xl font-bold text-gray-900">Weekly Office Hours</h3>
               
               <div class="bg-gray-900 rounded-lg p-4">
-                <div class="text-yellow-400 font-bold text-lg">Thursday, Oct 30</div>
+                <div class="text-yellow-400 font-bold text-lg">Every Thursday</div>
                 <div class="text-white font-semibold">11:00 AM - 11:30 AM UK Time</div>
                 <div class="text-sm text-gray-300 mt-2">Perfect for Asia & Europe</div>
                 <div class="text-xs text-gray-400 mt-2 space-y-1">
@@ -517,12 +517,10 @@ const seo: SEOProps = {
               </div>
               
               <a
-                href="https://us06web.zoom.us/meeting/register/zEVENRuvSRqmi3VLM9Ga2w"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/office-hours"
                 class="inline-block bg-yellow-400 text-black px-6 py-3 rounded-lg font-bold transition-all hover:bg-yellow-300 hover:scale-105"
               >
-                Register for This Call
+                Learn More & Join
               </a>
             </div>
           </div>
@@ -530,8 +528,12 @@ const seo: SEOProps = {
       </div>
     </section>
     
-    <!-- Partners Section - Move up for social proof -->
+    <!-- Partners Section - Social proof -->
     <Partners />
+    
+    <!-- Community & Social Proof -->
+    <Testimonials />
+    <GrowingCommunity />
     
     <!-- Digital Nomad Insights Section - Reduced to 3 articles for less clutter -->
     <section class="border-b border-neutral-800 bg-neutral-900/30 px-4 py-16 sm:px-6 lg:px-8">
@@ -598,10 +600,6 @@ const seo: SEOProps = {
         </div>
       </div>
     </section>
-    
-    <!-- Community & Social Proof -->
-    <Testimonials />
-    <GrowingCommunity />
     
     <!-- About & Mission - Combine related sections -->
     <About />
