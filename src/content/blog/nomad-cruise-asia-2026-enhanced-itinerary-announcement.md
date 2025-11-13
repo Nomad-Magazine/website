@@ -141,13 +141,7 @@ Cabins sell out fast—and with the longer schedule, demand’s already spiking.
 
 ## About [Nomad Cruise](https://www.nomadcruise.com/?ref=7432&utm_source=aff)
 
-[Nomad Cruise](https://www.nomadcruise.com/?ref=7432&utm_source=aff) is the world’s largest workation at sea, connecting digital nomads, founders, and adventurous humans through epic itineraries, skill-sharing programs, and unforgettable community energy. Every sailing is an invitation to rethink what “work trip” can mean.
-
-## Stay In The Loop
-
-- All details + bookings: [nomadcruise.com](https://www.nomadcruise.com/?ref=7432&utm_source=aff)  
-- Asia sailing info: [nomadcruise.com/nc16](https://www.nomadcruise.com/nc16?ref=7432&utm_source=aff)  
-- Social + community updates: follow [Nomad Cruise](https://www.nomadcruise.com/?ref=7432&utm_source=aff) on your favorite platforms  
+[Nomad Cruise](https://www.nomadcruise.com/?ref=7432&utm_source=aff) is the world's largest workation at sea, connecting digital nomads, founders, and adventurous humans through epic itineraries, skill-sharing programs, and unforgettable community energy. Every sailing is an invitation to rethink what "work trip" can mean.
 
 ## Watch The Vibe
 
