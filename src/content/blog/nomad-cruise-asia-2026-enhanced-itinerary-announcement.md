@@ -92,12 +92,12 @@ Expect masterminds, hands-on workshops, unconference sessions, pitch nights, tal
 - Pay the balance 90 days before departure.  
 - Rolling solo? Ask for a cabin match and start with a built-in roommate.
 
-**Perk alert:** Use code `Gossip` for **10% off** any cabin category.
+**Perk alert:** Use code `Gossip` for **€100 off** any cabin category.
 
 <p>
   <a href="https://www.my.nomadcruise.com/?coupon_code=gossip" style="display:inline-flex;align-items:center;gap:0.65rem;background:linear-gradient(90deg,#e0ffe7,#b6f5c8);border:1px solid #98e5af;border-radius:999px;padding:0.65rem 1.25rem;font-weight:600;color:#0f5132;text-decoration:none;box-shadow:0 6px 12px rgba(62, 180, 116, 0.15);">
     <span style="font-size:1.2rem;">💰</span>
-    <span>Special Offer: 10% off with code <span style="background:#059669;color:#fff;border-radius:6px;padding:0.15rem 0.45rem;font-weight:700;letter-spacing:0.04em;">GOSSIP</span></span>
+    <span>Special Offer: €100 off with code <span style="background:#059669;color:#fff;border-radius:6px;padding:0.15rem 0.45rem;font-weight:700;letter-spacing:0.04em;">GOSSIP</span></span>
   </a>
 </p>
 
@@ -125,7 +125,7 @@ Cabins sell out fast—and with the longer schedule, demand’s already spiking.
 1. Head to [nomadcruise.com/nc16](https://www.nomadcruise.com/nc16?ref=7432&utm_source=aff)  
 2. Pick your cabin  
 3. Drop the €250 deposit  
-4. Apply code `Gossip` for that 10% discount  
+4. Apply code `Gossip` for that €100 discount  
 5. Pay the remaining balance 90 days out and start daydreaming about ramen, kimchi, and tropical sunsets
 
 ## Who Shows Up
@@ -156,6 +156,6 @@ Cabins sell out fast—and with the longer schedule, demand’s already spiking.
 <p>
   <a href="https://www.my.nomadcruise.com/?coupon_code=gossip" style="display:inline-flex;align-items:center;gap:0.65rem;background:linear-gradient(90deg,#e0ffe7,#b6f5c8);border:1px solid #98e5af;border-radius:999px;padding:0.65rem 1.25rem;font-weight:600;color:#0f5132;text-decoration:none;box-shadow:0 6px 12px rgba(62, 180, 116, 0.15);">
     <span style="font-size:1.2rem;">💰</span>
-    <span>Special Offer: 10% off with code <span style="background:#059669;color:#fff;border-radius:6px;padding:0.15rem 0.45rem;font-weight:700;letter-spacing:0.04em;">GOSSIP</span></span>
+    <span>Special Offer: €100 off with code <span style="background:#059669;color:#fff;border-radius:6px;padding:0.15rem 0.45rem;font-weight:700;letter-spacing:0.04em;">GOSSIP</span></span>
   </a>
 </p>
