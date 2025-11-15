@@ -6,7 +6,7 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-04-26T15:55:41.799Z
-updated_at: 2025-09-20T04:02:35.452Z
+updated_at: 2025-11-14T05:05:17.010Z
 head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/680cf7285a08fca891799008-1745682989556.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: travel jobs, work abroad, digital nomad, remote work, teaching English, freelance opportunities, tour guide, flight attendant
@@ -53,7 +53,7 @@ next_blog: ''
     -   **Salary**: $16,622–$20,101/year (varies by role)
     -   **Perks**: Free accommodation, meals, and travel to multiple destinations.
     -   **Roles**: Hospitality, entertainment, maritime operations.
-8.  **Tour Guide/Adventure Leader**
+8.  **[Tour Guide/Adventure Leader](https://getoutdoorjobs.com)**
     
     -   **Salary**: $40,280–$113,900/year
     -   **Perks**: Explore iconic destinations while leading groups.
