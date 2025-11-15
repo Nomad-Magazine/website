@@ -328,9 +328,12 @@ const seo: SEOProps = {
                               <!-- Category Badge and Number -->
                               <div class="flex items-center gap-4">
                                 {record.sb685ab800?.label && (
-                                  <span class="bg-yellow-400/20 text-yellow-400 px-3 py-1 rounded-full text-sm font-medium border border-yellow-400/30">
+                                  <button 
+                                    class="category-filter-btn bg-yellow-400/20 text-yellow-400 px-3 py-1 rounded-full text-sm font-medium border border-yellow-400/30 hover:bg-yellow-400/30 transition-colors cursor-pointer z-10 relative"
+                                    data-category={record.sb685ab800.label}
+                                  >
                                     {record.sb685ab800.label}
-                                  </span>
+                                  </button>
                                 )}
                                 <span class="text-gray-500 text-sm font-mono">
                                   #{String(index + 1).padStart(3, '0')}
@@ -784,6 +787,22 @@ const seo: SEOProps = {
     if (categorySelect) categorySelect.value = 'all'
     applyFilters()
   }
+
+  // Category filter button functionality
+  const categoryFilterBtns = document.querySelectorAll('.category-filter-btn')
+  categoryFilterBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation()
+      e.preventDefault()
+      const category = btn.getAttribute('data-category')
+      if (categorySelect && category) {
+        currentCategory = category
+        categorySelect.value = category
+        applyFilters()
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
+    })
+  })
 
   // Social sharing functions
   window.shareOnTwitter = function() {
