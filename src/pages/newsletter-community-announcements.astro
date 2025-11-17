@@ -91,20 +91,62 @@ const getCategoryColor = (category: string) => {
       </div>
     </header>
 
-    <!-- Header Image -->
-    <div class="max-w-4xl mx-auto">
-      <img src="/images/Newsletter_opportunities@0.5x.webp" alt="Nomad Opportunities" class="w-full" />
-    </div>
-
     <!-- Main Content -->
-    <main class="max-w-4xl mx-auto px-4 py-8 bg-white">
+    <div class="bg-white">
+      <div class="relative px-4 py-8">
+        <div class="mx-auto flex max-w-7xl gap-12">
+          <!-- Left Sidebar - Navigation Menu -->
+          <aside class="hidden lg:block lg:w-48">
+            <div class="sticky top-24 space-y-6 text-sm">
+              <!-- Content Section -->
+              <div>
+                <div class="mb-2 text-xs font-bold uppercase tracking-wider text-gray-500">Content</div>
+                <div class="space-y-1">
+                  <a href="/newsletter" class="block rounded px-2 py-1.5 text-blue-600 font-semibold transition-colors hover:bg-blue-50 hover:text-blue-700">Subscribe</a>
+                  <a href="/editions" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Magazine Editions</a>
+                  <a href="/horoscope" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Travel Horoscope</a>
+                  <a href="/articles" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Articles</a>
+                </div>
+              </div>
+              
+              <!-- Partners Section -->
+              <div>
+                <div class="mb-2 text-xs font-bold uppercase tracking-wider text-gray-500">Partners</div>
+                <div class="space-y-1">
+                  <a href="/brand-placement-next-edition-847291" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Brand Placement</a>
+                  <a href="/nomad_directory" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Nomad Directory</a>
+                  <a href="/office-hours" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Office Hours</a>
+                  <a href="/writers" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">For Writers</a>
+                  <a href="/coworking-contest" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Coworking Contest</a>
+                </div>
+              </div>
+              
+              <!-- Support Section -->
+              <div>
+                <div class="mb-2 text-xs font-bold uppercase tracking-wider text-gray-500">Support</div>
+                <div class="space-y-1">
+                  <a href="/our-story" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Our Story</a>
+                  <a href="/support-the-magazine" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Support Magazine</a>
+                  <a href="/add-testimonials" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Submit Review</a>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          <!-- Main Content -->
+          <main class="mx-auto w-full max-w-4xl flex-1">
 
       <!-- Main Headline -->
       <div class="text-center mb-12">
         <h1 class="text-4xl md:text-5xl font-black text-gray-900 mb-4 leading-tight">
           <strong>You May Like it - New Opportunities in Nomad World</strong>
         </h1>
-        <p class="text-lg text-gray-600 font-medium">Opportunities, Investments & Collaborations</p>
+        <p class="text-lg text-gray-600 font-medium mb-8">Opportunities, Investments & Collaborations</p>
+        
+        <!-- Header Image -->
+        <div class="max-w-full mx-auto">
+          <img src="/images/Newsletter_opportunities@0.5x.webp" alt="Nomad Opportunities" class="w-full rounded-xl" />
+        </div>
       </div>
 
       <!-- Intro Section -->
@@ -627,7 +669,10 @@ const getCategoryColor = (category: string) => {
           </div>
         </div>
       </section>
-    </main>
+          </main>
+        </div>
+      </div>
+    </div>
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-white">
