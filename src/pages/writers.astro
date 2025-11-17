@@ -119,9 +119,9 @@ const seo: SEOProps = {
               1
                 </div>
                 <div>
-              <h3 class="text-xl font-bold text-gray-900 mb-2">Submit Your Draft</h3>
+              <h3 class="text-xl font-bold text-gray-900 mb-2">Submit Your Pitch</h3>
               <p class="text-gray-600">
-                Send your article draft to <a href="mailto:editorial@nomadgossip.com" class="text-yellow-600 hover:text-yellow-700 font-medium">editorial@nomadgossip.com</a>. Don't worry if it's not perfect—we'll help you edit and polish it before publishing. Include photos if you have them!
+                Send your pitch or article draft to <a href="mailto:editorial@nomadgossip.com" class="text-yellow-600 hover:text-yellow-700 font-medium">editorial@nomadgossip.com</a>. Don't worry if it's not perfect—we'll help you edit and polish it before publishing. Include photos if you have them!
               </p>
             </div>
           </div>
@@ -287,10 +287,10 @@ const seo: SEOProps = {
           <div class="rounded-lg bg-gradient-to-r from-yellow-400 to-yellow-500 p-8 shadow-xl">
             <h3 class="mb-4 text-2xl font-bold text-black">Ready to Share Your Story?</h3>
             <p class="mb-6 text-black/80">
-              Submit your article draft and join our community of nomad writers.
+              Submit your pitch or article draft and join our community of nomad writers.
             </p>
             <a
-              href="mailto:editorial@nomadgossip.com?subject=Article Submission&body=Hi! I'd like to submit an article for Nomad Magazine.%0A%0AProposed topic:%0A%0AArticle summary:%0A%0AAbout me:"
+              href="mailto:editorial@nomadgossip.com?subject=Article Submission&body=Hi! I'd like to submit a pitch or article for Nomad Magazine.%0A%0AProposed topic:%0A%0AArticle summary/ideas:%0A%0AAbout me:"
               class="inline-block rounded-lg bg-black px-8 py-4 text-lg font-bold text-yellow-400 transition-all hover:bg-gray-800 hover:scale-105"
             >
               Submit Your Article
@@ -413,7 +413,7 @@ const seo: SEOProps = {
 
     // Submit article button (general)
     document.getElementById('submit-article-btn')?.addEventListener('click', () => {
-      const emailBody = `Hi! I'd like to submit an article for Nomad Magazine.%0A%0AProposed topic:%0A%0AArticle summary:%0A%0AAbout me:`;
+      const emailBody = `Hi! I'd like to submit a pitch or article for Nomad Magazine.%0A%0AProposed topic:%0A%0AArticle summary/ideas:%0A%0AAbout me:`;
       
       window.location.href = `mailto:editorial@nomadgossip.com?subject=Article Submission&body=${emailBody}`;
     });
@@ -427,7 +427,7 @@ const seo: SEOProps = {
   }
 
   function handleCategoryWrite(categoryId, categoryTitle) {
-    const emailBody = `Hi! I'd like to write an article for the "${categoryTitle}" category.%0A%0ACategory: ${categoryTitle}%0A%0AProposed article title:%0A%0AArticle summary:%0A%0AAbout me:`;
+    const emailBody = `Hi! I'd like to submit a pitch or article for the "${categoryTitle}" category.%0A%0ACategory: ${categoryTitle}%0A%0AProposed article title:%0A%0AArticle summary/ideas:%0A%0AAbout me:`;
     
     window.location.href = `mailto:editorial@nomadgossip.com?subject=Article Submission - ${categoryTitle}&body=${emailBody}`;
   }
