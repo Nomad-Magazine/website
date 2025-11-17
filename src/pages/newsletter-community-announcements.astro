@@ -58,11 +58,6 @@ const directoryListings = records
     logo: record.image
   }))
 
-const findListingUrl = (query: string) => {
-  const lower = query.toLowerCase()
-  const match = directoryListings.find((l: any) => l.name?.toLowerCase().includes(lower))
-  return match?.url || '/nomad_directory'
-}
 
 const getCategoryColor = (category: string) => {
   switch(category) {
@@ -92,20 +87,22 @@ const getCategoryColor = (category: string) => {
     <!-- Header Section -->
     <header class="bg-gray-900 text-white">
       <div class="max-w-4xl mx-auto px-4 py-8 text-center">
-        <img src="/logo.svg" alt="Nomad Magazine" class="mx-auto mb-4 h-12 filter brightness-0 invert" />
-        
         <p class="text-yellow-400 text-sm font-semibold uppercase tracking-wide">November 17, 2025</p>
       </div>
     </header>
+
+    <!-- Header Image -->
+    <div class="max-w-4xl mx-auto">
+      <img src="/images/Newsletter_opportunities@0.5x.webp" alt="Nomad Opportunities" class="w-full" />
+    </div>
 
     <!-- Main Content -->
     <main class="max-w-4xl mx-auto px-4 py-8 bg-white">
 
       <!-- Main Headline -->
       <div class="text-center mb-12">
-        <div class="text-6xl mb-4">📢</div>
         <h1 class="text-4xl md:text-5xl font-black text-gray-900 mb-4 leading-tight">
-          <strong>Nomad Community Opportunities</strong>
+          <strong>Nomad Opportunities</strong>
         </h1>
         <p class="text-lg text-gray-600 font-medium">Opportunities, Investments & Collaborations</p>
       </div>
@@ -135,7 +132,7 @@ const getCategoryColor = (category: string) => {
             "Travel at its best is activism with a passport"
           </blockquote>
           <p class="text-base text-orange-700 mb-6">
-            — Melissa J. Rowley, Rolling Stone
+            — Melissa Jun Rowley, Founder and CEO of Warrior Love Productions.
           </p>
           
           <h3 class="text-xl font-bold text-gray-900 mb-3">Travel as Activism: Deeper than Travel</h3>
@@ -160,10 +157,10 @@ const getCategoryColor = (category: string) => {
           <div class="space-y-6">
             <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
               <h3 class="text-xl font-bold text-gray-900 mb-3">
-                <a href={findListingUrl('Fairytrail')} target="_blank" class="text-blue-600 hover:text-blue-700 underline">Fairytrail</a> - Content Creators / Marketers
+                Fairytrail - Content Creators / Marketers
               </h3>
               <p class="text-gray-700 leading-relaxed mb-4">
-                Taige Zhang from <a href={findListingUrl('Fairytrail')} target="_blank" class="text-blue-600 hover:text-blue-700 underline">Fairytrail</a> is building a friend-making and bucket list app. They are hiring content creators / marketers because they don't currently have anyone doing marketing.
+                Taige Zhang from Fairytrail is building a friend-making and bucket list app. They are hiring content creators / marketers because they don't currently have anyone doing marketing.
               </p>
               <p class="text-gray-700">
                 <strong>Contact:</strong> 
@@ -173,10 +170,10 @@ const getCategoryColor = (category: string) => {
 
             <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
               <h3 class="text-xl font-bold text-gray-900 mb-3">
-                <a href={findListingUrl('Casa Gori')} target="_blank" class="text-blue-600 hover:text-blue-700 underline">Casa Gori Valencia</a> - Multiple Roles
+                Casa Gori Valencia - Multiple Roles
               </h3>
               <p class="text-gray-700 leading-relaxed mb-4">
-                <a href={findListingUrl('Casa Gori')} target="_blank" class="text-blue-600 hover:text-blue-700 underline">Casa Gori</a> Valencia is looking for people passionate about making an impact around the way we live. Their mission is to make living more fulfilling and sustainable both for people & the environment. They'd love your help with launching our Proof of Concept Co-living site in Valencia, Spain. Topics they'd like help with: Social Media, Marketing, Community Engagement & Office Management (for our art studio).
+                Casa Gori Valencia is looking for people passionate about making an impact around the way we live. Their mission is to make living more fulfilling and sustainable both for people & the environment. They'd love your help with launching our Proof of Concept Co-living site in Valencia, Spain. Topics they'd like help with: Social Media, Marketing, Community Engagement & Office Management (for our art studio).
               </p>
               <p class="text-gray-700">
                 <strong>Contact:</strong> 
@@ -186,10 +183,10 @@ const getCategoryColor = (category: string) => {
 
             <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
               <h3 class="text-xl font-bold text-gray-900 mb-3">
-                <a href={findListingUrl('Inside Job Concierge')} target="_blank" class="text-blue-600 hover:text-blue-700 underline">Inside Job Concierge</a> - Social Media Intern
+                Inside Job Concierge - Social Media Intern
               </h3>
               <p class="text-gray-700 leading-relaxed mb-4">
-                Daria from <a href={findListingUrl('Inside Job Concierge')} target="_blank" class="text-blue-600 hover:text-blue-700 underline">Inside Job Concierge</a> is building an advisory for buying real estate in Spain. They are hiring a Social Media Intern and looking to grow the community.
+                Daria from Inside Job Concierge is building an advisory for buying real estate in Spain. They are hiring a Social Media Intern and looking to grow the community.
               </p>
               <p class="text-gray-700">
                 <strong>Contact:</strong> 
@@ -199,10 +196,10 @@ const getCategoryColor = (category: string) => {
 
             <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
               <h3 class="text-xl font-bold text-gray-900 mb-3">
-                <a href={findListingUrl('ImagineThat')} target="_blank" class="text-blue-600 hover:text-blue-700 underline">ImagineThat</a> - Partnerships Manager
+                ImagineThat - Partnerships Manager
               </h3>
               <p class="text-gray-700 leading-relaxed mb-4">
-                Niluka from <a href={findListingUrl('ImagineThat')} target="_blank" class="text-blue-600 hover:text-blue-700 underline">ImagineThat</a> is building a global community for new online founders. They are looking for a partnerships manager who can use the power of partnerships (or otherwise) to increase membership numbers. The role is paid based on performance and sign-ups.
+                Niluka from ImagineThat is building a global community for new online founders. They are looking for a partnerships manager who can use the power of partnerships (or otherwise) to increase membership numbers. The role is paid based on performance and sign-ups.
               </p>
               <p class="text-gray-700">
                 <strong>Contact:</strong> 
@@ -212,10 +209,10 @@ const getCategoryColor = (category: string) => {
 
             <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
               <h3 class="text-xl font-bold text-gray-900 mb-3">
-                <a href={findListingUrl('Wonder House')} target="_blank" class="text-blue-600 hover:text-blue-700 underline">Wonder House</a> - Social Media Volunteer
+                Wonder House - Social Media Volunteer
               </h3>
               <p class="text-gray-700 leading-relaxed mb-4">
-                Anya from <a href={findListingUrl('Wonder House')} target="_blank" class="text-blue-600 hover:text-blue-700 underline">Wonder House</a> is looking for a social media volunteer to help spread the word about our new coliving space in a stunning natural setting, just 1h from Barcelona. Approximate commitment of 25h per week in exchange for accommodation.
+                Anya from Wonder House is looking for a social media volunteer to help spread the word about our new coliving space in a stunning natural setting, just 1h from Barcelona. Approximate commitment of 25h per week in exchange for accommodation.
               </p>
               <p class="text-gray-700">
                 <strong>Contact:</strong> 
@@ -235,10 +232,10 @@ const getCategoryColor = (category: string) => {
           <div class="space-y-6">
             <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
               <h3 class="text-xl font-bold text-gray-900 mb-3">
-                <a href={findListingUrl('Casa Gori')} target="_blank" class="text-blue-600 hover:text-blue-700 underline">Casa Gori</a> - Co-living Ecosystems
+                Casa Gori - Co-living Ecosystems
               </h3>
               <p class="text-gray-700 leading-relaxed mb-4">
-                <a href={findListingUrl('Casa Gori')} target="_blank" class="text-blue-600 hover:text-blue-700 underline">Casa Gori</a> is re-imagining living. They're building Co-living ecosystems blending Entrepreneurship, Art & Regenerative gardening, enabling people to live in a more sustainable and fulfilling way. Currently seeking a pre-seed investment of 250k to launch their Proof of Concept site in Valencia, Spain.
+                Casa Gori is re-imagining living. They're building Co-living ecosystems blending Entrepreneurship, Art & Regenerative gardening, enabling people to live in a more sustainable and fulfilling way. Currently seeking a pre-seed investment of 250k to launch their Proof of Concept site in Valencia, Spain.
               </p>
               <a href="https://brieflink.com/v/0ij9y" target="_blank" class="text-orange-600 font-semibold hover:text-orange-700">
                 Learn More →
@@ -247,10 +244,10 @@ const getCategoryColor = (category: string) => {
 
             <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
               <h3 class="text-xl font-bold text-gray-900 mb-3">
-                <a href={findListingUrl('NAiO')} target="_blank" class="text-blue-600 hover:text-blue-700 underline">NAiO LLC</a> - All-in-One Nomad Platform
+                NAiO LLC - All-in-One Nomad Platform
               </h3>
               <p class="text-gray-700 leading-relaxed mb-4">
-                <a href={findListingUrl('NAiO')} target="_blank" class="text-blue-600 hover:text-blue-700 underline">NAiO LLC</a> is building an All-in-One platform for digital nomads, connecting all essential services for nomadic life – from accommodation and transport to insurance, visas, activities, community and much more – into one seamless app. NAiO is currently looking for early-stage investors to accelerate product development and partnerships with key travel-tech providers.
+                NAiO LLC is building an All-in-One platform for digital nomads, connecting all essential services for nomadic life – from accommodation and transport to insurance, visas, activities, community and much more – into one seamless app. NAiO is currently looking for early-stage investors to accelerate product development and partnerships with key travel-tech providers.
               </p>
               <p class="text-gray-700">
                 <strong>Contact:</strong> 
@@ -260,10 +257,10 @@ const getCategoryColor = (category: string) => {
 
             <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
               <h3 class="text-xl font-bold text-gray-900 mb-3">
-                <a href={findListingUrl('Fairytrail')} target="_blank" class="text-blue-600 hover:text-blue-700 underline">Fairytrail</a> - Friend-making & Bucket List App
+                Fairytrail - Friend-making & Bucket List App
               </h3>
               <p class="text-gray-700 leading-relaxed mb-4">
-                Taige Zhang is a product manager from San Francisco who has worked at Apple, Indeed, and marketplace startups. He's now building <a href={findListingUrl('Fairytrail')} target="_blank" class="text-blue-600 hover:text-blue-700 underline">Fairytrail</a>, a friend-making & bucket list app and looking for investors. Fairytrail is currently at $350k ARR and profitable.
+                Taige Zhang is a product manager from San Francisco who has worked at Apple, Indeed, and marketplace startups. He's now building Fairytrail, a friend-making & bucket list app and looking for investors. Fairytrail is currently at $350k ARR and profitable.
               </p>
               <p class="text-gray-700">
                 <strong>Contact:</strong> 
@@ -283,10 +280,10 @@ const getCategoryColor = (category: string) => {
           <div class="space-y-6">
             <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
               <h3 class="text-xl font-bold text-gray-900 mb-3">
-                <a href={findListingUrl('NomadTax Bulgaria')} target="_blank" class="text-blue-600 hover:text-blue-700 underline">NomadTax Bulgaria</a> - Ambassador Program
+                NomadTax Bulgaria - Ambassador Program
               </h3>
               <p class="text-gray-700 leading-relaxed mb-4">
-                Looking to generate additional income? Chris from <a href={findListingUrl('NomadTax Bulgaria')} target="_blank" class="text-blue-600 hover:text-blue-700 underline">NomadTax Bulgaria Ltd.</a> hires Ambassadors to further promote Bulgaria and accelerate the company's growth. Earn 400 EUR provision for each new client win by this fully remote freelance position.
+                Looking to generate additional income? Chris from NomadTax Bulgaria Ltd. hires Ambassadors to further promote Bulgaria and accelerate the company's growth. Earn 400 EUR provision for each new client win by this fully remote freelance position.
               </p>
               <p class="text-gray-700">
                 <strong>Contact:</strong> 
@@ -317,10 +314,10 @@ const getCategoryColor = (category: string) => {
           <div class="space-y-6">
             <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
               <h3 class="text-xl font-bold text-gray-900 mb-3">
-                <a href={findListingUrl('Fairytrail')} target="_blank" class="text-blue-600 hover:text-blue-700 underline">Fairytrail</a> - Co-Founder with Marketing/Design/Engineering Background
+                Fairytrail - Co-Founder with Marketing/Design/Engineering Background
               </h3>
               <p class="text-gray-700 leading-relaxed mb-4">
-                Taige Zhang is a product manager from San Francisco who has worked at Apple, Indeed, and marketplace startups. He's now building <a href={findListingUrl('Fairytrail')} target="_blank" class="text-blue-600 hover:text-blue-700 underline">Fairytrail</a>, a friend-making & bucket list app and looking for a co-founder with a strong background in marketing, design, or engineering.
+                Taige Zhang is a product manager from San Francisco who has worked at Apple, Indeed, and marketplace startups. He's now building Fairytrail, a friend-making & bucket list app and looking for a co-founder with a strong background in marketing, design, or engineering.
               </p>
               <p class="text-gray-700">
                 <strong>Contact:</strong> 
@@ -340,11 +337,11 @@ const getCategoryColor = (category: string) => {
           <div class="space-y-6">
             <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
               <h3 class="text-xl font-bold text-gray-900 mb-3">
-                <a href={findListingUrl('Nomad for Less')} target="_blank" class="text-blue-600 hover:text-blue-700 underline">Nomad for Less</a> Newsletter - 140K Subscribers
+                Nomad for Less Newsletter - 140K Subscribers
               </h3>
               <p class="text-gray-700 leading-relaxed mb-4">
-                Kevin from <a href={findListingUrl('Nomad for Less')} target="_blank" class="text-blue-600 hover:text-blue-700 underline">Nomad for Less</a> is selling his travel and remote work newsletter that helps digital nomads find affordable destinations, remote job opportunities, and travel hacks. The publication reaches a highly engaged audience of 140,000+ remote workers and digital nomads around the world. 🌍 
-                <a href="https://blog.nomadforless.com" target="_blank" class="text-blue-600 hover:text-blue-700 underline">blog.nomadforless.com</a>
+                Kevin from Nomad for Less is selling his travel and remote work newsletter that helps digital nomads find affordable destinations, remote job opportunities, and travel hacks. The publication reaches a highly engaged audience of 140,000+ remote workers and digital nomads around the world. 🌍 
+                blog.nomadforless.com
               </p>
               <p class="text-gray-700">
                 <strong>Interested in acquiring it? Contact:</strong> 
@@ -424,6 +421,54 @@ const getCategoryColor = (category: string) => {
             <p class="text-gray-600 text-sm mt-4">
               Early bird pricing available • Solo travelers welcome
             </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- New Book Release Section -->
+      <section class="mb-12">
+        <div class="bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200 rounded-xl p-6">
+          <div class="flex items-center justify-center gap-3 mb-4">
+            <div class="text-2xl">📚</div>
+            <span class="bg-indigo-600 text-white px-2 py-1 rounded-full text-xs font-bold uppercase">New Release</span>
+          </div>
+          
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
+            <!-- Book Cover -->
+            <div class="order-2 lg:order-1 lg:col-span-1 text-center">
+              <img 
+                src="/images/nomadic_wealth-book.jpg" 
+                alt="Nomadic Wealth: A Guide to Financial Freedom with a Minimalist Mindset book cover"
+                class="mx-auto rounded-xl shadow-lg max-w-48"
+              />
+            </div>
+            
+            <!-- Content -->
+            <div class="order-1 lg:order-2 lg:col-span-2 text-center lg:text-left">
+              <h3 class="text-2xl font-black text-gray-900 mb-2">
+                Nomadic Wealth
+              </h3>
+              <p class="text-lg text-gray-800 font-medium mb-3">
+                A Guide to Financial Freedom with a Minimalist Mindset
+              </p>
+              <p class="text-base text-gray-700 leading-relaxed mb-4">
+                What if freedom wasn't about how much you earn, but how intentionally you live?
+              </p>
+              
+              <div class="space-y-2">
+                <a 
+                  href="https://amzn.to/47IAatA" 
+                  target="_blank"
+                  class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-xl transition-all duration-200"
+                >
+                  📖 Get the Book
+                </a>
+                
+                <p class="text-gray-600 text-xs">
+                  Sourced by <a href="https://www.instagram.com/mindvalleybookclub?igsh=MWkybWc2dXN2aG95YQ==" target="_blank" class="text-indigo-600 hover:text-indigo-700 font-semibold underline">Mindvalley Bookclub</a>
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -532,6 +577,54 @@ const getCategoryColor = (category: string) => {
           >
             🚀 VIEW ALL LISTINGS
           </a>
+        </div>
+      </section>
+
+      <!-- Nomad Magazine Updates Section -->
+      <section class="mb-12">
+        <div class="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-2xl p-8">
+          <div class="text-center mb-8">
+            <div class="flex items-center justify-center gap-3 mb-6">
+              <div class="text-3xl">📰</div>
+              <span class="bg-yellow-600 text-white px-3 py-1 rounded-full text-sm font-bold uppercase">Magazine Update</span>
+            </div>
+            
+            <h3 class="text-3xl font-black text-gray-900 mb-4">
+              Nomad Magazine Updates
+            </h3>
+          </div>
+
+          <div class="max-w-3xl mx-auto space-y-6 text-lg text-gray-700 leading-relaxed">
+            <p>
+              We kicked off a new edition design which we aim to send to print in January 2026. It will be our best edition so far, with better-quality articles and a cleaner design for easier reading, while keeping our cool style.
+            </p>
+            
+            <p>
+              By featuring nomad celebrity people, we cover main destinations for nomads: <strong>Bansko</strong>, <strong>Madeira</strong>, <strong>Fukuoka</strong>, and potentially one more.
+            </p>
+            
+            <p>
+              This edition will also include the finalists of the Coworking Design Contest, as well as all Nomad Directory companies added before the end of November.
+            </p>
+            
+            <p>
+              Next year, after Edition 4, we will test free digital-only editions that will be faster and easier to create, helping us deliver nomad news quicker.
+            </p>
+
+            <p>
+              <strong>Brand Placement booking deadline:</strong> end of November 2025. <a href="/brand-placement-next-edition-847291" class="text-yellow-600 hover:text-yellow-700 underline font-semibold">Learn more about brand placement →</a>
+            </p>
+
+            <p>
+              <strong>Have a question?</strong> Reach out at <a href="mailto:lera@nomadgossip.com" class="text-yellow-600 hover:text-yellow-700 underline font-semibold">lera@nomadgossip.com</a>
+            </p>
+
+            <div class="text-center mt-8">
+              <a href="/brand-placement-next-edition-847291" class="inline-block bg-yellow-400 hover:bg-yellow-300 text-black px-6 py-4 rounded-xl font-bold transition-all duration-200">
+                📰 Browse Brand Placement Options
+              </a>
+            </div>
+          </div>
         </div>
       </section>
     </main>
