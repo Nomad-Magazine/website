@@ -1,0 +1,540 @@
+---
+import FAQ from '~/components/FAQ.astro'
+import PaymentPlan from '~/components/PaymentPlan.astro'
+import Testimonials from '~/components/Testimonials.astro'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import ProductCarousel from '~/components/ProductCarousel.astro'
+import EditionStats from '~/components/EditionStats.astro'
+import Sponsors from '~/components/Sponsors.astro'
+import MagazinePreview from '~/components/MagazinePreview.astro'
+import AuthorsGrid from '~/components/AuthorsGrid.astro'
+import EditionHero from '~/components/EditionHero.astro'
+import WhatsComingCarousel from '~/components/WhatsComingCarousel.astro'
+
+const slides = [
+  {
+    src: '/images/edition-004-cover.webp',
+  },
+  {
+    src: '/images/edition-004-table-of-contents.webp',
+  },
+  {
+    src: '/images/edition-004-raising-borderless-children.webp',
+  },
+  {
+    src: '/images/edition-004-vanlife-photostory.webp',
+  },
+  {
+    src: '/images/edition-004-queer-nomads.webp',
+  },
+  {
+    src: '/images/edition-004-kristin-wilson-interview.webp',
+  },
+  {
+    src: '/images/edition-004-madeira-research.webp',
+  },
+  {
+    src: '/images/edition-004-fukuoka-encounters.webp',
+  },
+]
+
+const sponsors = [
+  {
+    link: 'https://www.outsite.co/',
+    image: '/images/outsite-logo.svg',
+    alt: 'Outsite',
+    width: '120',
+  },
+  {
+    link: 'https://nomadtrain.co/',
+    image: '/images/nomad-train-logo.svg',
+    alt: 'Nomad Train Logo',
+    width: '100',
+  },
+  {
+    link: 'https://nomads.insure/',
+    image: '/images/nomads_insure_logo.webp',
+    alt: 'Nomads Insure',
+    width: '100',
+  },
+]
+
+const authors = [
+  {
+    image: '/images/edition-004-kristin-wilson.webp',
+    name: 'Kristin Wilson',
+    bio: `Kristin Wilson is a global entrepreneur and digital nomad who has built multiple successful businesses while embracing a freedom-first lifestyle. Her journey showcases how to create sustainable, authentic businesses that align with nomadic values.`,
+  },
+  {
+    image: '/images/edition-004-lee-holden.webp',
+    name: 'Lee Holden',
+    bio: `Lee Holden is a renowned Qi Gong master and wellness expert who teaches digital nomads how to avoid burnout and boost productivity by slowing down through ancient practices like Qi Gong and breathing exercises.`,
+  },
+  {
+    image: '/images/edition-004-nomad-family.webp',
+    name: 'The Nomad Family',
+    bio: `A nomadic family sharing their authentic experiences of raising children while living across multiple countries, challenging the myth that kids need one fixed home to thrive.`,
+  },
+]
+
+const seo: SEOProps = {
+  title: 'Nomad Magazine: Edition #4 - Borderless Living & Global Connections',
+  description:
+    'Discover our fourth edition featuring borderless families, vanlife realities, LGBTQ+ nomads, and the future of global communities. 120+ pages of authentic stories and research-backed insights.',
+  image: `${Astro.site}images/edition-004-cover.webp`,
+  keywords: 'nomad magazine edition 4, borderless children, queer nomads, vanlife, digital nomad families, global communities',
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: 'Nomad Magazine Edition #4',
+    description: 'The fourth edition of Nomad Magazine featuring borderless living and global connections',
+    brand: {
+      '@type': 'Brand',
+      name: 'Nomad Magazine',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+    offers: [
+      {
+        '@type': 'Offer',
+        name: 'Edition 004 (Digital Version, Single Purchase)',
+        price: '12.00',
+        priceCurrency: 'EUR',
+        availability: 'https://schema.org/InStock',
+        url: 'https://buy.stripe.com/edition-004-digital',
+      },
+      {
+        '@type': 'Offer',
+        name: 'Edition 004 (Print Version, Single Purchase)',
+        price: '35.00',
+        priceCurrency: 'EUR',
+        availability: 'https://schema.org/InStock',
+        url: 'https://buy.stripe.com/edition-004-print',
+      },
+    ],
+  },
+}
+---
+
+<Layout seo={seo}>
+  <EditionHero
+    printUrl=""
+    digitalUrl=""
+    waitlistUrl="/waitlist/edition-004"
+    editionNumber="Edition #4"
+    title="Borderless Living & Global Connections in 120+ pages of authentic stories."
+    coverImage="/images/edition-004-cover.webp"
+    coverImageAlt="Nomad Magazine Edition 4 cover"
+    digitalPrice="€12"
+    printPrice="€35"
+  />
+
+  <EditionStats
+    stats={[
+      { value: '120', label: 'Pages of Expert Content' },
+      { value: '15+', label: 'Industry Leaders Featured' },
+      { value: 'Dec 2024', label: 'Expected Release' },
+    ]}
+  />
+
+  <!-- Quick Social Proof -->
+  <section class="py-8 bg-yellow-50 border-y-2 border-yellow-200">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-wrap items-center justify-center gap-8 text-center">
+        <div class="flex items-center gap-3">
+          <span class="text-3xl">⭐⭐⭐⭐⭐</span>
+        </div>
+        <p class="text-lg font-semibold text-gray-800 max-w-2xl">"The print quality is excellent, the paper feels great, and the graphics are truly stunning!" - Teresa Z., TripOffice.com</p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Value Proposition Section -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">Why This Magazine Is Different</h2>
+        <p class="text-xl text-gray-700 leading-relaxed mb-8">In a world of AI-generated content, we bring you authentic stories from real nomads and industry experts. No algorithms, no fluff—just hand-curated insights you won't find on Google.</p>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-12">
+        <div class="text-center p-6">
+          <div class="text-4xl mb-4">✍️</div>
+          <h3 class="font-bold text-xl mb-3">100% Human-Written</h3>
+          <p class="text-gray-600">Every article carefully edited by hand, not AI. Real experiences from trusted experts.</p>
+        </div>
+        <div class="text-center p-6">
+          <div class="text-4xl mb-4">🌍</div>
+          <h3 class="font-bold text-xl mb-3">15+ Expert Contributors</h3>
+          <p class="text-gray-600">From global entrepreneurs to successful nomad families sharing their hard-earned wisdom.</p>
+        </div>
+        <div class="text-center p-6">
+          <div class="text-4xl mb-4">💎</div>
+          <h3 class="font-bold text-xl mb-3">Limited Print Edition</h3>
+          <p class="text-gray-600">Only 150 copies available. Collector's item for the nomad community.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Sponsors {sponsors} title="Edition 004 Sponsored By" />
+
+  <WhatsComingCarousel
+    heading="What You'll Discover Inside"
+    subtitle="120 pages packed with actionable insights that will change how you approach nomadic life"
+    slides={[
+      {
+        image: '/images/edition-004-raising-borderless-children.webp',
+        alt: 'The Truth About Raising Borderless Children',
+        quote:
+          "You'll discover the untold reality of raising children across continents. This isn't another 'digital nomad family blog' - it's raw, honest insights from parents who've actually done it. Learn how connection, ritual, and adaptability create belonging anywhere, shattering the myth that kids need one 'home' to thrive.",
+        name: 'The Nomad Family Chronicles',
+        role: 'EXCLUSIVE: Real families share their unfiltered truth',
+      },
+      {
+        image: '/images/edition-004-queer-nomads.webp',
+        alt: 'Queer Digital Nomads: The Hidden Demographic',
+        quote:
+          "The first comprehensive investigation into LGBTQ+ nomads - a demographic that makes up 23% of the community but remains invisible. This groundbreaking piece exposes the unique safety challenges, visa complications, and community gaps that queer nomads navigate daily, plus actionable solutions for a more inclusive future.",
+        name: 'Breaking Barriers Investigation',
+        role: 'FIRST EVER: Complete analysis of queer nomad experiences',
+      },
+      {
+        image: '/images/edition-004-vanlife-photostory.webp',
+        alt: 'The Beauty, Chaos and Clarity of Life on Four Wheels',
+        quote:
+          "Forget Instagram's vanlife fantasy. This raw photostory captures the 3 AM breakdowns, the loneliness, the financial reality, and yes - the breathtaking freedom. Through stunning visuals and brutal honesty, discover how vanlife actually shapes your character, relationships, and view of what 'home' really means.",
+        name: 'Unfiltered Vanlife Reality',
+        role: 'PHOTOSTORY: The truth Instagram won\'t show you',
+      },
+      {
+        image: '/images/edition-004-kristin-wilson-interview.webp',
+        alt: 'Behind The Brand: Building a Business Around Freedom',
+        quote:
+          "Kristin Wilson built multiple 6-figure businesses while traveling 50+ countries. But here's what she's never shared publicly: the 3 'freedom mistakes' that nearly destroyed her empire, the mindset shift that saved her, and her exact blueprint for building authentic businesses that fund your nomad dreams.",
+        name: 'Kristin Wilson',
+        role: 'EXCLUSIVE INTERVIEW: Serial entrepreneur reveals all',
+      },
+      {
+        image: '/images/edition-004-madeira-research.webp',
+        alt: 'The Anchors of Nomad Life: Madeira Research',
+        quote:
+          'Original research reveals why Madeira retains nomads 3x longer than Lisbon or Canggu. Through 247 interviews and data analysis, discover the "anchor factors" that make nomads stay - insights you can use to choose your next destination or build nomad-friendly communities.',
+        name: 'Madeira Retention Study',
+        role: 'ORIGINAL RESEARCH: Why some places hold us longer',
+      },
+      {
+        image: '/images/edition-004-fukuoka-encounters.webp',
+        alt: 'The Art of Meaningful Encounters in Fukuoka',
+        quote:
+          'Japan\'s best-kept nomad secret isn\'t Tokyo or Osaka. Fukuoka is where traditional culture meets cutting-edge innovation, where meaningful connections happen naturally. Through personal encounters and cultural deep-dives, discover how this city is redefining what nomad community can look like.',
+        name: 'Fukuoka Deep Dive',
+        role: 'CULTURAL EXPLORATION: Japan\'s emerging nomad hub',
+      },
+      {
+        image: '/images/edition-004-lee-holden-qi-gong.webp',
+        alt: 'Ready, Set, Slow: How Digital Nomads Can Thrive by Slowing Down',
+        quote:
+          'Qi Gong master Lee Holden has taught Silicon Valley CEOs and burned-out nomads the same counter-intuitive truth: slowing down is the fastest path to success. Learn his 5-minute daily practice that eliminates decision fatigue, boosts creativity, and prevents nomad burnout before it starts.',
+        name: 'Lee Holden',
+        role: 'QI GONG MASTER: Ancient wisdom for modern nomads',
+      },
+      {
+        image: '/images/edition-004-jet-set-style.webp',
+        alt: 'Jet-Set Style: How to Look Runway-Ready While Traveling',
+        quote:
+          'Living out of a suitcase doesn\'t mean sacrificing style. This isn\'t another "capsule wardrobe" guide - it\'s a complete system for maintaining your personal brand while nomadic. From wrinkle-proof fabrics to cultural appropriateness, master the art of looking intentional anywhere in the world.',
+        name: 'The Nomadic Stylist',
+        role: 'STYLE GUIDE: Professional presence on the road',
+      },
+      {
+        image: '/images/edition-004-falmouth-university.webp',
+        alt: 'Unlocking Creative Careers: How Falmouth University Empowers Students',
+        quote:
+          'Traditional education is broken for nomads - but Falmouth University cracked the code. Discover how their online creative degrees are launching nomadic careers in design, writing, and digital arts. Plus: real student stories of studying from Bali, building portfolios in Berlin, and landing dream jobs remotely.',
+        name: 'Education Revolution',
+        role: 'SPONSORED: Remote learning that actually works',
+      },
+      {
+        image: '/images/edition-004-portable-monitors.webp',
+        alt: 'Double Vision: The Best Portable Monitors for Productivity',
+        quote: 
+          'Your laptop screen is killing your productivity and your neck. This definitive guide tests 12 portable monitors across 6 countries, revealing which ones survive airline baggage, work in direct sunlight, and actually boost your work performance. Stop squinting - start scaling your workspace.',
+        name: 'Productivity Gear Lab',
+        role: 'GEAR REVIEW: Tested across continents',
+      },
+      {
+        image: '/images/edition-004-bansko-case-study.webp',
+        alt: 'Digital Nomads in Bansko: A 5-Year Case Study',
+        quote:
+          'A quiet Bulgarian ski town accidentally became a nomad magnet. Through 5 years of data and local interviews, trace Bansko\'s transformation from winter ghost town to year-round digital hub. The lessons here reveal how any destination can (or can\'t) build sustainable nomad communities.',
+        name: 'Bansko Transformation',
+        role: '5-YEAR STUDY: How a ski town became nomad central',
+      },
+    ]}
+  />
+
+  <!-- Strategically Placed Testimonial Section -->
+  <section class="py-16 bg-hoverw text-white">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-8">What Our Readers Are Saying</h2>
+        <div class="grid md:grid-cols-2 gap-8 mb-8">
+          <div class="bg-white/10 backdrop-blur-sm p-8 rounded-2xl">
+            <div class="flex items-center mb-4">
+              <img src="/images/edition-003-ramon-morcillo.webp" alt="Ramon Morcillo" class="w-16 h-16 rounded-full object-cover mr-4" />
+              <div class="text-left">
+                <h3 class="font-bold">Ramon Morcillo</h3>
+                <p class="text-sm opacity-80">Co-founder @ Mapmelon</p>
+              </div>
+            </div>
+            <div class="text-yellow-400 mb-3">⭐⭐⭐⭐⭐</div>
+            <p class="italic">"The issue looks beautiful, loved flipping through it 🧡 Congrats on the amazing work!"</p>
+          </div>
+          
+          <div class="bg-white/10 backdrop-blur-sm p-8 rounded-2xl">
+            <div class="text-left mb-4">
+              <h3 class="font-bold">Teresa Zielonka</h3>
+              <p class="text-sm opacity-80">Co-founder @ TripOffice.com</p>
+            </div>
+            <div class="text-yellow-400 mb-3">⭐⭐⭐⭐⭐</div>
+            <p class="italic">"I love the magazine! The print quality is excellent, the paper feels great, and the graphics are truly stunning."</p>
+          </div>
+        </div>
+        <a href="#get-magazine" class="inline-block bg-yellow-400 text-black px-8 py-4 rounded-lg font-bold text-lg hover:bg-yellow-300 transition shadow-lg">
+          Join 847+ on the Waitlist
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Waitlist Section -->
+  <section id="get-magazine" class="py-16 bg-gradient-to-b from-gray-50 to-white">
+    <div class="container mx-auto px-4">
+      <!-- Waitlist Header -->
+      <div class="text-center mb-12">
+        <div class="inline-flex items-center bg-yellow-500 text-black px-6 py-3 rounded-full font-bold mb-4">
+          📧 JOIN THE WAITLIST - Be First to Know
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Be the First to Get Edition #4</h2>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">Join our waitlist and get notified the moment Edition #4 launches. Plus receive exclusive previews and early bird pricing.</p>
+      </div>
+
+      <div class="flex flex-col items-start justify-center gap-8 md:flex-row max-w-6xl mx-auto">
+        <!-- Product Carousel -->
+        <div class="w-full flex-shrink-0 px-4 sm:px-8 md:w-1/2 md:px-0">
+          <ProductCarousel slides={slides} firstSlideMaxWidth={false} />
+        </div>
+        
+        <!-- Waitlist Form -->
+        <div class="w-full max-w-md md:w-1/2">
+          <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-200">
+            <h3 class="text-2xl font-bold text-center mb-6">Join the Waitlist</h3>
+            
+            <form action="/api/waitlist" method="POST" class="space-y-6">
+              <input type="hidden" name="edition" value="004" />
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                <input 
+                  type="email" 
+                  name="email" 
+                  required 
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                  placeholder="your@email.com"
+                />
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">First Name (Optional)</label>
+                <input 
+                  type="text" 
+                  name="name" 
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                  placeholder="Your first name"
+                />
+              </div>
+              
+              <div class="space-y-3">
+                <p class="text-sm font-medium text-gray-700">Interested in:</p>
+                <label class="flex items-center">
+                  <input type="checkbox" name="interest[]" value="digital" class="rounded border-gray-300 text-yellow-600 focus:ring-yellow-500" />
+                  <span class="ml-2 text-sm">Digital Edition (€12 - €15)</span>
+                </label>
+                <label class="flex items-center">
+                  <input type="checkbox" name="interest[]" value="print" class="rounded border-gray-300 text-yellow-600 focus:ring-yellow-500" />
+                  <span class="ml-2 text-sm">Print Edition (€35 - €40)</span>
+                </label>
+              </div>
+              
+              <button 
+                type="submit" 
+                class="w-full bg-yellow-500 text-black font-bold py-4 px-6 rounded-lg hover:bg-yellow-600 transition text-lg"
+              >
+                🚀 Notify Me When Available
+              </button>
+            </form>
+            
+            <div class="mt-6 space-y-3 text-sm text-gray-600">
+              <div class="flex items-center gap-2">
+                <span class="text-green-500">✓</span>
+                <span>First access when edition launches</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-green-500">✓</span>
+                <span>Exclusive previews and behind-the-scenes content</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-green-500">✓</span>
+                <span>Early bird pricing notifications</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-green-500">✓</span>
+                <span>No spam, unsubscribe anytime</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Social Proof -->
+          <div class="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-center">
+            <p class="text-sm text-gray-700">
+              <strong>📈 Already 847 nomads</strong> on the waitlist for this edition!
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Launch Announcement -->
+  <section class="py-12 bg-gradient-to-r from-yellow-500 to-orange-500 text-black">
+    <div class="container mx-auto px-4 text-center">
+      <h3 class="text-2xl md:text-3xl font-bold mb-4">🚀 Coming December 2024</h3>
+      <p class="text-lg mb-6">Be among the first 100 to join the waitlist and get exclusive early bird pricing when we launch</p>
+      <a href="#get-magazine" class="inline-block bg-white text-orange-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition shadow-lg">
+        📧 Join the Waitlist
+      </a>
+    </div>
+  </section>
+
+  <AuthorsGrid {authors} />
+
+  <!-- FAQ Section -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+      <div class="max-w-3xl mx-auto space-y-6">
+        <details class="bg-gray-50 p-6 rounded-lg">
+          <summary class="font-bold text-lg cursor-pointer">When will Edition #4 be published?</summary>
+          <p class="mt-3 text-gray-700">Edition #4 is expected to launch in December 2024. Waitlist subscribers will be notified 48 hours before public launch with exclusive early bird pricing.</p>
+        </details>
+        <details class="bg-gray-50 p-6 rounded-lg">
+          <summary class="font-bold text-lg cursor-pointer">What do I get by joining the waitlist?</summary>
+          <p class="mt-3 text-gray-700">Waitlist members get first access to purchase, early bird pricing (€3-€5 off), exclusive preview content, behind-the-scenes updates, and bonus materials not available to regular buyers.</p>
+        </details>
+        <details class="bg-gray-50 p-6 rounded-lg">
+          <summary class="font-bold text-lg cursor-pointer">How much will Edition #4 cost?</summary>
+          <p class="mt-3 text-gray-700">Digital edition will be €12-€15, print edition €35-€40. Waitlist members get early bird pricing at the lower end of these ranges, plus exclusive bonuses.</p>
+        </details>
+        <details class="bg-gray-50 p-6 rounded-lg">
+          <summary class="font-bold text-lg cursor-pointer">Will there be limited quantities?</summary>
+          <p class="mt-3 text-gray-700">Yes, we'll print only 150 copies of the physical edition to maintain exclusivity and quality. Digital copies are unlimited, but early bird pricing is limited to first 200 buyers.</p>
+        </details>
+        <details class="bg-gray-50 p-6 rounded-lg">
+          <summary class="font-bold text-lg cursor-pointer">Can I unsubscribe from the waitlist?</summary>
+          <p class="mt-3 text-gray-700">Absolutely! You can unsubscribe anytime with one click. We only send updates related to Edition #4 launch and preview content - no spam, ever.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Proof Numbers -->
+  <section class="py-12 bg-gradient-to-r from-blue-50 to-purple-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-8">
+        <h3 class="text-2xl font-bold mb-2">Join Our Growing Community</h3>
+        <p class="text-gray-600">Trusted by digital nomads and remote workers worldwide</p>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center max-w-3xl mx-auto">
+        <div>
+          <div class="text-3xl font-bold text-blue-600 mb-2">2,500+</div>
+          <div class="text-sm text-gray-600">Magazine Readers</div>
+        </div>
+        <div>
+          <div class="text-3xl font-bold text-purple-600 mb-2">50+</div>
+          <div class="text-sm text-gray-600">Countries Reached</div>
+        </div>
+        <div>
+          <div class="text-3xl font-bold text-green-600 mb-2">4.9/5</div>
+          <div class="text-sm text-gray-600">Reader Rating</div>
+        </div>
+        <div>
+          <div class="text-3xl font-bold text-orange-600 mb-2">100%</div>
+          <div class="text-sm text-gray-600">Human-Written</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <MagazinePreview
+    titleClass="mt-4"
+    sectionClass="bg-gray-50"
+    title="Previous Editions"
+    subTitle="Magazine Preview"
+    subTitleClass="font-justme !text-black !text-2xl !font-medium"
+  />
+
+  <!-- Final Strong CTA -->
+  <section class="py-16 bg-gradient-to-br from-gray-900 to-black text-white">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="text-4xl md:text-5xl font-bold mb-6">Ready to Explore Borderless Living?</h2>
+        <p class="text-xl mb-8">120+ pages of authentic stories, research, and insights you won't find anywhere else.</p>
+        
+        <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-8">
+          <div class="flex items-center justify-center gap-4 mb-4">
+            <span class="bg-yellow-500 text-black px-4 py-2 rounded-full text-sm font-semibold">📧 Join 847+ on Waitlist</span>
+            <span class="bg-green-500 text-white px-4 py-2 rounded-full text-sm font-semibold">🚀 Coming December 2024</span>
+          </div>
+          <div class="text-lg">Be first to know when Edition #4 launches</div>
+        </div>
+        
+        <a href="#get-magazine" class="bg-yellow-500 text-black px-12 py-5 rounded-lg font-bold text-xl hover:bg-yellow-400 transition shadow-lg inline-block mb-6">
+          🎯 Join the Waitlist Now
+        </a>
+        
+        <div class="flex items-center justify-center gap-6 text-sm opacity-80">
+          <span>✅ First Access</span>
+          <span>📧 Exclusive Updates</span>
+          <span>💰 Early Bird Pricing</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Testimonials sectionClass="bg-hoverw [&_h2]:text-white" />
+  
+  <!-- Prevent search engine indexing - page not published yet -->
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Override the robots meta tag to prevent indexing
+      const robotsMeta = document.querySelector('meta[name="robots"]');
+      if (robotsMeta) {
+        robotsMeta.setAttribute('content', 'noindex, nofollow');
+      } else {
+        // If robots meta doesn't exist, create it
+        const newRobotsMeta = document.createElement('meta');
+        newRobotsMeta.name = 'robots';
+        newRobotsMeta.content = 'noindex, nofollow';
+        document.head.appendChild(newRobotsMeta);
+      }
+    });
+  </script>
+</Layout>
