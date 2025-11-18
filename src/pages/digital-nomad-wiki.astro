@@ -4662,11 +4662,11 @@ Thanks!`);
   ];
 
   // Helper function for search functionality
-  function setupSearch(inputElement, resultsElement, isMobile = false) {
+  function setupSearch(inputElement: HTMLElement | null, resultsElement: HTMLElement | null, isMobile = false) {
     if (!inputElement || !resultsElement) return;
     
-    inputElement.addEventListener('input', function(e) {
-      const query = e.target.value.trim().toLowerCase();
+    inputElement.addEventListener('input', function(e: Event) {
+      const query = (e.target as HTMLInputElement).value.trim().toLowerCase();
       
       if (query === '') {
         resultsElement.classList.add('hidden');
@@ -4715,9 +4715,9 @@ Thanks!`);
     });
 
     // Clear search when pressing escape
-    inputElement.addEventListener('keydown', function(e) {
+    inputElement.addEventListener('keydown', function(e: KeyboardEvent) {
       if (e.key === 'Escape') {
-        inputElement.value = '';
+        (inputElement as HTMLInputElement).value = '';
         resultsElement.classList.add('hidden');
       }
     });
@@ -4730,11 +4730,12 @@ Thanks!`);
   setupSearch(mobileSearchInput, mobileSearchResults, true);
 
   // Hide search results when clicking outside (for both desktop and mobile)
-  document.addEventListener('click', function(e) {
-    if (searchInput && searchResults && !searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+  document.addEventListener('click', function(e: MouseEvent) {
+    const target = e.target as Node;
+    if (searchInput && searchResults && !searchInput.contains(target) && !searchResults.contains(target)) {
       searchResults.classList.add('hidden');
     }
-    if (mobileSearchInput && mobileSearchResults && !mobileSearchInput.contains(e.target) && !mobileSearchResults.contains(e.target)) {
+    if (mobileSearchInput && mobileSearchResults && !mobileSearchInput.contains(target) && !mobileSearchResults.contains(target)) {
       mobileSearchResults.classList.add('hidden');
     }
   });
