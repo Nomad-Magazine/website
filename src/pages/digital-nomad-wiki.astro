@@ -57,10 +57,21 @@ const seo: SEOProps = {
         <div class="hidden lg:block w-80 bg-white border-r border-gray-200 min-h-screen">
           <div class="sticky top-0 p-6 max-h-screen overflow-y-auto">
             <nav class="space-y-2">
-              <!-- Introduction Section -->
+              <!-- Search Section -->
               <div class="mb-8">
-                <div class="bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-bold text-center py-3 px-4 rounded-lg mb-4">
-                  📚 DIGITAL NOMAD ENCYCLOPEDIA
+                <div class="relative">
+                  <input 
+                    type="text" 
+                    id="wiki-search"
+                    placeholder="Search the encyclopedia..."
+                    class="w-full px-4 py-3 pl-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400"
+                  />
+                  <svg class="absolute left-3 top-3.5 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                  </svg>
+                  <div id="search-results" class="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg mt-1 hidden max-h-96 overflow-y-auto z-50">
+                    <!-- Search results will appear here -->
+                  </div>
                 </div>
                 <ul class="space-y-1">
                   <li>
@@ -722,6 +733,24 @@ const seo: SEOProps = {
               </div>
             </div>
             <div class="p-6 overflow-y-auto">
+              <!-- Search Section -->
+              <div class="mb-6">
+                <div class="relative">
+                  <input 
+                    type="text" 
+                    id="mobile-wiki-search"
+                    placeholder="Search the encyclopedia..."
+                    class="w-full px-4 py-3 pl-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400"
+                  />
+                  <svg class="absolute left-3 top-3.5 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                  </svg>
+                  <div id="mobile-search-results" class="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg mt-1 hidden max-h-96 overflow-y-auto z-50">
+                    <!-- Search results will appear here -->
+                  </div>
+                </div>
+              </div>
+              
               <!-- Same navigation as desktop -->
               <nav class="space-y-2">
                 <!-- Introduction Section -->
@@ -4522,4 +4551,191 @@ Thanks!`);
     
     observer.observe(proposeChangesSection);
   }
+
+  // Wiki Search functionality
+  const searchInput = document.getElementById('wiki-search');
+  const searchResults = document.getElementById('search-results');
+  const mobileSearchInput = document.getElementById('mobile-wiki-search');
+  const mobileSearchResults = document.getElementById('mobile-search-results');
+  
+  // All searchable sections with their titles and IDs
+  const searchableContent = [
+    { title: 'Introduction: A New Way to Live and Work', id: 'introduction', chapter: 'Introduction' },
+    { title: 'What Is the Digital Nomad Lifestyle?', id: 'what-is-digital-nomadism', chapter: 'Chapter 1' },
+    { title: 'Economic Autonomy', id: 'economic-autonomy', chapter: 'Chapter 1' },
+    { title: 'Temporal Flexibility', id: 'temporal-flexibility', chapter: 'Chapter 1' },
+    { title: 'Lifestyle Design', id: 'lifestyle-design', chapter: 'Chapter 1' },
+    { title: 'Adaptability', id: 'adaptability', chapter: 'Chapter 1' },
+    { title: 'Global Citizenship', id: 'global-citizenship', chapter: 'Chapter 1' },
+    { title: 'Daily Life as a Digital Nomad', id: 'daily-life', chapter: 'Chapter 1' },
+    { title: 'Who Is It For?', id: 'who-is-it-for', chapter: 'Chapter 1' },
+    { title: 'Digital Nomadism vs. Remote Work', id: 'nomadism-vs-remote-work', chapter: 'Chapter 1' },
+    { title: 'A Brief History of Digital Nomadism', id: 'history-introduction', chapter: 'Chapter 2' },
+    { title: 'Early Foundations: Pre-Internet Pioneers', id: 'early-foundations', chapter: 'Chapter 2' },
+    { title: '1990s–2000s: Infrastructure Emerges', id: 'infrastructure-emerges', chapter: 'Chapter 2' },
+    { title: '2005–2015: The Rise of the Lifestyle', id: 'rise-lifestyle', chapter: 'Chapter 2' },
+    { title: '2015–2019: The Digital Nomad Economy', id: 'nomad-economy', chapter: 'Chapter 2' },
+    { title: '2020–2021: The Pandemic Revolution', id: 'pandemic-revolution', chapter: 'Chapter 2' },
+    { title: '2022–Present: Institutionalization', id: 'institutionalization', chapter: 'Chapter 2' },
+    { title: 'The Movement Today', id: 'movement-today', chapter: 'Chapter 2' },
+    { title: 'Who Are the Digital Nomads?', id: 'who-are-nomads', chapter: 'Chapter 3' },
+    { title: 'Common Demographics', id: 'common-demographics', chapter: 'Chapter 3' },
+    { title: 'Nomad Types', id: 'nomad-types', chapter: 'Chapter 3' },
+    { title: 'What Drives Them?', id: 'what-drives-them', chapter: 'Chapter 3' },
+    { title: 'Myths and Realities', id: 'myths-realities', chapter: 'Chapter 3' },
+    { title: 'The Evolution of Identity', id: 'evolution-identity', chapter: 'Chapter 3' },
+    { title: 'The Infrastructure of a Lifestyle', id: 'infrastructure-introduction', chapter: 'Chapter 4' },
+    { title: 'Remote Work Technology', id: 'remote-work-tech', chapter: 'Chapter 4' },
+    { title: 'Coworking Spaces', id: 'coworking-spaces', chapter: 'Chapter 4' },
+    { title: 'Coliving Spaces', id: 'coliving-spaces', chapter: 'Chapter 4' },
+    { title: 'Digital Nomad Visas & Legal', id: 'visa-legal', chapter: 'Chapter 4' },
+    { title: 'Health, Safety & Insurance', id: 'health-insurance', chapter: 'Chapter 4' },
+    { title: 'Financial Tools & Banking', id: 'financial-tools', chapter: 'Chapter 4' },
+    { title: 'Community Platforms', id: 'community-platforms', chapter: 'Chapter 4' },
+    { title: 'Logistics & Lifestyle Support', id: 'logistics-support', chapter: 'Chapter 4' },
+    { title: 'Where Do They Go?', id: 'where-do-they-go', chapter: 'Chapter 5' },
+    { title: 'What Makes a Place Nomad-Friendly?', id: 'nomad-friendly-places', chapter: 'Chapter 5' },
+    { title: 'Top Nomad Cities', id: 'top-nomad-cities', chapter: 'Chapter 5' },
+    { title: 'Emerging & Underrated Locations', id: 'emerging-locations', chapter: 'Chapter 5' },
+    { title: 'Nomad Circuits & Seasonal Patterns', id: 'nomad-circuits', chapter: 'Chapter 5' },
+    { title: 'Slowmads and Base Builders', id: 'slowmads-base-builders', chapter: 'Chapter 5' },
+    { title: 'Legal Life and Visas', id: 'legal-life-visas', chapter: 'Chapter 6' },
+    { title: 'The Visa Problem', id: 'visa-problem', chapter: 'Chapter 6' },
+    { title: 'Digital Nomad Visas: A Growing Trend', id: 'digital-nomad-visas', chapter: 'Chapter 6' },
+    { title: 'Taxation and Residency', id: 'taxation-residency', chapter: 'Chapter 6' },
+    { title: 'Banking and Business Entities', id: 'banking-business', chapter: 'Chapter 6' },
+    { title: 'Health Insurance & Legal Coverage', id: 'health-insurance-legal', chapter: 'Chapter 6' },
+    { title: 'Staying Legal on the Road', id: 'staying-legal', chapter: 'Chapter 6' },
+    { title: 'Money Matters', id: 'money-matters', chapter: 'Chapter 7' },
+    { title: 'How Digital Nomads Earn', id: 'how-nomads-earn', chapter: 'Chapter 7' },
+    { title: 'Geoarbitrage: Earning High, Spending Low', id: 'geoarbitrage', chapter: 'Chapter 7' },
+    { title: 'Banking and Budgeting', id: 'banking-budgeting', chapter: 'Chapter 7' },
+    { title: 'Taxes and Accounting', id: 'taxes-accounting', chapter: 'Chapter 7' },
+    { title: 'Insurance & Emergency Funds', id: 'insurance-emergency', chapter: 'Chapter 7' },
+    { title: 'Investment & Retirement Planning', id: 'investment-retirement', chapter: 'Chapter 7' },
+    { title: 'Challenges and Mindset', id: 'financial-challenges', chapter: 'Chapter 7' },
+    { title: 'Life on the Move', id: 'life-on-the-move', chapter: 'Chapter 8' },
+    { title: 'Finding Rhythm in Constant Change', id: 'finding-rhythm', chapter: 'Chapter 8' },
+    { title: 'Managing Health and Wellness', id: 'health-wellness', chapter: 'Chapter 8' },
+    { title: 'Building and Maintaining Relationships', id: 'relationships', chapter: 'Chapter 8' },
+    { title: 'Avoiding Burnout', id: 'avoiding-burnout', chapter: 'Chapter 8' },
+    { title: 'The Joys of the Journey', id: 'joys-journey', chapter: 'Chapter 8' },
+    { title: 'The Ecosystem of Digital Nomad Services', id: 'ecosystem-services', chapter: 'Chapter 9' },
+    { title: 'Coworking & Coliving Operators', id: 'coworking-coliving', chapter: 'Chapter 9' },
+    { title: 'Financial Services & Banking Tools', id: 'financial-services', chapter: 'Chapter 9' },
+    { title: 'Insurance & Healthcare', id: 'insurance-healthcare', chapter: 'Chapter 9' },
+    { title: 'Legal, Tax & Residency Services', id: 'legal-tax-services', chapter: 'Chapter 9' },
+    { title: 'Community Platforms', id: 'community-platforms-eco', chapter: 'Chapter 9' },
+    { title: 'Work and Job Platforms', id: 'work-job-platforms', chapter: 'Chapter 9' },
+    { title: 'Events, Retreats, and Conferences', id: 'events-retreats', chapter: 'Chapter 9' },
+    { title: 'Tools of the Trade', id: 'tools-trade', chapter: 'Chapter 9' },
+    { title: 'Criticism and Controversies', id: 'criticism-controversies', chapter: 'Chapter 10' },
+    { title: 'Gentrification and Rising Costs', id: 'gentrification-costs', chapter: 'Chapter 10' },
+    { title: 'Cultural Insensitivity', id: 'cultural-insensitivity', chapter: 'Chapter 10' },
+    { title: 'Environmental Footprint', id: 'environmental-footprint', chapter: 'Chapter 10' },
+    { title: 'Economic Leakage', id: 'economic-leakage', chapter: 'Chapter 10' },
+    { title: 'Visa Abuse and Legal Gray Areas', id: 'visa-abuse', chapter: 'Chapter 10' },
+    { title: 'Loneliness, Privilege, and Burnout', id: 'loneliness-privilege', chapter: 'Chapter 10' },
+    { title: 'Local Backlash and Regulation', id: 'local-backlash', chapter: 'Chapter 10' },
+    { title: 'Toward Ethical Nomadism', id: 'ethical-nomadism', chapter: 'Chapter 10' },
+    { title: 'The Future of Nomadism', id: 'future-nomadism', chapter: 'Chapter 11' },
+    { title: 'From Fast Travel to Slow Living', id: 'slow-living', chapter: 'Chapter 11' },
+    { title: 'Rise of Remote-First Societies', id: 'remote-first-societies', chapter: 'Chapter 11' },
+    { title: 'Intentional Communities & Nomad Villages', id: 'nomad-villages', chapter: 'Chapter 11' },
+    { title: 'Inclusion and Accessibility', id: 'inclusion-accessibility', chapter: 'Chapter 11' },
+    { title: 'Technology Trends Shaping Nomadism', id: 'tech-trends', chapter: 'Chapter 11' },
+    { title: 'Regulatory Shifts & International Law', id: 'regulatory-shifts', chapter: 'Chapter 11' },
+    { title: 'Environmental & Ethical Accountability', id: 'environmental-ethics', chapter: 'Chapter 11' },
+    { title: 'Integration with Local Communities', id: 'local-integration', chapter: 'Chapter 11' },
+    { title: 'Hybrid Lives and Multiple Homes', id: 'hybrid-lives', chapter: 'Chapter 11' },
+    { title: 'A Movement, Not a Moment', id: 'movement-not-moment', chapter: 'Chapter 11' },
+    { title: 'Entering the Digital Nomad Market', id: 'entering-nomad-market', chapter: 'Chapter 13' },
+    { title: 'Embed Yourself in the Community', id: 'embed-community', chapter: 'Chapter 13' },
+    { title: 'Launch in Person Before Online', id: 'launch-person-first', chapter: 'Chapter 13' },
+    { title: 'Get Visible Through Community Gateways', id: 'community-gateways', chapter: 'Chapter 13' },
+    { title: 'Create Something Shareable', id: 'create-shareable', chapter: 'Chapter 13' },
+    { title: 'Collaborate With Other Creators', id: 'collaborate-creators', chapter: 'Chapter 13' },
+    { title: 'Attend and Sponsor Events', id: 'sponsor-events', chapter: 'Chapter 13' },
+    { title: 'Build an Engaged Audience', id: 'engaged-audience', chapter: 'Chapter 13' },
+    { title: 'Build With Integrity', id: 'build-integrity', chapter: 'Chapter 13' },
+    { title: 'More Than a Lifestyle—A Movement Reshaping the World', id: 'conclusion-movement', chapter: 'Conclusion' }
+  ];
+
+  // Helper function for search functionality
+  function setupSearch(inputElement, resultsElement, isMobile = false) {
+    if (!inputElement || !resultsElement) return;
+    
+    inputElement.addEventListener('input', function(e) {
+      const query = e.target.value.trim().toLowerCase();
+      
+      if (query === '') {
+        resultsElement.classList.add('hidden');
+        return;
+      }
+
+      const filteredResults = searchableContent.filter(item => 
+        item.title.toLowerCase().includes(query) ||
+        item.chapter.toLowerCase().includes(query)
+      );
+
+      if (filteredResults.length === 0) {
+        resultsElement.innerHTML = `
+          <div class="p-4 text-center text-gray-500 text-sm">
+            No results found for "${query}"
+          </div>
+        `;
+      } else {
+        resultsElement.innerHTML = filteredResults.map(item => `
+          <a 
+            href="#${item.id}" 
+            class="flex items-center justify-between px-4 py-3 hover:bg-gray-50 border-b border-gray-100 last:border-b-0 search-result-link"
+            onclick="
+              ${isMobile ? `
+                document.getElementById('mobile-wiki-search').value = ''; 
+                document.getElementById('mobile-search-results').classList.add('hidden');
+                closeMobileMenu();
+              ` : `
+                document.getElementById('wiki-search').value = ''; 
+                document.getElementById('search-results').classList.add('hidden');
+              `}
+            "
+          >
+            <div>
+              <div class="font-medium text-gray-900 text-sm">${item.title}</div>
+              <div class="text-xs text-gray-500">${item.chapter}</div>
+            </div>
+            <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </a>
+        `).join('');
+      }
+      
+      resultsElement.classList.remove('hidden');
+    });
+
+    // Clear search when pressing escape
+    inputElement.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        inputElement.value = '';
+        resultsElement.classList.add('hidden');
+      }
+    });
+  }
+
+  // Setup desktop search
+  setupSearch(searchInput, searchResults, false);
+  
+  // Setup mobile search
+  setupSearch(mobileSearchInput, mobileSearchResults, true);
+
+  // Hide search results when clicking outside (for both desktop and mobile)
+  document.addEventListener('click', function(e) {
+    if (searchInput && searchResults && !searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+      searchResults.classList.add('hidden');
+    }
+    if (mobileSearchInput && mobileSearchResults && !mobileSearchInput.contains(e.target) && !mobileSearchResults.contains(e.target)) {
+      mobileSearchResults.classList.add('hidden');
+    }
+  });
 </script>
