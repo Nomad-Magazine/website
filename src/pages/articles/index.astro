@@ -23,14 +23,11 @@ const posts = allPosts
     return dateB.valueOf() - dateA.valueOf()
   })
 
-// Pin the bucket-list article as featured post
-const pinnedSlug = 'bucket-list-destinations-powered-by-pangea-2025'
-const featuredPost = posts.find(post => post.slug === pinnedSlug) || posts[0]
+// Use the most recently published article as featured post
+const featuredPost = posts[0]
 
-// Get posts with video content for YouTube section
+// Get posts with video content for YouTube section - only filter by explicit video tags/titles
 const videoPosts = posts.filter(post => 
-  post.body.includes('youtube.com/embed') || 
-  post.body.includes('iframe') || 
   post.data.tag?.includes('Video') ||
   post.data.title.toLowerCase().includes('video')
 ).slice(0, 3)
