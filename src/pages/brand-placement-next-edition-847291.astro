@@ -38,7 +38,10 @@ const adSizes = [
       'Great readability',
       'Artwork provided by client'
     ],
-    example: '/images/ad-1-3-outsite@0.5x.webp'
+    example: '/images/ad-1-3-outsite@0.5x.webp',
+    availability: undefined,
+    popular: undefined,
+    learnMoreUrl: undefined
   },
   {
     id: 'full-page',
@@ -53,7 +56,9 @@ const adSizes = [
       'Flexible positioning'
     ],
     example: '/images/edition-002-ad-nomad-global-pass.webp',
-    popular: true
+    popular: true,
+    availability: undefined,
+    learnMoreUrl: undefined
   },
   {
     id: 'double-page',
@@ -67,7 +72,10 @@ const adSizes = [
       'Premium positioning',
       'Artwork provided by client'
     ],
-    example: '/images/edition-001-nomad-cruise-double-page-advertising.webp'
+    example: '/images/edition-001-nomad-cruise-double-page-advertising.webp',
+    availability: undefined,
+    popular: undefined,
+    learnMoreUrl: undefined
   },
   {
     id: 'horizontal-fifth',
@@ -81,7 +89,10 @@ const adSizes = [
       'Logo and tagline focus',
       'Artwork provided by client'
     ],
-    example: '/images/edition-003-ad-half-page.webp'
+    example: '/images/edition-003-ad-half-page.webp',
+    availability: undefined,
+    popular: undefined,
+    learnMoreUrl: undefined
   },
   {
     id: 'sponsored-article-you-write',
@@ -97,7 +108,9 @@ const adSizes = [
       'Custom design to match magazine style'
     ],
     example: '/images/edition-002-mindvelley-article.webp',
-    availability: 'Only 1 spot left for Issue 4'
+    availability: 'Only 1 spot left for Issue 4',
+    popular: undefined,
+    learnMoreUrl: undefined
   },
   {
     id: 'sponsored-article-we-write',
@@ -113,21 +126,26 @@ const adSizes = [
       'Custom design to match magazine style'
     ],
     example: '/images/edition-002-mindvelley-article.webp',
-    availability: 'Only 1 spot left for Issue 4'
+    availability: 'Only 1 spot left for Issue 4',
+    popular: undefined,
+    learnMoreUrl: undefined
   },
   {
     id: 'nomad-directory',
     name: 'Nomad Directory',
     description: 'Feature your brand in our curated nomad directory',
-    size: 'Digital listing',
-    price: 75,
+    size: 'Print & Digital listing',
+    price: '50-100',
     features: [
-      'Online directory placement',
+      'Print magazine placement',
       'Company profile with logo',
       'Direct link to your website',
-      'Searchable by category'
+      'Choose Small or Large format'
     ],
-    example: '/images/Nomad-directory.webp'
+    example: '/images/NGM-04_NomadDirectory_Proposal_Page_1.webp',
+    learnMoreUrl: '/nomad-directory-highlight-options',
+    availability: undefined,
+    popular: undefined
   }
 ]
 
@@ -620,49 +638,104 @@ const sponsors = [
 
       <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
         {adSizes.map((ad) => (
-                    <div class={`relative overflow-hidden rounded-2xl bg-white p-8 shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 flex flex-col h-full ${ad.popular ? 'ring-4 ring-yellow-400' : ''}`}>
-            {ad.popular && (
-              <div class="absolute top-0 right-0 bg-yellow-400 text-black px-4 py-2 text-sm font-bold rounded-bl-lg">
-                Most Popular
+          ad.learnMoreUrl ? (
+            <a href={ad.learnMoreUrl} class={`relative overflow-hidden rounded-2xl bg-white p-8 shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 flex flex-col h-full ${ad.popular ? 'ring-4 ring-yellow-400' : ''} cursor-pointer`}>
+              {ad.popular && (
+                <div class="absolute top-0 right-0 bg-yellow-400 text-black px-4 py-2 text-sm font-bold rounded-bl-lg">
+                  Most Popular
+                </div>
+              )}
+              
+              <div class="mb-6">
+                <img
+                  src={ad.example}
+                  alt={`${ad.name} example`}
+                  class="w-full h-64 object-cover rounded-lg"
+                  loading="lazy"
+                />
               </div>
-            )}
-            
-            <div class="mb-6">
-               <img
-                 src={ad.example}
-                 alt={`${ad.name} example`}
-                 class="w-full h-64 object-cover rounded-lg"
-                 loading="lazy"
-               />
-             </div>
 
-             <div class="space-y-4 flex-grow">
-               <div>
-                 <h3 class="text-2xl font-bold text-gray-900 mb-2">{ad.name}</h3>
-                 <p class="text-gray-600 mb-2">{ad.description}</p>
-                 <p class="text-sm text-gray-500">Size: {ad.size}</p>
-                 {ad.availability && (
-                   <div class="mt-2">
-                     <span class="inline-block bg-red-100 text-red-800 text-sm font-semibold px-3 py-1 rounded-full">
-                       {ad.availability}
-                     </span>
-                   </div>
-                 )}
-                 <div class="mt-3">
-                   <span class="text-3xl font-bold text-gray-900">€{ad.price}</span>
-                 </div>
-               </div>
+              <div class="space-y-4 flex-grow">
+                <div>
+                  <h3 class="text-2xl font-bold text-gray-900 mb-2">{ad.name}</h3>
+                  <p class="text-gray-600 mb-2">{ad.description}</p>
+                  <p class="text-sm text-gray-500">Size: {ad.size}</p>
+                  {ad.availability && (
+                    <div class="mt-2">
+                      <span class="inline-block bg-red-100 text-red-800 text-sm font-semibold px-3 py-1 rounded-full">
+                        {ad.availability}
+                      </span>
+                    </div>
+                  )}
+                  <div class="mt-3">
+                    <span class="text-3xl font-bold text-gray-900">€{ad.price}</span>
+                  </div>
+                </div>
 
-               <div class="space-y-2">
-                 {ad.features.map((feature) => (
-                   <div class="flex items-center">
-                     <CheckIcon class="mr-2 h-5 w-5 text-green-500" />
-                     <span class="text-gray-700">{feature}</span>
-                   </div>
-                 ))}
-               </div>
-             </div>
-           </div>
+                <div class="space-y-2">
+                  {ad.features.map((feature) => (
+                    <div class="flex items-center">
+                      <CheckIcon class="mr-2 h-5 w-5 text-green-500" />
+                      <span class="text-gray-700">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+                
+                <div class="mt-4 pt-4 border-t border-gray-200">
+                  <span class="inline-flex items-center text-yellow-600 font-semibold text-sm">
+                    Learn More
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </a>
+          ) : (
+            <div class={`relative overflow-hidden rounded-2xl bg-white p-8 shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 flex flex-col h-full ${ad.popular ? 'ring-4 ring-yellow-400' : ''}`}>
+              {ad.popular && (
+                <div class="absolute top-0 right-0 bg-yellow-400 text-black px-4 py-2 text-sm font-bold rounded-bl-lg">
+                  Most Popular
+                </div>
+              )}
+              
+              <div class="mb-6">
+                <img
+                  src={ad.example}
+                  alt={`${ad.name} example`}
+                  class="w-full h-64 object-cover rounded-lg"
+                  loading="lazy"
+                />
+              </div>
+
+              <div class="space-y-4 flex-grow">
+                <div>
+                  <h3 class="text-2xl font-bold text-gray-900 mb-2">{ad.name}</h3>
+                  <p class="text-gray-600 mb-2">{ad.description}</p>
+                  <p class="text-sm text-gray-500">Size: {ad.size}</p>
+                  {ad.availability && (
+                    <div class="mt-2">
+                      <span class="inline-block bg-red-100 text-red-800 text-sm font-semibold px-3 py-1 rounded-full">
+                        {ad.availability}
+                      </span>
+                    </div>
+                  )}
+                  <div class="mt-3">
+                    <span class="text-3xl font-bold text-gray-900">€{ad.price}</span>
+                  </div>
+                </div>
+
+                <div class="space-y-2">
+                  {ad.features.map((feature) => (
+                    <div class="flex items-center">
+                      <CheckIcon class="mr-2 h-5 w-5 text-green-500" />
+                      <span class="text-gray-700">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )
         ))}
       </div>
     </div>
