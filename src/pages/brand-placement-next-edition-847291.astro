@@ -637,7 +637,7 @@ const sponsors = [
        </div>
 
       <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {adSizes.map((ad) => (
+        {adSizes.map((ad: any) => (
           ad.learnMoreUrl ? (
             <a href={ad.learnMoreUrl} class={`relative overflow-hidden rounded-2xl bg-white p-8 shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 flex flex-col h-full ${ad.popular ? 'ring-4 ring-yellow-400' : ''} cursor-pointer`}>
               {ad.popular && (
