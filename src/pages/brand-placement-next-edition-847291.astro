@@ -673,7 +673,7 @@ const sponsors = [
                 </div>
 
                 <div class="space-y-2">
-                  {ad.features.map((feature) => (
+                  {ad.features.map((feature: string) => (
                     <div class="flex items-center">
                       <CheckIcon class="mr-2 h-5 w-5 text-green-500" />
                       <span class="text-gray-700">{feature}</span>
@@ -726,7 +726,7 @@ const sponsors = [
                 </div>
 
                 <div class="space-y-2">
-                  {ad.features.map((feature) => (
+                  {ad.features.map((feature: string) => (
                     <div class="flex items-center">
                       <CheckIcon class="mr-2 h-5 w-5 text-green-500" />
                       <span class="text-gray-700">{feature}</span>
