@@ -5,6 +5,7 @@ import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import MaterialSymbolsCheck from '~icons/material-symbols/check'
 import MaterialSymbolsArrowOutward from '~icons/material-symbols/arrow-outward'
 import MaterialSymbolsSchedule from '~icons/material-symbols/schedule'
+import MaterialSymbolsPrint from '~icons/material-symbols/print'
 
 const seo: SEOProps = {
   title: 'Submission Successful - Nomad Directory',
@@ -68,6 +69,68 @@ const seo: SEOProps = {
     </div>
   </div>
 
+  <!-- Print Edition Inclusion with Dec 10 Deadline -->
+  <div class="bg-white py-16 border-t border-gray-100">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-bold text-gray-900 mb-6">Your Company in Print</h2>
+        <p class="text-xl text-gray-600 max-w-4xl mx-auto mb-4">
+          If you signed up before December 10th, your company will be automatically included in our upcoming print magazine edition at no extra cost! 
+        </p>
+        <p class="text-lg text-gray-600 max-w-4xl mx-auto mb-6">
+          To help certain brands stand out, we're offering highlighted placements inside the directory: 4 Small highlighted spots, and 5 Large. Send email to lera@nomadgossip.com with "Yes — small" or "Yes — large" Deadline December 15 2025
+        </p>
+        <p class="text-center mb-8">
+          <a href="/nomad-directory-highlight-options" class="text-yellow-600 hover:text-yellow-700 font-semibold underline">
+            Learn More →
+          </a>
+        </p>
+      </div>
+      
+      <!-- Print Directory Preview -->
+      <div class="max-w-6xl mx-auto mb-12">
+        <a 
+          href="/nomad-directory-highlight-options"
+          class="block bg-gray-50 rounded-2xl p-8 hover:bg-gray-100 transition-all duration-200 hover:shadow-lg cursor-pointer"
+        >
+          <div class="text-center">
+            <img 
+              src="/images/NGM-04_NomadDirectory_Proposal_Page_1.webp" 
+              alt="Nomad Directory Print Preview" 
+              class="w-full h-auto rounded-xl shadow-lg mb-6"
+              loading="lazy"
+            />
+            <p class="text-lg text-gray-600">Preview of the Nomad Directory in print</p>
+          </div>
+        </a>
+      </div>
+
+      <!-- Highlight Options CTA -->
+      <div class="text-center bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl p-8 max-w-3xl mx-auto">
+        <h3 class="text-2xl font-bold text-gray-900 mb-4">Want Even More Visibility?</h3>
+        <p class="text-gray-600 mb-6">
+          While your basic listing is included for free, you can upgrade to highlight options for premium positioning and increased visibility.
+        </p>
+        <a 
+          href="/nomad-directory-highlight-options"
+          class="inline-flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-4 rounded-lg font-bold text-lg transition-all duration-200 hover:scale-105"
+        >
+          <MaterialSymbolsPrint class="h-5 w-5" />
+          View Highlight Options
+          <MaterialSymbolsArrowOutward class="h-4 w-4" />
+        </a>
+        <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-600">
+          <div class="flex items-center justify-center gap-2">
+            <span class="font-semibold text-blue-600">Small Format:</span> €75
+          </div>
+          <div class="flex items-center justify-center gap-2">
+            <span class="font-semibold text-yellow-600">Large Format:</span> €100
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Upgrade Transition -->
   <div class="bg-gray-50 py-16">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -87,7 +150,7 @@ const seo: SEOProps = {
   <!-- Upgrade Options -->
   <div class="bg-gray-50 pb-20">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+      <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
         
         <!-- Support -->
         <div class="bg-white rounded-lg p-8 shadow-lg h-full flex flex-col">
@@ -125,42 +188,6 @@ const seo: SEOProps = {
           </a>
         </div>
 
-        <!-- Digital Package -->
-        <div class="bg-white rounded-lg p-8 shadow-lg h-full flex flex-col">
-          
-          <div class="text-center flex-grow">
-            <h3 class="text-2xl font-bold text-gray-900 mb-4">Digital Package</h3>
-            <div class="text-4xl font-bold text-gray-900 mb-6">€250</div>
-            <p class="text-gray-600 mb-8">Get a dedicated company page and newsletter feature with professional editing</p>
-            
-            <div class="space-y-3 mb-8 text-left">
-              <div class="flex items-center">
-                <MaterialSymbolsCheck class="mr-3 h-5 w-5 flex-shrink-0 text-yellow-400" />
-                <span class="text-gray-700">Company feature page (based on your info & photos)</span>
-              </div>
-              <div class="flex items-center">
-                <MaterialSymbolsCheck class="mr-3 h-5 w-5 flex-shrink-0 text-yellow-400" />
-                <span class="text-gray-700">Backlinks to your site</span>
-              </div>
-              <div class="flex items-center">
-                <MaterialSymbolsCheck class="mr-3 h-5 w-5 flex-shrink-0 text-yellow-400" />
-                <span class="text-gray-700">Newsletter feature (650+ subscribers)</span>
-              </div>
-              <div class="flex items-center">
-                <MaterialSymbolsCheck class="mr-3 h-5 w-5 flex-shrink-0 text-yellow-400" />
-                <span class="text-gray-700">Social media promotion</span>
-              </div>
-            </div>
-          </div>
-          
-          <a 
-            href="https://pay.nomad-magazine.com/b/bJe00j4A55rtagC05r8bS0v" 
-            target="_blank"
-            class="w-full inline-block rounded bg-yellow-400 px-8 py-4 text-center text-lg font-bold text-black transition-transform duration-200 hover:scale-105 hover:shadow-lg mt-auto"
-          >
-            Get Digital Package
-          </a>
-        </div>
 
         <!-- Digital + Print -->
         <div class="bg-white rounded-lg p-8 shadow-lg border-2 border-yellow-400 relative h-full flex flex-col">
@@ -174,10 +201,6 @@ const seo: SEOProps = {
             <p class="text-gray-600 mb-8">Full digital package plus brand placement in our next magazine edition</p>
             
             <div class="space-y-3 mb-8 text-left">
-              <div class="flex items-center">
-                <MaterialSymbolsCheck class="mr-3 h-5 w-5 flex-shrink-0 text-yellow-400" />
-                <span class="text-gray-700">Everything in Digital Package</span>
-              </div>
               <div class="flex items-center">
                 <MaterialSymbolsCheck class="mr-3 h-5 w-5 flex-shrink-0 text-yellow-400" />
                 <span class="text-gray-700">Brand placement in next magazine edition</span>
