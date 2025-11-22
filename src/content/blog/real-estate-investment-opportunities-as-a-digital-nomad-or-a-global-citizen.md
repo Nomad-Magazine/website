@@ -6,7 +6,7 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-03-18T03:50:44.322Z
-updated_at: 2025-08-30T14:29:25.532Z
+updated_at: 2025-11-21T06:24:50.995Z
 head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/67d8cefb767c46c9a31c9d42-1742269868042.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: real estate investment, digital nomad, remote work, property management, global citizen, Airbnb rentals, REITs, tax planning
@@ -213,7 +213,7 @@ For foreign owners of single-member U.S. LLCs, filing Form 5472 with the IRS is 
 
 ### Main Points Review
 
-Building a real estate portfolio as a digital nomad takes careful planning and the right tools. Software like [Buildium](https://www.buildium.com/) (starting at $45/month) makes it easier to manage properties remotely [\[18\]](https://www.coachcarson.com/travel-real-estate-investing/). Think of real estate as both an investment and a business.
+Building a real estate portfolio as a [digital nomad](https://nomadadjacent.com) takes careful planning and the right tools. Software like [Buildium](https://www.buildium.com/) (starting at $45/month) makes it easier to manage properties remotely [\[18\]](https://www.coachcarson.com/travel-real-estate-investing/). Think of real estate as both an investment and a business.
 
 | Component | Key Considerations | Implementation Tools |
 | --- | --- | --- |
