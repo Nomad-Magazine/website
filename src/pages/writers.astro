@@ -426,7 +426,7 @@ const seo: SEOProps = {
     });
   }
 
-  function handleCategoryWrite(categoryId, categoryTitle) {
+  function handleCategoryWrite(_categoryId, categoryTitle) {
     const emailBody = `Hi! I'd like to submit a pitch or article for the "${categoryTitle}" category.%0A%0ACategory: ${categoryTitle}%0A%0AProposed article title:%0A%0AArticle summary/ideas:%0A%0AAbout me:`;
     
     window.location.href = `mailto:editorial@nomadgossip.com?subject=Article Submission - ${categoryTitle}&body=${emailBody}`;
