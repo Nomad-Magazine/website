@@ -3,6 +3,8 @@ export const prerender = true;
 
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 
+// URL parameters will be handled client-side
+
 const seo: SEOProps = {
   title: 'Free Digital Nomad Magazines - Download Now | Nomad Magazine',
   description: 'Download three free digital nomad magazines instantly. Get inspiring stories, practical tips, and insights from the global nomad community.',
@@ -16,6 +18,13 @@ const seo: SEOProps = {
     <div class="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
       <!-- Header -->
       <div class="mb-12 text-center">
+        <div id="partner-section" class="hidden mb-6 flex items-center justify-center gap-3">
+          <span class="text-gray-600 text-lg">In partnership with</span>
+          <div class="flex items-center gap-2">
+            <img id="partner-favicon" src="" alt="" class="w-6 h-6" loading="eager" />
+            <span id="partner-name" class="font-semibold text-gray-800"></span>
+          </div>
+        </div>
         <p class="font-justme text-3xl text-gray-800 mb-4">Biggest Giveaway Ever</p>
         <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 mb-6">
           Get 3 Free Nomad Magazines 🎁
@@ -48,7 +57,7 @@ const seo: SEOProps = {
               <div class="text-xs uppercase">Seconds</div>
             </div>
           </div>
-          <p class="text-xs mt-3 opacity-90">Offer valid until December 31, 2025</p>
+          <p id="expiry-text" class="text-xs mt-3 opacity-90">Offer valid until December 31, 2025</p>
         </div>
       </div>
 
@@ -113,6 +122,8 @@ const seo: SEOProps = {
           <div class="bento-formkit-subheader">Enter your email and we'll send you the download link and password right away.</div>
 
           <input type="hidden" name="event_type" value="giveaway2025" />
+          <input type="hidden" id="partner-field" name="utm_source" value="" />
+          <input type="hidden" id="limit-field" name="utm_campaign" value="" />
 
           <div class="field-group">
             <label for="country" class="field-label">Where are you from? <span class="required">*</span></label>
@@ -357,8 +368,93 @@ const seo: SEOProps = {
 </style>
 
 <script>
-  // Countdown timer - expires December 31, 2025 at 23:59:59
-  const countdownDate = new Date('December 31, 2025 23:59:59').getTime();
+  // Get UTM parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const partnerDomain = urlParams.get('utm_source');
+  const limitCode = urlParams.get('utm_campaign');
+
+  // Initialize URL parameter handling when DOM is ready
+  document.addEventListener('DOMContentLoaded', function() {
+    // Handle partner section
+    if (partnerDomain) {
+      const partnerSection = document.getElementById('partner-section');
+      const partnerFavicon = document.getElementById('partner-favicon') as HTMLImageElement;
+      const partnerName = document.getElementById('partner-name');
+      const partnerField = document.getElementById('partner-field') as HTMLInputElement;
+      
+      if (partnerSection && partnerFavicon && partnerName && partnerField) {
+        // Always set the field value for tracking
+        partnerField.value = partnerDomain;
+        
+        // Check if it looks like a domain (contains at least one dot)
+        const isDomain = partnerDomain.includes('.');
+        
+        if (isDomain) {
+          // Show partnership section only for domains
+          partnerSection.classList.remove('hidden');
+          partnerName.textContent = partnerDomain;
+          partnerFavicon.src = `https://www.google.com/s2/favicons?domain=${partnerDomain}&sz=32`;
+          partnerFavicon.alt = `${partnerDomain} favicon`;
+          partnerFavicon.style.display = 'inline';
+          
+          // Handle favicon loading error
+          partnerFavicon.onerror = function() {
+            partnerFavicon.style.display = 'none';
+          };
+        } else {
+          // Not a domain, don't show partnership section at all
+          partnerSection.classList.add('hidden');
+        }
+      }
+    }
+
+    // Handle date text and limit code
+    if (limitCode && limitCode.length === 4) {
+      const day = parseInt(limitCode.substring(0, 2));
+      const month = parseInt(limitCode.substring(2, 4)) - 1; // JS months are 0-indexed
+      const currentYear = new Date().getFullYear();
+      
+      if (month >= 0 && month <= 11 && day >= 1 && day <= 31) {
+        const date = new Date(currentYear, month, day);
+        const displayDateText = date.toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        });
+        
+        const expiryText = document.getElementById('expiry-text');
+        const limitField = document.getElementById('limit-field') as HTMLInputElement;
+        
+        if (expiryText) {
+          expiryText.textContent = `Offer valid until ${displayDateText}`;
+        }
+        
+        if (limitField) {
+          limitField.value = limitCode;
+        }
+      }
+    }
+  });
+  
+  // Parse limit code as date (DDMM format)
+  let extendedDate = null;
+  if (limitCode && limitCode.length === 4) {
+    const day = parseInt(limitCode.substring(0, 2));
+    const month = parseInt(limitCode.substring(2, 4)) - 1; // JS months are 0-indexed
+    const currentYear = new Date().getFullYear();
+    const nextYear = currentYear + 1;
+    
+    // Create date for this year and next year
+    const thisYearDate = new Date(currentYear, month, day, 23, 59, 59);
+    const nextYearDate = new Date(nextYear, month, day, 23, 59, 59);
+    
+    // Use next year's date if this year's date has passed, otherwise use this year's
+    extendedDate = thisYearDate.getTime() > Date.now() ? thisYearDate : nextYearDate;
+  }
+  
+  // Default countdown timer - expires December 31, 2025 at 23:59:59
+  const defaultCountdownDate = new Date('December 31, 2025 23:59:59').getTime();
+  const countdownDate = extendedDate ? extendedDate.getTime() : defaultCountdownDate;
 
   function updateCountdown() {
     const now = new Date().getTime();
