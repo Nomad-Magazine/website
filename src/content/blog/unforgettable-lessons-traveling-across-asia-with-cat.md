@@ -6,14 +6,14 @@ author: Mia Kercher
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://miakercher.com/hypnosis/
 created_at: 2024-11-23T10:00:00.000Z
-updated_at: 2024-11-23T10:00:00.000Z
-pubDate: 2024-11-23T10:00:00.000Z
+updated_at: 2025-11-23T10:00:00.000Z
+pubDate: 2025-11-23T10:00:00.000Z
 heroImage: /images/article-travel-with-cat-thumbnail.webp
 heroImageAlt: Woman traveling with her cat companion on an epic journey across Asia
 head_image: /images/article-travel-with-cat-thumbnail.webp
 head_image_alt: Woman traveling with her cat companion on an epic journey across Asia
 keywords: travel with pets, cat travel, overland travel, Asia travel, digital nomad with pets, adventure travel, pet-friendly travel, solo travel with cat, nomad lifestyle, travel challenges
-tag: Travel, Adventure, Pets, Nomad Life
+tag: Travel, Adventure, Pets, Nomad Life, Custom, Homepage
 published: true
 locale: en
 next_blog: ''
@@ -141,7 +141,7 @@ But guess what? A tuk-tuk driver spotted me within a few minutes and gave me a r
 
 At that guest house, I rented a motorbike and taught myself how to ride it. (I ended up getting one in Vietnam later and riding it across the country).
 
-<img src="/images/article-travel-with-cat-lahore-airport.webp" alt="Airport preparations for international cat travel" style="float: left; width: 350px; margin: 0 20px 20px 0; border-radius: 8px;">
+<!-- moved to last section -->
 
 ## Ask Locals for Off-the-Beaten-Path Solutions
 
@@ -150,6 +150,8 @@ Instead of trying to get on the big tourist buses to Vietnam, I asked my guestho
 And that's how I ended up making it all the way to Vietnam, my end destination: by taking it one village at a time and asking help from the locals.
 
 ## The Biggest Inconveniences Can Turn Into the Best Experience
+
+<img src="/images/article-travel-with-cat-lahore-airport.webp" alt="Airport preparations for international cat travel" style="float: right; width: 350px; margin: 0 0 20px 20px; border-radius: 8px;">
 
 Because typical tourist options weren't available to me with a cat, <mark style="background-color: #fff59d;">I got to meet way more local people than most tourists ever do.</mark> I can't tell you how many people I met in hostels or meetups, saying they never got a chance to meet local people, outside of their tours, digital nomad meetups, or coliving spaces.
 

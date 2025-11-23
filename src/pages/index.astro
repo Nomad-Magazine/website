@@ -26,17 +26,33 @@ import { getCollection } from 'astro:content'
 // Fetch real nomad directory data
 const { records = [] } = await fetchReportRecords('6857167d82358a0f5e038c3f')
 
-// Fetch latest blog articles
+// Fetch latest blog articles (prioritize custom/homepage-tagged posts)
 const allPosts = await getCollection('blog')
-const latestPosts = allPosts
-  .filter(post => post.data.published !== false)
-  .sort((a, b) => {
-    // Use the most recent date available: pubDate, updatedDate
-    const dateA = new Date(a.data.pubDate || a.data.updatedDate || '2024-01-01').getTime()
-    const dateB = new Date(b.data.pubDate || b.data.updatedDate || '2024-01-01').getTime()
-    return dateB - dateA
-  })
-  .slice(0, 3)
+const publishedPosts = allPosts.filter((post) => post.data.published !== false)
+
+// Posts explicitly tagged to appear on homepage
+const homepageTagged = publishedPosts.filter((post) => {
+  const tag = (post.data.tag || '').toLowerCase()
+  return tag.includes('homepage') || tag.includes('custom')
+})
+
+// Remaining posts excluding ones already selected
+const remainingPosts = publishedPosts.filter(
+  (post) => !homepageTagged.find((hp) => hp.slug === post.slug)
+)
+
+// Sort both lists by latest date
+const sortByDateDesc = (a, b) => {
+  const dateA = new Date(a.data.pubDate || a.data.updatedDate || '2024-01-01').getTime()
+  const dateB = new Date(b.data.pubDate || b.data.updatedDate || '2024-01-01').getTime()
+  return dateB - dateA
+}
+
+homepageTagged.sort(sortByDateDesc)
+remainingPosts.sort(sortByDateDesc)
+
+// Compose final list giving priority to homepage-tagged posts
+const latestPosts = [...homepageTagged, ...remainingPosts].slice(0, 3)
 
 // Hardcoded Monthly Supporters list (same as nomad_directory.astro)
 const monthlySupporters = [

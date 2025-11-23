@@ -38,6 +38,14 @@ const regularPosts = posts.filter(post =>
   !videoPosts.includes(post)
 )
 
+// Segment posts to avoid duplicates across sections
+const topRowPosts = regularPosts.slice(0, 6)          // left block
+const sidebarRecentPosts = regularPosts.slice(6, 11)  // right sidebar
+const featuredStoriesPool = regularPosts.slice(6)     // pool for bottom sections starts after top block
+const featuredStoriesHero = featuredStoriesPool[0]    // big story
+const featuredStoriesRow = featuredStoriesPool.slice(1, 4) // three smaller stories
+const archivePosts = featuredStoriesPool.slice(4)     // remaining go to archive
+
 // YouTube channel videos
 const youtubeVideos = [
   {
@@ -154,12 +162,12 @@ const seo: SEOProps = {
 
             <!-- Row 2: Three articles side by side -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-              {regularPosts[0] && (
+              {topRowPosts[0] && (
                 <article class="space-y-3">
                   <div class="relative">
                     <Image
-                      src={regularPosts[0].data.heroImage || "/images/edition-003-cover_holded_front_face.webp"}
-                      alt={regularPosts[0].data.heroImageAlt || regularPosts[0].data.title}
+                      src={topRowPosts[0].data.heroImage || "/images/edition-003-cover_holded_front_face.webp"}
+                      alt={topRowPosts[0].data.heroImageAlt || topRowPosts[0].data.title}
                       width={400}
                       height={250}
                       class="w-full aspect-[8/5] object-cover rounded-2xl"
@@ -167,15 +175,15 @@ const seo: SEOProps = {
                   </div>
                   <div class="space-y-2">
                     <div class="text-xs uppercase tracking-wider text-neutral-400 font-bold">
-                      {regularPosts[0].data.author || 'Nomad Magazine'}
+                      {topRowPosts[0].data.author || 'Nomad Magazine'}
                     </div>
                     <h2 class="text-lg font-bold leading-tight text-white">
-                      <a href={`/blog/${regularPosts[0].slug}`} class="hover:text-neutral-300 transition-colors">
-                        {regularPosts[0].data.title}
+                      <a href={`/blog/${topRowPosts[0].slug}`} class="hover:text-neutral-300 transition-colors">
+                        {topRowPosts[0].data.title}
                       </a>
                     </h2>
                     <div class="text-xs text-neutral-500 font-bold uppercase">
-                      {regularPosts[0].data.pubDate?.toLocaleDateString('en-US', {
+                      {topRowPosts[0].data.pubDate?.toLocaleDateString('en-US', {
                         month: 'short',
                         day: 'numeric',
                       })}
@@ -184,12 +192,12 @@ const seo: SEOProps = {
                 </article>
               )}
 
-              {regularPosts[1] && (
+              {topRowPosts[1] && (
                 <article class="space-y-3">
                   <div class="relative">
                     <Image
-                      src={regularPosts[1].data.heroImage || "/images/edition-003-cover_holded_front_face.webp"}
-                      alt={regularPosts[1].data.heroImageAlt || regularPosts[1].data.title}
+                      src={topRowPosts[1].data.heroImage || "/images/edition-003-cover_holded_front_face.webp"}
+                      alt={topRowPosts[1].data.heroImageAlt || topRowPosts[1].data.title}
                       width={400}
                       height={250}
                       class="w-full aspect-[8/5] object-cover rounded-2xl"
@@ -197,15 +205,15 @@ const seo: SEOProps = {
                   </div>
                   <div class="space-y-2">
                     <div class="text-xs uppercase tracking-wider text-neutral-400 font-bold">
-                      {regularPosts[1].data.author || 'Nomad Magazine'}
+                      {topRowPosts[1].data.author || 'Nomad Magazine'}
                     </div>
                     <h2 class="text-lg font-bold leading-tight text-white">
-                      <a href={`/blog/${regularPosts[1].slug}`} class="hover:text-neutral-300 transition-colors">
-                        {regularPosts[1].data.title}
+                      <a href={`/blog/${topRowPosts[1].slug}`} class="hover:text-neutral-300 transition-colors">
+                        {topRowPosts[1].data.title}
                       </a>
                     </h2>
                     <div class="text-xs text-neutral-500 font-bold uppercase">
-                      {regularPosts[1].data.pubDate?.toLocaleDateString('en-US', {
+                      {topRowPosts[1].data.pubDate?.toLocaleDateString('en-US', {
                         month: 'short',
                         day: 'numeric',
                       })}
@@ -214,12 +222,12 @@ const seo: SEOProps = {
                 </article>
               )}
 
-              {regularPosts[2] && (
+              {topRowPosts[2] && (
                 <article class="space-y-3">
                   <div class="relative">
                     <Image
-                      src={regularPosts[2].data.heroImage || "/images/edition-003-cover_holded_front_face.webp"}
-                      alt={regularPosts[2].data.heroImageAlt || regularPosts[2].data.title}
+                      src={topRowPosts[2].data.heroImage || "/images/edition-003-cover_holded_front_face.webp"}
+                      alt={topRowPosts[2].data.heroImageAlt || topRowPosts[2].data.title}
                       width={400}
                       height={250}
                       class="w-full aspect-[8/5] object-cover rounded-2xl"
@@ -227,15 +235,15 @@ const seo: SEOProps = {
                   </div>
                   <div class="space-y-2">
                     <div class="text-xs uppercase tracking-wider text-neutral-400 font-bold">
-                      {regularPosts[2].data.author || 'Nomad Magazine'}
+                      {topRowPosts[2].data.author || 'Nomad Magazine'}
                     </div>
                     <h2 class="text-lg font-bold leading-tight text-white">
-                      <a href={`/blog/${regularPosts[2].slug}`} class="hover:text-neutral-300 transition-colors">
-                        {regularPosts[2].data.title}
+                      <a href={`/blog/${topRowPosts[2].slug}`} class="hover:text-neutral-300 transition-colors">
+                        {topRowPosts[2].data.title}
                       </a>
                     </h2>
                     <div class="text-xs text-neutral-500 font-bold uppercase">
-                      {regularPosts[2].data.pubDate?.toLocaleDateString('en-US', {
+                      {topRowPosts[2].data.pubDate?.toLocaleDateString('en-US', {
                         month: 'short',
                         day: 'numeric',
                       })}
@@ -247,12 +255,12 @@ const seo: SEOProps = {
 
             <!-- Row 3: Three articles side by side -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {regularPosts[3] && (
+              {topRowPosts[3] && (
                 <article class="space-y-3">
                   <div class="relative">
                     <Image
-                      src={regularPosts[3].data.heroImage || "/images/edition-003-cover_holded_front_face.webp"}
-                      alt={regularPosts[3].data.heroImageAlt || regularPosts[3].data.title}
+                      src={topRowPosts[3].data.heroImage || "/images/edition-003-cover_holded_front_face.webp"}
+                      alt={topRowPosts[3].data.heroImageAlt || topRowPosts[3].data.title}
                       width={300}
                       height={200}
                       class="w-full aspect-[3/2] object-cover rounded-2xl"
@@ -260,15 +268,15 @@ const seo: SEOProps = {
                   </div>
                   <div class="space-y-2">
                     <div class="text-xs uppercase tracking-wider text-neutral-400 font-bold">
-                      {regularPosts[3].data.author || 'Nomad Magazine'}
+                      {topRowPosts[3].data.author || 'Nomad Magazine'}
                     </div>
                     <h2 class="text-lg font-bold leading-tight text-white">
-                      <a href={`/blog/${regularPosts[3].slug}`} class="hover:text-neutral-300 transition-colors">
-                        {regularPosts[3].data.title}
+                      <a href={`/blog/${topRowPosts[3].slug}`} class="hover:text-neutral-300 transition-colors">
+                        {topRowPosts[3].data.title}
                       </a>
                     </h2>
                     <div class="text-xs text-neutral-500 font-bold uppercase">
-                      {regularPosts[3].data.pubDate?.toLocaleDateString('en-US', {
+                      {topRowPosts[3].data.pubDate?.toLocaleDateString('en-US', {
                         month: 'short',
                         day: 'numeric',
                       })}
@@ -277,12 +285,12 @@ const seo: SEOProps = {
                 </article>
               )}
 
-              {regularPosts[4] && (
+              {topRowPosts[4] && (
                 <article class="space-y-3">
                   <div class="relative">
                     <Image
-                      src={regularPosts[4].data.heroImage || "/images/edition-003-cover_holded_front_face.webp"}
-                      alt={regularPosts[4].data.heroImageAlt || regularPosts[4].data.title}
+                      src={topRowPosts[4].data.heroImage || "/images/edition-003-cover_holded_front_face.webp"}
+                      alt={topRowPosts[4].data.heroImageAlt || topRowPosts[4].data.title}
                       width={300}
                       height={200}
                       class="w-full aspect-[3/2] object-cover rounded-2xl"
@@ -290,15 +298,15 @@ const seo: SEOProps = {
                   </div>
                   <div class="space-y-2">
                     <div class="text-xs uppercase tracking-wider text-neutral-400 font-bold">
-                      {regularPosts[4].data.author || 'Nomad Magazine'}
+                      {topRowPosts[4].data.author || 'Nomad Magazine'}
                     </div>
                     <h2 class="text-lg font-bold leading-tight text-white">
-                      <a href={`/blog/${regularPosts[4].slug}`} class="hover:text-neutral-300 transition-colors">
-                        {regularPosts[4].data.title}
+                      <a href={`/blog/${topRowPosts[4].slug}`} class="hover:text-neutral-300 transition-colors">
+                        {topRowPosts[4].data.title}
                       </a>
                     </h2>
                     <div class="text-xs text-neutral-500 font-bold uppercase">
-                      {regularPosts[4].data.pubDate?.toLocaleDateString('en-US', {
+                      {topRowPosts[4].data.pubDate?.toLocaleDateString('en-US', {
                         month: 'short',
                         day: 'numeric',
                       })}
@@ -307,12 +315,12 @@ const seo: SEOProps = {
                 </article>
               )}
 
-              {regularPosts[5] && (
+              {topRowPosts[5] && (
                 <article class="space-y-3">
                   <div class="relative">
                     <Image
-                      src={regularPosts[5].data.heroImage || "/images/edition-003-cover_holded_front_face.webp"}
-                      alt={regularPosts[5].data.heroImageAlt || regularPosts[5].data.title}
+                      src={topRowPosts[5].data.heroImage || "/images/edition-003-cover_holded_front_face.webp"}
+                      alt={topRowPosts[5].data.heroImageAlt || topRowPosts[5].data.title}
                       width={300}
                       height={200}
                       class="w-full aspect-[3/2] object-cover rounded-2xl"
@@ -320,15 +328,15 @@ const seo: SEOProps = {
                   </div>
                   <div class="space-y-2">
                     <div class="text-xs uppercase tracking-wider text-neutral-400 font-bold">
-                      {regularPosts[5].data.author || 'Nomad Magazine'}
+                      {topRowPosts[5].data.author || 'Nomad Magazine'}
                     </div>
                     <h2 class="text-lg font-bold leading-tight text-white">
-                      <a href={`/blog/${regularPosts[5].slug}`} class="hover:text-neutral-300 transition-colors">
-                        {regularPosts[5].data.title}
+                      <a href={`/blog/${topRowPosts[5].slug}`} class="hover:text-neutral-300 transition-colors">
+                        {topRowPosts[5].data.title}
                       </a>
                     </h2>
                     <div class="text-xs text-neutral-500 font-bold uppercase">
-                      {regularPosts[5].data.pubDate?.toLocaleDateString('en-US', {
+                      {topRowPosts[5].data.pubDate?.toLocaleDateString('en-US', {
                         month: 'short',
                         day: 'numeric',
                       })}
@@ -348,7 +356,7 @@ const seo: SEOProps = {
             </div>
             
             <div class="space-y-6">
-              {regularPosts.slice(6, 11).map((post) => (
+              {sidebarRecentPosts.map((post) => (
                 <article class="flex gap-4">
                   <div class="flex-shrink-0">
                     <Image
@@ -515,15 +523,15 @@ const seo: SEOProps = {
         
         <!-- Featured Layout: One Big Article -->
         <div class="mb-8">
-          {regularPosts[0] && (
+          {featuredStoriesHero && (
             <article class="group relative overflow-hidden rounded-2xl border border-neutral-700/50 bg-neutral-900/30 transition-all hover:border-neutral-600 hover:bg-neutral-900/60">
               <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div class="relative">
-                  {regularPosts[0] && (
+                  {featuredStoriesHero && (
                     <div class="aspect-[16/10] overflow-hidden rounded-l-2xl">
                       <Image
-                        src={regularPosts[0].data.heroImage || "/images/edition-003-cover_holded_front_face.webp"}
-                        alt={regularPosts[0].data.heroImageAlt || regularPosts[0].data.title}
+                        src={featuredStoriesHero.data.heroImage || "/images/edition-003-cover_holded_front_face.webp"}
+                        alt={featuredStoriesHero.data.heroImageAlt || featuredStoriesHero.data.title}
                         width={600}
                         height={375}
                         class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
@@ -535,9 +543,9 @@ const seo: SEOProps = {
                 
                 <div class="p-8 flex flex-col justify-center">
                   <div class="mb-4 flex items-center gap-2 text-sm text-neutral-400">
-                    {regularPosts[0].data.pubDate && (
-                      <time datetime={regularPosts[0].data.pubDate.toISOString()}>
-                        {regularPosts[0].data.pubDate.toLocaleDateString('en-US', {
+                    {featuredStoriesHero.data.pubDate && (
+                      <time datetime={featuredStoriesHero.data.pubDate.toISOString()}>
+                        {featuredStoriesHero.data.pubDate.toLocaleDateString('en-US', {
                           month: 'short',
                           day: 'numeric',
                           year: 'numeric',
@@ -545,17 +553,17 @@ const seo: SEOProps = {
                       </time>
                     )}
                     <span>•</span>
-                    <span>{Math.ceil(regularPosts[0].body.length / 1000)} min read</span>
+                    <span>{Math.ceil(featuredStoriesHero.body.length / 1000)} min read</span>
                   </div>
                   
                   <h3 class="mb-4 text-3xl font-bold leading-tight text-white group-hover:text-yellow-400 transition-colors">
-                    <a href={`/blog/${regularPosts[0].slug}`} class="after:absolute after:inset-0">
-                      {regularPosts[0].data.title}
+                    <a href={`/blog/${featuredStoriesHero.slug}`} class="after:absolute after:inset-0">
+                      {featuredStoriesHero.data.title}
                     </a>
                   </h3>
                   
                   <p class="mb-6 text-lg text-neutral-300 line-clamp-3">
-                    {regularPosts[0].data.description}
+                    {featuredStoriesHero.data.description}
                   </p>
                   
                   <div class="flex items-center justify-between">
@@ -574,7 +582,7 @@ const seo: SEOProps = {
 
         <!-- Three Smaller Articles in a Row -->
         <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {regularPosts.slice(1, 4).map((post) => (
+          {featuredStoriesRow.map((post) => (
             <article class="group relative overflow-hidden rounded-2xl border border-neutral-700/50 bg-neutral-900/30 transition-all hover:border-neutral-600 hover:bg-neutral-900/60">
               <div class="relative">
                 {post.data.heroImage && (
@@ -631,7 +639,7 @@ const seo: SEOProps = {
     </section>
 
     <!-- Archive Section -->
-    {regularPosts.length > 11 && (
+    {archivePosts.length > 0 && (
       <section class="bg-hoverw px-4 py-16 sm:px-6 lg:px-8">
         <div class="mx-auto max-w-7xl">
           <div class="mb-12 text-center">
@@ -640,7 +648,7 @@ const seo: SEOProps = {
           </div>
           
           <div id="archive-grid" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {regularPosts.slice(6).map((post, index) => (
+            {archivePosts.map((post, index) => (
               <article 
                 class={`archive-post group relative overflow-hidden rounded-xl border border-neutral-800/50 bg-neutral-900/20 transition-all hover:border-neutral-700 hover:bg-neutral-900/40 ${index >= 8 ? 'hidden' : ''}`}
                 data-index={index}
@@ -688,7 +696,7 @@ const seo: SEOProps = {
             ))}
           </div>
           
-          {regularPosts.slice(6).length > 8 && (
+          {archivePosts.length > 8 && (
             <div class="mt-12 text-center">
               <button 
                 id="load-more-btn"
