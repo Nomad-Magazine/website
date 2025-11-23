@@ -42,7 +42,7 @@ const remainingPosts = publishedPosts.filter(
 )
 
 // Sort both lists by latest date
-const sortByDateDesc = (a, b) => {
+const sortByDateDesc = (a: any, b: any) => {
   const dateA = new Date(a.data.pubDate || a.data.updatedDate || '2024-01-01').getTime()
   const dateB = new Date(b.data.pubDate || b.data.updatedDate || '2024-01-01').getTime()
   return dateB - dateA
