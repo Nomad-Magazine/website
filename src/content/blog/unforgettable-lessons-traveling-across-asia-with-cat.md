@@ -95,7 +95,7 @@ To fly with Cleo, I had to buy a hard carrier to match the regulations of the pl
 
 "Southeast Asia will be a piece of cake," I thought. It's a backpacker's dream, right?
 
-**Turns out, public transportation and accommodation were the least cat-friendly of the whole trip.**
+<mark style="background-color: #fff59d;">Turns out, public transportation and accommodation were the least cat-friendly of the whole trip.</mark>
 
 Thailand wouldn't allow cats on any of their buses.
 
@@ -131,7 +131,7 @@ This time, I went for mini buses instead of the big tourist overnighters. Cleo w
 
 <img src="/images/article-travel-with-cat-laos.webp" alt="Exploring beautiful Laos landscapes with feline travel companion" style="float: left; width: 350px; margin: 0 20px 20px 0; border-radius: 8px;">
 
-For all the well-meaning tour guides and backpackers in the Facebook groups, and nomads within the Whatsapp chats, my biggest piece of advice is not to listen when people tell you that you won't be able to do something.
+For all the well-meaning tour guides and backpackers in the Facebook groups, and nomads within the Whatsapp chats, <mark style="background-color: #fff59d;">my biggest piece of advice is not to listen when people tell you that you won't be able to do something.</mark>
 
 I wasted a lot of time (and got a lot of blisters) listening to everyone tell me no buses would let Cleo on, yet, all I had to do was quietly walk on and sit nicely in the back and no one cared.
 
@@ -151,7 +151,7 @@ And that's how I ended up making it all the way to Vietnam, my end destination: 
 
 ## The Biggest Inconveniences Can Turn Into the Best Experience
 
-Because typical tourist options weren't available to me with a cat, I got to meet way more local people than most tourists ever do. I can't tell you how many people I met in hostels or meetups, saying they never got a chance to meet local people, outside of their tours, digital nomad meetups, or coliving spaces.
+Because typical tourist options weren't available to me with a cat, <mark style="background-color: #fff59d;">I got to meet way more local people than most tourists ever do.</mark> I can't tell you how many people I met in hostels or meetups, saying they never got a chance to meet local people, outside of their tours, digital nomad meetups, or coliving spaces.
 
 But I constantly met local people during my eleven months on the road.
 
@@ -164,7 +164,7 @@ So did I experience a lot of stress and inconvenience by having a cat with me on
 
 Definitely.
 
-But it was absolutely worth it, because of the wild experiences I had, the meaningful connections I made, and the great stories I have as a result.
+<mark style="background-color: #fff59d;">But it was absolutely worth it, because of the wild experiences I had, the meaningful connections I made, and the great stories I have as a result.</mark>
 
 So don't be afraid to pave your own path, and follow your big, crazy ideas. Even if your online research says you won't be able to. Even if seemingly impossible obstacles get in your way.
 
