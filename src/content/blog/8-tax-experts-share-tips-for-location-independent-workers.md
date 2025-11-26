@@ -6,8 +6,8 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-02-09T09:16:03.288Z
-updated_at: 2025-08-09T15:33:05.217Z
-head_image: https://assets.seobotai.com/nomadgossip.com/67a7f93e44f489ae95339bc2-1739092579000.jpg
+updated_at: 2025-11-25T16:43:59.634Z
+head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/67a7f93e44f489ae95339bc2-1739092579000.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: tax residency, digital nomads, double taxation, tax deductions, remote work, tax treaties, location-independent workers, foreign income, tax planning
 tag: Expat, Moving, Travel
@@ -34,7 +34,7 @@ next_blog: ''
 | **UAE** | Zero personal income tax | $5,000/month income proof |
 | **Costa Rica** | 100% tax exemption on foreign income | $3,000/month income, health insurance |
 
-**Start by tracking your location, organizing expenses, and seeking professional help when needed.** With proper planning, you can manage your taxes effectively and focus on your work.
+**Start by tracking your location, organizing expenses, and seeking [professional help](https://tcadvisorscpa.com) when needed.** With proper planning, you can manage your taxes effectively and focus on your work.
 
 ## Tax Residency Basics
 
