@@ -34,6 +34,65 @@ const seo: SEOProps = {
 <Layout seo={seo}>
   <main class="bg-hoverw text-white">
     <EditionsHero />
+    
+    <!-- December Giveaway Banner -->
+    <section class="bg-gradient-to-br from-yellow-50 to-orange-50 border-t-4 border-b-4 border-yellow-400 py-12 md:py-16 shadow-lg">
+      <div class="container mx-auto px-4">
+        <div class="max-w-5xl mx-auto">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <!-- Left side - Images -->
+            <div class="flex justify-center md:justify-start">
+              <div class="relative">
+                <div class="flex gap-3 items-end">
+                  <img 
+                    src="/images/first-edition-cover-hd.webp" 
+                    alt="Edition 1" 
+                    class="w-28 sm:w-32 rounded-lg shadow-2xl transform hover:scale-105 transition-transform border-2 border-white"
+                  />
+                  <img 
+                    src="/images/edition-002-cover.webp" 
+                    alt="Edition 2" 
+                    class="w-28 sm:w-32 rounded-lg shadow-2xl transform hover:scale-105 transition-transform border-2 border-white"
+                  />
+                  <img 
+                    src="/images/third-edition-cover-hd.webp" 
+                    alt="Edition 3" 
+                    class="w-28 sm:w-32 rounded-lg shadow-2xl transform hover:scale-105 transition-transform border-2 border-white"
+                  />
+                </div>
+                <div class="absolute -top-4 -right-4 bg-red-500 text-white px-5 py-2.5 rounded-full font-bold text-base shadow-xl rotate-12 animate-pulse">
+                  FREE! 🎁
+                </div>
+              </div>
+            </div>
+            
+            <!-- Right side - Content -->
+            <div class="text-center md:text-left">
+              <div class="inline-block bg-yellow-400 text-black px-4 py-1.5 rounded-full font-bold text-sm uppercase tracking-wider mb-3">
+                ⏰ Limited Time Offer
+              </div>
+              <p class="font-justme text-2xl text-gray-700 mb-2">December Special</p>
+              <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+                Get 3 Digital Magazines <span class="text-yellow-600">Free</span>
+              </h2>
+              <p class="text-lg text-gray-700 mb-6 leading-relaxed">
+                Download Editions 1, 2 & 3 instantly. <strong>300+ pages</strong> of inspiring nomad stories, practical tips, and insights. Limited time only.
+              </p>
+              <a 
+                href="/magazines-giveaway?utm_source=web&utm_campaign=1012" 
+                class="inline-block bg-black text-yellow-400 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-900 transition-all shadow-xl transform hover:scale-105"
+              >
+                Claim Your Free Magazines →
+              </a>
+              <p class="mt-4 text-sm text-gray-600 font-medium">
+                Offer expires Dec 10, 2025 • No credit card required
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
     <MagazineIssues />
     <MagazinePreview />
   </main>
