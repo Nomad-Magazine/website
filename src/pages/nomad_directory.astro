@@ -65,7 +65,13 @@ const featuredPartners = [
   'Falmouth University',
   'InterNations',
   'NomadTax Bulgaria Ltd.',
-  'Max Browser'
+  'Max Browser',
+  'Coconut-Office'
+]
+
+// Pinned items (always first in the list)
+const pinnedItems = [
+  'Coconut-Office'
 ]
 
 // Helper function to check if a record is a supporter
@@ -236,10 +242,17 @@ const seo: SEOProps = {
         records
           .filter((i: any) => i.sf4ad525dd)
           .sort((a: any, b: any) => {
+            const aPinned = pinnedItems.includes(a.title)
+            const bPinned = pinnedItems.includes(b.title)
+            
+            // Pinned items go first
+            if (aPinned && !bPinned) return -1
+            if (!aPinned && bPinned) return 1
+            
             const aSupporter = isSupporter(a)
             const bSupporter = isSupporter(b)
 
-            // Supporters go first
+            // Supporters go second
             if (aSupporter && !bSupporter) return -1
             if (!aSupporter && bSupporter) return 1
 

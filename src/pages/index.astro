@@ -71,7 +71,13 @@ const featuredPartners = [
   'Falmouth University',
   'InterNations',
   'NomadTax Bulgaria Ltd.',
-  'Max Browser'
+  'Max Browser',
+  'Coconut-Office'
+]
+
+// Pinned items (always first in the list)
+const pinnedItems = [
+  'Coconut-Office'
 ]
 
 // Helper function to check if a record is a supporter
@@ -83,16 +89,22 @@ const isSupporter = (record: any) => {
          monthlySupporters.includes(record.title)
 }
 
-// Get all valid directory entries and sort featured partners first, then supporters
+// Get all valid directory entries and sort pinned first, then featured partners, then supporters
 const allValidEntries = records
   .filter((record: any) => record.sf4ad525dd && record.title && record.scea90e502)
   .sort((a: any, b: any) => {
+    const aIsPinned = pinnedItems.includes(a.title)
+    const bIsPinned = pinnedItems.includes(b.title)
     const aIsFeatured = featuredPartners.includes(a.title)
     const bIsFeatured = featuredPartners.includes(b.title)
     const aSupporterStatus = isSupporter(a)
     const bSupporterStatus = isSupporter(b)
     
-    // Featured partners go first
+    // Pinned items go first
+    if (aIsPinned && !bIsPinned) return -1
+    if (!aIsPinned && bIsPinned) return 1
+    
+    // Featured partners go second
     if (aIsFeatured && !bIsFeatured) return -1
     if (!aIsFeatured && bIsFeatured) return 1
     
