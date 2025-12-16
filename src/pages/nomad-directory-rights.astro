@@ -1,0 +1,524 @@
+---
+export const prerender = true;
+
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
+
+const seo: SEOProps = {
+  title: 'Nomad Directory Rights & Perks - Exclusive Benefits for Listed Companies',
+  description: 'Discover exclusive perks for Nomad Directory members: newsletter announcements, article opportunities, print edition inclusion, and more. Valid for H1 2026.',
+  image: 'https://nomad-magazine.com/images/Nomad-directory.webp',
+  keywords: 'nomad directory perks, digital nomad advertising, nomad magazine benefits, directory member rights, nomad business promotion',
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Nomad Directory Rights & Perks',
+    description: 'Exclusive benefits and opportunities for companies listed in the Nomad Directory',
+    provider: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      url: 'https://nomad-magazine.com'
+    }
+  },
+}
+---
+
+<Layout seo={seo}>
+  <div class="bg-gray-50 text-gray-900 min-h-screen">
+    <!-- Hero Section -->
+    <section class="pt-20 pb-16 relative overflow-hidden">
+      <!-- Background decoration -->
+      <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute -top-40 -right-40 w-80 h-80 bg-yellow-400/20 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-yellow-400/10 rounded-full blur-3xl"></div>
+      </div>
+      
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="text-center max-w-4xl mx-auto">
+          <div class="inline-flex items-center gap-2 bg-yellow-400/30 border border-yellow-500/40 px-4 py-2 rounded-full mb-6">
+            <MaterialSymbolsElectricBolt width="16" height="16" class="text-yellow-600" />
+            <span class="text-yellow-700 font-medium text-sm">Valid for H1 2026</span>
+          </div>
+          
+          <h1 class="text-4xl md:text-6xl font-bold mb-6 text-gray-900">
+            Your <span class="text-yellow-600">Nomad Directory</span> Rights
+          </h1>
+          
+          <p class="text-xl text-gray-600 mb-8 leading-relaxed max-w-3xl mx-auto">
+            As part of the Nomad Directory, you get exclusive perks designed with <em>you</em> in mind. 
+            Because supporting projects that serve the global nomad audience isn't easy — and we're here to help.
+          </p>
+          
+          <div class="bg-white shadow-lg border border-gray-200 rounded-2xl p-6 max-w-2xl mx-auto mb-12">
+            <p class="text-gray-700 text-lg leading-relaxed">
+              Nomad Magazine was created not only to share what's happening in the digital nomad community 
+              but also to find a way to support projects and brands working for the global nomad audience. 
+              <span class="text-yellow-600 font-semibold">That's how Nomad Directory was born.</span>
+            </p>
+          </div>
+          
+          <!-- Your Rights at a Glance - moved to hero -->
+          <div class="bg-gradient-to-br from-yellow-100 to-orange-50 border border-yellow-300 rounded-2xl p-8 md:p-10 shadow-lg max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Your Rights at a Glance</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6 mb-6 text-left">
+              <div class="flex items-start gap-4">
+                <div class="w-8 h-8 bg-yellow-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <span class="text-black font-bold">1</span>
+                </div>
+                <div>
+                  <h4 class="text-gray-900 font-semibold mb-1">Print Directory Inclusion</h4>
+                  <p class="text-gray-600 text-sm">Last 100 companies with optional highlight options</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start gap-4">
+                <div class="w-8 h-8 bg-yellow-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <span class="text-black font-bold">2</span>
+                </div>
+                <div>
+                  <h4 class="text-gray-900 font-semibold mb-1">Newsletter Announcements</h4>
+                  <p class="text-gray-600 text-sm">Hiring, co-founders, investors, sales, updates</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start gap-4">
+                <div class="w-8 h-8 bg-yellow-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <span class="text-black font-bold">3</span>
+                </div>
+                <div>
+                  <h4 class="text-gray-900 font-semibold mb-1">Website Articles</h4>
+                  <p class="text-gray-600 text-sm">Backlinks and permanent online presence</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start gap-4">
+                <div class="w-8 h-8 bg-yellow-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <span class="text-black font-bold">4</span>
+                </div>
+                <div>
+                  <h4 class="text-gray-900 font-semibold mb-1">Digital Edition Features</h4>
+                  <p class="text-gray-600 text-sm">Professional editing and beautiful design</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="text-center">
+              <div class="inline-flex items-center gap-2 bg-white/80 px-4 py-2 rounded-full border border-yellow-300">
+                <span class="text-yellow-700 font-semibold">📅 Valid:</span>
+                <span class="text-gray-800">First half of 2026 (H1 2026)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Print Edition Section -->
+    <section class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-5xl mx-auto">
+          <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
+                  <span class="text-2xl">📖</span>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-900">Print Edition Inclusion</h2>
+              </div>
+              
+              <p class="text-gray-700 text-lg mb-6 leading-relaxed">
+                The last <span class="text-yellow-600 font-bold">100 companies</span> included in the print Nomad Directory 
+                can use optional highlight options (large or small format) to stand out even more.
+              </p>
+              
+              <p class="text-gray-500 mb-6">
+                We'll notify you when we start working on the next edition so you can choose your preferred highlighting option.
+              </p>
+              
+              <a 
+                href="/nomad-directory-highlight-options"
+                class="inline-flex items-center gap-2 bg-yellow-500 hover:bg-yellow-400 text-black px-6 py-3 rounded-lg font-bold transition-all duration-200"
+              >
+                <MaterialSymbolsElectricBolt width="18" height="18" />
+                View Highlight Options
+              </a>
+            </div>
+            
+            <div class="bg-gray-100 border border-gray-200 rounded-2xl overflow-hidden shadow-lg">
+              <img 
+                src="/images/NGM-04_NomadDirectory_Proposal_Page_1.webp" 
+                alt="Nomad Directory Print Edition Preview" 
+                class="w-full h-auto"
+                loading="lazy"
+              />
+              <div class="p-4 text-center bg-white">
+                <p class="text-sm text-gray-500">Preview of the print Nomad Directory with highlighting options</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter Announcements Section -->
+    <section class="py-16 bg-gray-100">
+      <div class="container mx-auto px-4">
+        <div class="max-w-5xl mx-auto">
+          <div class="text-center mb-12">
+            <div class="flex items-center justify-center gap-3 mb-4">
+              <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                <span class="text-2xl">📢</span>
+              </div>
+              <h2 class="text-3xl font-bold text-gray-900">Newsletter Announcements</h2>
+            </div>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+              Exclusive to Nomad Directory members — share your news with our engaged community of digital nomads.
+            </p>
+          </div>
+          
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <!-- Announcement Type Cards -->
+            <div class="bg-white shadow-md border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+              <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                <span class="text-xl">💼</span>
+              </div>
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Hiring & Interns</h3>
+              <p class="text-gray-500 text-sm">Remote positions, project-based help, paid or unpaid internships</p>
+            </div>
+            
+            <div class="bg-white shadow-md border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+              <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                <span class="text-xl">🤝</span>
+              </div>
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Co-Founders</h3>
+              <p class="text-gray-500 text-sm">Looking for technical, sales, product, or marketing co-founders</p>
+            </div>
+            
+            <div class="bg-white shadow-md border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+              <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
+                <span class="text-xl">💰</span>
+              </div>
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Investors</h3>
+              <p class="text-gray-500 text-sm">Seeking investment for your nomad-focused project</p>
+            </div>
+            
+            <div class="bg-white shadow-md border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+              <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center mb-4">
+                <span class="text-xl">🏷️</span>
+              </div>
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Project Sales</h3>
+              <p class="text-gray-500 text-sm">Looking to sell your project or find a buyer</p>
+            </div>
+            
+            <div class="bg-white shadow-md border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+              <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                <span class="text-xl">📰</span>
+              </div>
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Company Updates</h3>
+              <p class="text-gray-500 text-sm">Acquisitions, team changes, organizational news</p>
+            </div>
+            
+            <div class="bg-white shadow-md border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+              <div class="w-10 h-10 bg-cyan-100 rounded-lg flex items-center justify-center mb-4">
+                <span class="text-xl">✨</span>
+              </div>
+              <h3 class="text-lg font-bold text-gray-900 mb-2">And More...</h3>
+              <p class="text-gray-500 text-sm">Any relevant announcement for the nomad community</p>
+            </div>
+          </div>
+          
+          <!-- Templates -->
+          <div class="bg-white shadow-lg border border-gray-200 rounded-2xl p-8">
+            <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+              <span class="text-yellow-500">📝</span> Announcement Templates
+            </h3>
+            
+            <div class="space-y-6">
+              <!-- Hiring Template -->
+              <div class="bg-green-50 rounded-xl p-6 border-l-4 border-green-500">
+                <h4 class="text-lg font-semibold text-green-700 mb-3">Hiring or Intern Announcement</h4>
+                <p class="text-gray-700 font-mono text-sm leading-relaxed">
+                  <span class="text-gray-900 font-semibold">[Name]</span> from <span class="text-gray-900 font-semibold">[Company]</span> is building <span class="text-gray-900 font-semibold">[what]</span>. 
+                  They are hiring <span class="text-gray-900 font-semibold">[who]</span> and <span class="text-gray-900 font-semibold">[why]</span>. 
+                  Reach out: <span class="text-gray-900 font-semibold">[email or link]</span>.
+                </p>
+                <p class="text-gray-500 text-xs mt-3 italic">*Location is obviously 'Remote' 🌍</p>
+              </div>
+              
+              <!-- Co-Founder Template -->
+              <div class="bg-purple-50 rounded-xl p-6 border-l-4 border-purple-500">
+                <h4 class="text-lg font-semibold text-purple-700 mb-3">Co-Founder Search</h4>
+                <p class="text-gray-700 font-mono text-sm leading-relaxed">
+                  <span class="text-gray-900 font-semibold">[Name]</span> is a <span class="text-gray-900 font-semibold">[brief background]</span> who has worked on <span class="text-gray-900 font-semibold">[notable experience]</span>. 
+                  They're now building <span class="text-gray-900 font-semibold">[company focus]</span> and looking for a co-founder with a strong background in <span class="text-gray-900 font-semibold">[technical/sales/product/marketing]</span>. 
+                  Reach out: <span class="text-gray-900 font-semibold">[email or link]</span>.
+                </p>
+              </div>
+            </div>
+            
+            <div class="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-xl">
+              <p class="text-gray-700 text-center">
+                <span class="text-yellow-700 font-semibold">Ready to share something?</span> 
+                Send your announcement anytime to <a href="mailto:lera@nomadgossip.com" class="text-yellow-600 hover:text-yellow-700 underline font-medium">lera@nomadgossip.com</a> and we'll include it in the next newsletter.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Article Opportunities Section -->
+    <section class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-5xl mx-auto">
+          <div class="text-center mb-12">
+            <div class="flex items-center justify-center gap-3 mb-4">
+              <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
+                <span class="text-2xl">✍️</span>
+              </div>
+              <h2 class="text-3xl font-bold text-gray-900">Article Opportunities</h2>
+            </div>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+              Your pitches are among our priority. Share your story with the nomad community.
+            </p>
+          </div>
+          
+          <div class="grid lg:grid-cols-2 gap-8">
+            <!-- Website Article -->
+            <div class="bg-blue-50 border border-blue-200 rounded-2xl p-8 hover:shadow-lg transition-all duration-300">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                  <span class="text-xl">🌐</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900">Website Article</h3>
+              </div>
+              
+              <ul class="space-y-3 mb-6">
+                <li class="flex items-start gap-3 text-gray-700">
+                  <div class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>Valuable backlink to your website for SEO</span>
+                </li>
+                <li class="flex items-start gap-3 text-gray-700">
+                  <div class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>Quick publication turnaround</span>
+                </li>
+                <li class="flex items-start gap-3 text-gray-700">
+                  <div class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>Permanent online presence</span>
+                </li>
+              </ul>
+              
+              <div class="p-3 bg-blue-50 border border-blue-100 rounded-lg">
+                <p class="text-blue-700 text-sm">Great for building your online authority and SEO presence</p>
+              </div>
+            </div>
+            
+            <!-- Digital Edition Article -->
+            <div class="bg-yellow-50 border-2 border-yellow-300 rounded-2xl p-8 hover:shadow-lg transition-all duration-300">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 bg-yellow-200 rounded-lg flex items-center justify-center">
+                  <span class="text-xl">📱</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900">Digital Nomad Edition</h3>
+              </div>
+              
+              <ul class="space-y-3 mb-6">
+                <li class="flex items-start gap-3 text-gray-700">
+                  <div class="w-1.5 h-1.5 bg-yellow-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>Carefully edited by our editorial team</span>
+                </li>
+                <li class="flex items-start gap-3 text-gray-700">
+                  <div class="w-1.5 h-1.5 bg-yellow-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>Beautiful magazine design and layout</span>
+                </li>
+                <li class="flex items-start gap-3 text-gray-700">
+                  <div class="w-1.5 h-1.5 bg-yellow-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>Reaches more readers with better impact</span>
+                </li>
+                <li class="flex items-start gap-3 text-gray-700">
+                  <div class="w-1.5 h-1.5 bg-yellow-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>Part of our free digital nomad editions</span>
+                </li>
+              </ul>
+              
+              <div class="p-3 bg-yellow-100 border border-yellow-200 rounded-lg">
+                <p class="text-yellow-800 text-sm">Premium presentation that elevates your story</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Article Topics -->
+          <div class="mt-12 bg-gray-100 border border-gray-200 rounded-2xl p-8">
+            <h3 class="text-xl font-bold text-gray-900 mb-6 text-center">What Can You Write About?</h3>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div class="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-lg">
+                <span class="text-xl">👤</span>
+                <span class="text-gray-700">Personal stories</span>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-lg">
+                <span class="text-xl">💻</span>
+                <span class="text-gray-700">Remote work expertise</span>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-lg">
+                <span class="text-xl">🚀</span>
+                <span class="text-gray-700">Online business insights</span>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-lg">
+                <span class="text-xl">✈️</span>
+                <span class="text-gray-700">Travel adventures</span>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-lg">
+                <span class="text-xl">🗺️</span>
+                <span class="text-gray-700">Destination experiences</span>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-lg">
+                <span class="text-xl">🧘</span>
+                <span class="text-gray-700">Mindfulness & wellness</span>
+              </div>
+            </div>
+            
+            <div class="mt-6 p-4 bg-white rounded-xl border-l-4 border-yellow-500 shadow-sm">
+              <p class="text-gray-700">
+                <span class="text-yellow-600 font-semibold">Important:</span> Your article should not be direct advertising but rather a valuable, insightful story with a natural mention of your project.
+              </p>
+            </div>
+          </div>
+          
+          <!-- Editing Info -->
+          <div class="mt-8 grid md:grid-cols-2 gap-6">
+            <div class="bg-green-50 border border-green-200 rounded-xl p-6 text-center">
+              <div class="text-3xl mb-3">✨</div>
+              <h4 class="text-lg font-bold text-green-700 mb-2">Editing is Free</h4>
+              <p class="text-gray-600 text-sm">We'll polish your article at no extra cost</p>
+            </div>
+            
+            <div class="bg-purple-50 border border-purple-200 rounded-xl p-6 text-center">
+              <div class="text-3xl mb-3">🎤</div>
+              <h4 class="text-lg font-bold text-purple-700 mb-2">Don't Like Writing?</h4>
+              <p class="text-gray-600 text-sm">We can interview you and write the article for an extra cost</p>
+            </div>
+          </div>
+          
+          <!-- CTA -->
+          <div class="mt-12 text-center">
+            <p class="text-gray-600 text-lg mb-4">Ready to share your story?</p>
+            <a 
+              href="mailto:editorial@nomadgossip.com?subject=Article Pitch - Nomad Directory Member"
+              class="inline-flex items-center gap-2 bg-yellow-500 hover:bg-yellow-400 text-black px-8 py-4 rounded-lg font-bold text-lg transition-all duration-200"
+            >
+              <span>📧</span>
+              Pitch Your Ideas to Jess
+            </a>
+            <p class="text-gray-500 text-sm mt-3">editorial@nomadgossip.com</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Boost Options Section -->
+    <section class="py-16 bg-gradient-to-br from-gray-900 to-gray-800">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+          <div class="text-center mb-10">
+            <div class="flex items-center justify-center gap-3 mb-4">
+              <div class="w-12 h-12 bg-yellow-400 rounded-xl flex items-center justify-center">
+                <span class="text-2xl">🚀</span>
+              </div>
+              <h2 class="text-3xl font-bold text-white">Boost Your Visibility Anytime</h2>
+            </div>
+            <p class="text-gray-300 text-lg max-w-2xl mx-auto">
+              Need extra exposure? These options are available to you at any time.
+            </p>
+          </div>
+          
+          <div class="grid md:grid-cols-2 gap-6">
+            <!-- Push Up Listing -->
+            <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 hover:bg-white/15 transition-all duration-300">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 bg-green-400/20 rounded-lg flex items-center justify-center">
+                  <span class="text-xl">⬆️</span>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold text-white">Push Up Your Listing</h3>
+                  <div class="text-yellow-400 font-bold">€10 <span class="text-gray-400 font-normal text-sm">one-time</span></div>
+                </div>
+              </div>
+              <p class="text-gray-300 mb-4">Republish your listing to appear as new again on top of the directory</p>
+              <a 
+                href="mailto:lera@nomadgossip.com?subject=Push Up Listing - Nomad Directory&body=Hi Lera,%0D%0A%0D%0AI would like to push up my listing in the Nomad Directory.%0D%0A%0D%0ACompany Name:%0D%0A%0D%0AThank you!"
+                class="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-black px-5 py-2.5 rounded-lg font-semibold transition-all duration-200 w-full justify-center"
+              >
+                Push Up
+              </a>
+            </div>
+            
+            <!-- Prioritise Announcement -->
+            <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 hover:bg-white/15 transition-all duration-300">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 bg-purple-400/20 rounded-lg flex items-center justify-center">
+                  <span class="text-xl">⭐</span>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold text-white">Prioritise Announcement</h3>
+                  <div class="text-yellow-400 font-bold">€25 <span class="text-gray-400 font-normal text-sm">one-time</span></div>
+                </div>
+              </div>
+              <p class="text-gray-300 mb-4">Get your listing announcement prioritised and featured to reach more nomads</p>
+              <a 
+                href="mailto:lera@nomadgossip.com?subject=Prioritise Announcement - Nomad Directory&body=Hi Lera,%0D%0A%0D%0AI would like to prioritise my announcement in the newsletter.%0D%0A%0D%0ACompany Name:%0D%0AAnnouncement details:%0D%0A%0D%0AThank you!"
+                class="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-black px-5 py-2.5 rounded-lg font-semibold transition-all duration-200 w-full justify-center"
+              >
+                Prioritise
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-20 bg-gradient-to-br from-yellow-50 to-orange-50">
+      <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center">
+          <div class="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-6">
+            <span class="text-3xl">🎯</span>
+          </div>
+          <h2 class="text-3xl font-bold text-gray-900 mb-4">Not in the Nomad Directory Yet?</h2>
+          <p class="text-gray-600 text-lg mb-8">Join the living database of the nomad economy and unlock all these perks.</p>
+          
+          <a
+            target="_blank"
+            href="https://form.smartsuite.com/s4tmc086/8sFlvrVlDC?redirect=https%3A//nomad-magazine.com/nomad-directory-boost-options"
+            class="inline-flex items-center gap-2 bg-black hover:bg-gray-800 border-2 border-yellow-500 px-8 py-4 rounded-lg text-yellow-400 font-bold text-lg transition-all duration-200"
+          >
+            <MaterialSymbolsElectricBolt width="20" height="20" />
+            Join the Nomad Directory
+          </a>
+          
+          <p class="text-gray-500 text-sm mt-6">
+            Questions? Contact us at <a href="mailto:lera@nomadgossip.com" class="text-yellow-600 hover:text-yellow-700 font-medium">lera@nomadgossip.com</a>
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
