@@ -6,8 +6,8 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-03-19T20:40:13.544Z
-updated_at: 2025-03-19T20:40:26.158Z
-head_image: https://assets.seobotai.com/nomadgossip.com/67db25158d9574929cf0db9e-1742416826158.jpg
+updated_at: 2025-12-20T17:49:40.121Z
+head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/67db25158d9574929cf0db9e-1742416826158.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: Lisbon, digital nomad, coworking, living costs, remote work, expat, travel, nomad visa
 tag: Digital, Expat, Moving
@@ -229,7 +229,7 @@ Lisbon blends its historic roots with modern amenities, creating a unique and vi
 -   Visit traditional markets like [Feira da Ladra](https://en.wikipedia.org/wiki/Feira_da_Ladra) for a taste of local culture
 -   Experience authentic Fado music performances
 -   Enjoy the bustling nightlife in Bairro Alto
--   Take part in local cooking classes to master Portuguese cuisine
+-   Take part in local cooking classes to master [Portuguese cuisine](https://privatechef.pt)
 
 **Cultural Integration**
 
