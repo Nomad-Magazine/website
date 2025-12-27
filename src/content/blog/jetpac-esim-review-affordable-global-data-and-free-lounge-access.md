@@ -6,8 +6,8 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-03-19T03:04:00.470Z
-updated_at: 2025-03-19T03:04:28.854Z
-head_image: https://assets.seobotai.com/nomadgossip.com/67da16a0cfd1b2222c56b937-1742353468854.jpg
+updated_at: 2025-12-26T16:06:11.855Z
+head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/67da16a0cfd1b2222c56b937-1742353468854.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: eSIM, global data, travel, lounge access, affordable plans, digital nomads, connectivity
 tag: Digital, Expat, Travel
@@ -24,7 +24,7 @@ next_blog: ''
 -   **Subscription Plans**: Starting at $3/month for 1GB (JetFlex) or $45/month for 7GB global data + lounge access (JetPro).
 -   **SmartDelay Feature**: Free lounge access for flights delayed over 60 minutes.
 -   **Global Coverage**: Reliable network partnerships in 150+ countries.
--   **Extra Perks**: Free VPN trial, discounted airport security fast track, and 24/7 support.
+-   **Extra Perks**: Free VPN trial, discounted airport security fast track, and [24/7 support](https://dialzara.com).
 
 | **Feature** | **Jetpac eSIM** | **Standard Roaming** |
 | --- | --- | --- |

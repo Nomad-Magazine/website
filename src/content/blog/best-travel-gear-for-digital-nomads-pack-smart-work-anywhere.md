@@ -6,8 +6,8 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-06-02T09:53:37.634Z
-updated_at: 2025-06-02T09:54:50.397Z
-head_image: https://assets.seobotai.com/nomadgossip.com/683d0d200194258b64ac6bcb-1748858090397.jpg
+updated_at: 2025-12-26T22:09:20.566Z
+head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/683d0d200194258b64ac6bcb-1748858090397.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: digital nomads, travel gear, remote work, packing tips, lightweight essentials, tech tools, organization
 tag: Career, Digital, Travel
@@ -195,7 +195,7 @@ For cooler conditions (25°F to 40°F), consider the **[Patagonia R1 Daily Glove
 
 The **Getaway 6-panel Pack Light Hat 2.0** ($35.00) is another handy item. It’s packable, water-friendly, and includes a sweatband - ideal for active days.
 
-**Travel towels** are a must-have. They dry quickly, pack small, and are incredibly useful for hostels, Airbnbs with limited linens, or impromptu beach outings.
+**[Travel towels](https://dansu.co.uk)** are a must-have. They dry quickly, pack small, and are incredibly useful for hostels, Airbnbs with limited linens, or impromptu beach outings.
 
 For creating a productive workspace anywhere, **noise-canceling headphones** are invaluable. They’re especially handy for video calls in noisy environments like cafes or coworking spaces.
 
