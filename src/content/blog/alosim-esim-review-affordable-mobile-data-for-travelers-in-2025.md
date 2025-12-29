@@ -6,8 +6,8 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-03-18T22:52:44.462Z
-updated_at: 2025-08-14T11:41:57.507Z
-head_image: https://assets.seobotai.com/nomadgossip.com/67d9f40f31389773b3fed4fe-1742338400745.jpg
+updated_at: 2025-12-28T04:18:07.167Z
+head_image: https://assets.seobotai.com/cdn-cgi/image/quality=75,w=1536,h=1024/nomadgossip.com/67d9f40f31389773b3fed4fe-1742338400745.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: eSIM, travel data, mobile data plans, international roaming, digital nomads, affordable connectivity
 tag: Digital, Expat, Travel
@@ -60,7 +60,7 @@ aloSIM offers multiple support options to assist users:
 -   **24/7 live chat** for customer service [\[5\]](https://alosim.com/how-to-activate-esim/)
 -   **Step-by-step installation guides** for different devices [\[3\]](https://alosim.com/esim-data-packages/)
 -   A **travel data calculator** to estimate your data needs [\[4\]](https://alosim.com/how-much-does-an-esim-cost/)
--   A **money-back guarantee** on purchases [\[2\]](https://alosim.com/)
+-   A **[money-back guarantee](https://onehourloans.com.au)** on purchases [\[2\]](https://alosim.com/)
 
 For frequent travelers, aloSIM includes handy features like auto-renewal and the ability to keep your regular phone number for calls and texts, helping you dodge expensive roaming charges [\[6\]](https://alosim.com/is-my-phone-esim-compatible/)[\[8\]](https://alosim.com/unlimited-data-esims/).
 
