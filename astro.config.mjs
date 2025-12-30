@@ -4,15 +4,16 @@ import tailwindcss from '@tailwindcss/vite'
 import cloudflare from '@astrojs/cloudflare'
 import { defineConfig, envField } from 'astro/config'
 import { glob } from 'glob'
-import { readFileSync } from 'fs'
+import { readFileSync, statSync } from 'fs'
 
 const site = process.env.SITE_URL ?? 'https://nomad-magazine.com'
 
-// Build a map of blog slugs to their updated_at dates for sitemap lastmod
-function getBlogLastModDates() {
-  const blogFiles = glob.sync('src/content/blog/*.md')
+// Build a map of page paths to their lastmod dates for sitemap
+function getPageLastModDates() {
   const lastModMap = new Map()
 
+  // Get blog post dates from frontmatter
+  const blogFiles = glob.sync('src/content/blog/*.md')
   for (const file of blogFiles) {
     const content = readFileSync(file, 'utf-8')
     const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/)
@@ -29,10 +30,25 @@ function getBlogLastModDates() {
     }
   }
 
+  // Get static page dates from file modification time
+  const pageFiles = glob.sync('src/pages/**/*.astro')
+  for (const file of pageFiles) {
+    const stat = statSync(file)
+    // Convert file path to URL path
+    let urlPath = file
+      .replace('src/pages', '')
+      .replace('/index.astro', '/')
+      .replace('.astro', '/')
+    if (!urlPath.endsWith('/')) urlPath += '/'
+    if (!lastModMap.has(urlPath)) {
+      lastModMap.set(urlPath, stat.mtime)
+    }
+  }
+
   return lastModMap
 }
 
-const blogLastModDates = getBlogLastModDates()
+const pageLastModDates = getPageLastModDates()
 
 export default defineConfig({
   output: 'server',
@@ -52,10 +68,13 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
+      changefreq: 'weekly',
+      priority: 0.7,
+      lastmod: new Date(),
       serialize(item) {
-        // Check if this URL matches a blog post with a known lastmod date
+        // Check if this URL matches a page with a known lastmod date
         const urlPath = new URL(item.url).pathname
-        const lastmod = blogLastModDates.get(urlPath)
+        const lastmod = pageLastModDates.get(urlPath)
         if (lastmod) {
           item.lastmod = lastmod.toISOString()
         }
