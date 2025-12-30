@@ -18,9 +18,11 @@ category: article
 
 **What if your 2026 travel plan was not "which country next?" but "which digital nomad event next?"**
 
-Instead of chasing cheap flights and random cities, you could hop from conference to festival to cruise, meeting the same people in different places, learning and making friends while circling the globe.
+Digital nomad events are created, of course, for learning. But they also give us a reason to travel the world together. We talk a lot about loneliness while traveling and the importance of connections, don't we? When you hop from one event to another, you keep seeing familiar faces while exploring new countries which slowly turns into a bubble of international friendships, and being part of it becomes an experience of its own.
 
-For this guide, we've put together a travel route through digital nomad events in 2026 across Thailand, South Africa, Italy, Vietnam, Spain and Bulgaria. You do not have to attend them all. But you can definitely stitch two or three into one big "work, travel, and community" year. A bit like Eat, Pray, Love, but with laptops.
+And there's also a quiet mission behind the scenes. Events are, in a way, saying: visit this country, it's worth it. Not alone, but together with 200+ like-minded people.
+
+For this guide, we put together a possible 2026 route (first half) through digital nomad events, from Thailand and South Africa to Italy, Vietnam, Spain, and Bulgaria. You don't have to attend them all. But you can absolutely stitch 2–3 into one big "work + travel + community" year.
 
 ## What You'll Find Below:
 
@@ -107,19 +109,19 @@ If you would like your "January chapter" to include ocean views, mountains and A
 
 ---
 
-## 🚢 February – Cross Asia on Nomad Cruise (Hong Kong → Japan → South Korea → Philippines)
+## 🚢 February – Cross Asia on Nomad Cruise (Hong Kong → Malaysia → Brunei → Vietnam → Philippines)
 
-![Nomad Cruise Asia 2026 Route Map](/images/nomad-cruise-asia.webp)
+![Nomad Cruise Asia 2026 Route Map - New Route](/images/new-route-Nomad-Cruise copy.png)
 
 **Event:** Nomad Cruise 16 – Across Asia Experience  
 **Dates:** 14–25 February 2026  
-**Route:** Hong Kong – Japan – South Korea – Philippines  
+**Route:** Hong Kong – Malaysia – Brunei – Vietnam – Philippines  
 **Website:** [https://www.nomadcruise.com/nc16](https://www.nomadcruise.com/nc16)
 
 Nomad Cruise is almost legendary at this point – one of the longest-running experiences for digital nomads, packing 300+ founders, remote workers and creatives on a ship for 12 days. No land conference can replicate the intensity of living, learning, eating and dancing with the same group at sea.
 
 ### What this route looks like
-- Depart from Hong Kong, then sail to Japan (including Fukuoka – a rising nomad and startup hub – and Nagasaki), on to Jeju Island in South Korea, and finishing in Manila, Philippines
+- Depart from Hong Kong, then sail to Malaysia (Kota Kinabalu), Brunei (Bandar Seri Begawan), Vietnam (Nha Trang), and finishing in Manila, Philippines
 - Sea days full of talks, workshops, masterminds and spontaneous sessions
 - Port days for exploring, street food, on-land coworking and side trips
 
@@ -130,7 +132,8 @@ Nomad Cruise is almost legendary at this point – one of the longest-running ex
 - **🌐 Connection:** Starlink Wi-Fi onboard
 - **✈️ Flight to Hong Kong:** direct from Chiang Mai ~€80+
 - **🛳️ Cabins:** Window cabins €1,800+, Balcony cabins €2,000+ (food included)
-- **💸 Discount:** use code **GOSSIP** for €100 off
+
+**💰 Discount: Use code GOSSIP for €100 off**
 
 **Our tip** – do not rush to book your return flight. After Nomad Cruise, groups usually spread out across the area, and you might want to join a smaller after-trip instead of flying elsewhere.
 
@@ -161,7 +164,8 @@ If you prefer to stay in (or come back to) Europe, Italia Nomad Fest in Palermo 
 - **🎯 Focus:** First Edition Festival
 - **🎫 Early-bird tickets:** from around €200 for basic passes
 - **✈️ Flights:** Well connected to EU cities via low-cost airlines
-- **💸 Special Discount:** use code **GOSSIP15** for 15% off all tickets
+
+**💰 Discount: Use code GOSSIP15 for 15% off all tickets**
 
 **Perfect if you…** want to be there at the start of a future flagship Mediterranean nomad gathering, soaking up warm weather, a laid-back coastal vibe, excellent food, and a café culture that turns into aperitivo hour at sunset.
 
@@ -261,6 +265,15 @@ As Orest Zub once joked – if you see yourself as a "respectful digital nomad",
 - 10 days of talks, unconferences, skill-sharing, parties, hikes, hot springs and everything in between
 - Conference sessions during the day and multiple social events in the evenings – pool parties, karaoke, bonfires and more
 - A mix of long-term Bansko residents and newcomers exploring Eastern Europe for the first time
+
+### 💰 Budget notes
+- **📅 Dates:** June 20-30, 2026
+- **📍 Location:** Bansko, Bulgaria
+- **🎯 Focus:** Talks, unconferences, skill-sharing, social events
+- **🏔️ Activities:** Hikes, hot springs, parties, karaoke, bonfires
+- **🎫 Tickets:** Various pass options available
+
+**💰 Discount: Save €25 with code NGM**
 
 **Perfect if you…** want a real "end of season" reunion where many event organizers, community leaders and nomads from all over the world show up.
 
