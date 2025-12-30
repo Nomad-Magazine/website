@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 import cloudflare from '@astrojs/cloudflare'
 import { defineConfig, envField } from 'astro/config'
 import { glob } from 'glob'
-import { readFileSync, statSync } from 'fs'
+import { readFileSync, statSync } from 'node:fs'
 
 const site = process.env.SITE_URL ?? 'https://nomad-magazine.com'
 
