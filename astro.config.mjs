@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 import cloudflare from '@astrojs/cloudflare'
 import { defineConfig, envField } from 'astro/config'
 
-const site = process.env.SITE_URL ?? 'https://workers.nomad-magazine.com'
+const site = process.env.SITE_URL ?? 'https://nomad-magazine.com'
 
 export default defineConfig({
   output: 'server',

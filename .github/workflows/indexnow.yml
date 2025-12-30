@@ -1,0 +1,23 @@
+name: 'IndexNow'
+on:
+  schedule:
+    # Set the schedule time
+    - cron: '0 2 * * *'
+
+jobs:
+  check-and-submit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: indexnow-action
+        uses: bojieyang/indexnow-action@v2
+        with:
+          sitemap-location: 'https://nomad-magazine.com/sitemap-index.xml'
+          key: ${{ secrets.INDEXNOW_KEY }}
+
+  google-indexing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: robingenz/action-google-indexing@v1.0.2
+        with:
+          siteUrl: 'capgo.app'
+          gcpServiceAccountKey: ${{ secrets.GCP_SA_KEY }}
