@@ -1,9 +1,12 @@
 /feature-request /get-featured
 /nomad-directory /nomad_directory
+/directory /nomad_directory/
+/directory/ /nomad_directory/
 /about /our-story
 /sitemap.xml /sitemap-index.xml
 
 /coworking-spaces /coworking-contest
+/coworking-spaces/ /coworking-contest/
 /coworking-design-contest /coworking-contest
 
 /products/issue-001 /editions/first-edition

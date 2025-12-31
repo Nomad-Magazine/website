@@ -165,9 +165,10 @@ const seo: SEOProps = {
     description: 'Edition 002 focusing on digital nomad communities and Japan as a destination',
     url: `${Astro.site}editions/second-edition/`,
     image: `${Astro.site}images/edition-002-cover-background-purple.webp`,
+    sku: 'NGM-002',
     brand: {
       '@type': 'Brand',
-              name: 'Nomad Magazine',
+      name: 'Nomad Magazine',
     },
     offers: [
       {
@@ -181,6 +182,10 @@ const seo: SEOProps = {
           '@type': 'MerchantReturnPolicy',
           returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
         },
+        seller: {
+          '@type': 'Organization',
+          name: 'Nomad Magazine',
+        },
       },
       {
         '@type': 'Offer',
@@ -193,16 +198,12 @@ const seo: SEOProps = {
           '@type': 'MerchantReturnPolicy',
           returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
         },
+        seller: {
+          '@type': 'Organization',
+          name: 'Nomad Magazine',
+        },
       },
     ],
-    publisher: {
-      '@type': 'Organization',
-      name: 'Nomad Magazine',
-      logo: {
-        '@type': 'ImageObject',
-        url: `${Astro.site}logo.svg`,
-      },
-    },
   },
 }
 ---

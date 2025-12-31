@@ -186,9 +186,10 @@ const seo: SEOProps = {
     description: 'The first Edition of Nomad Magazine with 100 pages of unique content',
     url: `${Astro.site}editions/first-edition/`,
     image: '/images/edition-001-cover.avif',
+    sku: 'NGM-001',
     brand: {
       '@type': 'Brand',
-              name: 'Nomad Magazine',
+      name: 'Nomad Magazine',
     },
     offers: [
       {
@@ -202,6 +203,10 @@ const seo: SEOProps = {
           '@type': 'MerchantReturnPolicy',
           returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
         },
+        seller: {
+          '@type': 'Organization',
+          name: 'Nomad Magazine',
+        },
       },
       {
         '@type': 'Offer',
@@ -214,16 +219,12 @@ const seo: SEOProps = {
           '@type': 'MerchantReturnPolicy',
           returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
         },
+        seller: {
+          '@type': 'Organization',
+          name: 'Nomad Magazine',
+        },
       },
     ],
-    publisher: {
-      '@type': 'Organization',
-      name: 'Nomad Magazine',
-      logo: {
-        '@type': 'ImageObject',
-        url: `${Astro.site}logo.svg`,
-      },
-    },
   },
 }
 ---

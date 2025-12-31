@@ -179,17 +179,10 @@ const seo: SEOProps = {
     description: 'The third edition of Nomad Magazine featuring wellness, therapy, and digital health content',
     url: `${Astro.site}editions/third-edition/`,
     image: `${Astro.site}images/edition-003-table-of-contents.webp`,
+    sku: 'NGM-003',
     brand: {
       '@type': 'Brand',
       name: 'Nomad Magazine',
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'Nomad Magazine',
-      logo: {
-        '@type': 'ImageObject',
-        url: `${Astro.site}logo.svg`,
-      },
     },
     offers: [
       {
@@ -203,6 +196,10 @@ const seo: SEOProps = {
           '@type': 'MerchantReturnPolicy',
           returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
         },
+        seller: {
+          '@type': 'Organization',
+          name: 'Nomad Magazine',
+        },
       },
       {
         '@type': 'Offer',
@@ -214,6 +211,10 @@ const seo: SEOProps = {
         hasMerchantReturnPolicy: {
           '@type': 'MerchantReturnPolicy',
           returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
+        },
+        seller: {
+          '@type': 'Organization',
+          name: 'Nomad Magazine',
         },
       },
     ],
@@ -453,7 +454,7 @@ const seo: SEOProps = {
         role: 'Mindvalley Speaker & Performance Coach',
       },
       {
-        image: '/images/Loretta_Graziano_Breuning-how-to-break-ice-with-new-people.png',
+        image: '/images/Loretta_Graziano_Breuning-how-to-break-ice-with-new-people.webp',
         alt: '',
         quote:
           "You will learn why meeting new people can feel so awkward — and how understanding your brain's ancient instincts can help you break the ice with more ease and confidence. This article unpacks the surprising science behind our social fears and offers practical ways to connect without letting your inner mammal run the show.",
@@ -501,7 +502,7 @@ const seo: SEOProps = {
         role: "Life Coach, Ecstatic Dance DJ, Author of 'The BIG U' book",
       },
       {
-        image: '/images/Anna_Maria_Kochanska-why-digital-nomads-have-been-unfairly-blamed-for-overtourism.png',
+        image: '/images/Anna_Maria_Kochanska-why-digital-nomads-have-been-unfairly-blamed-for-overtourism.webp',
         alt: '',
         quote:
           'You will learn why digital nomads have been unfairly blamed for overtourism — and how the real issues run much deeper than headlines suggest. This article explores how nomads can shift the narrative by supporting sustainable travel, empowering local communities, and becoming part of the solution.',

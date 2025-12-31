@@ -7,7 +7,7 @@ author_image_url: /images/nomad-magazine-logo.png
 author_url: https://nomad-magazine.com
 created_at: 2025-12-19T12:00:00.000Z
 updated_at: 2025-12-19T12:00:00.000Z
-head_image: /images/newsletter-events-2026-cover.png
+head_image: /images/newsletter-events-2026-cover.webp
 head_image_alt: See the World Through Digital Nomad Events 2026 - World Map
 keywords: digital nomad events 2026, nomad summit, nomad cruise, nomad week cape town, italia nomad fest, vietnam nomad fest, bansko nomad fest, remote work events, digital nomad travel plan
 tag: Events, Travel, Community
@@ -84,7 +84,7 @@ Chiang Mai is a classic nomad "winter escape" – warm weather, cafés everywher
 
 ## 🌍 Late January – Cape Town's Nomad Week
 
-![Nomad Week Cape Town](/images/cape-town.jpg)
+![Nomad Week Cape Town](/images/cape-town.webp)
 
 **Event:** Nomad Week Cape Town  
 **Dates:** 25–31 January 2026  
@@ -143,7 +143,7 @@ Nomad Cruise is almost legendary at this point – one of the longest-running ex
 
 ## 🇮🇹 March – Palermo, pasta and big ideas at Italia Nomad Fest
 
-![Italia Nomad Fest Palermo](/images/palermo_city.jpg)
+![Italia Nomad Fest Palermo](/images/palermo_city.webp)
 
 **Event:** Italia Nomad Fest  
 **Dates:** 8–15 March 2026  
@@ -173,7 +173,7 @@ If you prefer to stay in (or come back to) Europe, Italia Nomad Fest in Palermo 
 
 ## 🇻🇳 March – Vietnam Nomad Fest in Da Nang
 
-![Vietnam Nomad Fest Da Nang](/images/danang.jpg)
+![Vietnam Nomad Fest Da Nang](/images/danang.webp)
 
 **Event:** Vietnam / Da Nang Nomad Fest  
 **Dates:** 20–29 March 2026  
