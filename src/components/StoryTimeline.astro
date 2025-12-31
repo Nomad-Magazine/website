@@ -162,7 +162,7 @@ const timelineEvents = [
                     {event.images.map((img) => (
                       <div>
                         {typeof img === 'string' ? (
-                          <img src={img} loading="lazy" width="480" alt="" />
+                          <img src={img} loading="lazy" width="480" alt="" aria-hidden="true" />
                         ) : (
                           <a href={img.link} target="_blank">
                             <img src={img.src} loading="lazy" width="480" class="cursor-pointer" alt={img.alt || ''} />

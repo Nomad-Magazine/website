@@ -116,7 +116,7 @@ const originalLinks = [
         originalLinks.slice(0, 6).map((link) => (
           <a href={link.url} class="group relative inline-block">
             <span class="font-justme text-3xl text-gray-700 hover:text-yellow-600 transition-colors duration-200">{link.text}</span>
-            <img src={link.imageUrl} alt="" class="absolute bottom-[-15px] left-0 hidden w-full group-hover:block" loading="lazy" />
+            <img src={link.imageUrl} alt="" aria-hidden="true" class="absolute bottom-[-15px] left-0 hidden w-full group-hover:block" loading="lazy" />
           </a>
         ))
       }
