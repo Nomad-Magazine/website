@@ -1,10 +1,38 @@
 ---
-import Layout from "~/layouts/Layout.astro"
+import Layout, { type SEOProps } from "~/layouts/Layout.astro"
+
+const seo: SEOProps = {
+  title: 'Coworking Contest Newsletter | Nomad Magazine',
+  description: 'Discover the latest coworking contest news and updates from Nomad Magazine. Join our community of digital nomads and remote workers.',
+  image: `${Astro.site}images/edition-003-cover.webp`,
+  keywords: 'coworking contest, nomad magazine newsletter, digital nomad, remote work, coworking spaces',
+  ogType: 'article',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Coworking Contest Newsletter',
+    description: 'Discover the latest coworking contest news and updates from Nomad Magazine. Join our community of digital nomads and remote workers.',
+    author: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+    datePublished: '2025-05-01',
+    url: `${Astro.site}newsletter-coworking-contest/`,
+  },
+}
 ---
-<Layout>
+<Layout seo={seo}>
 <div class="p-8">
 <h1>Newsletter - Coworking Contest</h1>
 <p>Web version coming soon. Use the email template for now.</p>
-<iframe src="/newsletter-coworking-contest-email.html" class="w-full h-screen border"></iframe>
+<iframe src="/newsletter-coworking-contest-email.html" title="Coworking Contest Newsletter Email Template" class="w-full h-screen border" aria-label="Newsletter content frame"></iframe>
 </div>
 </Layout>

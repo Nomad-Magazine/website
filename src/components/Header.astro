@@ -27,9 +27,9 @@ const navLinks = [
         </a>
         <nav class="hidden space-x-10 lg:flex">
           <div class="relative">
-            <button id="magazine-button" class="group flex cursor-pointer items-center text-lg font-bold text-gray-900 transition-colors hover:text-yellow-600">
+            <button id="magazine-button" class="group flex cursor-pointer items-center text-lg font-bold text-gray-900 transition-colors hover:text-yellow-600" aria-label="Magazine menu" aria-haspopup="true" aria-expanded="false">
               <span>Magazine</span>
-              <IsIconDownOutline class="ml-1 h-5 w-5 font-bold" />
+              <IsIconDownOutline class="ml-1 h-5 w-5 font-bold" aria-hidden="true" />
             </button>
             <div id="magazine-dropdown" class="absolute z-10 mt-2 hidden w-64 rounded-md border border-gray-200 bg-white py-1 shadow-xl">
               <a href="/editions/third-edition/" class="flex items-center px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-yellow-50 hover:text-yellow-600">
@@ -46,14 +46,14 @@ const navLinks = [
             navLinks.map((link) => (
               <a href={link.url} class="group relative inline-block text-lg font-bold text-gray-900 transition-colors hover:text-yellow-600">
                 <span>{link.text}</span>
-                <img src={link.imageUrl} alt="underline design" class="absolute left-0 hidden w-full group-hover:block" loading="lazy" />
+                <img src={link.imageUrl} alt="" aria-hidden="true" class="absolute left-0 hidden w-full group-hover:block" loading="lazy" />
               </a>
             ))
           }
           <div class="relative">
-            <button id="more-button" class="flex cursor-pointer items-center text-lg font-bold text-gray-900 transition-colors hover:text-yellow-600">
+            <button id="more-button" class="flex cursor-pointer items-center text-lg font-bold text-gray-900 transition-colors hover:text-yellow-600" aria-label="More menu" aria-haspopup="true" aria-expanded="false">
               More
-              <IsIconDownOutline class="ml-1 h-5 w-5 font-bold" />
+              <IsIconDownOutline class="ml-1 h-5 w-5 font-bold" aria-hidden="true" />
             </button>
             <div id="more-dropdown" class="absolute z-10 mt-2 hidden w-56 rounded-md border border-gray-200 bg-white py-2 shadow-xl">
               <!-- Content & Community -->
@@ -102,8 +102,8 @@ const navLinks = [
       </div>
       <!-- Mobile menu button -->
       <div class="lg:hidden">
-        <button id="mobile-menu-button" type="button" class="text-gray-900 hover:text-yellow-600">
-          <MenuIcon class="h-8 w-8" />
+        <button id="mobile-menu-button" type="button" class="text-gray-900 hover:text-yellow-600" aria-label="Open mobile menu">
+          <MenuIcon class="h-8 w-8" aria-hidden="true" />
         </button>
       </div>
     </div>
@@ -114,8 +114,8 @@ const navLinks = [
       <a href="/" class="text-4xl font-black tracking-tighter">
         <img decoding="async" loading="lazy" src="/images/logo white png.png" alt="n::.m" class="h-8" />
       </a>
-      <button id="close-menu-button" class="hover:text-yellow-400 transition-colors">
-        <CloseIcon class="h-8 w-8" />
+      <button id="close-menu-button" class="hover:text-yellow-400 transition-colors" aria-label="Close mobile menu">
+        <CloseIcon class="h-8 w-8" aria-hidden="true" />
       </button>
     </div>
     <nav class="flex flex-col space-y-6 p-6 text-lg font-semibold min-h-0">

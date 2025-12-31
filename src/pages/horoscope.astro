@@ -13,6 +13,25 @@ const seo: SEOProps = {
   description: 'Get your personalized travel horoscope! Enter your name, email, and birthdate to receive a detailed 6-card reading with destination recommendations, travel timing, career guidance, and monthly insights tailored to your zodiac sign.',
   image: `${Astro.site}images/magazine-hold-against-chest.webp`,
   keywords: 'travel horoscope, digital nomad horoscope, personalized astrology reading, travel predictions, destination recommendations, zodiac travel guide, nomad astrology, monthly horoscope, astrological travel timing',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Sacred Nomad Oracle - Travel Horoscope',
+    description: 'Get your personalized 6-card travel horoscope reading with destination recommendations, love guidance, career insights, and monthly predictions for digital nomads.',
+    url: `${Astro.site}horoscope/`,
+    applicationCategory: 'LifestyleApplication',
+    operatingSystem: 'Web Browser',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+    },
+    provider: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      url: `${Astro.site}`,
+    },
+  },
 }
 ---
 

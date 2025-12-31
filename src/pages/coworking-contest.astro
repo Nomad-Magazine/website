@@ -186,6 +186,28 @@ const seo: SEOProps = {
   description: 'Vote for the best designed coworking spaces worldwide! Top selections by public votes and Nomad Magazine jury will be featured in our next edition.',
   image: `${Astro.site}images/coworking-spaces-hero.webp`,
   keywords: 'coworking spaces contest, best design, digital nomads, vote, nomad magazine, workspace design, coworking competition',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Best Coworking Spaces Design Contest',
+    description: 'Vote for the best designed coworking spaces worldwide. Browse beautifully designed workspaces that were featured in our contest.',
+    url: `${Astro.site}coworking-contest/`,
+    mainEntity: {
+      '@type': 'ItemList',
+      name: 'Best Coworking Spaces Contest Entries',
+      description: 'Coworking spaces competing for best design in the Nomad Magazine contest',
+      itemListElement: [],
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      url: `${Astro.site}`,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+  },
 }
 ---
 
@@ -218,11 +240,14 @@ const seo: SEOProps = {
             </div>
           </div>
           <div class="flex justify-center">
-            <button 
+            <button
               id="filter-btn"
+              aria-label="Toggle filter and sort options"
+              aria-expanded="false"
+              aria-controls="filters-section"
               class="inline-flex items-center gap-1 text-sm text-neutral-400 hover:text-yellow-400 transition-colors"
             >
-              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
               </svg>
               Filter & Sort
@@ -233,26 +258,38 @@ const seo: SEOProps = {
     </section>
 
     <!-- Filters Section (Initially Hidden) -->
-    <section id="filters-section" class="px-4 py-8 sm:px-6 lg:px-8 border-b border-neutral-800 hidden">
+    <section id="filters-section" class="px-4 py-8 sm:px-6 lg:px-8 border-b border-neutral-800 hidden" aria-label="Filter and sort options">
       <div class="mx-auto max-w-7xl">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <select id="country-filter" class="rounded-lg bg-neutral-800 border border-neutral-700 text-white px-4 py-2">
-            <option value="">All Countries</option>
-          </select>
-          <select id="city-filter" class="rounded-lg bg-neutral-800 border border-neutral-700 text-white px-4 py-2">
-            <option value="">All Cities</option>
-          </select>
-          <select id="price-filter" class="rounded-lg bg-neutral-800 border border-neutral-700 text-white px-4 py-2">
-            <option value="">All Prices</option>
-            <option value="budget">Budget ($0-20/day)</option>
-            <option value="mid">Mid-range ($21-40/day)</option>
-            <option value="premium">Premium ($41+/day)</option>
-          </select>
-          <select id="sort-filter" class="rounded-lg bg-neutral-800 border border-neutral-700 text-white px-4 py-2">
-            <option value="votes">Most Votes</option>
-            <option value="newest">Newest</option>
-            <option value="name">Alphabetical</option>
-          </select>
+          <div>
+            <label for="country-filter" class="sr-only">Filter by country</label>
+            <select id="country-filter" aria-label="Filter by country" class="w-full rounded-lg bg-neutral-800 border border-neutral-700 text-white px-4 py-2">
+              <option value="">All Countries</option>
+            </select>
+          </div>
+          <div>
+            <label for="city-filter" class="sr-only">Filter by city</label>
+            <select id="city-filter" aria-label="Filter by city" class="w-full rounded-lg bg-neutral-800 border border-neutral-700 text-white px-4 py-2">
+              <option value="">All Cities</option>
+            </select>
+          </div>
+          <div>
+            <label for="price-filter" class="sr-only">Filter by price range</label>
+            <select id="price-filter" aria-label="Filter by price range" class="w-full rounded-lg bg-neutral-800 border border-neutral-700 text-white px-4 py-2">
+              <option value="">All Prices</option>
+              <option value="budget">Budget ($0-20/day)</option>
+              <option value="mid">Mid-range ($21-40/day)</option>
+              <option value="premium">Premium ($41+/day)</option>
+            </select>
+          </div>
+          <div>
+            <label for="sort-filter" class="sr-only">Sort results</label>
+            <select id="sort-filter" aria-label="Sort results" class="w-full rounded-lg bg-neutral-800 border border-neutral-700 text-white px-4 py-2">
+              <option value="votes">Most Votes</option>
+              <option value="newest">Newest</option>
+              <option value="name">Alphabetical</option>
+            </select>
+          </div>
         </div>
       </div>
     </section>
@@ -289,7 +326,7 @@ const seo: SEOProps = {
           <p class="mt-2 text-neutral-400">Loading contest entries...</p>
         </div>
         
-        <div id="spaces-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
+        <div id="spaces-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" style="display: none;">
           <!-- Spaces will be dynamically inserted here -->
         </div>
 

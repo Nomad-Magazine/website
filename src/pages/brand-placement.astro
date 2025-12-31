@@ -13,7 +13,7 @@ const seo: SEOProps = {
     '@type': 'WebPage',
     name: 'Brand Placement - Nomad Magazine',
     description: 'Advertise your brand in Nomad Magazine',
-    url: `${Astro.site}brand-placement`,
+    url: `${Astro.site}brand-placement/`,
     publisher: {
       '@type': 'Organization',
       name: 'Nomad Magazine',
@@ -229,6 +229,8 @@ const sponsors = [
                           <a
                 href="https://calendly.com/nomadgossip"
                 target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Schedule a consultation call on Calendly"
                 class="inline-block rounded bg-yellow-400 px-8 py-4 text-center text-lg font-bold text-black transition-transform duration-200 hover:scale-105 hover:shadow-lg"
               >
                 Talk with us
@@ -589,14 +591,14 @@ const sponsors = [
       <p class="mb-10 text-center text-2xl font-semibold text-white">Trusted by Leading Nomad Brands</p>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center">
         {sponsors.slice(0, 4).map((sponsor) => (
-          <a href={sponsor.link} target="_blank" class="flex justify-center">
+          <a href={sponsor.link} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${sponsor.alt} website`} class="flex justify-center">
             <img width={sponsor.width} alt={sponsor.alt} src={sponsor.image} loading="lazy" srcset={sponsor.srcset} />
           </a>
         ))}
       </div>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center mt-8">
         {sponsors.slice(4, 8).map((sponsor) => (
-          <a href={sponsor.link} target="_blank" class="flex justify-center">
+          <a href={sponsor.link} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${sponsor.alt} website`} class="flex justify-center">
             <img width={sponsor.width} alt={sponsor.alt} src={sponsor.image} loading="lazy" srcset={sponsor.srcset} />
           </a>
         ))}
@@ -653,9 +655,11 @@ const sponsors = [
                <a
                  href="https://calendly.com/nomadgossip"
                  target="_blank"
+                 rel="noopener noreferrer"
+                 aria-label={`Schedule a consultation for ${ad.name} advertising`}
                  class={`block w-full text-center py-3 px-6 rounded-lg font-semibold transition-colors ${
-                   ad.popular 
-                     ? 'bg-yellow-400 text-black hover:bg-yellow-500' 
+                   ad.popular
+                     ? 'bg-yellow-400 text-black hover:bg-yellow-500'
                      : 'bg-gray-900 text-white hover:bg-gray-800'
                  }`}
                                 >
@@ -740,6 +744,8 @@ const sponsors = [
               <a
                 href="https://calendly.com/nomadgossip"
                 target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Schedule a call to discuss major sponsorship opportunities"
                 class="inline-block bg-black text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-800 transition-colors"
               >
                 Discuss Major Sponsorship
@@ -877,12 +883,15 @@ const sponsors = [
         <a
           href="https://calendly.com/nomadgossip"
           target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Schedule a consultation call on Calendly"
           class="inline-block rounded bg-yellow-400 px-8 py-4 text-lg font-bold text-black transition-transform duration-200 hover:scale-105 hover:shadow-lg"
         >
           Schedule Consultation
         </a>
         <a
           href="mailto:lera@nomadgossip.com"
+          aria-label="Send email to lera@nomadgossip.com"
           class="inline-block rounded border-2 border-yellow-400 px-8 py-4 text-lg font-bold text-yellow-400 transition-colors duration-200 hover:bg-yellow-400 hover:text-black"
         >
           Email Us

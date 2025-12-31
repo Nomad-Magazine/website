@@ -18,7 +18,7 @@ const seo: SEOProps = {
     '@type': 'WebPage',
     name: 'Nomad Magazine Editions',
     description: 'All editions of Nomad Magazine',
-    url: `${Astro.site}editions`,
+    url: `${Astro.site}editions/`,
     publisher: {
       '@type': 'Organization',
       name: 'Nomad Magazine',
@@ -78,8 +78,10 @@ const seo: SEOProps = {
               <p class="text-lg text-gray-700 mb-6 leading-relaxed">
                 Download Editions 1, 2 & 3 instantly. <strong>300+ pages</strong> of inspiring nomad stories, practical tips, and insights. Limited time only.
               </p>
-              <a 
-                href="https://nomad-magazine.com/magazines-giveaway" 
+              <a
+                href="https://nomad-magazine.com/magazines-giveaway"
+                rel="noopener noreferrer"
+                aria-label="Claim your free digital magazines from Nomad Magazine"
                 class="inline-block bg-black text-yellow-400 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-900 transition-all shadow-xl transform hover:scale-105"
               >
                 Claim Your Free Magazines →

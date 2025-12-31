@@ -177,6 +177,8 @@ const seo: SEOProps = {
     '@type': 'Product',
     name: 'Nomad Magazine Edition #3',
     description: 'The third edition of Nomad Magazine featuring wellness, therapy, and digital health content',
+    url: `${Astro.site}editions/third-edition/`,
+    image: `${Astro.site}images/edition-003-table-of-contents.webp`,
     brand: {
       '@type': 'Brand',
       name: 'Nomad Magazine',
@@ -239,13 +241,13 @@ const seo: SEOProps = {
         <h3 class="text-2xl md:text-3xl font-bold mb-3">📱 Now Available on ZINIO</h3>
         <p class="text-lg mb-6 opacity-90">Read on your favorite device with the best digital magazine experience</p>
         <div class="flex flex-wrap justify-center gap-4">
-          <a href="https://www.zinio.com/pt/publications/nomad-magazine/45331" target="_blank" rel="noopener" class="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition inline-flex items-center gap-2">
+          <a href="https://www.zinio.com/pt/publications/nomad-magazine/45331" target="_blank" rel="noopener noreferrer" aria-label="Read Nomad Magazine on ZINIO Web Reader" class="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition inline-flex items-center gap-2">
             🌐 Web Reader
           </a>
-          <a href="https://apps.apple.com/us/app/zinio-magazine-newsstand/id364297166" target="_blank" rel="noopener" class="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition inline-flex items-center gap-2">
+          <a href="https://apps.apple.com/us/app/zinio-magazine-newsstand/id364297166" target="_blank" rel="noopener noreferrer" aria-label="Download ZINIO app on iOS App Store" class="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition inline-flex items-center gap-2">
             🍎 iOS App
           </a>
-          <a href="https://play.google.com/store/apps/details?id=com.zinio.mobile.android.reader&pli=1" target="_blank" rel="noopener" class="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition inline-flex items-center gap-2">
+          <a href="https://play.google.com/store/apps/details?id=com.zinio.mobile.android.reader&pli=1" target="_blank" rel="noopener noreferrer" aria-label="Download ZINIO app on Google Play Store" class="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition inline-flex items-center gap-2">
             🤖 Android App
           </a>
         </div>
@@ -324,7 +326,7 @@ const seo: SEOProps = {
               <h3 class="font-bold text-xl">Read on ZINIO App</h3>
             </div>
             <p class="text-gray-700 mb-4">Best reading experience on iOS, Android & Web. Enhanced features for digital magazines.</p>
-            <a href="https://www.zinio.com/pt/publications/nomad-magazine/45331" target="_blank" rel="noopener" class="block w-full text-center bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition">
+            <a href="https://www.zinio.com/pt/publications/nomad-magazine/45331" target="_blank" rel="noopener noreferrer" aria-label="View Nomad Magazine Edition 3 on ZINIO" class="block w-full text-center bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition">
               View on ZINIO →
             </a>
           </div>

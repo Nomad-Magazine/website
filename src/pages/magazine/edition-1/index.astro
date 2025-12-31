@@ -89,7 +89,39 @@ const seo: SEOProps = {
   description: 'Read the digital edition of Nomad Magazine Issue 1. Explore stories about commitment issues, freedom from corporate life, and more nomad insights.',
   image: '/images/edition-001-cover.avif',
   keywords: 'digital magazine, nomad magazine edition 1, digital nomad stories, online magazine',
-  ogType: 'website'
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Digital Magazine - Edition 1 | Nomad Magazine',
+    description: 'Read the digital edition of Nomad Magazine Issue 1. Explore stories about commitment issues, freedom from corporate life, and more nomad insights.',
+    url: `${Astro.site}magazine/edition-1/`,
+    mainEntity: {
+      '@type': 'Product',
+      name: 'Nomad Magazine Edition 001',
+      description: 'The first Edition of Nomad Magazine with 100 pages of unique content about digital nomad lifestyle',
+      image: `${Astro.site}images/edition-001-cover.avif`,
+      brand: {
+        '@type': 'Brand',
+        name: 'Nomad Magazine',
+      },
+      offers: {
+        '@type': 'Offer',
+        price: '14.00',
+        priceCurrency: 'EUR',
+        availability: 'https://schema.org/InStock',
+        url: `${Astro.site}editions/first-edition/`,
+      },
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+  },
 }
 ---
 
@@ -175,7 +207,7 @@ const seo: SEOProps = {
                     </div>
                     <div class="flex items-center gap-2 text-yellow-400 group-hover:gap-4 transition-all">
                       <span class="text-sm font-medium">Read Article</span>
-                      <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                       </svg>
                     </div>
@@ -243,7 +275,7 @@ const seo: SEOProps = {
             <!-- Quick Reads Section -->
             <div class="rounded-xl bg-gradient-to-b from-gray-900 to-gray-800 p-6 border border-gray-700">
               <h3 class="mb-6 text-xl font-bold text-white flex items-center gap-2">
-                <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+                <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                 </svg>
                 Quick Reads
@@ -327,11 +359,12 @@ const seo: SEOProps = {
     <!-- Back to Editions -->
     <section class="py-12 border-t border-gray-800">
       <div class="container mx-auto px-4 text-center">
-        <a 
-          href="/editions/" 
+        <a
+          href="/editions/"
+          aria-label="Navigate back to all magazine editions"
           class="inline-flex items-center gap-2 text-yellow-400 hover:text-yellow-300 transition-colors"
         >
-          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
           </svg>
           Back to All Editions

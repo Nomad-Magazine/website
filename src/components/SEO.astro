@@ -19,6 +19,14 @@ interface Props {
   tags?: string[]
 }
 
+// Ensure URL has trailing slash
+const ensureTrailingSlash = (urlString: string | URL): string => {
+  const str = urlString.toString()
+  // Don't add trailing slash to file extensions
+  if (/\.[a-zA-Z0-9]+$/.test(str)) return str
+  return str.endsWith('/') ? str : `${str}/`
+}
+
 const {
   title = 'Nomad Magazine - The First Global Digital Nomad Magazine',
   description = 'Remote Work, Nomadic Trends, Events, Industry Updates and More. Join the Nomad Newsletter for exclusive articles and inspiring stories.',
@@ -32,7 +40,7 @@ const {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'Nomad Magazine',
-    url: Astro.site,
+    url: ensureTrailingSlash(Astro.site || ''),
     description: 'The first global digital nomad magazine',
     publisher: {
       '@type': 'Organization',
@@ -40,7 +48,23 @@ const {
       logo: {
         '@type': 'ImageObject',
         url: `${Astro.site}logo.svg`,
+        width: 200,
+        height: 60,
       },
+      sameAs: [
+        'https://twitter.com/nomadgossipmag',
+        'https://www.instagram.com/nomadgossipmag/',
+        'https://www.youtube.com/@nomadmagazine',
+        'https://www.linkedin.com/company/nomad-magazine/',
+      ],
+    },
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${Astro.site}blog/?q={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
     },
   },
   ogType = 'website',
@@ -59,6 +83,10 @@ if (description.length > descSize) {
 
 const image_unsecure = image.replace('https://', 'http://')
 const titleFix = title || (image.split('/').pop() || '.').split('.')[0]
+
+// Ensure canonical URL has trailing slash
+const canonicalUrl = ensureTrailingSlash(canonical)
+const pageUrl = ensureTrailingSlash(url)
 
 const makeFontPath = (name: string) => join(process.cwd(), 'public', 'fonts', name)
 ---
@@ -106,7 +134,7 @@ const makeFontPath = (name: string) => join(process.cwd(), 'public', 'fonts', na
   ]}
 />
 
-<link rel="sitemap" href="/sitemap-index.xml/" />
+<link rel="sitemap" href="/sitemap-index.xml" />
 
 <!-- Global Metadata -->
 <meta charset="utf-8" />
@@ -114,12 +142,14 @@ const makeFontPath = (name: string) => join(process.cwd(), 'public', 'fonts', na
 <meta name="generator" content={Astro.generator} />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="apple-mobile-web-app-title" content="Nomad Magazine" />
+<meta name="application-name" content="Nomad Magazine" />
+<meta name="format-detection" content="telephone=no" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<meta property="keywords" content={keywords} />
+<meta name="keywords" content={keywords} />
 
-<link rel="canonical" href={canonical} />
-<link rel="apple-touch-icon" href="/favicon.png/" />
-<link rel="icon" href="/favicon.png/" sizes="any" />
+<link rel="canonical" href={canonicalUrl} />
+<link rel="apple-touch-icon" href="/favicon.png" />
+<link rel="icon" href="/favicon.png" sizes="any" />
 
 <!-- Primary Meta Tags -->
 <title set:html={title} />
@@ -128,17 +158,18 @@ const makeFontPath = (name: string) => join(process.cwd(), 'public', 'fonts', na
 <meta name="description" content={displayDescription} />
 
 <!-- Open Graph / Facebook -->
-<meta property="og:url" content={url} />
+<meta property="og:url" content={pageUrl} />
 <meta property="og:title" content={title} />
 <meta property="og:type" content={ogType} />
 <meta property="og:locale" content="en_US" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="627" />
 <meta property="og:image:alt" content={titleFix} />
-<meta property="og:image:secure" content={image} />
+<meta property="og:image:secure_url" content={image} />
+<meta property="og:image:url" content={image} />
 <meta property="og:image" content={image_unsecure} />
 <meta property="og:image:type" content="image/webp" />
-<meta property="og:article:author" content={author} />
+<meta property="article:author" content={author} />
 <meta name="robots" content="index, follow" />
 
 {
@@ -162,13 +193,14 @@ const makeFontPath = (name: string) => join(process.cwd(), 'public', 'fonts', na
 <meta property="og:description" content={displayDescription} />
 
 <!-- Twitter -->
-<meta property="twitter:url" content={url} />
-<meta property="twitter:site" content="@nomadgossipmag" />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:image" content={image} />
-<meta property="twitter:creator" content="@martindonadieu" />
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:description" content={displayDescription} />
+<meta name="twitter:url" content={pageUrl} />
+<meta name="twitter:site" content="@nomadgossipmag" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:image" content={image} />
+<meta name="twitter:image:alt" content={titleFix} />
+<meta name="twitter:creator" content="@martindonadieu" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:description" content={displayDescription} />
 
 <!-- Structured Data -->
 <script is:inline type="application/ld+json" set:html={JSON.stringify(ldJSON)} />

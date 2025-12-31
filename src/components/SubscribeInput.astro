@@ -11,6 +11,7 @@ const eventType = `$subscribe_${tag}`
     method="POST"
     class:list={['subscribe-form flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:gap-2', formClass]}
     data-redirect={currentUrl.toString()}
+    aria-label="Subscribe to newsletter"
   >
     <input type="hidden" name="event_type" value={eventType} />
     <input
@@ -18,6 +19,7 @@ const eventType = `$subscribe_${tag}`
       type="email"
       name="email"
       placeholder="Enter your email"
+      aria-label="Email address"
       class="flex-1 rounded-lg border border-gray-300 px-4 py-3 text-lg focus:border-transparent focus:ring-2 focus:ring-yellow-400 focus:outline-none"
     />
     <button

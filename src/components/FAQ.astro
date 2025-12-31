@@ -31,11 +31,11 @@ const faqs = [
       {
         faqs.map((faq) => (
           <details class="group border-b border-gray-200">
-            <summary class="flex cursor-pointer list-none items-center justify-between py-6 text-xl font-semibold outline-none">
+            <summary class="flex cursor-pointer list-none items-center justify-between py-6 text-xl font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-black">
               <span>{faq.question}</span>
-              <span class="ml-4 flex size-6 items-center justify-center rounded border border-black transition-transform">
-                <span class="block h-0.5 w-2 bg-black" />
-                <span class="absolute block h-2 w-0.5 bg-black group-open:hidden" />
+              <span class="ml-4 flex size-6 items-center justify-center rounded border border-black transition-transform" aria-hidden="true">
+                <span class="block h-0.5 w-2 bg-black" aria-hidden="true" />
+                <span class="absolute block h-2 w-0.5 bg-black group-open:hidden" aria-hidden="true" />
               </span>
             </summary>
             <div class="pb-6 text-sm text-gray-600" set:html={faq.answer} />

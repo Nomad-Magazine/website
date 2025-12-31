@@ -11,6 +11,18 @@ const seo: SEOProps = {
   image: `${Astro.site}images/edition-003-cover_holded_front_face.webp`,
   keywords: 'nomad directory upgrade, digital nomad listing boost, nomad marketing',
   ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Boost Your Listing - Nomad Directory Upgrades',
+    description: 'Upgrade your Nomad Directory listing to reach our engaged community of digital nomads across multiple channels.',
+    url: 'https://nomad-magazine.com/nomad-directory-boost-options/',
+    provider: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      url: 'https://nomad-magazine.com/'
+    }
+  },
 }
 ---
 
@@ -47,6 +59,7 @@ const seo: SEOProps = {
             <a
               href="https://pay.nomad-magazine.com/b/00w9AT9Up1bd0G219v8bS0B"
               target="_blank"
+              rel="noopener noreferrer"
               class="inline-block bg-gray-700 text-gray-200 px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-600 transition-colors whitespace-nowrap"
             >
               Push Up
@@ -70,6 +83,7 @@ const seo: SEOProps = {
             <a
               href="https://pay.nomad-magazine.com/b/bJefZhd6B9HJ74q7xT8bS0D"
               target="_blank"
+              rel="noopener noreferrer"
               class="inline-block bg-gray-700 text-gray-200 px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-600 transition-colors whitespace-nowrap"
             >
               Prioritise
@@ -126,6 +140,7 @@ const seo: SEOProps = {
           <a
             href="https://pay.nomad-magazine.com/b/fZubJ17Mh7zBbkG9G18bS0c"
             target="_blank"
+            rel="noopener noreferrer"
             class="w-full inline-block bg-yellow-500 text-black px-6 py-3 rounded-lg font-bold hover:bg-yellow-400 transition-all hover:scale-105 mt-auto"
           >
             Become Supporter

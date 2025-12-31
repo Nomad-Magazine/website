@@ -1,7 +1,49 @@
 ---
-import Layout from '~/layouts/Layout.astro'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+
+const seo: SEOProps = {
+  title: 'Nomad Magazine Digital Flipbook - Interactive Reading Experience',
+  description:
+    'Explore the digital flipbook edition of Nomad Magazine. Enjoy an interactive reading experience with stories about digital nomad lifestyle, remote work, and global travel.',
+  keywords:
+    'nomad magazine flipbook, digital nomad magazine, interactive magazine, remote work stories, digital nomad lifestyle, travel magazine online',
+  image: '/images/edition-001-cover.avif',
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'DigitalDocument',
+    name: 'Nomad Magazine Digital Flipbook',
+    description:
+      'Interactive digital flipbook edition of Nomad Magazine featuring stories about digital nomad lifestyle, remote work, and global travel.',
+    url: `${Astro.site}flipbooks/aeaa4b18-7371-463d-90df-c3603e4e2ef1/`,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+    inLanguage: 'en',
+    accessMode: ['textual', 'visual'],
+    accessibilityFeature: ['readingOrder', 'structuralNavigation'],
+  },
+}
 ---
 
-<Layout>
-  <iframe class="min-h-[90vh] w-full" src="https://flipbook.nomad-magazine.com/aeaa4b18-7371-463d-90df-c3603e4e2ef1"></iframe>
+<Layout seo={seo}>
+  <section class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl md:text-4xl font-bold text-center mb-6">
+      Nomad Magazine Digital Flipbook
+    </h1>
+    <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">
+      Enjoy the interactive digital reading experience of Nomad Magazine. Flip through pages, zoom in on articles, and explore stories about the digital nomad lifestyle.
+    </p>
+    <iframe
+      class="min-h-[90vh] w-full"
+      src="https://flipbook.nomad-magazine.com/aeaa4b18-7371-463d-90df-c3603e4e2ef1"
+      title="Nomad Magazine Digital Flipbook - Interactive magazine viewer"
+      loading="lazy"
+    ></iframe>
+  </section>
 </Layout>

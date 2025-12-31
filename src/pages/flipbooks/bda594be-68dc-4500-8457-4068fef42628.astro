@@ -1,7 +1,49 @@
 ---
-import Layout from '~/layouts/Layout.astro'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+
+const seo: SEOProps = {
+  title: 'Nomad Magazine Edition Flipbook - Digital Reader',
+  description:
+    'Read the digital flipbook edition of Nomad Magazine. An immersive reading experience featuring articles on digital nomad life, remote work tips, and travel inspiration.',
+  keywords:
+    'nomad magazine digital edition, flipbook reader, digital nomad content, remote work magazine, travel stories online, interactive magazine reader',
+  image: '/images/edition-001-cover.avif',
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'DigitalDocument',
+    name: 'Nomad Magazine Edition Flipbook',
+    description:
+      'Digital flipbook reader for Nomad Magazine featuring content about digital nomad lifestyle, remote work, and travel inspiration.',
+    url: `${Astro.site}flipbooks/bda594be-68dc-4500-8457-4068fef42628/`,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+    inLanguage: 'en',
+    accessMode: ['textual', 'visual'],
+    accessibilityFeature: ['readingOrder', 'structuralNavigation'],
+  },
+}
 ---
 
-<Layout>
-  <iframe class="min-h-[90vh] w-full" src="https://flipbook.nomad-magazine.com/bda594be-68dc-4500-8457-4068fef42628"></iframe>
+<Layout seo={seo}>
+  <section class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl md:text-4xl font-bold text-center mb-6">
+      Nomad Magazine Edition Flipbook
+    </h1>
+    <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">
+      Dive into the digital edition of Nomad Magazine. Browse through inspiring stories, expert advice on remote work, and discover destinations perfect for the nomadic lifestyle.
+    </p>
+    <iframe
+      class="min-h-[90vh] w-full"
+      src="https://flipbook.nomad-magazine.com/bda594be-68dc-4500-8457-4068fef42628"
+      title="Nomad Magazine Edition Flipbook - Digital magazine reader"
+      loading="lazy"
+    ></iframe>
+  </section>
 </Layout>

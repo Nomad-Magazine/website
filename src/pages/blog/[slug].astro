@@ -86,7 +86,7 @@ const seo: SEOProps = {
     dateModified: post.data.updatedDate?.toISOString(),
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `${Astro.site}blog/${post.slug}`,
+      '@id': `${Astro.site}blog/${post.slug}/`,
     },
     articleSection: 'Digital Nomad Lifestyle',
     keywords: post.data.keywords || 'digital nomad, remote work, travel, nomad lifestyle',
@@ -127,8 +127,9 @@ const seo: SEOProps = {
         <aside class="hidden lg:block lg:w-48">
           <div class="sticky top-8 space-y-6 text-sm">
             <!-- Giveaway Block -->
-            <a 
-              href="https://nomad-magazine.com/magazines-giveaway"
+            <a
+              href="https://nomad-magazine.com/magazines-giveaway/"
+              aria-label="Get 3 free digital magazines"
               class="block bg-gradient-to-br from-red-500 to-orange-500 text-white rounded-lg overflow-hidden group hover:from-red-600 hover:to-orange-600 transition-all transform hover:scale-105 shadow-lg"
             >
               <div class="p-4 space-y-2">
@@ -141,7 +142,7 @@ const seo: SEOProps = {
                 </div>
                 <div class="flex items-center gap-1 text-xs font-medium">
                   <span>Claim Now</span>
-                  <svg class="w-3 h-3 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="w-3 h-3 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </div>
@@ -195,7 +196,7 @@ const seo: SEOProps = {
                 <h2 class="text-2xl font-semibold text-gray-900">Related Articles</h2>
                 <div class="mt-6 grid gap-6 sm:grid-cols-3">
                   {finalRelatedPosts.map((relatedPost) => (
-                    <a href={`/blog/${relatedPost.slug}`} class="group block rounded-lg border border-gray-200 p-4 transition-all hover:border-gray-400 hover:bg-gray-50">
+                    <a href={`/blog/${relatedPost.slug}/`} class="group block rounded-lg border border-gray-200 p-4 transition-all hover:border-gray-400 hover:bg-gray-50">
                       <h3 class="text-base font-semibold leading-tight text-gray-900 group-hover:text-yellow-600">
                         {relatedPost.data.title}
                       </h3>

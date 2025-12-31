@@ -163,7 +163,7 @@ const seo: SEOProps = {
     '@type': 'Product',
     name: 'Nomad Magazine Edition 002',
     description: 'Edition 002 focusing on digital nomad communities and Japan as a destination',
-    url: `${Astro.site}products/issue-002`,
+    url: `${Astro.site}editions/second-edition/`,
     image: `${Astro.site}images/edition-002-cover-background-purple.webp`,
     brand: {
       '@type': 'Brand',
@@ -235,8 +235,10 @@ const seo: SEOProps = {
         <p class="text-xl md:text-2xl text-white mb-6 drop-shadow">
           Download Editions 1, 2 & 3 instantly – our biggest giveaway ever!
         </p>
-        <a 
-          href="https://nomad-magazine.com/magazines-giveaway" 
+        <a
+          href="https://nomad-magazine.com/magazines-giveaway"
+          rel="noopener noreferrer"
+          aria-label="Claim your free digital magazines from Nomad Magazine"
           class="inline-block bg-white text-red-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition shadow-2xl transform hover:scale-105"
         >
           🎉 Claim Your Free Magazines Now

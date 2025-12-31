@@ -1,10 +1,28 @@
 ---
-import Layout from '~/layouts/Layout.astro'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import MagazineStack from '~/components/MagazineStack.astro'
 
-const seoProps = {
+const seoProps: SEOProps = {
   title: '404 - Page Not Found | Nomad Magazine',
   description: 'Oops! The page you\'re looking for seems to have wandered off. Explore our magazine editions and nomad stories instead.',
+  image: `${Astro.site}images/magazine-hold-against-chest.webp`,
+  keywords: '404 error, page not found, nomad magazine, digital nomad, lost page',
+  canonical: `${Astro.site}404/`,
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: '404 - Page Not Found | Nomad Magazine',
+    description: 'The page you are looking for could not be found. Explore our digital nomad magazine content instead.',
+    url: `${Astro.site}404/`,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+  },
 }
 ---
 
@@ -39,15 +57,17 @@ const seoProps = {
                 While you're here, why not check out our latest magazine edition?
               </p>
               <div class="flex flex-col gap-4 sm:flex-row lg:justify-start">
-                <a 
-                  href="/" 
+                <a
+                  href="/"
                   class="inline-block rounded-lg bg-yellow-400 px-8 py-3 font-bold text-black transition-all hover:bg-yellow-300 hover:scale-105"
+                  aria-label="Return to the homepage"
                 >
                   Return Home
                 </a>
-                <a 
-                  href="/editions/third-edition/" 
+                <a
+                  href="/editions/third-edition/"
                   class="inline-block rounded-lg border border-white px-8 py-3 font-bold transition-all hover:bg-white hover:text-black hover:scale-105"
+                  aria-label="View the latest magazine edition"
                 >
                   Latest Edition
                 </a>
@@ -87,38 +107,38 @@ const seoProps = {
           <!-- Feature 1 -->
           <div class="group cursor-pointer rounded-lg bg-gray-800 p-6 transition-all hover:bg-gray-700 hover:scale-105">
             <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-yellow-400">
-              <svg class="h-6 w-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="h-6 w-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
               </svg>
             </div>
             <h3 class="mb-2 text-lg font-bold">Latest Articles</h3>
             <p class="mb-4 text-sm text-gray-400">Fresh insights from nomads worldwide</p>
-            <a href="/blog/" class="text-yellow-400 hover:underline">Read Blog →</a>
+            <a href="/blog/" class="text-yellow-400 hover:underline" aria-label="Read the blog for latest articles">Read Blog →</a>
           </div>
 
           <!-- Feature 2 -->
           <div class="group cursor-pointer rounded-lg bg-gray-800 p-6 transition-all hover:bg-gray-700 hover:scale-105">
             <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-purple-500">
-              <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
               </svg>
             </div>
             <h3 class="mb-2 text-lg font-bold">Nomad Directory</h3>
             <p class="mb-4 text-sm text-gray-400">Connect with the global nomad community</p>
-            <a href="/nomad_directory/" class="text-yellow-400 hover:underline">Explore Directory →</a>
+            <a href="/nomad_directory/" class="text-yellow-400 hover:underline" aria-label="Explore the Nomad Directory">Explore Directory →</a>
           </div>
 
           <!-- Feature 3 -->
           <div class="group cursor-pointer rounded-lg bg-gray-800 p-6 transition-all hover:bg-gray-700 hover:scale-105">
             <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-green-500">
-              <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15"></path>
               </svg>
             </div>
             <h3 class="mb-2 text-lg font-bold">All Editions</h3>
             <p class="mb-4 text-sm text-gray-400">Browse our complete magazine collection</p>
-            <a href="/editions/" class="text-yellow-400 hover:underline">View Editions →</a>
+            <a href="/editions/" class="text-yellow-400 hover:underline" aria-label="View all magazine editions">View Editions →</a>
           </div>
         </div>
       </div>
@@ -132,9 +152,10 @@ const seoProps = {
           <p class="mb-8 text-gray-400">
             Join thousands of nomads getting exclusive content, tips, and stories delivered to their inbox.
           </p>
-          <a 
-            href="/#newsletter/" 
+          <a
+            href="/#newsletter/"
             class="inline-block rounded-lg bg-gradient-to-r from-yellow-400 to-yellow-500 px-8 py-3 font-bold text-black transition-all hover:from-yellow-300 hover:to-yellow-400 hover:scale-105"
+            aria-label="Join the Nomad Newsletter"
           >
             Join the Newsletter
           </a>

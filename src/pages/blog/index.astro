@@ -86,7 +86,7 @@ const seo: SEOProps = {
     '@type': 'Blog',
     name: 'Nomad Blog',
     description: 'In-depth articles and useful tips on how to improve your nomadic journey',
-    url: `${Astro.site}blog`,
+    url: `${Astro.site}blog/`,
     publisher: {
       '@type': 'Organization',
       name: 'Nomad Magazine',
@@ -104,7 +104,7 @@ const seo: SEOProps = {
         name: post.data.author || 'Martin Donadieu',
       },
       datePublished: post.data.pubDate?.toISOString(),
-      url: `${Astro.site}blog/${post.slug}`,
+      url: `${Astro.site}blog/${post.slug}/`,
     })),
   },
 }
@@ -141,7 +141,7 @@ const seo: SEOProps = {
                     Digital Nomads
                   </div>
                   <h1 class="text-3xl lg:text-4xl font-bold leading-tight text-white">
-                    <a href={`/blog/${featuredPost.slug}`} class="hover:text-neutral-300 transition-colors">
+                    <a href={`/blog/${featuredPost.slug}/`} class="hover:text-neutral-300 transition-colors">
                       {featuredPost.data.title}
                     </a>
                   </h1>
@@ -176,7 +176,7 @@ const seo: SEOProps = {
                       Remote Work
                     </div>
                     <h2 class="text-lg font-bold leading-tight text-white">
-                      <a href={`/blog/${regularPosts[0].slug}`} class="hover:text-neutral-300 transition-colors">
+                      <a href={`/blog/${regularPosts[0].slug}/`} class="hover:text-neutral-300 transition-colors">
                         {regularPosts[0].data.title}
                       </a>
                     </h2>
@@ -197,7 +197,7 @@ const seo: SEOProps = {
                       Travel Tips
                     </div>
                     <h2 class="text-lg font-bold leading-tight text-white">
-                      <a href={`/blog/${regularPosts[1].slug}`} class="hover:text-neutral-300 transition-colors">
+                      <a href={`/blog/${regularPosts[1].slug}/`} class="hover:text-neutral-300 transition-colors">
                         {regularPosts[1].data.title}
                       </a>
                     </h2>
@@ -218,7 +218,7 @@ const seo: SEOProps = {
                       Nomad Life
                     </div>
                     <h2 class="text-lg font-bold leading-tight text-white">
-                      <a href={`/blog/${regularPosts[2].slug}`} class="hover:text-neutral-300 transition-colors">
+                      <a href={`/blog/${regularPosts[2].slug}/`} class="hover:text-neutral-300 transition-colors">
                         {regularPosts[2].data.title}
                       </a>
                     </h2>
@@ -242,7 +242,7 @@ const seo: SEOProps = {
                       Community
                     </div>
                     <h2 class="text-lg font-bold leading-tight text-white">
-                      <a href={`/blog/${regularPosts[3].slug}`} class="hover:text-neutral-300 transition-colors">
+                      <a href={`/blog/${regularPosts[3].slug}/`} class="hover:text-neutral-300 transition-colors">
                         {regularPosts[3].data.title}
                       </a>
                     </h2>
@@ -275,7 +275,7 @@ const seo: SEOProps = {
                       Digital Life
                     </div>
                     <h2 class="text-lg font-bold leading-tight text-white">
-                      <a href={`/blog/${regularPosts[4].slug}`} class="hover:text-neutral-300 transition-colors">
+                      <a href={`/blog/${regularPosts[4].slug}/`} class="hover:text-neutral-300 transition-colors">
                         {regularPosts[4].data.title}
                       </a>
                     </h2>
@@ -305,7 +305,7 @@ const seo: SEOProps = {
                       Lifestyle
                     </div>
                     <h2 class="text-lg font-bold leading-tight text-white">
-                      <a href={`/blog/${regularPosts[5].slug}`} class="hover:text-neutral-300 transition-colors">
+                      <a href={`/blog/${regularPosts[5].slug}/`} class="hover:text-neutral-300 transition-colors">
                         {regularPosts[5].data.title}
                       </a>
                     </h2>
@@ -326,8 +326,9 @@ const seo: SEOProps = {
         <div class="lg:col-span-1">
           <div class="sticky top-8">
             <!-- Giveaway Block -->
-            <a 
-              href="https://nomad-magazine.com/magazines-giveaway"
+            <a
+              href="https://nomad-magazine.com/magazines-giveaway/"
+              aria-label="Get 3 free digital magazines - Limited time offer, expires Dec 10, 2025"
               class="block mb-8 bg-gradient-to-br from-red-500 to-orange-500 text-white rounded-xl overflow-hidden group hover:from-red-600 hover:to-orange-600 transition-all transform hover:scale-105 shadow-xl"
             >
               <div class="p-6 space-y-3">
@@ -343,7 +344,7 @@ const seo: SEOProps = {
                 </p>
                 <div class="flex items-center gap-2 text-sm font-medium">
                   <span>Claim Now</span>
-                  <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </div>
@@ -371,7 +372,7 @@ const seo: SEOProps = {
                   </div>
                   <div class="space-y-1 flex-1">
                     <h3 class="text-sm font-bold leading-tight text-white">
-                      <a href={`/blog/${post.slug}`} class="hover:text-neutral-300 transition-colors">
+                      <a href={`/blog/${post.slug}/`} class="hover:text-neutral-300 transition-colors">
                         {post.data.title}
                       </a>
                     </h3>
@@ -394,7 +395,7 @@ const seo: SEOProps = {
               <div class="space-y-4">
                 <div class="flex items-center gap-3">
                   <div class="flex-shrink-0 w-8 h-8 bg-yellow-400 rounded flex items-center justify-center">
-                    <svg class="w-4 h-4 text-black" fill="currentColor" viewBox="0 0 20 20">
+                    <svg class="w-4 h-4 text-black" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                     </svg>
                   </div>
@@ -405,12 +406,13 @@ const seo: SEOProps = {
                 <p class="text-sm leading-relaxed text-neutral-300">
                   Find your perfect nomad destination, coworking spaces, and connect with the global digital nomad community. Browse our comprehensive directory of nomad-friendly locations worldwide.
                 </p>
-                <a 
-                  href="/nomad-directory/" 
+                <a
+                  href="/nomad-directory/"
+                  aria-label="Explore the Nomad Directory to find destinations and coworking spaces"
                   class="inline-flex items-center gap-2 text-yellow-400 hover:text-yellow-300 transition-colors text-sm font-medium"
                 >
                   Explore Directory
-                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </a>
@@ -429,12 +431,14 @@ const seo: SEOProps = {
             <h2 class="text-3xl font-bold text-white">Latest Videos</h2>
             <p class="mt-2 text-lg text-neutral-400">Watch our latest content on YouTube</p>
           </div>
-          <a 
-            href="https://www.youtube.com/@Nomad-Magazine" 
+          <a
+            href="https://www.youtube.com/@Nomad-Magazine"
             target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Subscribe to Nomad Magazine YouTube channel"
             class="inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-bold text-white transition-all hover:bg-red-700"
           >
-            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
             </svg>
             Subscribe
@@ -457,7 +461,7 @@ const seo: SEOProps = {
                 </div>
                 <div class="absolute inset-0 flex items-center justify-center">
                   <div class="rounded-full bg-red-600 p-4 transition-all group-hover:bg-red-700 group-hover:scale-110">
-                    <svg class="h-8 w-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <svg class="h-8 w-8 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                       <path d="M8 5v14l11-7z"/>
                     </svg>
                   </div>
@@ -465,7 +469,7 @@ const seo: SEOProps = {
               </div>
               <div class="p-6">
                 <h3 class="mb-2 text-lg font-bold text-white group-hover:text-yellow-400 transition-colors">
-                  <a href={`https://www.youtube.com/watch?v=${video.id}`} target="_blank" class="after:absolute after:inset-0">
+                  <a href={`https://www.youtube.com/watch?v=${video.id}`} target="_blank" rel="noopener noreferrer" aria-label={`Watch video: ${video.title}`} class="after:absolute after:inset-0">
                     {video.title}
                   </a>
                 </h3>
@@ -525,7 +529,7 @@ const seo: SEOProps = {
                   </div>
                   
                   <h3 class="mb-4 text-3xl font-bold leading-tight text-white group-hover:text-yellow-400 transition-colors">
-                    <a href={`/blog/${regularPosts[0].slug}`} class="after:absolute after:inset-0">
+                    <a href={`/blog/${regularPosts[0].slug}/`} class="after:absolute after:inset-0">
                       {regularPosts[0].data.title}
                     </a>
                   </h3>
@@ -538,7 +542,7 @@ const seo: SEOProps = {
                     <span class="text-sm text-neutral-400 font-medium group-hover:text-yellow-400 transition-colors">
                       Read More
                     </span>
-                    <svg class="h-4 w-4 text-neutral-400 group-hover:text-yellow-400 transition-all group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="h-4 w-4 text-neutral-400 group-hover:text-yellow-400 transition-all group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
                   </div>
@@ -566,7 +570,7 @@ const seo: SEOProps = {
                 )}
                 <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
               </div>
-              
+
               <div class="p-6">
                 <div class="mb-3 flex items-center gap-2 text-sm text-neutral-400">
                   {post.data.pubDate && (
@@ -580,22 +584,22 @@ const seo: SEOProps = {
                   <span>•</span>
                   <span>{Math.ceil(post.body.length / 1000)} min</span>
                 </div>
-                
+
                 <h3 class="mb-3 text-xl font-bold leading-tight text-white group-hover:text-yellow-400 transition-colors">
-                  <a href={`/blog/${post.slug}`} class="after:absolute after:inset-0">
+                  <a href={`/blog/${post.slug}/`} class="after:absolute after:inset-0">
                     {post.data.title}
                   </a>
                 </h3>
-                
+
                 <p class="mb-4 text-base text-neutral-300 line-clamp-2">
                   {post.data.description}
                 </p>
-                
+
                 <div class="flex items-center justify-between">
                   <span class="text-sm text-neutral-400 font-medium group-hover:text-yellow-400 transition-colors">
                     Read More
                   </span>
-                  <svg class="h-4 w-4 text-neutral-400 group-hover:text-yellow-400 transition-all group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="h-4 w-4 text-neutral-400 group-hover:text-yellow-400 transition-all group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </div>
@@ -651,7 +655,7 @@ const seo: SEOProps = {
                   </div>
                   
                   <h3 class="mb-2 text-base font-semibold leading-tight text-white group-hover:text-yellow-400 transition-colors">
-                    <a href={`/blog/${post.slug}`} class="after:absolute after:inset-0">
+                    <a href={`/blog/${post.slug}/`} class="after:absolute after:inset-0">
                       {post.data.title}
                     </a>
                   </h3>
@@ -666,12 +670,13 @@ const seo: SEOProps = {
           
           {regularPosts.slice(6).length > 8 && (
             <div class="mt-12 text-center">
-              <button 
+              <button
                 id="load-more-btn"
+                aria-label="Load more articles from the archive"
                 class="inline-flex items-center gap-2 rounded-lg bg-neutral-700 px-6 py-3 text-sm font-medium text-white transition-all hover:bg-neutral-600 focus:outline-none focus:ring-2 focus:ring-yellow-400/20"
               >
                 Load More Articles
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
@@ -699,12 +704,13 @@ const seo: SEOProps = {
           Get the latest nomad insights delivered to your inbox weekly
         </p>
         <div class="mt-8 flex max-w-md mx-auto gap-4">
-          <input 
-            type="email" 
+          <input
+            type="email"
             placeholder="Enter your email"
+            aria-label="Email address for newsletter subscription"
             class="flex-1 rounded-lg border border-neutral-700 bg-neutral-800 px-4 py-3 text-white placeholder-neutral-400 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400/20"
           />
-          <button class="rounded-lg bg-yellow-400 px-6 py-3 font-bold text-black transition-all hover:bg-yellow-300">
+          <button aria-label="Subscribe to newsletter" class="rounded-lg bg-yellow-400 px-6 py-3 font-bold text-black transition-all hover:bg-yellow-300">
             Subscribe
           </button>
         </div>

@@ -14,7 +14,7 @@ const seo: SEOProps = {
     '@type': 'WebPage',
     name: 'Join the Nomad Ecosystem',
     description: 'Automatic partnership opportunities with Nomad Magazine for the digital nomad community',
-    url: `${Astro.site}partnerships-new`,
+    url: `${Astro.site}partners/`,
     publisher: {
       '@type': 'Organization',
       name: 'Nomad Magazine',
@@ -156,6 +156,8 @@ const seo: SEOProps = {
             <a
               href="https://pay.nomad-magazine.com/b/fZubJ17Mh7zBbkG9G18bS0c"
               target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Become a magazine supporter - opens payment page"
               class="w-full inline-block bg-yellow-500 text-black px-6 py-3 rounded-lg font-bold hover:bg-yellow-400 transition-all hover:scale-105 mt-auto"
             >
               Become Supporter
@@ -253,7 +255,7 @@ const seo: SEOProps = {
         </div>
         
         <p class="mt-8 text-gray-400">
-          Questions? Email us at <a href="mailto:lera@nomadgossip.com" class="text-yellow-400 hover:text-yellow-300">lera@nomadgossip.com</a>
+          Questions? Email us at <a href="mailto:lera@nomadgossip.com" aria-label="Send email to lera@nomadgossip.com" class="text-yellow-400 hover:text-yellow-300">lera@nomadgossip.com</a>
         </p>
       </div>
     </section>

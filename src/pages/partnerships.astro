@@ -14,7 +14,7 @@ const seo: SEOProps = {
     '@type': 'WebPage',
     name: 'Partner with Nomad Magazine',
     description: 'B2B partnership opportunities with Nomad Magazine',
-    url: `${Astro.site}partnerships`,
+    url: `${Astro.site}partnerships/`,
     publisher: {
       '@type': 'Organization',
       name: 'Nomad Magazine',
@@ -272,6 +272,9 @@ const whyPartnerReasons = [
           <div class="flex flex-col gap-4 sm:flex-row sm:justify-center">
             <a
               href="https://calendly.com/nomadgossip"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Schedule a partnership call on Calendly"
               class="inline-flex items-center gap-2 rounded-lg bg-neutral-800 border border-neutral-700 px-6 py-3 text-white transition-all hover:bg-neutral-700"
             >
               Schedule Partnership Call
@@ -317,6 +320,9 @@ const whyPartnerReasons = [
         <div class="flex flex-col gap-4 sm:flex-row sm:justify-center">
           <a
             href="https://form.smartsuite.com/s4tmc086/8sFlvrVlDC"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Submit your project to the Nomad Directory"
             class="inline-flex items-center justify-center gap-2 rounded-lg bg-yellow-400 px-8 py-4 text-lg font-bold text-black transition-all hover:bg-yellow-300 hover:scale-105"
           >
             Start with Directory Listing
@@ -325,7 +331,7 @@ const whyPartnerReasons = [
         </div>
         
         <p class="mt-6 text-sm text-gray-400">
-          Questions? Email us at <a href="mailto:partnerships@nomad-magazine.com" class="text-yellow-400 hover:text-yellow-300">partnerships@nomad-magazine.com</a>
+          Questions? Email us at <a href="mailto:partnerships@nomad-magazine.com" aria-label="Send email to partnerships@nomad-magazine.com" class="text-yellow-400 hover:text-yellow-300">partnerships@nomad-magazine.com</a>
         </p>
       </div>
     </section>

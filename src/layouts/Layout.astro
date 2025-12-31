@@ -205,15 +205,21 @@ const seoProps = {
     </style>
   </head>
   <body class="font-inter bg-gray-50 antialiased">
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-black focus:text-white focus:px-4 focus:py-2 focus:rounded">
+      Skip to main content
+    </a>
     <Header />
-    <slot />
+    <main id="main-content">
+      <slot />
+    </main>
     <Footer />
     <!-- Subscription Confirmation Popup -->
-    <div id="subscription-popup" class="subscription-popup">
+    <div id="subscription-popup" class="subscription-popup" role="dialog" aria-modal="true" aria-labelledby="popup-title">
       <div class="subscription-popup-content">
         <button class="subscription-popup-close" id="popup-close" aria-label="Close popup">×</button>
-        <div class="subscription-popup-icon">🎉</div>
-        <h2>Welcome to the Nomad Family!</h2>
+        <div class="subscription-popup-icon" aria-hidden="true">🎉</div>
+        <h2 id="popup-title">Welcome to the Nomad Family!</h2>
         <p>Thank you for subscribing to the Nomad Newsletter. You're now part of our global community of digital nomads, remote workers, and adventure seekers.</p>
         <p>Keep an eye on your inbox for exclusive content, tips, and stories from nomads around the world.</p>
         <button class="subscription-popup-button" id="popup-continue">Continue Exploring</button>

@@ -190,11 +190,12 @@ const seo: SEOProps = {
   description: 'The first global digital nomad magazine. For people who work and live everywhere (or dream of it). Inspiring stories from nomads around the world.',
   image: `${Astro.site}images/magazine-hold-against-chest.webp`,
   keywords: 'digital nomad magazine, remote work, nomad lifestyle, travel, coworking, nomad community, global nomads',
+  canonical: `${Astro.site}`,
   ldJSON: {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'Nomad Magazine',
-    url: Astro.site,
+    url: `${Astro.site}`,
     description: 'The first global digital nomad magazine',
     publisher: {
       '@type': 'Organization',
@@ -206,7 +207,7 @@ const seo: SEOProps = {
     },
     potentialAction: {
       '@type': 'SubscribeAction',
-      target: `${Astro.site}newsletter`,
+      target: `${Astro.site}newsletter/`,
     },
   },
 }
@@ -221,15 +222,15 @@ const seo: SEOProps = {
           <h1 class="md:text-12xl xl:text-22xl text-7xl font-semibold text-gray-900 xl:leading-18">This magazine will show you the Digital Nomad World 🌴</h1>
           <div class="space-y-3 text-lg text-gray-700">
             <p class="flex items-center">
-              <CheckIcon class="mr-2 h-6 w-6 flex-shrink-0 text-black" />
+              <CheckIcon class="mr-2 h-6 w-6 flex-shrink-0 text-black" aria-hidden="true" />
               <span>Made for people brave enough to travel and live life differently</span>
             </p>
             <p class="flex items-center">
-              <CheckIcon class="mr-2 h-6 w-6 flex-shrink-0 text-black" />
+              <CheckIcon class="mr-2 h-6 w-6 flex-shrink-0 text-black" aria-hidden="true" />
               <span>Discover amazing places to travel, work from, and meet like-minded people</span>
             </p>
             <p class="flex items-center">
-              <CheckIcon class="mr-2 h-6 w-6 flex-shrink-0 text-black" />
+              <CheckIcon class="mr-2 h-6 w-6 flex-shrink-0 text-black" aria-hidden="true" />
               <span>Learn how to make money, stay healthy, and live your best nomadic life</span>
             </p>
           </div>
@@ -241,6 +242,7 @@ const seo: SEOProps = {
               <a
                 href="/editions/third-edition/"
                 class="glow-animate w-full sm:w-auto inline-block rounded border-2 border-yellow-400 bg-black px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-yellow-400 transition-colors duration-200 hover:bg-yellow-400 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-300"
+                aria-label="View the new third edition of Nomad Magazine"
               >
                 NEW EDITION >>
               </a>
@@ -248,6 +250,7 @@ const seo: SEOProps = {
             <a
               href="/editions/"
               class="w-full sm:w-auto inline-block rounded bg-yellow-400 px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-black shadow-md transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 order-last sm:order-first"
+              aria-label="View all magazine editions"
             >
               VIEW ALL EDITIONS
             </a>
@@ -278,9 +281,11 @@ const seo: SEOProps = {
         <p class="text-xl md:text-2xl text-white mb-8 drop-shadow max-w-2xl mx-auto">
           Download Editions 1, 2 & 3 instantly – our biggest giveaway ever!
         </p>
-        <a 
-          href="https://nomad-magazine.com/magazines-giveaway" 
+        <a
+          href="https://nomad-magazine.com/magazines-giveaway"
           class="inline-block bg-white text-red-600 px-10 py-5 rounded-lg font-bold text-xl hover:bg-gray-100 transition shadow-2xl transform hover:scale-105"
+          rel="noopener noreferrer"
+          aria-label="Claim your free digital magazines now"
         >
           🎉 Claim Your Free Magazines Now
         </a>
@@ -291,7 +296,7 @@ const seo: SEOProps = {
     </div>
     <!-- Wave overlay -->
     <div class="absolute bottom-0 left-0 right-0 w-full" style="margin-bottom: -1px;">
-      <img src="/images/paper-cut.webp" alt="" class="w-full block" loading="lazy" style="display: block; margin: 0; padding: 0; vertical-align: bottom;" />
+      <img src="/images/paper-cut.webp" alt="" class="w-full block" loading="lazy" style="display: block; margin: 0; padding: 0; vertical-align: bottom;" aria-hidden="true" />
     </div>
   </section>
   
@@ -308,12 +313,13 @@ const seo: SEOProps = {
             <h2 class="text-3xl font-bold text-white">Nomad Directory</h2>
             <p class="mt-2 text-lg text-neutral-400">Latest tools, services, and companies for digital nomads</p>
           </div>
-          <a 
-            href="/nomad_directory/" 
+          <a
+            href="/nomad_directory/"
             class="inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-4 py-2 text-sm font-bold text-black transition-all hover:bg-yellow-300"
+            aria-label="View all entries in the Nomad Directory"
           >
             View All
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
             </svg>
           </a>
@@ -371,23 +377,24 @@ const seo: SEOProps = {
                           {entry.category}
                         </span>
                         {entry.isSupporter && (
-                          <a 
-                            href="/support-the-magazine/" 
+                          <a
+                            href="/support-the-magazine/"
                             class="inline-flex items-center gap-1 bg-gradient-to-r from-red-600 to-red-700 text-white px-2 py-0.5 rounded-full text-xs font-bold hover:from-red-700 hover:to-red-800 transition-all duration-200"
                             title="Monthly Supporter"
+                            aria-label="Monthly Supporter - Learn how to support the magazine"
                           >
-                            <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24">
+                            <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                             </svg>
                             Supporter
                           </a>
                         )}
                         {entry.isFeatured && (
-                          <span 
+                          <span
                             class="inline-flex items-center gap-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-2 py-0.5 rounded-full text-xs font-bold"
                             title="Featured Partner"
                           >
-                            <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24">
+                            <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                             </svg>
                             Featured
@@ -421,16 +428,17 @@ const seo: SEOProps = {
           <a
             href="/nomad_directory/"
             class="inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-6 py-3 text-sm font-bold text-black transition-all hover:bg-yellow-300 hover:scale-105"
+            aria-label="Browse the full Nomad Directory"
           >
             Browse Full Directory
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
             </svg>
           </a>
         </div>
       </div>
     </section>
-    
+
     <!-- YouTube Section -->
     <section class="border-b border-neutral-800 bg-neutral-900/30 px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
@@ -439,12 +447,14 @@ const seo: SEOProps = {
             <h2 class="text-3xl font-bold text-white">Latest Videos</h2>
             <p class="mt-2 text-lg text-neutral-400">Watch our latest content on YouTube</p>
           </div>
-          <a 
-            href="https://www.youtube.com/@Nomad-Magazine" 
+          <a
+            href="https://www.youtube.com/@Nomad-Magazine"
             target="_blank"
+            rel="noopener noreferrer"
             class="inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-bold text-white transition-all hover:bg-red-700"
+            aria-label="Subscribe to Nomad Magazine on YouTube"
           >
-            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
             </svg>
             Subscribe
@@ -467,7 +477,7 @@ const seo: SEOProps = {
                 </div>
                 <div class="absolute inset-0 flex items-center justify-center">
                   <div class="rounded-full bg-red-600 p-4 transition-all group-hover:bg-red-700 group-hover:scale-110">
-                    <svg class="h-8 w-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <svg class="h-8 w-8 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                       <path d="M8 5v14l11-7z"/>
                     </svg>
                   </div>
@@ -475,7 +485,7 @@ const seo: SEOProps = {
               </div>
               <div class="p-6">
                 <h3 class="mb-2 text-lg font-bold text-white group-hover:text-yellow-400 transition-colors">
-                  <a href={`https://www.youtube.com/watch?v=${video.id}`} target="_blank" class="after:absolute after:inset-0">
+                  <a href={`https://www.youtube.com/watch?v=${video.id}`} target="_blank" rel="noopener noreferrer" class="after:absolute after:inset-0">
                     {video.title}
                   </a>
                 </h3>
@@ -542,8 +552,9 @@ const seo: SEOProps = {
               <a
                 href="/office-hours/"
                 class="inline-flex items-center gap-2 bg-yellow-400 text-black px-6 py-3 rounded-lg text-sm font-bold transition-all hover:bg-yellow-300 hover:scale-105"
+                aria-label="Learn more about Office Hours and join"
               >
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                 </svg>
                 Learn More & Join
@@ -577,6 +588,7 @@ const seo: SEOProps = {
               <a
                 href="/office-hours/"
                 class="inline-block bg-yellow-400 text-black px-6 py-3 rounded-lg font-bold transition-all hover:bg-yellow-300 hover:scale-105"
+                aria-label="Learn more about Office Hours and join"
               >
                 Learn More & Join
               </a>
@@ -649,16 +661,17 @@ const seo: SEOProps = {
           <a
             href="/blog/"
             class="inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-6 py-3 text-sm font-bold text-black transition-all hover:bg-yellow-300 hover:scale-105"
+            aria-label="Read more articles on the blog"
           >
             Read More Articles
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
             </svg>
           </a>
         </div>
       </div>
     </section>
-    
+
     <!-- About & Mission - Combine related sections -->
     <About />
     <Mission />
@@ -699,9 +712,10 @@ const seo: SEOProps = {
             Order Now
           </a>
         </div>
-        <button 
+        <button
           onclick="document.getElementById('sticky-cta').style.display = 'none'"
           class="text-gray-400 hover:text-white text-xl leading-none"
+          aria-label="Close sticky call-to-action"
         >
           ×
         </button>

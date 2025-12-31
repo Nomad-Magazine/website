@@ -10,8 +10,11 @@ const seo: SEOProps = {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: 'Free Weekly Articles - Mindvalley Book Club for Digital Nomads',
-    description: 'Exclusive weekly articles about personal transformation and growth for digital nomads',
+    description: 'Exclusive weekly articles about personal transformation and growth for digital nomads. Curated book recommendations and insights from Kristina MindLabs.',
+    url: `${Astro.site}free-weekly-articles/`,
     image: `${Astro.site}images/free-article.webp`,
+    datePublished: '2025-01-01',
+    dateModified: '2025-01-01',
     author: {
       '@type': 'Person',
       name: 'Kristina MindLabs',
@@ -20,10 +23,15 @@ const seo: SEOProps = {
     publisher: {
       '@type': 'Organization',
       name: 'Nomad Magazine',
+      url: `${Astro.site}`,
       logo: {
         '@type': 'ImageObject',
         url: `${Astro.site}logo.svg`,
       },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${Astro.site}free-weekly-articles/`,
     },
   },
 }

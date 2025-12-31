@@ -8,6 +8,21 @@ const seo: SEOProps = {
   image: `${Astro.site}images/hands_pointing-left.webp`,
   keywords: 'newsletter guidelines, nomad magazine partnership, digital nomad newsletter, content guidelines',
   ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Newsletter Partnership Guide',
+    description: 'Guidelines for partners who want to contribute to the Nomad Magazine Newsletter. Learn how to create engaging content for our global community of digital nomads.',
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+    url: `${Astro.site}newsletter-guidelines/`,
+  },
 }
 ---
 
@@ -31,13 +46,13 @@ const seo: SEOProps = {
           </p>
           <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
             <div class="flex items-center space-x-2 text-yellow-400">
-              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
               </svg>
               <span class="font-semibold text-lg">650+ Subscribers</span>
             </div>
             <div class="flex items-center space-x-2 text-yellow-400">
-              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
               </svg>
               <span class="font-semibold text-lg">~50% Open Rate</span>
@@ -62,7 +77,7 @@ const seo: SEOProps = {
           </div>
           <div class="text-center mb-6">
             <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg class="h-8 w-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="h-8 w-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
               </svg>
             </div>
@@ -71,31 +86,31 @@ const seo: SEOProps = {
           </div>
           <div class="space-y-4">
             <div class="flex items-center space-x-3">
-              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
               </svg>
               <span class="text-gray-700">Up to 500 words</span>
             </div>
             <div class="flex items-center space-x-3">
-              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
               </svg>
               <span class="text-gray-700">1-2 links included</span>
             </div>
             <div class="flex items-center space-x-3">
-              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
               </svg>
               <span class="text-gray-700">Optional image</span>
             </div>
             <div class="flex items-center space-x-3">
-              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
               </svg>
               <span class="text-gray-700">Full content structure</span>
             </div>
             <div class="flex items-center space-x-3">
-              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
               </svg>
               <span class="text-gray-700">Maximum visibility</span>
@@ -107,7 +122,7 @@ const seo: SEOProps = {
         <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-8">
           <div class="text-center mb-6">
             <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg class="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
               </svg>
             </div>
@@ -116,31 +131,31 @@ const seo: SEOProps = {
           </div>
           <div class="space-y-4">
             <div class="flex items-center space-x-3">
-              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
               </svg>
               <span class="text-gray-700">One paragraph</span>
             </div>
             <div class="flex items-center space-x-3">
-              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
               </svg>
               <span class="text-gray-700">1 link maximum</span>
             </div>
             <div class="flex items-center space-x-3">
-              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
               </svg>
               <span class="text-gray-700">Quick & concise</span>
             </div>
             <div class="flex items-center space-x-3">
-              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
               </svg>
               <span class="text-gray-700">Perfect for updates</span>
             </div>
             <div class="flex items-center space-x-3">
-              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
               </svg>
               <span class="text-gray-700">Faster turnaround</span>
@@ -154,7 +169,7 @@ const seo: SEOProps = {
     <div class="bg-yellow-50 border-l-4 border-yellow-400 mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 mt-8">
       <div class="flex">
         <div class="flex-shrink-0">
-          <svg class="h-6 w-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="h-6 w-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
           </svg>
         </div>
@@ -188,7 +203,7 @@ const seo: SEOProps = {
           <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
             <div class="flex items-center mb-6">
               <div class="h-12 w-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
-                <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
                 </svg>
               </div>
@@ -257,9 +272,11 @@ const seo: SEOProps = {
                   <p class="text-xs text-blue-800 font-medium mb-1">📖 More Examples</p>
                   <p class="text-xs text-blue-700">
                     See another takeover style: 
-                    <a href="https://us21.campaign-archive.com/?u=07f1911b0ed16f49aac50b510&id=6f75d20dff" 
-                       target="_blank" 
-                       class="underline hover:text-blue-900">
+                    <a href="https://us21.campaign-archive.com/?u=07f1911b0ed16f49aac50b510&id=6f75d20dff"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="underline hover:text-blue-900"
+                       aria-label="View Matt's Pangea App takeover example (opens in new tab)">
                       Matt's Pangea App takeover
                     </a> - showcases adventure storytelling and product integration.
                   </p>
@@ -272,7 +289,7 @@ const seo: SEOProps = {
           <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
             <div class="flex items-center mb-6">
               <div class="h-12 w-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
-                <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
                 </svg>
               </div>
@@ -333,7 +350,7 @@ const seo: SEOProps = {
           <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
             <div class="flex items-center mb-6">
               <div class="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
-                <svg class="h-6 w-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="h-6 w-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
                 </svg>
               </div>
@@ -443,7 +460,7 @@ const seo: SEOProps = {
           <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
             <div class="flex items-center mb-6">
               <div class="h-12 w-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
-                <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
               </div>
@@ -454,7 +471,7 @@ const seo: SEOProps = {
               <!-- Do's -->
               <div>
                 <h3 class="text-lg font-semibold text-green-700 mb-4 flex items-center">
-                  <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                   </svg>
                   Do This
@@ -494,7 +511,7 @@ const seo: SEOProps = {
               <!-- Don'ts -->
               <div>
                 <h3 class="text-lg font-semibold text-red-700 mb-4 flex items-center">
-                  <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                   </svg>
                   Avoid This
@@ -539,7 +556,7 @@ const seo: SEOProps = {
           <!-- Quick Reference -->
           <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-8">
             <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-              <svg class="h-5 w-5 mr-2 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="h-5 w-5 mr-2 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
               Quick Reference
@@ -567,7 +584,7 @@ const seo: SEOProps = {
           <!-- Promotion Support -->
           <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl border border-yellow-200 p-6">
             <h3 class="text-lg font-semibold text-yellow-900 mb-4 flex items-center">
-              <svg class="h-5 w-5 mr-2 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="h-5 w-5 mr-2 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.121 2.122"/>
               </svg>
               Let's Amplify Together
@@ -577,7 +594,7 @@ const seo: SEOProps = {
             </p>
             <div class="space-y-2">
               <div class="flex items-center space-x-2">
-                <svg class="h-4 w-4 text-yellow-600" fill="currentColor" viewBox="0 0 24 24">
+                <svg class="h-4 w-4 text-yellow-600" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                 </svg>
                 <span class="text-sm text-yellow-800 font-medium">@nomadmagazinecom</span>
@@ -588,7 +605,7 @@ const seo: SEOProps = {
           <!-- Contact -->
           <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
             <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-              <svg class="h-5 w-5 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="h-5 w-5 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
               </svg>
               Need Help?
@@ -617,11 +634,12 @@ const seo: SEOProps = {
           </p>
           <div class="space-y-4">
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <a 
-                href="mailto:hey@nomadgossip.com" 
+              <a
+                href="mailto:hey@nomadgossip.com"
                 class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-gray-900 bg-yellow-400 hover:bg-yellow-300 transition-colors"
+                aria-label="Submit your newsletter via email"
               >
-                <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
                 </svg>
                 Submit Your Newsletter
@@ -634,9 +652,11 @@ const seo: SEOProps = {
             <div class="text-center mt-6">
               <p class="text-gray-400 text-sm">
                 Want to see examples? Browse our 
-                <a href="https://us21.campaign-archive.com/home/?u=07f1911b0ed16f49aac50b510&id=7baada0b9e" 
-                   target="_blank" 
-                   class="text-yellow-400 hover:text-yellow-300 underline">
+                <a href="https://us21.campaign-archive.com/home/?u=07f1911b0ed16f49aac50b510&id=7baada0b9e"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="text-yellow-400 hover:text-yellow-300 underline"
+                   aria-label="Browse newsletter archive (opens in new tab)">
                   newsletter archive
                 </a>
               </p>

@@ -6,6 +6,27 @@ const seo: SEOProps = {
   description: 'The latest updates from the Nomad Magazine team. Featuring confessions about the 3rd edition, digital-first approach, and community updates.',
   image: `${Astro.site}images/edition-003-cover.webp`,
   keywords: 'nomad magazine newsletter, 3rd edition confessions, digital nomad updates, nomad community',
+  ogType: 'article',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Confession Time: 3rd Edition Confessions',
+    description: 'The latest updates from the Nomad Magazine team. Featuring confessions about the 3rd edition, digital-first approach, and community updates.',
+    author: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+    datePublished: '2025-05-22',
+    url: `${Astro.site}newsletter-3rd-edition-confessions/`,
+  },
 }
 ---
 
@@ -166,25 +187,25 @@ const seo: SEOProps = {
             <div class="flex items-start gap-3">
               <span class="text-2xl">‼️</span>
               <p class="text-lg text-gray-800 leading-relaxed">
-                Be careful with your travel plans, nomads! <a href="https://home-affairs.ec.europa.eu/news/bulgaria-and-romania-join-schengen-area-2025-01-03_en" class="text-pink-600 font-bold hover:text-pink-700 underline">Bulgaria and Romania joined the Schengen Zone in 2025</a>
+                Be careful with your travel plans, nomads! <a href="https://home-affairs.ec.europa.eu/news/bulgaria-and-romania-join-schengen-area-2025-01-03_en" target="_blank" rel="noopener noreferrer" class="text-pink-600 font-bold hover:text-pink-700 underline" aria-label="Read about Bulgaria and Romania joining the Schengen Zone (opens in new tab)">Bulgaria and Romania joined the Schengen Zone in 2025</a>
               </p>
             </div>
             <div class="flex items-start gap-3">
               <span class="text-2xl">🌍</span>
               <p class="text-lg text-gray-800 leading-relaxed">
-                <a href="https://evolvecoliving.io/ultimate-guide-digital-nomad-visas-worldwide/" class="text-pink-600 font-bold hover:text-pink-700 underline">These 70 countries now offer DN visas</a>—a huge increase in choices
+                <a href="https://evolvecoliving.io/ultimate-guide-digital-nomad-visas-worldwide/" target="_blank" rel="noopener noreferrer" class="text-pink-600 font-bold hover:text-pink-700 underline" aria-label="Read about 70 countries offering digital nomad visas (opens in new tab)">These 70 countries now offer DN visas</a>—a huge increase in choices
               </p>
             </div>
             <div class="flex items-start gap-3">
               <span class="text-2xl">💰</span>
               <p class="text-lg text-gray-800 leading-relaxed">
-                Tax competition is driving <a href="https://thenomadtax.com/en/2025/03/best-countries-for-digital-nomad-families/" class="text-pink-600 font-bold hover:text-pink-700 underline">waves of emigration</a>
+                Tax competition is driving <a href="https://thenomadtax.com/en/2025/03/best-countries-for-digital-nomad-families/" target="_blank" rel="noopener noreferrer" class="text-pink-600 font-bold hover:text-pink-700 underline" aria-label="Read about tax competition and emigration (opens in new tab)">waves of emigration</a>
               </p>
             </div>
             <div class="flex items-start gap-3">
               <span class="text-2xl">🤔</span>
               <p class="text-lg text-gray-800 leading-relaxed">
-                What sort of impact are digital nomads having on the world? <a href="https://allwork.space/2024/09/will-tourism-backlash-kill-digital-nomadism/" class="text-pink-600 font-bold hover:text-pink-700 underline">Read this analysis to hear both sides</a>
+                What sort of impact are digital nomads having on the world? <a href="https://allwork.space/2024/09/will-tourism-backlash-kill-digital-nomadism/" target="_blank" rel="noopener noreferrer" class="text-pink-600 font-bold hover:text-pink-700 underline" aria-label="Read analysis on digital nomad impact (opens in new tab)">Read this analysis to hear both sides</a>
               </p>
             </div>
           </div>
@@ -206,7 +227,7 @@ const seo: SEOProps = {
               <div class="text-3xl">📚</div>
               <div>
                 <p class="text-lg text-gray-800 mb-4 leading-relaxed">
-                  Books for digital nomads at <a href="https://www.banskonomadfest.com/" class="text-blue-600 font-bold hover:text-blue-700 underline">Bansko Nomad Fest</a>...
+                  Books for digital nomads at <a href="https://www.banskonomadfest.com/" target="_blank" rel="noopener noreferrer" class="text-blue-600 font-bold hover:text-blue-700 underline" aria-label="Visit Bansko Nomad Fest website (opens in new tab)">Bansko Nomad Fest</a>...
                 </p>
                 <p class="text-lg text-gray-800 mb-4 leading-relaxed">
                   As ambassadors of the printed word here at NGM, we're setting up a <strong>Book Corner</strong> right at 
@@ -260,7 +281,7 @@ const seo: SEOProps = {
 
             <div class="text-center mb-6">
               <p class="text-lg text-gray-800 mb-4">
-                👉 Watch <a href="https://www.youtube.com/watch?v=KZPVPGtcRhU&t=5s" class="text-red-600 font-bold hover:text-red-700 underline">now</a>!
+                👉 Watch <a href="https://www.youtube.com/watch?v=KZPVPGtcRhU&t=5s" target="_blank" rel="noopener noreferrer" class="text-red-600 font-bold hover:text-red-700 underline" aria-label="Watch video on YouTube (opens in new tab)">now</a>!
               </p>
             </div>
           </div>
@@ -288,7 +309,7 @@ const seo: SEOProps = {
               <p class="text-gray-600 mb-2">📅 25 - 31 May 2025</p>
               <p class="text-gray-600 mb-2">📍 Albufeira, Portugal</p>
               <p class="text-gray-800 mb-2">
-                🔗 <a href="https://thenomadworld.org/" class="text-green-600 hover:text-green-700 underline">https://thenomadworld.org/</a>
+                🔗 <a href="https://thenomadworld.org/" target="_blank" rel="noopener noreferrer" class="text-green-600 hover:text-green-700 underline" aria-label="Visit The Nomad World website (opens in new tab)">https://thenomadworld.org/</a>
               </p>
               <p class="text-gray-800 italic">
                 Magic discount code <span class="font-bold text-green-600">NGMXTNW</span>
@@ -301,7 +322,7 @@ const seo: SEOProps = {
               <p class="text-gray-600 mb-2">📅 6 - 14 June 2025</p>
               <p class="text-gray-600 mb-2">📍 France - Italy - Malta - Greece</p>
               <p class="text-gray-800 mb-2">
-                🔗 <a href="https://www.nomadcruise.com/nc14" class="text-blue-600 hover:text-blue-700 underline">https://www.nomadcruise.com/nc14</a>
+                🔗 <a href="https://www.nomadcruise.com/nc14" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-700 underline" aria-label="Visit Nomad Cruise NC14 website (opens in new tab)">https://www.nomadcruise.com/nc14</a>
               </p>
               <p class="text-red-600 font-bold italic">SOLD OUT!</p>
             </div>
@@ -312,7 +333,7 @@ const seo: SEOProps = {
               <p class="text-gray-600 mb-2">📅 22 - 29 June 2025</p>
               <p class="text-gray-600 mb-2">📍 Bansko, Bulgaria</p>
               <p class="text-gray-800 mb-4">
-                🔗 <a href="https://www.banskonomadfest.com/" class="text-green-600 hover:text-green-700 underline">https://www.banskonomadfest.com/</a>
+                🔗 <a href="https://www.banskonomadfest.com/" target="_blank" rel="noopener noreferrer" class="text-green-600 hover:text-green-700 underline" aria-label="Visit Bansko Nomad Fest website (opens in new tab)">https://www.banskonomadfest.com/</a>
               </p>
               
               <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200 mb-4">
@@ -329,7 +350,7 @@ const seo: SEOProps = {
               <p class="text-gray-600 mb-2">📅 October 1 - November 1 2025</p>
               <p class="text-gray-600 mb-2">📍 Fukuoka, Japan</p>
               <p class="text-gray-800 mb-2">
-                🔗 <a href="https://colivefukuoka.com/" class="text-blue-600 hover:text-blue-700 underline">https://colivefukuoka.com/</a>
+                🔗 <a href="https://colivefukuoka.com/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-700 underline" aria-label="Visit Colive Fukuoka website (opens in new tab)">https://colivefukuoka.com/</a>
               </p>
               <p class="text-gray-800 italic">
                 Tickets are selling fast. Use code <span class="font-bold text-blue-600">GOSSIP</span> for a 20% discount 🤑
@@ -347,7 +368,7 @@ const seo: SEOProps = {
               <p class="text-gray-600 mb-2">📅 October 12 - November 9 2025</p>
               <p class="text-gray-600 mb-2">📍 Seattle - Hawaii - South Pacific Islands - Sydney</p>
               <p class="text-gray-800 mb-2">
-                🔗 <a href="https://www.nomadcruise.com/nc15" class="text-blue-600 hover:text-blue-700 underline">https://www.nomadcruise.com/nc15</a>
+                🔗 <a href="https://www.nomadcruise.com/nc15" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-700 underline" aria-label="Visit Nomad Cruise NC15 website (opens in new tab)">https://www.nomadcruise.com/nc15</a>
               </p>
               <p class="text-gray-800 italic">
                 Secure your spot with discount code <span class="font-bold text-blue-600">GOSSIP</span>
@@ -414,18 +435,20 @@ const seo: SEOProps = {
           <p class="mt-4 text-lg font-semibold">Stay in the loop for future of NGM</p>
           <p class="mx-auto mt-4 max-w-2xl text-gray-600">Subscribe to our mailing list and give us a follow on Instagram to keep up to date on the latest nomad-related updates.</p>
           <div class="mt-8 flex items-center justify-center gap-4">
-            <a href="/newsletter/" class="text-md flex items-center gap-2 rounded-lg bg-black px-4 py-3 font-bold text-white">
-              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <a href="/newsletter/" class="text-md flex items-center gap-2 rounded-lg bg-black px-4 py-3 font-bold text-white" aria-label="Subscribe to newsletter">
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
               </svg>
               <span>SUBSCRIBE</span>
             </a>
             <a
               target="_blank"
+              rel="noopener noreferrer"
               href="https://www.instagram.com/nomadmagazinecom"
               class="text-md flex items-center gap-2 rounded-lg border border-black bg-white px-4 py-3 font-bold text-black"
+              aria-label="Follow us on Instagram (opens in new tab)"
             >
-              <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987s11.987-5.367 11.987-11.987C24.004 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.348-1.051-2.348-2.348s1.051-2.348 2.348-2.348 2.348 1.051 2.348 2.348-1.051 2.348-2.348 2.348zm3.568 0c-1.297 0-2.348-1.051-2.348-2.348s1.051-2.348 2.348-2.348 2.348 1.051 2.348 2.348-1.051 2.348-2.348 2.348zm3.568 0c-1.297 0-2.348-1.051-2.348-2.348s1.051-2.348 2.348-2.348 2.348 1.051 2.348 2.348-1.051 2.348-2.348 2.348z"/>
               </svg>
               <span>FOLLOW US</span>

@@ -13,6 +13,18 @@ const seo: SEOProps = {
   image: `${Astro.site}images/edition-003-cover_holded_front_face.webp`,
   keywords: 'nomad directory submission, digital nomad listing confirmation',
   ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Submission Successful - Nomad Directory',
+    description: 'Your listing has been successfully submitted to the Nomad Directory. Upgrade your listing to boost visibility.',
+    url: 'https://nomad-magazine.com/nomad-directory-confirmation/',
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      url: 'https://nomad-magazine.com/'
+    }
+  },
 }
 ---
 
@@ -28,7 +40,7 @@ const seo: SEOProps = {
           🎉 <span class="text-yellow-400">Submission</span> Successful!
         </h1>
         <p class="mt-6 text-xl text-gray-300 leading-relaxed max-w-3xl mx-auto">
-          Your listing has been successfully submitted to the Nomad Directory. We release 3-5 new directories weekly. Follow our <a href="https://www.instagram.com/nomadmagazinecom" target="_blank" class="text-yellow-400 hover:text-yellow-300 underline font-semibold">Instagram</a> for announcements.
+          Your listing has been successfully submitted to the Nomad Directory. We release 3-5 new directories weekly. Follow our <a href="https://www.instagram.com/nomadmagazinecom" target="_blank" rel="noopener noreferrer" class="text-yellow-400 hover:text-yellow-300 underline font-semibold">Instagram</a> for announcements.
         </p>
       </div>
     </div>
@@ -51,6 +63,7 @@ const seo: SEOProps = {
             <a
               href="https://pay.nomad-magazine.com/b/bJefZhd6B9HJ74q7xT8bS0D"
               target="_blank"
+              rel="noopener noreferrer"
               class="inline-block bg-yellow-400 text-black px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-yellow-300 transition-colors whitespace-nowrap"
             >
               Prioritise
@@ -82,7 +95,7 @@ const seo: SEOProps = {
             <span class="text-lg font-bold text-black">📸</span>
           </div>
           <h3 class="text-xl font-bold text-gray-900 mb-2">Instagram Announcements</h3>
-          <p class="text-gray-600">Follow our <a href="https://www.instagram.com/nomadmagazinecom" target="_blank" class="text-yellow-600 hover:text-yellow-700 font-semibold">Instagram</a> to see when new listings go live and get featured in our community updates.</p>
+          <p class="text-gray-600">Follow our <a href="https://www.instagram.com/nomadmagazinecom" target="_blank" rel="noopener noreferrer" class="text-yellow-600 hover:text-yellow-700 font-semibold">Instagram</a> to see when new listings go live and get featured in our community updates.</p>
         </div>
         
         <div class="text-center">
@@ -206,9 +219,10 @@ const seo: SEOProps = {
             </div>
           </div>
           
-          <a 
-            href="https://pay.nomad-magazine.com/b/fZubJ17Mh7zBbkG9G18bS0c" 
+          <a
+            href="https://pay.nomad-magazine.com/b/fZubJ17Mh7zBbkG9G18bS0c"
             target="_blank"
+            rel="noopener noreferrer"
             class="w-full inline-block rounded bg-yellow-400 px-8 py-4 text-center text-lg font-bold text-black transition-transform duration-200 hover:scale-105 hover:shadow-lg mt-auto"
           >
             Become Supporter
@@ -268,7 +282,7 @@ const seo: SEOProps = {
               href="/office-hours/"
               class="inline-flex items-center gap-2 bg-yellow-400 text-black px-6 py-3 rounded-lg font-bold hover:bg-yellow-300 transition-all hover:scale-105"
             >
-              <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2v12a2 2 0 002 2z"/>
               </svg>
               Learn About Office Hours

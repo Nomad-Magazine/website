@@ -10,6 +10,39 @@ const seo: SEOProps = {
   description: 'Download three free digital nomad magazines instantly. Get inspiring stories, practical tips, and insights from the global nomad community.',
   image: `${Astro.site}images/edition-123-three-together-transparent.webp`,
   keywords: 'free digital nomad magazine, free download, digital nomad stories, remote work magazine, nomad lifestyle',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Free Digital Nomad Magazines Giveaway',
+    description: 'Download three free digital nomad magazines instantly. Get inspiring stories, practical tips, and insights from the global nomad community.',
+    url: `${Astro.site}magazines-giveaway/`,
+    mainEntity: {
+      '@type': 'Offer',
+      name: 'Free 3 Nomad Magazine Editions',
+      description: '300+ pages of combined content across three editions with 50+ stories from digital nomads worldwide.',
+      price: '0',
+      priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock',
+      itemOffered: {
+        '@type': 'Product',
+        name: 'Nomad Magazine Digital Editions Bundle',
+        description: 'Three complete digital editions of Nomad Magazine',
+        brand: {
+          '@type': 'Brand',
+          name: 'Nomad Magazine',
+        },
+      },
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      url: `${Astro.site}`,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+  },
 }
 ---
 
@@ -18,7 +51,7 @@ const seo: SEOProps = {
     <div class="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
       <!-- Header -->
       <div class="mb-12 text-center">
-        <div id="partner-section" class="hidden mb-6 flex items-center justify-center gap-3">
+        <div id="partner-section" class="mb-6 items-center justify-center gap-3" style="display: none;">
           <span class="text-gray-600 text-lg">In partnership with</span>
           <div class="flex items-center gap-2">
             <img id="partner-favicon" src="" alt="" class="w-6 h-6" loading="eager" />

@@ -11,12 +11,12 @@ const { id = 'image-modal' } = Astro.props;
   <div class="flex items-center justify-center min-h-screen p-4">
     <div class="relative max-w-4xl w-full">
       <!-- Close Button -->
-      <button 
-        id="close-image-modal" 
+      <button
+        id="close-image-modal"
         class="absolute top-4 right-4 z-10 text-white hover:text-yellow-400 transition-colors duration-200 bg-black/50 rounded-full p-2"
         aria-label="Close image modal"
       >
-        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
         </svg>
       </button>
@@ -36,22 +36,22 @@ const { id = 'image-modal' } = Astro.props;
       </div>
       
       <!-- Navigation Buttons -->
-      <button 
-        id="prev-image" 
+      <button
+        id="prev-image"
         class="absolute left-4 top-1/2 transform -translate-y-1/2 text-white hover:text-yellow-400 transition-colors duration-200 bg-black/50 rounded-full p-2"
         aria-label="Previous image"
       >
-        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
         </svg>
       </button>
       
-      <button 
-        id="next-image" 
+      <button
+        id="next-image"
         class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white hover:text-yellow-400 transition-colors duration-200 bg-black/50 rounded-full p-2"
         aria-label="Next image"
       >
-        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
         </svg>
       </button>

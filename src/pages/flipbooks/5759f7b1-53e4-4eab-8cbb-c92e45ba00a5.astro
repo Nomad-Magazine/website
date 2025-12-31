@@ -1,13 +1,49 @@
 ˆ---
-import Layout from '~/layouts/Layout.astro'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+
+const seo: SEOProps = {
+  title: 'Your Nomad Magazine Purchase - Digital Flipbook Access',
+  description:
+    'Access your purchased Nomad Magazine digital flipbook. Thank you for supporting independent journalism for the digital nomad community.',
+  keywords:
+    'nomad magazine purchase, digital magazine access, flipbook download, nomad magazine reader, digital nomad magazine subscription',
+  image: '/images/edition-001-cover.avif',
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'DigitalDocument',
+    name: 'Nomad Magazine Purchased Flipbook',
+    description:
+      'Digital flipbook access for Nomad Magazine purchasers. Full edition with stories about digital nomad lifestyle and remote work.',
+    url: `${Astro.site}flipbooks/5759f7b1-53e4-4eab-8cbb-c92e45ba00a5/`,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+    inLanguage: 'en',
+    accessMode: ['textual', 'visual'],
+    accessibilityFeature: ['readingOrder', 'structuralNavigation'],
+  },
+}
 ---
 
-<Layout>
+<Layout seo={seo}>
   <div class="bg-gradient-to-r from-yellow-400 to-yellow-500 text-black px-8 py-6 text-center border-b-2 border-yellow-600">
     <div class="max-w-4xl mx-auto">
-      <h1 class="text-2xl font-bold mb-2">🎉 Order Confirmed!</h1>
+      <h1 class="text-2xl font-bold mb-2">Order Confirmed - Your Nomad Magazine Flipbook</h1>
       <p class="text-lg">Thank you for your purchase. Your flipbook is ready to read below.</p>
     </div>
   </div>
-  <iframe class="min-h-[90vh] w-full" src="https://drive.google.com/file/d/1F2jbbS_giWWfCe0Z49MSUuLnXcsaxcym/preview"></iframe>
+  <section class="container mx-auto px-4 py-4">
+    <iframe
+      class="min-h-[90vh] w-full"
+      src="https://drive.google.com/file/d/1F2jbbS_giWWfCe0Z49MSUuLnXcsaxcym/preview"
+      title="Nomad Magazine Digital Flipbook - Your purchased edition"
+      loading="lazy"
+    ></iframe>
+  </section>
 </Layout>

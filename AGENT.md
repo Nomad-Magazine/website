@@ -98,12 +98,39 @@ This website's primary goal is to rank highly in search engines and attract clie
 ### Structured Data (Schema.org JSON-LD)
 - Include appropriate structured data on every page
 - Use JSON-LD format in `<script type="application/ld+json">`
-- Common types:
+- **ALWAYS include trailing slashes in all URLs within JSON-LD**
+- Common schema types to use:
   - `WebSite` for homepage
   - `BlogPosting` for blog posts
   - `Article` for articles
   - `Organization` for brand/company info
   - `BreadcrumbList` for navigation (when applicable)
+  - `Product` for magazine editions (with offers, price, availability)
+  - `Event` for events/office hours (with startDate, endDate, location)
+  - `JobPosting` for writer/contributor opportunities
+  - `DigitalDocument` for flipbooks and digital content
+  - `Service` for service offerings
+  - `WebApplication` for interactive tools (horoscope, etc.)
+- Required properties for all JSON-LD:
+  - `@context`: 'https://schema.org'
+  - `@type`: appropriate schema type
+  - `name`: page/content name
+  - `description`: brief description
+  - `url`: canonical URL with trailing slash
+- Include `publisher` or `provider` with Organization info when applicable
+
+### Twitter Card Meta Tags (CRITICAL)
+- **Use `name` attribute, NOT `property`** for Twitter meta tags
+- Correct: `<meta name="twitter:card" content="...">`
+- Incorrect: `<meta property="twitter:card" content="...">`
+- Required tags:
+  - `twitter:card` (use `summary_large_image`)
+  - `twitter:title`
+  - `twitter:description`
+  - `twitter:image`
+  - `twitter:image:alt` (accessibility)
+  - `twitter:site`
+  - `twitter:creator`
 
 ---
 
@@ -133,24 +160,56 @@ This website's primary goal is to rank highly in search engines and attract clie
 ### Images
 - **ALWAYS** include `alt` attributes on all images
 - Alt text should be descriptive (avoid "image" or "picture")
-- Use empty `alt=""` only for decorative images that don't convey meaning
+- Use empty `alt=""` AND `aria-hidden="true"` for decorative images
 - Include keywords in alt text when natural and relevant
+
+### SVG Icons and Decorative Elements
+- **ALWAYS** add `aria-hidden="true"` to decorative SVGs
+- If SVG is inside a button/link with `aria-label`, the SVG should have `aria-hidden="true"`
+- Decorative icons that don't convey meaning must be hidden from screen readers
+- Example: `<svg aria-hidden="true">...</svg>`
 
 ### Links
 - Use descriptive link text (avoid "click here", "read more" without context)
-- Indicate external links clearly
+- **ALWAYS** add `aria-label` to links that open in new tabs, indicating this behavior
+- Example: `aria-label="Learn more about Product (opens in new tab)"`
 - Ensure link contrast meets WCAG standards
-- Use `rel="noopener noreferrer"` for external links
+- **ALWAYS** use `rel="noopener noreferrer"` for ALL external links (security + SEO)
+
+### Buttons and Interactive Elements
+- **ALWAYS** add `aria-label` to buttons with only icons (no visible text)
+- Add `aria-haspopup="true"` and `aria-expanded="false/true"` to dropdown triggers
+- Example: `<button aria-label="Open menu" aria-haspopup="true" aria-expanded="false">`
+- Social share buttons need descriptive labels: `aria-label="Share on Twitter"`
 
 ### Forms
-- Associate labels with form inputs
+- **ALWAYS** add `aria-label` to forms: `<form aria-label="Subscribe to newsletter">`
+- **ALWAYS** add `aria-label` to inputs without visible labels
+- Associate visible labels with form inputs using `for` attribute
 - Provide error messages and validation feedback
 - Ensure keyboard navigation works
 
+### Keyboard Navigation
+- Include a "Skip to main content" link at the top of every page
+- Ensure all interactive elements are keyboard accessible
+- Use proper focus styling (replace `outline-none` with `focus-visible:ring-2`)
+- Main content should be wrapped in `<main id="main-content">`
+
+### Dialogs and Modals
+- Add `role="dialog"` to modal containers
+- Add `aria-modal="true"` to indicate modal behavior
+- Add `aria-labelledby` pointing to the modal's heading
+- Trap focus within modal when open
+
+### iframes
+- **ALWAYS** add a descriptive `title` attribute to iframes
+- Example: `<iframe title="Nomad Magazine Digital Flipbook Viewer" ...>`
+
 ### General
-- Maintain proper color contrast ratios
-- Ensure text is readable (minimum font sizes)
-- Support keyboard navigation
+- Maintain proper color contrast ratios (4.5:1 for normal text, 3:1 for large text)
+- Ensure text is readable (minimum 16px font size recommended)
+- Support keyboard navigation throughout the site
+- Use semantic HTML elements (`<nav>`, `<main>`, `<article>`, etc.)
 - Include ARIA labels when semantic HTML isn't sufficient
 
 ---
@@ -260,21 +319,49 @@ This website's primary goal is to rank highly in search engines and attract clie
 
 Before considering any work complete, verify:
 
+### URLs and Links
 - [ ] All internal links end with trailing slash
+- [ ] All external links have `rel="noopener noreferrer"`
+- [ ] No broken links (404 errors)
+
+### Images
 - [ ] All images are in WebP format (except SVGs/favicons)
 - [ ] All images have descriptive alt text
+- [ ] Decorative images have `alt=""` and `aria-hidden="true"`
+
+### SEO Meta Tags
 - [ ] Title tag is 50-60 characters with primary keyword
 - [ ] Meta description is 150-160 characters with keywords
-- [ ] Proper heading hierarchy (H1 → H2 → H3)
 - [ ] Complete Open Graph tags included
-- [ ] Twitter card meta tags included
-- [ ] Structured data (JSON-LD) included where applicable
+- [ ] Twitter card meta tags use `name` attribute (not `property`)
 - [ ] Canonical URL included with trailing slash
+- [ ] Keywords included naturally in content
+
+### JSON-LD Structured Data
+- [ ] Appropriate schema type used for page content
+- [ ] All URLs in JSON-LD include trailing slashes
+- [ ] Required properties included (@context, @type, name, description, url)
+- [ ] Publisher/Organization info included where applicable
+
+### Content Structure
+- [ ] Proper heading hierarchy (one H1, then H2 → H3)
+- [ ] Semantic HTML elements used (`<main>`, `<article>`, `<section>`, etc.)
+
+### Accessibility (CRITICAL)
+- [ ] All decorative SVGs have `aria-hidden="true"`
+- [ ] All icon-only buttons have `aria-label`
+- [ ] Dropdown buttons have `aria-haspopup` and `aria-expanded`
+- [ ] Forms have `aria-label` on form element
+- [ ] Inputs without visible labels have `aria-label`
+- [ ] External links indicate "opens in new tab" in `aria-label`
+- [ ] iframes have descriptive `title` attribute
+- [ ] Skip-to-content link present
+- [ ] Focus styling uses `focus-visible:ring` (not `outline-none`)
+
+### Performance
 - [ ] Mobile responsive design works correctly
 - [ ] Page loads quickly (test with PageSpeed Insights)
-- [ ] Accessibility standards met (alt text, semantic HTML, etc.)
-- [ ] No broken links
-- [ ] Keywords included naturally in content
+- [ ] Images use `loading="lazy"` for below-fold content
 
 ---
 

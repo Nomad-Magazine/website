@@ -184,7 +184,7 @@ const seo: SEOProps = {
     '@type': 'Product',
     name: 'Nomad Magazine Edition 001',
     description: 'The first Edition of Nomad Magazine with 100 pages of unique content',
-    url: `${Astro.site}products/issue-001`,
+    url: `${Astro.site}editions/first-edition/`,
     image: '/images/edition-001-cover.avif',
     brand: {
       '@type': 'Brand',
@@ -256,8 +256,10 @@ const seo: SEOProps = {
         <p class="text-xl md:text-2xl text-white mb-6 drop-shadow">
           Download Editions 1, 2 & 3 instantly – our biggest giveaway ever!
         </p>
-        <a 
-          href="https://nomad-magazine.com/magazines-giveaway" 
+        <a
+          href="https://nomad-magazine.com/magazines-giveaway"
+          rel="noopener noreferrer"
+          aria-label="Claim your free digital magazines from Nomad Magazine"
           class="inline-block bg-white text-red-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition shadow-2xl transform hover:scale-105"
         >
           🎉 Claim Your Free Magazines Now

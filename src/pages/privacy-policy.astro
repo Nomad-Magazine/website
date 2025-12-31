@@ -8,12 +8,13 @@ const seo: SEOProps = {
   image: `${Astro.site}images/edition-003-cover_holded_front_face.webp`,
   keywords: 'privacy policy, nomad magazine privacy, data protection, GDPR, cookie policy, personal data',
   ogType: 'website',
+  canonical: `${Astro.site}privacy-policy/`,
   ldJSON: {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
     name: 'Privacy Policy - Nomad Magazine',
     description: 'Privacy Policy and Cookie Policy for Nomad Magazine',
-    url: `${Astro.site}privacy-policy`,
+    url: `${Astro.site}privacy-policy/`,
     publisher: {
       '@type': 'Organization',
       name: 'Nomad Magazine',
@@ -121,10 +122,10 @@ const seo: SEOProps = {
         </p>
       </div>
       <div>
-        <h1 class="font-handwritten mt-16 mb-8 text-3xl md:text-4xl">Cookies Policy</h1>
+        <h2 class="font-handwritten mt-16 mb-8 text-3xl md:text-4xl">Cookies Policy</h2>
         <div class="space-y-6">
           <div>
-            <h2 class="mb-2 text-xl font-semibold">1. Our website</h2>
+            <h3 class="mb-2 text-xl font-semibold">1. Our website</h3>
             <p class="mb-4">
               This cookie policy only relates to your use of our website. Throughout our website we may link to other websites owned and operated by certain trusted third parties
               to provide further information on topics relevant to Possible Future Platfrom's activities. Such websites may also use cookies or similar technologies in accordance
@@ -132,7 +133,7 @@ const seo: SEOProps = {
             </p>
           </div>
           <div>
-            <h2 class="mb-2 text-xl font-semibold">2. What are cookies?</h2>
+            <h3 class="mb-2 text-xl font-semibold">2. What are cookies?</h3>
             <p class="mb-4">
               Cookies are small files that are automatically created by your browser and stored on your end device (laptop, tablet, smartphone or similar) when you visit our
               website. Cookies do not cause any damage to your end device, do not contain viruses, Trojans or other malware. In the cookie, information is stored that arises in
@@ -141,7 +142,7 @@ const seo: SEOProps = {
             </p>
           </div>
           <div>
-            <h2 class="mb-2 text-xl font-semibold">3. What types of cookies do we use?</h2>
+            <h3 class="mb-2 text-xl font-semibold">3. What types of cookies do we use?</h3>
             <p class="mb-2">Our website uses a third-party cookie - Google Analytics.</p>
             <p class="mb-2">
               Google Analytics uses cookies to help a certain website analyse the way you use it. The information gathered by these cookies on your use of the website (including
@@ -159,12 +160,15 @@ const seo: SEOProps = {
             <p class="mb-4">
               Detailed information on Google Analytics and personal data protection (including how you can control information sent to Google) can be found at the address: <a
                 href="https://policies.google.com/privacy/partners"
-                class="text-blue-600 underline">https://policies.google.com/privacy/partners</a
+                class="text-blue-600 underline"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Google Privacy Partners Policy (opens in new tab)">https://policies.google.com/privacy/partners</a
               >.
             </p>
           </div>
           <div>
-            <h2 class="mb-2 text-xl font-semibold">4. Consent to use cookies</h2>
+            <h3 class="mb-2 text-xl font-semibold">4. Consent to use cookies</h3>
             <p class="mb-4">
               We will ask for your permission or consent to place cookies or other similar technologies on your device, except where they are strictly necessary for the operation
               of our website.
@@ -175,13 +179,13 @@ const seo: SEOProps = {
             </p>
           </div>
           <div>
-            <h2 class="mb-2 text-xl font-semibold">5. Changes to this Cookies Policy</h2>
+            <h3 class="mb-2 text-xl font-semibold">5. Changes to this Cookies Policy</h3>
             <p class="mb-4">We may change this policy from time to time, so please check back for updates.</p>
           </div>
           <div>
-            <h2 class="mb-2 text-xl font-semibold">6. Contact Information</h2>
+            <h3 class="mb-2 text-xl font-semibold">6. Contact Information</h3>
             <p class="mb-4">
-              Please contact us at <a href="mailto:hey@nomadgossip.com" class="text-blue-600 underline">hey@nomadgossip.com</a> if you have any questions about this Cookie Policy or
+              Please contact us at <a href="mailto:hey@nomadgossip.com" class="text-blue-600 underline" aria-label="Email us about cookie policy questions">hey@nomadgossip.com</a> if you have any questions about this Cookie Policy or
               the information that we hold about you.
             </p>
           </div>
