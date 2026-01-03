@@ -80,6 +80,9 @@ Chiang Mai is a classic nomad "winter escape" – warm weather, cafés everywher
 
 **Perfect if you…** want to start your year with focus, business ideas, and a big group of people who care about freedom as much as you do. Nomad Summit is one of the strongest events for those with online businesses.
 
+**📺 Watch: [Why Digital Nomads Choose Chiang Mai?](https://www.youtube.com/watch?v=_sBXTskL0gA&t=238s)**  
+*Exploring what makes Chiang Mai, Thailand one of the top destinations for digital nomads worldwide.*
+
 ---
 
 ## 🌍 Late January – Cape Town's Nomad Week
@@ -276,6 +279,18 @@ As Orest Zub once joked – if you see yourself as a "respectful digital nomad",
 **💰 Discount: Save €25 with code NGM**
 
 **Perfect if you…** want a real "end of season" reunion where many event organizers, community leaders and nomads from all over the world show up.
+
+### 📺 Featured Video: Have Digital Nomads Changed Bansko?
+
+<div align="center">
+  <a href="https://youtu.be/mEP3aAA3t8k?si=Hy7Zd9-xSM1l3RT1">
+    <img src="https://img.youtube.com/vi/mEP3aAA3t8k/maxresdefault.jpg" alt="Have Digital Nomads Have Changed Bansko (Bulgaria)?" style="width:100%; max-width:600px; border-radius:8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+  </a>
+  <br>
+  <em>🎬 Click to watch: In this documentary episode, we explore how digital nomads, coworking spaces, and events like Bansko Nomad Fest slowly transformed the town into a year-round hub for remote workers, founders, families, and creatives from around the world.</em>
+</div>
+
+---
 
 ---
 
