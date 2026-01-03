@@ -77,7 +77,14 @@ const featuredPartners = [
 
 // Pinned items (always first in the list)
 const pinnedItems = [
+  'SSBM Consulting LLC',
   'Coconut-Office'
+]
+
+// Featured items (shown with Featured badge and pinned near top)
+const featuredItems = [
+  'SSBM Consulting LLC',
+  'DataBench'
 ]
 
 // Helper function to check if a record is a supporter
@@ -89,14 +96,21 @@ const isSupporter = (record: any) => {
          monthlySupporters.includes(record.title)
 }
 
+// Helper function to check if a record is featured
+const isFeatured = (record: any) => {
+  return featuredItems.includes(record.title)
+}
+
 // Get all valid directory entries and sort pinned first, then featured partners, then supporters
 const allValidEntries = records
   .filter((record: any) => record.sf4ad525dd && record.title && record.scea90e502)
   .sort((a: any, b: any) => {
     const aIsPinned = pinnedItems.includes(a.title)
     const bIsPinned = pinnedItems.includes(b.title)
-    const aIsFeatured = featuredPartners.includes(a.title)
-    const bIsFeatured = featuredPartners.includes(b.title)
+    const aIsFeaturedItem = isFeatured(a)
+    const bIsFeaturedItem = isFeatured(b)
+    const aIsFeaturedPartner = featuredPartners.includes(a.title)
+    const bIsFeaturedPartner = featuredPartners.includes(b.title)
     const aSupporterStatus = isSupporter(a)
     const bSupporterStatus = isSupporter(b)
     
@@ -104,9 +118,13 @@ const allValidEntries = records
     if (aIsPinned && !bIsPinned) return -1
     if (!aIsPinned && bIsPinned) return 1
     
-    // Featured partners go second
-    if (aIsFeatured && !bIsFeatured) return -1
-    if (!aIsFeatured && bIsFeatured) return 1
+    // Featured items go second
+    if (aIsFeaturedItem && !bIsFeaturedItem) return -1
+    if (!aIsFeaturedItem && bIsFeaturedItem) return 1
+    
+    // Featured partners go third
+    if (aIsFeaturedPartner && !bIsFeaturedPartner) return -1
+    if (!aIsFeaturedPartner && bIsFeaturedPartner) return 1
     
     // Then supporters
     if (aSupporterStatus && !bSupporterStatus) return -1
@@ -121,7 +139,8 @@ const allValidEntries = records
     link: record.link || record.sb788c266b?.[0] || '/nomad_directory',
     image: record.image,
     isSupporter: isSupporter(record),
-    isFeatured: featuredPartners.includes(record.title)
+    isFeatured: featuredPartners.includes(record.title),
+    isFeaturedItem: isFeatured(record)
   }))
 
 // Get first 12 entries for regular display (4 rows x 3 columns, with featured partners first)
@@ -129,6 +148,15 @@ const regularDirectoryEntries = allValidEntries.slice(0, 12)
 
 // YouTube channel videos
 const youtubeVideos = [
+  {
+    id: 'mEP3aAA3t8k',
+    title: 'Have Digital Nomads Have Changed Bansko (Bulgaria)?',
+    description: 'In this documentary episode, we explore how digital nomads, coworking spaces, and events like Bansko Nomad Fest slowly transformed the town into a year-round hub for remote workers, founders, families, and creatives from around the world.',
+    thumbnail: 'https://img.youtube.com/vi/mEP3aAA3t8k/hqdefault.jpg',
+    duration: 'N/A',
+    views: 'New',
+    publishedAt: '2025-01-03'
+  },
   {
     id: 'pgTpfH7zNVs',
     title: 'Why Digital Nomads Are Choosing Buenos Aires in 2025',
@@ -329,9 +357,11 @@ const seo: SEOProps = {
         <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
           {regularDirectoryEntries.map((entry: any) => (
             <div class={`group relative overflow-hidden rounded-xl border transition-all hover:border-yellow-400/50 ${
-              entry.isFeatured
-                ? 'bg-gradient-to-br from-purple-900/20 to-blue-900/20 border-purple-500/30' 
-                : 'bg-neutral-900/50 border-white/10'
+              entry.isFeaturedItem
+                ? 'bg-gradient-to-br from-blue-900/20 to-blue-800/20 border-blue-500/30' 
+                : entry.isFeatured
+                  ? 'bg-gradient-to-br from-purple-900/20 to-blue-900/20 border-purple-500/30' 
+                  : 'bg-neutral-900/50 border-white/10'
             }`}>
               <div class="p-5">
                 <div class="flex gap-4">
@@ -376,6 +406,17 @@ const seo: SEOProps = {
                         }`}>
                           {entry.category}
                         </span>
+                        {entry.isFeaturedItem && (
+                          <span
+                            class="inline-flex items-center gap-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-2 py-0.5 rounded-full text-xs font-bold"
+                            title="Featured"
+                          >
+                            <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                            </svg>
+                            Featured
+                          </span>
+                        )}
                         {entry.isSupporter && (
                           <a
                             href="/support-the-magazine/"
@@ -392,7 +433,7 @@ const seo: SEOProps = {
                         {entry.isFeatured && (
                           <span
                             class="inline-flex items-center gap-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-2 py-0.5 rounded-full text-xs font-bold"
-                            title="Featured Partner"
+                            title="Featured"
                           >
                             <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
