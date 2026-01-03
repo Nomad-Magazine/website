@@ -6,7 +6,7 @@ author: Nomad Magazine
 author_image_url: /images/nomad-magazine-logo.png
 author_url: https://nomad-magazine.com
 created_at: 2025-12-19T12:00:00.000Z
-updated_at: 2025-12-31T08:02:57.000Z
+updated_at: 2026-01-03T16:31:51.000Z
 head_image: /images/newsletter-events-2026-cover.webp
 head_image_alt: See the World Through Digital Nomad Events 2026 - World Map
 keywords: digital nomad events 2026, nomad summit, nomad cruise, nomad week cape town, italia nomad fest, vietnam nomad fest, bansko nomad fest, remote work events, digital nomad travel plan
