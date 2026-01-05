@@ -1,0 +1,250 @@
+---
+interface Props {
+  showLatestBadge?: boolean
+  className?: string
+}
+
+const { showLatestBadge, className = '' } = Astro.props
+const shouldShowBadge = showLatestBadge ?? true
+---
+
+<div class={`relative armenia-magazine-stack-container ${className}`}>
+  <!-- Magazine Stack Effect with 4 covers -->
+  <div class="relative transform transition-all duration-700">
+    <!-- Fourth magazine (back) - First Edition -->
+    <div class="magazine-back absolute transition-all duration-500 ease-out block overflow-hidden group">
+      <img
+        src="/images/first-edition-cover-hd.webp"
+        alt="Nomad Magazine First Edition"
+        class="h-auto w-64 rounded-lg shadow-2xl shadow-white/30 md:w-80 pointer-events-none"
+        loading="lazy"
+      />
+    </div>
+
+    <!-- Third magazine (back-middle) - Second Edition -->
+    <div class="magazine-back-middle absolute transition-all duration-500 ease-out block overflow-hidden group">
+      <img
+        src="/images/edition-002-cover.webp"
+        alt="Nomad Magazine Second Edition"
+        class="h-auto w-64 rounded-lg shadow-2xl shadow-purple-400/20 md:w-80 pointer-events-none"
+        loading="lazy"
+      />
+    </div>
+
+    <!-- Second magazine (middle) - Third Edition -->
+    <div class="magazine-middle absolute transition-all duration-500 ease-out block overflow-hidden group">
+      <img
+        src="/images/third-edition-cover-hd.webp"
+        alt="Nomad Magazine Third Edition"
+        class="h-auto w-64 rounded-lg shadow-2xl shadow-yellow-400/20 md:w-80 pointer-events-none"
+        loading="lazy"
+      />
+    </div>
+
+    <!-- First magazine (front) - Armenia -->
+    <div class="magazine-front relative block transition-all duration-500 ease-out overflow-hidden group">
+      <img
+        src="/images/Armenia-cover-preview.webp"
+        alt="Armenia Magazine Cover"
+        class="h-auto w-64 rounded-lg shadow-2xl shadow-orange-400/20 md:w-80 pointer-events-none"
+        loading="lazy"
+      />
+      {shouldShowBadge && (
+        <div class="absolute top-2 right-2 bg-orange-400 text-black px-2 py-1 rounded-full text-xs font-bold">
+          Armenia
+        </div>
+      )}
+    </div>
+  </div>
+
+  <!-- Interactive hint -->
+  <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 opacity-70 hover-hint pointer-events-none">
+    <div class="flex items-center gap-2 text-xs text-gray-400 animate-pulse">
+      <!-- Mouse cursor icon -->
+      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M13.64 21.97c-.16 0-.3-.07-.4-.19l-4.14-4.86c-.27-.32-.23-.8.09-1.07.32-.27.8-.23 1.07.09l3.5 4.11 2.3-9.33-7.24 6.12c-.32.27-.8.23-1.07-.09-.27-.32-.23-.8.09-1.07L15.58 9c.23-.19.57-.22.82-.07.25.15.36.44.28.72L13.11 21.4c-.06.25-.25.44-.5.56-.05.01-.11.01-.17.01z"/>
+      </svg>
+      <span>Move mouse to explore</span>
+    </div>
+  </div>
+
+  <!-- Decorative elements -->
+  <div class="absolute -left-8 top-1/2 h-4 w-4 rounded-full bg-orange-400/60 blur-sm pointer-events-none"></div>
+  <div class="absolute -right-4 top-1/4 h-6 w-6 rounded-full bg-blue-400/40 blur-sm pointer-events-none"></div>
+  <div class="absolute bottom-8 left-4 h-3 w-3 rounded-full bg-red-400/30 blur-sm pointer-events-none"></div>
+</div>
+
+<style>
+  /* Magazine stack default positions - spread out and centered for 4 covers */
+  .magazine-back {
+    transform: translateX(-120px) translateY(0px) rotate(-12deg);
+    z-index: 1;
+    width: 256px; /* w-64 equivalent */
+    height: auto;
+  }
+
+  .magazine-back-middle {
+    transform: translateX(-40px) translateY(5px) rotate(-6deg);
+    z-index: 2;
+    width: 256px; /* w-64 equivalent */
+    height: auto;
+  }
+
+  .magazine-middle {
+    transform: translateX(80px) translateY(10px) rotate(-2deg);
+    z-index: 3;
+    width: 256px; /* w-64 equivalent */
+    height: auto;
+  }
+
+  .magazine-front {
+    transform: translateX(200px) translateY(20px) rotate(2deg);
+    z-index: 4;
+    width: 256px; /* w-64 equivalent */
+    height: auto;
+  }
+
+  @media (min-width: 768px) {
+    .magazine-back,
+    .magazine-back-middle,
+    .magazine-middle,
+    .magazine-front {
+      width: 320px; /* md:w-80 equivalent */
+    }
+  }
+
+  /* Magazine stack hover effect - spread out to the right with smooth transition */
+  .armenia-magazine-stack-container:hover .magazine-back {
+    transform: translateX(-60px) translateY(0px) rotate(-12deg);
+  }
+
+  .armenia-magazine-stack-container:hover .magazine-back-middle {
+    transform: translateX(20px) translateY(5px) rotate(-6deg);
+  }
+
+  .armenia-magazine-stack-container:hover .magazine-middle {
+    transform: translateX(140px) translateY(10px) rotate(-2deg);
+  }
+
+  .armenia-magazine-stack-container:hover .magazine-front {
+    transform: translateX(260px) translateY(20px) rotate(2deg);
+  }
+
+  /* Mobile: stack vertically on hover */
+  @media (max-width: 768px) {
+    .magazine-back {
+      transform: translateX(0px) translateY(0px) rotate(-6deg);
+    }
+
+    .magazine-back-middle {
+      transform: translateX(15px) translateY(5px) rotate(-3deg);
+    }
+
+    .magazine-middle {
+      transform: translateX(30px) translateY(10px) rotate(0deg);
+    }
+
+    .magazine-front {
+      transform: translateX(45px) translateY(15px) rotate(3deg);
+    }
+
+    .armenia-magazine-stack-container:hover .magazine-back {
+      transform: translateX(0px) translateY(0px) rotate(-6deg);
+    }
+
+    .armenia-magazine-stack-container:hover .magazine-back-middle {
+      transform: translateX(0px) translateY(80px) rotate(0deg);
+    }
+
+    .armenia-magazine-stack-container:hover .magazine-middle {
+      transform: translateX(0px) translateY(160px) rotate(0deg);
+    }
+
+    .armenia-magazine-stack-container:hover .magazine-front {
+      transform: translateX(0px) translateY(240px) rotate(0deg);
+    }
+  }
+
+  /* Individual magazine hover effects - bring to front with playful scaling */
+  .magazine-back:hover {
+    transform: translateX(-60px) translateY(0px) rotate(-12deg) scale(1.05) !important;
+    z-index: 15 !important;
+  }
+
+  .magazine-back-middle:hover {
+    transform: translateX(20px) translateY(5px) rotate(-6deg) scale(1.05) !important;
+    z-index: 15 !important;
+  }
+
+  .magazine-middle:hover {
+    transform: translateX(140px) translateY(10px) rotate(-2deg) scale(1.05) !important;
+    z-index: 15 !important;
+  }
+
+  .magazine-front:hover {
+    transform: translateX(260px) translateY(20px) rotate(2deg) scale(1.05) !important;
+    z-index: 15 !important;
+  }
+
+  /* Mobile individual hover effects */
+  @media (max-width: 768px) {
+    .magazine-back:hover {
+      transform: translateX(0px) translateY(0px) rotate(-6deg) scale(1.05) !important;
+      z-index: 15 !important;
+    }
+
+    .magazine-back-middle:hover {
+      transform: translateX(15px) translateY(5px) rotate(-3deg) scale(1.05) !important;
+      z-index: 15 !important;
+    }
+
+    .magazine-middle:hover {
+      transform: translateX(30px) translateY(10px) rotate(0deg) scale(1.05) !important;
+      z-index: 15 !important;
+    }
+
+    .magazine-front:hover {
+      transform: translateX(45px) translateY(15px) rotate(3deg) scale(1.05) !important;
+      z-index: 15 !important;
+    }
+  }
+
+  /* Smooth transitions for all states */
+  .magazine-back,
+  .magazine-back-middle,
+  .magazine-middle,
+  .magazine-front {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), z-index 0s;
+  }
+
+  /* When container is hovered, individual hovers are less prominent */
+  .armenia-magazine-stack-container:hover .magazine-back:hover {
+    transform: translateX(-60px) translateY(0px) rotate(-12deg) scale(1.02) !important;
+  }
+
+  .armenia-magazine-stack-container:hover .magazine-back-middle:hover {
+    transform: translateX(20px) translateY(5px) rotate(-6deg) scale(1.02) !important;
+  }
+
+  .armenia-magazine-stack-container:hover .magazine-middle:hover {
+    transform: translateX(140px) translateY(10px) rotate(-2deg) scale(1.02) !important;
+  }
+
+  .armenia-magazine-stack-container:hover .magazine-front:hover {
+    transform: translateX(260px) translateY(20px) rotate(2deg) scale(1.02) !important;
+  }
+
+  /* Hide hint on hover */
+  .armenia-magazine-stack-container:hover .hover-hint {
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+  }
+
+  /* Mobile hint positioning */
+  @media (max-width: 768px) {
+    .hover-hint {
+      bottom: -6rem;
+    }
+  }
+</style>
+
