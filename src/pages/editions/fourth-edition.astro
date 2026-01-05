@@ -1,0 +1,245 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SubscribeInput from '~/components/SubscribeInput.astro';
+---
+
+<Layout title="Edition Four - Coming Soon">
+  <div class="coming-soon-container">
+    <div class="hero-text">
+      <h1>Edition Four</h1>
+      <h2>Coming Soon</h2>
+    </div>
+    
+    <div class="subtitle">
+      <p>It will be the best edition so far!</p>
+      <p class="pages">120 pages of pure high-end content</p>
+    </div>
+
+    <div class="subscribe-section">
+      <p class="subscribe-text">Subscribe to be notified when it's ready (if you haven't already)</p>
+      <SubscribeInput tag="edition-four" />
+    </div>
+
+    <div class="collage">
+      <span class="word word-1">Palermo</span>
+      <span class="word word-2">Bansko</span>
+      <span class="word word-3">Fukuoka</span>
+      <span class="word word-4">Madeira Research</span>
+      <span class="word word-5">Vanlife Photostory</span>
+      <span class="word word-6">Kristin Wilson</span>
+      <span class="word word-7">Online Education in creative</span>
+      <span class="word word-8">Coworking Contest</span>
+      <span class="word word-9">Nomad Directory</span>
+      <span class="word word-10">Parenting on the move</span>
+      <span class="word word-11">Queer Nomads</span>
+      <span class="word word-12">Nomad Fashion</span>
+      <span class="word word-13">Lee Holden</span>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .coming-soon-container {
+    min-height: 100vh;
+    padding: 2rem;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    color: white;
+    overflow: hidden;
+  }
+
+  .hero-text {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-top: 4rem;
+  }
+
+  .hero-text h1 {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    margin: 0;
+    background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-text h2 {
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    margin: 1rem 0;
+    color: #888;
+  }
+
+  .subtitle {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .subtitle p {
+    font-size: clamp(1.2rem, 2.5vw, 2rem);
+    font-weight: 500;
+    margin: 0.5rem 0;
+    color: #ddd;
+  }
+
+  .subtitle .pages {
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    color: #999;
+    font-weight: 300;
+  }
+
+  .collage {
+    position: relative;
+    max-width: 1400px;
+    margin: 0 auto;
+    min-height: 70vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+  }
+
+  .word {
+    font-weight: 700;
+    line-height: 1;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+    cursor: default;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .word:hover {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+  }
+
+  .word-1 {
+    font-size: clamp(2rem, 5vw, 4.5rem);
+    color: #ff6b6b;
+    transform: rotate(-3deg);
+  }
+
+  .word-2 {
+    font-size: clamp(1.8rem, 4.5vw, 3.8rem);
+    color: #4ecdc4;
+    transform: rotate(2deg);
+  }
+
+  .word-3 {
+    font-size: clamp(2.2rem, 5.5vw, 5rem);
+    color: #ffe66d;
+    transform: rotate(-5deg);
+  }
+
+  .word-4 {
+    font-size: clamp(1.5rem, 3.5vw, 3rem);
+    color: #95e1d3;
+    transform: rotate(4deg);
+  }
+
+  .word-5 {
+    font-size: clamp(1.8rem, 4vw, 3.5rem);
+    color: #ff8c94;
+    transform: rotate(-2deg);
+  }
+
+  .word-6 {
+    font-size: clamp(2rem, 4.8vw, 4.2rem);
+    color: #a8e6cf;
+    transform: rotate(3deg);
+  }
+
+  .word-7 {
+    font-size: clamp(1.4rem, 3.2vw, 2.8rem);
+    color: #ffd3b6;
+    transform: rotate(-4deg);
+  }
+
+  .word-8 {
+    font-size: clamp(1.9rem, 4.3vw, 3.9rem);
+    color: #ffaaa5;
+    transform: rotate(1deg);
+  }
+
+  .word-9 {
+    font-size: clamp(2.1rem, 5.2vw, 4.7rem);
+    color: #a2d5f2;
+    transform: rotate(-3deg);
+  }
+
+  .word-10 {
+    font-size: clamp(1.6rem, 3.8vw, 3.3rem);
+    color: #e0b0ff;
+    transform: rotate(5deg);
+  }
+
+  .word-11 {
+    font-size: clamp(1.9rem, 4.5vw, 4rem);
+    color: #d4a5a5;
+    transform: rotate(-2deg);
+  }
+
+  .word-12 {
+    font-size: clamp(2rem, 4.7vw, 4.3rem);
+    color: #9fd8df;
+    transform: rotate(3deg);
+  }
+
+  .word-13 {
+    font-size: clamp(2.2rem, 5.3vw, 4.8rem);
+    color: #ffccf9;
+    transform: rotate(-4deg);
+  }
+
+  .subscribe-section {
+    max-width: 600px;
+    margin: 3rem auto;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .subscribe-text {
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: #ddd;
+    margin-bottom: 2rem;
+    font-weight: 400;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .coming-soon-container {
+      padding: 1rem;
+    }
+
+    .hero-text {
+      padding-top: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .subtitle {
+      margin-bottom: 2rem;
+    }
+
+    .collage {
+      gap: 0.5rem;
+      padding: 1rem;
+      min-height: 50vh;
+    }
+
+    .word {
+      padding: 0.3rem 0.6rem;
+    }
+
+    .subscribe-section {
+      margin: 2rem auto;
+      padding: 1.5rem 1rem;
+    }
+  }
+</style>
+
