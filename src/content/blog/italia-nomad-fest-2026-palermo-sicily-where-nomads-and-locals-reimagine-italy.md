@@ -7,9 +7,9 @@ author_image_url: /logo.svg
 author_url: https://nomad-magazine.com
 created_at: 2025-10-20T12:00:00.000Z
 updated_at: 2025-10-20T12:00:00.000Z
-head_image: /images/surreal_and_vibrant_cinematic_photo_of_Palermo_with_0.jpg
+head_image: /images/surreal_and_vibrant_cinematic_photo_of_Palermo_with_0.webp
 head_image_alt: Italia Nomad Fest 2026 Palermo Sicily
-heroImage: /images/surreal_and_vibrant_cinematic_photo_of_Palermo_with_0.jpg
+heroImage: /images/surreal_and_vibrant_cinematic_photo_of_Palermo_with_0.webp
 heroImageAlt: Italia Nomad Fest 2026 Palermo Sicily
 keywords: Italia Nomad Fest, Palermo digital nomads, Sicily nomad events, Italian nomad community, BEETCOMMUNITY, Marco Traina, nomad festival Italy 2026
 tag: Events, Italy, Community

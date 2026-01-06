@@ -29,7 +29,7 @@ category: article
 Think of this as Nomad Cruise turning the dial to 11:
 
 - <figure style="float:right; width:260px; margin:0 0 1.5rem 1.5rem;">
-    <img src="/images/nomad-cruise.jpeg" alt="Nomad Cruise participants smiling onboard" style="width:100%; border-radius:12px;" />
+    <img src="/images/nomad-cruise.webp" alt="Nomad Cruise participants smiling onboard" style="width:100%; border-radius:12px;" />
   </figure>
 
 - **Longer Escape** – twelve full days to balance laptop hours with on-deck hangouts.
@@ -62,7 +62,7 @@ A full ship of **300+ digital nomads and entrepreneurs** will sail from neon-soa
 ## Why People Love This Sailing
 
 <figure style="float:left; width:280px; margin:0 1.5rem 1.5rem 0;">
-  <img src="/images/nomad-cruise-2.jpeg" alt="Group of digital nomads coworking on the ship deck" style="width:100%; border-radius:12px;" />
+  <img src="/images/nomad-cruise-2.webp" alt="Group of digital nomads coworking on the ship deck" style="width:100%; border-radius:12px;" />
 </figure>
 
 ### Wi-Fi That Actually Works
@@ -77,7 +77,7 @@ Expect masterminds, hands-on workshops, unconference sessions, pitch nights, tal
 ## Wallet-Friendly Options
 
 <figure style="float:right; width:280px; margin:0 0 1.5rem 1.5rem;">
-  <img src="/images/nomad-cruise3.jpeg" alt="Nomad Cruise audience engaged during a talk" style="width:100%; border-radius:12px;" />
+  <img src="/images/nomad-cruise3.webp" alt="Nomad Cruise audience engaged during a talk" style="width:100%; border-radius:12px;" />
 </figure>
 
 [Nomad Cruise](https://www.nomadcruise.com/?ref=7432&utm_source=aff) keeps pricing flexible so you can choose your vibe:

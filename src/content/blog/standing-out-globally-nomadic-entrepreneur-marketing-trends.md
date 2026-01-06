@@ -3,7 +3,7 @@ title: "Standing Out Globally as a Nomadic Entrepreneur: Marketing Trends"
 description: "Discover how digital nomads can build a powerful global presence using AI, authentic storytelling, micro-communities, and smart data strategies. Expert insights from CAPSBOLD Creative Marketing Agency."
 pubDate: 2025-10-09T12:00:00.000Z
 author: "Oksana Baykova & Denis Lukyanov"
-heroImage: "/images/capsbold_surreal_and_vibrant_cinematic_photo_of_an_entrepren_1.jpg"
+heroImage: "/images/capsbold_surreal_and_vibrant_cinematic_photo_of_an_entrepren_1.webp"
 heroImageAlt: "CAPSBOLD Creative Marketing Agency - Digital nomad entrepreneur marketing trends"
 published: true
 tag: "Marketing, Remote Work, Entrepreneurship"

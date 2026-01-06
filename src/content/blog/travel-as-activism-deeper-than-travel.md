@@ -129,7 +129,7 @@ A good rule of thumb is to ask, <mark style="background-color: #fff59d;">"How ca
 
 ---
 
-<img src="/images/Author%20photo.webp" alt="Ms. Priyanka Surio, author and sustainable travel advocate" style="float: left; width: 250px; margin: 0 20px 20px 0; border-radius: 8px;">
+<img src="/images/author-photo.webp" alt="Ms. Priyanka Surio, author and sustainable travel advocate" style="float: left; width: 250px; margin: 0 20px 20px 0; border-radius: 8px;">
 
 **Author bio:** Ms. Priyanka Surio is a two-time published author of nonfiction books on regenerative and sustainable travel. She has traveled to over 80 countries, 7 continents, and all 50 U.S. states and considers herself a global citizen with no one permanent home as an Indian-Hungarian-Romanian-American. She stays involved with various initiatives spanning India, Africa, and the Americas with a sustainable urban planning, climate action, education, health, and economic empowerment. She currently works as a government consultant to improve health and social care. She has private sector experience working in venture capital and at Google, where she advanced innovations, products, and companies in health and sustainability. Find out more about her here: <a href="https://linktr.ee/pstravelstories" target="_blank" rel="noopener noreferrer">linktr.ee/pstravelstories</a>
 

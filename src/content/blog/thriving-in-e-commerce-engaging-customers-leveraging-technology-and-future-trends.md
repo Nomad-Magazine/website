@@ -114,7 +114,7 @@ If you're reading this with an idea still in your head, this is your cue: start 
 
 ---
 
-![Marissa Rodriguez](/images/Marissa-Rodriguez.jpg)
+![Marissa Rodriguez](/images/Marissa-Rodriguez.webp)
 
 **Author bio:** Corporate life was not enough for [Marissa Rodriguez](https://www.linkedin.com/in/marissa-rodriguez-6192b327/). After losing her job, she took a leap of faith that transformed her life and career. From leading eCommerce brands to helping clients generate over $100 million in revenue, Marissa proved success does not have to follow tradition. In 2021, a trip to Greece became a permanent move, where she embraced freedom and built [Through Experience®](https://throughexperience.com/), an online platform guiding entrepreneurs to create businesses that support their lives. For Marissa, success means control, freedom, and living life on your own terms.
 
