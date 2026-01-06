@@ -1,11 +1,20 @@
 ---
 const issues = [
   {
-    title: "New Edition: See What's Inside",
+    title: "Coming Soon: Edition #4",
+    imageUrl: '/images/third-edition-cover-hd.webp',
+    alt: 'Edition Four - Coming Soon',
+    link: '/editions/fourth-edition',
+    linkText: "Coming Soon",
+    isComingSoon: true,
+  },
+  {
+    title: "Available in print & digital",
     imageUrl: '/images/third-edition-cover-hd.webp',
     alt: 'Mind, Body, Tech for Nomad Life',
     link: '/editions/third-edition',
-    linkText: "New Edition: See What's Inside",
+    linkText: "See What's Inside",
+    sampleUrl: '/editions/third-edition',
   },
   {
     title: 'Available in print & digital',
@@ -28,12 +37,22 @@ const issues = [
 
 <section class="magazine-issues px-4 py-20 md:px-8">
   <div class="container mx-auto">
-    <div class="grid grid-cols-1 gap-12 md:grid-cols-3">
+    <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
       {
         issues.map((issue) => (
           <div class="issue-card text-center">
-            <a href={issue.link}>
-              <img src={issue.imageUrl} alt={issue.alt} class="mb-6 aspect-[3/4] h-auto w-full max-w-full object-cover shadow-lg shadow-white" />
+            <a href={issue.link} class={issue.isComingSoon ? "coming-soon-wrapper" : ""}>
+              {issue.isComingSoon ? (
+                <div class="relative mb-6">
+                  <img src={issue.imageUrl} alt={issue.alt} class="blur-effect aspect-[3/4] h-auto w-full max-w-full object-cover shadow-lg shadow-white" />
+                  <div class="coming-soon-overlay">
+                    <span class="coming-soon-text">Coming Soon</span>
+                    <span class="edition-text">Edition #4</span>
+                  </div>
+                </div>
+              ) : (
+                <img src={issue.imageUrl} alt={issue.alt} class="mb-6 aspect-[3/4] h-auto w-full max-w-full object-cover shadow-lg shadow-white" />
+              )}
               <h3 class="text-lg font-semibold text-yellow-400">{issue.title}</h3>
             </a>
             {issue.sampleUrl && (
@@ -47,3 +66,48 @@ const issues = [
     </div>
   </div>
 </section>
+
+<style>
+  .coming-soon-wrapper {
+    position: relative;
+    display: block;
+  }
+
+  .blur-effect {
+    filter: blur(8px);
+    opacity: 0.6;
+  }
+
+  .coming-soon-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .coming-soon-text {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 900;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.8),
+                 0 2px 4px rgba(0, 0, 0, 0.6);
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+  }
+
+  .edition-text {
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    font-weight: 600;
+    color: #fbbf24;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  }
+</style>
