@@ -5,19 +5,13 @@ import { getCollection } from 'astro:content'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import { Image } from 'astro:assets'
 
-// Get all blog posts and filter for custom articles only (non-SeoBot)
-const allPosts = await getCollection('blog')
+// Get all articles from the article collection
+const allPosts = await getCollection('article')
 const posts = allPosts
   .filter((post) => {
     // Filter for published posts
     if (post.data.published === false) return false
-    
-    // Custom articles are those that are NOT from SeoBot
-    // SeoBot articles have: author === 'Martin Donadieu' AND author_url === 'https://github.com/riderx'
-    const isSeoBot = post.data.author === 'Martin Donadieu' && 
-                     post.data.authorUrl === 'https://github.com/riderx'
-    
-    return !isSeoBot
+    return true
   })
   .sort((a, b) => {
     const dateA = a.data.pubDate || new Date(0)
@@ -119,7 +113,7 @@ const seo: SEOProps = {
         name: post.data.author || 'Nomad Magazine',
       },
       datePublished: post.data.pubDate?.toISOString(),
-      url: `${Astro.site}blog/${post.slug}/`,
+      url: `${Astro.site}articles/${post.slug}/`,
     })),
   },
 }
@@ -156,7 +150,7 @@ const seo: SEOProps = {
                     {featuredPost.data.author || 'Nomad Magazine'}
                   </div>
                   <h1 class="text-3xl lg:text-4xl font-bold leading-tight text-white">
-                    <a href={`/blog/${featuredPost.slug}/`} class="hover:text-neutral-300 transition-colors">
+                    <a href={`/articles/${featuredPost.slug}/`} class="hover:text-neutral-300 transition-colors">
                       {featuredPost.data.title}
                     </a>
                   </h1>
@@ -191,7 +185,7 @@ const seo: SEOProps = {
                       {topRowPosts[0].data.author || 'Nomad Magazine'}
                     </div>
                     <h2 class="text-lg font-bold leading-tight text-white">
-                      <a href={`/blog/${topRowPosts[0].slug}/`} class="hover:text-neutral-300 transition-colors">
+                      <a href={`/articles/${topRowPosts[0].slug}/`} class="hover:text-neutral-300 transition-colors">
                         {topRowPosts[0].data.title}
                       </a>
                     </h2>
@@ -221,7 +215,7 @@ const seo: SEOProps = {
                       {topRowPosts[1].data.author || 'Nomad Magazine'}
                     </div>
                     <h2 class="text-lg font-bold leading-tight text-white">
-                      <a href={`/blog/${topRowPosts[1].slug}/`} class="hover:text-neutral-300 transition-colors">
+                      <a href={`/articles/${topRowPosts[1].slug}/`} class="hover:text-neutral-300 transition-colors">
                         {topRowPosts[1].data.title}
                       </a>
                     </h2>
@@ -251,7 +245,7 @@ const seo: SEOProps = {
                       {topRowPosts[2].data.author || 'Nomad Magazine'}
                     </div>
                     <h2 class="text-lg font-bold leading-tight text-white">
-                      <a href={`/blog/${topRowPosts[2].slug}/`} class="hover:text-neutral-300 transition-colors">
+                      <a href={`/articles/${topRowPosts[2].slug}/`} class="hover:text-neutral-300 transition-colors">
                         {topRowPosts[2].data.title}
                       </a>
                     </h2>
@@ -284,7 +278,7 @@ const seo: SEOProps = {
                       {topRowPosts[3].data.author || 'Nomad Magazine'}
                     </div>
                     <h2 class="text-lg font-bold leading-tight text-white">
-                      <a href={`/blog/${topRowPosts[3].slug}/`} class="hover:text-neutral-300 transition-colors">
+                      <a href={`/articles/${topRowPosts[3].slug}/`} class="hover:text-neutral-300 transition-colors">
                         {topRowPosts[3].data.title}
                       </a>
                     </h2>
@@ -314,7 +308,7 @@ const seo: SEOProps = {
                       {topRowPosts[4].data.author || 'Nomad Magazine'}
                     </div>
                     <h2 class="text-lg font-bold leading-tight text-white">
-                      <a href={`/blog/${topRowPosts[4].slug}/`} class="hover:text-neutral-300 transition-colors">
+                      <a href={`/articles/${topRowPosts[4].slug}/`} class="hover:text-neutral-300 transition-colors">
                         {topRowPosts[4].data.title}
                       </a>
                     </h2>
@@ -344,7 +338,7 @@ const seo: SEOProps = {
                       {topRowPosts[5].data.author || 'Nomad Magazine'}
                     </div>
                     <h2 class="text-lg font-bold leading-tight text-white">
-                      <a href={`/blog/${topRowPosts[5].slug}/`} class="hover:text-neutral-300 transition-colors">
+                      <a href={`/articles/${topRowPosts[5].slug}/`} class="hover:text-neutral-300 transition-colors">
                         {topRowPosts[5].data.title}
                       </a>
                     </h2>
@@ -383,7 +377,7 @@ const seo: SEOProps = {
                   </div>
                   <div class="space-y-1 flex-1">
                     <h3 class="text-sm font-bold leading-tight text-white">
-                      <a href={`/blog/${post.slug}/`} class="hover:text-neutral-300 transition-colors">
+                      <a href={`/articles/${post.slug}/`} class="hover:text-neutral-300 transition-colors">
                         {post.data.title}
                       </a>
                     </h3>
@@ -575,7 +569,7 @@ const seo: SEOProps = {
                   </div>
                   
                   <h3 class="mb-4 text-3xl font-bold leading-tight text-white group-hover:text-yellow-400 transition-colors">
-                    <a href={`/blog/${featuredStoriesHero.slug}/`} class="after:absolute after:inset-0">
+                    <a href={`/articles/${featuredStoriesHero.slug}/`} class="after:absolute after:inset-0">
                       {featuredStoriesHero.data.title}
                     </a>
                   </h3>
@@ -632,7 +626,7 @@ const seo: SEOProps = {
                 </div>
 
                 <h3 class="mb-3 text-xl font-bold leading-tight text-white group-hover:text-yellow-400 transition-colors">
-                  <a href={`/blog/${post.slug}/`} class="after:absolute after:inset-0">
+                  <a href={`/articles/${post.slug}/`} class="after:absolute after:inset-0">
                     {post.data.title}
                   </a>
                 </h3>
@@ -701,7 +695,7 @@ const seo: SEOProps = {
                   </div>
                   
                   <h3 class="mb-2 text-base font-semibold leading-tight text-white group-hover:text-yellow-400 transition-colors">
-                    <a href={`/blog/${post.slug}/`} class="after:absolute after:inset-0">
+                    <a href={`/articles/${post.slug}/`} class="after:absolute after:inset-0">
                       {post.data.title}
                     </a>
                   </h3>
