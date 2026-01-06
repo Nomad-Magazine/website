@@ -19,9 +19,7 @@ const footerSections = [
     links: [
       { text: 'Latest Edition', url: '/editions/third-edition' },
       { text: 'All Editions', url: '/editions' },
-      { text: 'Articles', url: '/articles' },
       { text: 'Blog', url: '/blog' },
-      { text: 'Free Articles', url: '/free-weekly-articles' },
     ]
   },
   {
@@ -29,15 +27,12 @@ const footerSections = [
     links: [
       { text: 'Newsletter', url: '/newsletter' },
       { text: 'Newsletter Guidelines', url: '/newsletter-guidelines' },
-      { text: 'Coworking Spaces', url: '/coworking-spaces' },
     ]
   },
   {
     title: 'Business & Partners',
     links: [
-      { text: 'Brand Placement', url: 'https://nomad-magazine.com/brand-placement-next-edition-847291' },
       { text: 'Nomad Directory', url: '/nomad_directory' },
-      { text: 'Office Hours', url: '/office-hours' },
       { text: 'Distribution Partners', url: '/distribution-list' },
       { text: 'Writers Program', url: '/writers' },
     ]
@@ -121,7 +116,7 @@ const footerSections = [
                   <a
                     href={link.href}
                     set:html={link.icon}
-                    aria-label={link.name}
+                    aria-label={`Follow us on ${link.name}`}
                     class="rounded-lg bg-gray-900 px-3 py-3 text-white shadow-md transition-colors duration-200 hover:bg-yellow-500 hover:text-black"
                   />
                 ))
@@ -135,8 +130,9 @@ const footerSections = [
               <a href="/terms-and-conditions/" class="font-semibold text-gray-900 transition-colors hover:text-yellow-600 hover:underline">Terms & Conditions</a>
             </div>
             <div class="font-semibold text-gray-900">
-              <a target="_blank" href="https://curves.digital" class="text-gray-900 transition-colors hover:text-yellow-600 hover:underline"> design by CURVES (~.~) </a>, <a
+              <a target="_blank" rel="noopener noreferrer" href="https://curves.digital" class="text-gray-900 transition-colors hover:text-yellow-600 hover:underline"> design by CURVES (~.~) </a>, <a
                 target="_blank"
+                rel="noopener noreferrer"
                 href="https://rishi.app"
                 class="text-gray-900 transition-colors hover:text-yellow-600 hover:underline"
               >
@@ -202,7 +198,7 @@ const footerSections = [
               <a
                 href={link.href}
                 set:html={link.icon}
-                aria-label={link.name}
+                aria-label={`Follow us on ${link.name}`}
                 class="rounded-lg bg-gray-900 px-4 py-4 text-white shadow-md transition-colors duration-200 hover:bg-yellow-500 hover:text-black"
               />
             ))
