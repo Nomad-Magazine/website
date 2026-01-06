@@ -51,6 +51,21 @@ const seoProps = {
   <head>
     <SEO {...seoProps} />
     {Astro.url.pathname.includes('our-story') && <link href="/css/timeline-54936b.webflow.css" rel="stylesheet" type="text/css" />}
+    <!-- Google tag (gtag.js) -->
+    {
+      !isLocalhost && (
+        <>
+          <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-644SVQLMN8"></script>
+          <script is:inline>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-644SVQLMN8');
+          </script>
+        </>
+      )
+    }
+    <!-- End Google tag -->
     <!-- Clarity -->
     {
       !isLocalhost && (
