@@ -718,11 +718,12 @@ const seo: SEOProps = {
         <!-- Mobile Menu Button -->
         <div class="lg:hidden fixed top-20 left-4 z-50">
           <button
-            id="mobile-menu-button"
+            id="wiki-mobile-menu-button"
+            aria-label="Toggle wiki navigation menu"
             class="bg-white border border-gray-300 rounded-lg p-2 shadow-sm"
             type="button"
           >
-            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
           </button>
@@ -4481,7 +4482,7 @@ const seo: SEOProps = {
 
 <script>
   // Mobile menu functionality
-  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenuButton = document.getElementById('wiki-mobile-menu-button');
   const mobileSidebar = document.getElementById('mobile-sidebar');
   const mobileSidebarPanel = document.getElementById('mobile-sidebar-panel');
   const mobileSidebarClose = document.getElementById('mobile-sidebar-close');
