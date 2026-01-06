@@ -2,6 +2,10 @@
   "type": "module",
   "name": "nomad-magazine",
   "scripts": {
+    "seo:check": "seo-checker --output github",
+    "seo:check:json": "seo-checker --output json",
+    "seo:check:report": "seo-checker --report seo-report.txt",
+    "seo:check:local": "seo-checker",
     "dev": "wrangler types && astro dev",
     "start": "wrangler types && astro dev",
     "build": "wrangler types && astro check && astro build",
@@ -16,6 +20,7 @@
     "@tailwindcss/vite": "^4.1.14",
     "astro": "5.16.6",
     "astro-font": "^1.1.0",
+    "schema-dts": "^1.1.5",
     "stripe": "^19.1.0",
     "tailwindcss": "^4.1.14"
   },
@@ -24,6 +29,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "0.9.6",
+    "@capgo/seo-checker": "^0.0.4",
     "@dotenvx/dotenvx": "^1.51.0",
     "@iconify/json": "^2.2.398",
     "@tailwindcss/typography": "^0.5.19",

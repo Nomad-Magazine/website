@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import SidebarMagazineDirectory from '~/components/SidebarMagazineDirectory.astro'
+import { createBlogPostingSchema } from '~/utils/schema'
 
 export const prerender = true
 
@@ -63,34 +64,20 @@ const seo: SEOProps = {
   section: 'Digital Nomad Lifestyle',
   tags: currentPostTags,
   author: post.data.author || 'Martin Donadieu',
-  ldJSON: {
-    '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
+  ldJSON: createBlogPostingSchema({
     headline: post.data.title,
     description: post.data.description,
     image: socialImage,
+    url: `${Astro.site}blog/${post.slug}/`,
+    datePublished: post.data.pubDate?.toISOString(),
+    dateModified: post.data.updatedDate?.toISOString(),
     author: {
-      '@type': 'Person',
       name: post.data.author || 'Martin Donadieu',
       url: post.data.authorUrl || 'https://github.com/riderx',
     },
-    publisher: {
-      '@type': 'Organization',
-      name: 'Nomad Magazine',
-      logo: {
-        '@type': 'ImageObject',
-        url: `${Astro.site}logo.svg`,
-      },
-    },
-    datePublished: post.data.pubDate?.toISOString(),
-    dateModified: post.data.updatedDate?.toISOString(),
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': `${Astro.site}blog/${post.slug}/`,
-    },
     articleSection: 'Digital Nomad Lifestyle',
     keywords: post.data.keywords || 'digital nomad, remote work, travel, nomad lifestyle',
-  },
+  }),
 }
 ---
 

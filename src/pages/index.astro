@@ -214,31 +214,15 @@ const youtubeVideos = [
   }
 ]
 
+import { createWebSiteSchema } from '~/utils/schema'
+
 const seo: SEOProps = {
   title: 'Nomad Magazine - The First Global Digital Nomad Magazine',
   description: 'The first global digital nomad magazine. For people who work and live everywhere (or dream of it). Inspiring stories from nomads around the world.',
   image: `${Astro.site}images/magazine-hold-against-chest.webp`,
   keywords: 'digital nomad magazine, remote work, nomad lifestyle, travel, coworking, nomad community, global nomads',
   canonical: `${Astro.site}`,
-  ldJSON: {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: 'Nomad Magazine',
-    url: `${Astro.site}`,
-    description: 'The first global digital nomad magazine',
-    publisher: {
-      '@type': 'Organization',
-      name: 'Nomad Magazine',
-      logo: {
-        '@type': 'ImageObject',
-        url: `${Astro.site}logo.svg`,
-      },
-    },
-    potentialAction: {
-      '@type': 'SubscribeAction',
-      target: `${Astro.site}newsletter/`,
-    },
-  },
+  ldJSON: createWebSiteSchema({ url: Astro.site?.toString() }),
 }
 ---
 

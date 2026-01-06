@@ -1,6 +1,7 @@
 ---
 import { AstroFont } from 'astro-font'
 import { join } from 'node:path'
+import { createWebSiteSchema, ensureTrailingSlash, type JsonLdSchema } from '~/utils/schema'
 
 interface Props {
   title?: string
@@ -11,20 +12,12 @@ interface Props {
   author?: string
   keywords?: string
   audio?: string | null
-  ldJSON?: object
+  ldJSON?: JsonLdSchema
   ogType?: 'website' | 'article'
   publishedTime?: string
   modifiedTime?: string
   section?: string
   tags?: string[]
-}
-
-// Ensure URL has trailing slash
-const ensureTrailingSlash = (urlString: string | URL): string => {
-  const str = urlString.toString()
-  // Don't add trailing slash to file extensions
-  if (/\.[a-zA-Z0-9]+$/.test(str)) return str
-  return str.endsWith('/') ? str : `${str}/`
 }
 
 const {
@@ -36,37 +29,7 @@ const {
   author = 'Martin Donadieu',
   keywords = 'digital nomad, remote work, travel, nomad lifestyle, coworking, nomad magazine, nomad community',
   audio = null,
-  ldJSON = {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: 'Nomad Magazine',
-    url: ensureTrailingSlash(Astro.site || ''),
-    description: 'The first global digital nomad magazine',
-    publisher: {
-      '@type': 'Organization',
-      name: 'Nomad Magazine',
-      logo: {
-        '@type': 'ImageObject',
-        url: `${Astro.site}logo.svg`,
-        width: 200,
-        height: 60,
-      },
-      sameAs: [
-        'https://twitter.com/nomadgossipmag',
-        'https://www.instagram.com/nomadgossipmag/',
-        'https://www.youtube.com/@nomadmagazine',
-        'https://www.linkedin.com/company/nomad-magazine/',
-      ],
-    },
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: `${Astro.site}blog/?q={search_term_string}`,
-      },
-      'query-input': 'required name=search_term_string',
-    },
-  },
+  ldJSON = createWebSiteSchema({ url: Astro.site?.toString() }),
   ogType = 'website',
   publishedTime,
   modifiedTime,
