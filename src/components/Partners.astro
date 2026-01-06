@@ -33,13 +33,13 @@ const partners = [
     <div class="grid grid-cols-2 items-center justify-items-center gap-x-8 gap-y-12 md:grid-cols-3 lg:grid-cols-4">
       {
         partners.map((partner) => (
-          <a animate-fade-in-up href={partner.url} target="_blank" rel="noopener noreferrer" class="flex items-center justify-center opacity-0">
+          <a animate-fade-in-up href={partner.url} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${partner.name} website`} class="flex items-center justify-center opacity-0">
             <img
               src={partner.logo}
               alt={`${partner.name} logo`}
               class={`w-auto object-contain grayscale transition duration-300 hover:grayscale-0 ${
-                partner.name === 'InterNations' 
-                  ? 'h-16 min-h-[64px] max-w-[200px] min-w-[120px]' 
+                partner.name === 'InterNations'
+                  ? 'h-16 min-h-[64px] max-w-[200px] min-w-[120px]'
                   : partner.name === 'Pangea'
                   ? 'h-10 min-h-[40px] max-w-[120px] min-w-[80px]'
                   : 'h-12 min-h-[48px] max-w-[150px] min-w-[100px]'

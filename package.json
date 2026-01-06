@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "0.9.6",
-    "@capgo/seo-checker": "^0.0.4",
+    "@capgo/seo-checker": "^0.0.9",
     "@dotenvx/dotenvx": "^1.51.0",
     "@iconify/json": "^2.2.398",
     "@tailwindcss/typography": "^0.5.19",

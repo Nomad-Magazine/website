@@ -22,8 +22,8 @@ const navLinks = [
     <div class="flex items-center justify-between py-8">
       <!-- Logo and Navigation -->
       <div class="flex items-center space-x-10">
-        <a href="/" class="text-4xl font-black tracking-tighter text-gray-900">
-          <img decoding="async" loading="lazy" src="/logo.svg" alt="n::.m" class="h-6" />
+        <a href="/" aria-label="Nomad Magazine Home" class="text-4xl font-black tracking-tighter text-gray-900">
+          <img decoding="async" loading="lazy" src="/logo.svg" alt="Nomad Magazine" class="h-6" />
         </a>
         <nav class="hidden space-x-10 lg:flex">
           <div class="relative">
@@ -111,8 +111,8 @@ const navLinks = [
   <!-- Mobile Menu Overlay -->
   <div id="mobile-menu-overlay" class="fixed inset-0 z-50 hidden bg-black text-white overflow-y-auto">
     <div class="flex items-center justify-between p-6 border-b border-gray-800">
-      <a href="/" class="text-4xl font-black tracking-tighter">
-        <img decoding="async" loading="lazy" src="/images/logo white png.png" alt="n::.m" class="h-8" />
+      <a href="/" aria-label="Nomad Magazine Home" class="text-4xl font-black tracking-tighter">
+        <img decoding="async" loading="lazy" src="/images/logo white png.png" alt="Nomad Magazine" class="h-8" width="430" height="110" />
       </a>
       <button id="close-menu-button" class="hover:text-yellow-400 transition-colors" aria-label="Close mobile menu">
         <CloseIcon class="h-8 w-8" aria-hidden="true" />

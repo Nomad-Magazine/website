@@ -1,4 +1,6 @@
 ---
+export const prerender = true;
+
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import CheckIcon from '~icons/ic/baseline-check'
 import ArmeniaMagazineStack from '~/components/ArmeniaMagazineStack.astro'
@@ -338,6 +340,7 @@ const seo: SEOProps = {
         <a
           href="https://calendly.com/nomadgossip"
           target="_blank"
+          rel="noopener noreferrer"
           class="inline-block bg-white text-red-600 px-10 py-4 rounded-lg text-xl font-bold hover:bg-red-50 transition-colors mr-4"
         >
           Schedule Partnership Call

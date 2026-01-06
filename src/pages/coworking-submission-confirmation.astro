@@ -1,4 +1,6 @@
 ---
+export const prerender = true;
+
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 
 const seo: SEOProps = {
@@ -81,7 +83,7 @@ const seo: SEOProps = {
           <!-- Action Buttons -->
           <div class="flex flex-col sm:flex-row justify-center gap-4">
             <a
-              href="/coworking-spaces/"
+              href="/coworking-contest/"
               class="inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-6 py-3 text-lg font-bold text-black transition-all hover:bg-yellow-300"
             >
               <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -155,7 +157,7 @@ const seo: SEOProps = {
       const shareData = {
         title: 'Best Coworking Spaces Design Contest',
         text: 'Vote for the most beautifully designed coworking spaces worldwide! Help select the best spaces for the next Nomad Magazine edition.',
-        url: `${window.location.origin}/coworking-spaces`
+        url: `${window.location.origin}/coworking-contest/`
       };
 
       try {
@@ -189,4 +191,3 @@ const seo: SEOProps = {
     });
   }
 </script>
-</Layout>

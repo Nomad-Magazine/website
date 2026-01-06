@@ -149,7 +149,7 @@ const timelineEvents = [
                   {event.title}
                 </div>
                 {event.linkText && (
-                  <a href={event.link} target="_blank" class="mt-4 flex cursor-pointer flex-row flex-wrap items-center gap-x-2 text-gray-400">
+                  <a href={event.link} target="_blank" rel="noopener noreferrer" class="mt-4 flex cursor-pointer flex-row flex-wrap items-center gap-x-2 text-gray-400">
                     <span class="underline">{event.linkText}</span>
                     <MdiExternalLink class="size-4" />
                   </a>
@@ -164,7 +164,7 @@ const timelineEvents = [
                         {typeof img === 'string' ? (
                           <img src={img} loading="lazy" width="480" alt="" aria-hidden="true" />
                         ) : (
-                          <a href={img.link} target="_blank">
+                          <a href={img.link} target="_blank" rel="noopener noreferrer">
                             <img src={img.src} loading="lazy" width="480" class="cursor-pointer" alt={img.alt || ''} />
                           </a>
                         )}
@@ -174,7 +174,7 @@ const timelineEvents = [
                 ) : (
                   <div>
                     {(event.imageLink || event.link) ? (
-                      <a href={event.imageLink || event.link} target="_blank">
+                      <a href={event.imageLink || event.link} target="_blank" rel="noopener noreferrer">
                         <img src={event.image} loading="lazy" width="480" class="cursor-pointer" alt={event.alt || ''} />
                       </a>
                     ) : (

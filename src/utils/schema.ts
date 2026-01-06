@@ -30,9 +30,11 @@ export const ensureTrailingSlash = (urlString: string | URL): string => {
 export const defaultOrganization: Organization = {
   '@type': 'Organization',
   name: SITE_NAME,
+  url: SITE_URL,
   logo: {
     '@type': 'ImageObject',
     url: LOGO_URL,
+    contentUrl: LOGO_URL,
     width: '200',
     height: '60',
   } as ImageObject,
@@ -48,9 +50,11 @@ export const defaultOrganization: Organization = {
 export const defaultPublisher: Organization = {
   '@type': 'Organization',
   name: SITE_NAME,
+  url: SITE_URL,
   logo: {
     '@type': 'ImageObject',
     url: LOGO_URL,
+    contentUrl: LOGO_URL,
   } as ImageObject,
 }
 
@@ -225,6 +229,7 @@ export function createOrganizationSchema(options?: {
   description?: string
   sameAs?: string[]
 }): WithContext<Organization> {
+  const logoUrl = options?.logo || LOGO_URL
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -232,7 +237,8 @@ export function createOrganizationSchema(options?: {
     url: options?.url || SITE_URL,
     logo: {
       '@type': 'ImageObject',
-      url: options?.logo || LOGO_URL,
+      url: logoUrl,
+      contentUrl: logoUrl,
     } as ImageObject,
     ...(options?.description && { description: options.description }),
     sameAs: options?.sameAs || [

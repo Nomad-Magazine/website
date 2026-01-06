@@ -12,33 +12,39 @@ const { showLatestBadge = true, className = '' } = Astro.props
   <div class="relative transform transition-all duration-700">
     <!-- Third magazine (back) - First Edition -->
     <div class="magazine-back absolute transition-all duration-500 ease-out cursor-pointer block overflow-hidden group">
-      <img 
-        src="/images/first-edition-cover-hd.webp" 
-        alt="Nomad Magazine First Edition" 
+      <img
+        src="/images/first-edition-cover-hd.webp"
+        alt="Nomad Magazine First Edition"
         class="h-auto w-64 rounded-lg shadow-2xl shadow-yellow-400/20 md:w-80 pointer-events-none"
         loading="lazy"
+        width="1296"
+        height="1590"
       />
       <!-- Original link overlay -->
-      <a href="/editions/first-edition/" class="absolute inset-0 z-10"></a>
+      <a href="/editions/first-edition/" aria-label="View Nomad Magazine First Edition" class="absolute inset-0 z-10"></a>
     </div>
-    
+
     <!-- Second magazine (middle) - Second Edition -->
-    <a href="/editions/second-edition/" class="magazine-middle absolute transition-all duration-500 ease-out cursor-pointer block overflow-hidden">
-      <img 
-        src="/images/edition-002-cover.webp" 
-        alt="Nomad Magazine Second Edition" 
+    <a href="/editions/second-edition/" aria-label="View Nomad Magazine Second Edition" class="magazine-middle absolute transition-all duration-500 ease-out cursor-pointer block overflow-hidden">
+      <img
+        src="/images/edition-002-cover.webp"
+        alt="Nomad Magazine Second Edition"
         class="h-auto w-64 rounded-lg shadow-2xl shadow-purple-400/20 md:w-80 pointer-events-none"
         loading="lazy"
+        width="2000"
+        height="2450"
       />
     </a>
-    
+
     <!-- First magazine (front) - Third Edition -->
-    <a href="/editions/third-edition/" class="magazine-front relative cursor-pointer block transition-all duration-500 ease-out overflow-hidden">
-      <img 
-        src="/images/third-edition-cover-hd.webp" 
-        alt="Nomad Magazine Third Edition" 
+    <a href="/editions/third-edition/" aria-label="View Nomad Magazine Third Edition" class="magazine-front relative cursor-pointer block transition-all duration-500 ease-out overflow-hidden">
+      <img
+        src="/images/third-edition-cover-hd.webp"
+        alt="Nomad Magazine Third Edition"
         class="h-auto w-64 rounded-lg shadow-2xl shadow-white/30 md:w-80 pointer-events-none"
         loading="lazy"
+        width="1200"
+        height="1404"
       />
       <!-- Floating badge -->
       {showLatestBadge && (

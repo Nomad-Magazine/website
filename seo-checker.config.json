@@ -1,0 +1,25 @@
+{
+  "distPath": "./dist",
+  "baseUrl": "https://nomad-magazine.com",
+  "languages": [
+    "en"
+  ],
+  "defaultLanguage": "en",
+  "rules": {
+    "disabled": [
+      "SEO01220",
+      "SEO01189",
+      "SEO00223",
+      "SEO00043",
+      "SEO00026",
+      "SEO01219",
+      "SEO00152"
+    ],
+    "severityOverrides": {},
+    "thresholdOverrides": {}
+  },
+  "exclusions": [],
+  "failOn": ["error", "warning"],
+  "maxIssues": 0,
+  "outputFormat": "console"
+}

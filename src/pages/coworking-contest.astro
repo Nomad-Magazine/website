@@ -433,7 +433,7 @@ const seo: SEOProps = {
   let supabase = null;
   let userFingerprint = null;
   let coworkingSpaces = [];
-  let userVotes = new Set();
+  // let userVotes = new Set();
 
   // Generate user fingerprint for anonymous voting
   function generateFingerprint() {
@@ -925,11 +925,11 @@ const seo: SEOProps = {
     });
   }
 
-  async function handleVote(spaceId, _button) {
-    // Contest is closed - voting is disabled
-    console.log('Contest closed - voting disabled for space ID:', spaceId);
-    return;
-  }
+  // async function handleVote(spaceId, _button) {
+  //   // Contest is closed - voting is disabled
+  //   console.log('Contest closed - voting disabled for space ID:', spaceId);
+  //   return;
+  // }
 
   // Unified modal function that combines images and descriptions
   function openUnifiedModal(space, images, currentIndex = 0) {

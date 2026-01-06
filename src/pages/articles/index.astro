@@ -1,4 +1,6 @@
 ---
+export const prerender = true;
+
 import { getCollection } from 'astro:content'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import { Image } from 'astro:assets'
@@ -101,9 +103,11 @@ const seo: SEOProps = {
     publisher: {
       '@type': 'Organization',
       name: 'Nomad Magazine',
+      url: 'https://nomad-magazine.com/',
       logo: {
         '@type': 'ImageObject',
         url: `${Astro.site}logo.svg`,
+        contentUrl: `${Astro.site}logo.svg`,
       },
     },
     blogPost: posts.slice(0, 10).map((post) => ({

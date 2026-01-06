@@ -1,10 +1,12 @@
 ---
+export const prerender = true;
+
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import MagazineStack from '~/components/MagazineStack.astro'
 
 const seoProps: SEOProps = {
   title: '404 - Page Not Found | Nomad Magazine',
-  description: 'Oops! The page you\'re looking for seems to have wandered off. Explore our magazine editions and nomad stories instead.',
+  description: 'The page you were looking for could not be found. Explore our digital nomad magazine editions, articles about remote work, and inspiring nomad stories instead.',
   image: `${Astro.site}images/magazine-hold-against-chest.webp`,
   keywords: '404 error, page not found, nomad magazine, digital nomad, lost page',
   canonical: `${Astro.site}404/`,
@@ -17,9 +19,11 @@ const seoProps: SEOProps = {
     publisher: {
       '@type': 'Organization',
       name: 'Nomad Magazine',
+      url: 'https://nomad-magazine.com/',
       logo: {
         '@type': 'ImageObject',
         url: `${Astro.site}logo.svg`,
+        contentUrl: `${Astro.site}logo.svg`,
       },
     },
   },
@@ -44,9 +48,12 @@ const seoProps: SEOProps = {
           <!-- Left Side - Error Message -->
           <div class="text-center lg:flex-1 lg:text-left">
             <div class="mb-8">
-              <h1 style="font-size: clamp(4rem, 12vw, 18rem); line-height: 0.8;" class="font-justme font-bold text-yellow-400">404</h1>
+              <h1 style="font-size: clamp(4rem, 12vw, 18rem); line-height: 0.8;" class="font-justme font-bold text-yellow-400">
+                <span aria-hidden="true">404</span>
+                <span class="sr-only">404 Page Not Found</span>
+              </h1>
               <div class="mt-4 space-y-2">
-                <h2 class="text-3xl font-bold md:text-4xl lg:text-5xl">Page Not Found</h2>
+                <p class="text-3xl font-bold md:text-4xl lg:text-5xl">Page Not Found</p>
                 <p class="text-lg text-gray-300 md:text-xl">This page seems to have gone on its own nomadic adventure!</p>
               </div>
             </div>

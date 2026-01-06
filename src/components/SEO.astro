@@ -44,7 +44,6 @@ if (description.length > descSize) {
   displayDescription = `${description.substring(0, descSize - 3)}...`
 }
 
-const image_unsecure = image.replace('https://', 'http://')
 const titleFix = title || (image.split('/').pop() || '.').split('.')[0]
 
 // Ensure canonical URL has trailing slash
@@ -130,7 +129,7 @@ const makeFontPath = (name: string) => join(process.cwd(), 'public', 'fonts', na
 <meta property="og:image:alt" content={titleFix} />
 <meta property="og:image:secure_url" content={image} />
 <meta property="og:image:url" content={image} />
-<meta property="og:image" content={image_unsecure} />
+<meta property="og:image" content={image} />
 <meta property="og:image:type" content="image/webp" />
 <meta property="article:author" content={author} />
 <meta name="robots" content="index, follow" />

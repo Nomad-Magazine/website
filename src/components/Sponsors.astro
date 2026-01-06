@@ -21,7 +21,7 @@ const { sponsors, title = "Vol. 3 Sponsored By" }: Props = Astro.props
     <div class="flex flex-wrap items-center justify-center gap-8">
       {
         sponsors.map((s) => (
-          <a href={s.link} target="_blank" class="flex justify-center">
+          <a href={s.link} target="_blank" rel="noopener noreferrer" aria-label={s.alt} class="flex justify-center">
             <img width={s.width} alt={s.alt} src={s.image} loading="lazy" srcset={s.srcset} />
           </a>
         ))

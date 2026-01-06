@@ -1,7 +1,7 @@
 ---
+export const prerender = true;
+
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
-
-
 
 // Placeholder URLs for "Seen at" logos
 const seenAtLogos = [
@@ -30,13 +30,15 @@ const seo: SEOProps = {
     '@type': 'WebPage',
     name: 'Add Testimonial - Nomad Magazine',
     description: 'Share your testimonial about Nomad Magazine',
-    url: `${Astro.site}add-testimonials`,
+    url: `${Astro.site}add-testimonials/`,
     publisher: {
       '@type': 'Organization',
       name: 'Nomad Magazine',
+      url: 'https://nomad-magazine.com/',
       logo: {
         '@type': 'ImageObject',
         url: `${Astro.site}logo.svg`,
+        contentUrl: `${Astro.site}logo.svg`,
       },
     },
   },

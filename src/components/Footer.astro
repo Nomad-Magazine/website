@@ -29,7 +29,7 @@ const footerSections = [
     links: [
       { text: 'Newsletter', url: '/newsletter' },
       { text: 'Newsletter Guidelines', url: '/newsletter-guidelines' },
-      { text: 'Coworking Spaces', url: '/coworking-spaces' },
+      { text: 'Coworking Contest', url: '/coworking-contest/' },
     ]
   },
   {
@@ -55,7 +55,7 @@ const footerSections = [
 ---
 
 <div animate-fade-in-up class="relative z-[100] opacity-0">
-  <img src="/images/paper-cut.webp" alt="" aria-hidden="true" class="w-full bg-gray-50" loading="lazy" decoding="async" />
+  <img src="/images/paper-cut.webp" alt="" aria-hidden="true" class="w-full bg-gray-50" loading="lazy" decoding="async" width="2880" height="196" />
   <footer class="border-t-2 border-gray-900 bg-white px-4 py-12 font-sans shadow-lg">
     <div class="mx-auto max-w-7xl">
       <!-- Expanded Footer Links Section -->
@@ -114,14 +114,16 @@ const footerSections = [
       <div class="pt-8 border-t border-gray-200">
         <div class="hidden md:block">
           <div class="flex items-center justify-between mb-6">
-            <img decoding="async" loading="lazy" src="/logo.svg" alt="n::.m" class="h-6" />
+            <img decoding="async" loading="lazy" src="/logo.svg" alt="Nomad Magazine" class="h-6" />
             <div class="flex gap-3">
               {
                 socialLinks.map((link) => (
                   <a
                     href={link.href}
                     set:html={link.icon}
-                    aria-label={link.name}
+                    aria-label={`Follow us on ${link.name} (opens in new tab)`}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     class="rounded-lg bg-gray-900 px-3 py-3 text-white shadow-md transition-colors duration-200 hover:bg-yellow-500 hover:text-black"
                   />
                 ))
@@ -135,13 +137,7 @@ const footerSections = [
               <a href="/terms-and-conditions/" class="font-semibold text-gray-900 transition-colors hover:text-yellow-600 hover:underline">Terms & Conditions</a>
             </div>
             <div class="font-semibold text-gray-900">
-              <a target="_blank" href="https://curves.digital" class="text-gray-900 transition-colors hover:text-yellow-600 hover:underline"> design by CURVES (~.~) </a>, <a
-                target="_blank"
-                href="https://rishi.app"
-                class="text-gray-900 transition-colors hover:text-yellow-600 hover:underline"
-              >
-                dev by Rishi
-              </a>
+              <a target="_blank" rel="noopener noreferrer" href="https://curves.digital" class="text-gray-900 transition-colors hover:text-yellow-600 hover:underline">design by CURVES (~.~)</a>, <a target="_blank" rel="noopener noreferrer" href="https://rishi.app" class="text-gray-900 transition-colors hover:text-yellow-600 hover:underline">dev by Rishi</a>
             </div>
           </div>
         </div>
@@ -195,14 +191,16 @@ const footerSections = [
       
       <!-- Mobile Bottom Section -->
       <div class="flex flex-col items-start gap-6 border-t border-gray-200 pt-8">
-        <img decoding="async" loading="lazy" src="/logo.svg" alt="n::.m" class="h-6" />
+        <img decoding="async" loading="lazy" src="/logo.svg" alt="Nomad Magazine" class="h-6" />
         <div class="flex gap-4">
           {
             socialLinks.map((link) => (
               <a
                 href={link.href}
                 set:html={link.icon}
-                aria-label={link.name}
+                aria-label={`Follow us on ${link.name} (opens in new tab)`}
+                target="_blank"
+                rel="noopener noreferrer"
                 class="rounded-lg bg-gray-900 px-4 py-4 text-white shadow-md transition-colors duration-200 hover:bg-yellow-500 hover:text-black"
               />
             ))
