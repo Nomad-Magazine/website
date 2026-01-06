@@ -6,7 +6,7 @@ author: Nomad Magazine
 author_image_url: /logo.svg
 author_url: https://nomad-magazine.com
 created_at: 2025-10-20T12:00:00.000Z
-updated_at: 2025-10-20T12:00:00.000Z
+updated_at: 2026-01-06T22:50:00.000Z
 head_image: /images/surreal_and_vibrant_cinematic_photo_of_Palermo_with_0.webp
 head_image_alt: Italia Nomad Fest 2026 Palermo Sicily
 heroImage: /images/surreal_and_vibrant_cinematic_photo_of_Palermo_with_0.webp

@@ -6,7 +6,7 @@ author: Pangea Team
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://pangeaapp.co
 created_at: 2025-09-15T10:00:00.000Z
-updated_at: 2025-09-15T10:00:00.000Z
+updated_at: 2026-01-06T22:50:00.000Z
 pubDate: 2025-09-15T10:00:00.000Z
 heroImage: /images/thumbnail1-Bucket-list-Destinations-pangea-data-article.webp
 heroImageAlt: Digital nomads planning travel destinations

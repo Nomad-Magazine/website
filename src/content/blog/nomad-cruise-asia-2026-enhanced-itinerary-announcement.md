@@ -6,7 +6,7 @@ author: Nomad Magazine Editorial Team
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://nomad-magazine.com
 created_at: 2025-11-13T12:00:00.000Z
-updated_at: 2025-11-13T12:00:00.000Z
+updated_at: 2026-01-06T22:50:00.000Z
 pubDate: 2025-11-13T12:00:00.000Z
 heroImage: /images/nomad-cruise-group-photo.webp
 heroImageAlt: Nomad Cruise community group photo showing hundreds of digital nomads and entrepreneurs gathered together
