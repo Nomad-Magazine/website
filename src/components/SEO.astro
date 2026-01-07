@@ -18,6 +18,7 @@ interface Props {
   modifiedTime?: string
   section?: string
   tags?: string[]
+  noIndex?: boolean
 }
 
 const {
@@ -35,6 +36,7 @@ const {
   modifiedTime,
   section,
   tags = [],
+  noIndex = false,
 } = Astro.props
 
 // Truncate description for meta tags
@@ -132,7 +134,7 @@ const makeFontPath = (name: string) => join(process.cwd(), 'public', 'fonts', na
 <meta property="og:image" content={image} />
 <meta property="og:image:type" content="image/webp" />
 <meta property="article:author" content={author} />
-<meta name="robots" content="index, follow" />
+<meta name="robots" content={noIndex ? "noindex, nofollow" : "index, follow"} />
 
 {
   audio && (
