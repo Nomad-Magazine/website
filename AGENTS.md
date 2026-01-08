@@ -315,7 +315,46 @@ This website's primary goal is to rank highly in search engines and attract clie
 
 ---
 
-## 10. Quality Assurance Checklist
+## 10. CLI SEO Validation (MANDATORY)
+
+### Build and SEO Check Requirement
+- **The SEO rules are enforced by a CLI tool that runs in CI/CD**
+- **CI/CD will REJECT deployments that fail SEO validation**
+- Every time you create or modify an article/page, you MUST:
+  1. Run the build command to ensure no build errors
+  2. Run the SEO check to validate compliance
+
+### Required Commands
+```bash
+# 1. Run the build first
+bun run build
+
+# 2. Run SEO validation
+bun run seo:check
+```
+
+### When to Run These Checks
+- After creating a new article
+- After modifying existing content
+- After changing metadata (title, description, etc.)
+- After adding/modifying images
+- Before committing any content changes
+
+### What the SEO Check Validates
+- Title tag length (50-60 characters)
+- Meta description length (150-160 characters)
+- Image formats (WebP only)
+- Alt text presence on images
+- Trailing slashes on URLs
+- Proper heading hierarchy
+- JSON-LD structured data
+- Open Graph and Twitter card tags
+
+**DO NOT commit content changes without running these checks. The CI/CD pipeline will reject non-compliant content.**
+
+---
+
+## 11. Quality Assurance Checklist
 
 Before considering any work complete, verify:
 
