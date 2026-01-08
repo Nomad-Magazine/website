@@ -1,0 +1,552 @@
+---
+export const prerender = true;
+
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+
+const seo: SEOProps = {
+  title: 'A Note From Founder, 2025 for Nomad Magazine + Gift',
+  description: 'A recap of 2025 year, a few thoughts for 2026 year, a big thank you for being part of it, and a little gift at the end.',
+  image: `${Astro.site}images/Newsletter-Covers-christmas.webp`,
+  keywords: 'nomad magazine, digital nomad, 2025 recap, founder note, nomad community',
+  ogType: 'article',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'A Note From Founder, 2025 for Nomad Magazine + Gift',
+    description: 'A recap of 2025 year, a few thoughts for 2026 year, a big thank you for being part of it, and a little gift at the end.',
+    author: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+    datePublished: '2025-12-23',
+    url: `${Astro.site}newsletter-year-end-2025`,
+  },
+}
+---
+
+<Layout seo={seo}>
+  <div class="bg-gray-50 min-h-screen">
+    <!-- View in Browser -->
+    <div class="bg-white border-b border-gray-200">
+      <div class="max-w-4xl mx-auto px-4 py-3 text-center">
+        <a href="/newsletter-year-end-2025/" class="text-blue-600 hover:text-blue-700 text-sm underline">
+          → View in browser for best experience
+        </a>
+      </div>
+    </div>
+
+    <!-- Header Section -->
+    <header class="bg-gray-900 text-white">
+      <div class="max-w-4xl mx-auto px-4 py-8 text-center">
+        <p class="text-yellow-400 text-sm font-semibold uppercase tracking-wide">December 23, 2025</p>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="bg-white">
+      <div class="relative px-4 py-8">
+        <div class="mx-auto flex max-w-7xl gap-12">
+          <!-- Left Sidebar - Navigation Menu -->
+          <aside class="hidden lg:block lg:w-48">
+            <div class="sticky top-24 space-y-6 text-sm">
+              <!-- Content Section -->
+              <div>
+                <div class="mb-2 text-xs font-bold uppercase tracking-wider text-gray-500">Content</div>
+                <div class="space-y-1">
+                  <a href="/newsletter/" class="block rounded px-2 py-1.5 text-blue-600 font-semibold transition-colors hover:bg-blue-50 hover:text-blue-700">Subscribe</a>
+                  <a href="/editions/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Magazine Editions</a>
+                  <a href="/digital-nomad-wiki/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Digital Nomad Wiki</a>
+                  <a href="/articles/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Articles</a>
+                </div>
+              </div>
+              
+              <!-- Partners Section -->
+              <div>
+                <div class="mb-2 text-xs font-bold uppercase tracking-wider text-gray-500">Partners</div>
+                <div class="space-y-1">
+                  <a href="/brand-placement-next-edition-847291/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Brand Placement</a>
+                  <a href="/nomad_directory/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Nomad Directory</a>
+                  <a href="/office-hours/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Office Hours</a>
+                  <a href="/writers/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">For Writers</a>
+                  <a href="/coworking-contest/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Coworking Contest</a>
+                </div>
+              </div>
+              
+              <!-- Support Section -->
+              <div>
+                <div class="mb-2 text-xs font-bold uppercase tracking-wider text-gray-500">Support</div>
+                <div class="space-y-1">
+                  <a href="/our-story/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Our Story</a>
+                  <a href="/support-the-magazine/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Support Magazine</a>
+                  <a href="/add-testimonials/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Submit Review</a>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          <!-- Main Content -->
+          <main class="mx-auto w-full max-w-4xl flex-1">
+            <!-- Main Headline -->
+            <div class="text-center mb-12">
+              <h1 class="text-4xl md:text-5xl font-black text-gray-900 mb-4 leading-tight">
+                <strong>A Note From Founder, 2025 for Nomad Magazine + Gift</strong>
+              </h1>
+              <p class="text-lg text-gray-600 font-medium mb-8">A recap of 2025 year, a few thoughts for 2026 year, a big thank you for being part of it, and a little gift at the end (if you have not get it yet).</p>
+              
+              <!-- Header Image -->
+              <div class="max-w-full mx-auto">
+                <img src="/images/Newsletter-Covers-christmas.webp" alt="Nomad Magazine Christmas Newsletter" class="w-full rounded-xl" />
+              </div>
+            </div>
+
+            <!-- Intro Section -->
+            <article class="max-w-3xl mx-auto mb-12">
+              <div class="mb-8 prose prose-lg">
+                <p class="text-lg text-gray-800 mb-4 leading-relaxed font-medium">
+                  Lera is here, the founder of Nomad Magazine. Are you still reading emails this week?
+                </p>
+
+                <p class="text-lg text-gray-700 leading-relaxed">
+                  If you're still here, this is a classic end-of-year reflection for Nomad Magazine. And I also want to make sure you've got all three of our editions (*for free at the end of this email).
+                </p>
+
+                <p class="text-lg text-gray-700 leading-relaxed">
+                  So, 2025 has been amazing, even though I did not feel that way a year ago. We published two beautiful editions, and the next one is almost ready, coming in early 2026 (the best so far!). We travelled to Nomad Cruise, Colive Fukuoka, Nomad Island Fest, and we even had a booth at Bansko Nomad Fest. We also spent time in Armenia, Switzerland, and Palermo, exploring the growing nomad scenes there. We've been getting in contact with so many projects, which is also why we started Nomad Directory, which will be in print too.
+                </p>
+
+                <p class="text-lg text-gray-700 leading-relaxed">
+                  Financially, we achieved a huge milestone that honestly didn't feel possible. The next, fourth edition is the first one in two years that breaks even. It's a huge milestone for us and huge thanks for brands and people behind projects for their trust.
+                </p>
+
+                <p class="text-lg text-gray-700 leading-relaxed">
+                  People often assume that if we do print then we don't do digital, or the other way around. Let me tell you a secret: if you have a PDF for print, then you already have a digital version too. Although not every digital PDF should be printed. We do both. This year, we started a collaboration with ZINIO digital distributor, where readers can access Nomad Magazine inside their app and though their partners. And print we send to where remote people hang out the most: coworking spaces, colivings, and events. And let me tell you, digital is great, handy, but print is what makes the biggest impact.
+                </p>
+
+                <p class="text-lg text-gray-700 leading-relaxed">
+                  Another common question we receive is why we publish once every 6 months. The hard reality is that the production timeline is long. It takes 2-3 months working with writers and finding the right mix of topics. Then another 2-3 months for design (no, AI is not there yet). Then print and shipping is another month. With a small team, it's nearly impossible to speed it up. But I believe that in a few years, when we are financially stronger and have a bigger team, we'll move faster.
+                </p>
+
+                <p class="text-lg text-gray-700 leading-relaxed">
+                  There's also a personal reason. The web is flooded with low-quality articles, and with ChatGPT it has become even worse. Our articles are carefully curated, edited, and reviewed by a few people to make sure they are worth the print cost. One person recently told me: "It's so nice that it's an actual magazine and not a website. I'm so tired of reading websites."
+                </p>
+
+                <p class="text-lg text-gray-700 leading-relaxed">
+                  And here are the changes for 2026. We've been listening to your feedback that we should publish more often, digital and it should be free.
+                </p>
+
+                <p class="text-lg text-gray-700 leading-relaxed">
+                  In 2026 we're going to try a few new things. We are going to work on digital-only editions that are shorter and easier to put together. This way we aim to deliver valuable content about location-independent lifestyles whilst also supporting nomad-friendly businesses with announcements. As well as this, we'll be launching Substack to showcase our articles.
+                </p>
+
+                <p class="text-lg text-gray-700 leading-relaxed">
+                  We see clearly that our once "privileged lifestyle" is becoming more mainstream and turning into an international ecosystem. I believe that traditional tourism will partially migrate into the nomad travel industry, and it will be quite ordinary for people to experience a "nomad phase" in their lives. In the first 6 months of 2026 alone there are around 10 digital nomad events. Countries and their tourism boards are turning their heads towards digital nomads and inviting them with open arms.
+                </p>
+
+                <p class="text-lg text-gray-700 leading-relaxed italic">
+                  "We see digital nomads as the modern successors of the Phoenicians, connectors of cultures, ideas, and commerce. Digital nomads are already shaping and inspiring a new world, full of opportunities for collective learning, innovation, and the creation of new business ventures through active choices and exciting explorations," is an extract from an email I received just yesterday.
+                </p>
+
+                <p class="text-lg text-gray-700 leading-relaxed">
+                  The more I work on the magazine, the more I realize that the magazine connects people: countries inviting digital nomads, brands finding their audience, nomads feeling a part of something, and newcomers getting inspired, "It's a place to find valuable lessons and ideas while digging into the topic and getting closer to making the leap." And I won't lie, bringing this magazine together is also mine and the team's dream job.
+                </p>
+
+                <p class="text-lg text-gray-800 leading-relaxed font-medium">
+                  Before I finish this monologue, I want to say a huge <strong>thank you</strong> to my team. Without them, Nomad Magazine would not have come this far:
+                </p>
+
+                <ul class="text-lg text-gray-700 leading-relaxed space-y-2">
+                  <li>Jessica Holmes, our senior writer and editor. Our authors are much happier with her lead (than mine).</li>
+                  <li>Amy White, a world-class editor (not joking) and ghostwriter, who, while publishing books for major authors, still finds time for Nomad Magazine. Everything you read has been edited by Jess and Amy, professional writers and editors from the UK.</li>
+                  <li>Chris Florke, who joined to work with partners and bring out-of-the-box business development ideas. He has been a true spirit for the team, bubbly and alive and our partners love him!</li>
+                  <li>Estudio Drama, our talented design studio in Brazil. They understand our design style so well that we almost don't need major revisions.</li>
+                  <li>Tetiana Durova, who is taking care of all worldwide shipments from Prague.</li>
+                  <li>And Feride Mustafaeva, our social marketing lead for the last two years, who was growing our social accounts. She had to step away from her role, but I hope it's temporary (we miss her 🥹).</li>
+                </ul>
+
+                <p class="text-lg text-gray-700 leading-relaxed">
+                  Also huge thanks to all sponsors, authors, collaborators, illustrators, coworkings, colivings etc. In general we work with 30+ people to make one edition happen. It's a collective product by many!
+                </p>
+              </div>
+
+              <!-- Christmas Gift Section -->
+              <div class="bg-gradient-to-r from-red-50 to-green-50 border-2 border-red-300 rounded-2xl p-8 my-8">
+                <div class="text-center mb-6">
+                  <div class="text-4xl mb-4">🎁</div>
+                  <h2 class="text-2xl font-bold text-gray-900 mb-3">🎄 And now, the Christmas gift.</h2>
+                </div>
+                
+                <img 
+                  src="/images/Newsletter-Covers-christmas.webp" 
+                  alt="All Nomad Magazine Editions" 
+                  class="mx-auto rounded-xl w-full mb-6"
+                />
+                
+                <div class="bg-white rounded-xl p-6 text-center">
+                  <p class="text-lg text-gray-700 leading-relaxed mb-3">
+                    <strong>This exclusive gift was available to our email newsletter subscribers only.</strong>
+                  </p>
+                  <p class="text-base text-gray-600 leading-relaxed">
+                    Want to receive exclusive content, early access, and special gifts like this? Subscribe to our newsletter to never miss out on future opportunities.
+                  </p>
+                </div>
+              </div>
+
+              <div class="prose prose-lg">
+                <p class="text-lg text-gray-700 leading-relaxed">
+                  Thank you for being with us this year.
+                </p>
+                <p class="text-lg text-gray-700 leading-relaxed">
+                  If you have questions, ideas, or suggestions for what we could do better next year, just reply to this email or write me at lera@nomadgossip.com.
+                </p>
+              </div>
+            </article>
+
+            <!-- Nomad Cruise Asia Section -->
+            <section class="mb-8">
+              <div class="bg-blue-50 border-2 border-blue-500 rounded-2xl p-8">
+                <div class="text-center mb-8">
+                  <div class="flex items-center justify-center gap-3 mb-6">
+                    <div class="text-3xl">🚢</div>
+                    <span class="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-bold uppercase">February 14-25, 2026</span>
+                  </div>
+                  
+                  <div class="mb-3">
+                    <span class="bg-red-600 text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase">Route Has Changed</span>
+                  </div>
+
+                  <h3 class="text-3xl font-black text-gray-900 mb-4">Nomad Cruise Asia</h3>
+                  <p class="text-xl text-gray-800 font-medium mb-6">Hong Kong - Malaysia - Brunei - Vietnam - Philippines</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center mb-8">
+                  <div class="order-2 lg:order-1">
+                    <img 
+                      src="/images/new-route-Nomad-Cruise copy.png" 
+                      alt="Nomad Cruise Asia 2026 Route Map - Updated Route"
+                      class="w-full rounded-xl shadow-lg"
+                    />
+                  </div>
+                  
+                  <div class="order-1 lg:order-2 text-center lg:text-left">
+                    <div class="bg-white rounded-xl p-6 mb-6">
+                      <div class="grid grid-cols-1 gap-3 text-gray-700">
+                        <div><strong>📅 Dates:</strong> February 14-25, 2026</div>
+                        <div><strong>⚓ Duration:</strong> 12 Days at Sea</div>
+                        <div><strong>👥 Community:</strong> 300+ Digital Nomads</div>
+                        <div><strong>🌐 Connection:</strong> Starlink Wi-Fi</div>
+                        <div><strong>✈️ Fly to:</strong> Hong Kong (~€80+ from CM)</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="text-lg text-gray-700 leading-relaxed mb-6 max-w-3xl mx-auto">
+                  <p class="mb-4">
+                    Due to ongoing political tensions between Japan and China, all cruise lines operating in the region were required to adjust their itineraries. As a result, our cruise line had to change the itinerary for the upcoming Nomad Cruise.
+                  </p>
+                  
+                  <p class="mb-2"><strong>With this change, Nomad Cruise now stops in:</strong></p>
+                  <ul class="list-disc list-inside mb-4">
+                    <li>Borneo, Malaysia (Kota Kinabalu)</li>
+                    <li>Brunei (Bandar Seri Begawan)</li>
+                    <li>Vietnam (Nha Trang)</li>
+                    <li>Vietnam (Da Nang)</li>
+                  </ul>
+                </div>
+
+                <div class="text-center">
+                  <div class="bg-gradient-to-r from-green-100 to-emerald-100 border border-green-300 rounded-xl p-4 mb-6 inline-block">
+                    <a href="https://www.my.nomadcruise.com/?coupon_code=gossip" target="_blank" class="text-green-800 font-bold text-lg hover:underline">
+                      💰 Use code <span class="bg-green-600 text-white px-2 py-1 rounded font-mono text-sm">GOSSIP</span> for €100 off
+                    </a>
+                  </div>
+
+                  <div>
+                    <a 
+                      href="https://www.nomadcruise.com/nc16" 
+                      target="_blank"
+                      class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg transition-all duration-200 text-lg"
+                    >
+                      Learn More →
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Coming Up: January 2026 -->
+            <section class="mb-10">
+              <div class="flex items-center gap-3 mb-6">
+                <div class="text-3xl">🗓️</div>
+                <h2 class="text-3xl font-black text-gray-900">Coming Up: January 2026</h2>
+              </div>
+              
+              <div class="space-y-6">
+                <!-- Barranquilla Nomad Paradise -->
+                <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
+                  <h3 class="text-xl font-bold text-gray-900 mb-3">🇨🇴 Barranquilla Nomad Paradise</h3>
+                  <p class="text-gray-700 leading-relaxed mb-4">
+                    <strong>📅 January 27–31, 2026 | 📍 Barranquilla, Colombia</strong><br>
+                    A unique cultural and professional experience taking place on the doorstep of the UNESCO-acclaimed Barranquilla Carnival. The First Annual Barranquilla Nomad Paradise is the inaugural event for digital nomads and part of the Barranquilla Cultural Tourism Project, an alliance of the city's main hospitality and business associations. It involves the city's leading cultural institutions and more than 50 prominent business, cultural, and tourism leaders from Barranquilla.
+                  </p>
+                  <a href="https://thecenterforcompetitiveness.org/" target="_blank" class="text-orange-600 font-semibold hover:text-orange-700">
+                    Learn More →
+                  </a>
+                </div>
+              </div>
+            </section>
+
+            <!-- Directory Section -->
+            <section class="mb-12 bg-gray-50 rounded-2xl p-8">
+              <div class="text-center mb-8">
+                <h2 class="text-3xl font-black text-gray-900 mb-4">
+                  🚀 Latest Directory Listings
+                </h2>
+                <p class="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
+                  Discover more tools and services helping nomads worldwide
+                </p>
+              </div>
+
+              <!-- Directory Items -->
+              <div class="space-y-4 mb-6">
+                <!-- Circles House -->
+                <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
+                  <div class="flex gap-4">
+                    <div class="flex-shrink-0">
+                      <div class="w-16 h-16 rounded-xl bg-white border border-gray-200 flex items-center justify-center p-1">
+                        <img src="https://uooo.stripocdnplugin.email/content/7cca085cfa4e41fd85b70a24e0f3df60/lib/pluginId_7cca085cfa4e41fd85b70a24e0f3df60_85287/circles_logo.png" alt="Circles House" class="max-w-full max-h-full object-contain" />
+                      </div>
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex items-center gap-2 mb-2">
+                        <h4 class="text-xl font-bold text-gray-900">Circles House</h4>
+                        <span class="px-2 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900">Coliving</span>
+                      </div>
+                      <p class="text-base text-gray-600 leading-relaxed mb-3">Premium coliving spaces designed for digital nomads and remote workers seeking community and productivity.</p>
+                      <a href="#" class="text-base text-orange-600 font-semibold hover:text-orange-700">Learn more →</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- The Center for Competitiveness and Innovation -->
+                <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
+                  <div class="flex gap-4">
+                    <div class="flex-shrink-0">
+                      <div class="w-16 h-16 rounded-xl bg-white border border-gray-200 flex items-center justify-center p-1">
+                        <img src="https://uooo.stripocdnplugin.email/content/7cca085cfa4e41fd85b70a24e0f3df60/lib/pluginId_7cca085cfa4e41fd85b70a24e0f3df60_85287/logo_the_center.JPG" alt="The Center for Competitiveness and Innovation" class="max-w-full max-h-full object-contain" />
+                      </div>
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex items-center gap-2 mb-2">
+                        <h4 class="text-xl font-bold text-gray-900">The Center for Competitiveness and Innovation</h4>
+                        <span class="px-2 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900">Consulting</span>
+                      </div>
+                      <p class="text-base text-gray-600 leading-relaxed mb-3">Colombian consulting firm specialized in business development, innovation, and entrepreneurship programs with over 30 years of experience.</p>
+                      <a href="https://thecenterforcompetitiveness.org/" target="_blank" class="text-base text-orange-600 font-semibold hover:text-orange-700">Learn more →</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Casa Marianas -->
+                <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
+                  <div class="flex gap-4">
+                    <div class="flex-shrink-0">
+                      <div class="w-16 h-16 rounded-xl bg-white border border-gray-200 flex items-center justify-center p-1">
+                        <img src="https://uooo.stripocdnplugin.email/content/7cca085cfa4e41fd85b70a24e0f3df60/lib/pluginId_7cca085cfa4e41fd85b70a24e0f3df60_85287/casa_marianas_logo.png" alt="Casa Marianas" class="max-w-full max-h-full object-contain" />
+                      </div>
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex items-center gap-2 mb-2">
+                        <h4 class="text-xl font-bold text-gray-900">Casa Marianas</h4>
+                        <span class="px-2 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900">Accommodation</span>
+                      </div>
+                      <p class="text-base text-gray-600 leading-relaxed mb-3">Boutique accommodation and co-living space designed for digital nomads and remote professionals.</p>
+                      <a href="#" class="text-base text-orange-600 font-semibold hover:text-orange-700">Learn more →</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- MojoCoHouse -->
+                <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
+                  <div class="flex gap-4">
+                    <div class="flex-shrink-0">
+                      <div class="w-16 h-16 rounded-xl bg-white border border-gray-200 flex items-center justify-center p-1">
+                        <img src="https://uooo.stripocdnplugin.email/content/7cca085cfa4e41fd85b70a24e0f3df60/lib/pluginId_7cca085cfa4e41fd85b70a24e0f3df60_85287/immagine_profilo.png" alt="MojoCoHouse" class="max-w-full max-h-full object-contain" />
+                      </div>
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex items-center gap-2 mb-2">
+                        <h4 class="text-xl font-bold text-gray-900">MojoCoHouse</h4>
+                        <span class="px-2 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900">Coworking</span>
+                      </div>
+                      <p class="text-base text-gray-600 leading-relaxed mb-3">Dynamic co-working and co-living spaces fostering creativity and collaboration for digital nomads.</p>
+                      <a href="#" class="text-base text-orange-600 font-semibold hover:text-orange-700">Learn more →</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Salt Inc -->
+                <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
+                  <div class="flex gap-4">
+                    <div class="flex-shrink-0">
+                      <div class="w-16 h-16 rounded-xl bg-white border border-gray-200 flex items-center justify-center p-1">
+                        <img src="https://uooo.stripocdnplugin.email/content/7cca085cfa4e41fd85b70a24e0f3df60/lib/pluginId_7cca085cfa4e41fd85b70a24e0f3df60_85287/saltlogosquarejpeg.jpg" alt="Salt Inc" class="max-w-full max-h-full object-contain" />
+                      </div>
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex items-center gap-2 mb-2">
+                        <h4 class="text-xl font-bold text-gray-900">Salt Inc</h4>
+                        <span class="px-2 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900">Service</span>
+                      </div>
+                      <p class="text-base text-gray-600 leading-relaxed mb-3">Professional services and solutions designed for location-independent professionals and digital nomads.</p>
+                      <a href="#" class="text-base text-orange-600 font-semibold hover:text-orange-700">Learn more →</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- LoftCommunity -->
+                <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
+                  <div class="flex gap-4">
+                    <div class="flex-shrink-0">
+                      <div class="w-16 h-16 rounded-xl bg-white border border-gray-200 flex items-center justify-center p-1">
+                        <img src="https://uooo.stripocdnplugin.email/content/7cca085cfa4e41fd85b70a24e0f3df60/lib/pluginId_7cca085cfa4e41fd85b70a24e0f3df60_85287/loftlogoofw500.png" alt="LoftCommunity" class="max-w-full max-h-full object-contain" />
+                      </div>
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex items-center gap-2 mb-2">
+                        <h4 class="text-xl font-bold text-gray-900">LoftCommunity</h4>
+                        <span class="px-2 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900">Community</span>
+                      </div>
+                      <p class="text-base text-gray-600 leading-relaxed mb-3">Urban living community platform connecting digital nomads and remote workers in modern loft spaces.</p>
+                      <a href="#" class="text-base text-orange-600 font-semibold hover:text-orange-700">Learn more →</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Digital Citizen -->
+                <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
+                  <div class="flex gap-4">
+                    <div class="flex-shrink-0">
+                      <div class="w-16 h-16 rounded-xl bg-white border border-gray-200 flex items-center justify-center p-1">
+                        <img src="https://uooo.stripocdnplugin.email/content/7cca085cfa4e41fd85b70a24e0f3df60/lib/pluginId_7cca085cfa4e41fd85b70a24e0f3df60_85287/dc_logo.png" alt="Digital Citizen" class="max-w-full max-h-full object-contain" />
+                      </div>
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex items-center gap-2 mb-2">
+                        <h4 class="text-xl font-bold text-gray-900">Digital Citizen</h4>
+                        <span class="px-2 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900">Education</span>
+                      </div>
+                      <p class="text-base text-gray-600 leading-relaxed mb-3">Digital literacy and citizenship platform empowering remote workers with essential digital skills.</p>
+                      <a href="#" class="text-base text-orange-600 font-semibold hover:text-orange-700">Learn more →</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- The Broke Backpacker -->
+                <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
+                  <div class="flex gap-4">
+                    <div class="flex-shrink-0">
+                      <div class="w-16 h-16 rounded-xl bg-white border border-gray-200 flex items-center justify-center p-1">
+                        <img src="https://uooo.stripocdnplugin.email/content/7cca085cfa4e41fd85b70a24e0f3df60/lib/pluginId_7cca085cfa4e41fd85b70a24e0f3df60_85287/tbblogoblack.jpg" alt="The Broke Backpacker" class="max-w-full max-h-full object-contain" />
+                      </div>
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex items-center gap-2 mb-2">
+                        <h4 class="text-xl font-bold text-gray-900">The Broke Backpacker</h4>
+                        <span class="px-2 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900">Blog</span>
+                      </div>
+                      <p class="text-base text-gray-600 leading-relaxed mb-3">Budget travel blog and resources for digital nomads looking to travel and work on a shoestring budget.</p>
+                      <a href="#" class="text-base text-orange-600 font-semibold hover:text-orange-700">Learn more →</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- View All Button -->
+              <div class="text-center">
+                <a href="https://nomad-magazine.com/nomad_directory" class="inline-block bg-gray-900 hover:bg-gray-800 text-white font-normal py-3 px-6 rounded-xl transition-all duration-200">
+                  🚀 VIEW ALL 95 DIRECTORY LISTINGS
+                </a>
+              </div>
+            </section>
+
+            <!-- Nomad Magazine Updates Section -->
+            <section class="mb-12">
+              <div class="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-2xl p-8">
+                <div class="text-center mb-8">
+                  <div class="flex items-center justify-center gap-3 mb-6">
+                    <div class="text-3xl">📰</div>
+                    <span class="bg-yellow-600 text-white px-3 py-1 rounded-full text-sm font-bold uppercase">Magazine Update</span>
+                  </div>
+                  
+                  <h3 class="text-3xl font-black text-gray-900 mb-4">Edition #4 Coming January 2026</h3>
+                </div>
+
+                <div class="max-w-3xl mx-auto space-y-6 text-lg text-gray-700 leading-relaxed">
+                  <p>
+                    Our best edition yet is coming in January 2026! Featuring better-quality articles, a cleaner design, and coverage of the most beloved nomad destinations: <strong>Bansko</strong>, <strong>Madeira</strong>, <strong>Fukuoka</strong>, and new raising nomad destination, <strong>Palermo</strong> in Italy.
+                  </p>
+                  
+                  <p>
+                    This edition will also include the finalists of the Coworking Design Contest and all Nomad Directory companies.
+                  </p>
+
+                  <p>
+                    <strong>Have a question?</strong> Reach out at <a href="mailto:lera@nomadgossip.com" class="text-yellow-600 hover:text-yellow-700 underline font-semibold">lera@nomadgossip.com</a>
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Subscribe to Newsletter Section -->
+            <section class="mb-12">
+              <div class="bg-gray-900 rounded-2xl p-8 text-center">
+                <div class="text-4xl mb-4">📬</div>
+                <h3 class="text-3xl font-black text-yellow-400 mb-4">Subscribe to the Newsletter</h3>
+                <p class="text-gray-300 text-lg leading-relaxed mb-6 max-w-2xl mx-auto">Get the latest nomad updates, events, and opportunities delivered to your inbox</p>
+                <a 
+                  href="/newsletter/" 
+                  class="inline-block bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold py-4 px-8 rounded-xl shadow-lg transition-all duration-200 text-lg"
+                >
+                  Subscribe Now →
+                </a>
+              </div>
+            </section>
+          </main>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+      <div class="max-w-4xl mx-auto px-4 py-5 text-center">
+        <p class="text-xs text-white">
+          © 2025 Nomad Magazine. All rights reserved.<br>
+          <a href="https://nomad-magazine.com" class="text-yellow-400 hover:underline">nomad-magazine.com</a> |
+          <a href="#" class="text-yellow-400 hover:underline">Unsubscribe</a>
+        </p>
+      </div>
+    </footer>
+
+    <!-- Back to Newsletter -->
+    <div class="text-center py-6 bg-gray-50">
+      <a
+        href="/newsletter/"
+        class="inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors duration-200"
+      >
+        <svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        Back to Newsletter
+      </a>
+    </div>
+  </div>
+</Layout>
