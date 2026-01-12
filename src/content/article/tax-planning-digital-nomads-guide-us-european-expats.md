@@ -5,8 +5,8 @@ description: Master digital nomad tax planning with this guide covering FEIE, FT
 author: Tushar Sharma
 author_image_url: /images/nomad-magazine-logo.png
 author_url: https://nomadwallets.com/
-created_at: 2026-01-09T12:00:00.000Z
-updated_at: 2026-01-09T12:00:00.000Z
+created_at: 2026-01-12T12:00:00.000Z
+updated_at: 2026-01-12T12:00:00.000Z
 head_image: /images/tax-planning-for-digital-nomads-with-text.webp
 head_image_alt: Digital nomad tax planning guide for US and European expats
 heroImage: /images/tax-planning-for-digital-nomads-with-text.webp
@@ -17,7 +17,7 @@ published: true
 locale: en
 next_blog: ''
 category: article
-pubDate: 2026-01-09T12:00:00.000Z
+pubDate: 2026-01-12T12:00:00.000Z
 ---
 
 **Figuring out citizen taxes versus living location rules helps dodge expensive errors.**
