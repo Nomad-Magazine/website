@@ -3,13 +3,13 @@ export const prerender = true;
 
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import CheckIcon from '~icons/ic/baseline-check'
-import ArmeniaMagazineStack from '~/components/ArmeniaMagazineStack.astro'
+import TurkeyMagazineStack from '~/components/TurkeyMagazineStack.astro'
 
 const seo: SEOProps = {
-  title: "Feature Armenia in Nomad Magazine | Premium Partnership",
-  description: "Partner with Nomad Magazine to showcase Armenia to Europe's digital nomads. Professional storytelling and European distribution starting at €7K.",
-  keywords: "Armenia destination marketing, digital nomad magazine, Yerevan tourism, premium sponsorship",
-  image: `${Astro.site}images/Armenia-cover-example.png`,
+  title: "Feature Turkey in Nomad Magazine | Premium Partnership",
+  description: "Partner with Nomad Magazine to showcase Turkey to Europe's digital nomads. Professional storytelling and European distribution starting at €7K.",
+  keywords: "Turkey destination marketing, digital nomad magazine, Istanbul tourism, premium sponsorship",
+  image: `${Astro.site}images/nomad-magazine-cover.webp`,
   ogType: "website" as const,
   noIndex: true
 }
@@ -17,29 +17,28 @@ const seo: SEOProps = {
 
 <Layout seo={seo}>
   <!-- Hero Section -->
-  <div class="bg-gradient-to-br from-red-600 via-blue-600 to-orange-500 text-white py-32">
+  <div class="bg-gradient-to-br from-red-600 via-red-500 to-red-700 text-white py-32">
     <div class="mx-auto max-w-4xl px-4 text-center">
-      <div class="text-7xl mb-8">🇦🇲</div>
+      <div class="text-7xl mb-8">🇹🇷</div>
       <h1 class="text-5xl font-bold mb-6 md:text-6xl">
-        Put Armenia on Every Nomad's Radar
+        Put Turkey on Every Nomad's Radar
       </h1>
       <p class="text-xl mb-12 text-red-100 leading-relaxed max-w-3xl mx-auto">
         Europe's only print magazine for digital nomads reaches 10000+ remote work professionals 
-        across 100+ distribution points in Europe. Get Armenia featured before your competitors do.
+        across 100+ distribution points in Europe. Get Turkey featured before your competitors do.
       </p>
-      
 
       <!-- Cover Preview -->
       <div class="relative max-w-md mx-auto mb-12">
         <div class="bg-white rounded-2xl shadow-2xl p-6 transform rotate-3 hover:rotate-0 transition-transform duration-300">
           <img 
-            src="/images/Armenia-cover-preview.webp" 
-            alt="Armenia Magazine Cover Preview" 
+            src="/images/turkey-cover-preview.webp" 
+            alt="Turkey Magazine Cover Preview" 
             class="w-full rounded-lg shadow-lg"
             loading="eager"
           />
           <div class="mt-4 text-center">
-            <p class="text-sm font-semibold text-gray-900">Armenia Cover Design</p>
+            <p class="text-sm font-semibold text-gray-900">Turkey Cover Design</p>
             <p class="text-xs text-gray-600">Professional Layout & Branding</p>
           </div>
         </div>
@@ -63,36 +62,36 @@ const seo: SEOProps = {
   <div class="bg-white py-20">
     <div class="mx-auto max-w-5xl px-4">
       <div class="text-center mb-16">
-        <h2 class="text-4xl font-bold text-gray-900 mb-6">Why Armenia, Why Now</h2>
+        <h2 class="text-4xl font-bold text-gray-900 mb-6">Why Turkey, Why Now</h2>
         <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-          Armenia offers everything nomads want: affordable living, strong internet, rich culture, 
-          and convenient European time zones. But they don't know about it yet.
+          Turkey offers everything nomads want: vibrant cities, stunning coastlines, rich culture, 
+          affordable living, and perfect positioning between Europe and Asia.
         </p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
         <div class="text-center">
           <div class="text-4xl mb-4">💰</div>
-          <h3 class="text-xl font-bold text-gray-900 mb-2">70% Lower Costs</h3>
-          <p class="text-gray-600">Quality apartment €200-500/month vs €1,500+ in Berlin</p>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">50-60% Lower Costs</h3>
+          <p class="text-gray-600">Quality apartment €400-800/month vs €1,500+ in Berlin</p>
         </div>
         <div class="text-center">
           <div class="text-4xl mb-4">🌐</div>
-          <h3 class="text-xl font-bold text-gray-900 mb-2">Excellent Internet</h3>
-          <p class="text-gray-600">High-speed fiber in Yerevan, perfect for remote work</p>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">Excellent Infrastructure</h3>
+          <p class="text-gray-600">High-speed internet, modern coworking spaces in Istanbul, Antalya & more</p>
         </div>
         <div class="text-center">
           <div class="text-4xl mb-4">🕒</div>
-          <h3 class="text-xl font-bold text-gray-900 mb-2">Perfect Time Zone</h3>
-          <p class="text-gray-600">GMT+4 aligns perfectly with European business hours</p>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">Strategic Time Zone</h3>
+          <p class="text-gray-600">GMT+3 bridges European and Asian business hours perfectly</p>
         </div>
       </div>
 
       <div class="bg-orange-50 rounded-xl p-8 border border-orange-200 text-center">
-        <h3 class="text-2xl font-bold text-orange-900 mb-4">First Mover Advantage</h3>
+        <h3 class="text-2xl font-bold text-orange-900 mb-4">Emerging Nomad Hotspot</h3>
         <p class="text-orange-800 text-lg">
-          Georgia is saturated. Portugal is overpriced. Armenia is the hidden gem that smart destinations 
-          are positioning for <strong>before</strong> the nomad rush, not after.
+          Portugal is overpriced. Bali is far. Turkey offers the perfect blend of culture, affordability, 
+          and connectivity that smart nomads are discovering <strong>now</strong>.
         </p>
       </div>
     </div>
@@ -125,7 +124,7 @@ const seo: SEOProps = {
           <div class="space-y-4 mb-8">
             <div class="flex items-center">
               <CheckIcon class="mr-3 h-5 w-5 text-green-500" />
-              <span>Armenia featured on magazine cover</span>
+              <span>Turkey featured on magazine cover</span>
             </div>
             <div class="flex items-center">
               <CheckIcon class="mr-3 h-5 w-5 text-green-500" />
@@ -133,7 +132,7 @@ const seo: SEOProps = {
             </div>
             <div class="flex items-center">
               <CheckIcon class="mr-3 h-5 w-5 text-green-500" />
-              <span>3 full-page ads for Armenia partners</span>
+              <span>3 full-page ads for Turkey partners</span>
             </div>
             <div class="flex items-center">
               <CheckIcon class="mr-3 h-5 w-5 text-green-500" />
@@ -147,12 +146,12 @@ const seo: SEOProps = {
 
           <div class="bg-blue-50 rounded-lg p-4 mb-6">
             <p class="text-blue-800 text-sm font-medium">
-              ✨ <strong>Perfect balance:</strong> Armenia gets prominent coverage while benefiting from our editorial expertise and diverse readership
+              ✨ <strong>Perfect balance:</strong> Turkey gets prominent coverage while benefiting from our editorial expertise and diverse readership
             </p>
           </div>
 
           <a
-            href="mailto:partnerships@nomad-magazine.com?subject=Armenia%20Cover%20Feature%20-%20€7.5K%20Package"
+            href="mailto:lera@nomadgossip.com?subject=Turkey%20Cover%20Feature%20-%20€7.5K%20Package"
             class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-bold text-center block hover:bg-blue-700 transition-colors mt-auto"
           >
             Get This Package →
@@ -164,13 +163,13 @@ const seo: SEOProps = {
           <div class="text-center mb-8">
             <h3 class="text-3xl font-bold text-gray-900 mb-2">Exclusive Edition</h3>
             <div class="text-5xl font-bold text-red-600 mb-4">€16,000</div>
-            <p class="text-gray-600">Comprehensive Armenia campaign</p>
+            <p class="text-gray-600">Comprehensive Turkey campaign</p>
           </div>
           
           <div class="space-y-4 mb-8">
             <div class="flex items-center">
               <CheckIcon class="mr-3 h-5 w-5 text-green-500" />
-              <span>Entire magazine about Armenia</span>
+              <span>Entire magazine about Turkey</span>
             </div>
             <div class="flex items-center">
               <CheckIcon class="mr-3 h-5 w-5 text-green-500" />
@@ -178,7 +177,7 @@ const seo: SEOProps = {
             </div>
             <div class="flex items-center">
               <CheckIcon class="mr-3 h-5 w-5 text-green-500" />
-              <span>Unlimited advertising ads for Armenia partners</span>
+              <span>Unlimited advertising ads for Turkey partners</span>
             </div>
             <div class="flex items-center">
               <CheckIcon class="mr-3 h-5 w-5 text-green-500" />
@@ -192,7 +191,7 @@ const seo: SEOProps = {
 
           <div class="bg-red-50 rounded-lg p-4 mb-6">
             <p class="text-red-800 text-sm font-medium">
-              👑 <strong>Ultimate destination guide:</strong> 100 pages covering every aspect of Armenia for nomads—cities, culture, business, lifestyle, and opportunities
+              👑 <strong>Ultimate destination guide:</strong> 100 pages covering every aspect of Turkey for nomads—cities, culture, business, lifestyle, and opportunities
             </p>
           </div>
 
@@ -203,7 +202,7 @@ const seo: SEOProps = {
           </div>
 
           <a
-            href="mailto:lera@nomadgossip.com?subject=Armenia%20Exclusive%20Edition%20-%20€16K%20Package"
+            href="mailto:lera@nomadgossip.com?subject=Turkey%20Exclusive%20Edition%20-%20€16K%20Package"
             class="w-full bg-red-600 text-white py-3 px-6 rounded-lg font-bold text-center block hover:bg-red-700 transition-colors mt-auto"
           >
             Get This Package →
@@ -217,8 +216,8 @@ const seo: SEOProps = {
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
           <div>
             <h4 class="font-semibold text-gray-900 mb-2">Focus</h4>
-            <p class="text-blue-600 font-medium">Cover Feature: Armenia highlighted</p>
-            <p class="text-red-600 font-medium">Exclusive: Armenia only</p>
+            <p class="text-blue-600 font-medium">Cover Feature: Turkey highlighted</p>
+            <p class="text-red-600 font-medium">Exclusive: Turkey only</p>
           </div>
           <div>
             <h4 class="font-semibold text-gray-900 mb-2">Content</h4>
@@ -250,7 +249,7 @@ const seo: SEOProps = {
           <div class="text-4xl mb-6 text-center">🤝</div>
           <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center">Collaborative Content Creation</h3>
           <p class="text-gray-600 text-center">
-            Nomad Magazine team works directly with Armenia partners to develop content that's genuinely valuable 
+            Nomad Magazine team works directly with Turkey partners to develop content that's genuinely valuable 
             for digital nomads, combining local insights with our editorial expertise.
           </p>
         </div>
@@ -278,7 +277,7 @@ const seo: SEOProps = {
         <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center">Why This Matters</h3>
         <p class="text-gray-700 text-lg text-center max-w-4xl mx-auto">
           Our readers trust Nomad Magazine because we maintain consistent editorial quality. 
-          This collaborative approach ensures Armenia is presented authentically while meeting 
+          This collaborative approach ensures Turkey is presented authentically while meeting 
           the high standards our nomad community expects.
         </p>
       </div>
@@ -384,7 +383,7 @@ const seo: SEOProps = {
         <!-- Magazine Covers Visual -->
         <div class="space-y-8">
           <div class="flex justify-center">
-            <ArmeniaMagazineStack className="max-w-full" />
+            <TurkeyMagazineStack className="max-w-full" />
           </div>
         </div>
       </div>
@@ -394,7 +393,7 @@ const seo: SEOProps = {
   <!-- Simple CTA -->
   <div class="bg-red-600 py-20">
     <div class="mx-auto max-w-3xl px-4 text-center">
-      <h2 class="text-4xl font-bold text-white mb-6">Ready to Position Armenia?</h2>
+      <h2 class="text-4xl font-bold text-white mb-6">Ready to Position Turkey?</h2>
       <p class="text-xl text-red-100 mb-10">
         Join destination partners already seeing results. Limited to one destination per edition.
       </p>
