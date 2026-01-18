@@ -4,13 +4,13 @@ title: "How Tulum Became My Second Home: Learning to Live, Work, and Wander in T
 description: "What started as a post-vaccine escape became a life-altering discovery. From swim-up condos to cenotes, coworking spaces to street tacos — here's how Tulum transformed from a trip into a rhythm of life."
 author: Nishtha Dalal
 author_url: https://nishthadalal.com
-created_at: 2026-01-16T10:00:00.000Z
-updated_at: 2026-01-16T10:00:00.000Z
-pubDate: 2026-01-16T10:00:00.000Z
-heroImage: /images/tulum-article-beach.webp
-heroImageAlt: Beautiful Tulum beach with turquoise waters and palm trees
-head_image: /images/tulum-article-beach.webp
-head_image_alt: Beautiful Tulum beach with turquoise waters and palm trees
+created_at: 2026-01-19T10:00:00.000Z
+updated_at: 2026-01-19T10:00:00.000Z
+pubDate: 2026-01-19T10:00:00.000Z
+heroImage: /images/tulum-article-thumbnail.webp
+heroImageAlt: Collage of Tulum experiences - cafe, beach, dog by pool, turtle snorkeling, and food
+head_image: /images/tulum-article-thumbnail.webp
+head_image_alt: Collage of Tulum experiences - cafe, beach, dog by pool, turtle snorkeling, and food
 keywords: tulum digital nomad, tulum remote work, living in tulum, tulum coworking, aldea zama, tulum mexico guide, digital nomad mexico, tulum cenotes, work from tulum
 tag: Travel, Digital Nomad, Mexico, Remote Work, Lifestyle
 published: true
