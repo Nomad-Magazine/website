@@ -20,6 +20,10 @@ import SubscribeInput from '~/components/SubscribeInput.astro';
     <div class="subscribe-section">
       <p class="subscribe-text">Subscribe to be notified when it's ready (if you haven't already)</p>
       <SubscribeInput tag="edition-four" />
+      
+      <div class="preorder-notice">
+        <p>Or <a href="https://pay.nomad-magazine.com/b/fZu14nc2x1bdfAWf0l8bS0L" class="preorder-link">preorder the print edition now</a> and save €5 with code <span class="code">MINUS5</span></p>
+      </div>
     </div>
 
     <div class="collage">
@@ -36,6 +40,17 @@ import SubscribeInput from '~/components/SubscribeInput.astro';
       <span class="word word-11">Queer Nomads</span>
       <span class="word word-12">Nomad Fashion</span>
       <span class="word word-13">Lee Holden</span>
+    </div>
+
+    <div class="shipment-section">
+      <div class="shipment-content">
+        <div class="shipment-icon">📦</div>
+        <h3>Want print copies in your coworking, coliving, or Airbnb?</h3>
+        <p>Join our free waiting list or order guaranteed delivery of 5 copies for your space.</p>
+        <a href="/coworking-coliving-shipments/" class="shipment-button">
+          📦 Get Magazine Shipments →
+        </a>
+      </div>
     </div>
   </div>
 </Layout>
@@ -211,6 +226,99 @@ import SubscribeInput from '~/components/SubscribeInput.astro';
     line-height: 1.6;
   }
 
+  .preorder-notice {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .preorder-notice p {
+    font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+    color: #aaa;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .preorder-link {
+    color: #4ecdc4;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+
+  .preorder-link:hover {
+    color: #5ed7ce;
+    text-decoration: underline;
+  }
+
+  .code {
+    font-family: monospace;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    color: #ffe66d;
+    font-weight: 600;
+  }
+
+  .shipment-section {
+    max-width: 800px;
+    margin: 4rem auto 2rem auto;
+    padding: 0 2rem;
+  }
+
+  .shipment-content {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .shipment-content:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+  }
+
+  .shipment-icon {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .shipment-content h3 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    color: #ffffff;
+    line-height: 1.3;
+  }
+
+  .shipment-content p {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: #cccccc;
+    margin: 0 0 2rem 0;
+    line-height: 1.6;
+  }
+
+  .shipment-button {
+    display: inline-block;
+    background: linear-gradient(135deg, #4ecdc4 0%, #44b3aa 100%);
+    color: #1a1a1a;
+    font-weight: 700;
+    font-size: clamp(1rem, 2vw, 1.1rem);
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .shipment-button:hover {
+    background: linear-gradient(135deg, #5ed7ce 0%, #4ecdc4 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(78, 205, 196, 0.3);
+  }
+
   @media (max-width: 768px) {
     .coming-soon-container {
       padding: 1rem;
@@ -237,6 +345,20 @@ import SubscribeInput from '~/components/SubscribeInput.astro';
     .subscribe-section {
       margin: 2rem auto;
       padding: 1.5rem 1rem;
+    }
+
+    .shipment-section {
+      margin: 3rem auto 1rem auto;
+      padding: 0 1rem;
+    }
+
+    .shipment-content {
+      padding: 2rem 1.5rem;
+    }
+
+    .shipment-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
     }
   }
 </style>
