@@ -424,7 +424,7 @@ const seo: SEOProps = {
         
         if (isDomain) {
           // Show partnership section only for domains
-          partnerSection.classList.remove('hidden');
+          partnerSection.style.display = 'flex';
           partnerName.textContent = partnerDomain;
           partnerFavicon.src = `https://www.google.com/s2/favicons?domain=${partnerDomain}&sz=32`;
           partnerFavicon.alt = `${partnerDomain} favicon`;
@@ -436,7 +436,7 @@ const seo: SEOProps = {
           };
         } else {
           // Not a domain, don't show partnership section at all
-          partnerSection.classList.add('hidden');
+          partnerSection.style.display = 'none';
         }
       }
     }
