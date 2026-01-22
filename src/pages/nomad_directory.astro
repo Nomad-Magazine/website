@@ -432,7 +432,7 @@ const seo: SEOProps = {
 
           <!-- Sidebar -->
           <div class="lg:col-span-1">
-            <div class="sticky top-8 space-y-3">
+            <div class="sticky top-8 space-y-3 max-h-[calc(100vh-6rem)] overflow-y-auto pr-2" style="scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.3) transparent;">
               <!-- Boost Your Listing CTA -->
               <div class="bg-gradient-to-r from-yellow-400/20 to-yellow-600/20 border border-yellow-400/30 rounded-xl p-4">
                 <h3 class="text-base font-bold text-white mb-2 flex items-center gap-1">
@@ -451,20 +451,83 @@ const seo: SEOProps = {
                 </a>
               </div>
 
-              <!-- Next Print Announcement -->
+              <!-- Partner Announcements -->
               <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
-                <h3 class="text-base font-bold text-white mb-2">
-                  📖 Your Brand in the Next Print Edition
+                <h3 class="text-base font-bold text-white mb-3 flex items-center gap-1">
+                  📢 Partner Announcements
                 </h3>
-                <p class="text-gray-300 text-sm mb-3 leading-relaxed">
-                  Magazine sponsorships allow deeper, more meaningful brand integration than digital ads, which are often fleeting and commoditized. Print offers narrative and emotional depth; digital extends reach. We see them as complementary rather than competing channels.
-                </p>
-                <a 
-                  href="/brand-placement-next-edition-847291/"
-                  class="inline-flex items-center gap-1 bg-white/10 hover:bg-white/20 border border-white/20 text-white px-3 py-2 rounded-lg text-sm font-bold transition-all duration-200 w-full justify-center"
-                >
-                  Learn More
-                </a>
+                
+                <div class="space-y-3">
+                  <!-- MojoCoHouse Opening -->
+                  <div class="border-b border-white/10 pb-3 last:border-b-0">
+                    <p class="text-orange-400 text-xs font-bold uppercase tracking-wider mb-1">Event · Free Entry</p>
+                    <h4 class="text-sm font-bold text-white mb-1">Inaugurazione Spazio Solazzo - Opening Party</h4>
+                    <p class="text-xs text-gray-300 mb-1.5 leading-relaxed">📅 January 24, 2026 | 📍 Palermo, Italy</p>
+                    <p class="text-sm text-gray-300 mb-2 leading-relaxed">MojoCoHouse is opening their new Coworking and Event Space "Spazio Solazzo" with a full day of workshops, live music, jamming and DJ set. The space offers an equipped rehearsal space for musicians, rentable workshop spaces for yoga sessions, professionally equipped meeting rooms for seminars, and single work desks for Digital Nomads.</p>
+                    <a href="https://www.instagram.com/mojocohouse/" target="_blank" class="text-xs text-blue-300 hover:text-blue-200 underline">Learn More →</a>
+                  </div>
+
+                  <!-- Nomad Experience Japan -->
+                  <div class="border-b border-white/10 pb-3 last:border-b-0">
+                    <p class="text-orange-400 text-xs font-bold uppercase tracking-wider mb-1">Program · Japan</p>
+                    <h4 class="text-sm font-bold text-white mb-1">Nomad Experience - One Month in Japan</h4>
+                    <p class="text-xs text-gray-300 mb-1.5 leading-relaxed">📅 March 2 - 27, 2026 | 📍 Shimoda, Japan</p>
+                    <p class="text-sm text-gray-300 mb-2 leading-relaxed">A one-month program where you'll try out 10 different remote-friendly jobs through hands-on workshops led by experienced mentors. Immerse yourself in local life, sharing meals with new friends, joining community events, and enjoying the slow pace of living by the ocean. Perfect for those curious about remote work or living in Japan.</p>
+                    <a href="https://nomadnia.net/nomadexp" target="_blank" class="text-xs text-blue-300 hover:text-blue-200 underline">Learn More →</a>
+                  </div>
+
+                  <!-- Falmouth University -->
+                  <div class="border-b border-white/10 pb-3 last:border-b-0">
+                    <p class="text-orange-400 text-xs font-bold uppercase tracking-wider mb-1">Education · Online Masters</p>
+                    <h4 class="text-sm font-bold text-white mb-1">Creativity Without Limits: Online Master's Degrees</h4>
+                    <p class="text-xs text-gray-300 mb-1.5 leading-relaxed">Applications Open for May 2026 & September 2026</p>
+                    <p class="text-sm text-gray-300 mb-2 leading-relaxed">Falmouth University's online master's degrees are designed around you. With a decade of experience delivering transformative online postgraduate study, they've helped creatives worldwide level up their careers. From Fine Art and Illustration to Marketing and Film & TV, their flexible programmes let you deepen your practice, expand your network, and future-proof your career.</p>
+                    <a href="https://www.falmouth.ac.uk/study/online" target="_blank" class="text-xs text-blue-300 hover:text-blue-200 underline">Learn More →</a>
+                  </div>
+
+                  <!-- ImagineThat Sales Masterclass -->
+                  <div class="border-b border-white/10 pb-3 last:border-b-0">
+                    <p class="text-orange-400 text-xs font-bold uppercase tracking-wider mb-1">Webinar · Free</p>
+                    <h4 class="text-sm font-bold text-white mb-1">Sales Masterclass for Early-Stage Entrepreneurs</h4>
+                    <p class="text-xs text-gray-300 mb-1.5 leading-relaxed">📅 January 22nd, 12:00 CET | Online</p>
+                    <p class="text-sm text-gray-300 mb-2 leading-relaxed">Starting your business can feel exciting – and unexpectedly lonely. If you're a new founder, coach, or consultant figuring out sales and craving a stronger support system, this session is for you. Join for a practical sales masterclass and an inside look at the ImagineThat Club, a global community built for founders who don't want to build in isolation.</p>
+                    <a href="https://luma.com/lhu6o3is" target="_blank" class="text-xs text-blue-300 hover:text-blue-200 underline">Register →</a>
+                  </div>
+
+                  <!-- Max Browser -->
+                  <div class="border-b border-white/10 pb-3 last:border-b-0">
+                    <p class="text-orange-400 text-xs font-bold uppercase tracking-wider mb-1">Software · Privacy</p>
+                    <h4 class="text-sm font-bold text-white mb-1">Max Browser - New Year, New Privacy Setup</h4>
+                    <p class="text-xs text-gray-300 mb-1.5 leading-relaxed">Now Live on Android, iOS, MacOS & Windows</p>
+                    <p class="text-sm text-gray-300 mb-2 leading-relaxed">New year, new hotels, new airports, new insecure Wi-Fi networks. In 2026, bring Max wherever you work. Spend less time managing settings and more time exploring, with a more private setup by default. No matter where you're working from – a beach café, a co-working hub, or a long-haul flight – Max is now available across all major platforms.</p>
+                    <a href="https://maxbrowser.com.au/downloads/" target="_blank" class="text-xs text-blue-300 hover:text-blue-200 underline">Download →</a>
+                  </div>
+
+                  <!-- SSBM Consulting Affiliate -->
+                  <div class="border-b border-white/10 pb-3 last:border-b-0">
+                    <p class="text-orange-400 text-xs font-bold uppercase tracking-wider mb-1">Affiliate · 50% Commission</p>
+                    <h4 class="text-sm font-bold text-white mb-1">SSBM Consulting - Expat Tax Savings Bundle Affiliate Program</h4>
+                    <p class="text-sm text-gray-300 mb-2 leading-relaxed">Looking to earn extra income while helping U.S. digital nomads and expats stop guessing on taxes? Join Sandra Morno's affiliate program and earn 50% commission per sale by promoting the Expat Tax Savings Bundle – a practical toolkit that makes U.S. taxes abroad way easier to understand. Bundle is $397.</p>
+                    <a href="https://57553272628.gumroad.com/affiliates" target="_blank" class="text-xs text-blue-300 hover:text-blue-200 underline">Sign Up →</a>
+                  </div>
+
+                  <!-- Wonder House Scholarship -->
+                  <div class="border-b border-white/10 pb-3 last:border-b-0">
+                    <p class="text-orange-400 text-xs font-bold uppercase tracking-wider mb-1">Opportunity · Near Barcelona</p>
+                    <h4 class="text-sm font-bold text-white mb-1">Wonder House - Coliving Manager Scholarship</h4>
+                    <p class="text-sm text-gray-300 mb-2 leading-relaxed">Anya from Wonder House is looking for someone to help run their new coliving space in a stunning natural setting, just 1 hour from Barcelona. Approximate commitment of 30h per week for 6 months – accommodation included + €900 monthly scholarship after a trial period.</p>
+                    <a href="mailto:hello@wonderhousecoliving.com" class="text-xs text-blue-300 hover:text-blue-200 underline">Get Email →</a>
+                  </div>
+
+                  <!-- AfricaNomads -->
+                  <div class="pb-0">
+                    <p class="text-orange-400 text-xs font-bold uppercase tracking-wider mb-1">Travel · Until August 2, 2026</p>
+                    <h4 class="text-sm font-bold text-white mb-1">AfricaNomads African Route 2026</h4>
+                    <p class="text-xs text-gray-300 mb-1.5 leading-relaxed">Kenya • Ethiopia • Tanzania • Malawi</p>
+                    <p class="text-sm text-gray-300 mb-2 leading-relaxed">The African Route 2026 is going to Kenya, Ethiopia, Tanzania & Malawi. 6 months – 6 destinations. Experience Africa through slow travel with a community of digital nomads. Use code <span class="font-mono font-bold">GOSSIP</span> for $50 off 2-3 week trips / $100 off 4+ week trips.</p>
+                    <a href="https://www.africanomads.co/" target="_blank" class="text-xs text-blue-300 hover:text-blue-200 underline">Learn More →</a>
+                  </div>
+                </div>
               </div>
               
               <!-- Latest YouTube Episode -->
@@ -642,6 +705,24 @@ const seo: SEOProps = {
       transform: translateX(400px);
       opacity: 0;
     }
+  }
+
+  /* Custom scrollbar styling for webkit browsers */
+  .sticky::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .sticky::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .sticky::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+  }
+
+  .sticky::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
   }
 </style>
 
