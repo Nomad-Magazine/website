@@ -114,7 +114,7 @@ If you would like your "January chapter" to include ocean views, mountains and A
 
 ## 🚢 February – Cross Asia on Nomad Cruise (Hong Kong → Malaysia → Brunei → Vietnam → Philippines)
 
-![Nomad Cruise Asia 2026 Route Map - New Route](/images/new-route-Nomad-Cruise copy.png)
+![Nomad Cruise Asia 2026 Route Map - New Route](/images/nomad-cruise-asia.webp)
 
 **Event:** Nomad Cruise 16 – Across Asia Experience  
 **Dates:** 14–25 February 2026  
