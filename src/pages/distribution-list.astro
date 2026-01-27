@@ -30,6 +30,7 @@ const distributionLocations = records
     city: record.sed1a49986?.split(',')[0]?.trim() || 'Unknown',
     country: record.sed1a49986?.split(',').slice(-1)[0]?.trim() || 'Unknown',
     website_url: record.sb788c266b?.[0] || null,
+    google_maps_url: record.s2d652f699 || null,
     images: (() => {
       // Try multiple possible image fields
       const imageFields = [
@@ -430,15 +431,22 @@ const seo: SEOProps = {
 
             <div class="flex-1"></div>
 
-            <div class="flex gap-3 mt-4">
-              ${location.website_url ? `
-                <a href="${location.website_url}" target="_blank" rel="noopener noreferrer" 
-                   aria-label="${location.name} website (opens in new tab)"
-                   class="inline-flex items-center justify-center gap-2 text-yellow-400 text-sm font-medium hover:text-yellow-300 border-2 border-yellow-400 rounded-lg py-2 px-4 hover:bg-yellow-400 hover:text-black transition-all">
+            <div class="flex items-center gap-3 mt-4">
+              ${location.google_maps_url ? `
+                <a href="${location.google_maps_url}" target="_blank" rel="noopener noreferrer" 
+                   aria-label="Get directions to ${location.name} (opens in new tab)"
+                   class="inline-flex items-center gap-1 text-yellow-400 text-sm font-medium hover:text-yellow-300 border border-yellow-400 rounded-lg py-2 px-3 hover:bg-yellow-400 hover:text-black transition-all">
                   <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
                   </svg>
-                  Visit Website
+                  Get Directions
+                </a>
+              ` : ''}
+              ${location.website_url ? `
+                <a href="${location.website_url}" target="_blank" rel="noopener noreferrer" 
+                   aria-label="${location.name} website (opens in new tab)"
+                   class="text-xs text-gray-400 hover:text-gray-300 transition-colors">
+                  🌐 ${location.website_url.replace(/^https?:\/\/(www\.)?/, '').split('/')[0]}
                 </a>
               ` : ''}
             </div>
