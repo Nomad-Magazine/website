@@ -18,12 +18,33 @@ const distributionLocations = records
   .map((record: any) => ({
     id: record.s9744d6c51 ? `coming_${record.id}` : `dist_${record.id}`,
     name: record.title,
-    description: record.scea90e502 || (record.s9744d6c51 ? 'Coming soon to this location.' : 'A great location for digital nomads.'),
+    description: (() => {
+      const websiteDesc = record.scea90e502 || '';
+      const fullDesc = record.description_markdown || '';
+      if (websiteDesc && fullDesc) {
+        return `${websiteDesc}<br/><br/>${fullDesc}`;
+      }
+      return websiteDesc || fullDesc || (record.s9744d6c51 ? 'Coming soon to this location.' : 'A great location for digital nomads.');
+    })(),
     location: record.sed1a49986 || 'Location not specified',
     city: record.sed1a49986?.split(',')[0]?.trim() || 'Unknown',
     country: record.sed1a49986?.split(',').slice(-1)[0]?.trim() || 'Unknown',
     website_url: record.sb788c266b?.[0] || null,
-    images: record.image ? [record.image] : [],
+    images: (() => {
+      // Try multiple possible image fields
+      const imageFields = [
+        record.image,
+        record.images,
+        record.sf4ad525dd,
+        record.s4ad525dd
+      ].filter(Boolean);
+      
+      if (imageFields.length === 0) return [];
+      
+      // Flatten all image fields and remove duplicates
+      const allImages = imageFields.flat().filter(Boolean);
+      return [...new Set(allImages)];
+    })(),
     category: record.sb685ab800?.label || 'Other',
     discount_code: record.s9c0ff01ed || null,
     created_at: record.first_created?.on || new Date().toISOString(),
@@ -61,117 +82,167 @@ const seo: SEOProps = {
 <Layout seo={seo}>
   <div class="bg-hoverw text-white min-h-screen">
     <!-- Hero Section -->
-    <section class="px-4 py-16 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-7xl">
-        <div class="text-center">
-          <h1 class="text-4xl font-bold sm:text-6xl lg:text-7xl mb-6">
+    <section class="pt-16 pb-12">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center mb-12">
+          <h1 class="text-4xl leading-tight font-bold md:text-6xl mb-4">
             Where To Find <span class="text-yellow-400">Nomad Magazine</span>
-      </h1>
-          <p class="text-xl text-neutral-300 mb-8 max-w-3xl mx-auto">
-            Nomad Magazine is circulating globally! Find a copy at coworking spaces and nomad hubs for inspiration and insights into remote work. Our trusted distribution partners are located in key nomad destinations.
+          </h1>
+          <p class="text-lg text-gray-300">
+            Find physical copies at coworking spaces, colivings, and nomad hubs across Europe and worldwide
           </p>
-          <div class="flex justify-center gap-4">
-            <button 
-              id="filter-btn"
-              class="inline-flex items-center gap-2 rounded-lg border-2 border-yellow-400 px-6 py-3 text-lg font-bold text-yellow-400 transition-all hover:bg-yellow-400 hover:text-black"
-            >
-              <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
-              </svg>
-              Filter Locations
-            </button>
-      <a
-        target="_blank"
-        href="https://form.smartsuite.com/s4tmc086/0nmLI1htHD"
-              class="inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-6 py-3 text-lg font-bold text-black transition-all hover:bg-yellow-300"
-      >
-        <MaterialSymbolsElectricBolt width="20" height="20" />
-              List a Location
-      </a>
-    </div>
         </div>
-      </div>
-    </section>
 
-    <!-- Filters Section (Initially Hidden) -->
-    <section id="filters-section" class="px-4 py-8 sm:px-6 lg:px-8 border-b border-neutral-800 hidden">
-      <div class="mx-auto max-w-7xl">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <select id="category-filter" class="rounded-lg bg-neutral-800 border border-neutral-700 text-white px-4 py-2">
-            <option value="">All Categories</option>
-            {categories.map((category) => (
-              <option value={String(category)}>{category}</option>
-            ))}
-          </select>
-          <select id="country-filter" class="rounded-lg bg-neutral-800 border border-neutral-700 text-white px-4 py-2">
-            <option value="">All Countries</option>
-          </select>
-          <select id="city-filter" class="rounded-lg bg-neutral-800 border border-neutral-700 text-white px-4 py-2">
-            <option value="">All Cities</option>
-          </select>
-          <select id="sort-filter" class="rounded-lg bg-neutral-800 border border-neutral-700 text-white px-4 py-2">
-            <option value="newest">Newest</option>
-            <option value="name">Alphabetical</option>
-          </select>
-        </div>
-      </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section class="px-4 py-8 sm:px-6 lg:px-8 border-b border-neutral-800">
-      <div class="mx-auto max-w-7xl">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          <div>
-            <div class="text-3xl font-bold text-yellow-400" id="total-locations">0</div>
-            <div class="text-sm text-neutral-400">Distribution Locations</div>
+        <!-- Search Bar -->
+        <div class="max-w-2xl mx-auto">
+          <div class="relative mb-6">
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Search by location, city, or country..."
+              aria-label="Search distribution locations"
+              class="w-full px-4 py-3 pl-12 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-yellow-400 focus:bg-white/15 transition-all duration-200"
+            />
+            <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
           </div>
-          <div>
-            <div class="text-3xl font-bold text-yellow-400" id="total-countries">0</div>
-            <div class="text-sm text-neutral-400">Countries</div>
-          </div>
-          <div>
-            <div class="text-3xl font-bold text-yellow-400" id="total-cities">0</div>
-            <div class="text-sm text-neutral-400">Cities</div>
-          </div>
-          <div>
-            <div class="text-3xl font-bold text-yellow-400" id="total-categories">0</div>
-            <div class="text-sm text-neutral-400">Categories</div>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- Distribution Locations Grid -->
-    <section class="px-4 py-16 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-7xl">
-        <div id="loading-spinner" class="text-center py-12">
-          <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-yellow-400"></div>
-          <p class="mt-2 text-neutral-400">Loading distribution locations...</p>
-    </div>
-
-        <div id="locations-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
-          <!-- Locations will be dynamically inserted here -->
-    </div>
-
-        <div id="no-locations" class="text-center py-12 hidden">
-          <p class="text-xl text-neutral-400">No distribution locations found matching your criteria.</p>
+          <!-- Stats Row -->
+          <div class="flex items-center justify-center gap-6 text-sm text-gray-400 mb-8">
+            <div class="flex items-center gap-2">
+              <span class="text-2xl font-bold text-yellow-400" id="total-locations">0</span>
+              <span>Locations</span>
             </div>
-    </div>
+            <span class="text-gray-600">•</span>
+            <div class="flex items-center gap-2">
+              <span class="text-2xl font-bold text-yellow-400" id="total-countries">0</span>
+              <span>Countries</span>
+            </div>
+            <span class="text-gray-600">•</span>
+            <div class="flex items-center gap-2">
+              <span class="text-2xl font-bold text-yellow-400" id="total-cities">0</span>
+              <span>Cities</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick City Navigation -->
+    <section class="px-4 pb-8 border-b border-white/10">
+      <div class="container mx-auto max-w-5xl">
+        <div class="text-center mb-4">
+          <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider">Popular Cities</h3>
+        </div>
+        
+        <!-- City Pills Container -->
+        <div id="city-pills-container" class="flex flex-wrap justify-center gap-2">
+          <!-- Pills will be dynamically inserted here -->
+        </div>
+        
+        <!-- Show All Cities Toggle -->
+        <div class="text-center mt-4">
+          <button id="toggle-all-cities" class="text-sm text-yellow-400 hover:text-yellow-300 transition-colors">
+            Show All Cities →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content with Sidebar -->
+    <section class="px-4 py-16 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <!-- Main Content -->
+          <div class="lg:col-span-2">
+            <div id="loading-spinner" class="text-center py-12">
+              <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-yellow-400"></div>
+              <p class="mt-2 text-neutral-400">Loading distribution locations...</p>
+            </div>
+
+            <div id="locations-grid" class="flex flex-col gap-6 hidden">
+              <!-- Locations will be dynamically inserted here -->
+            </div>
+
+            <div id="no-locations" class="text-center py-12 hidden">
+              <p class="text-xl text-neutral-400">No distribution locations found matching your criteria.</p>
+            </div>
+          </div>
+
+          <!-- Sidebar -->
+          <div class="lg:col-span-1">
+            <div class="sticky top-8 space-y-3 max-h-[calc(100vh-6rem)] overflow-y-auto pr-2" style="scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.3) transparent;">
+              <!-- CTA Card -->
+              <div class="bg-gradient-to-r from-yellow-400/20 to-yellow-600/20 border border-yellow-400/30 rounded-xl p-4">
+                <h3 class="text-base font-bold text-white mb-2 flex items-center gap-1">
+                  <MaterialSymbolsElectricBolt width="16" height="16" class="text-yellow-400" />
+                  Host Magazines?
+                </h3>
+                <p class="text-gray-300 text-sm mb-3 leading-relaxed">
+                  Get 5 free copies of Nomad Magazine delivered to your coworking space, coliving, or cafe.
+                </p>
+                <a 
+                  href="/coworking-coliving-shipments/"
+                  class="inline-flex items-center gap-1 bg-yellow-400 hover:bg-yellow-300 text-black px-3 py-2 rounded-lg text-sm font-bold transition-all duration-200 w-full justify-center"
+                >
+                  Get Free Magazines
+                </a>
+              </div>
+
+              <!-- Announcements -->
+              <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
+                <h3 class="text-base font-bold text-white mb-3 flex items-center gap-1">
+                  📢 Announcements
+                </h3>
+                
+                <div class="space-y-3">
+                  <!-- Magazine Shipments -->
+                  <div class="border-b border-white/10 pb-3 last:border-b-0">
+                    <p class="text-orange-400 text-xs font-bold uppercase tracking-wider mb-1">Free · Worldwide</p>
+                    <h4 class="text-sm font-bold text-white mb-1">Free Magazine Shipments</h4>
+                    <p class="text-sm text-gray-300 mb-2 leading-relaxed">Join our waiting list for free shipment of the next edition. 5 copies delivered to your space worldwide.</p>
+                    <a href="/coworking-coliving-shipments/" class="text-xs text-blue-300 hover:text-blue-200 underline">Apply Now →</a>
+                  </div>
+
+                  <!-- Nomad Directory -->
+                  <div class="pb-0">
+                    <p class="text-orange-400 text-xs font-bold uppercase tracking-wider mb-1">Directory · Free Listing</p>
+                    <h4 class="text-sm font-bold text-white mb-1">Join the Nomad Directory</h4>
+                    <p class="text-sm text-gray-300 mb-2 leading-relaxed">List your nomad-focused business in our directory. Reach thousands of digital nomads worldwide.</p>
+                    <a href="/nomad_directory/" class="text-xs text-blue-300 hover:text-blue-200 underline">List Your Business →</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
 
 
-    <!-- Footer Section -->
-    <section class="px-4 py-16 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-7xl">
-    <ListYourProjectFooter
-      buttonText="Get in touch"
-      href="https://form.smartsuite.com/s4tmc086/0nmLI1htHD"
-             title="Host <span class='text-yellow-400'>Nomad Magazine</span> <br />at Your Space – For Free!"
-      description={'Give your community a fresh dose of nomad insights! Offer your guests inspiring stories, industry trends, and valuable resources—all at no cost to you.<br /><br />Perfect for: Stores, Coworking Spaces, Cafes, Colivings, Hostels etc.'}
-    />
+    <!-- Submit CTA -->
+    <section class="pb-20">
+      <div class="container mx-auto px-4">
+        <div class="bg-yellow-400/10 border border-yellow-400/20 rounded-2xl p-12 text-center">
+          <h2 class="text-3xl font-bold text-white mb-6">Host <span class="text-yellow-400">Nomad Magazine</span> at Your Space – For Free!</h2>
+          <p class="text-gray-300 text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
+            Give your community a fresh dose of nomad insights! Offer your guests inspiring stories, industry trends, and valuable resources—all at no cost to you.
+          </p>
+          <p class="text-gray-400 text-base mb-8 max-w-xl mx-auto">
+            Perfect for: Stores, Coworking Spaces, Cafes, Colivings, Hostels etc.
+          </p>
+          <a
+            href="/coworking-coliving-shipments/"
+            class="inline-flex items-center gap-2 bg-black hover:bg-gray-900 border-2 border-yellow-400 px-8 py-3 rounded-lg text-yellow-400 font-bold text-lg transition-all duration-200"
+          >
+            <MaterialSymbolsElectricBolt width="20" height="20" />
+            Get in touch
+          </a>
+        </div>
       </div>
-  </section>
+    </section>
 
   <!-- Image Modal Component -->
   <ImageModal />
@@ -188,95 +259,189 @@ const seo: SEOProps = {
     const totalLocations = allLocations.length;
     const countries = new Set(allLocations.map(location => location.country)).size;
     const cities = new Set(allLocations.map(location => location.city)).size;
-    const categories = new Set(allLocations.map(location => location.category)).size;
 
     document.getElementById('total-locations').textContent = totalLocations;
     document.getElementById('total-countries').textContent = countries;
     document.getElementById('total-cities').textContent = cities;
-    document.getElementById('total-categories').textContent = categories;
   }
 
   function populateFilters() {
-    const countries = [...new Set(allLocations.map(location => location.country))].sort();
-    const cities = [...new Set(allLocations.map(location => location.city))].sort();
+    // Populate city pills
+    populateCityPills();
+  }
 
-    const countrySelect = document.getElementById('country-filter');
-    const citySelect = document.getElementById('city-filter');
-
-    countries.forEach(country => {
-      const option = document.createElement('option');
-      option.value = country;
-      option.textContent = country;
-      countrySelect.appendChild(option);
+  function populateCityPills() {
+    // Count locations per city
+    const cityCounts = {};
+    allLocations.forEach(location => {
+      const cityKey = `${location.city}, ${location.country}`;
+      cityCounts[cityKey] = (cityCounts[cityKey] || 0) + 1;
     });
 
-    cities.forEach(city => {
-      const option = document.createElement('option');
-      option.value = city;
-      option.textContent = city;
-      citySelect.appendChild(option);
+    // Sort cities by count (descending)
+    const sortedCities = Object.entries(cityCounts)
+      .sort((a, b) => b[1] - a[1]);
+
+    const container = document.getElementById('city-pills-container');
+    const toggleBtn = document.getElementById('toggle-all-cities');
+    
+    let showingAll = false;
+    const initialDisplayCount = 12;
+
+    function renderCityPills(limit = initialDisplayCount) {
+      const citiesToShow = limit ? sortedCities.slice(0, limit) : sortedCities;
+      
+      container.innerHTML = citiesToShow.map(([cityCountry, count]) => {
+        const [city, country] = cityCountry.split(', ');
+        return `
+          <button 
+            class="city-pill px-4 py-2 bg-white/10 hover:bg-yellow-400 hover:text-black border border-white/20 hover:border-yellow-400 rounded-full text-sm font-medium text-white transition-all duration-200 flex items-center gap-2"
+            data-city="${city}"
+            data-country="${country}"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <span>${city}</span>
+            <span class="px-2 py-0.5 bg-white/20 rounded-full text-xs">${count}</span>
+          </button>
+        `;
+      }).join('');
+
+      // Add click handlers
+      document.querySelectorAll('.city-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+          const city = pill.dataset.city;
+          const country = pill.dataset.country;
+          
+          // Update search input
+          document.getElementById('search-input').value = city;
+          
+          // Apply filters
+          applyFilters();
+          
+          // Scroll to results
+          document.getElementById('locations-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+    }
+
+    // Initial render
+    renderCityPills();
+
+    // Toggle button handler
+    toggleBtn.addEventListener('click', () => {
+      showingAll = !showingAll;
+      renderCityPills(showingAll ? null : initialDisplayCount);
+      toggleBtn.textContent = showingAll ? '← Show Less' : 'Show All Cities →';
     });
+
+    // Hide toggle if there are fewer cities than the limit
+    if (sortedCities.length <= initialDisplayCount) {
+      toggleBtn.style.display = 'none';
+    }
   }
 
   function renderLocationCard(location) {
+    const imageGalleryId = `gallery-${location.id}`;
     return `
-      <div class="group relative overflow-hidden rounded-2xl bg-neutral-900/50 transition-all duration-300 hover:bg-neutral-900/80 hover:scale-105 hover:shadow-2xl flex flex-col h-full">
-        ${location.category ? `<div class="absolute top-4 right-4 z-10"><span class="inline-block rounded-full bg-blue-600 px-3 py-1 text-xs font-bold text-white uppercase">${location.category}</span></div>` : ''}
-        
-        <!-- Image -->
-        <div class="relative aspect-[4/3] overflow-hidden">
-          <div class="w-full h-full">
-            ${location.images && location.images.length > 0 ? 
-              `<img src="${location.images[0]}" alt="${location.name}" 
-                   class="w-full h-full object-cover cursor-pointer transition-transform duration-300 group-hover:scale-110"
-                   style="object-fit: cover; object-position: center center;"
-                   data-images='${JSON.stringify(location.images)}'
-                   data-location-name="${location.name}"
-                   loading="lazy">` : 
-              '<div class="w-full h-full bg-neutral-800 flex items-center justify-center"><span class="text-neutral-400">No images</span></div>'
-            }
-          </div>
-          <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
-        </div>
-
-        <!-- Content -->
-        <div class="p-6 flex flex-col flex-1">
-          <div class="mb-3">
-            <h3 class="text-xl font-bold text-white group-hover:text-yellow-400 transition-colors mb-1">
-              ${location.name}
-            </h3>
-            <p class="text-sm text-neutral-400 flex items-center">
-              <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-              </svg>
-              ${location.city}, ${location.country}
-            </p>
-          </div>
-
-          <p class="text-sm text-neutral-300 mb-4 line-clamp-3">
-            ${location.description}
-          </p>
-
-          ${location.discount_code ? `
-            <div class="mb-4 p-3 bg-yellow-400/10 border border-yellow-400/30 rounded-lg">
-              <div class="text-xs text-yellow-400 font-medium mb-1">Special Offer</div>
-              <div class="text-sm text-white">Discount Code: <span class="font-bold text-yellow-400">${location.discount_code}</span></div>
+      <div class="group relative overflow-hidden rounded-2xl bg-neutral-900/50 transition-all duration-300 hover:bg-neutral-900/80 hover:shadow-2xl">
+        <div class="flex flex-col md:flex-row gap-0 md:gap-6">
+          <!-- Image Gallery Section -->
+          <div class="relative md:w-1/3">
+            ${location.category ? `<div class="absolute top-4 left-4 z-10"><span class="inline-block rounded-full bg-blue-600 px-3 py-1 text-xs font-bold text-white uppercase">${location.category}</span></div>` : ''}
+            
+            <div class="relative aspect-[4/3] md:aspect-[3/4] overflow-hidden rounded-t-2xl md:rounded-l-2xl md:rounded-tr-none">
+              ${location.images && location.images.length > 0 ? `
+                <div class="relative w-full h-full">
+                  <div id="${imageGalleryId}" class="flex transition-transform duration-300 ease-out h-full" style="transform: translateX(0%);">
+                    ${location.images.map((img, idx) => `
+                      <img src="${img}" alt="${location.name} - Image ${idx + 1}" 
+                           class="w-full h-full object-cover flex-shrink-0 cursor-pointer"
+                           style="object-fit: cover; object-position: center center;"
+                           data-images='${JSON.stringify(location.images)}'
+                           data-location-name="${location.name}"
+                           data-index="${idx}"
+                           loading="lazy">
+                    `).join('')}
+                  </div>
+                  
+                  ${location.images.length > 1 ? `
+                    <!-- Navigation Arrows -->
+                    <button class="gallery-prev absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-all z-10" data-gallery="${imageGalleryId}" aria-label="Previous image">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                      </svg>
+                    </button>
+                    <button class="gallery-next absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-all z-10" data-gallery="${imageGalleryId}" aria-label="Next image">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                      </svg>
+                    </button>
+                    
+                    <!-- Image Counter -->
+                    <div class="absolute bottom-4 right-4 bg-black/70 text-white text-xs px-2 py-1 rounded-full">
+                      <span class="gallery-counter" data-gallery="${imageGalleryId}">1/${location.images.length}</span>
+                    </div>
+                  ` : ''}
+                </div>
+              ` : `
+                <div class="w-full h-full bg-neutral-800 flex items-center justify-center">
+                  <span class="text-neutral-400">No images</span>
+                </div>
+              `}
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
             </div>
-          ` : ''}
+          </div>
 
-          <div class="flex-1"></div>
-
-          <div class="flex gap-2 mt-4">
-            ${location.website_url ? `
-              <a href="${location.website_url}" target="_blank" rel="noopener noreferrer" 
-                 class="flex-1 inline-flex items-center justify-center gap-1 text-yellow-400 text-sm font-medium hover:text-yellow-300 border border-yellow-400 rounded-lg py-2 px-3 hover:bg-yellow-400 hover:text-black transition-all">
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+          <!-- Content Section -->
+          <div class="p-6 md:py-6 md:pr-6 md:pl-0 flex flex-col flex-1">
+            <div class="mb-4">
+              <h3 class="text-2xl font-bold text-white group-hover:text-yellow-400 transition-colors mb-2">
+                ${location.name}
+              </h3>
+              <p class="text-sm text-neutral-400 flex items-center">
+                <svg class="h-4 w-4 mr-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                 </svg>
-                Visit Website
-              </a>
+                ${location.city}, ${location.country}
+              </p>
+            </div>
+
+            <div class="description-container mb-4">
+              <div class="text-base text-gray-300 leading-relaxed description-text [&_*]:!text-gray-300" data-full-text="${location.description.replace(/"/g, '&quot;')}">
+                ${location.description.length > 350 ? location.description.substring(0, 350) + '...' : location.description}
+              </div>
+              ${location.description.length > 350 ? `
+                <button class="read-more-btn text-yellow-400 hover:text-yellow-300 text-sm font-medium mt-2 transition-colors">
+                  Read more →
+                </button>
+              ` : ''}
+            </div>
+
+            ${location.discount_code ? `
+              <div class="mb-4 p-3 bg-yellow-400/10 border border-yellow-400/30 rounded-lg">
+                <div class="text-xs text-yellow-400 font-medium mb-1">Special Offer</div>
+                <div class="text-sm text-white">Discount Code: <span class="font-bold text-yellow-400">${location.discount_code}</span></div>
+              </div>
             ` : ''}
+
+            <div class="flex-1"></div>
+
+            <div class="flex gap-3 mt-4">
+              ${location.website_url ? `
+                <a href="${location.website_url}" target="_blank" rel="noopener noreferrer" 
+                   aria-label="${location.name} website (opens in new tab)"
+                   class="inline-flex items-center justify-center gap-2 text-yellow-400 text-sm font-medium hover:text-yellow-300 border-2 border-yellow-400 rounded-lg py-2 px-4 hover:bg-yellow-400 hover:text-black transition-all">
+                  <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                  </svg>
+                  Visit Website
+                </a>
+              ` : ''}
+            </div>
           </div>
         </div>
       </div>
@@ -314,47 +479,126 @@ const seo: SEOProps = {
         e.stopPropagation();
         const images = JSON.parse(img.dataset.images);
         const locationName = img.dataset.locationName;
+        const index = parseInt(img.dataset.index) || 0;
         if (window.openImageModal) {
-          window.openImageModal(locationName, images, 0);
+          window.openImageModal(locationName, images, index);
+        }
+      });
+    });
+
+    // Setup gallery navigation
+    setupGalleryNavigation();
+
+    // Setup read more buttons
+    setupReadMoreButtons();
+  }
+
+  function setupReadMoreButtons() {
+    document.querySelectorAll('.read-more-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const container = btn.closest('.description-container');
+        const textElement = container.querySelector('.description-text');
+        const fullText = textElement.dataset.fullText;
+        
+        if (btn.textContent.includes('Read more')) {
+          textElement.innerHTML = fullText;
+          btn.textContent = '← Show less';
+        } else {
+          textElement.innerHTML = fullText.substring(0, 350) + '...';
+          btn.textContent = 'Read more →';
         }
       });
     });
   }
 
-  function setupEventListeners() {
-    // Filter toggle
-    document.getElementById('filter-btn').addEventListener('click', () => {
-      const filtersSection = document.getElementById('filters-section');
-      filtersSection.classList.toggle('hidden');
+  function setupGalleryNavigation() {
+    const galleries = {};
+
+    // Initialize gallery state
+    document.querySelectorAll('[id^="gallery-"]').forEach(gallery => {
+      const galleryId = gallery.id;
+      galleries[galleryId] = { currentIndex: 0, totalImages: gallery.children.length };
     });
 
-    // Filter changes
-    ['category-filter', 'country-filter', 'city-filter', 'sort-filter'].forEach(id => {
-      document.getElementById(id).addEventListener('change', applyFilters);
+    // Previous button handlers
+    document.querySelectorAll('.gallery-prev').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const galleryId = btn.dataset.gallery;
+        const gallery = document.getElementById(galleryId);
+        const state = galleries[galleryId];
+        
+        if (state.currentIndex > 0) {
+          state.currentIndex--;
+          const offset = -state.currentIndex * 100;
+          gallery.style.transform = `translateX(${offset}%)`;
+          updateCounter(galleryId, state);
+        }
+      });
     });
+
+    // Next button handlers
+    document.querySelectorAll('.gallery-next').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const galleryId = btn.dataset.gallery;
+        const gallery = document.getElementById(galleryId);
+        const state = galleries[galleryId];
+        
+        if (state.currentIndex < state.totalImages - 1) {
+          state.currentIndex++;
+          const offset = -state.currentIndex * 100;
+          gallery.style.transform = `translateX(${offset}%)`;
+          updateCounter(galleryId, state);
+        }
+      });
+    });
+
+    // Prevent image clicks from opening modal when navigating
+    document.querySelectorAll('[id^="gallery-"] img').forEach(img => {
+      img.addEventListener('click', (e) => {
+        // Only open modal, don't prevent default
+        // The modal handler is already set up in setupImageClicks
+      });
+    });
+  }
+
+  function updateCounter(galleryId, state) {
+    const counter = document.querySelector(`.gallery-counter[data-gallery="${galleryId}"]`);
+    if (counter) {
+      counter.textContent = `${state.currentIndex + 1}/${state.totalImages}`;
+    }
+  }
+
+  function setupEventListeners() {
+    // Search input
+    const searchInput = document.getElementById('search-input');
+    searchInput.addEventListener('input', applyFilters);
 
     // Keyboard navigation is handled by the ImageModal component
   }
 
   function applyFilters() {
-    const category = document.getElementById('category-filter').value;
-    const country = document.getElementById('country-filter').value;
-    const city = document.getElementById('city-filter').value;
-    const sort = document.getElementById('sort-filter').value;
+    const searchTerm = document.getElementById('search-input').value.toLowerCase();
 
     let filtered = [...allLocations];
 
-    // Apply filters
-    if (category) filtered = filtered.filter(location => location.category === category);
-    if (country) filtered = filtered.filter(location => location.country === country);
-    if (city) filtered = filtered.filter(location => location.city === city);
-
-    // Apply sorting
-    if (sort === 'newest') {
-      filtered.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-    } else if (sort === 'name') {
-      filtered.sort((a, b) => a.name.localeCompare(b.name));
+    // Apply search
+    if (searchTerm) {
+      filtered = filtered.filter(location => 
+        location.name.toLowerCase().includes(searchTerm) ||
+        location.description.toLowerCase().includes(searchTerm) ||
+        location.city.toLowerCase().includes(searchTerm) ||
+        location.country.toLowerCase().includes(searchTerm) ||
+        location.location.toLowerCase().includes(searchTerm)
+      );
     }
+
+    // Sort by newest
+    filtered.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
     renderLocations(filtered);
   }
@@ -375,30 +619,29 @@ const seo: SEOProps = {
 </script>
 
 <style>
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* Enhanced hover effects for distribution location cards */
-.group:hover img {
-  transform: scale(1.1);
-}
-
 /* Smooth transitions for all interactive elements */
 .group {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .group:hover {
-  transform: scale(1.05) translateY(-4px);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
-/* Image transitions */
+/* Gallery navigation buttons */
+.gallery-prev,
+.gallery-next {
+  opacity: 0;
+  transition: opacity 0.3s ease, background-color 0.3s ease;
+}
+
+.group:hover .gallery-prev,
+.group:hover .gallery-next {
+  opacity: 1;
+}
+
+/* Image cursor */
 img[data-images] {
-  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
 }
 </style>
