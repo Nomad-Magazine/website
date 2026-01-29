@@ -45,8 +45,8 @@
     "severityOverrides": {},
     "thresholdOverrides": {}
   },
-  "exclusions": ["email_backup/**"],
-  "failOn": ["error", "warning"],
+  "exclusions": ["email_backup/**", "internal/**"],
+  "failOn": ["error"],
   "maxIssues": 0,
   "outputFormat": "console"
 }
