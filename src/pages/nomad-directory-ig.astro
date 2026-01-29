@@ -1,0 +1,255 @@
+---
+export const prerender = true;
+
+import { fetchReportRecords } from '~/utils/smartsuite'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+const { records = [] } = await fetchReportRecords('6857167d82358a0f5e038c3f')
+
+// Hardcoded Monthly Supporters list
+const monthlySupporters = [
+  'DataBench',
+  'Max Browser',
+  'DataBench (Max Browser)',
+  'Max',
+  'NomadTax Bulgaria Ltd.',
+  'Colive Fukuoka',
+  'The Center for Competitiveness and Innovation (Colombia)',
+]
+
+// Hardcoded Featured Partners list
+const featuredPartners = [
+  'Colive Fukuoka',
+  'Falmouth University',
+  'InterNations',
+  'NomadTax Bulgaria Ltd.',
+  'Max Browser',
+  'Coconut-Office'
+]
+
+// Pinned items
+const pinnedItems = [
+  'SSBM Consulting LLC',
+  'Coconut-Office'
+]
+
+// Featured items
+const featuredItems = [
+  'SSBM Consulting LLC',
+  'DataBench'
+]
+
+// Helper function to check if a record is a supporter
+const isSupporter = (record: any) => {
+  return record.supporter ||
+         record.monthly_supporter ||
+         record.is_supporter ||
+         record.supporter_status === 'Monthly Supporter' ||
+         record.status === 'Monthly Supporter' ||
+         monthlySupporters.includes(record.title)
+}
+
+// Helper function to check if a record is featured
+const isFeatured = (record: any) => {
+  return featuredItems.includes(record.title)
+}
+
+const seo: SEOProps = {
+  title: 'Nomad Directory - Instagram Stories Format',
+  description: 'Internal use only - Instagram-optimized directory cards',
+  image: 'https://nomad-magazine.com/images/Nomad-directory.webp',
+  keywords: '',
+  ogType: 'website',
+  robots: 'noindex, nofollow',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Nomad Directory IG',
+    description: 'Internal use only',
+    url: `${Astro.site}nomad-directory-ig/`,
+  },
+}
+---
+
+<Layout seo={seo}>
+  <div class="bg-gray-100 min-h-screen py-8 px-4">
+    <div class="container mx-auto">
+      <!-- Header -->
+      <div class="text-center mb-8">
+        <h1 class="text-4xl font-bold text-gray-900 mb-2">Nomad Directory</h1>
+        <p class="text-gray-600 text-sm">Instagram Stories Format (4:5 ratio) - Internal Use Only</p>
+        <p class="text-orange-600 text-xs mt-2">⚠️ Not indexed by search engines</p>
+      </div>
+
+      <!-- IG Story Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {
+          records
+            .filter((i: any) => i.sf4ad525dd)
+            .sort((a: any, b: any) => {
+              const aPinned = pinnedItems.includes(a.title)
+              const bPinned = pinnedItems.includes(b.title)
+              const aFeatured = isFeatured(a)
+              const bFeatured = isFeatured(b)
+              
+              if (aPinned && !bPinned) return -1
+              if (!aPinned && bPinned) return 1
+              if (aFeatured && !bFeatured) return -1
+              if (!aFeatured && bFeatured) return 1
+              
+              const aSupporter = isSupporter(a)
+              const bSupporter = isSupporter(b)
+              if (aSupporter && !bSupporter) return -1
+              if (!aSupporter && bSupporter) return 1
+              
+              return 0
+            })
+            .map((record: any) => {
+              const link = record.link || record.sb788c266b?.[0]
+              
+              return (
+                <div class="ig-story-card group">
+                  <!-- Story Content (1080x1350 aspect ratio - 4:5) -->
+                  <div class="relative bg-white border border-gray-200 rounded-2xl overflow-hidden hover:border-yellow-500 hover:shadow-xl transition-all duration-300" style="aspect-ratio: 4/5;">
+                    <!-- Watermark/Branding in top right corner -->
+                    <div class="absolute top-2 right-2">
+                      <img src="/logo.svg" alt="Nomad Magazine" class="w-12 h-12" />
+                    </div>
+                    
+                    <div class="h-full flex flex-col p-6">
+                      
+                      <!-- Logo Section -->
+                      <div class="flex justify-center mb-4">
+                        <div class={`w-24 h-24 rounded-xl flex items-center justify-center border ${
+                          ['Fresh Global', 'Falmouth University', 'SUMA', 'Scaglia y Asociados', 'goldenweeks'].includes(record.title) 
+                            ? 'bg-gray-900 border-gray-700' 
+                            : 'bg-gray-50 border-gray-200'
+                        }`}>
+                          {record.image && record.image !== '/logo.svg' ? (
+                            <img 
+                              src={record.image} 
+                              alt={record.title || 'Company'} 
+                              class="w-full h-full rounded-xl object-contain"
+                            />
+                          ) : (
+                            <span class={`font-bold text-3xl ${
+                              ['Fresh Global', 'Falmouth University', 'SUMA', 'Scaglia y Asociados', 'goldenweeks'].includes(record.title)
+                                ? 'text-white'
+                                : 'text-gray-900'
+                            }`}>
+                              {(record.title || 'C').charAt(0).toUpperCase()}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      <!-- Title -->
+                      <h2 class="text-xl font-bold text-gray-900 text-center mb-3 leading-tight">
+                        {record.title || 'Company Name'}
+                      </h2>
+
+                      <!-- Badges -->
+                      <div class="flex flex-wrap justify-center gap-1.5 mb-4">
+                        {record.sb685ab800?.label && (
+                          <span class="bg-yellow-400 text-black px-2.5 py-1 rounded-full text-xs font-bold">
+                            {record.sb685ab800.label}
+                          </span>
+                        )}
+                        
+                        {isFeatured(record) && (
+                          <span class="inline-flex items-center gap-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-2 py-1 rounded-full text-xs font-bold shadow-sm">
+                            <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                            </svg>
+                            Featured
+                          </span>
+                        )}
+                        
+                        {isSupporter(record) && (
+                          <span class="inline-flex items-center gap-1 bg-gradient-to-r from-red-600 to-red-700 text-white px-2 py-1 rounded-full text-xs font-bold shadow-sm">
+                            <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
+                            Supporter
+                          </span>
+                        )}
+                      </div>
+
+                      <!-- Description -->
+                      <div class="flex-1 mb-4">
+                        <p class="text-gray-700 text-sm leading-relaxed text-justify">
+                          {record.scea90e502 || 'Description not available'}
+                        </p>
+
+                        {/* Special Offer */}
+                        {record.s5576966ee && (
+                          <div class="mt-3 p-3 bg-yellow-50 border-l-4 border-yellow-400 rounded-r-lg">
+                            <div class="flex items-start gap-2 mb-1">
+                              <span class="text-yellow-700 font-bold text-xs uppercase tracking-wide">Special Offer:</span>
+                            </div>
+                            <p class="text-gray-800 text-xs leading-relaxed whitespace-pre-line">
+                              {record.s5576966ee}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+
+                      <!-- Link -->
+                      {link && (
+                        <div class="pt-3 border-t border-gray-200">
+                          <p class="text-blue-600 text-xs font-medium text-center truncate">
+                            {link.replace('https://', '').replace('http://', '')}
+                          </p>
+                        </div>
+                      )}
+                      
+                    </div>
+                  </div>
+                </div>
+              )
+            })
+        }
+      </div>
+
+      <!-- Footer Note -->
+      <div class="mt-12 text-center">
+        <div class="inline-block bg-red-50 border border-red-300 rounded-lg px-6 py-4">
+          <p class="text-red-600 font-bold mb-2">⚠️ INTERNAL USE ONLY</p>
+          <p class="text-gray-600 text-sm">
+            This page is not indexed by search engines and is for creating Instagram story graphics only.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .ig-story-card {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  /* Custom scrollbar for webkit browsers */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  /* For Firefox */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+  }
+</style>
