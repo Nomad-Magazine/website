@@ -117,9 +117,18 @@ const seo: SEOProps = {
                     
                     <div class="h-full flex flex-col p-6">
                       
-                      <!-- Logo Section -->
-                      <div class="flex justify-center mb-4">
-                        <div class={`w-24 h-24 rounded-xl flex items-center justify-center border ${
+                      <!-- Category Badge - Top Left -->
+                      {record.sb685ab800?.label && (
+                        <div class="mb-6">
+                          <span class="inline-block bg-yellow-400 text-black px-2.5 py-1 rounded-full text-xs font-bold">
+                            {record.sb685ab800.label}
+                          </span>
+                        </div>
+                      )}
+                      
+                      <!-- Logo and Name Section - Horizontal Layout -->
+                      <div class="flex items-center gap-4 mb-4">
+                        <div class={`w-20 h-20 rounded-full flex items-center justify-center border-2 flex-shrink-0 ${
                           ['Fresh Global', 'Falmouth University', 'SUMA', 'Scaglia y Asociados', 'goldenweeks'].includes(record.title) 
                             ? 'bg-gray-900 border-gray-700' 
                             : 'bg-gray-50 border-gray-200'
@@ -128,10 +137,10 @@ const seo: SEOProps = {
                             <img 
                               src={record.image} 
                               alt={record.title || 'Company'} 
-                              class="w-full h-full rounded-xl object-contain"
+                              class="w-full h-full rounded-full object-contain p-1"
                             />
                           ) : (
-                            <span class={`font-bold text-3xl ${
+                            <span class={`font-bold text-2xl ${
                               ['Fresh Global', 'Falmouth University', 'SUMA', 'Scaglia y Asociados', 'goldenweeks'].includes(record.title)
                                 ? 'text-white'
                                 : 'text-gray-900'
@@ -140,42 +149,21 @@ const seo: SEOProps = {
                             </span>
                           )}
                         </div>
-                      </div>
-
-                      <!-- Title -->
-                      <h2 class="text-xl font-bold text-gray-900 text-center mb-3 leading-tight">
-                        {record.title || 'Company Name'}
-                      </h2>
-
-                      <!-- Badges -->
-                      <div class="flex flex-wrap justify-center gap-1.5 mb-4">
-                        {record.sb685ab800?.label && (
-                          <span class="bg-yellow-400 text-black px-2.5 py-1 rounded-full text-xs font-bold">
-                            {record.sb685ab800.label}
-                          </span>
-                        )}
                         
-                        {isFeatured(record) && (
-                          <span class="inline-flex items-center gap-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-2 py-1 rounded-full text-xs font-bold shadow-sm">
-                            <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                            </svg>
-                            Featured
-                          </span>
-                        )}
-                        
-                        {isSupporter(record) && (
-                          <span class="inline-flex items-center gap-1 bg-gradient-to-r from-red-600 to-red-700 text-white px-2 py-1 rounded-full text-xs font-bold shadow-sm">
-                            <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                            </svg>
-                            Supporter
-                          </span>
-                        )}
+                        <div class="flex-1 min-w-0">
+                          <h2 class="text-lg font-bold text-gray-900 leading-tight mb-0.5">
+                            {record.title || 'Company Name'}
+                          </h2>
+                          {link && (
+                            <p class="text-blue-600 text-xs font-medium truncate">
+                              {link.replace('https://', '').replace('http://', '').replace(/\/$/, '')}
+                            </p>
+                          )}
+                        </div>
                       </div>
 
                       <!-- Description -->
-                      <div class="flex-1 mb-4">
+                      <div class="flex-1">
                         <p class="text-gray-700 text-sm leading-relaxed text-justify">
                           {record.scea90e502 || 'Description not available'}
                         </p>
@@ -192,15 +180,6 @@ const seo: SEOProps = {
                           </div>
                         )}
                       </div>
-
-                      <!-- Link -->
-                      {link && (
-                        <div class="pt-3 border-t border-gray-200">
-                          <p class="text-blue-600 text-xs font-medium text-center truncate">
-                            {link.replace('https://', '').replace('http://', '')}
-                          </p>
-                        </div>
-                      )}
                       
                     </div>
                   </div>
