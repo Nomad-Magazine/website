@@ -162,7 +162,7 @@ const seo: SEOProps = {
               <p class="mt-2 text-neutral-400">Loading distribution locations...</p>
             </div>
 
-            <div id="locations-grid" class="flex flex-col gap-6 hidden">
+            <div id="locations-grid" class="flex flex-col hidden">
               <!-- Locations will be dynamically inserted here -->
             </div>
 
@@ -425,8 +425,36 @@ const seo: SEOProps = {
 
   function renderLocationCard(location) {
     const imageGalleryId = `gallery-${location.id}`;
+    
+    // Calculate text length without HTML tags for truncation
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = location.description;
+    const plainText = tempDiv.textContent || tempDiv.innerText || '';
+    const shouldTruncate = plainText.length > 350;
+    
+    // Create truncated version if needed
+    let displayDescription = location.description;
+    let truncatedDescription = location.description;
+    
+    if (shouldTruncate) {
+      // Truncate the plain text
+      const truncatedPlain = plainText.substring(0, 350);
+      // Find where to cut in the HTML to match the plain text length
+      let charCount = 0;
+      let htmlCut = '';
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(location.description, 'text/html');
+      const walker = document.createTreeWalker(doc.body, NodeFilter.SHOW_TEXT);
+      
+      // Simple approach: just truncate the HTML string at approximately the right position
+      // This is a rough approximation but works for most cases
+      truncatedDescription = location.description.substring(0, Math.min(400, location.description.length));
+      // Remove any incomplete HTML tags at the end
+      truncatedDescription = truncatedDescription.replace(/<[^>]*$/, '');
+    }
+    
     return `
-      <div class="group relative overflow-hidden rounded-2xl bg-neutral-900/50 transition-all duration-300 hover:bg-neutral-900/80 hover:shadow-2xl">
+      <div class="group relative overflow-hidden rounded-2xl bg-neutral-900/50 transition-all duration-300 hover:bg-neutral-900/80 hover:shadow-2xl mb-6">
         <div class="flex flex-col md:flex-row gap-0 md:gap-6">
           <!-- Image Gallery Section -->
           <div class="relative md:w-1/3">
@@ -491,11 +519,11 @@ const seo: SEOProps = {
             </div>
 
             <div class="description-container mb-4">
-              <div class="text-base text-gray-300 leading-relaxed description-text [&_*]:!text-gray-300" data-full-text="${location.description.replace(/"/g, '&quot;')}">
-                ${location.description.length > 350 ? location.description.substring(0, 350) + '...' : location.description}
+              <div class="text-base text-gray-300 leading-relaxed description-text [&_*]:!text-gray-300">
+                ${shouldTruncate ? truncatedDescription + '...' : location.description}
               </div>
-              ${location.description.length > 350 ? `
-                <button class="read-more-btn text-yellow-400 hover:text-yellow-300 text-sm font-medium mt-2 transition-colors">
+              ${shouldTruncate ? `
+                <button class="read-more-btn text-yellow-400 hover:text-yellow-300 text-sm font-medium mt-2 transition-colors" data-full-description="${location.description.replace(/"/g, '&quot;').replace(/'/g, '&#39;')}" data-short-description="${truncatedDescription.replace(/"/g, '&quot;').replace(/'/g, '&#39;')}">
                   Read more →
                 </button>
               ` : ''}
@@ -586,13 +614,14 @@ const seo: SEOProps = {
         e.stopPropagation();
         const container = btn.closest('.description-container');
         const textElement = container.querySelector('.description-text');
-        const fullText = textElement.dataset.fullText;
+        const fullText = btn.dataset.fullDescription;
+        const shortText = btn.dataset.shortDescription;
         
         if (btn.textContent.includes('Read more')) {
           textElement.innerHTML = fullText;
           btn.textContent = '← Show less';
         } else {
-          textElement.innerHTML = fullText.substring(0, 350) + '...';
+          textElement.innerHTML = shortText + '...';
           btn.textContent = 'Read more →';
         }
       });
