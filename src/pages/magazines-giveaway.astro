@@ -170,6 +170,10 @@ const seo: SEOProps = {
             <input type="email" id="email" name="email" placeholder="your@email.com" class="bento-formkit-input" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"/>
           </div>
 
+          <div class="field-group">
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAACXWfgpGaqB_A50e" data-theme="light"></div>
+          </div>
+
           <div id="error-message" class="hidden" style="margin-bottom: 1rem; padding: 0.75rem; background-color: #fee; border: 1px solid #fcc; border-radius: 8px; color: #c00;"></div>
 
           <button type="submit" id="submit-button" class="bento-formkit-button">Get My Free Magazines</button>
@@ -533,6 +537,17 @@ const seo: SEOProps = {
 
         const formData = new FormData(form)
 
+        // Get Turnstile token
+        const turnstileResponse = (window as any).turnstile?.getResponse();
+        if (!turnstileResponse) {
+          errorMessage.textContent = 'Please complete the captcha verification.'
+          errorMessage.classList.remove('hidden')
+          submitButton.disabled = false
+          submitButton.textContent = 'Get My Free Magazines'
+          return
+        }
+        formData.append('cf-turnstile-response', turnstileResponse)
+
         try {
           console.log('[FREEMAG-FORM] Submitting to API endpoint')
           const response = await fetch('/api/bento-event', {
@@ -564,4 +579,7 @@ const seo: SEOProps = {
     }
   })
 </script>
+
+<!-- Cloudflare Turnstile Script -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </Layout>
