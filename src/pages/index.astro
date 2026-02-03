@@ -25,33 +25,21 @@ import { getCollection } from 'astro:content'
 // Fetch real nomad directory data
 const { records = [] } = await fetchReportRecords('6857167d82358a0f5e038c3f')
 
-// Fetch latest blog articles (prioritize custom/homepage-tagged posts)
-const allPosts = await getCollection('blog')
-const publishedPosts = allPosts.filter((post) => post.data.published !== false)
+// Fetch latest articles (not blog posts)
+const allArticles = await getCollection('article')
+const publishedArticles = allArticles.filter((article) => article.data.published !== false)
 
-// Posts explicitly tagged to appear on homepage
-const homepageTagged = publishedPosts.filter((post) => {
-  const tag = (post.data.tag || '').toLowerCase()
-  return tag.includes('homepage') || tag.includes('custom')
-})
-
-// Remaining posts excluding ones already selected
-const remainingPosts = publishedPosts.filter(
-  (post) => !homepageTagged.find((hp) => hp.slug === post.slug)
-)
-
-// Sort both lists by latest date
+// Sort by latest date
 const sortByDateDesc = (a: any, b: any) => {
   const dateA = new Date(a.data.pubDate || a.data.updatedDate || '2024-01-01').getTime()
   const dateB = new Date(b.data.pubDate || b.data.updatedDate || '2024-01-01').getTime()
   return dateB - dateA
 }
 
-homepageTagged.sort(sortByDateDesc)
-remainingPosts.sort(sortByDateDesc)
+publishedArticles.sort(sortByDateDesc)
 
-// Compose final list giving priority to homepage-tagged posts
-const latestPosts = [...homepageTagged, ...remainingPosts].slice(0, 3)
+// Get top 3 latest articles
+const latestPosts = publishedArticles.slice(0, 3)
 
 // Hardcoded Monthly Supporters list (same as nomad_directory.astro)
 const monthlySupporters = [
@@ -612,6 +600,73 @@ const seo: SEOProps = {
       </div>
     </section>
 
+    <!-- Digital Nomad Insights Section - Latest Articles -->
+    <section class="border-b border-neutral-800 bg-neutral-900/30 px-4 py-16 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-12">
+          <h2 class="text-3xl font-bold text-white">Latest <span class="text-yellow-400">Nomad</span> Insights</h2>
+          <p class="mt-2 text-lg text-neutral-400">Essential reads for the modern digital nomad</p>
+        </div>
+        
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {latestPosts.map((post, index) => (
+            <article class={`group relative overflow-hidden rounded-2xl transition-all hover:scale-105 ${
+              index === 0 
+                ? 'col-span-1 md:col-span-2 lg:col-span-1 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 hover:from-yellow-500/30 hover:to-orange-500/30' 
+                : 'bg-neutral-900/50 hover:bg-neutral-900/80'
+            }`}>
+              <div class="relative aspect-video">
+                <img
+                  src={post.data.heroImage || '/images/default-blog-hero.webp'}
+                  alt={post.data.title}
+                  class="h-full w-full object-cover"
+                  loading="lazy"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                {index === 0 && (
+                  <div class="absolute top-4 left-4">
+                    <span class="inline-block rounded-full bg-yellow-400 px-3 py-1 text-xs font-bold text-black uppercase">Latest</span>
+                  </div>
+                )}
+              </div>
+              <div class="p-6">
+                <h3 class={`mb-3 font-bold text-white group-hover:text-yellow-400 transition-colors ${
+                  index === 0 ? 'text-xl' : 'text-lg'
+                }`}>
+                  <a href={`/articles/${post.slug}`} class="after:absolute after:inset-0">
+                    {post.data.title}
+                  </a>
+                </h3>
+                <p class="text-sm text-neutral-300 line-clamp-3">
+                  {post.data.description}
+                </p>
+                <div class="mt-4 flex items-center text-xs text-neutral-400">
+                  <span>{new Date(post.data.pubDate || post.data.updatedDate || '2024-01-01').toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric' 
+                  })}</span>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+        
+        <div class="mt-12 text-center">
+          <a
+            href="/articles/"
+            class="inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-6 py-3 text-sm font-bold text-black transition-all hover:bg-yellow-300 hover:scale-105"
+            aria-label="Read more articles"
+          >
+            Read More Articles
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
     <!-- YouTube Section -->
     <section class="border-b border-neutral-800 bg-neutral-900/30 px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
@@ -777,73 +832,6 @@ const seo: SEOProps = {
     <!-- Community & Social Proof -->
     <Testimonials />
     <GrowingCommunity />
-    
-    <!-- Digital Nomad Insights Section - Reduced to 3 articles for less clutter -->
-    <section class="border-b border-neutral-800 bg-neutral-900/30 px-4 py-16 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-7xl">
-        <div class="mb-12">
-          <h2 class="text-3xl font-bold text-white">Latest <span class="text-yellow-400">Nomad</span> Insights</h2>
-          <p class="mt-2 text-lg text-neutral-400">Essential reads for the modern digital nomad</p>
-        </div>
-        
-        <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {latestPosts.map((post, index) => (
-            <article class={`group relative overflow-hidden rounded-2xl transition-all hover:scale-105 ${
-              index === 0 
-                ? 'col-span-1 md:col-span-2 lg:col-span-1 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 hover:from-yellow-500/30 hover:to-orange-500/30' 
-                : 'bg-neutral-900/50 hover:bg-neutral-900/80'
-            }`}>
-              <div class="relative aspect-video">
-                <img
-                  src={post.data.heroImage || '/images/default-blog-hero.webp'}
-                  alt={post.data.title}
-                  class="h-full w-full object-cover"
-                  loading="lazy"
-                />
-                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                {index === 0 && (
-                  <div class="absolute top-4 left-4">
-                    <span class="inline-block rounded-full bg-yellow-400 px-3 py-1 text-xs font-bold text-black uppercase">Latest</span>
-                  </div>
-                )}
-              </div>
-              <div class="p-6">
-                <h3 class={`mb-3 font-bold text-white group-hover:text-yellow-400 transition-colors ${
-                  index === 0 ? 'text-xl' : 'text-lg'
-                }`}>
-                  <a href={`/blog/${post.slug}`} class="after:absolute after:inset-0">
-                    {post.data.title}
-                  </a>
-                </h3>
-                <p class="text-sm text-neutral-300 line-clamp-3">
-                  {post.data.description}
-                </p>
-                <div class="mt-4 flex items-center text-xs text-neutral-400">
-                  <span>{new Date(post.data.pubDate || post.data.updatedDate || '2024-01-01').toLocaleDateString('en-US', { 
-                    year: 'numeric', 
-                    month: 'short', 
-                    day: 'numeric' 
-                  })}</span>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-        
-        <div class="mt-12 text-center">
-          <a
-            href="/articles/"
-            class="inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-6 py-3 text-sm font-bold text-black transition-all hover:bg-yellow-300 hover:scale-105"
-            aria-label="Read more articles"
-          >
-            Read More Articles
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </section>
 
     <!-- About & Mission - Combine related sections -->
     <About />
