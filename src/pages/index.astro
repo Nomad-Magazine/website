@@ -19,6 +19,7 @@ import StickyBrandPlacement from '~/components/StickyBrandPlacement.astro'
 import MagazinePreview from '~/components/MagazinePreview.astro'
 import GrowingCommunity from '~/components/GrowingCommunity.astro'
 import MagazineStack from '~/components/MagazineStack.astro'
+import StickyAnnouncementBar from '~/components/StickyAnnouncementBar.astro'
 import { fetchReportRecords } from '~/utils/smartsuite'
 import { getCollection } from 'astro:content'
 
@@ -133,6 +134,56 @@ const allValidEntries = records
 
 // Get first 12 entries for regular display (4 rows x 3 columns, with featured partners first)
 const regularDirectoryEntries = allValidEntries.slice(0, 12)
+
+// Prepare sticky bar items - mix of announcements, directory, articles, and partnership
+const stickyBarItems = [
+  // Partnership CTA
+  {
+    type: 'announcement' as const,
+    title: 'Partner with Nomad Magazine - Reach 100+ Coworking Spaces Worldwide',
+    link: '/brand-placement-next-edition-847291/',
+    badge: 'PARTNER'
+  },
+  // Key announcements
+  {
+    type: 'announcement' as const,
+    title: 'Casa Marianas Hiring Social Media Manager in Saipan',
+    link: '#announcements',
+    badge: 'HIRING'
+  },
+  {
+    type: 'announcement' as const,
+    title: 'Nomad Experience Japan - March 2-27, 2026',
+    link: '#announcements',
+    badge: 'EVENT'
+  },
+  {
+    type: 'announcement' as const,
+    title: 'Wonder House Coliving Manager - €900/month + Accommodation',
+    link: '#announcements',
+    badge: 'OPPORTUNITY'
+  },
+  {
+    type: 'announcement' as const,
+    title: 'Nomadicards Looking for New Home - Free Handover',
+    link: '#announcements',
+    badge: 'NEW'
+  },
+  // Top directory entries
+  ...allValidEntries.slice(0, 3).map((entry: any) => ({
+    type: 'directory' as const,
+    title: `${entry.title} - ${entry.category}`,
+    link: entry.link,
+    badge: 'DIRECTORY'
+  })),
+  // Latest articles
+  ...latestPosts.slice(0, 2).map((post: any) => ({
+    type: 'article' as const,
+    title: post.data.title,
+    link: `/articles/${post.slug}/`,
+    badge: 'ARTICLE'
+  }))
+]
 
 // YouTube channel videos
 const youtubeVideos = [
@@ -850,8 +901,6 @@ const seo: SEOProps = {
     <GetInvolved />
   </div>
   
-  <!-- Sticky Brand Placement Banner -->
-  <StickyBrandPlacement />
   
   <!-- Announcement Modal -->
   <div id="announcement-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="modal-title">
@@ -1065,3 +1114,6 @@ const seo: SEOProps = {
     }
   });
 </script>
+
+<!-- Sticky Auto-scrolling Ticker at Bottom -->
+<StickyAnnouncementBar items={stickyBarItems} />

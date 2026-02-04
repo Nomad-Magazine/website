@@ -52,9 +52,11 @@ export const POST: APIRoute = async ({ request }) => {
     const formData = await request.formData()
     const email = formData.get('email')
     const eventType = formData.get('event_type')
+    const turnstileToken = formData.get('cf-turnstile-response')
 
     console.log(`[BENTO-EVENT] Email provided: ${email ? 'yes' : 'no'}`)
     console.log(`[BENTO-EVENT] Event type: ${eventType}`)
+    console.log(`[BENTO-EVENT] Turnstile token provided: ${turnstileToken ? 'yes' : 'no'}`)
 
     if (!email) {
       console.error('[BENTO-EVENT] Missing email')
@@ -72,6 +74,43 @@ export const POST: APIRoute = async ({ request }) => {
       })
     }
 
+    if (!turnstileToken) {
+      console.error('[BENTO-EVENT] Missing Turnstile token')
+      return new Response(JSON.stringify({ error: 'Captcha verification required' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    }
+
+    // Verify Turnstile token with Cloudflare
+    console.log('[BENTO-EVENT] Verifying Turnstile token')
+    const turnstileSecret = '0x4AAAAAACXWfo_V0Vh-VNJaSgA8hIjK87s'
+    const turnstileVerifyUrl = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
+    
+    const turnstileVerifyResponse = await fetch(turnstileVerifyUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        secret: turnstileSecret,
+        response: turnstileToken,
+      }),
+    })
+
+    const turnstileResult = await turnstileVerifyResponse.json() as { success: boolean; 'error-codes'?: string[] }
+    console.log(`[BENTO-EVENT] Turnstile verification result: ${JSON.stringify(turnstileResult)}`)
+
+    if (!turnstileResult.success) {
+      console.error('[BENTO-EVENT] Turnstile verification failed:', turnstileResult['error-codes'])
+      return new Response(JSON.stringify({ error: 'Captcha verification failed' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    }
+
+    console.log('[BENTO-EVENT] Turnstile verification successful')
+
     // Get Bento credentials from environment
     const BENTO_SITE_UUID = getSecret('BENTO_SITE_UUID')
     const BENTO_PUBLISHABLE_KEY = getSecret('BENTO_PUBLISHABLE_KEY')
@@ -85,10 +124,10 @@ export const POST: APIRoute = async ({ request }) => {
       })
     }
 
-    // Collect all form fields except email and event_type
+    // Collect all form fields except email, event_type, and cf-turnstile-response
     const fields: Record<string, string> = {}
     for (const [key, value] of formData.entries()) {
-      if (key !== 'email' && key !== 'event_type' && typeof value === 'string') {
+      if (key !== 'email' && key !== 'event_type' && key !== 'cf-turnstile-response' && typeof value === 'string') {
         fields[key] = value
       }
     }
