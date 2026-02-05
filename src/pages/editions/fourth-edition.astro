@@ -7,6 +7,15 @@ import SubscribeInput from '~/components/SubscribeInput.astro';
 
 <Layout title="Edition Four - Coming Soon">
   <div class="coming-soon-container">
+    <!-- Cover Image Section -->
+    <div class="cover-section">
+      <img 
+        src="/images/edition-004-cover.webp" 
+        alt="Nomad Magazine Edition Four Cover" 
+        class="cover-image"
+      />
+    </div>
+
     <div class="hero-text">
       <h1>Edition Four</h1>
       <h2>Coming Soon</h2>
@@ -14,16 +23,7 @@ import SubscribeInput from '~/components/SubscribeInput.astro';
     
     <div class="subtitle">
       <p>It will be the best edition so far!</p>
-      <p class="pages">120 pages of pure high-end content</p>
-    </div>
-
-    <div class="subscribe-section">
-      <p class="subscribe-text">Subscribe to be notified when it's ready (if you haven't already)</p>
-      <SubscribeInput tag="edition-four" />
-      
-      <div class="preorder-notice">
-        <p>Or <a href="https://pay.nomad-magazine.com/b/fZu14nc2x1bdfAWf0l8bS0L" class="preorder-link">preorder the print edition now</a> and save €5 with code <span class="code">MINUS5</span></p>
-      </div>
+      <p class="pages">128 pages of pure high-end content</p>
     </div>
 
     <div class="collage">
@@ -40,6 +40,71 @@ import SubscribeInput from '~/components/SubscribeInput.astro';
       <span class="word word-11">Queer Nomads</span>
       <span class="word word-12">Nomad Fashion</span>
       <span class="word word-13">Lee Holden</span>
+    </div>
+
+    <div class="subscribe-section">
+      <p class="subscribe-text">Subscribe to be notified when it's ready (if you haven't already)</p>
+      <SubscribeInput tag="edition-four" />
+      
+      <div class="preorder-notice">
+        <p>Or <a href="https://pay.nomad-magazine.com/b/fZu14nc2x1bdfAWf0l8bS0L" class="preorder-link">preorder the print edition now</a> and save €5 with code <span class="code">MINUS5</span></p>
+      </div>
+    </div>
+
+    <!-- Partners Section -->
+    <div class="partners-section">
+      <h2 class="partners-heading">This edition was brought to life with the support of our partners:</h2>
+      
+      <div class="partners-grid">
+        <div class="partner-logo">
+          <img src="/images/logo-palermo-municipality.webp" alt="Città di Palermo" />
+        </div>
+        <div class="partner-logo">
+          <img src="/images/logo-Falmouth-University-Black.webp" alt="Falmouth University" />
+        </div>
+        <div class="partner-logo">
+          <img src="/images/logo-nomads-insure.webp" alt="Nomads Insure" />
+        </div>
+        <div class="partner-logo">
+          <img src="/images/nomad-cruise-logo.webp" alt="Nomad Fest" />
+        </div>
+        <div class="partner-logo">
+          <img src="/images/betahaus-logo.webp" alt="Nomad Tax Bulgaria" />
+        </div>
+        <div class="partner-logo">
+          <img src="/images/Ciao-Logo-black.webp" alt="U Ciao" />
+        </div>
+        <div class="partner-logo">
+          <img src="/images/logo-nomad-train.webp" alt="Nomad Train" />
+        </div>
+        <div class="partner-logo">
+          <img src="/images/betahaus-logo.webp" alt="Beet Community" />
+        </div>
+        <div class="partner-logo">
+          <img src="/images/logo-roamless_black.webp" alt="Roamless" />
+        </div>
+        <div class="partner-logo">
+          <img src="/images/logo-Max-Master-Logo-black.webp" alt="Max Browser" />
+        </div>
+        <div class="partner-logo">
+          <img src="/images/betahaus-logo.webp" alt="Colive Fukuoka" />
+        </div>
+        <div class="partner-logo">
+          <img src="/images/betahaus-logo.webp" alt="Swaphouse" />
+        </div>
+        <div class="partner-logo">
+          <img src="/images/rent-remote-logo.webp" alt="Rent Remote" />
+        </div>
+        <div class="partner-logo">
+          <img src="/images/Logo_BetterNeighbors.webp" alt="The Better Neighbors" />
+        </div>
+        <div class="partner-logo">
+          <img src="/images/betahaus-logo.webp" alt="SUMA" />
+        </div>
+        <div class="partner-logo">
+          <img src="/images/betahaus-logo.webp" alt="Swaphouse" />
+        </div>
+      </div>
     </div>
 
     <div class="shipment-section">
@@ -62,10 +127,45 @@ import SubscribeInput from '~/components/SubscribeInput.astro';
     color: white;
   }
 
+  .cover-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem 0 2rem 0;
+    animation: fadeInScale 1s ease-out;
+  }
+
+  .cover-image {
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(78, 205, 196, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .cover-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6),
+                0 0 60px rgba(78, 205, 196, 0.5);
+  }
+
+  @keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
   .hero-text {
     text-align: center;
     margin-bottom: 2rem;
-    padding-top: 4rem;
+    padding-top: 2rem;
   }
 
   .hero-text h1 {
@@ -103,6 +203,52 @@ import SubscribeInput from '~/components/SubscribeInput.astro';
     font-size: clamp(1rem, 2vw, 1.5rem);
     color: #999;
     font-weight: 300;
+  }
+
+  .partners-section {
+    max-width: 1200px;
+    margin: 0 auto 6rem auto;
+    padding: 0 2rem;
+  }
+
+  .partners-heading {
+    text-align: center;
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    font-weight: 400;
+    color: #ddd;
+    margin-bottom: 3rem;
+    line-height: 1.4;
+  }
+
+  .partners-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 3rem 2rem;
+    align-items: center;
+    justify-items: center;
+  }
+
+  .partner-logo {
+    width: 100%;
+    max-width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .partner-logo:hover {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+
+  .partner-logo img {
+    width: 100%;
+    height: auto;
+    max-height: 80px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
   }
 
   .collage {
@@ -324,13 +470,45 @@ import SubscribeInput from '~/components/SubscribeInput.astro';
       padding: 1rem;
     }
 
+    .cover-section {
+      padding: 2rem 0 1rem 0;
+    }
+
+    .cover-image {
+      max-width: 280px;
+    }
+
     .hero-text {
-      padding-top: 2rem;
+      padding-top: 1rem;
       margin-bottom: 1.5rem;
     }
 
     .subtitle {
       margin-bottom: 2rem;
+    }
+
+    .partners-section {
+      margin-bottom: 4rem;
+      padding: 0 1rem;
+    }
+
+    .partners-heading {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      margin-bottom: 2rem;
+    }
+
+    .partners-grid {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 2rem 1.5rem;
+    }
+
+    .partner-logo {
+      max-width: 150px;
+      padding: 0.5rem;
+    }
+
+    .partner-logo img {
+      max-height: 60px;
     }
 
     .collage {

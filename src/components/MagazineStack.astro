@@ -10,8 +10,8 @@ const { showLatestBadge = true, className = '' } = Astro.props
 <div class={`relative magazine-stack-container ${className}`}>
   <!-- Magazine Stack Effect -->
   <div class="relative transform transition-all duration-700">
-    <!-- Third magazine (back) - First Edition -->
-    <div class="magazine-back absolute transition-all duration-500 ease-out cursor-pointer block overflow-hidden group">
+    <!-- Fourth magazine (far back) - First Edition -->
+    <div class="magazine-far-back absolute transition-all duration-500 ease-out cursor-pointer block overflow-hidden group">
       <img
         src="/images/first-edition-cover-hd.webp"
         alt="Nomad Magazine First Edition"
@@ -24,8 +24,8 @@ const { showLatestBadge = true, className = '' } = Astro.props
       <a href="/editions/first-edition/" aria-label="View Nomad Magazine First Edition" class="absolute inset-0 z-10"></a>
     </div>
 
-    <!-- Second magazine (middle) - Second Edition -->
-    <a href="/editions/second-edition/" aria-label="View Nomad Magazine Second Edition" class="magazine-middle absolute transition-all duration-500 ease-out cursor-pointer block overflow-hidden">
+    <!-- Third magazine (back) - Second Edition -->
+    <div class="magazine-back absolute transition-all duration-500 ease-out cursor-pointer block overflow-hidden group">
       <img
         src="/images/edition-002-cover.webp"
         alt="Nomad Magazine Second Edition"
@@ -34,14 +34,28 @@ const { showLatestBadge = true, className = '' } = Astro.props
         width="2000"
         height="2450"
       />
-    </a>
+      <!-- Original link overlay -->
+      <a href="/editions/second-edition/" aria-label="View Nomad Magazine Second Edition" class="absolute inset-0 z-10"></a>
+    </div>
 
-    <!-- First magazine (front) - Third Edition -->
-    <a href="/editions/third-edition/" aria-label="View Nomad Magazine Third Edition" class="magazine-front relative cursor-pointer block transition-all duration-500 ease-out overflow-hidden">
+    <!-- Second magazine (middle) - Third Edition -->
+    <a href="/editions/third-edition/" aria-label="View Nomad Magazine Third Edition" class="magazine-middle absolute transition-all duration-500 ease-out cursor-pointer block overflow-hidden">
       <img
         src="/images/third-edition-cover-hd.webp"
         alt="Nomad Magazine Third Edition"
         class="h-auto w-64 rounded-lg shadow-2xl shadow-white/30 md:w-80 pointer-events-none"
+        loading="lazy"
+        width="1200"
+        height="1404"
+      />
+    </a>
+
+    <!-- First magazine (front) - Fourth Edition -->
+    <a href="/editions/fourth-edition/" aria-label="View Nomad Magazine Fourth Edition" class="magazine-front relative cursor-pointer block transition-all duration-500 ease-out overflow-hidden">
+      <img
+        src="/images/edition-004-cover.webp"
+        alt="Nomad Magazine Fourth Edition"
+        class="h-auto w-64 rounded-lg shadow-2xl shadow-blue-400/30 md:w-80 pointer-events-none"
         loading="lazy"
         width="1200"
         height="1404"
@@ -74,28 +88,36 @@ const { showLatestBadge = true, className = '' } = Astro.props
 
 <style>
   /* Magazine stack default positions - spread out and centered */
-  .magazine-back {
-    transform: translateX(-80px) translateY(0px) rotate(-8deg);
+  .magazine-far-back {
+    transform: translateX(-120px) translateY(-5px) rotate(-12deg);
     z-index: 1;
+    width: 256px; /* w-64 equivalent */
+    height: auto;
+  }
+  
+  .magazine-back {
+    transform: translateX(-40px) translateY(0px) rotate(-6deg);
+    z-index: 2;
     width: 256px; /* w-64 equivalent */
     height: auto;
   }
   
   .magazine-middle {
     transform: translateX(40px) translateY(10px) rotate(-2deg);
-    z-index: 2;
-    width: 256px; /* w-64 equivalent */
-    height: auto;
-  }
-  
-  .magazine-front {
-    transform: translateX(160px) translateY(20px) rotate(2deg);
     z-index: 3;
     width: 256px; /* w-64 equivalent */
     height: auto;
   }
   
+  .magazine-front {
+    transform: translateX(120px) translateY(20px) rotate(2deg);
+    z-index: 4;
+    width: 256px; /* w-64 equivalent */
+    height: auto;
+  }
+  
   @media (min-width: 768px) {
+    .magazine-far-back,
     .magazine-back,
     .magazine-middle,
     .magazine-front {
@@ -104,8 +126,12 @@ const { showLatestBadge = true, className = '' } = Astro.props
   }
   
   /* Magazine stack hover effect - spread out to the right with smooth transition */
+  .magazine-stack-container:hover .magazine-far-back {
+    transform: translateX(-60px) translateY(-5px) rotate(-12deg);
+  }
+  
   .magazine-stack-container:hover .magazine-back {
-    transform: translateX(-20px) translateY(0px) rotate(-8deg);
+    transform: translateX(20px) translateY(0px) rotate(-6deg);
   }
   
   .magazine-stack-container:hover .magazine-middle {
@@ -113,71 +139,90 @@ const { showLatestBadge = true, className = '' } = Astro.props
   }
   
   .magazine-stack-container:hover .magazine-front {
-    transform: translateX(220px) translateY(20px) rotate(2deg);
+    transform: translateX(180px) translateY(20px) rotate(2deg);
   }
   
   /* Mobile: stack vertically on hover */
   @media (max-width: 768px) {
+    .magazine-far-back {
+      transform: translateX(-10px) translateY(0px) rotate(-6deg);
+    }
+    
     .magazine-back {
       transform: translateX(0px) translateY(0px) rotate(-4deg);
     }
     
     .magazine-middle {
-      transform: translateX(20px) translateY(5px) rotate(-2deg);
+      transform: translateX(10px) translateY(5px) rotate(-2deg);
     }
     
     .magazine-front {
-      transform: translateX(40px) translateY(10px) rotate(0deg);
+      transform: translateX(20px) translateY(10px) rotate(0deg);
+    }
+    
+    .magazine-stack-container:hover .magazine-far-back {
+      transform: translateX(0px) translateY(0px) rotate(-6deg);
     }
     
     .magazine-stack-container:hover .magazine-back {
-      transform: translateX(0px) translateY(0px) rotate(-4deg);
+      transform: translateX(0px) translateY(80px) rotate(-2deg);
     }
     
     .magazine-stack-container:hover .magazine-middle {
-      transform: translateX(0px) translateY(100px) rotate(0deg);
+      transform: translateX(0px) translateY(160px) rotate(0deg);
     }
     
     .magazine-stack-container:hover .magazine-front {
-      transform: translateX(0px) translateY(200px) rotate(0deg);
+      transform: translateX(0px) translateY(240px) rotate(0deg);
     }
   }
   
   /* Individual magazine hover effects - bring to front with playful scaling */
+  .magazine-far-back:hover {
+    transform: translateX(-120px) translateY(-5px) rotate(-12deg) scale(1.05) !important;
+    z-index: 15 !important;
+  }
+  
   .magazine-back:hover {
-    transform: translateX(0px) translateY(0px) rotate(-8deg) scale(1.05) !important;
+    transform: translateX(-40px) translateY(0px) rotate(-6deg) scale(1.05) !important;
     z-index: 15 !important;
   }
   
   .magazine-middle:hover {
-    transform: translateX(40px) translateY(10px) rotate(-4deg) scale(1.05) !important;
+    transform: translateX(40px) translateY(10px) rotate(-2deg) scale(1.05) !important;
     z-index: 15 !important;
   }
   
   .magazine-front:hover {
-    transform: translateX(80px) translateY(20px) rotate(0deg) scale(1.05) !important;
+    transform: translateX(120px) translateY(20px) rotate(2deg) scale(1.05) !important;
     z-index: 15 !important;
   }
   
   /* Mobile individual hover effects */
   @media (max-width: 768px) {
+    .magazine-far-back:hover {
+      transform: translateX(-10px) translateY(0px) rotate(-6deg) scale(1.05) !important;
+      z-index: 15 !important;
+    }
+    
     .magazine-back:hover {
       transform: translateX(0px) translateY(0px) rotate(-4deg) scale(1.05) !important;
       z-index: 15 !important;
     }
     
     .magazine-middle:hover {
-      transform: translateX(20px) translateY(5px) rotate(-2deg) scale(1.05) !important;
+      transform: translateX(10px) translateY(5px) rotate(-2deg) scale(1.05) !important;
       z-index: 15 !important;
     }
     
     .magazine-front:hover {
-      transform: translateX(40px) translateY(10px) rotate(0deg) scale(1.05) !important;
+      transform: translateX(20px) translateY(10px) rotate(0deg) scale(1.05) !important;
       z-index: 15 !important;
     }
   }
   
   /* Smooth transitions for all states */
+  .magazine-far-back,
   .magazine-back,
   .magazine-middle,
   .magazine-front {
@@ -185,8 +230,12 @@ const { showLatestBadge = true, className = '' } = Astro.props
   }
   
   /* When container is hovered, individual hovers are less prominent */
+  .magazine-stack-container:hover .magazine-far-back:hover {
+    transform: translateX(-60px) translateY(-5px) rotate(-12deg) scale(1.02) !important;
+  }
+  
   .magazine-stack-container:hover .magazine-back:hover {
-    transform: translateX(-20px) translateY(0px) rotate(-8deg) scale(1.02) !important;
+    transform: translateX(20px) translateY(0px) rotate(-6deg) scale(1.02) !important;
   }
   
   .magazine-stack-container:hover .magazine-middle:hover {
@@ -194,7 +243,7 @@ const { showLatestBadge = true, className = '' } = Astro.props
   }
   
   .magazine-stack-container:hover .magazine-front:hover {
-    transform: translateX(220px) translateY(20px) rotate(2deg) scale(1.02) !important;
+    transform: translateX(180px) translateY(20px) rotate(2deg) scale(1.02) !important;
   }
   
   /* Hide hint on hover */
