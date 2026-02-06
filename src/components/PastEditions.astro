@@ -3,6 +3,17 @@ import EditionCard from './EditionCard.astro'
 
 const editions = [
   {
+    title: 'Third Edition',
+    imageUrl: '/images/third-edition-cover-hd.webp',
+    buttons: [
+      {
+        text: 'Buy Now',
+        url: '/editions/third-edition/',
+        primary: false,
+      },
+    ],
+  },
+  {
     title: 'Second Edition',
     imageUrl: '/images/edition-002-cover.webp',
     storeUrl: 'https://brot.sk/products/nomad-gossip-magazine-2?_pos=3&_psq=nomad&_ss=e&_v=1.0',
@@ -10,12 +21,12 @@ const editions = [
     buttons: [
       {
         text: 'Buy Now',
-        url: '/editions/second-edition',
+        url: '/editions/second-edition/',
         primary: false,
       },
       {
         text: 'Download Sample',
-        url: '/free-weekly-articles',
+        url: '/free-weekly-articles/',
         primary: false,
       },
     ],
@@ -28,12 +39,12 @@ const editions = [
     buttons: [
       {
         text: 'Buy Now',
-        url: '/editions/first-edition',
+        url: '/editions/first-edition/',
         primary: false,
       },
       {
         text: 'Download Sample',
-        url: '/free-article-what-not-to-do-on-first-date',
+        url: '/free-article-what-not-to-do-on-first-date/',
         primary: false,
       },
     ],
@@ -43,7 +54,7 @@ const editions = [
 
 <section class="py-20">
   <div class="container mx-auto px-4">
-    <div class="grid grid-cols-1 items-start gap-16 md:grid-cols-2">
+    <div class="grid grid-cols-1 items-start gap-16 md:grid-cols-2 lg:grid-cols-3">
       {editions.map((edition) => <EditionCard {...edition} />)}
     </div>
   </div>

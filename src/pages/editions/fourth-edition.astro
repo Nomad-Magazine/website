@@ -2,7 +2,6 @@
 export const prerender = true;
 
 import Layout from '../../layouts/Layout.astro';
-import SubscribeInput from '~/components/SubscribeInput.astro';
 ---
 
 <Layout title="Edition Four - Coming Soon">
@@ -26,6 +25,29 @@ import SubscribeInput from '~/components/SubscribeInput.astro';
       <p class="pages">128 pages of pure high-end content</p>
     </div>
 
+    <!-- Subscribe Section (Before Content) -->
+    <div class="subscribe-section">
+      <p class="subscribe-text">Subscribe to be notified when it's ready</p>
+      <form id="subscribe-form-top" class="subscribe-form" aria-label="Subscribe to newsletter">
+        <input type="hidden" name="event_type" value="subscribe_edition-four-top" />
+        <div class="subscribe-input-group">
+          <input
+            required
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            aria-label="Email address"
+            class="subscribe-input"
+          />
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAACXWfgpGaqB_A50e" data-theme="light"></div>
+          <button type="submit" class="subscribe-button">Subscribe</button>
+        </div>
+      </form>
+      <div class="preorder-notice">
+        <p>Or <a href="https://pay.nomad-magazine.com/b/fZu14nc2x1bdfAWf0l8bS0L" class="preorder-link">preorder the print edition now</a> and save €5 with code <span class="code">MINUS5</span></p>
+      </div>
+    </div>
+
     <div class="collage">
       <span class="word word-1">Palermo</span>
       <span class="word word-2">Bansko</span>
@@ -39,13 +61,26 @@ import SubscribeInput from '~/components/SubscribeInput.astro';
       <span class="word word-10">Parenting on the move</span>
       <span class="word word-11">Queer Nomads</span>
       <span class="word word-12">Nomad Fashion</span>
-      <span class="word word-13">Lee Holden</span>
     </div>
 
+    <!-- Subscribe Section (After Content) -->
     <div class="subscribe-section">
       <p class="subscribe-text">Subscribe to be notified when it's ready (if you haven't already)</p>
-      <SubscribeInput tag="edition-four" />
-      
+      <form id="subscribe-form-bottom" class="subscribe-form" aria-label="Subscribe to newsletter">
+        <input type="hidden" name="event_type" value="subscribe_edition-four-bottom" />
+        <div class="subscribe-input-group">
+          <input
+            required
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            aria-label="Email address"
+            class="subscribe-input"
+          />
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAACXWfgpGaqB_A50e" data-theme="light"></div>
+          <button type="submit" class="subscribe-button">Subscribe</button>
+        </div>
+      </form>
       <div class="preorder-notice">
         <p>Or <a href="https://pay.nomad-magazine.com/b/fZu14nc2x1bdfAWf0l8bS0L" class="preorder-link">preorder the print edition now</a> and save €5 with code <span class="code">MINUS5</span></p>
       </div>
@@ -56,54 +91,45 @@ import SubscribeInput from '~/components/SubscribeInput.astro';
       <h2 class="partners-heading">This edition was brought to life with the support of our partners:</h2>
       
       <div class="partners-grid">
-        <div class="partner-logo">
+        <a href="https://www.comune.palermo.it/" target="_blank" rel="noopener noreferrer" class="partner-logo logo-palermo" aria-label="Visit Città di Palermo website (opens in new tab)">
           <img src="/images/logo-palermo-municipality.webp" alt="Città di Palermo" />
-        </div>
-        <div class="partner-logo">
+        </a>
+        <a href="https://www.falmouth.ac.uk/study/online" target="_blank" rel="noopener noreferrer" class="partner-logo logo-falmouth" aria-label="Visit Falmouth University website (opens in new tab)">
           <img src="/images/logo-Falmouth-University-Black.webp" alt="Falmouth University" />
-        </div>
-        <div class="partner-logo">
+        </a>
+        <a href="https://nomads.insure/" target="_blank" rel="noopener noreferrer" class="partner-logo logo-nomads-insure" aria-label="Visit Nomads Insure website (opens in new tab)">
           <img src="/images/logo-nomads-insure.webp" alt="Nomads Insure" />
-        </div>
-        <div class="partner-logo">
-          <img src="/images/nomad-cruise-logo.webp" alt="Nomad Fest" />
-        </div>
-        <div class="partner-logo">
-          <img src="/images/betahaus-logo.webp" alt="Nomad Tax Bulgaria" />
-        </div>
-        <div class="partner-logo">
+        </a>
+        <a href="https://nomad-fest.com/" target="_blank" rel="noopener noreferrer" class="partner-logo logo-nomad-fest" aria-label="Visit Nomad Fest website (opens in new tab)">
+          <img src="/images/nomad-fest_black.webp" alt="Nomad Fest" />
+        </a>
+        <a href="https://www.nomadtax.bg/" target="_blank" rel="noopener noreferrer" class="partner-logo logo-nomadtax" aria-label="Visit Nomad Tax Bulgaria website (opens in new tab)">
+          <img src="/images/NomadTax.webp" alt="Nomad Tax Bulgaria" />
+        </a>
+        <a href="https://meetciao.com/" target="_blank" rel="noopener noreferrer" class="partner-logo logo-ciao" aria-label="Visit U Ciao website (opens in new tab)">
           <img src="/images/Ciao-Logo-black.webp" alt="U Ciao" />
-        </div>
-        <div class="partner-logo">
+        </a>
+        <a href="https://nomadtrain.co/" target="_blank" rel="noopener noreferrer" class="partner-logo logo-nomad-train" aria-label="Visit Nomad Train website (opens in new tab)">
           <img src="/images/logo-nomad-train.webp" alt="Nomad Train" />
-        </div>
-        <div class="partner-logo">
-          <img src="/images/betahaus-logo.webp" alt="Beet Community" />
-        </div>
-        <div class="partner-logo">
+        </a>
+        <a href="https://roamless.com/" target="_blank" rel="noopener noreferrer" class="partner-logo logo-roamless" aria-label="Visit Roamless website (opens in new tab)">
           <img src="/images/logo-roamless_black.webp" alt="Roamless" />
-        </div>
-        <div class="partner-logo">
+        </a>
+        <a href="https://maxbrowser.com.au/" target="_blank" rel="noopener noreferrer" class="partner-logo logo-max" aria-label="Visit Max Browser website (opens in new tab)">
           <img src="/images/logo-Max-Master-Logo-black.webp" alt="Max Browser" />
-        </div>
-        <div class="partner-logo">
-          <img src="/images/betahaus-logo.webp" alt="Colive Fukuoka" />
-        </div>
-        <div class="partner-logo">
-          <img src="/images/betahaus-logo.webp" alt="Swaphouse" />
-        </div>
-        <div class="partner-logo">
+        </a>
+        <a href="https://www.swaphouse.com/" target="_blank" rel="noopener noreferrer" class="partner-logo logo-swaphouse" aria-label="Visit Swaphouse website (opens in new tab)">
+          <img src="/images/logo-swaphouse.webp" alt="Swaphouse" />
+        </a>
+        <a href="https://rentremote.com/" target="_blank" rel="noopener noreferrer" class="partner-logo logo-rent-remote" aria-label="Visit Rent Remote website (opens in new tab)">
           <img src="/images/rent-remote-logo.webp" alt="Rent Remote" />
-        </div>
-        <div class="partner-logo">
+        </a>
+        <a href="https://thebetterneighbors.com/" target="_blank" rel="noopener noreferrer" class="partner-logo logo-better-neighbors" aria-label="Visit The Better Neighbors website (opens in new tab)">
           <img src="/images/Logo_BetterNeighbors.webp" alt="The Better Neighbors" />
-        </div>
-        <div class="partner-logo">
-          <img src="/images/betahaus-logo.webp" alt="SUMA" />
-        </div>
-        <div class="partner-logo">
-          <img src="/images/betahaus-logo.webp" alt="Swaphouse" />
-        </div>
+        </a>
+        <a href="https://coliving.frilingue.ch/" target="_blank" rel="noopener noreferrer" class="partner-logo logo-coliving-frilingue" aria-label="Visit Coliving Frilingue website (opens in new tab)">
+          <img src="/images/logo-coliving-frilingue.webp" alt="Coliving Frilingue" />
+        </a>
       </div>
     </div>
 
@@ -206,16 +232,18 @@ import SubscribeInput from '~/components/SubscribeInput.astro';
   }
 
   .partners-section {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto 6rem auto;
-    padding: 0 2rem;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 16px;
   }
 
   .partners-heading {
     text-align: center;
     font-size: clamp(1.2rem, 2.5vw, 1.8rem);
     font-weight: 400;
-    color: #ddd;
+    color: #333;
     margin-bottom: 3rem;
     line-height: 1.4;
   }
@@ -223,7 +251,7 @@ import SubscribeInput from '~/components/SubscribeInput.astro';
   .partners-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 3rem 2rem;
+    gap: 1.5rem 2rem;
     align-items: center;
     justify-items: center;
   }
@@ -234,21 +262,74 @@ import SubscribeInput from '~/components/SubscribeInput.astro';
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1rem;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    padding: 1.5rem;
+    transition: transform 0.3s ease;
   }
 
   .partner-logo:hover {
     transform: scale(1.05);
-    opacity: 0.8;
   }
 
   .partner-logo img {
     width: 100%;
     height: auto;
-    max-height: 80px;
+    max-height: 70px;
     object-fit: contain;
-    filter: brightness(0) invert(1);
+  }
+
+  /* Optimize individual logo sizes for visual balance */
+  .logo-palermo img {
+    max-height: 110px;
+  }
+
+  .logo-falmouth img {
+    max-height: 65px;
+  }
+
+  .logo-nomads-insure img {
+    max-height: 75px;
+  }
+
+  .logo-nomad-fest img {
+    max-height: 80px;
+  }
+
+  .logo-nomadtax img {
+    max-height: 55px;
+  }
+
+  .logo-ciao img {
+    max-height: 60px;
+  }
+
+  .logo-nomad-train img {
+    max-height: 70px;
+  }
+
+  .logo-roamless img {
+    max-height: 65px;
+  }
+
+  .logo-max img {
+    max-height: 95px;
+  }
+
+  .logo-swaphouse img {
+    max-height: 75px;
+    filter: grayscale(100%);
+  }
+
+  .logo-rent-remote img {
+    max-height: 70px;
+    filter: brightness(0);
+  }
+
+  .logo-better-neighbors img {
+    max-height: 120px;
+  }
+
+  .logo-coliving-frilingue img {
+    max-height: 75px;
   }
 
   .collage {
@@ -372,6 +453,64 @@ import SubscribeInput from '~/components/SubscribeInput.astro';
     line-height: 1.6;
   }
 
+  .subscribe-form {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .subscribe-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .subscribe-input {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .subscribe-input:focus {
+    outline: none;
+    border-color: #4ecdc4;
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .subscribe-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .subscribe-button {
+    width: 100%;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #4ecdc4 0%, #44b3aa 100%);
+    color: #1a1a1a;
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .subscribe-button:hover {
+    background: linear-gradient(135deg, #5ed7ce 0%, #4ecdc4 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(78, 205, 196, 0.3);
+  }
+
+  .subscribe-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
   .preorder-notice {
     margin-top: 2rem;
     padding-top: 1.5rem;
@@ -489,7 +628,7 @@ import SubscribeInput from '~/components/SubscribeInput.astro';
 
     .partners-section {
       margin-bottom: 4rem;
-      padding: 0 1rem;
+      padding: 3rem 1rem;
     }
 
     .partners-heading {
@@ -499,7 +638,7 @@ import SubscribeInput from '~/components/SubscribeInput.astro';
 
     .partners-grid {
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 2rem 1.5rem;
+      gap: 1rem 1.5rem;
     }
 
     .partner-logo {
@@ -507,7 +646,52 @@ import SubscribeInput from '~/components/SubscribeInput.astro';
       padding: 0.5rem;
     }
 
+    .partner-logo {
+      padding: 1rem;
+    }
+
     .partner-logo img {
+      max-height: 55px;
+    }
+
+    /* Mobile optimized sizes */
+    .logo-palermo img {
+      max-height: 85px;
+    }
+
+    .logo-falmouth img {
+      max-height: 50px;
+    }
+
+    .logo-nomads-insure img {
+      max-height: 60px;
+    }
+
+    .logo-nomad-fest img {
+      max-height: 65px;
+    }
+
+    .logo-nomadtax img {
+      max-height: 45px;
+    }
+
+    .logo-ciao img {
+      max-height: 50px;
+    }
+
+    .logo-max img {
+      max-height: 75px;
+    }
+
+    .logo-swaphouse img {
+      max-height: 60px;
+    }
+
+    .logo-better-neighbors img {
+      max-height: 95px;
+    }
+
+    .logo-coliving-frilingue img {
       max-height: 60px;
     }
 
@@ -541,3 +725,67 @@ import SubscribeInput from '~/components/SubscribeInput.astro';
   }
 </style>
 
+<script is:inline>
+  // Form submission handler for both subscribe forms
+  document.addEventListener('DOMContentLoaded', function () {
+    const forms = document.querySelectorAll('.subscribe-form')
+
+    forms.forEach((form) => {
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault()
+
+        const submitButton = form.querySelector('.subscribe-button')
+        if (!submitButton) return
+
+        // Get Turnstile token
+        const turnstileWidget = form.querySelector('.cf-turnstile')
+        const turnstileResponse = window.turnstile?.getResponse(turnstileWidget);
+        
+        if (!turnstileResponse) {
+          alert('Please complete the captcha verification.')
+          return
+        }
+
+        // Disable submit button
+        submitButton.disabled = true
+        const originalText = submitButton.textContent
+        submitButton.textContent = 'Submitting...'
+
+        const formData = new FormData(form)
+        formData.append('cf-turnstile-response', turnstileResponse)
+
+        try {
+          const response = await fetch('/api/bento-event', {
+            method: 'POST',
+            body: formData,
+          })
+
+          const data = await response.json()
+
+          if (response.ok && data.success) {
+            // Show success message
+            alert("Successfully subscribed! We will notify you when Edition 4 is ready.")
+            form.reset()
+            // Reset Turnstile
+            if (window.turnstile) {
+              window.turnstile.reset(turnstileWidget)
+            }
+            submitButton.disabled = false
+            submitButton.textContent = originalText || 'Subscribe'
+          } else {
+            alert(data.error || 'Failed to subscribe. Please try again.')
+            submitButton.disabled = false
+            submitButton.textContent = originalText || 'Subscribe'
+          }
+        } catch (error) {
+          alert('An error occurred. Please try again.')
+          submitButton.disabled = false
+          submitButton.textContent = originalText || 'Subscribe'
+        }
+      })
+    })
+  })
+</script>
+
+<!-- Cloudflare Turnstile Script -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
