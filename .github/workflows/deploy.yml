@@ -22,6 +22,13 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: bun install
       - run: bun run build
+        env:
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+          STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
+          BENTO_SITE_UUID: ${{ secrets.BENTO_SITE_UUID }}
+          BENTO_PUBLISHABLE_KEY: ${{ secrets.BENTO_PUBLISHABLE_KEY }}
+          BENTO_SECRET_KEY: ${{ secrets.BENTO_SECRET_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       - run: bun run seo:check
       - name: Deploy to Production
         id: prod_deploy
