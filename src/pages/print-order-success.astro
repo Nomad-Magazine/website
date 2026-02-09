@@ -12,7 +12,7 @@ const seo: SEOProps = {
 
 <Layout seo={seo}>
   <div class="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center justify-center px-4 py-12">
-    <div class="max-w-3xl w-full">
+    <div class="max-w-5xl w-full">
       <!-- Main Thank You Card -->
       <div class="bg-white rounded-2xl shadow-2xl p-8 sm:p-12 border border-gray-100">
         <div class="text-center">
@@ -65,192 +65,184 @@ const seo: SEOProps = {
               </p>
             </div>
 
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
               <!-- Edition 1 -->
-              <div class="bg-white rounded-xl overflow-hidden border-2 border-gray-200 hover:border-yellow-400 transition-all">
+              <div class="bg-white rounded-xl overflow-hidden border-2 border-gray-200 hover:border-yellow-400 transition-all flex flex-col">
                 <img 
                   src="/images/edition-001-cover.webp" 
                   alt="Nomad Magazine Edition 1 Cover" 
                   class="w-full aspect-[3/4] object-cover"
                   loading="lazy"
                 />
-                <div class="p-3 sm:p-4">
-                <h3 class="font-bold text-gray-900 mb-1 text-sm sm:text-base">Edition 1</h3>
-                <p class="text-xs text-gray-600 mb-2 sm:mb-3 line-clamp-2">Mongolia, Insurance, Dating & More</p>
-                <div class="mb-2 sm:mb-3">
-                  <div class="flex items-baseline gap-1 sm:gap-2">
-                    <span class="text-xs sm:text-sm text-gray-400 line-through">€22</span>
-                    <span class="text-lg sm:text-xl font-bold text-yellow-600">€11</span>
+                <div class="p-4 flex flex-col flex-1">
+                  <h3 class="font-bold text-gray-900 mb-1 text-base">Edition 1</h3>
+                  <p class="text-sm text-gray-600 mb-3">Mongolia, Insurance & More</p>
+                  <div class="flex items-center justify-between mb-4">
+                    <span class="text-sm text-gray-400 line-through">€22</span>
+                    <span class="text-2xl font-bold text-yellow-600">€11</span>
                   </div>
-                </div>
-                <div class="flex flex-col gap-1">
-                  <label for="qty-edition-1" class="text-xs font-semibold text-gray-700">Qty:</label>
-                  <div class="flex items-center border border-gray-300 rounded bg-white">
-                    <button 
-                      type="button"
-                      class="qty-minus px-2 py-1 hover:bg-gray-100 text-gray-600 font-bold text-sm"
-                      data-target="qty-edition-1"
-                      aria-label="Decrease quantity for Edition 1"
-                    >−</button>
-                    <input 
-                      type="number" 
-                      id="qty-edition-1" 
-                      min="0" 
-                      max="10" 
-                      value="0" 
-                      class="w-10 px-1 py-1 text-center text-sm border-x border-gray-300"
-                      aria-label="Quantity for Edition 1"
-                      readonly
-                    />
-                    <button 
-                      type="button"
-                      class="qty-plus px-2 py-1 hover:bg-gray-100 text-gray-600 font-bold text-sm"
-                      data-target="qty-edition-1"
-                      aria-label="Increase quantity for Edition 1"
-                    >+</button>
+                  <div class="mt-auto">
+                    <label for="qty-edition-1" class="text-sm font-semibold text-gray-700 block mb-2">Quantity</label>
+                    <div class="flex items-stretch border-2 border-gray-300 rounded-lg overflow-hidden">
+                      <button 
+                        type="button"
+                        class="qty-minus px-4 py-3 hover:bg-gray-100 text-gray-700 font-bold text-lg flex-shrink-0"
+                        data-target="qty-edition-1"
+                        aria-label="Decrease quantity for Edition 1"
+                      >−</button>
+                      <input 
+                        type="number" 
+                        id="qty-edition-1" 
+                        min="0" 
+                        max="10" 
+                        value="0" 
+                        class="flex-1 px-2 py-3 text-center font-semibold text-lg bg-gray-50"
+                        aria-label="Quantity for Edition 1"
+                        readonly
+                      />
+                      <button 
+                        type="button"
+                        class="qty-plus px-4 py-3 hover:bg-gray-100 text-gray-700 font-bold text-lg flex-shrink-0"
+                        data-target="qty-edition-1"
+                        aria-label="Increase quantity for Edition 1"
+                      >+</button>
+                    </div>
                   </div>
-                </div>
                 </div>
               </div>
 
               <!-- Edition 2 -->
-              <div class="bg-white rounded-xl overflow-hidden border-2 border-gray-200 hover:border-yellow-400 transition-all">
+              <div class="bg-white rounded-xl overflow-hidden border-2 border-gray-200 hover:border-yellow-400 transition-all flex flex-col">
                 <img 
                   src="/images/edition-002-cover.webp" 
                   alt="Nomad Magazine Edition 2 Cover" 
                   class="w-full aspect-[3/4] object-cover"
                   loading="lazy"
                 />
-                <div class="p-3 sm:p-4">
-                <h3 class="font-bold text-gray-900 mb-1 text-sm sm:text-base">Edition 2</h3>
-                <p class="text-xs text-gray-600 mb-2 sm:mb-3 line-clamp-2">Japan, Visas, Family & More</p>
-                <div class="mb-2 sm:mb-3">
-                  <div class="flex items-baseline gap-1 sm:gap-2">
-                    <span class="text-xs sm:text-sm text-gray-400 line-through">€22</span>
-                    <span class="text-lg sm:text-xl font-bold text-yellow-600">€11</span>
+                <div class="p-4 flex flex-col flex-1">
+                  <h3 class="font-bold text-gray-900 mb-1 text-base">Edition 2</h3>
+                  <p class="text-sm text-gray-600 mb-3">Japan, Visas & More</p>
+                  <div class="flex items-center justify-between mb-4">
+                    <span class="text-sm text-gray-400 line-through">€22</span>
+                    <span class="text-2xl font-bold text-yellow-600">€11</span>
                   </div>
-                </div>
-                <div class="flex flex-col gap-1">
-                  <label for="qty-edition-2" class="text-xs font-semibold text-gray-700">Qty:</label>
-                  <div class="flex items-center border border-gray-300 rounded bg-white">
-                    <button 
-                      type="button"
-                      class="qty-minus px-2 py-1 hover:bg-gray-100 text-gray-600 font-bold text-sm"
-                      data-target="qty-edition-2"
-                      aria-label="Decrease quantity for Edition 2"
-                    >−</button>
-                    <input 
-                      type="number" 
-                      id="qty-edition-2" 
-                      min="0" 
-                      max="10" 
-                      value="0" 
-                      class="w-10 px-1 py-1 text-center text-sm border-x border-gray-300"
-                      aria-label="Quantity for Edition 2"
-                      readonly
-                    />
-                    <button 
-                      type="button"
-                      class="qty-plus px-2 py-1 hover:bg-gray-100 text-gray-600 font-bold text-sm"
-                      data-target="qty-edition-2"
-                      aria-label="Increase quantity for Edition 2"
-                    >+</button>
+                  <div class="mt-auto">
+                    <label for="qty-edition-2" class="text-sm font-semibold text-gray-700 block mb-2">Quantity</label>
+                    <div class="flex items-stretch border-2 border-gray-300 rounded-lg overflow-hidden">
+                      <button 
+                        type="button"
+                        class="qty-minus px-4 py-3 hover:bg-gray-100 text-gray-700 font-bold text-lg flex-shrink-0"
+                        data-target="qty-edition-2"
+                        aria-label="Decrease quantity for Edition 2"
+                      >−</button>
+                      <input 
+                        type="number" 
+                        id="qty-edition-2" 
+                        min="0" 
+                        max="10" 
+                        value="0" 
+                        class="flex-1 px-2 py-3 text-center font-semibold text-lg bg-gray-50"
+                        aria-label="Quantity for Edition 2"
+                        readonly
+                      />
+                      <button 
+                        type="button"
+                        class="qty-plus px-4 py-3 hover:bg-gray-100 text-gray-700 font-bold text-lg flex-shrink-0"
+                        data-target="qty-edition-2"
+                        aria-label="Increase quantity for Edition 2"
+                      >+</button>
+                    </div>
                   </div>
-                </div>
                 </div>
               </div>
 
               <!-- Edition 3 -->
-              <div class="bg-white rounded-xl overflow-hidden border-2 border-gray-200 hover:border-yellow-400 transition-all">
+              <div class="bg-white rounded-xl overflow-hidden border-2 border-gray-200 hover:border-yellow-400 transition-all flex flex-col">
                 <img 
                   src="/images/third-edition-cover-hd.webp" 
                   alt="Nomad Magazine Edition 3 Cover" 
                   class="w-full aspect-[3/4] object-cover"
                   loading="lazy"
                 />
-                <div class="p-3 sm:p-4">
-                <h3 class="font-bold text-gray-900 mb-1 text-sm sm:text-base">Edition 3</h3>
-                <p class="text-xs text-gray-600 mb-2 sm:mb-3 line-clamp-2">Buenos Aires, Guatemala & More</p>
-                <div class="mb-2 sm:mb-3">
-                  <div class="flex items-baseline gap-1 sm:gap-2">
-                    <span class="text-xs sm:text-sm text-gray-400 line-through">€22</span>
-                    <span class="text-lg sm:text-xl font-bold text-yellow-600">€11</span>
+                <div class="p-4 flex flex-col flex-1">
+                  <h3 class="font-bold text-gray-900 mb-1 text-base">Edition 3</h3>
+                  <p class="text-sm text-gray-600 mb-3">Buenos Aires & More</p>
+                  <div class="flex items-center justify-between mb-4">
+                    <span class="text-sm text-gray-400 line-through">€22</span>
+                    <span class="text-2xl font-bold text-yellow-600">€11</span>
                   </div>
-                </div>
-                <div class="flex flex-col gap-1">
-                  <label for="qty-edition-3" class="text-xs font-semibold text-gray-700">Qty:</label>
-                  <div class="flex items-center border border-gray-300 rounded bg-white">
-                    <button 
-                      type="button"
-                      class="qty-minus px-2 py-1 hover:bg-gray-100 text-gray-600 font-bold text-sm"
-                      data-target="qty-edition-3"
-                      aria-label="Decrease quantity for Edition 3"
-                    >−</button>
-                    <input 
-                      type="number" 
-                      id="qty-edition-3" 
-                      min="0" 
-                      max="10" 
-                      value="0" 
-                      class="w-10 px-1 py-1 text-center text-sm border-x border-gray-300"
-                      aria-label="Quantity for Edition 3"
-                      readonly
-                    />
-                    <button 
-                      type="button"
-                      class="qty-plus px-2 py-1 hover:bg-gray-100 text-gray-600 font-bold text-sm"
-                      data-target="qty-edition-3"
-                      aria-label="Increase quantity for Edition 3"
-                    >+</button>
+                  <div class="mt-auto">
+                    <label for="qty-edition-3" class="text-sm font-semibold text-gray-700 block mb-2">Quantity</label>
+                    <div class="flex items-stretch border-2 border-gray-300 rounded-lg overflow-hidden">
+                      <button 
+                        type="button"
+                        class="qty-minus px-4 py-3 hover:bg-gray-100 text-gray-700 font-bold text-lg flex-shrink-0"
+                        data-target="qty-edition-3"
+                        aria-label="Decrease quantity for Edition 3"
+                      >−</button>
+                      <input 
+                        type="number" 
+                        id="qty-edition-3" 
+                        min="0" 
+                        max="10" 
+                        value="0" 
+                        class="flex-1 px-2 py-3 text-center font-semibold text-lg bg-gray-50"
+                        aria-label="Quantity for Edition 3"
+                        readonly
+                      />
+                      <button 
+                        type="button"
+                        class="qty-plus px-4 py-3 hover:bg-gray-100 text-gray-700 font-bold text-lg flex-shrink-0"
+                        data-target="qty-edition-3"
+                        aria-label="Increase quantity for Edition 3"
+                      >+</button>
+                    </div>
                   </div>
-                </div>
                 </div>
               </div>
 
               <!-- Edition 4 -->
-              <div class="bg-white rounded-xl overflow-hidden border-2 border-gray-200 hover:border-yellow-400 transition-all">
+              <div class="bg-white rounded-xl overflow-hidden border-2 border-gray-200 hover:border-yellow-400 transition-all flex flex-col">
                 <img 
                   src="/images/edition-004-cover.webp" 
                   alt="Nomad Magazine Edition 4 Cover" 
                   class="w-full aspect-[3/4] object-cover"
                   loading="lazy"
                 />
-                <div class="p-3 sm:p-4">
-                <h3 class="font-bold text-gray-900 mb-1 text-sm sm:text-base">Edition 4</h3>
-                <p class="text-xs text-gray-600 mb-2 sm:mb-3 line-clamp-2">Palermo, Bansko, Fukuoka & More</p>
-                <div class="mb-2 sm:mb-3">
-                  <div class="flex items-baseline gap-1 sm:gap-2">
-                    <span class="text-xs sm:text-sm text-gray-400 line-through">€22</span>
-                    <span class="text-lg sm:text-xl font-bold text-yellow-600">€11</span>
+                <div class="p-4 flex flex-col flex-1">
+                  <h3 class="font-bold text-gray-900 mb-1 text-base">Edition 4</h3>
+                  <p class="text-sm text-gray-600 mb-3">Palermo, Bansko & More</p>
+                  <div class="flex items-center justify-between mb-4">
+                    <span class="text-sm text-gray-400 line-through">€22</span>
+                    <span class="text-2xl font-bold text-yellow-600">€11</span>
                   </div>
-                </div>
-                <div class="flex flex-col gap-1">
-                  <label for="qty-edition-4" class="text-xs font-semibold text-gray-700">Qty:</label>
-                  <div class="flex items-center border border-gray-300 rounded bg-white">
-                    <button 
-                      type="button"
-                      class="qty-minus px-2 py-1 hover:bg-gray-100 text-gray-600 font-bold text-sm"
-                      data-target="qty-edition-4"
-                      aria-label="Decrease quantity for Edition 4"
-                    >−</button>
-                    <input 
-                      type="number" 
-                      id="qty-edition-4" 
-                      min="0" 
-                      max="10" 
-                      value="0" 
-                      class="w-10 px-1 py-1 text-center text-sm border-x border-gray-300"
-                      aria-label="Quantity for Edition 4"
-                      readonly
-                    />
-                    <button 
-                      type="button"
-                      class="qty-plus px-2 py-1 hover:bg-gray-100 text-gray-600 font-bold text-sm"
-                      data-target="qty-edition-4"
-                      aria-label="Increase quantity for Edition 4"
-                    >+</button>
+                  <div class="mt-auto">
+                    <label for="qty-edition-4" class="text-sm font-semibold text-gray-700 block mb-2">Quantity</label>
+                    <div class="flex items-stretch border-2 border-gray-300 rounded-lg overflow-hidden">
+                      <button 
+                        type="button"
+                        class="qty-minus px-4 py-3 hover:bg-gray-100 text-gray-700 font-bold text-lg flex-shrink-0"
+                        data-target="qty-edition-4"
+                        aria-label="Decrease quantity for Edition 4"
+                      >−</button>
+                      <input 
+                        type="number" 
+                        id="qty-edition-4" 
+                        min="0" 
+                        max="10" 
+                        value="0" 
+                        class="flex-1 px-2 py-3 text-center font-semibold text-lg bg-gray-50"
+                        aria-label="Quantity for Edition 4"
+                        readonly
+                      />
+                      <button 
+                        type="button"
+                        class="qty-plus px-4 py-3 hover:bg-gray-100 text-gray-700 font-bold text-lg flex-shrink-0"
+                        data-target="qty-edition-4"
+                        aria-label="Increase quantity for Edition 4"
+                      >+</button>
+                    </div>
                   </div>
-                </div>
                 </div>
               </div>
             </div>
