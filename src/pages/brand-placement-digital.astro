@@ -33,12 +33,13 @@ const adSizes = [
     name: '1/3 Vertical',
     description: 'Elegant vertical format for brand storytelling',
     size: 'Digital format (PDF)',
-    price: 175,
+    price: 150,
     features: [
       'Perfect for product showcases',
       'Story-format friendly',
       'Great readability',
-      'Clickable links to your website'
+      'Clickable links to your website',
+      'Optional design service: +€75'
     ],
     example: '/images/ad-1-3-outsite@0.5x.webp',
     availability: undefined,
@@ -50,12 +51,13 @@ const adSizes = [
     name: 'Full Page',
     description: 'Complete page dedicated to your brand',
     size: 'Digital format (PDF)',
-    price: 350,
+    price: 250,
     features: [
       'Full creative control',
       'High-impact placement',
       'Artwork provided by client',
-      'Clickable links to your website'
+      'Clickable links to your website',
+      'Optional design service: +€100'
     ],
     example: '/images/edition-002-ad-nomad-global-pass.webp',
     popular: true,
@@ -67,12 +69,13 @@ const adSizes = [
     name: 'Double Page Spread',
     description: 'Maximum impact with a full double-page spread',
     size: 'Digital format (PDF)',
-    price: 550,
+    price: 400,
     features: [
       'Prime placement opportunities',
       'Maximum brand visibility',
       'Premium positioning',
-      'Clickable links to your website'
+      'Clickable links to your website',
+      'Optional design service: +€100'
     ],
     example: '/images/edition-001-nomad-cruise-double-page-advertising.webp',
     availability: undefined,
@@ -83,8 +86,8 @@ const adSizes = [
     id: 'sponsored-article-you-write',
     name: 'Sponsored Article - You Write',
     description: 'Article where value meets your brand story',
-    size: '4-6 pages',
-    price: 400,
+    size: '4 pages',
+    price: 450,
     features: [
       'You write the content',
       'We secure prime placement in magazine',
@@ -102,8 +105,8 @@ const adSizes = [
     id: 'sponsored-article-we-write',
     name: 'Sponsored Article - We Write',
     description: 'Professional article where value meets your brand story',
-    size: '4-6 pages',
-    price: 550,
+    size: '4 pages',
+    price: 600,
     features: [
       'Professional copywriting',
       'We secure prime placement in magazine',
@@ -425,9 +428,14 @@ const sponsors = [
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-16">
         <h2 class="text-4xl font-bold text-gray-900 mb-6 md:text-5xl">Digital Edition Advertising Options</h2>
-        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-6">
           Choose the perfect placement option for your brand. All options include clickable links.
         </p>
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 max-w-2xl mx-auto">
+          <p class="text-gray-700">
+            <strong>Need design help?</strong> We can design your ad for €100 per full page (double page: €200)
+          </p>
+        </div>
       </div>
 
       <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
