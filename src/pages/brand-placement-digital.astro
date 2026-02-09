@@ -1,0 +1,639 @@
+---
+export const prerender = true;
+
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import CheckIcon from '~icons/ic/baseline-check'
+
+const seo: SEOProps = {
+  title: 'Brand Placement in Free Digital Edition - Nomad Magazine',
+  description: 'Advertise your brand in Nomad Magazine free digital edition. Reach thousands of digital nomads worldwide with affordable digital advertising.',
+  image: `${Astro.site}images/edition-001-nomad-cruise-double-page-advertising.webp`,
+  keywords: 'nomad magazine digital advertising, digital nomad marketing, digital magazine ads, brand placement, nomad community advertising',
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Brand Placement in Free Digital Edition - Nomad Magazine',
+    description: 'Advertise your brand in Nomad Magazine free digital edition',
+    url: `${Astro.site}brand-placement-digital/`,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+  },
+}
+
+const adSizes = [
+  {
+    id: 'vertical-third',
+    name: '1/3 Vertical',
+    description: 'Elegant vertical format for brand storytelling',
+    size: 'Digital format (PDF)',
+    price: 175,
+    features: [
+      'Perfect for product showcases',
+      'Story-format friendly',
+      'Great readability',
+      'Clickable links to your website'
+    ],
+    example: '/images/ad-1-3-outsite@0.5x.webp',
+    availability: undefined,
+    popular: undefined,
+    learnMoreUrl: undefined
+  },
+  {
+    id: 'full-page',
+    name: 'Full Page',
+    description: 'Complete page dedicated to your brand',
+    size: 'Digital format (PDF)',
+    price: 350,
+    features: [
+      'Full creative control',
+      'High-impact placement',
+      'Artwork provided by client',
+      'Clickable links to your website'
+    ],
+    example: '/images/edition-002-ad-nomad-global-pass.webp',
+    popular: true,
+    availability: undefined,
+    learnMoreUrl: undefined
+  },
+  {
+    id: 'double-page',
+    name: 'Double Page Spread',
+    description: 'Maximum impact with a full double-page spread',
+    size: 'Digital format (PDF)',
+    price: 550,
+    features: [
+      'Prime placement opportunities',
+      'Maximum brand visibility',
+      'Premium positioning',
+      'Clickable links to your website'
+    ],
+    example: '/images/edition-001-nomad-cruise-double-page-advertising.webp',
+    availability: undefined,
+    popular: undefined,
+    learnMoreUrl: undefined
+  },
+  {
+    id: 'sponsored-article-you-write',
+    name: 'Sponsored Article - You Write',
+    description: 'Article where value meets your brand story',
+    size: '4-6 pages',
+    price: 400,
+    features: [
+      'You write the content',
+      'We secure prime placement in magazine',
+      'Editorial guidance provided',
+      'Final editing included',
+      'Custom design to match magazine style',
+      'Clickable links throughout'
+    ],
+    example: '/images/edition-002-mindvelley-article.webp',
+    availability: undefined,
+    popular: undefined,
+    learnMoreUrl: undefined
+  },
+  {
+    id: 'sponsored-article-we-write',
+    name: 'Sponsored Article - We Write',
+    description: 'Professional article where value meets your brand story',
+    size: '4-6 pages',
+    price: 550,
+    features: [
+      'Professional copywriting',
+      'We secure prime placement in magazine',
+      'Brand story development',
+      'Research and interviews',
+      'Custom design to match magazine style',
+      'Clickable links throughout'
+    ],
+    example: '/images/edition-002-mindvelley-article.webp',
+    availability: undefined,
+    popular: undefined,
+    learnMoreUrl: undefined
+  },
+  {
+    id: 'nomad-directory',
+    name: 'Nomad Directory',
+    description: 'Feature your brand in our curated nomad directory',
+    size: 'Digital listing',
+    price: '75-100',
+    features: [
+      'Digital magazine placement',
+      'Company profile with logo',
+      'Clickable link to your website',
+      'Choose Small or Large format'
+    ],
+    example: '/images/NGM-04_NomadDirectory_Proposal_Page_1.webp',
+    learnMoreUrl: '/nomad-directory-highlight-options/',
+    availability: undefined,
+    popular: undefined
+  }
+]
+
+const testimonials = [
+  {
+    company: 'Nomad Train',
+    quote: 'Nomad Magazine isn\'t just a great fit for Nomad Train audience, team also brings real energy, creativity, and care. Enjoyed working with them 🚂',
+    logo: '/images/nomad-train_logo_black.webp'
+  }
+]
+
+const sponsors = [
+  {
+    link: 'https://www.tulsaremote.com/',
+    image: '/images/Tulsa_Remote_logo.webp',
+    alt: 'Tulsa Remote',
+    width: '90',
+  },
+  {
+    link: 'https://www.nomadcruise.com/',
+    image: '/images/nomad_cruise_logo.webp',
+    alt: 'Nomad Cruise',
+    width: '120',
+  },
+  {
+    link: 'https://www.globaltaxmastery.com/',
+    image: '/images/fresh-global-logo.webp',
+    alt: 'Fresh Global',
+    width: '120',
+  },
+  {
+    link: 'https://www.outsite.co/',
+    image: '/images/outsite-logo.svg',
+    alt: 'Outsite',
+    width: '120',
+  },
+  {
+    link: 'https://nomadtrain.co/',
+    image: '/images/nomad-train-logo.svg',
+    alt: 'Nomad Train Logo',
+    width: '100',
+  },
+  {
+    link: 'https://nomads.insure/',
+    image: '/images/nomads_insure_logo.webp',
+    alt: 'Nomads Insure',
+    width: '100',
+  },
+  {
+    link: 'http://nosolo.co/',
+    image: '/images/nosolo-logo-1018.webp',
+    alt: 'NoSolo',
+    width: '100',
+    srcset:
+      '/images/nosolo-logo-500.webp 500w, /images/nosolo-logo-800.webp 800w, /images/nosolo-logo-1018.webp 1018w',
+  },
+  {
+    link: 'https://nomadnest.com/',
+    image: '/images/nomadnest-logo.webp',
+    alt: 'NomadNest',
+    width: '100',
+    srcset:
+      '/images/nomadnest-logo-500.webp 500w, /images/nomadnest-logo-800.webp 800w, /images/nomadnest-logo-1080.webp 1080w, /images/nomadnest-logo.webp 2425w',
+  },
+]
+---
+
+<Layout seo={seo}>
+  <!-- Rolling Sponsor Banner -->
+  <div class="bg-black text-white py-2 overflow-hidden relative">
+    <div class="whitespace-nowrap animate-scroll">
+      <div class="inline-flex items-center space-x-12">
+        <!-- First set of sponsors -->
+        {sponsors.map((sponsor) => (
+          <div class="inline-flex items-center space-x-3">
+            <img 
+              src={sponsor.image} 
+              alt={sponsor.alt}
+              class="h-6 object-contain opacity-80 hover:opacity-100 transition-opacity"
+              loading="lazy"
+            />
+            <span class="text-yellow-400 text-sm font-semibold">•</span>
+          </div>
+        ))}
+        <!-- Duplicate set for seamless loop -->
+        {sponsors.map((sponsor) => (
+          <div class="inline-flex items-center space-x-3">
+            <img 
+              src={sponsor.image} 
+              alt={sponsor.alt}
+              class="h-6 object-contain opacity-80 hover:opacity-100 transition-opacity"
+              loading="lazy"
+            />
+            <span class="text-yellow-400 text-sm font-semibold">•</span>
+          </div>
+        ))}
+      </div>
+    </div>
+    <!-- Gradient overlays for smooth fade effect -->
+    <div class="absolute top-0 left-0 w-20 h-full bg-gradient-to-r from-black to-transparent pointer-events-none"></div>
+    <div class="absolute top-0 right-0 w-20 h-full bg-gradient-to-l from-black to-transparent pointer-events-none"></div>
+  </div>
+
+  <!-- Hero Section -->
+  <div class="bg-hoverw text-white">
+    <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+        <div class="space-y-8">
+          <div class="space-y-6">
+            <h1 class="text-5xl font-bold leading-tight md:text-6xl lg:text-7xl">
+              Reach the Global <span class="text-yellow-400">Digital Nomad</span> Community
+            </h1>
+            <p class="text-xl text-gray-300 leading-relaxed">
+              Advertise in our free digital edition reaching thousands of engaged nomads worldwide. Affordable rates, maximum reach, and clickable links to drive traffic to your brand.
+            </p>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="flex items-center text-lg">
+              <CheckIcon class="mr-3 h-6 w-6 flex-shrink-0 text-yellow-400" aria-hidden="true" />
+              <span>Free digital edition with wide reach</span>
+            </div>
+            <div class="flex items-center text-lg">
+              <CheckIcon class="mr-3 h-6 w-6 flex-shrink-0 text-yellow-400" aria-hidden="true" />
+              <span>Clickable links drive traffic to your site</span>
+            </div>
+            <div class="flex items-center text-lg">
+              <CheckIcon class="mr-3 h-6 w-6 flex-shrink-0 text-yellow-400" aria-hidden="true" />
+              <span>Affordable rates - 50% less than print</span>
+            </div>
+            <div class="flex items-center text-lg">
+              <CheckIcon class="mr-3 h-6 w-6 flex-shrink-0 text-yellow-400" aria-hidden="true" />
+              <span>50-page focused digital magazine</span>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-4 sm:flex-row">
+            <a
+              href="https://calendly.com/nomadgossip"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Schedule a consultation call on Calendly (opens in new tab)"
+              class="inline-block rounded bg-yellow-400 px-8 py-4 text-center text-lg font-bold text-black transition-transform duration-200 hover:scale-105 hover:shadow-lg"
+            >
+              Talk with us
+            </a>
+          </div>
+        </div>
+        
+        <div class="flex justify-center">
+          <img 
+            src="/images/edition-001-nomad-cruise-double-page-advertising.webp" 
+            alt="Nomad Magazine brand placement example" 
+            class="rounded-lg shadow-2xl max-w-full h-auto"
+            loading="eager"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Statistics Section -->
+  <div class="bg-neutral-900 text-white py-16">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
+        <div class="text-center">
+          <div class="text-4xl font-bold text-yellow-400 mb-2">5,000+</div>
+          <div class="text-gray-300">Digital Readers</div>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl font-bold text-yellow-400 mb-2">50</div>
+          <div class="text-gray-300">Pages</div>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl font-bold text-yellow-400 mb-2">FREE</div>
+          <div class="text-gray-300">For Readers</div>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl font-bold text-yellow-400 mb-2">100%</div>
+          <div class="text-gray-300">Clickable Links</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Why Digital Edition Section -->
+  <div class="bg-white py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-900 mb-6 md:text-5xl">Why Advertise in Digital Edition</h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          Our free digital edition combines affordability with powerful features that print can't match.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-12 lg:grid-cols-2 items-center">
+        <div class="space-y-8">
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0">
+              <div class="w-12 h-12 bg-yellow-400 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900 mb-2">Clickable Links Drive Traffic</h3>
+              <p class="text-gray-600">Unlike print, every ad can include clickable links that drive readers directly to your website, landing page, or booking system. Track conversions and measure ROI.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0">
+              <div class="w-12 h-12 bg-yellow-400 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900 mb-2">50% More Affordable</h3>
+              <p class="text-gray-600">Digital advertising costs half the price of print while reaching even more readers. Perfect for brands testing the nomad market or with smaller budgets.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0">
+              <div class="w-12 h-12 bg-yellow-400 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900 mb-2">Global Instant Distribution</h3>
+              <p class="text-gray-600">Digital edition reaches nomads worldwide instantly - no shipping delays, no geographic limitations. Your ad goes live to thousands of readers immediately.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0">
+              <div class="w-12 h-12 bg-yellow-400 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900 mb-2">Curated 50-Page Format</h3>
+              <p class="text-gray-600">Our digital edition is focused and concise at 50 pages - readers engage with every page. Your ad gets attention in a quality, curated environment.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:pl-8">
+          <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-8 shadow-lg">
+            <div class="mb-6">
+              <h3 class="text-2xl font-bold text-gray-900 mb-4">Perfect For</h3>
+              <p class="text-gray-600 mb-6">
+                Digital edition advertising is ideal for brands who want:
+              </p>
+              
+              <div class="space-y-3">
+                <div class="flex items-center">
+                  <CheckIcon class="mr-3 h-5 w-5 text-green-500" aria-hidden="true" />
+                  <span class="text-gray-700 font-medium">Measurable traffic and conversions</span>
+                </div>
+                <div class="flex items-center">
+                  <CheckIcon class="mr-3 h-5 w-5 text-green-500" aria-hidden="true" />
+                  <span class="text-gray-700 font-medium">Cost-effective global reach</span>
+                </div>
+                <div class="flex items-center">
+                  <CheckIcon class="mr-3 h-5 w-5 text-green-500" aria-hidden="true" />
+                  <span class="text-gray-700 font-medium">Quick turnaround and publishing</span>
+                </div>
+                <div class="flex items-center">
+                  <CheckIcon class="mr-3 h-5 w-5 text-green-500" aria-hidden="true" />
+                  <span class="text-gray-700 font-medium">To test the nomad market affordably</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ad Sizes Section -->
+  <div id="pricing" class="bg-gray-50 py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-900 mb-6 md:text-5xl">Digital Edition Advertising Options</h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          Choose the perfect placement option for your brand. All options include clickable links.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {adSizes.map((ad: any) => (
+          ad.learnMoreUrl ? (
+            <a href={ad.learnMoreUrl} class={`relative overflow-hidden rounded-2xl bg-white p-8 shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 flex flex-col h-full ${ad.popular ? 'ring-4 ring-yellow-400' : ''} cursor-pointer`}>
+              {ad.popular && (
+                <div class="absolute top-0 right-0 bg-yellow-400 text-black px-4 py-2 text-sm font-bold rounded-bl-lg">
+                  Most Popular
+                </div>
+              )}
+              
+              <div class="mb-6">
+                <img
+                  src={ad.example}
+                  alt={`${ad.name} example`}
+                  class="w-full h-64 object-cover rounded-lg"
+                  loading="lazy"
+                />
+              </div>
+
+              <div class="space-y-4 flex-grow">
+                <div>
+                  <h3 class="text-2xl font-bold text-gray-900 mb-2">{ad.name}</h3>
+                  <p class="text-gray-600 mb-2">{ad.description}</p>
+                  <p class="text-sm text-gray-500">Format: {ad.size}</p>
+                  {ad.availability && (
+                    <div class="mt-2">
+                      <span class="inline-block bg-red-100 text-red-800 text-sm font-semibold px-3 py-1 rounded-full">
+                        {ad.availability}
+                      </span>
+                    </div>
+                  )}
+                  <div class="mt-3">
+                    <span class="text-3xl font-bold text-gray-900">€{ad.price}</span>
+                  </div>
+                </div>
+
+                <div class="space-y-2">
+                  {ad.features.map((feature: string) => (
+                    <div class="flex items-center">
+                      <CheckIcon class="mr-2 h-5 w-5 text-green-500" aria-hidden="true" />
+                      <span class="text-gray-700">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+                
+                <div class="mt-4 pt-4 border-t border-gray-200">
+                  <span class="inline-flex items-center text-yellow-600 font-semibold text-sm">
+                    Learn More
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </a>
+          ) : (
+            <div class={`relative overflow-hidden rounded-2xl bg-white p-8 shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 flex flex-col h-full ${ad.popular ? 'ring-4 ring-yellow-400' : ''}`}>
+              {ad.popular && (
+                <div class="absolute top-0 right-0 bg-yellow-400 text-black px-4 py-2 text-sm font-bold rounded-bl-lg">
+                  Most Popular
+                </div>
+              )}
+              
+              <div class="mb-6">
+                <img
+                  src={ad.example}
+                  alt={`${ad.name} example`}
+                  class="w-full h-64 object-cover rounded-lg"
+                  loading="lazy"
+                />
+              </div>
+
+              <div class="space-y-4 flex-grow">
+                <div>
+                  <h3 class="text-2xl font-bold text-gray-900 mb-2">{ad.name}</h3>
+                  <p class="text-gray-600 mb-2">{ad.description}</p>
+                  <p class="text-sm text-gray-500">Format: {ad.size}</p>
+                  {ad.availability && (
+                    <div class="mt-2">
+                      <span class="inline-block bg-red-100 text-red-800 text-sm font-semibold px-3 py-1 rounded-full">
+                        {ad.availability}
+                      </span>
+                    </div>
+                  )}
+                  <div class="mt-3">
+                    <span class="text-3xl font-bold text-gray-900">€{ad.price}</span>
+                  </div>
+                </div>
+
+                <div class="space-y-2">
+                  {ad.features.map((feature: string) => (
+                    <div class="flex items-center">
+                      <CheckIcon class="mr-2 h-5 w-5 text-green-500" aria-hidden="true" />
+                      <span class="text-gray-700">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Testimonials Section -->
+  <div class="bg-white py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-900 mb-6 md:text-5xl">What Our Partners Say</h2>
+      </div>
+
+      <div class="flex justify-center">
+        {testimonials.map((testimonial) => (
+          <div class="bg-gray-50 rounded-2xl p-8 max-w-2xl">
+            <div class="flex items-center mb-6">
+              <img
+                src={testimonial.logo}
+                alt={`${testimonial.company} logo`}
+                class="h-12 object-contain grayscale"
+              />
+            </div>
+            <blockquote class="text-lg text-gray-700 italic mb-4">
+              "{testimonial.quote}"
+            </blockquote>
+            <cite class="text-gray-600 font-semibold">— {testimonial.company}</cite>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Sponsors Section -->
+  <div class="bg-black py-16">
+    <div class="mx-auto max-w-5xl px-4">
+      <p class="mb-10 text-center text-2xl font-semibold text-white">Trusted by Leading Nomad Brands</p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center">
+        {sponsors.slice(0, 4).map((sponsor) => (
+          <a href={sponsor.link} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${sponsor.alt} website (opens in new tab)`} class="flex justify-center">
+            <img width={sponsor.width} alt={sponsor.alt} src={sponsor.image} loading="lazy" srcset={sponsor.srcset} />
+          </a>
+        ))}
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center mt-8">
+        {sponsors.slice(4, 8).map((sponsor) => (
+          <a href={sponsor.link} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${sponsor.alt} website (opens in new tab)`} class="flex justify-center">
+            <img width={sponsor.width} alt={sponsor.alt} src={sponsor.image} loading="lazy" srcset={sponsor.srcset} />
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA Section -->
+  <div class="bg-hoverw text-white py-20">
+    <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-4xl font-bold mb-6 md:text-5xl">Ready to Reach the Nomad Community?</h2>
+      <p class="text-xl text-gray-300 mb-8 leading-relaxed">
+        Join brands like Outsite, Nomad Train, and others who trust Nomad Magazine to connect with their target audience.
+      </p>
+      
+      <div class="flex flex-col gap-4 sm:flex-row sm:justify-center">
+        <a
+          href="https://calendly.com/nomadgossip"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Schedule a consultation call on Calendly (opens in new tab)"
+          class="inline-block rounded bg-yellow-400 px-8 py-4 text-lg font-bold text-black transition-transform duration-200 hover:scale-105 hover:shadow-lg"
+        >
+          Schedule Consultation
+        </a>
+        <a
+          href="mailto:lera@nomadgossip.com"
+          aria-label="Send email to lera@nomadgossip.com"
+          class="inline-block rounded border-2 border-yellow-400 px-8 py-4 text-lg font-bold text-yellow-400 transition-colors duration-200 hover:bg-yellow-400 hover:text-black"
+        >
+          Email Us
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .glow-animate {
+    animation: glow 1.5s infinite;
+  }
+  
+  @keyframes glow {
+    0% { box-shadow: 0 0 0 0 #fde047; }
+    50% { box-shadow: 0 0 16px 4px #fde047; }
+    100% { box-shadow: 0 0 0 0 #fde047; }
+  }
+
+  .animate-scroll {
+    animation: scroll 30s linear infinite;
+  }
+
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .animate-scroll:hover {
+    animation-play-state: paused;
+  }
+</style>
