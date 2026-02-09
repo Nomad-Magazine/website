@@ -30,7 +30,7 @@ export const POST: APIRoute = async ({ request }) => {
       apiVersion: '2025-09-30.clover',
     })
 
-    const body = await request.json()
+    const body = await request.json() as { items: Array<{ edition: number, quantity: number }> }
     const { items } = body // items: [{ edition: 1, quantity: 2 }, { edition: 3, quantity: 1 }]
 
     if (!items || !Array.isArray(items) || items.length === 0) {

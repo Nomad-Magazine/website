@@ -434,8 +434,9 @@ const seo: SEOProps = {
 
     // Add event listeners for + and - buttons
     document.querySelectorAll('.qty-plus').forEach(button => {
-      button.addEventListener('click', function() {
+      button.addEventListener('click', function(this: HTMLElement) {
         const targetId = this.getAttribute('data-target');
+        if (!targetId) return;
         const input = document.getElementById(targetId) as HTMLInputElement;
         if (input) {
           const currentValue = parseInt(input.value) || 0;
@@ -449,8 +450,9 @@ const seo: SEOProps = {
     });
 
     document.querySelectorAll('.qty-minus').forEach(button => {
-      button.addEventListener('click', function() {
+      button.addEventListener('click', function(this: HTMLElement) {
         const targetId = this.getAttribute('data-target');
+        if (!targetId) return;
         const input = document.getElementById(targetId) as HTMLInputElement;
         if (input) {
           const currentValue = parseInt(input.value) || 0;
@@ -492,7 +494,7 @@ const seo: SEOProps = {
               body: JSON.stringify({ items }),
             });
 
-            const data = await response.json();
+            const data = await response.json() as { url?: string, error?: string };
 
             if (response.ok && data.url) {
               // Redirect to Stripe checkout
