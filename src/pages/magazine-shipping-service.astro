@@ -1,0 +1,431 @@
+---
+export const prerender = true;
+
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import CheckIcon from '~icons/ic/baseline-check'
+import ArrowRightIcon from '~icons/ic/baseline-arrow-forward'
+import { createWebPageSchema } from '~/utils/schema'
+
+const seo: SEOProps = {
+  title: 'Magazine Shipping Service - Affordable Fulfillment for Small Publishers',
+  description: 'Affordable magazine shipping service for small publishers in Europe. Professional packing and shipping from Czech Republic at €0.50 per package or €350 per 1000 magazines.',
+  image: `${Astro.site}images/magazine-hold-against-chest.webp`,
+  keywords: 'magazine shipping service, small publisher fulfillment, magazine distribution Europe, affordable shipping Czech Republic, magazine packing service',
+  canonical: `${Astro.site}magazine-shipping-service/`,
+  ogType: 'website',
+  ldJSON: createWebPageSchema({
+    url: `${Astro.site}magazine-shipping-service/`,
+    name: 'Magazine Shipping Service for Small Publishers',
+    description: 'Affordable magazine shipping and fulfillment service for small publishers in Europe',
+  }),
+}
+
+const pricingOptions = [
+  {
+    title: 'Per Package',
+    price: '€0.50',
+    unit: 'per package',
+    description: 'Perfect for small batches and testing',
+    features: [
+      'Professional packing service',
+      'Receiving and storage included',
+      'EcoParcel within Europe or Czech Post',
+      'Help sourcing packaging materials',
+      'No minimum order'
+    ],
+    popular: false,
+    bgColor: 'bg-gradient-to-br from-gray-900/50 to-gray-800/50',
+    borderColor: 'border-gray-700'
+  },
+  {
+    title: 'Bulk Rate',
+    price: '€350',
+    unit: 'per 1000 magazines',
+    description: 'Best value for regular publishers',
+    features: [
+      'All packing services included',
+      'Flexible shipping schedule (1-2 months)',
+      'Priority handling',
+      'Help sourcing packaging materials',
+      'Significant cost savings'
+    ],
+    popular: true,
+    bgColor: 'bg-gradient-to-br from-yellow-500/20 to-orange-500/20',
+    borderColor: 'border-yellow-400'
+  }
+]
+
+const serviceFeatures = [
+  {
+    icon: '📦',
+    title: 'Receiving & Storage',
+    description: 'Send your magazines to our facility in Czech Republic (40 min from Prague). We handle receiving and short-term storage.'
+  },
+  {
+    icon: '🎁',
+    title: 'Professional Packing',
+    description: 'We pack each magazine carefully to ensure it arrives in perfect condition. We can help you find and order packaging materials based on your preferences.'
+  },
+  {
+    icon: '🌍',
+    title: 'Flexible Shipping',
+    description: 'Choose between EcoParcel services within Europe or standard Czech Post for international destinations.'
+  },
+  {
+    icon: '💰',
+    title: 'Transparent Pricing',
+    description: 'Simple per-package or bulk pricing. Packaging materials are separate based on your preferences—we can help you find and order what you need.'
+  }
+]
+
+const whyChooseUs = [
+  {
+    title: 'Built by Publishers, for Publishers',
+    description: 'We understand the challenges of small publishing because we are small publishers ourselves. We created this service to solve our own shipping problems.'
+  },
+  {
+    title: 'Support Independent Publishing',
+    description: 'Your business helps Tania, our fulfillment specialist, transition from night shifts at a shipping company to full-time work helping publishers like you.'
+  },
+  {
+    title: 'Central European Location',
+    description: 'Based near Prague, we offer cost-effective shipping throughout Europe with reliable Czech postal services.'
+  },
+  {
+    title: 'Flexible & Personal',
+    description: 'We work with your schedule and volume. Whether you ship 10 magazines or 1000, we treat each order with the same care.'
+  }
+]
+---
+
+<Layout seo={seo}>
+  <div class="bg-hoverw text-white">
+    <!-- Hero Section -->
+    <section class="py-20">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+          <div class="space-y-8">
+            <div class="space-y-6">
+              <div class="inline-block bg-yellow-400 text-black px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide">
+                For Small Publishers
+              </div>
+              <h1 class="text-5xl font-bold leading-tight md:text-7xl">
+                Affordable Magazine <span class="text-yellow-400">Shipping Service</span>
+              </h1>
+              <p class="text-xl text-gray-300 md:text-2xl">
+                Professional fulfillment and shipping for independent magazine publishers. From receiving to packing to shipping—we handle it all.
+              </p>
+            </div>
+            
+            <div class="space-y-4 text-lg text-gray-300">
+              <p class="flex items-start">
+                <CheckIcon class="mr-3 h-6 w-6 flex-shrink-0 text-yellow-400 mt-0.5" aria-hidden="true" />
+                <span>€0.50 per package or €350 per 1000 magazines</span>
+              </p>
+              <p class="flex items-start">
+                <CheckIcon class="mr-3 h-6 w-6 flex-shrink-0 text-yellow-400 mt-0.5" aria-hidden="true" />
+                <span>Professional packing with eco-friendly options</span>
+              </p>
+              <p class="flex items-start">
+                <CheckIcon class="mr-3 h-6 w-6 flex-shrink-0 text-yellow-400 mt-0.5" aria-hidden="true" />
+                <span>EcoParcel within Europe or Czech Post internationally</span>
+              </p>
+            </div>
+
+            <div class="flex flex-col gap-4 sm:flex-row">
+              <a
+                href="#pricing"
+                class="inline-flex items-center justify-center gap-2 rounded-lg bg-yellow-400 px-8 py-4 text-lg font-bold text-black transition-all hover:bg-yellow-300 hover:scale-105"
+                aria-label="View pricing options for magazine shipping service"
+              >
+                View Pricing
+                <ArrowRightIcon class="h-5 w-5" aria-hidden="true" />
+              </a>
+              <a
+                href="https://calendly.com/nomadgossip"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-yellow-400 px-8 py-4 text-lg font-bold text-yellow-400 transition-all hover:bg-yellow-400 hover:text-black"
+                aria-label="Schedule a call to discuss magazine shipping service (opens in new tab)"
+              >
+                Schedule a Call
+              </a>
+            </div>
+          </div>
+          
+          <div class="flex justify-center lg:justify-end">
+            <img 
+              src="/images/magazine-hold-against-chest.webp" 
+              alt="Person holding Nomad Magazine against their chest" 
+              class="max-w-full rounded-2xl shadow-2xl" 
+              loading="eager"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Our Story Section -->
+    <section class="border-b border-neutral-800 py-16">
+      <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold text-white md:text-4xl mb-4">Why We Created This Service</h2>
+        </div>
+        
+        <div class="bg-gradient-to-br from-neutral-900/50 to-neutral-800/50 rounded-2xl p-8 border border-neutral-700">
+          <div class="space-y-4 text-gray-300 text-lg">
+            <p>
+              As a small publisher, we couldn't afford the expensive fulfillment services that larger magazines use. We needed something affordable, reliable, and flexible.
+            </p>
+            <p>
+              That's when we found Tania, based near Prague in Czech Republic. She helped us with receiving magazines, packing each copy carefully, and shipping them via EcoParcel within Europe or Czech Post internationally.
+            </p>
+            <p>
+              Currently, our volume isn't enough to provide Tania with full-time work, so she has to work night shifts at a shipping company to make ends meet. We want to change that.
+            </p>
+            <p class="font-semibold text-white">
+              By inviting other small publishers to use this service, we can give Tania the opportunity to stop working nights and focus full-time on helping independent publishers like us.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Service Features -->
+    <section class="border-b border-neutral-800 py-16">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-12 text-center">
+          <h2 class="text-3xl font-bold text-white md:text-4xl">What's Included</h2>
+          <p class="mt-4 text-xl text-gray-300">Everything you need for professional magazine fulfillment</p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+          {serviceFeatures.map((feature) => (
+            <div class="bg-gradient-to-br from-neutral-900/50 to-neutral-800/50 rounded-xl p-6 border border-neutral-700 text-center">
+              <div class="text-5xl mb-4" aria-hidden="true">{feature.icon}</div>
+              <h3 class="text-xl font-bold text-white mb-3">{feature.title}</h3>
+              <p class="text-gray-300">{feature.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="border-b border-neutral-800 py-20">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-16 text-center">
+          <h2 class="text-4xl font-bold text-white md:text-5xl">Simple, Transparent Pricing</h2>
+          <p class="mt-4 text-xl text-gray-300 max-w-3xl mx-auto">
+            Choose the pricing model that works best for your publishing schedule and volume
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-2 max-w-4xl mx-auto">
+          {pricingOptions.map((option) => (
+            <div class={`relative overflow-hidden rounded-3xl border-2 ${option.borderColor} ${option.bgColor} p-8 backdrop-blur-sm transition-all hover:scale-105 flex flex-col h-full ${option.popular ? 'ring-4 ring-yellow-400' : ''}`}>
+              {option.popular && (
+                <div class="absolute top-0 right-0 bg-yellow-400 text-black px-4 py-2 text-sm font-bold rounded-bl-lg">
+                  Best Value
+                </div>
+              )}
+              
+              <div class="mb-6">
+                <h3 class="text-2xl font-bold text-white mb-2">{option.title}</h3>
+                <div class="mb-4">
+                  <span class="text-4xl font-bold text-white">{option.price}</span>
+                  <span class="text-gray-300 ml-2">{option.unit}</span>
+                </div>
+                <p class="text-gray-300">{option.description}</p>
+              </div>
+
+              <div class="flex-grow">
+                <ul class="space-y-3 mb-8">
+                  {option.features.map((feature) => (
+                    <li class="flex items-start">
+                      <CheckIcon class="mr-3 h-5 w-5 flex-shrink-0 text-yellow-400 mt-0.5" aria-hidden="true" />
+                      <span class="text-gray-300">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <a
+                href="https://calendly.com/nomadgossip"
+                target="_blank"
+                rel="noopener noreferrer"
+                class={`block w-full rounded-lg py-4 text-center font-bold transition-all mt-auto ${
+                  option.popular 
+                    ? 'bg-yellow-400 text-black hover:bg-yellow-300' 
+                    : 'border-2 border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-black'
+                }`}
+                aria-label="Schedule a call to get started with magazine shipping service (opens in new tab)"
+              >
+                Get Started
+              </a>
+            </div>
+          ))}
+        </div>
+
+        <div class="mt-12 text-center space-y-2">
+          <p class="text-gray-400">
+            Shipping costs (postage) are separate and depend on destination and weight.
+          </p>
+          <p class="text-gray-400">
+            Packaging materials are also separate based on your preferences—we can help you find and order what you need.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="border-b border-neutral-800 py-16">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-12 text-center">
+          <h2 class="text-3xl font-bold text-white md:text-4xl">Why Choose Our Service?</h2>
+        </div>
+
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+          {whyChooseUs.map((reason) => (
+            <div class="bg-gradient-to-br from-neutral-900/50 to-neutral-800/50 rounded-xl p-8 border border-neutral-700">
+              <h3 class="text-xl font-bold text-white mb-3">{reason.title}</h3>
+              <p class="text-gray-300 text-lg">{reason.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="border-b border-neutral-800 py-16">
+      <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-12 text-center">
+          <h2 class="text-3xl font-bold text-white md:text-4xl">How It Works</h2>
+        </div>
+
+        <div class="space-y-6">
+          <div class="flex gap-6 items-start">
+            <div class="flex-shrink-0 w-12 h-12 bg-yellow-400 text-black rounded-full flex items-center justify-center text-xl font-bold">
+              1
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-white mb-2">Schedule a Call</h3>
+              <p class="text-gray-300">Let's discuss your magazine, volume, and shipping needs. We'll answer all your questions and provide a custom quote.</p>
+            </div>
+          </div>
+
+          <div class="flex gap-6 items-start">
+            <div class="flex-shrink-0 w-12 h-12 bg-yellow-400 text-black rounded-full flex items-center justify-center text-xl font-bold">
+              2
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-white mb-2">Ship to Our Facility</h3>
+              <p class="text-gray-300">Send your magazines to our location near Prague. We'll confirm receipt and inspect the shipment.</p>
+            </div>
+          </div>
+
+          <div class="flex gap-6 items-start">
+            <div class="flex-shrink-0 w-12 h-12 bg-yellow-400 text-black rounded-full flex items-center justify-center text-xl font-bold">
+              3
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-white mb-2">Provide Shipping List</h3>
+              <p class="text-gray-300">Send us your recipient list with addresses. We'll handle the rest—packing, labeling, and shipping.</p>
+            </div>
+          </div>
+
+          <div class="flex gap-6 items-start">
+            <div class="flex-shrink-0 w-12 h-12 bg-yellow-400 text-black rounded-full flex items-center justify-center text-xl font-bold">
+              4
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-white mb-2">We Ship & Update You</h3>
+              <p class="text-gray-300">Your magazines are professionally packed and shipped. We keep you updated throughout the process.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="border-b border-neutral-800 py-16">
+      <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-12 text-center">
+          <h2 class="text-3xl font-bold text-white md:text-4xl">Frequently Asked Questions</h2>
+        </div>
+
+        <div class="space-y-6">
+          <div class="bg-gradient-to-br from-neutral-900/50 to-neutral-800/50 rounded-xl p-6 border border-neutral-700">
+            <h3 class="text-lg font-bold text-white mb-2">Where are you located?</h3>
+            <p class="text-gray-300">We're based near Prague in Czech Republic, about 40 minutes from the city center. This central European location offers cost-effective shipping throughout Europe.</p>
+          </div>
+
+          <div class="bg-gradient-to-br from-neutral-900/50 to-neutral-800/50 rounded-xl p-6 border border-neutral-700">
+            <h3 class="text-lg font-bold text-white mb-2">Do you ship internationally?</h3>
+            <p class="text-gray-300">Yes! We offer EcoParcel services within Europe and Czech Post for international destinations worldwide.</p>
+          </div>
+
+          <div class="bg-gradient-to-br from-neutral-900/50 to-neutral-800/50 rounded-xl p-6 border border-neutral-700">
+            <h3 class="text-lg font-bold text-white mb-2">What's the minimum order?</h3>
+            <p class="text-gray-300">There's no minimum order for the per-package pricing (€0.50 per package). The bulk rate (€350 per 1000 magazines) is available if you can ship all magazines within 1-2 months.</p>
+          </div>
+
+          <div class="bg-gradient-to-br from-neutral-900/50 to-neutral-800/50 rounded-xl p-6 border border-neutral-700">
+            <h3 class="text-lg font-bold text-white mb-2">How long can you store magazines?</h3>
+            <p class="text-gray-300">We offer short-term storage as part of the service. For longer storage needs, let's discuss your specific situation during our call.</p>
+          </div>
+
+          <div class="bg-gradient-to-br from-neutral-900/50 to-neutral-800/50 rounded-xl p-6 border border-neutral-700">
+            <h3 class="text-lg font-bold text-white mb-2">What about packaging materials?</h3>
+            <p class="text-gray-300">Packaging materials are separate and depend on your preferences (standard, eco-friendly, custom, etc.). We can help you find and order the right materials for your needs. The cost varies based on your choices.</p>
+          </div>
+
+          <div class="bg-gradient-to-br from-neutral-900/50 to-neutral-800/50 rounded-xl p-6 border border-neutral-700">
+            <h3 class="text-lg font-bold text-white mb-2">Can you handle special requests?</h3>
+            <p class="text-gray-300">Absolutely! We're flexible and can accommodate special packaging, inserts, or shipping requirements. Just let us know what you need.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="py-20">
+      <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-4xl font-bold text-white mb-6 md:text-5xl">Ready to Simplify Your Magazine Shipping?</h2>
+        <p class="text-xl text-gray-300 mb-8">
+          Join us in supporting independent publishing while giving Tania the opportunity to work full-time helping publishers like you.
+        </p>
+        
+        <div class="flex flex-col gap-4 sm:flex-row sm:justify-center">
+          <a
+            href="https://calendly.com/nomadgossip"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 rounded-lg bg-yellow-400 px-8 py-4 text-lg font-bold text-black transition-all hover:bg-yellow-300 hover:scale-105"
+            aria-label="Schedule a call to discuss magazine shipping service (opens in new tab)"
+          >
+            Schedule a Call
+            <ArrowRightIcon class="h-5 w-5" aria-hidden="true" />
+          </a>
+          <a
+            href="mailto:hello@nomad-magazine.com"
+            class="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-yellow-400 px-8 py-4 text-lg font-bold text-yellow-400 transition-all hover:bg-yellow-400 hover:text-black"
+            aria-label="Send email to hello@nomad-magazine.com (opens email client)"
+          >
+            Email Us
+          </a>
+        </div>
+        
+        <p class="mt-8 text-sm text-gray-400">
+          Questions? Reach out at <a href="mailto:hello@nomad-magazine.com" class="text-yellow-400 hover:text-yellow-300" aria-label="Send email to hello@nomad-magazine.com (opens email client)">hello@nomad-magazine.com</a>
+        </p>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+.hover\:scale-105:hover {
+  transform: scale(1.05);
+}
+</style>
