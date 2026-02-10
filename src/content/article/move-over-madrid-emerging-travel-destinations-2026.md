@@ -79,4 +79,4 @@ These destinations stand out for their authenticity, accessibility, and strong s
 
 ---
 
-**About the author:** Toby Patrick is a freelance writer who loves to travel. His writing often focuses on uncovering hidden gems that every traveller should visit in their lifetime.
+**About the author:** Toby Patrick is a freelance writer who has completed a marketing internship with [Hello Earth](https://helloearthagency.com/). He now enjoys combining his flair for creative writing with a passion for travel. His writing often focuses on uncovering hidden gems that every traveller should visit in their lifetime.
