@@ -46,6 +46,9 @@ const socialImage = post.data.heroImage
   ? (post.data.heroImage.startsWith('http') ? post.data.heroImage : `${Astro.site}${post.data.heroImage.startsWith('/') ? post.data.heroImage.slice(1) : post.data.heroImage}`)
   : `${Astro.site}images/edition-003-cover_holded_front_face.webp`
 
+// Enhanced SEO with word count for better ranking signals
+const wordCount = post.body ? post.body.split(/\s+/).length : 0
+
 const seo: SEOProps = {
   title: post.data.title,
   description: post.data.description,
@@ -70,6 +73,7 @@ const seo: SEOProps = {
     },
     articleSection: 'Digital Nomad Lifestyle',
     keywords: post.data.keywords || 'digital nomad, remote work, travel, nomad lifestyle',
+    wordCount,
   }),
 }
 ---
@@ -87,7 +91,7 @@ const seo: SEOProps = {
               {post.data.author && (
                 <div class="text-lg">
                   {post.data.authorUrl ? (
-                    <span>by <a href={post.data.authorUrl} target="_blank" rel="noopener noreferrer" class="underline hover:text-yellow-400 transition-colors">{post.data.author}</a></span>
+                    <span>by <a href={post.data.authorUrl} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${post.data.author}'s profile (opens in new tab)`} class="underline hover:text-yellow-400 transition-colors">{post.data.author}</a></span>
                   ) : (
                     <span>by {post.data.author}</span>
                   )}
@@ -115,8 +119,8 @@ const seo: SEOProps = {
     <div class="relative px-4 py-16">
       <div class="mx-auto flex max-w-7xl gap-12">
         <!-- Left Sidebar - More Menu -->
-        <aside class="hidden lg:block lg:w-48">
-          <div class="sticky top-8 space-y-6 text-sm">
+        <aside class="hidden lg:block lg:w-48" aria-label="Site navigation sidebar">
+          <nav class="sticky top-8 space-y-6 text-sm" aria-label="Related content navigation">
 
             <!-- Content Section -->
             <div>
@@ -149,22 +153,32 @@ const seo: SEOProps = {
                 <a href="/add-testimonials/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Submit Review</a>
               </div>
             </div>
-          </div>
+          </nav>
         </aside>
 
         <!-- Main Content -->
         <div class="mx-auto w-full max-w-3xl flex-1">
-          <article class="prose prose-lg mx-auto max-w-none prose-headings:text-gray-900 prose-p:text-gray-900 prose-a:text-blue-600 prose-strong:text-gray-900 prose-li:text-gray-900 prose-em:text-gray-700">
+          <article class="prose prose-lg mx-auto max-w-none prose-headings:text-gray-900 prose-p:text-gray-900 prose-a:text-blue-600 prose-strong:text-gray-900 prose-li:text-gray-900 prose-em:text-gray-700" itemscope itemtype="https://schema.org/Article">
+            <meta itemprop="headline" content={post.data.title} />
+            <meta itemprop="description" content={post.data.description} />
+            {post.data.heroImage && <meta itemprop="image" content={socialImage} />}
+            {post.data.pubDate && <meta itemprop="datePublished" content={post.data.pubDate.toISOString()} />}
+            {post.data.updatedDate && <meta itemprop="dateModified" content={post.data.updatedDate.toISOString()} />}
+            <meta itemprop="author" content={post.data.author || 'Nomad Magazine'} />
+            <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+              <meta itemprop="name" content="Nomad Magazine" />
+              <link itemprop="url" href="https://nomad-magazine.com/" />
+            </div>
             <Content />
           </article>
 
           {
             finalRelatedPosts.length > 0 && (
-              <section class="mt-16 border-t border-gray-200 pt-12">
-                <h2 class="text-2xl font-semibold text-gray-900">Related Articles</h2>
+              <section class="mt-16 border-t border-gray-200 pt-12" aria-labelledby="related-articles-heading">
+                <h2 id="related-articles-heading" class="text-2xl font-semibold text-gray-900">Related Articles</h2>
                 <div class="mt-6 grid gap-6 sm:grid-cols-3">
                   {finalRelatedPosts.map((relatedPost) => (
-                    <a href={`/articles/${relatedPost.slug}/`} class="group block rounded-lg border border-gray-200 p-4 transition-all hover:border-gray-400 hover:bg-gray-50">
+                    <a href={`/articles/${relatedPost.slug}/`} class="group block rounded-lg border border-gray-200 p-4 transition-all hover:border-gray-400 hover:bg-gray-50" aria-label={`Read article: ${relatedPost.data.title}`}>
                       <h3 class="text-base font-semibold leading-tight text-gray-900 group-hover:text-yellow-600">
                         {relatedPost.data.title}
                       </h3>

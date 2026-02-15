@@ -118,6 +118,7 @@ export function createBlogPostingSchema(options: {
   }
   keywords?: string
   articleSection?: string
+  wordCount?: number
 }): WithContext<BlogPosting> {
   const author: Person = {
     '@type': 'Person',
@@ -141,6 +142,7 @@ export function createBlogPostingSchema(options: {
     } as WebPage,
     ...(options.articleSection && { articleSection: options.articleSection }),
     ...(options.keywords && { keywords: options.keywords }),
+    ...(options.wordCount && { wordCount: options.wordCount }),
   }
 }
 
