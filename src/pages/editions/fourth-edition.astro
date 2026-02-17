@@ -2,9 +2,22 @@
 export const prerender = true;
 
 import Layout from '../../layouts/Layout.astro';
+
+const siteUrl = 'https://nomad-magazine.com';
+const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape_nocut.webp`;
 ---
 
-<Layout title="Edition Four - Coming Soon">
+<Layout 
+  title="Edition Four - Coming Soon"
+  ogImage={ogImageUrl}
+  seo={{
+    title: "Nomad Magazine Edition Four - Coming Soon",
+    description: "It will be the best edition so far! 128 pages of pure high-end content featuring Palermo, Bansko, Fukuoka, and more. Subscribe to be notified when it's ready.",
+    image: ogImageUrl,
+    canonical: `${siteUrl}/editions/fourth-edition/`,
+    keywords: "nomad magazine, digital nomad, remote work, edition four, palermo, travel magazine",
+  }}
+>
   <div class="coming-soon-container">
     <!-- Cover Image Section -->
     <div class="cover-section">
