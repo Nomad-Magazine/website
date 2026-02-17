@@ -61,6 +61,25 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
       </div>
     </div>
 
+    <!-- ZINIO Availability Banner -->
+    <section class="zinio-banner">
+      <div class="zinio-content">
+        <h3 class="zinio-title">📱 Now Available on ZINIO</h3>
+        <p class="zinio-subtitle">Read on your favorite device with the best digital magazine experience</p>
+        <div class="zinio-buttons">
+          <a href="https://www.zinio.com/publications/nomad-magazine/45331" target="_blank" rel="noopener noreferrer" aria-label="Read Nomad Magazine on ZINIO Web Reader (opens in new tab)" class="zinio-button">
+            🌐 Web Reader
+          </a>
+          <a href="https://apps.apple.com/us/app/zinio-magazine-newsstand/id364297166" target="_blank" rel="noopener noreferrer" aria-label="Download ZINIO app on iOS App Store (opens in new tab)" class="zinio-button">
+            🍎 iOS App
+          </a>
+          <a href="https://play.google.com/store/apps/details?id=com.zinio.mobile.android.reader&pli=1" target="_blank" rel="noopener noreferrer" aria-label="Download ZINIO app on Google Play Store (opens in new tab)" class="zinio-button">
+            🤖 Android App
+          </a>
+        </div>
+      </div>
+    </section>
+
     <div class="collage">
       <span class="word word-1">Palermo</span>
       <span class="word word-2">Bansko</span>
@@ -558,6 +577,61 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
     font-weight: 600;
   }
 
+  .zinio-banner {
+    max-width: 1400px;
+    margin: 4rem auto;
+    padding: 0 2rem;
+  }
+
+  .zinio-content {
+    background: linear-gradient(135deg, #9333ea 0%, #6366f1 100%);
+    padding: 3rem 2rem;
+    border-radius: 16px;
+    text-align: center;
+  }
+
+  .zinio-title {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 700;
+    color: white;
+    margin: 0 0 1rem 0;
+    line-height: 1.2;
+  }
+
+  .zinio-subtitle {
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 2rem 0;
+    line-height: 1.5;
+  }
+
+  .zinio-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .zinio-button {
+    background: white;
+    color: #9333ea;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .zinio-button:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+
   .shipment-section {
     max-width: 800px;
     margin: 4rem auto 2rem auto;
@@ -734,6 +808,25 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
     .shipment-icon {
       font-size: 2.5rem;
       margin-bottom: 1rem;
+    }
+
+    .zinio-banner {
+      margin: 3rem auto;
+      padding: 0 1rem;
+    }
+
+    .zinio-content {
+      padding: 2rem 1.5rem;
+    }
+
+    .zinio-buttons {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .zinio-button {
+      width: 100%;
+      justify-content: center;
     }
   }
 </style>
