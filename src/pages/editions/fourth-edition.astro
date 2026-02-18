@@ -8,14 +8,14 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
 ---
 
 <Layout 
-  title="Edition Four - Coming Soon"
+  title="Edition Four - Now Available"
   ogImage={ogImageUrl}
   seo={{
-    title: "Nomad Magazine Edition Four - Coming Soon",
-    description: "It will be the best edition so far! 128 pages of pure high-end content featuring Palermo, Bansko, Fukuoka, and more. Subscribe to be notified when it's ready.",
+    title: "Nomad Magazine Edition Four - Now Available on Zinio",
+    description: "The best edition so far! 128 pages of pure high-end content featuring Palermo, Bansko, Fukuoka, and more. Order print edition by Feb 28th and save €5 with code MINUS5.",
     image: ogImageUrl,
     canonical: `${siteUrl}/editions/fourth-edition/`,
-    keywords: "nomad magazine, digital nomad, remote work, edition four, palermo, travel magazine",
+    keywords: "nomad magazine, digital nomad, remote work, edition four, palermo, bansko, fukuoka, travel magazine, zinio",
   }}
 >
   <div class="coming-soon-container">
@@ -30,36 +30,26 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
 
     <div class="hero-text">
       <h1>Edition Four</h1>
-      <h2>Coming Soon</h2>
+      <h2>Now Available!</h2>
     </div>
     
     <div class="subtitle">
-      <p>It will be the best edition so far!</p>
+      <p>The best edition so far!</p>
       <p class="pages">128 pages of pure high-end content</p>
     </div>
 
-    <!-- Subscribe Section (Before Content) -->
-    <div class="subscribe-section">
-      <p class="subscribe-text">Subscribe to be notified when it's ready</p>
-      <form id="subscribe-form-top" class="subscribe-form" aria-label="Subscribe to newsletter">
-        <input type="hidden" name="event_type" value="subscribe_edition-four-top" />
-        <div class="subscribe-input-group">
-          <input
-            required
-            type="email"
-            name="email"
-            placeholder="Enter your email"
-            aria-label="Email address"
-            class="subscribe-input"
-          />
-          <div class="cf-turnstile" data-sitekey="0x4AAAAAACXWfgpGaqB_A50e" data-theme="light"></div>
-          <button type="submit" class="subscribe-button">Subscribe</button>
-        </div>
-      </form>
-      <div class="preorder-notice">
-        <p>Or <a href="https://pay.nomad-magazine.com/b/fZu14nc2x1bdfAWf0l8bS0L" class="preorder-link">preorder the print edition now</a> and save €5 with code <span class="code">MINUS5</span></p>
+    <!-- Print Edition Discount Banner -->
+    <section class="print-discount-banner">
+      <div class="discount-content">
+        <div class="discount-badge">🔥 LIMITED TIME OFFER</div>
+        <h3 class="discount-title">Order Print Edition & Save €5</h3>
+        <p class="discount-subtitle">Use code <span class="discount-code">MINUS5</span> at checkout</p>
+        <p class="discount-deadline">⏰ Offer ends February 28th, 2026</p>
+        <a href="https://pay.nomad-magazine.com/b/fZu14nc2x1bdfAWf0l8bS0L" class="discount-button" target="_blank" rel="noopener noreferrer" aria-label="Order print edition with discount (opens in new tab)">
+          📚 Order Print Edition Now
+        </a>
       </div>
-    </div>
+    </section>
 
     <!-- ZINIO Availability Banner -->
     <section class="zinio-banner">
@@ -95,28 +85,6 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
       <span class="word word-12">Nomad Fashion</span>
     </div>
 
-    <!-- Subscribe Section (After Content) -->
-    <div class="subscribe-section">
-      <p class="subscribe-text">Subscribe to be notified when it's ready (if you haven't already)</p>
-      <form id="subscribe-form-bottom" class="subscribe-form" aria-label="Subscribe to newsletter">
-        <input type="hidden" name="event_type" value="subscribe_edition-four-bottom" />
-        <div class="subscribe-input-group">
-          <input
-            required
-            type="email"
-            name="email"
-            placeholder="Enter your email"
-            aria-label="Email address"
-            class="subscribe-input"
-          />
-          <div class="cf-turnstile" data-sitekey="0x4AAAAAACXWfgpGaqB_A50e" data-theme="light"></div>
-          <button type="submit" class="subscribe-button">Subscribe</button>
-        </div>
-      </form>
-      <div class="preorder-notice">
-        <p>Or <a href="https://pay.nomad-magazine.com/b/fZu14nc2x1bdfAWf0l8bS0L" class="preorder-link">preorder the print edition now</a> and save €5 with code <span class="code">MINUS5</span></p>
-      </div>
-    </div>
 
     <!-- Partners Section -->
     <div class="partners-section">
@@ -173,6 +141,29 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
         <a href="/coworking-coliving-shipments/" class="shipment-button">
           📦 Get Magazine Shipments →
         </a>
+      </div>
+    </div>
+
+    <!-- Newsletter Signup Section -->
+    <div class="newsletter-section">
+      <div class="newsletter-content">
+        <h3 class="newsletter-title">Stay Updated</h3>
+        <p class="newsletter-text">Subscribe to get notified about new editions, exclusive content, and nomad lifestyle insights</p>
+        <form id="newsletter-form" class="newsletter-form" aria-label="Subscribe to newsletter">
+          <input type="hidden" name="event_type" value="subscribe_edition-four-newsletter" />
+          <div class="newsletter-input-group">
+            <input
+              required
+              type="email"
+              name="email"
+              placeholder="Enter your email"
+              aria-label="Email address"
+              class="newsletter-input"
+            />
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAACXWfgpGaqB_A50e" data-theme="light"></div>
+            <button type="submit" class="newsletter-button">Subscribe</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -261,6 +252,98 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
     font-size: clamp(1rem, 2vw, 1.5rem);
     color: #999;
     font-weight: 300;
+  }
+
+  .print-discount-banner {
+    max-width: 1400px;
+    margin: 3rem auto;
+    padding: 0 2rem;
+  }
+
+  .discount-content {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ff8c94 100%);
+    padding: 3rem 2rem;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(255, 107, 107, 0.3);
+    border: 3px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .discount-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.95);
+    color: #ff6b6b;
+    padding: 0.5rem 1.5rem;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: clamp(0.8rem, 1.5vw, 1rem);
+    letter-spacing: 0.05em;
+    margin-bottom: 1.5rem;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+  }
+
+  .discount-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    color: white;
+    margin: 0 0 1rem 0;
+    line-height: 1.2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .discount-subtitle {
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    color: white;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.4;
+  }
+
+  .discount-code {
+    display: inline-block;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 0.3rem 1rem;
+    border-radius: 8px;
+    font-family: monospace;
+    font-weight: 800;
+    font-size: clamp(1.3rem, 3.2vw, 2.2rem);
+    letter-spacing: 0.1em;
+    color: #ffe66d;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .discount-deadline {
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: rgba(255, 255, 255, 0.95);
+    margin: 1rem 0 2rem 0;
+    font-weight: 600;
+  }
+
+  .discount-button {
+    display: inline-block;
+    background: white;
+    color: #ff6b6b;
+    padding: 1.2rem 3rem;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: clamp(1rem, 2.2vw, 1.4rem);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .discount-button:hover {
+    background: rgba(255, 255, 255, 0.95);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
   }
 
   .partners-section {
@@ -470,113 +553,6 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
     transform: rotate(-4deg);
   }
 
-  .subscribe-section {
-    max-width: 600px;
-    margin: 3rem auto;
-    padding: 2rem;
-    text-align: center;
-  }
-
-  .subscribe-text {
-    font-size: clamp(1rem, 2vw, 1.3rem);
-    color: #ddd;
-    margin-bottom: 2rem;
-    font-weight: 400;
-    line-height: 1.6;
-  }
-
-  .subscribe-form {
-    max-width: 500px;
-    margin: 0 auto;
-  }
-
-  .subscribe-input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .subscribe-input {
-    width: 100%;
-    padding: 1rem;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-  }
-
-  .subscribe-input:focus {
-    outline: none;
-    border-color: #4ecdc4;
-    background: rgba(255, 255, 255, 0.15);
-  }
-
-  .subscribe-input::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-  }
-
-  .subscribe-button {
-    width: 100%;
-    padding: 1rem 2rem;
-    background: linear-gradient(135deg, #4ecdc4 0%, #44b3aa 100%);
-    color: #1a1a1a;
-    font-weight: 700;
-    font-size: 1rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .subscribe-button:hover {
-    background: linear-gradient(135deg, #5ed7ce 0%, #4ecdc4 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(78, 205, 196, 0.3);
-  }
-
-  .subscribe-button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
-  }
-
-  .preorder-notice {
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .preorder-notice p {
-    font-size: clamp(0.9rem, 1.8vw, 1.1rem);
-    color: #aaa;
-    margin: 0;
-    line-height: 1.6;
-  }
-
-  .preorder-link {
-    color: #4ecdc4;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s ease;
-  }
-
-  .preorder-link:hover {
-    color: #5ed7ce;
-    text-decoration: underline;
-  }
-
-  .code {
-    font-family: monospace;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-    color: #ffe66d;
-    font-weight: 600;
-  }
-
   .zinio-banner {
     max-width: 1400px;
     margin: 4rem auto;
@@ -691,6 +667,92 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
     box-shadow: 0 8px 16px rgba(78, 205, 196, 0.3);
   }
 
+  .newsletter-section {
+    max-width: 800px;
+    margin: 4rem auto 2rem auto;
+    padding: 0 2rem;
+  }
+
+  .newsletter-content {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+
+  .newsletter-title {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    color: #ffffff;
+    line-height: 1.3;
+  }
+
+  .newsletter-text {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: #ddd;
+    margin: 0 0 2rem 0;
+    line-height: 1.6;
+  }
+
+  .newsletter-form {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .newsletter-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .newsletter-input {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .newsletter-input:focus {
+    outline: none;
+    border-color: #4ecdc4;
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .newsletter-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .newsletter-button {
+    width: 100%;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #4ecdc4 0%, #44b3aa 100%);
+    color: #1a1a1a;
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .newsletter-button:hover {
+    background: linear-gradient(135deg, #5ed7ce 0%, #4ecdc4 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(78, 205, 196, 0.3);
+  }
+
+  .newsletter-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
   @media (max-width: 768px) {
     .coming-soon-container {
       padding: 1rem;
@@ -791,11 +853,6 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
       padding: 0.3rem 0.6rem;
     }
 
-    .subscribe-section {
-      margin: 2rem auto;
-      padding: 1.5rem 1rem;
-    }
-
     .shipment-section {
       margin: 3rem auto 1rem auto;
       padding: 0 1rem;
@@ -828,70 +885,91 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
       width: 100%;
       justify-content: center;
     }
+
+    .print-discount-banner {
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .discount-content {
+      padding: 2rem 1.5rem;
+    }
+
+    .discount-badge {
+      font-size: clamp(0.7rem, 2vw, 0.9rem);
+      padding: 0.4rem 1rem;
+    }
+
+    .discount-button {
+      width: 100%;
+      padding: 1rem 2rem;
+    }
+
+    .newsletter-section {
+      margin: 3rem auto 1rem auto;
+      padding: 0 1rem;
+    }
+
+    .newsletter-content {
+      padding: 2rem 1.5rem;
+    }
   }
 </style>
 
 <script is:inline>
-  // Form submission handler for both subscribe forms
   document.addEventListener('DOMContentLoaded', function () {
-    const forms = document.querySelectorAll('.subscribe-form')
+    const form = document.getElementById('newsletter-form')
+    if (!form) return
 
-    forms.forEach((form) => {
-      form.addEventListener('submit', async function (e) {
-        e.preventDefault()
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault()
 
-        const submitButton = form.querySelector('.subscribe-button')
-        if (!submitButton) return
+      const submitButton = form.querySelector('.newsletter-button')
+      if (!submitButton) return
 
-        // Get Turnstile token
-        const turnstileWidget = form.querySelector('.cf-turnstile')
-        const turnstileResponse = window.turnstile?.getResponse(turnstileWidget);
-        
-        if (!turnstileResponse) {
-          alert('Please complete the captcha verification.')
-          return
-        }
+      const turnstileWidget = form.querySelector('.cf-turnstile')
+      const turnstileResponse = window.turnstile?.getResponse(turnstileWidget);
+      
+      if (!turnstileResponse) {
+        alert('Please complete the captcha verification.')
+        return
+      }
 
-        // Disable submit button
-        submitButton.disabled = true
-        const originalText = submitButton.textContent
-        submitButton.textContent = 'Submitting...'
+      submitButton.disabled = true
+      const originalText = submitButton.textContent
+      submitButton.textContent = 'Submitting...'
 
-        const formData = new FormData(form)
-        formData.append('cf-turnstile-response', turnstileResponse)
+      const formData = new FormData(form)
+      formData.append('cf-turnstile-response', turnstileResponse)
 
-        try {
-          const response = await fetch('/api/bento-event', {
-            method: 'POST',
-            body: formData,
-          })
+      try {
+        const response = await fetch('/api/bento-event', {
+          method: 'POST',
+          body: formData,
+        })
 
-          const data = await response.json()
+        const data = await response.json()
 
-          if (response.ok && data.success) {
-            // Show success message
-            alert("Successfully subscribed! We will notify you when Edition 4 is ready.")
-            form.reset()
-            // Reset Turnstile
-            if (window.turnstile) {
-              window.turnstile.reset(turnstileWidget)
-            }
-            submitButton.disabled = false
-            submitButton.textContent = originalText || 'Subscribe'
-          } else {
-            alert(data.error || 'Failed to subscribe. Please try again.')
-            submitButton.disabled = false
-            submitButton.textContent = originalText || 'Subscribe'
+        if (response.ok && data.success) {
+          alert("Successfully subscribed! We'll keep you updated on new editions and exclusive content.")
+          form.reset()
+          if (window.turnstile) {
+            window.turnstile.reset(turnstileWidget)
           }
-        } catch (error) {
-          alert('An error occurred. Please try again.')
+          submitButton.disabled = false
+          submitButton.textContent = originalText || 'Subscribe'
+        } else {
+          alert(data.error || 'Failed to subscribe. Please try again.')
           submitButton.disabled = false
           submitButton.textContent = originalText || 'Subscribe'
         }
-      })
+      } catch (error) {
+        alert('An error occurred. Please try again.')
+        submitButton.disabled = false
+        submitButton.textContent = originalText || 'Subscribe'
+      }
     })
   })
 </script>
 
-<!-- Cloudflare Turnstile Script -->
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
