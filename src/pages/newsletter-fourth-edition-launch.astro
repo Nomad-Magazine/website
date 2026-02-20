@@ -1,0 +1,255 @@
+---
+export const prerender = true;
+
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+
+const seo: SEOProps = {
+  title: 'Fourth Edition of Nomad Magazine Is Here - Nomad Newsletter',
+  description: 'Nomad Magazine fourth edition is out. Print copies are shipping to partners; order your copy by end of February with code MINUS5. Digital available on Zinio, Magazine Cafe, Pling.',
+  image: `${Astro.site}images/edition-004-cover.webp`,
+  keywords: 'nomad magazine, fourth edition, digital nomad, palermo, bansko, fukuoka, madeira, print edition, zinio',
+  ogType: 'article',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Fourth Edition of Nomad Magazine Is Here',
+    description: 'Nomad Magazine fourth edition is out. Print and digital available.',
+    author: { '@type': 'Organization', name: 'Nomad Magazine' },
+    publisher: { '@type': 'Organization', name: 'Nomad Magazine', logo: { '@type': 'ImageObject', url: `${Astro.site}logo.svg` } },
+    datePublished: '2026-02-20',
+    url: `${Astro.site}newsletter-fourth-edition-launch/`,
+  },
+}
+
+const sponsors = [
+  { name: 'Città di Palermo', url: 'https://www.comune.palermo.it/', logo: '/images/logo-palermo-municipality.webp', alt: 'Città di Palermo', category: 'DESTINATION', description: 'Municipality of Palermo, supporting the city as a destination for digital nomads and the Italia Nomad Fest.' },
+  { name: 'Beetcommunity', url: 'https://beetcommunity.com/en/', filter: 'grayscale(1)', logo: 'https://cdn.files.smartsuite.com/security=p:eyJjYWxsIjogWyJyZWFkIiwgImNvbnZlcnQiXSwgImV4cGlyeSI6IDI0MDE4MDE0MDIuMzQ0MDA0LCAiaGFuZGxlIjogInlDeUJRMVBZU0hHejY4QnlVclpQIn0=,s:eb7c27e0b468ce54eed83e666b7375a2377d82730e422470eec064d6b4ae47f4/yCyBQ1PYSHGz68ByUrZP', alt: 'Beetcommunity', category: 'COLIVING', description: 'BeetCommunity is a human-centered coliving and coworking ecosystem designed for digital nomads, remote workers, founders, and creatives. Based in Palermo, it blends comfortable living spaces with a focused, non-crowded coworking environment.' },
+  { name: 'Nomads Insure', url: 'https://nomads.insure/', logo: '/images/logo-nomads-insure.webp', alt: 'Nomads Insure', category: 'INSURANCE', description: 'Independent, fully licensed brokers specializing in digital nomads, remote workers and location independent entrepreneurs.' },
+  { name: 'Falmouth University', url: 'https://www.falmouth.ac.uk/study/online', logo: '/images/logo-Falmouth-University-Black.webp', alt: 'Falmouth University', category: 'EDUCATION', description: "Level-up your career with a transformational online degree. With over a century of art school history, creativity is the foundation. All online courses studied 100% remotely." },
+  { name: 'Max Browser', url: 'https://maxbrowser.com.au/', logo: '/images/logo-Max-Master-Logo-black.webp', alt: 'Max Browser', category: 'SOFTWARE', description: "Australia's first privacy-based browser and VPN combo. Free membership with 2GB of VPN data per month." },
+  { name: 'Nomad Fest', url: 'https://nomad-fest.com/', logo: '/images/nomad-fest_black.webp', alt: 'Nomad Fest', category: 'EVENTS', description: 'Global directory for nomad festivals. Discover events where digital nomads, creators, entrepreneurs, and remote workers meet to learn, connect, and celebrate community.' },
+  { name: 'Coliving Frilingue', url: 'https://coliving.frilingue.ch/', logo: '/images/logo-coliving-frilingue.webp', alt: 'Coliving Frilingue', category: 'COLIVING', description: 'Community-focused coliving and coworking spaces in the Swiss Alps and beyond. Inspiring environments for remote workers, entrepreneurs, and creatives.' },
+  { name: 'MeetCiao', url: 'https://meetciao.com/', logo: '/images/Ciao-Logo-black.webp', alt: 'U Ciao', category: 'COMMUNITY', description: 'Rent homes at local rates in a private community of travellers.' },
+  { name: 'Nomad Tax Bulgaria', url: 'https://www.nomadtax.bg/', logo: '/images/NomadTax.webp', alt: 'Nomad Tax Bulgaria', category: 'LEGAL & TAXES', description: 'Company Registration, Residency, Accounting, Relocation.' },
+  { name: 'Roamless', url: 'https://roamless.com/', logo: '/images/logo-roamless_black.webp', alt: 'Roamless', category: 'TRAVELTECH', description: 'eSIM and connectivity for travellers and digital nomads.' },
+  { name: 'Swaphouse', url: 'https://www.swaphouse.com/', logo: '/images/logo-swaphouse.webp', alt: 'Swaphouse', category: 'COMMUNITY PLATFORM', description: 'Free home swapping platform for remote workers and digital nomads, making it easy to live and work in remote-friendly homes around the world without paying for accommodation.' },
+  { name: 'Rent Remote', url: 'https://rentremote.com/', logo: '/images/rent-remote-logo.webp', alt: 'Rent Remote', category: 'COLIVING', filter: 'brightness(0)', description: 'Work-ready apartments for career-driven digital nomads. From Barcelona to Mexico City, find a place with premium workstation: standing desk, ergonomic chair, widescreen monitor.' },
+  { name: 'Nomad Train', url: 'https://nomadtrain.co/', logo: '/images/logo-nomad-train.webp', alt: 'Nomad Train', category: 'EVENTS', description: 'Epic train journeys with amazing people. Next trip: Central Asia — Uzbekistan & Kazakhstan, May 7–17, 2026.' },
+  { name: 'The Better Neighbors', url: 'https://thebetterneighbors.com/', logo: '/images/Logo_BetterNeighbors.webp', alt: 'The Better Neighbors', category: 'COLIVING', description: 'We organize workation retreats. Explore mountain spas in Romania or seaside coliving in Spain—for under €700 a month with your own private room and bathroom.' },
+]
+const supporters = [
+  { name: 'Max Browser (DataBench)', url: 'https://maxbrowser.com.au/', logo: 'https://cdn.files.smartsuite.com/security=p:eyJjYWxsIjogWyJyZWFkIiwgImNvbnZlcnQiXSwgImV4cGlyeSI6IDI0MDE4MDE0NDkuMzEwOTMsICJoYW5kbGUiOiAiRHdPNUN5N1lTMWFTcHI0UVMxQ3EifQ==,s:9f8c3e40df3b052551800c6e831058ac019a4abb77076f99092a683bff9a44c2/DwO5Cy7YS1aSpr4QS1Cq', alt: 'Max Browser' },
+  { name: 'NomadTax Bulgaria', url: 'https://nomadtax.bg/', logo: 'https://cdn.files.smartsuite.com/security=p:eyJjYWxsIjogWyJyZWFkIiwgImNvbnZlcnQiXSwgImV4cGlyeSI6IDI0MDE4MDE0MzcuODczMTE1LCAiaGFuZGxlIjogIjlLbG0yTTZ3VE1HdUZlU1BRbVJnIn0=,s:7a3398009c9767ae17dd066f443c85ce0b0f0c66ea45aedd2c86a23e2d98aa24/9Klm2M6wTMGuFeSPQmRg', alt: 'NomadTax Bulgaria' },
+  { name: 'Colive Fukuoka', url: 'https://colivefukuoka.com/', logo: 'https://cdn.files.smartsuite.com/security=p:eyJjYWxsIjogWyJyZWFkIiwgImNvbnZlcnQiXSwgImV4cGlyeSI6IDI0MDE4MDE0NTguMjk0MTUsICJoYW5kbGUiOiAiYUpIU2lUUzlRR3l2MGR3NlJPZFEifQ==,s:6d2aaebba7d7433000251d311d514821d5fc185f041f30b171f72c366f8d18c2/aJHSiTS9QGyv0dw6ROdQ', alt: 'Colive Fukuoka' },
+  { name: 'SSBM Consulting', url: 'https://www.ssbmconsulting.com/', logo: 'https://cdn.files.smartsuite.com/security=p:eyJjYWxsIjogWyJyZWFkIiwgImNvbnZlcnQiXSwgImV4cGlyeSI6IDI0MDE4MDE0MDIuMzE2NDk1LCAiaGFuZGxlIjogImJIRU5MRFZDUnRla0wwZW15WHh2In0=,s:8180e7ab27aa47810be6e6526dde92d4df39081a3323a0bc6a6e22b98e43f5ca/bHENLDVCRtekL0emyXxv', alt: 'SSBM Consulting LLC' },
+  { name: 'Barranquilla Nomad Paradise', url: 'https://barranquillanomadparadise.com/', logo: 'https://cdn.files.smartsuite.com/security=p:eyJjYWxsIjogWyJyZWFkIiwgImNvbnZlcnQiXSwgImV4cGlyeSI6IDI0MDE4MDE0MDYuMjUwNjAxLCAiaGFuZGxlIjogIjJpdjhMaENLUXVhdG8wUlI4WEJHIn0=,s:ff372077212483cf0bfca11a6eb8aa0e326c3512c9518b5383b93cd3889c04c5/2iv8LhCKQuato0RR8XBG', alt: 'Barranquilla Nomad Paradise' },
+]
+---
+
+<Layout seo={seo}>
+  <div class="bg-gray-50 min-h-screen">
+    <div class="bg-white border-b border-gray-200">
+      <div class="max-w-4xl mx-auto px-4 py-3 text-center">
+        <a href="/newsletter-fourth-edition-launch/" class="text-blue-600 hover:text-blue-700 text-sm underline">→ View in browser for best experience</a>
+      </div>
+    </div>
+
+    <header class="bg-gray-900 text-white">
+      <div class="max-w-4xl mx-auto px-4 py-8 text-center">
+        <p class="text-gray-300 text-sm mb-2">Newsletter by Nomad Magazine to keep you inspired and connected</p>
+        <p class="text-yellow-400 text-sm font-bold uppercase tracking-wide">February 20, 2026</p>
+      </div>
+    </header>
+
+    <div class="bg-white">
+      <div class="relative px-4 py-8">
+        <div class="mx-auto flex max-w-7xl gap-12">
+          <aside class="hidden lg:block lg:w-48">
+            <div class="sticky top-24 space-y-6 text-sm">
+              <div>
+                <div class="mb-2 text-xs font-bold uppercase tracking-wider text-gray-500">Content</div>
+                <div class="space-y-1">
+                  <a href="/newsletter/" class="block rounded px-2 py-1.5 text-blue-600 font-semibold transition-colors hover:bg-blue-50 hover:text-blue-700">Subscribe</a>
+                  <a href="/editions/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Magazine Editions</a>
+                  <a href="/digital-nomad-wiki/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Digital Nomad Wiki</a>
+                  <a href="/articles/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Articles</a>
+                </div>
+              </div>
+              <div>
+                <div class="mb-2 text-xs font-bold uppercase tracking-wider text-gray-500">Partners</div>
+                <div class="space-y-1">
+                  <a href="/brand-placement-next-edition-847291/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Brand Placement</a>
+                  <a href="/nomad_directory/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Nomad Directory</a>
+                  <a href="/writers/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">For Writers</a>
+                  <a href="/distribution-list/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Distribution List</a>
+                </div>
+              </div>
+              <div>
+                <div class="mb-2 text-xs font-bold uppercase tracking-wider text-gray-500">Support</div>
+                <div class="space-y-1">
+                  <a href="/our-story/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Our Story</a>
+                  <a href="/support-the-magazine/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Support Magazine</a>
+                  <a href="/add-testimonials/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Submit Review</a>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          <main class="mx-auto w-full max-w-4xl flex-1">
+            <div class="text-center mb-12">
+              <h1 class="text-4xl md:text-5xl font-black text-gray-900 mb-4 leading-tight">Fourth Edition Is Here</h1>
+              <p class="text-lg text-gray-600 font-medium mb-8">Nomad Magazine — our new edition is out</p>
+              <img src="/images/edition-004-cover.webp" alt="Nomad Magazine Edition Four Cover" class="w-full max-w-md mx-auto rounded-xl shadow-lg" />
+            </div>
+
+            <article class="max-w-3xl mx-auto mb-12 space-y-8">
+              <div class="prose prose-lg max-w-none text-gray-700 leading-relaxed">
+                <p>The fourth edition of Nomad Magazine is here — and after two years of growing, it’s the one I’m most proud of.</p>
+                <p>In our first three editions we spent a lot of time on the human side of this lifestyle: mindfulness, relationships, loneliness, and the communities that make remote life feel less “remote.” This time, in our fourth edition, we decided to try something new. We went deeper into one of the questions I hear the most: <strong>“Which nomad destinations are growing right now?”</strong></p>
+                <p>In this edition we explore places that are gaining real momentum—including Fukuoka, Japan; Bansko, Bulgaria; Madeira, Portugal; and a fresh one for us all: Palermo, Italy. We focused on the kind of insights you only get by being there and talking to people on the ground. We traveled to each destination, interviewed locals, founders, community builders, and nomads, and brought you behind-the-scenes perspectives.</p>
+                <p>As always, we publish a mix of topics. This issue includes raising kids on the move, queer nomad viewpoints, travel fashion tips, and a beautiful van-life photo story. One of my personal favorites explains online education possibilities for creative careers—not only through private online courses, but also through a British university offering courses online. We also have a special guest: <strong>Traveling with Kristin</strong> (Kristin Wilson), one of the most well-known digital nomad and travel YouTubers, sharing her perspective after more than thirteen years on the road. For the cover, to feature the spirit of Palermo, we invited the talented illustrators Claudia Brüggen and Molly Maine. We added the <a href="/nomad_directory/" class="text-orange-600 font-semibold hover:text-orange-700 underline">Nomad Directory</a> and coworking space features so you can discover projects and brands that make digital nomad life simpler. And we simplified the design—still us, but more inviting to read. Thank you for being here.</p>
+              </div>
+
+              <div class="text-center mb-8">
+                <a href="/editions/fourth-edition/" class="inline-block bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold py-4 px-8 rounded-xl transition-colors">See full edition details →</a>
+              </div>
+
+              <section class="border border-gray-200 rounded-2xl p-8 bg-white">
+                <h2 class="text-xl font-black text-gray-900 mb-6">What's Inside Edition Four</h2>
+                <div class="divide-y divide-gray-100">
+                  {[
+                    { title: "Why Palermo, Why Now? The Rise Of Italy's No.1 Nomad Capital", page: 10 },
+                    { title: "Unlocking Creative Careers: How Falmouth University Empowers Students Through Online Study", page: 26 },
+                    { title: "Behind The Brand Of Kristin Wilson: Building A Business Around Freedom", page: 34 },
+                    { title: "Van Life: The Beauty, Chaos, And Clarity Of Life On Four Wheels by Cassandra Rae", page: 40 },
+                    { title: "Japan: The Art Of Meaningful Encounters In Fukuoka", page: 52 },
+                    { title: "The Coworkings Contest: Winners Revealed", page: 66 },
+                    { title: "Nomad Directory", page: 82 },
+                    { title: "Digital Nomads In Bansko: 5 Years In The Making", page: 90 },
+                    { title: "The Nomad Research Lab: On Madeira", page: 98 },
+                    { title: "Raising Kids Without Borders By Doris Dario", page: 106 },
+                    { title: "Queer Digital Nomads: The Hidden Demographic by Saul O", page: 114 },
+                    { title: "Travel Fashion: How To Look Runway-Ready While Traveling", page: 122 },
+                  ].map((item) => (
+                    <div class="flex items-baseline justify-between gap-4 py-3">
+                      <span class="text-sm text-gray-700 leading-snug">{item.title}</span>
+                      <span class="shrink-0 text-sm font-bold text-gray-400 tabular-nums">{item.page}</span>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              <div class="border border-gray-200 rounded-2xl overflow-hidden bg-white">
+                <div class="flex flex-col sm:flex-row">
+                  <div class="sm:w-2/5 shrink-0">
+                    <img src="/images/edition-004-magazines-on-coffee-table.webp" alt="Nomad Magazine fourth edition print copies on a coffee table in Palermo" class="w-full h-full object-cover" loading="lazy" />
+                  </div>
+                  <div class="p-8 flex flex-col justify-center">
+                    <div class="flex items-center gap-3 mb-5">
+                      <span class="text-2xl" aria-hidden="true">📦</span>
+                      <h2 class="text-2xl font-black text-gray-900">Print copies</h2>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed mb-3">We received our print copies this week and are preparing to ship to our coworking and coliving partners. Individual orders are open until end of February.</p>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-6">Our focus is distribution — this time we’re not keeping a large leftover stock for individual orders. Order now while it’s available.</p>
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                      <a href="https://pay.nomad-magazine.com/b/fZu14nc2x1bdfAWf0l8bS0L" target="_blank" rel="noopener noreferrer" class="inline-block bg-gray-900 hover:bg-gray-700 text-white font-bold py-3 px-7 rounded-xl transition-colors text-sm" aria-label="Order print edition (opens in new tab)">Order print copy →</a>
+                      <div class="flex items-center gap-2">
+                        <span class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Discount code</span>
+                        <span class="font-mono font-bold text-sm bg-gray-100 text-gray-900 px-3 py-1.5 rounded-lg border border-gray-300 tracking-widest">MINUS5</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="border border-gray-200 rounded-2xl p-8 bg-white">
+                <div class="flex items-center gap-3 mb-5">
+                  <span class="text-2xl" aria-hidden="true">📱</span>
+                  <h2 class="text-2xl font-black text-gray-900">Digital &amp; mobile version</h2>
+                </div>
+                <p class="text-gray-700 leading-relaxed mb-5">Already available on these digital platforms. Pick one:</p>
+                <div class="flex flex-wrap gap-3 mb-7">
+                  <a href="https://www.zinio.com/publications/nomad-magazine/45331" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 border border-gray-300 hover:border-gray-900 text-gray-700 hover:text-gray-900 font-medium text-sm px-4 py-2 rounded-full transition-colors" aria-label="Zinio (opens in new tab)">Zinio <span class="text-gray-400" aria-hidden="true">↗</span></a>
+                  <a href="https://www.magazinecafestore.com/products/nomad-magazine-1" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 border border-gray-300 hover:border-gray-900 text-gray-700 hover:text-gray-900 font-medium text-sm px-4 py-2 rounded-full transition-colors" aria-label="Magazine Cafe Store (opens in new tab)">Magazine Cafe <span class="text-gray-400" aria-hidden="true">↗</span></a>
+                  <a href="https://pling.zinioapps.com/publications/nomad-magazine/45331" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 border border-gray-300 hover:border-gray-900 text-gray-700 hover:text-gray-900 font-medium text-sm px-4 py-2 rounded-full transition-colors" aria-label="Pling (opens in new tab)">Pling <span class="text-gray-400" aria-hidden="true">↗</span></a>
+                  <a href="https://www.ziniounlimited.com/pt/publications/nomad-magazine/45331" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 border border-gray-300 hover:border-gray-900 text-gray-700 hover:text-gray-900 font-medium text-sm px-4 py-2 rounded-full transition-colors" aria-label="Zinio Unlimited (opens in new tab)">Zinio Unlimited <span class="text-gray-400" aria-hidden="true">↗</span></a>
+                </div>
+              </div>
+
+              <div class="text-center mb-4">
+                <a href="/editions/fourth-edition/" class="inline-block bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold py-4 px-8 rounded-xl transition-colors">See full edition details →</a>
+              </div>
+
+              <section class="bg-gray-50 border border-gray-200 rounded-2xl p-8">
+                <h2 class="text-xl font-black text-gray-900 mb-6">This edition was brought to life with the support of our partners:</h2>
+                <div class="flex flex-col gap-4">
+                  {sponsors.map((s) => (
+                    <div class="relative bg-white rounded-2xl border border-gray-200 p-5 shadow-sm hover:shadow-md transition-shadow">
+                      <span class="absolute top-4 right-4 bg-amber-400 text-gray-900 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wide">{s.category}</span>
+                      <div class="flex gap-5 items-center">
+                        <div class="shrink-0 w-28 h-20 rounded-xl border border-gray-200 bg-white flex items-center justify-center overflow-hidden p-2">
+                          <img src={s.logo} alt={s.alt} class="w-full h-full object-contain" style={s.filter ? `filter: ${s.filter}` : undefined} loading="lazy" />
+                        </div>
+                        <div class="min-w-0 flex-1 pr-28">
+                          <h3 class="text-xl font-bold text-gray-900 mb-1">{s.name}</h3>
+                          <p class="text-sm text-gray-600 leading-snug mb-3">{s.description}</p>
+                          <a href={s.url} target="_blank" rel="noopener noreferrer" class="text-sm font-semibold text-orange-600 hover:text-orange-700 underline" aria-label={`Learn more about ${s.name} (opens in new tab)`}>Learn more →</a>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            </article>
+
+            <section class="max-w-3xl mx-auto mb-12 pt-4 border-t border-gray-100">
+              <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 text-center mb-5">Monthly supporters of the Nomad Directory</p>
+              <div class="flex flex-wrap items-center justify-center gap-6">
+                {supporters.map((s) => (
+                  <a href={s.url} target="_blank" rel="noopener noreferrer" class="flex flex-col items-center gap-2 opacity-50 hover:opacity-80 transition-opacity" aria-label={`${s.name} (opens in new tab)`}>
+                    <div class="w-14 h-10 flex items-center justify-center">
+                      <img src={s.logo} alt={s.alt} class="max-h-10 max-w-[3.5rem] w-auto object-contain grayscale" />
+                    </div>
+                    <span class="text-[11px] text-gray-400 font-medium text-center leading-tight max-w-[80px]">{s.name}</span>
+                  </a>
+                ))}
+              </div>
+            </section>
+
+            <div class="text-center py-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <a href="/editions/fourth-edition/" class="inline-block bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold py-4 px-8 rounded-xl transition-colors">See full edition details →</a>
+              <div class="flex items-center gap-2">
+                <span class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Print discount</span>
+                <span class="font-mono font-bold text-sm bg-gray-100 text-gray-900 px-3 py-1.5 rounded-lg border border-gray-300 tracking-widest">MINUS5</span>
+              </div>
+            </div>
+
+            <section class="max-w-3xl mx-auto mb-12 border-t border-gray-100 pt-10">
+              <h2 class="text-sm font-black text-gray-500 uppercase tracking-widest mb-4">Why we make this magazine</h2>
+              <div class="max-w-none text-gray-400 text-xs leading-relaxed space-y-3">
+                <p>Nomad Magazine is a print and digital publication about digital nomad life, created in 2024, as an alternative to the AI + SEO noise dominating the internet. Every piece we publish is written by real people, edited by two high-end editors, and designed page by page and carefully curated by me. We publish articles you can sit with like a book, without interruptions.</p>
+                <p>We love print. Although, creating a physical edition is an exciting but genuinely painful process, and that's exactly why it is valuable. And we offer a digital version through our mobile distribution partners for those who prefer to read on mobile.</p>
+                <p>We love digital nomad life and supporting its future because it gives people a real choice about how they live: improving quality of life, offering more opportunities, building international experience, and connecting communities that wouldn't otherwise exist. At the same time we support the projects and brands that work with passion, to make that life easier.</p>
+                <p>And we genuinely believe Nomad Magazine is a unique, standout project, and we put our heart into it. For us, it's not only a magazine (or a digital platform) that connects people, it's also a project that supports local communities and helps us grow into a better global society.</p>
+                <p class="mt-4 text-gray-500 font-medium">— Lera, Founder & CEO of Nomad Magazine</p>
+              </div>
+            </section>
+          </main>
+        </div>
+      </div>
+    </div>
+
+    <footer class="bg-gray-900 text-white">
+      <div class="max-w-4xl mx-auto px-4 py-5 text-center">
+        <p class="text-xs text-white">© 2026 Nomad Magazine. All rights reserved.<br /><a href="https://nomad-magazine.com" class="text-yellow-400 hover:underline">nomad-magazine.com</a></p>
+      </div>
+    </footer>
+
+    <div class="text-center py-6 bg-gray-50">
+      <a href="/newsletter/" class="inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors duration-200">
+        <svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+        Back to Newsletter
+      </a>
+    </div>
+  </div>
+</Layout>
