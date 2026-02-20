@@ -8,14 +8,14 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
 ---
 
 <Layout 
-  title="Edition Four - Now Available"
+  title="Edition Four - Now Available in Print and Digital"
   ogImage={ogImageUrl}
   seo={{
-    title: "Nomad Magazine Edition Four - Now Available on Zinio",
-    description: "The best edition so far! 128 pages of pure high-end content featuring Palermo, Bansko, Fukuoka, and more. Order print edition by Feb 28th and save €5 with code MINUS5.",
+    title: "Nomad Magazine Edition Four - Available on Zinio, Magazine Cafe & More",
+    description: "Our best edition yet! 128 pages featuring Palermo, Bansko, Fukuoka, Madeira research, and more. Available in print and on all major digital platforms: Zinio, Magazine Cafe, Pling, and Zinio Unlimited.",
     image: ogImageUrl,
     canonical: `${siteUrl}/editions/fourth-edition/`,
-    keywords: "nomad magazine, digital nomad, remote work, edition four, palermo, bansko, fukuoka, travel magazine, zinio",
+    keywords: "nomad magazine, digital nomad, remote work, edition four, palermo, bansko, fukuoka, travel magazine, zinio, magazine cafe, pling, digital magazine",
   }}
 >
   <div class="coming-soon-container">
@@ -51,11 +51,12 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
       </div>
     </section>
 
-    <!-- ZINIO Availability Banner -->
-    <section class="zinio-banner">
-      <div class="zinio-content">
-        <h3 class="zinio-title">📱 Now Available on ZINIO</h3>
-        <p class="zinio-subtitle">Read on your favorite device with the best digital magazine experience</p>
+    <!-- Digital Availability Section -->
+    <section class="digital-section">
+      <!-- ZINIO Primary -->
+      <div class="zinio-primary">
+        <h3 class="digital-main-title">📱 Now Available in Digital</h3>
+        <p class="digital-subtitle">Read on your favorite device with the best digital magazine experience</p>
         <div class="zinio-buttons">
           <a href="https://www.zinio.com/publications/nomad-magazine/45331" target="_blank" rel="noopener noreferrer" aria-label="Read Nomad Magazine on ZINIO Web Reader (opens in new tab)" class="zinio-button">
             🌐 Web Reader
@@ -65,6 +66,26 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
           </a>
           <a href="https://play.google.com/store/apps/details?id=com.zinio.mobile.android.reader&pli=1" target="_blank" rel="noopener noreferrer" aria-label="Download ZINIO app on Google Play Store (opens in new tab)" class="zinio-button">
             🤖 Android App
+          </a>
+        </div>
+      </div>
+
+      <!-- Other Platforms -->
+      <div class="other-platforms">
+        <h4 class="platforms-heading">📲 All Mobile Platforms</h4>
+        <p class="platforms-text">Already available on all major digital platforms. Pick the one you already use:</p>
+        <div class="platforms-links">
+          <a href="https://www.zinio.com/publications/nomad-magazine/45331" target="_blank" rel="noopener noreferrer" aria-label="Read on Zinio (opens in new tab)" class="platform-link">
+            Zinio ↗
+          </a>
+          <a href="https://www.magazinecafe.com/tr/title/nomad-magazine/n0" target="_blank" rel="noopener noreferrer" aria-label="Read on Magazine Cafe (opens in new tab)" class="platform-link">
+            Magazine Cafe ↗
+          </a>
+          <a href="https://www.plingapp.nl/magazine/nomad-magazine/n0" target="_blank" rel="noopener noreferrer" aria-label="Read on Pling (opens in new tab)" class="platform-link">
+            Pling ↗
+          </a>
+          <a href="https://www.ziniounlimited.com/us/magazine/nomad-magazine/n0" target="_blank" rel="noopener noreferrer" aria-label="Read on Zinio Unlimited (opens in new tab)" class="platform-link">
+            Zinio Unlimited ↗
           </a>
         </div>
       </div>
@@ -121,7 +142,7 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
         <a href="https://www.nomadtax.bg/" target="_blank" rel="noopener noreferrer" class="partner-logo logo-nomadtax" aria-label="Visit Nomad Tax Bulgaria website (opens in new tab)">
           <img src="/images/NomadTax.webp" alt="Nomad Tax Bulgaria" />
         </a>
-        <a href="https://www.swaphouse.com/" target="_blank" rel="noopener noreferrer" class="partner-logo logo-swaphouse" aria-label="Visit Swaphouse website (opens in new tab)">
+        <a href="https://swaphouse.io/" target="_blank" rel="noopener noreferrer" class="partner-logo logo-swaphouse" aria-label="Visit Swaphouse website (opens in new tab)">
           <img src="/images/logo-swaphouse.webp" alt="Swaphouse" />
         </a>
         <a href="https://rentremote.com/" target="_blank" rel="noopener noreferrer" class="partner-logo logo-rent-remote" aria-label="Visit Rent Remote website (opens in new tab)">
@@ -135,6 +156,73 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
         </a>
       </div>
     </div>
+
+    <!-- In This Issue Section -->
+    <section class="in-this-issue-section">
+      <h2 class="in-this-issue-heading">In This Issue</h2>
+      <div class="in-this-issue-grid">
+        <div class="issue-card">
+          <p class="issue-label">IN THIS ISSUE</p>
+          <h3 class="issue-title">Why Palermo, Why Now? The Rise Of Italy's No.1 Nomad Capital</h3>
+          <span class="issue-page">p. 10</span>
+        </div>
+        <div class="issue-card">
+          <p class="issue-label">IN THIS ISSUE</p>
+          <h3 class="issue-title">Unlocking Creative Careers: How Falmouth University Empowers Students Through Online Study</h3>
+          <span class="issue-page">p. 26</span>
+        </div>
+        <div class="issue-card">
+          <p class="issue-label">IN THIS ISSUE</p>
+          <h3 class="issue-title">Behind The Brand Of Kristin Wilson: Building A Business Around Freedom</h3>
+          <span class="issue-page">p. 34</span>
+        </div>
+        <div class="issue-card">
+          <p class="issue-label">IN THIS ISSUE</p>
+          <h3 class="issue-title">Van Life: The Beauty, Chaos, And Clarity Of Life On Four Wheels by Cassandra Rae</h3>
+          <span class="issue-page">p. 40</span>
+        </div>
+        <div class="issue-card">
+          <p class="issue-label">IN THIS ISSUE</p>
+          <h3 class="issue-title">Japan: The Art Of Meaningful Encounters In Fukuoka</h3>
+          <span class="issue-page">p. 52</span>
+        </div>
+        <div class="issue-card">
+          <p class="issue-label">IN THIS ISSUE</p>
+          <h3 class="issue-title">The Coworkings Contest: Winners Revealed</h3>
+          <span class="issue-page">p. 66</span>
+        </div>
+        <div class="issue-card">
+          <p class="issue-label">IN THIS ISSUE</p>
+          <h3 class="issue-title">Nomad Directory</h3>
+          <span class="issue-page">p. 82</span>
+        </div>
+        <div class="issue-card">
+          <p class="issue-label">IN THIS ISSUE</p>
+          <h3 class="issue-title">Digital Nomads In Bansko: 5 Years In The Making</h3>
+          <span class="issue-page">p. 90</span>
+        </div>
+        <div class="issue-card">
+          <p class="issue-label">IN THIS ISSUE</p>
+          <h3 class="issue-title">The Nomad Research Lab: On Madeira</h3>
+          <span class="issue-page">p. 98</span>
+        </div>
+        <div class="issue-card">
+          <p class="issue-label">IN THIS ISSUE</p>
+          <h3 class="issue-title">Raising Kids Without Borders By Doris Dario</h3>
+          <span class="issue-page">p. 106</span>
+        </div>
+        <div class="issue-card">
+          <p class="issue-label">IN THIS ISSUE</p>
+          <h3 class="issue-title">Queer Digital Nomads: The Hidden Demographic by Saul O</h3>
+          <span class="issue-page">p. 114</span>
+        </div>
+        <div class="issue-card">
+          <p class="issue-label">IN THIS ISSUE</p>
+          <h3 class="issue-title">Travel Fashion: How To Look Runway-Ready While Traveling</h3>
+          <span class="issue-page">p. 122</span>
+        </div>
+      </div>
+    </section>
 
     <div class="shipment-section">
       <div class="shipment-content">
@@ -561,20 +649,20 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
     transform: rotate(-4deg);
   }
 
-  .zinio-banner {
+  .digital-section {
     max-width: 1400px;
     margin: 4rem auto;
     padding: 0 2rem;
   }
 
-  .zinio-content {
+  .zinio-primary {
     background: linear-gradient(135deg, #9333ea 0%, #6366f1 100%);
     padding: 3rem 2rem;
-    border-radius: 16px;
+    border-radius: 16px 16px 0 0;
     text-align: center;
   }
 
-  .zinio-title {
+  .digital-main-title {
     font-size: clamp(1.8rem, 4vw, 3rem);
     font-weight: 700;
     color: white;
@@ -582,7 +670,7 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
     line-height: 1.2;
   }
 
-  .zinio-subtitle {
+  .digital-subtitle {
     font-size: clamp(1rem, 2vw, 1.3rem);
     color: rgba(255, 255, 255, 0.9);
     margin: 0 0 2rem 0;
@@ -612,6 +700,59 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
 
   .zinio-button:hover {
     background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .other-platforms {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-top: none;
+    padding: 3rem 2rem;
+    border-radius: 0 0 16px 16px;
+    text-align: center;
+  }
+
+  .platforms-heading {
+    font-size: clamp(1.3rem, 3vw, 2rem);
+    font-weight: 700;
+    color: white;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.2;
+  }
+
+  .platforms-text {
+    font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0 0 2rem 0;
+    line-height: 1.5;
+  }
+
+  .platforms-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .platform-link {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: clamp(0.9rem, 1.8vw, 1rem);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: all 0.3s ease;
+  }
+
+  .platform-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
     transform: translateY(-2px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   }
@@ -761,6 +902,69 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
     transform: none;
   }
 
+  .in-this-issue-section {
+    max-width: 1400px;
+    margin: 0 auto 4rem auto;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 16px;
+  }
+
+  .in-this-issue-heading {
+    text-align: center;
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 2.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .in-this-issue-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .issue-card {
+    background: #f7f7f7;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .issue-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  }
+
+  .issue-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #999;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  .issue-title {
+    font-size: clamp(1rem, 1.8vw, 1.15rem);
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+    line-height: 1.35;
+    flex: 1;
+  }
+
+  .issue-page {
+    font-size: 0.85rem;
+    color: #aaa;
+    font-weight: 500;
+    margin-top: 0.5rem;
+  }
+
   @media (max-width: 768px) {
     .coming-soon-container {
       padding: 1rem;
@@ -857,6 +1061,15 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
       max-height: 60px;
     }
 
+    .in-this-issue-section {
+      padding: 3rem 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .in-this-issue-grid {
+      grid-template-columns: 1fr;
+    }
+
     .collage {
       gap: 0.5rem;
       padding: 1rem 1rem 2rem 1rem;
@@ -880,13 +1093,19 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
       margin-bottom: 1rem;
     }
 
-    .zinio-banner {
+    .digital-section {
       margin: 3rem auto;
       padding: 0 1rem;
     }
 
-    .zinio-content {
+    .zinio-primary {
       padding: 2rem 1.5rem;
+      border-radius: 16px 16px 0 0;
+    }
+
+    .other-platforms {
+      padding: 2rem 1.5rem;
+      border-radius: 0 0 16px 16px;
     }
 
     .zinio-buttons {
@@ -895,6 +1114,16 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
     }
 
     .zinio-button {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .platforms-links {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .platform-link {
       width: 100%;
       justify-content: center;
     }
