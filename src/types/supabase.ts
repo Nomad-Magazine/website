@@ -14,6 +14,66 @@ export type Database = {
   }
   public: {
     Tables: {
+      directory_submissions: {
+        Row: {
+          id: string
+          user_id: string
+          company_name: string
+          website_url: string | null
+          category: string | null
+          short_description: string | null
+          full_description: string | null
+          logo_url: string | null
+          contact_email: string | null
+          twitter_url: string | null
+          linkedin_url: string | null
+          instagram_url: string | null
+          locations: string | null
+          status: string
+          admin_notes: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          company_name: string
+          website_url?: string | null
+          category?: string | null
+          short_description?: string | null
+          full_description?: string | null
+          logo_url?: string | null
+          contact_email?: string | null
+          twitter_url?: string | null
+          linkedin_url?: string | null
+          instagram_url?: string | null
+          locations?: string | null
+          status?: string
+          admin_notes?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          company_name?: string
+          website_url?: string | null
+          category?: string | null
+          short_description?: string | null
+          full_description?: string | null
+          logo_url?: string | null
+          contact_email?: string | null
+          twitter_url?: string | null
+          linkedin_url?: string | null
+          instagram_url?: string | null
+          locations?: string | null
+          status?: string
+          admin_notes?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       article_likes: {
         Row: {
           article_id: number

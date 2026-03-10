@@ -1,0 +1,232 @@
+---
+import ConsoleLayout from '~/layouts/console/ConsoleLayout.astro'
+import { createSupabaseServerClient } from '~/utils/supabase-server'
+
+const supabase = createSupabaseServerClient(Astro.request, Astro.cookies)
+
+const { data: allRaw } = await supabase
+  .from('directory_submissions')
+  .select('*')
+  .order('created_at', { ascending: false })
+
+type Submission = {
+  id: string
+  user_id: string
+  company_name: string
+  website_url: string | null
+  category: string | null
+  short_description: string | null
+  full_description: string | null
+  logo_url: string | null
+  contact_email: string | null
+  twitter_url: string | null
+  linkedin_url: string | null
+  instagram_url: string | null
+  locations: string | null
+  status: string
+  admin_notes: string | null
+  created_at: string
+  updated_at: string
+}
+
+const all = (allRaw ?? []) as Submission[]
+const pending = all.filter(s => s.status === 'pending')
+const approved = all.filter(s => s.status === 'approved')
+const rejected = all.filter(s => s.status === 'rejected')
+
+const url = new URL(Astro.request.url)
+const activeTab = url.searchParams.get('tab') ?? 'pending'
+const successMsg = url.searchParams.get('success') ?? ''
+
+const tabItems = [
+  { id: 'pending', label: 'Pending', count: pending.length, color: 'text-yellow-400' },
+  { id: 'approved', label: 'Approved', count: approved.length, color: 'text-green-400' },
+  { id: 'rejected', label: 'Rejected', count: rejected.length, color: 'text-red-400' },
+]
+
+const activeList = activeTab === 'approved' ? approved : activeTab === 'rejected' ? rejected : pending
+
+const statusBadge: Record<string, string> = {
+  pending: 'bg-yellow-400/10 text-yellow-400 border-yellow-400/20',
+  approved: 'bg-green-400/10 text-green-400 border-green-400/20',
+  rejected: 'bg-red-400/10 text-red-400 border-red-400/20',
+}
+---
+
+<ConsoleLayout title="Review Submissions" currentPage="admin">
+  <div class="max-w-5xl">
+    <div class="mb-8">
+      <h2 class="text-2xl font-bold text-white mb-1">Review Submissions</h2>
+      <p class="text-gray-400">Approve or reject directory listing requests from members.</p>
+    </div>
+
+    {successMsg && (
+      <div class="mb-6 px-4 py-3 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400 text-sm" role="status">
+        {successMsg}
+      </div>
+    )}
+
+    <!-- Tabs -->
+    <div class="flex gap-1 bg-gray-900 border border-gray-800 rounded-xl p-1 mb-6 w-fit">
+      {tabItems.map(tab => (
+        <a
+          href={`/console/admin/?tab=${tab.id}`}
+          class={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            activeTab === tab.id
+              ? 'bg-gray-800 text-white'
+              : 'text-gray-400 hover:text-white'
+          }`}
+          aria-current={activeTab === tab.id ? 'page' : undefined}
+        >
+          {tab.label}
+          <span class={`text-xs font-bold ${tab.color}`}>{tab.count}</span>
+        </a>
+      ))}
+    </div>
+
+    <!-- Submissions list -->
+    {activeList.length === 0 ? (
+      <div class="bg-gray-900 border border-dashed border-gray-700 rounded-xl p-12 text-center">
+        <p class="text-gray-500">No {activeTab} submissions.</p>
+      </div>
+    ) : (
+      <div class="space-y-4">
+        {activeList.map(s => (
+          <div class="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
+            <!-- Card header -->
+            <div class="p-6 flex flex-col md:flex-row md:items-start gap-4">
+              <!-- Logo -->
+              <div class="flex-shrink-0">
+                <div class="w-16 h-16 rounded-xl bg-white flex items-center justify-center overflow-hidden">
+                  {s.logo_url ? (
+                    <img src={s.logo_url} alt={`${s.company_name} logo`} class="w-full h-full object-contain" loading="lazy" />
+                  ) : (
+                    <span class="font-bold text-xl text-black">{s.company_name.charAt(0).toUpperCase()}</span>
+                  )}
+                </div>
+              </div>
+
+              <!-- Info -->
+              <div class="flex-1 min-w-0">
+                <div class="flex flex-wrap items-start justify-between gap-2 mb-2">
+                  <div>
+                    <h3 class="text-lg font-semibold text-white">{s.company_name}</h3>
+                    <div class="flex flex-wrap items-center gap-3 mt-1 text-sm text-gray-400">
+                      {s.contact_email && <span>{s.contact_email}</span>}
+                      {s.category && (
+                        <span class="bg-yellow-400/10 text-yellow-400 border border-yellow-400/20 px-2 py-0.5 rounded-full text-xs">
+                          {s.category}
+                        </span>
+                      )}
+                      {s.website_url && (
+                        <a
+                          href={s.website_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="text-gray-500 hover:text-yellow-400 transition-colors"
+                          aria-label={`Visit ${s.company_name} website (opens in new tab)`}
+                        >
+                          {s.website_url.replace(/^https?:\/\//, '')}
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3 flex-shrink-0">
+                    <span class={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${statusBadge[s.status]}`}>
+                      {s.status.charAt(0).toUpperCase() + s.status.slice(1)}
+                    </span>
+                    <span class="text-xs text-gray-500">
+                      {new Date(s.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                    </span>
+                  </div>
+                </div>
+
+                {s.short_description && (
+                  <p class="text-sm text-gray-300 mt-2">{s.short_description}</p>
+                )}
+                {s.locations && (
+                  <p class="text-xs text-gray-500 mt-1">Locations: {s.locations}</p>
+                )}
+                {s.admin_notes && s.status === 'rejected' && (
+                  <div class="mt-2 p-2 bg-red-500/10 border border-red-500/20 rounded text-xs text-red-400">
+                    Note: {s.admin_notes}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <!-- Action bar -->
+            <div class="border-t border-gray-800 px-6 py-4 bg-gray-900/50 flex flex-col sm:flex-row gap-3">
+              {s.status !== 'approved' && (
+                <form method="POST" action="/console/admin/review/" class="flex gap-2 flex-1">
+                  <input type="hidden" name="id" value={s.id} />
+                  <input type="hidden" name="action" value="approve" />
+                  <input type="hidden" name="tab" value={activeTab} />
+                  <button
+                    type="submit"
+                    class="flex items-center gap-2 px-4 py-2 bg-green-500/10 hover:bg-green-500/20 border border-green-500/20 text-green-400 text-sm font-medium rounded-lg transition-colors"
+                  >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Approve
+                  </button>
+                </form>
+              )}
+
+              {s.status !== 'rejected' && (
+                <details class="flex-1">
+                  <summary class="flex items-center gap-2 px-4 py-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 text-sm font-medium rounded-lg transition-colors cursor-pointer list-none w-fit">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    Reject
+                  </summary>
+                  <form method="POST" action="/console/admin/review/" class="mt-3 flex flex-col sm:flex-row gap-2">
+                    <input type="hidden" name="id" value={s.id} />
+                    <input type="hidden" name="action" value="reject" />
+                    <input type="hidden" name="tab" value={activeTab} />
+                    <input
+                      type="text"
+                      name="admin_notes"
+                      placeholder="Reason for rejection (shown to member)"
+                      aria-label="Rejection reason"
+                      class="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-400/50 focus:border-red-400 transition-colors"
+                    />
+                    <button
+                      type="submit"
+                      class="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 text-red-400 text-sm font-medium rounded-lg transition-colors whitespace-nowrap"
+                    >
+                      Confirm Reject
+                    </button>
+                  </form>
+                </details>
+              )}
+
+              {s.status === 'approved' && (
+                <form method="POST" action="/console/admin/review/" class="flex gap-2">
+                  <input type="hidden" name="id" value={s.id} />
+                  <input type="hidden" name="action" value="reject" />
+                  <input type="hidden" name="tab" value={activeTab} />
+                  <input
+                    type="text"
+                    name="admin_notes"
+                    placeholder="Reason for rejection (shown to member)"
+                    aria-label="Rejection reason"
+                    class="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-400/50 focus:border-red-400 transition-colors"
+                  />
+                  <button
+                    type="submit"
+                    class="px-4 py-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 text-sm font-medium rounded-lg transition-colors whitespace-nowrap"
+                  >
+                    Revoke
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</ConsoleLayout>

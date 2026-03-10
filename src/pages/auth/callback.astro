@@ -1,0 +1,24 @@
+---
+import { createSupabaseServerClient } from '~/utils/supabase-server'
+
+const supabase = createSupabaseServerClient(Astro.request, Astro.cookies)
+
+const url = new URL(Astro.request.url)
+const code = url.searchParams.get('code')
+const error = url.searchParams.get('error')
+const errorDescription = url.searchParams.get('error_description')
+
+if (error) {
+  return Astro.redirect(`/console/login/?error=${encodeURIComponent(errorDescription ?? error)}`)
+}
+
+if (code) {
+  const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
+  if (exchangeError) {
+    return Astro.redirect(`/console/login/?error=${encodeURIComponent(exchangeError.message)}`)
+  }
+  return Astro.redirect('/console/')
+}
+
+return Astro.redirect('/console/login/')
+---

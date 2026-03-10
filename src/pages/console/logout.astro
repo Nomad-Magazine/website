@@ -1,0 +1,10 @@
+---
+import { createSupabaseServerClient } from '~/utils/supabase-server'
+
+if (Astro.request.method === 'POST') {
+  const supabase = createSupabaseServerClient(Astro.request, Astro.cookies)
+  await supabase.auth.signOut()
+}
+
+return Astro.redirect('/console/login/')
+---

@@ -1,0 +1,40 @@
+---
+import { createSupabaseServerClient } from '~/utils/supabase-server'
+
+if (Astro.request.method !== 'POST') {
+  return Astro.redirect('/console/admin/')
+}
+
+const supabase = createSupabaseServerClient(Astro.request, Astro.cookies)
+
+const form = await Astro.request.formData()
+const id = String(form.get('id') ?? '').trim()
+const action = String(form.get('action') ?? '').trim()
+const adminNotes = String(form.get('admin_notes') ?? '').trim()
+const tab = String(form.get('tab') ?? 'pending').trim()
+
+if (!id || !['approve', 'reject'].includes(action)) {
+  return Astro.redirect('/console/admin/')
+}
+
+const newStatus = action === 'approve' ? 'approved' : 'rejected'
+
+const { error } = await supabase
+  .from('directory_submissions')
+  .update({
+    status: newStatus,
+    admin_notes: action === 'reject' ? (adminNotes || null) : null,
+  })
+  .eq('id', id)
+
+if (error) {
+  return Astro.redirect(`/console/admin/?tab=${tab}&success=${encodeURIComponent('Error: ' + error.message)}`)
+}
+
+const successMsg = action === 'approve'
+  ? 'Listing approved and is now live.'
+  : 'Listing rejected. The member has been notified.'
+
+const redirectTab = action === 'approve' ? 'approved' : 'rejected'
+return Astro.redirect(`/console/admin/?tab=${redirectTab}&success=${encodeURIComponent(successMsg)}`)
+---

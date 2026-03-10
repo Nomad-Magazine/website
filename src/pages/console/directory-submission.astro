@@ -1,0 +1,381 @@
+---
+import ConsoleLayout from '~/layouts/console/ConsoleLayout.astro'
+import { createSupabaseServerClient } from '~/utils/supabase-server'
+
+const supabase = createSupabaseServerClient(Astro.request, Astro.cookies)
+const { data: { user } } = await supabase.auth.getUser()
+
+// Load existing submission
+const { data: existingRaw } = await supabase
+  .from('directory_submissions')
+  .select('*')
+  .eq('user_id', user!.id)
+  .order('created_at', { ascending: false })
+  .limit(1)
+  .maybeSingle()
+
+type DirectorySubmission = {
+  id: string
+  user_id: string
+  company_name: string
+  website_url: string | null
+  category: string | null
+  short_description: string | null
+  full_description: string | null
+  logo_url: string | null
+  contact_email: string | null
+  twitter_url: string | null
+  linkedin_url: string | null
+  instagram_url: string | null
+  locations: string | null
+  status: string
+  admin_notes: string | null
+  created_at: string
+  updated_at: string
+}
+
+let existing: DirectorySubmission | null = existingRaw as DirectorySubmission | null
+
+let successMessage = ''
+let errorMessage = ''
+
+const categories = [
+  'Accommodation', 'Accommodation App', 'App', 'Blog', 'Book Store', 'Cafe',
+  'Citizenship', 'Coaching', 'Coliving', 'Community', 'Community Platform',
+  'Conference', 'Coworking', 'Creative', 'Dating', 'Education', 'eSim',
+  'Events', 'Freelance', 'Fulfillment', 'Game', 'Health', 'Hostel',
+  'Insurance', 'Investment', 'Job Platform', 'Legal & Taxes', 'Photography',
+  'Platform', 'Podcast', 'Publishing Software', 'Rentals', 'Retreats',
+  'Service', 'Software', 'TravelTech', 'Other',
+]
+
+if (Astro.request.method === 'POST') {
+  const form = await Astro.request.formData()
+
+  const payload = {
+    user_id: user!.id,
+    company_name: String(form.get('company_name') ?? '').trim(),
+    website_url: String(form.get('website_url') ?? '').trim(),
+    category: String(form.get('category') ?? '').trim(),
+    short_description: String(form.get('short_description') ?? '').trim(),
+    full_description: String(form.get('full_description') ?? '').trim(),
+    logo_url: String(form.get('logo_url') ?? '').trim(),
+    contact_email: String(form.get('contact_email') ?? '').trim(),
+    twitter_url: String(form.get('twitter_url') ?? '').trim(),
+    linkedin_url: String(form.get('linkedin_url') ?? '').trim(),
+    instagram_url: String(form.get('instagram_url') ?? '').trim(),
+    locations: String(form.get('locations') ?? '').trim(),
+    status: existing ? existing.status : 'pending',
+  }
+
+  if (!payload.company_name) {
+    errorMessage = 'Company name is required.'
+  } else {
+    let dbError
+    if (existing) {
+      const { error } = await supabase
+        .from('directory_submissions')
+        .update({ ...payload, status: existing.status === 'rejected' ? 'pending' : existing.status })
+        .eq('id', existing.id)
+      dbError = error
+    } else {
+      const { error } = await supabase
+        .from('directory_submissions')
+        .insert(payload)
+      dbError = error
+    }
+
+    if (dbError) {
+      errorMessage = dbError.message
+    } else {
+      successMessage = existing
+        ? 'Your listing has been updated and is under review.'
+        : 'Your listing has been submitted and is under review.'
+      // Reload the submission
+      const { data: refreshed } = await supabase
+        .from('directory_submissions')
+        .select('*')
+        .eq('user_id', user!.id)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle()
+      if (refreshed) existing = refreshed as unknown as DirectorySubmission
+    }
+  }
+}
+
+// Values to pre-fill (from DB or POST data that failed)
+const vals: Partial<DirectorySubmission> = existing ?? {}
+---
+
+<ConsoleLayout title="Directory Listing" currentPage="directory">
+  <div class="max-w-3xl">
+    <!-- Header -->
+    <div class="mb-8">
+      <h2 class="text-2xl font-bold text-white mb-2">
+        {existing ? 'Update Your Listing' : 'Submit Your Listing'}
+      </h2>
+      <p class="text-gray-400">
+        {existing
+          ? 'Keep your company information up to date in the Nomad Directory.'
+          : 'Fill in your company details to be listed in the Nomad Directory. Our team will review and publish your listing.'}
+      </p>
+    </div>
+
+    <!-- Status banner -->
+    {existing && (
+      <div class={`mb-6 px-4 py-3 rounded-lg border text-sm flex items-center gap-2 ${
+        existing.status === 'approved'
+          ? 'bg-green-400/10 border-green-400/20 text-green-400'
+          : existing.status === 'rejected'
+          ? 'bg-red-400/10 border-red-400/20 text-red-400'
+          : 'bg-yellow-400/10 border-yellow-400/20 text-yellow-400'
+      }`} role="status">
+        <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+        </svg>
+        {existing.status === 'approved' && 'Your listing is live in the Nomad Directory.'}
+        {existing.status === 'rejected' && `Needs changes: ${existing.admin_notes || 'Please review and resubmit.'}`}
+        {existing.status === 'pending' && 'Your listing is under review by our team.'}
+      </div>
+    )}
+
+    <!-- Success / error messages -->
+    {successMessage && (
+      <div class="mb-6 px-4 py-3 rounded-lg bg-green-400/10 border border-green-400/20 text-green-400 text-sm" role="alert">
+        {successMessage}
+      </div>
+    )}
+    {errorMessage && (
+      <div class="mb-6 px-4 py-3 rounded-lg bg-red-400/10 border border-red-400/20 text-red-400 text-sm" role="alert">
+        {errorMessage}
+      </div>
+    )}
+
+    <!-- Form -->
+    <form method="POST" aria-label="Directory listing submission form" class="space-y-8">
+      <!-- Company basics -->
+      <section class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+        <h3 class="font-semibold text-white mb-5 pb-4 border-b border-gray-800">Company Information</h3>
+        <div class="space-y-5">
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <label for="company_name" class="block text-sm font-medium text-gray-300 mb-2">
+                Company Name <span class="text-red-400">*</span>
+              </label>
+              <input
+                id="company_name"
+                name="company_name"
+                type="text"
+                required
+                value={vals.company_name ?? ''}
+                placeholder="Your company name"
+                class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 transition-colors"
+              />
+            </div>
+
+            <div>
+              <label for="category" class="block text-sm font-medium text-gray-300 mb-2">
+                Category
+              </label>
+              <select
+                id="category"
+                name="category"
+                aria-label="Select company category"
+                class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 transition-colors appearance-none"
+              >
+                <option value="">Select a category…</option>
+                {categories.map(cat => (
+                  <option value={cat} selected={vals.category === cat}>{cat}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <label for="website_url" class="block text-sm font-medium text-gray-300 mb-2">
+                Website URL
+              </label>
+              <input
+                id="website_url"
+                name="website_url"
+                type="url"
+                value={vals.website_url ?? ''}
+                placeholder="https://yourcompany.com"
+                class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 transition-colors"
+              />
+            </div>
+
+            <div>
+              <label for="contact_email" class="block text-sm font-medium text-gray-300 mb-2">
+                Contact Email
+              </label>
+              <input
+                id="contact_email"
+                name="contact_email"
+                type="email"
+                value={vals.contact_email ?? ''}
+                placeholder="hello@yourcompany.com"
+                class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 transition-colors"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label for="locations" class="block text-sm font-medium text-gray-300 mb-2">
+              Locations / Countries Served
+            </label>
+            <input
+              id="locations"
+              name="locations"
+              type="text"
+              value={vals.locations ?? ''}
+              placeholder="e.g. Global, Europe, Southeast Asia, USA"
+              class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 transition-colors"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- Descriptions -->
+      <section class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+        <h3 class="font-semibold text-white mb-5 pb-4 border-b border-gray-800">Description</h3>
+        <div class="space-y-5">
+
+          <div>
+            <label for="short_description" class="block text-sm font-medium text-gray-300 mb-2">
+              Short Description
+              <span class="text-gray-500 font-normal ml-1">(shown in the directory card, max 160 chars)</span>
+            </label>
+            <input
+              id="short_description"
+              name="short_description"
+              type="text"
+              maxlength="160"
+              value={vals.short_description ?? ''}
+              placeholder="One sentence about what you do and who you serve"
+              class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 transition-colors"
+            />
+          </div>
+
+          <div>
+            <label for="full_description" class="block text-sm font-medium text-gray-300 mb-2">
+              Full Description
+              <span class="text-gray-500 font-normal ml-1">(shown on your listing detail, markdown supported)</span>
+            </label>
+            <textarea
+              id="full_description"
+              name="full_description"
+              rows="6"
+              placeholder="Tell us more about your company, what makes you unique, and why nomads should choose you."
+              class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 transition-colors resize-y"
+            >{vals.full_description ?? ''}</textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- Branding -->
+      <section class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+        <h3 class="font-semibold text-white mb-5 pb-4 border-b border-gray-800">Branding</h3>
+        <div>
+          <label for="logo_url" class="block text-sm font-medium text-gray-300 mb-2">
+            Logo URL
+            <span class="text-gray-500 font-normal ml-1">(direct link to a .webp, .png or .svg image)</span>
+          </label>
+          <input
+            id="logo_url"
+            name="logo_url"
+            type="url"
+            value={vals.logo_url ?? ''}
+            placeholder="https://yourcompany.com/logo.webp"
+            class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 transition-colors"
+          />
+          {vals.logo_url && (
+            <div class="mt-3 flex items-center gap-3">
+              <img
+                src={vals.logo_url}
+                alt="Company logo preview"
+                class="w-12 h-12 object-contain rounded-lg bg-gray-800 p-1 border border-gray-700"
+                loading="lazy"
+              />
+              <span class="text-xs text-gray-500">Logo preview</span>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <!-- Social links -->
+      <section class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+        <h3 class="font-semibold text-white mb-5 pb-4 border-b border-gray-800">Social Media</h3>
+        <div class="space-y-5">
+
+          <div>
+            <label for="twitter_url" class="block text-sm font-medium text-gray-300 mb-2">
+              X / Twitter
+            </label>
+            <div class="relative">
+              <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm">x.com/</span>
+              <input
+                id="twitter_url"
+                name="twitter_url"
+                type="text"
+                value={vals.twitter_url ?? ''}
+                placeholder="yourhandle"
+                class="w-full pl-16 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 transition-colors"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label for="linkedin_url" class="block text-sm font-medium text-gray-300 mb-2">
+              LinkedIn
+            </label>
+            <div class="relative">
+              <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm">linkedin.com/company/</span>
+              <input
+                id="linkedin_url"
+                name="linkedin_url"
+                type="text"
+                value={vals.linkedin_url ?? ''}
+                placeholder="your-company"
+                class="w-full pl-44 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 transition-colors"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label for="instagram_url" class="block text-sm font-medium text-gray-300 mb-2">
+              Instagram
+            </label>
+            <div class="relative">
+              <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm">instagram.com/</span>
+              <input
+                id="instagram_url"
+                name="instagram_url"
+                type="text"
+                value={vals.instagram_url ?? ''}
+                placeholder="yourhandle"
+                class="w-full pl-32 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 transition-colors"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Submit -->
+      <div class="flex items-center gap-4">
+        <button
+          type="submit"
+          class="px-8 py-3 bg-yellow-400 hover:bg-yellow-300 text-black font-semibold rounded-lg transition-colors focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950"
+        >
+          {existing ? 'Update Listing' : 'Submit Listing'}
+        </button>
+        <p class="text-sm text-gray-500">
+          {existing ? 'Changes go back for review before going live.' : 'We typically review submissions within 2 business days.'}
+        </p>
+      </div>
+    </form>
+  </div>
+</ConsoleLayout>

@@ -5,6 +5,7 @@ import cloudflare from '@astrojs/cloudflare'
 import { defineConfig, envField } from 'astro/config'
 import { glob } from 'glob'
 import { readFileSync, statSync } from 'node:fs'
+import rehypeExternalLinks from 'rehype-external-links'
 
 const site = process.env.SITE_URL ?? 'https://nomad-magazine.com'
 
@@ -52,6 +53,11 @@ const pageLastModDates = getPageLastModDates()
 
 export default defineConfig({
   output: 'server',
+  markdown: {
+    rehypePlugins: [
+      [rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],
+    ],
+  },
   server: {
     open: true,
     port: 3000,
