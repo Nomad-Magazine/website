@@ -1,0 +1,161 @@
+---
+export const prerender = true;
+
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+
+const seo: SEOProps = {
+  title: 'Photo References for Partner Spaces - Nomad Magazine',
+  description:
+    'See photo references for Nomad Magazine placements in coworking, coliving, and Airbnb spaces, with examples that show your venue, logo, and guests.',
+  image: `${Astro.site}images/distribution-list-second-home-2.webp`,
+  keywords:
+    'nomad magazine photo references, coworking magazine photos, coliving magazine photos, partner space references, nomad magazine distribution',
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Nomad Magazine Photo References',
+    description: 'Photo references for partner spaces receiving Nomad Magazine shipments.',
+    url: `${Astro.site}magazine-photo-references/`,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+  },
+}
+
+const referenceSections = [
+  {
+    title: 'With your logo or venue identity',
+    images: [
+      {
+        src: '/images/distribution-list-the-bee-hostel-4.webp',
+        alt: 'Nomad Magazine in front of The Bee Hostel Amsterdam',
+      },
+      {
+        src: '/images/distribution-list-workhub-3.webp',
+        alt: 'Nomad Magazine at Workhub Lisbon with venue branding visible',
+      },
+      {
+        src: '/images/distribution-list-madeirafriends-2.webp',
+        alt: 'Nomad Magazine in front of Madeira Friends signage',
+      },
+      {
+        src: '/images/distribution-list-samesame-4.webp',
+        alt: 'Nomad Magazine in front of samesame entrance',
+      },
+    ],
+  },
+  {
+    title: 'With the space visible behind',
+    images: [
+      {
+        src: '/images/distribution-list-mob-2.webp',
+        alt: 'Nomad Magazine inside MOB Barcelona with the coworking space visible behind',
+      },
+      {
+        src: '/images/distribution-list-workhub-2.webp',
+        alt: 'Nomad Magazine at WorkHub Lisbon with lounge area visible behind',
+      },
+      {
+        src: '/images/distribution-list-samesame-2.webp',
+        alt: 'Nomad Magazine at samesame Lisbon with workspace visible behind',
+      },
+      {
+        src: '/images/distribution-list-sowo-office-reference.webp',
+        alt: 'Nomad Magazine displayed inside a coworking space with lounge and tables visible behind',
+      },
+    ],
+  },
+  {
+    title: 'People holding or reading it',
+    images: [
+      {
+        src: '/images/distribution-list-mob-3.webp',
+        alt: 'Nomad Magazine at MOB Barcelona with logo and reader visible',
+      },
+      {
+        src: '/images/distribution-list-wework-3.webp',
+        alt: 'Person reading Nomad Magazine at WeWork Warsaw',
+      },
+      {
+        src: '/images/distribution-list-mob.webp',
+        alt: 'Person holding Nomad Magazine at MOB Barcelona',
+      },
+      {
+        src: '/images/distribution-list-wework-2.webp',
+        alt: 'Nomad Magazine displayed at WeWork Warsaw with the space visible around it',
+      },
+    ],
+  },
+]
+---
+
+<Layout seo={seo}>
+  <div class="bg-hoverw text-white">
+    <section class="py-24">
+      <div class="mx-auto max-w-5xl px-4 text-center">
+        <p class="font-justme text-4xl text-yellow-400">For Coworkings, Colivings, and Airbnb Hosts</p>
+        <h1 class="mt-4 text-5xl font-bold sm:text-6xl">Photo References</h1>
+        <p class="mx-auto mt-6 max-w-3xl text-xl leading-relaxed text-neutral-300">
+          Here are a few photo references to show what kind of images help us best communicate that Nomad Magazine is
+          available at your place, and help us include it clearly in our final report.
+        </p>
+      </div>
+    </section>
+
+    <section class="py-16">
+      <div class="mx-auto max-w-6xl px-4">
+        <div class="space-y-12">
+          {
+            referenceSections.map((section) => (
+              <section class="rounded-3xl bg-neutral-900 p-6 md:p-8">
+                <h2 class="mb-6 text-2xl font-bold text-yellow-400">{section.title}</h2>
+                <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                  {section.images.map((image) => (
+                    <img
+                      src={image.src}
+                      alt={image.alt}
+                      class="h-full w-full rounded-lg object-cover shadow-lg"
+                      loading="lazy"
+                    />
+                  ))}
+                </div>
+              </section>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-neutral-900 py-16">
+      <div class="mx-auto max-w-5xl px-4">
+        <div class="rounded-3xl border border-red-400/30 bg-black p-8 md:p-10">
+          <p class="text-sm font-semibold uppercase tracking-[0.2em] text-red-300">Not ideal</p>
+          <h2 class="mt-3 text-3xl font-bold">Magazine on a generic table</h2>
+          <p class="mt-4 text-lg text-neutral-300">
+            If the place is not visible, the photo could be from anywhere and does not show the relation to your space.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-yellow-400 py-16 text-black">
+      <div class="mx-auto max-w-4xl px-4 text-center">
+        <h2 class="text-4xl font-bold">Use What Fits Your Place</h2>
+        <div class="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
+          <a
+            href="/coworking-coliving-shipments/"
+            class="rounded-lg bg-black px-8 py-4 text-lg font-semibold text-white transition-colors hover:bg-gray-800"
+          >
+            Back to Shipment Page
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>
