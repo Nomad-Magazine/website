@@ -26,7 +26,7 @@ I remember when it clicked. I was sitting at Ruesters Cafe in Bali with my lapto
 
 We were in the same room. At the same time. Living the same lifestyle.
 
-But nobody said a word. We all just kept staring at our screens, doing our own work.
+<mark style="background-color: #fff59d;">But nobody said a word. We all just kept staring at our screens, doing our own work.</mark>
 
 By then I'd done the cafe tours for years, across the United States, Southeast Asia and Europe. Different cities, different menus, different playlists, but mostly the same vibe: good coffee, decent Wi‑Fi, and good working environments. But there is also this quiet barrier between people who clearly have a lot in common.
 
@@ -34,7 +34,7 @@ You make eye contact. You do the polite smile. Then back to the screen. Headphon
 
 This feeling stuck with me. Because it wasn't just the case in that one cafe I visited. It was pretty much every cafe I went in.
 
-So I kept coming back to the same question: why does this happen everywhere?
+<mark style="background-color: #fff59d;">So I kept coming back to the same question: why does this happen everywhere?</mark>
 
 ## The Connection Paradox
 
@@ -50,7 +50,7 @@ Once I started paying attention, the pattern became even more obvious. In Bangko
 
 This wasn't about people being awkward or socially clueless. It actually felt much bigger than that. More like the setup itself was designed to keep everyone separate. Talking to strangers takes effort. Everyone assumes everyone else is busy. Headphones are a clear "do not interrupt" sign. And nomad life adds another layer: if you're leaving in two weeks, it's easy to think, *what's the point?*
 
-Here's the strange part: most people feel lonely in this lifestyle, even if they don't say it out loud. You can be surrounded by people who look like your crowd, and still feel like you're on your own.
+<mark style="background-color: #fff59d;">Here's the strange part: most people feel lonely in this lifestyle, even if they don't say it out loud.</mark> You can be surrounded by people who look like your crowd, and still feel like you're on your own.
 
 That's the paradox.
 
@@ -62,13 +62,13 @@ Cafes are the default office for a lot of us digital nomads. They're where you g
 
 But cafes are also stopping us from actually connecting.
 
-After years of turning up in cafes and noticing this in so many places, one thing stood out: **there's no built-in way to discover each other in these spaces.**
+After years of turning up in cafes and noticing this in so many places, <mark style="background-color: #fff59d;">one thing stood out: **there's no built-in way to discover each other in these spaces.**</mark>
 
 You don't know what the person next to you does for work. You don't know if they're a local, visiting for a week, or have been living here for six months already. You don't know if they'd love to chat for five minutes or if they're trying to finish an important deadline.
 
 There's no low-pressure way to say, "Hey, I'm open to meeting people," without it feeling like you're interrupting or forcing something.
 
-Because of this, connection becomes a game of chance.
+<mark style="background-color: #fff59d;">Because of this, connection becomes a game of chance.</mark>
 
 ## The Small Moments That Actually Matter
 
@@ -88,7 +88,7 @@ Cafes have become the everyday workspace for millions of remote workers, but the
 
 That gap is starting to get attention. People are experimenting with ways to lower the friction, to help you see who's around, and to make a quick conversation feel normal instead of awkward. I've gotten involved in building one of those tools. But the bigger point isn't any specific app.
 
-**The point is: when you remove just a little friction, people start to connect.**
+<mark style="background-color: #fff59d;">**The point is: when you remove just a little friction, people start to connect.**</mark>
 
 ## The Loneliest Feeling
 
@@ -98,7 +98,7 @@ However, it's not all glitz and glamour. You can travel constantly and still fee
 
 The people you'd get along with are already near you. They're probably just as open to connection as you are. They could be waiting for a signal, an opening, or a reason to speak.
 
-*The loneliest feeling isn't being alone. It's being surrounded by your people and not realizing it.*
+<mark style="background-color: #fff59d;">*The loneliest feeling isn't being alone. It's being surrounded by your people and not realizing it.*</mark>
 
 ## A Quiet Rethink
 
@@ -108,7 +108,7 @@ The longer I live and work as a digital nomad, the clearer this becomes to me: t
 
 Cafes became our offices. But they never became social spaces. They offer proximity without context. We sit close enough to recognize faces and routines, yet far enough apart that speaking feels like crossing an invisible line, especially when you're mindful of interrupting people's work.
 
-I've realized what is missing isn't confidence, extroversion, or better social skills. It's permission.
+<mark style="background-color: #fff59d;">I've realized what is missing isn't confidence, extroversion, or better social skills. It's permission.</mark>
 
 Permission to acknowledge the person next to you without an agenda. Permission to signal openness without commitment. Permission to treat shared space as something more than silent coexistence.
 
@@ -118,10 +118,10 @@ Maybe the next evolution of nomad life isn't about finding better destinations, 
 
 Because the issue was never that nomads don't want connection.
 
-**It's that we got used to working alone together, and have forgotten how close the connection actually is.**
+<mark style="background-color: #fff59d;">**It's that we got used to working alone together, and have forgotten how close the connection actually is.**</mark>
 
 ---
 
 ## About the Author
 
-**Michael Hensel** is a long-term digital nomad and founder who has spent years working from cafes across Southeast Asia and Europe. His work explores how physical spaces, technology, and human behavior intersect in the remote work era, with a focus on practical ways to help people better connect while traveling. Learn more at [lattecino.com](https://lattecino.com), or on [Instagram](https://www.instagram.com).
+**Michael Hensel** is a long-term digital nomad and founder who has spent years working from cafes across Southeast Asia and Europe. His work explores how physical spaces, technology, and human behavior intersect in the remote work era, with a focus on practical ways to help people better connect while traveling. Learn more at [lattecino.com](https://lattecino.com), or on [Instagram](https://www.instagram.com/lattecino.official/).
