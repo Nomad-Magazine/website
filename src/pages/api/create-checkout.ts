@@ -27,7 +27,7 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     const stripe = new Stripe(stripeSecretKey, {
-      apiVersion: '2025-09-30.clover',
+      apiVersion: '2026-02-25.clover',
     })
 
     const body = await request.json() as { items: Array<{ edition: number, quantity: number }> }

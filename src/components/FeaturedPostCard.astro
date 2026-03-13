@@ -1,9 +1,10 @@
 ---
 import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
+import type { LegacyCollectionEntry } from '~/utils/content'
 
 type Props = {
-  post: CollectionEntry<'blog'>
+  post: LegacyCollectionEntry<CollectionEntry<'blog'>>
 }
 
 const { post } = Astro.props

@@ -1,23 +1,25 @@
 ---
-import { getCollection } from 'astro:content'
+import { getCollection, render } from 'astro:content'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import SidebarMagazineDirectory from '~/components/SidebarMagazineDirectory.astro'
 import { createBlogPostingSchema } from '~/utils/schema'
+import type { CollectionEntry } from 'astro:content'
+import { normalizeContentEntries, type LegacyCollectionEntry } from '~/utils/content'
 
 export const prerender = true
 
 export async function getStaticPaths() {
-  const posts = await getCollection('article')
+  const posts = normalizeContentEntries(await getCollection('article'))
   return posts.map((post) => ({
     params: { slug: post.slug },
     props: post,
   }))
 }
 
-const post = Astro.props
-const { Content } = await post.render()
+const post = Astro.props as LegacyCollectionEntry<CollectionEntry<'article'>>
+const { Content } = await render(post)
 
-const allPosts = await getCollection('article')
+const allPosts = normalizeContentEntries(await getCollection('article'))
 const currentPostTags = post.data.tag ? post.data.tag.split(',').map((t) => t.trim()) : []
 
 // Find posts with at least one common tag

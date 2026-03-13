@@ -4,9 +4,10 @@ export const prerender = true;
 import { getCollection } from 'astro:content'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import { Image } from 'astro:assets'
+import { normalizeContentEntries } from '~/utils/content'
 
 // Get all blog posts and filter for SeoBot articles only (AI-generated)
-const allPosts = await getCollection('blog')
+const allPosts = normalizeContentEntries(await getCollection('blog'))
 const posts = allPosts
   .filter((post) => {
     // Filter for published posts
@@ -33,7 +34,7 @@ const posts = allPosts
 const featuredPost = posts[0]
 
 // Get posts with video content for YouTube section
-const videoPosts = posts.filter(post => 
+const videoPosts = posts.filter((post) =>
   post.body.includes('youtube.com/embed') || 
   post.body.includes('iframe') || 
   post.data.tag?.includes('Video') ||
@@ -751,5 +752,4 @@ const seo: SEOProps = {
     }
   });
 </script>
-
 

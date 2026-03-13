@@ -22,12 +22,13 @@ import MagazineStack from '~/components/MagazineStack.astro'
 import StickyAnnouncementBar from '~/components/StickyAnnouncementBar.astro'
 import { fetchReportRecords } from '~/utils/smartsuite'
 import { getCollection } from 'astro:content'
+import { normalizeContentEntries } from '~/utils/content'
 
 // Fetch real nomad directory data
 const { records = [] } = await fetchReportRecords('6857167d82358a0f5e038c3f')
 
 // Fetch latest articles (not blog posts)
-const allArticles = await getCollection('article')
+const allArticles = normalizeContentEntries(await getCollection('article'))
 const publishedArticles = allArticles.filter((article) => article.data.published !== false)
 
 // Sort by latest date

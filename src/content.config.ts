@@ -1,4 +1,5 @@
 import { defineCollection, z } from 'astro:content'
+import { glob } from 'astro/loaders'
 
 const blogSchema = z.object({
   // Basic required fields
@@ -48,12 +49,12 @@ const blogSchema = z.object({
 })
 
 const blog = defineCollection({
-  type: 'content',
+  loader: glob({ base: './src/content', pattern: 'blog/*.md' }),
   schema: blogSchema,
 })
 
 const article = defineCollection({
-  type: 'content',
+  loader: glob({ base: './src/content', pattern: 'article/*.md' }),
   schema: blogSchema,
 })
 

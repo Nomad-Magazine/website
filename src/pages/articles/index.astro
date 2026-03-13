@@ -4,9 +4,10 @@ export const prerender = true;
 import { getCollection } from 'astro:content'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import { Image } from 'astro:assets'
+import { normalizeContentEntries } from '~/utils/content'
 
 // Get all articles from the article collection
-const allPosts = await getCollection('article')
+const allPosts = normalizeContentEntries(await getCollection('article'))
 const posts = allPosts
   .filter((post) => {
     // Filter for published posts
@@ -786,6 +787,5 @@ const seo: SEOProps = {
     }
   });
 </script>
-
 
 
