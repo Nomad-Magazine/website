@@ -11,7 +11,6 @@ const form = await Astro.request.formData()
 const id = String(form.get('id') ?? '').trim()
 const action = String(form.get('action') ?? '').trim()
 const adminNotes = String(form.get('admin_notes') ?? '').trim()
-const tab = String(form.get('tab') ?? 'pending').trim()
 
 if (!id || !['approve', 'reject'].includes(action)) {
   return Astro.redirect('/console/admin/')
@@ -28,13 +27,14 @@ const { error } = await supabase
   .eq('id', id)
 
 if (error) {
-  return Astro.redirect(`/console/admin/?tab=${tab}&success=${encodeURIComponent('Error: ' + error.message)}`)
+  return Astro.redirect(`/console/admin/?tab=${String(form.get('tab') ?? 'pending').trim()}&success=${encodeURIComponent('Error: ' + error.message)}`)
 }
 
-const successMsg = action === 'approve'
-  ? 'Listing approved and is now live.'
-  : 'Listing rejected. The member has been notified.'
-
-const redirectTab = action === 'approve' ? 'approved' : 'rejected'
-return Astro.redirect(`/console/admin/?tab=${redirectTab}&success=${encodeURIComponent(successMsg)}`)
+return Astro.redirect(
+  `/console/admin/?tab=${action === 'approve' ? 'approved' : 'rejected'}&success=${encodeURIComponent(
+    action === 'approve'
+      ? 'Listing approved and is now live.'
+      : 'Listing rejected. The member has been notified.',
+  )}`,
+)
 ---

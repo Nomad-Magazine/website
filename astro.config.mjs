@@ -53,6 +53,9 @@ const pageLastModDates = getPageLastModDates()
 
 export default defineConfig({
   output: 'server',
+  experimental: {
+    rustCompiler: true
+  },
   markdown: {
     rehypePlugins: [
       [rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],
@@ -65,6 +68,12 @@ export default defineConfig({
   },
   adapter: cloudflare(),
   vite: {
+    build: {
+      // Astro 6 + the current Vite stack can surface an `es2024` CSS target
+      // that Lightning CSS does not yet accept during minification.
+      target: 'es2022',
+      cssTarget: 'chrome107',
+    },
     plugins: [
       tailwindcss(),
       Icons({

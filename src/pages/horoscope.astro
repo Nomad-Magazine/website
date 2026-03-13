@@ -3,7 +3,6 @@ export const prerender = true;
 
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import HoroscopeIsland from '~/components/HoroscopeIsland.astro'
-import HoroscopeLoader from '~/components/HoroscopeLoader.astro'
 
 const { url } = Astro
 const shouldGenerate = url.searchParams.get('generate') === 'true'
@@ -75,14 +74,11 @@ const seo: SEOProps = {
 
     <!-- Horoscope Tool -->
     <section class="flex flex-col items-center justify-center px-4 pb-16 relative z-10">
-      <HoroscopeIsland 
-        server:defer 
+      <HoroscopeIsland
         shouldGenerate={shouldGenerate}
         name={name}
         birthdate={birthdate}
-      >
-        <HoroscopeLoader slot="fallback" />
-      </HoroscopeIsland>
+      />
     </section>
 
     <!-- Sacred Gifts Section -->

@@ -63,7 +63,7 @@ const seo: SEOProps = {
           // @ts-ignore
           .map((record) => (
             <div class="event-item">
-              <NomadEventCard {...record} />
+              <NomadEventCard {...(record as any)} />
             </div>
           ))
       }

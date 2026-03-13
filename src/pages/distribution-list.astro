@@ -661,7 +661,7 @@ const seo: SEOProps = {
 
     // Prevent image clicks from opening modal when navigating
     document.querySelectorAll('[id^="gallery-"] img').forEach(img => {
-      img.addEventListener('click', (e) => {
+      img.addEventListener('click', () => {
         // Only open modal, don't prevent default
         // The modal handler is already set up in setupImageClicks
       });

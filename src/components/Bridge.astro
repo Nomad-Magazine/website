@@ -30,7 +30,7 @@ const stampImageUrl = '/images/not-all-who-wander-are-lost.webp'
               decoding="async"
               alt="Rotating globe"
               src="/images/rotating-globe.webp"
-              class="absolute top-1/2 left-2/3 z-10 aspect-square w-[75%] max-w-[140px] -translate-x-1/2 -translate-y-1/2 transition-transform duration-700 ease-in-out group-hover:rotate-360"
+              class="bridge-globe absolute top-1/2 left-2/3 z-10 aspect-square w-[75%] max-w-[140px] -translate-x-1/2 -translate-y-1/2 transition-transform duration-700 ease-in-out"
             />
           </div>
         </div>
@@ -40,8 +40,7 @@ const stampImageUrl = '/images/not-all-who-wander-are-lost.webp'
 </section>
 
 <style>
-  /* Custom rotate-360 utility for Tailwind (since rotate-360 is not default) */
-  .group:hover .group-hover\\:rotate-360 {
+  .group:hover .bridge-globe {
     transform: translate(-50%, -50%) rotate(360deg);
   }
   #revealBox {

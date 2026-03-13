@@ -6,10 +6,9 @@ const supabase = createSupabaseServerClient(Astro.request, Astro.cookies)
 const url = new URL(Astro.request.url)
 const code = url.searchParams.get('code')
 const error = url.searchParams.get('error')
-const errorDescription = url.searchParams.get('error_description')
 
 if (error) {
-  return Astro.redirect(`/console/login/?error=${encodeURIComponent(errorDescription ?? error)}`)
+  return Astro.redirect(`/console/login/?error=${encodeURIComponent(url.searchParams.get('error_description') ?? error)}`)
 }
 
 if (code) {
