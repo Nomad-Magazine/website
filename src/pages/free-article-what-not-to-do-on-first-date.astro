@@ -76,6 +76,8 @@ const seo: SEOProps = {
               />
             </div>
 
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAACXWfgpGaqB_A50e" data-theme="light"></div>
+
             <div id="error-message" class="hidden rounded-lg bg-red-50 p-4 text-red-800"></div>
 
             <button type="submit" id="submit-button" class="w-full rounded-lg bg-black px-8 py-4 text-xl font-semibold text-white transition-all duration-200 hover:bg-gray-800">
@@ -154,6 +156,17 @@ const seo: SEOProps = {
           errorMessage.classList.add('hidden')
 
           const formData = new FormData(form)
+          const turnstileWidget = form.querySelector('.cf-turnstile')
+          const turnstileResponse = (window as any).turnstile?.getResponse(turnstileWidget)
+
+          if (!turnstileResponse) {
+            errorMessage.textContent = 'Please complete the captcha verification.'
+            errorMessage.classList.remove('hidden')
+            submitButton.disabled = false
+            submitButton.textContent = 'Grab FREE article'
+            return
+          }
+          formData.append('cf-turnstile-response', turnstileResponse)
 
           try {
             console.log('[SUBSCRIBE-FORM] Submitting to API endpoint')
@@ -170,6 +183,9 @@ const seo: SEOProps = {
               window.location.href = '/free-article-what-not-to-do-on-first-date?form=true'
             } else {
               console.error('[SUBSCRIBE-FORM] Subscription failed:', data.error)
+              if ((window as any).turnstile && turnstileWidget) {
+                (window as any).turnstile.reset(turnstileWidget)
+              }
               errorMessage.textContent = data.error || 'Failed to subscribe. Please try again.'
               errorMessage.classList.remove('hidden')
               submitButton.disabled = false
@@ -177,6 +193,9 @@ const seo: SEOProps = {
             }
           } catch (error) {
             console.error('[SUBSCRIBE-FORM] Error:', error)
+            if ((window as any).turnstile && turnstileWidget) {
+              (window as any).turnstile.reset(turnstileWidget)
+            }
             errorMessage.textContent = 'An error occurred. Please try again.'
             errorMessage.classList.remove('hidden')
             submitButton.disabled = false
@@ -186,4 +205,5 @@ const seo: SEOProps = {
       }
     })
   </script>
+  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </Layout>

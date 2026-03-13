@@ -9,7 +9,7 @@ const eventType = `$subscribe_${tag}`
 <section class="space-y-4">
   <form
     method="POST"
-    class:list={['subscribe-form flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:gap-2', formClass]}
+    class:list={['subscribe-form flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-2', formClass]}
     data-redirect={currentUrl.toString()}
     aria-label="Subscribe to newsletter"
   >
@@ -28,12 +28,20 @@ const eventType = `$subscribe_${tag}`
     >
       Subscribe
     </button>
+    <div class="cf-turnstile" data-sitekey="0x4AAAAAACXWfgpGaqB_A50e" data-theme="light"></div>
   </form>
-  <p class="font-semibold text-gray-600">Join now and be part of something bigger—your nomad family is waiting!</p>
+  <p class="font-semibold text-gray-600">Join now and be part of something bigger-your nomad family is waiting!</p>
 </section>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
+    const turnstile = (window as Window & {
+      turnstile?: {
+        getResponse: (container?: Element | null) => string
+        reset: (container?: Element | null) => void
+      }
+    }).turnstile
+
     const forms = document.querySelectorAll('.subscribe-form')
 
     forms.forEach((form) => {
@@ -45,12 +53,21 @@ const eventType = `$subscribe_${tag}`
 
         if (!submitButton) return
 
+        const turnstileWidget = form.querySelector('.cf-turnstile') as HTMLElement | null
+        const turnstileResponse = turnstile?.getResponse(turnstileWidget)
+
+        if (!turnstileResponse) {
+          alert('Please complete the captcha verification.')
+          return
+        }
+
         // Disable submit button
         submitButton.disabled = true
         const originalText = submitButton.textContent
         submitButton.textContent = 'Submitting...'
 
         const formData = new FormData(form as HTMLFormElement)
+        formData.append('cf-turnstile-response', turnstileResponse)
 
         try {
           const response = await fetch('/api/bento-event', {
@@ -66,11 +83,17 @@ const eventType = `$subscribe_${tag}`
               window.location.href = redirectUrl
             }
           } else {
+            if (turnstile && turnstileWidget) {
+              turnstile.reset(turnstileWidget)
+            }
             alert(data.error || 'Failed to subscribe. Please try again.')
             submitButton.disabled = false
             submitButton.textContent = originalText || 'Subscribe'
           }
         } catch (error) {
+          if (turnstile && turnstileWidget) {
+            turnstile.reset(turnstileWidget)
+          }
           alert('An error occurred. Please try again.')
           submitButton.disabled = false
           submitButton.textContent = originalText || 'Subscribe'
@@ -79,3 +102,5 @@ const eventType = `$subscribe_${tag}`
     })
   })
 </script>
+
+<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>

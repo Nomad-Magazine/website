@@ -3,7 +3,6 @@ export const prerender = true;
 
 import { fetchReportRecords } from '~/utils/smartsuite'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
-import ListYourProjectFooter from '~/components/ListYourProjectFooter.astro'
 import ImageModal from '~/components/ImageModal.astro'
 import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
 
@@ -52,8 +51,6 @@ const distributionLocations = records
     isComingSoon: !!record.s9744d6c51
   }))
 
-// Extract unique categories for filtering
-const categories = [...new Set(distributionLocations.map((location: any) => location.category))].sort()
 
 const seo: SEOProps = {
   title: 'Where to Find Nomad Magazine - Global Distribution Locations',
@@ -393,7 +390,6 @@ const seo: SEOProps = {
       document.querySelectorAll('.city-pill').forEach(pill => {
         pill.addEventListener('click', () => {
           const city = pill.dataset.city;
-          const country = pill.dataset.country;
           
           // Update search input
           document.getElementById('search-input').value = city;
@@ -433,19 +429,9 @@ const seo: SEOProps = {
     const shouldTruncate = plainText.length > 350;
     
     // Create truncated version if needed
-    let displayDescription = location.description;
     let truncatedDescription = location.description;
     
     if (shouldTruncate) {
-      // Truncate the plain text
-      const truncatedPlain = plainText.substring(0, 350);
-      // Find where to cut in the HTML to match the plain text length
-      let charCount = 0;
-      let htmlCut = '';
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(location.description, 'text/html');
-      const walker = document.createTreeWalker(doc.body, NodeFilter.SHOW_TEXT);
-      
       // Simple approach: just truncate the HTML string at approximately the right position
       // This is a rough approximation but works for most cases
       truncatedDescription = location.description.substring(0, Math.min(400, location.description.length));
