@@ -2,6 +2,7 @@ name: Deploy website
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+  NODE_VERSION: '24'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -22,6 +23,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
       - uses: oven-sh/setup-bun@v2
       - run: bun install
       - run: bun run build

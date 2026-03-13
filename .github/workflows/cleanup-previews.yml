@@ -2,6 +2,7 @@ name: Cleanup Preview Deployments
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+  NODE_VERSION: '24'
 
 on:
   pull_request:
@@ -23,6 +24,9 @@ jobs:
     
     steps:
       - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
       
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
