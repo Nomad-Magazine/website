@@ -29,7 +29,7 @@ const packages = [
     ctaText: 'Get Social Boost',
     ctaUrl: 'https://pay.nomad-magazine.com/b/social-boost-50',
     popular: false,
-    bgColor: 'bg-gradient-to-br from-pink-500/10 to-purple-500/10',
+    bgColor: 'bg-linear-to-br from-pink-500/10 to-purple-500/10',
     borderColor: 'border-pink-300'
   },
   {
@@ -48,7 +48,7 @@ const packages = [
     ctaText: 'Get Content Spotlight',
     ctaUrl: 'https://pay.nomad-magazine.com/b/content-spotlight-150',
     popular: true,
-    bgColor: 'bg-gradient-to-br from-yellow-500/10 to-orange-500/10',
+    bgColor: 'bg-linear-to-br from-yellow-500/10 to-orange-500/10',
     borderColor: 'border-yellow-400'
   },
   {
@@ -69,7 +69,7 @@ const packages = [
     ctaText: 'Get Full Package',
     ctaUrl: 'https://pay.nomad-magazine.com/b/full-digital-250',
     popular: false,
-    bgColor: 'bg-gradient-to-br from-indigo-500/10 to-purple-500/10',
+    bgColor: 'bg-linear-to-br from-indigo-500/10 to-purple-500/10',
     borderColor: 'border-indigo-400'
   }
 ]
@@ -110,7 +110,7 @@ const packages = [
               </div>
             )}
             
-            <div class="text-center flex-grow">
+            <div class="text-center grow">
               <h3 class="text-2xl font-bold text-gray-900 mb-4">{pkg.name}</h3>
               <div class="text-4xl font-bold text-gray-900 mb-6">{pkg.price}</div>
               <p class="text-gray-600 mb-8">{pkg.description}</p>
@@ -118,7 +118,7 @@ const packages = [
               <div class="space-y-3 mb-8 text-left">
                 {pkg.features.map((feature) => (
                   <div class="flex items-start">
-                    <MaterialSymbolsCheck class="mr-3 h-5 w-5 flex-shrink-0 text-yellow-500 mt-0.5" />
+                    <MaterialSymbolsCheck class="mr-3 h-5 w-5 shrink-0 text-yellow-500 mt-0.5" />
                     <span class="text-gray-700">{feature}</span>
                   </div>
                 ))}
@@ -165,19 +165,19 @@ const packages = [
 
       <!-- Stats Section -->
       <div class="mt-12 grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
-        <div class="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl p-6 border border-yellow-200">
+        <div class="bg-linear-to-br from-yellow-50 to-orange-50 rounded-xl p-6 border border-yellow-200">
           <div class="text-3xl font-bold text-gray-900 mb-2">3.5K+</div>
           <div class="text-sm text-gray-600">Instagram Followers</div>
         </div>
-        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-200">
+        <div class="bg-linear-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-200">
           <div class="text-3xl font-bold text-gray-900 mb-2">500+</div>
           <div class="text-sm text-gray-600">Newsletter Subscribers</div>
         </div>
-        <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border border-green-200">
+        <div class="bg-linear-to-br from-green-50 to-emerald-50 rounded-xl p-6 border border-green-200">
           <div class="text-3xl font-bold text-gray-900 mb-2">2.6K+</div>
           <div class="text-sm text-gray-600">Monthly Website Visitors</div>
         </div>
-        <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6 border border-purple-200">
+        <div class="bg-linear-to-br from-purple-50 to-pink-50 rounded-xl p-6 border border-purple-200">
           <div class="text-3xl font-bold text-gray-900 mb-2">85%</div>
           <div class="text-sm text-gray-600">Engagement Rate</div>
         </div>
@@ -186,7 +186,7 @@ const packages = [
   </div>
 
   <!-- CTA Section -->
-  <div class="bg-gradient-to-br from-gray-900 to-black text-white py-20">
+  <div class="bg-linear-to-br from-gray-900 to-black text-white py-20">
     <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
       <div class="text-center">
         <h2 class="text-3xl font-bold mb-6">Ready to Boost Your Brand?</h2>

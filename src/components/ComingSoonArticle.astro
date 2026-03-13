@@ -12,10 +12,10 @@ interface Props {
 const { title, author, authorRole, coverImage, category, readTime, excerpt } = Astro.props
 ---
 
-<article class="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
+<article class="min-h-screen bg-linear-to-b from-gray-900 to-black text-white">
   <!-- Article Header -->
   <header class="relative overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+    <div class="absolute inset-0 bg-linear-to-t from-black/80 to-transparent z-10"></div>
     <img 
       src={coverImage} 
       alt={title}
@@ -50,7 +50,7 @@ const { title, author, authorRole, coverImage, category, readTime, excerpt } = A
   <main class="py-16">
     <div class="container mx-auto px-4">
       <div class="mx-auto max-w-4xl text-center">
-        <div class="mb-12 rounded-2xl bg-gradient-to-r from-yellow-400/10 to-orange-500/10 p-8 backdrop-blur-sm border border-yellow-400/20">
+        <div class="mb-12 rounded-2xl bg-linear-to-r from-yellow-400/10 to-orange-500/10 p-8 backdrop-blur-sm border border-yellow-400/20">
           <div class="mb-6">
             <div class="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-yellow-400/20">
               <svg class="h-10 w-10 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

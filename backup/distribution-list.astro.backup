@@ -224,7 +224,7 @@ const seo: SEOProps = {
         ${location.category ? `<div class="absolute top-4 right-4 z-10"><span class="inline-block rounded-full bg-blue-600 px-3 py-1 text-xs font-bold text-white uppercase">${location.category}</span></div>` : ''}
         
         <!-- Image -->
-        <div class="relative aspect-[4/3] overflow-hidden">
+        <div class="relative aspect-4/3 overflow-hidden">
           <div class="w-full h-full">
             ${location.images && location.images.length > 0 ? 
               `<img src="${location.images[0]}" alt="${location.name}" 
@@ -236,7 +236,7 @@ const seo: SEOProps = {
               '<div class="w-full h-full bg-neutral-800 flex items-center justify-center"><span class="text-neutral-400">No images</span></div>'
             }
           </div>
-          <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
+          <div class="absolute inset-0 bg-linear-to-t from-black/60 to-transparent pointer-events-none"></div>
         </div>
 
         <!-- Content -->

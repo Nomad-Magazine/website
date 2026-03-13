@@ -96,7 +96,7 @@ const statusBadge: Record<string, string> = {
             <!-- Card header -->
             <div class="p-6 flex flex-col md:flex-row md:items-start gap-4">
               <!-- Logo -->
-              <div class="flex-shrink-0">
+              <div class="shrink-0">
                 <div class="w-16 h-16 rounded-xl bg-white flex items-center justify-center overflow-hidden">
                   {s.logo_url ? (
                     <img src={s.logo_url} alt={`${s.company_name} logo`} class="w-full h-full object-contain" loading="lazy" />
@@ -131,7 +131,7 @@ const statusBadge: Record<string, string> = {
                       )}
                     </div>
                   </div>
-                  <div class="flex items-center gap-3 flex-shrink-0">
+                  <div class="flex items-center gap-3 shrink-0">
                     <span class={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${statusBadge[s.status]}`}>
                       {s.status.charAt(0).toUpperCase() + s.status.slice(1)}
                     </span>

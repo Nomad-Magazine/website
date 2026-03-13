@@ -45,14 +45,14 @@ const issues = [
             <a href={issue.link} class={issue.isComingSoon ? "coming-soon-wrapper" : ""}>
               {issue.isComingSoon ? (
                 <div class="relative mb-6">
-                  <img src={issue.imageUrl} alt={issue.alt} class="blur-effect aspect-[3/4] h-auto w-full max-w-full object-cover shadow-lg shadow-white" />
+                  <img src={issue.imageUrl} alt={issue.alt} class="blur-effect aspect-3/4 h-auto w-full max-w-full object-cover shadow-lg shadow-white" />
                   <div class="coming-soon-overlay">
                     <span class="coming-soon-text">Coming Soon</span>
                     <span class="edition-text">Edition #4</span>
                   </div>
                 </div>
               ) : (
-                <img src={issue.imageUrl} alt={issue.alt} class="mb-6 aspect-[3/4] h-auto w-full max-w-full object-cover shadow-lg shadow-white" />
+                <img src={issue.imageUrl} alt={issue.alt} class="mb-6 aspect-3/4 h-auto w-full max-w-full object-cover shadow-lg shadow-white" />
               )}
               <h3 class="text-lg font-semibold text-yellow-400">{issue.title}</h3>
             </a>

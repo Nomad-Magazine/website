@@ -172,7 +172,7 @@ const seo: SEOProps = {
           <div class="lg:col-span-1">
             <div class="sticky top-8 space-y-3 max-h-[calc(100vh-6rem)] overflow-y-auto pr-2" style="scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.3) transparent;">
               <!-- CTA Card -->
-              <div class="bg-gradient-to-r from-yellow-400/20 to-yellow-600/20 border border-yellow-400/30 rounded-xl p-4">
+              <div class="bg-linear-to-r from-yellow-400/20 to-yellow-600/20 border border-yellow-400/30 rounded-xl p-4">
                 <h3 class="text-base font-bold text-white mb-2 flex items-center gap-1">
                   <MaterialSymbolsElectricBolt width="16" height="16" class="text-yellow-400" />
                   Host Magazines?
@@ -189,7 +189,7 @@ const seo: SEOProps = {
               </div>
 
               <!-- Boost Your Listing CTA -->
-              <div class="bg-gradient-to-r from-yellow-400/20 to-yellow-600/20 border border-yellow-400/30 rounded-xl p-4">
+              <div class="bg-linear-to-r from-yellow-400/20 to-yellow-600/20 border border-yellow-400/30 rounded-xl p-4">
                 <h3 class="text-base font-bold text-white mb-2 flex items-center gap-1">
                   <MaterialSymbolsElectricBolt width="16" height="16" class="text-yellow-400" />
                   Already Listed?
@@ -446,13 +446,13 @@ const seo: SEOProps = {
           <div class="relative md:w-1/3">
             ${location.category ? `<div class="absolute top-4 left-4 z-10"><span class="inline-block rounded-full bg-blue-600 px-3 py-1 text-xs font-bold text-white uppercase">${location.category}</span></div>` : ''}
             
-            <div class="relative aspect-[4/3] md:aspect-[3/4] overflow-hidden rounded-t-2xl md:rounded-l-2xl md:rounded-tr-none">
+            <div class="relative aspect-4/3 md:aspect-3/4 overflow-hidden rounded-t-2xl md:rounded-l-2xl md:rounded-tr-none">
               ${location.images && location.images.length > 0 ? `
                 <div class="relative w-full h-full">
                   <div id="${imageGalleryId}" class="flex transition-transform duration-300 ease-out h-full" style="transform: translateX(0%);">
                     ${location.images.map((img, idx) => `
                       <img src="${img}" alt="${location.name} - Image ${idx + 1}" 
-                           class="w-full h-full object-cover flex-shrink-0 cursor-pointer"
+                           class="w-full h-full object-cover shrink-0 cursor-pointer"
                            style="object-fit: cover; object-position: center center;"
                            data-images='${JSON.stringify(location.images)}'
                            data-location-name="${location.name}"
@@ -485,7 +485,7 @@ const seo: SEOProps = {
                   <span class="text-neutral-400">No images</span>
                 </div>
               `}
-              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
+              <div class="absolute inset-0 bg-linear-to-t from-black/60 to-transparent pointer-events-none"></div>
             </div>
           </div>
 
@@ -496,7 +496,7 @@ const seo: SEOProps = {
                 ${location.name}
               </h3>
               <p class="text-sm text-neutral-400 flex items-center">
-                <svg class="h-4 w-4 mr-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="h-4 w-4 mr-1 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                 </svg>
@@ -505,7 +505,7 @@ const seo: SEOProps = {
             </div>
 
             <div class="description-container mb-4">
-              <div class="text-base text-gray-300 leading-relaxed description-text [&_*]:!text-gray-300">
+              <div class="text-base text-gray-300 leading-relaxed description-text **:text-gray-300!">
                 ${shouldTruncate ? truncatedDescription + '...' : location.description}
               </div>
               ${shouldTruncate ? `

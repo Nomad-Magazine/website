@@ -91,15 +91,15 @@ const { sectionClass }: Props = Astro.props
         sortedTestimonials.map((testimonial, index) => (
           <div class={`p-8 rounded-2xl transition-all hover:scale-105 mb-8 break-inside-avoid ${
             index % 6 === 0 
-              ? 'bg-gradient-to-br from-yellow-50 to-orange-50 border-2 border-yellow-200' 
+              ? 'bg-linear-to-br from-yellow-50 to-orange-50 border-2 border-yellow-200' 
               : index % 6 === 1 
-              ? 'bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200'
+              ? 'bg-linear-to-br from-blue-50 to-indigo-50 border border-blue-200'
               : index % 6 === 2
-              ? 'bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200'
+              ? 'bg-linear-to-br from-green-50 to-emerald-50 border border-green-200'
               : index % 6 === 3
-              ? 'bg-gradient-to-br from-purple-50 to-violet-50 border border-purple-200'
+              ? 'bg-linear-to-br from-purple-50 to-violet-50 border border-purple-200'
               : index % 6 === 4
-              ? 'bg-gradient-to-br from-pink-50 to-rose-50 border border-pink-200'
+              ? 'bg-linear-to-br from-pink-50 to-rose-50 border border-pink-200'
               : 'bg-gray-50 border border-gray-200'
           }`}>
             <div class="mb-4">

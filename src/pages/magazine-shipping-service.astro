@@ -34,7 +34,7 @@ const pricingOptions = [
       'No minimum order'
     ],
     popular: false,
-    bgColor: 'bg-gradient-to-br from-gray-900/50 to-gray-800/50',
+    bgColor: 'bg-linear-to-br from-gray-900/50 to-gray-800/50',
     borderColor: 'border-gray-700'
   },
   {
@@ -50,7 +50,7 @@ const pricingOptions = [
       'Significant cost savings'
     ],
     popular: true,
-    bgColor: 'bg-gradient-to-br from-yellow-500/20 to-orange-500/20',
+    bgColor: 'bg-linear-to-br from-yellow-500/20 to-orange-500/20',
     borderColor: 'border-yellow-400'
   }
 ]
@@ -119,15 +119,15 @@ const whyChooseUs = [
             
             <div class="space-y-4 text-lg text-gray-300">
               <p class="flex items-start">
-                <CheckIcon class="mr-3 h-6 w-6 flex-shrink-0 text-yellow-400 mt-0.5" aria-hidden="true" />
+                <CheckIcon class="mr-3 h-6 w-6 shrink-0 text-yellow-400 mt-0.5" aria-hidden="true" />
                 <span>€0.50 per package or €350 per 1000 magazines</span>
               </p>
               <p class="flex items-start">
-                <CheckIcon class="mr-3 h-6 w-6 flex-shrink-0 text-yellow-400 mt-0.5" aria-hidden="true" />
+                <CheckIcon class="mr-3 h-6 w-6 shrink-0 text-yellow-400 mt-0.5" aria-hidden="true" />
                 <span>Professional packing with eco-friendly options</span>
               </p>
               <p class="flex items-start">
-                <CheckIcon class="mr-3 h-6 w-6 flex-shrink-0 text-yellow-400 mt-0.5" aria-hidden="true" />
+                <CheckIcon class="mr-3 h-6 w-6 shrink-0 text-yellow-400 mt-0.5" aria-hidden="true" />
                 <span>EcoParcel within Europe or Czech Post internationally</span>
               </p>
             </div>
@@ -172,7 +172,7 @@ const whyChooseUs = [
           <h2 class="text-3xl font-bold text-white md:text-4xl mb-4">Why We Created This Service</h2>
         </div>
         
-        <div class="bg-gradient-to-br from-neutral-900/50 to-neutral-800/50 rounded-2xl p-8 border border-neutral-700">
+        <div class="bg-linear-to-br from-neutral-900/50 to-neutral-800/50 rounded-2xl p-8 border border-neutral-700">
           <div class="space-y-4 text-gray-300 text-lg">
             <p>
               As a small publisher, we couldn't afford the expensive fulfillment services that larger magazines use. We needed something affordable, reliable, and flexible.
@@ -201,7 +201,7 @@ const whyChooseUs = [
 
         <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           {serviceFeatures.map((feature) => (
-            <div class="bg-gradient-to-br from-neutral-900/50 to-neutral-800/50 rounded-xl p-6 border border-neutral-700 text-center">
+            <div class="bg-linear-to-br from-neutral-900/50 to-neutral-800/50 rounded-xl p-6 border border-neutral-700 text-center">
               <div class="text-5xl mb-4" aria-hidden="true">{feature.icon}</div>
               <h3 class="text-xl font-bold text-white mb-3">{feature.title}</h3>
               <p class="text-gray-300">{feature.description}</p>
@@ -239,11 +239,11 @@ const whyChooseUs = [
                 <p class="text-gray-300">{option.description}</p>
               </div>
 
-              <div class="flex-grow">
+              <div class="grow">
                 <ul class="space-y-3 mb-8">
                   {option.features.map((feature) => (
                     <li class="flex items-start">
-                      <CheckIcon class="mr-3 h-5 w-5 flex-shrink-0 text-yellow-400 mt-0.5" aria-hidden="true" />
+                      <CheckIcon class="mr-3 h-5 w-5 shrink-0 text-yellow-400 mt-0.5" aria-hidden="true" />
                       <span class="text-gray-300">{feature}</span>
                     </li>
                   ))}
@@ -287,7 +287,7 @@ const whyChooseUs = [
 
         <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
           {whyChooseUs.map((reason) => (
-            <div class="bg-gradient-to-br from-neutral-900/50 to-neutral-800/50 rounded-xl p-8 border border-neutral-700">
+            <div class="bg-linear-to-br from-neutral-900/50 to-neutral-800/50 rounded-xl p-8 border border-neutral-700">
               <h3 class="text-xl font-bold text-white mb-3">{reason.title}</h3>
               <p class="text-gray-300 text-lg">{reason.description}</p>
             </div>
@@ -305,7 +305,7 @@ const whyChooseUs = [
 
         <div class="space-y-6">
           <div class="flex gap-6 items-start">
-            <div class="flex-shrink-0 w-12 h-12 bg-yellow-400 text-black rounded-full flex items-center justify-center text-xl font-bold">
+            <div class="shrink-0 w-12 h-12 bg-yellow-400 text-black rounded-full flex items-center justify-center text-xl font-bold">
               1
             </div>
             <div>
@@ -315,7 +315,7 @@ const whyChooseUs = [
           </div>
 
           <div class="flex gap-6 items-start">
-            <div class="flex-shrink-0 w-12 h-12 bg-yellow-400 text-black rounded-full flex items-center justify-center text-xl font-bold">
+            <div class="shrink-0 w-12 h-12 bg-yellow-400 text-black rounded-full flex items-center justify-center text-xl font-bold">
               2
             </div>
             <div>
@@ -325,7 +325,7 @@ const whyChooseUs = [
           </div>
 
           <div class="flex gap-6 items-start">
-            <div class="flex-shrink-0 w-12 h-12 bg-yellow-400 text-black rounded-full flex items-center justify-center text-xl font-bold">
+            <div class="shrink-0 w-12 h-12 bg-yellow-400 text-black rounded-full flex items-center justify-center text-xl font-bold">
               3
             </div>
             <div>
@@ -335,7 +335,7 @@ const whyChooseUs = [
           </div>
 
           <div class="flex gap-6 items-start">
-            <div class="flex-shrink-0 w-12 h-12 bg-yellow-400 text-black rounded-full flex items-center justify-center text-xl font-bold">
+            <div class="shrink-0 w-12 h-12 bg-yellow-400 text-black rounded-full flex items-center justify-center text-xl font-bold">
               4
             </div>
             <div>
@@ -355,32 +355,32 @@ const whyChooseUs = [
         </div>
 
         <div class="space-y-6">
-          <div class="bg-gradient-to-br from-neutral-900/50 to-neutral-800/50 rounded-xl p-6 border border-neutral-700">
+          <div class="bg-linear-to-br from-neutral-900/50 to-neutral-800/50 rounded-xl p-6 border border-neutral-700">
             <h3 class="text-lg font-bold text-white mb-2">Where are you located?</h3>
             <p class="text-gray-300">We're based near Prague in Czech Republic, about 40 minutes from the city center. This central European location offers cost-effective shipping throughout Europe.</p>
           </div>
 
-          <div class="bg-gradient-to-br from-neutral-900/50 to-neutral-800/50 rounded-xl p-6 border border-neutral-700">
+          <div class="bg-linear-to-br from-neutral-900/50 to-neutral-800/50 rounded-xl p-6 border border-neutral-700">
             <h3 class="text-lg font-bold text-white mb-2">Do you ship internationally?</h3>
             <p class="text-gray-300">Yes! We offer EcoParcel services within Europe and Czech Post for international destinations worldwide.</p>
           </div>
 
-          <div class="bg-gradient-to-br from-neutral-900/50 to-neutral-800/50 rounded-xl p-6 border border-neutral-700">
+          <div class="bg-linear-to-br from-neutral-900/50 to-neutral-800/50 rounded-xl p-6 border border-neutral-700">
             <h3 class="text-lg font-bold text-white mb-2">What's the minimum order?</h3>
             <p class="text-gray-300">There's no minimum order for the per-package pricing (€0.50 per package). The bulk rate (€350 per 1000 magazines) is available if you can ship all magazines within 1-2 months.</p>
           </div>
 
-          <div class="bg-gradient-to-br from-neutral-900/50 to-neutral-800/50 rounded-xl p-6 border border-neutral-700">
+          <div class="bg-linear-to-br from-neutral-900/50 to-neutral-800/50 rounded-xl p-6 border border-neutral-700">
             <h3 class="text-lg font-bold text-white mb-2">How long can you store magazines?</h3>
             <p class="text-gray-300">We offer short-term storage as part of the service. For longer storage needs, let's discuss your specific situation during our call.</p>
           </div>
 
-          <div class="bg-gradient-to-br from-neutral-900/50 to-neutral-800/50 rounded-xl p-6 border border-neutral-700">
+          <div class="bg-linear-to-br from-neutral-900/50 to-neutral-800/50 rounded-xl p-6 border border-neutral-700">
             <h3 class="text-lg font-bold text-white mb-2">What about packaging materials?</h3>
             <p class="text-gray-300">Packaging materials are separate and depend on your preferences (standard, eco-friendly, custom, etc.). We can help you find and order the right materials for your needs. The cost varies based on your choices.</p>
           </div>
 
-          <div class="bg-gradient-to-br from-neutral-900/50 to-neutral-800/50 rounded-xl p-6 border border-neutral-700">
+          <div class="bg-linear-to-br from-neutral-900/50 to-neutral-800/50 rounded-xl p-6 border border-neutral-700">
             <h3 class="text-lg font-bold text-white mb-2">Can you handle special requests?</h3>
             <p class="text-gray-300">Absolutely! We're flexible and can accommodate special packaging, inserts, or shipping requirements. Just let us know what you need.</p>
           </div>

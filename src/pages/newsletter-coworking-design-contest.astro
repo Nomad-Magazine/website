@@ -117,14 +117,14 @@ const directoryListings = [
 
 const getCategoryColor = (category: string) => {
   switch(category) {
-    case 'APP': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
-    case 'SERVICE': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
-    case 'EVENTS': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
-    case 'OTHER': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
-    case 'COMMUNITY': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
-    case 'COACHING': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
-    case 'COLIVING': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
-    default: return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'APP': return 'bg-linear-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'SERVICE': return 'bg-linear-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'EVENTS': return 'bg-linear-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'OTHER': return 'bg-linear-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'COMMUNITY': return 'bg-linear-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'COACHING': return 'bg-linear-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'COLIVING': return 'bg-linear-to-r from-yellow-400 to-amber-500 text-gray-900'
+    default: return 'bg-linear-to-r from-yellow-400 to-amber-500 text-gray-900'
   }
 }
 ---
@@ -285,7 +285,7 @@ const getCategoryColor = (category: string) => {
           {directoryListings.map((listing) => (
             <div class="border border-gray-200 rounded-2xl p-5 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
               <div class="flex gap-4">
-                <div class="flex-shrink-0">
+                <div class="shrink-0">
                   <div class={`w-16 h-16 rounded-xl flex items-center justify-center overflow-hidden p-1 ${
                     listing.name?.toLowerCase().includes('imaginethat') || 
                     listing.name?.toLowerCase().includes('imagine that') || 
@@ -321,7 +321,7 @@ const getCategoryColor = (category: string) => {
                       {listing.category}
                     </span>
                     {listing.isSupporter && (
-                      <span class="bg-gradient-to-r from-red-600 to-red-700 text-white px-2 py-1 rounded-full text-xs font-semibold uppercase tracking-wide">
+                      <span class="bg-linear-to-r from-red-600 to-red-700 text-white px-2 py-1 rounded-full text-xs font-semibold uppercase tracking-wide">
                         SUPPORTER
                       </span>
                     )}
@@ -410,7 +410,7 @@ const getCategoryColor = (category: string) => {
         <div class="text-center mb-6">
           <h2 class="text-3xl font-black text-gray-900 mb-2 flex items-center justify-center gap-2">
             🇯🇵 Colive Fukuoka 2025
-            <span class="bg-gradient-to-r from-red-600 to-red-700 text-white px-2 py-1 rounded-full text-xs font-semibold uppercase tracking-wide">
+            <span class="bg-linear-to-r from-red-600 to-red-700 text-white px-2 py-1 rounded-full text-xs font-semibold uppercase tracking-wide">
               SUPPORTER
             </span>
           </h2>

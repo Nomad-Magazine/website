@@ -44,7 +44,7 @@ const partnershipTiers = [
     cta: 'Join Directory',
     ctaUrl: 'https://form.smartsuite.com/s4tmc086/8sFlvrVlDC',
     popular: true,
-    bgColor: 'bg-gradient-to-br from-gray-900/50 to-gray-800/50',
+    bgColor: 'bg-linear-to-br from-gray-900/50 to-gray-800/50',
     borderColor: 'border-gray-700'
   },
   {
@@ -62,7 +62,7 @@ const partnershipTiers = [
     cta: 'Apply for Distribution',
     ctaUrl: 'https://calendly.com/nomadgossip',
     popular: false,
-    bgColor: 'bg-gradient-to-br from-yellow-500/20 to-orange-500/20',
+    bgColor: 'bg-linear-to-br from-yellow-500/20 to-orange-500/20',
     borderColor: 'border-yellow-400'
   },
   {
@@ -80,7 +80,7 @@ const partnershipTiers = [
     cta: 'View Boost Options',
     ctaUrl: '/nomad-directory-boost-options',
     popular: false,
-    bgColor: 'bg-gradient-to-br from-blue-600/20 to-cyan-600/20',
+    bgColor: 'bg-linear-to-br from-blue-600/20 to-cyan-600/20',
     borderColor: 'border-blue-400'
   },
   {
@@ -98,7 +98,7 @@ const partnershipTiers = [
     cta: 'View Print Options',
     ctaUrl: '/brand-placement-next-edition-847291',
     popular: false,
-    bgColor: 'bg-gradient-to-br from-purple-600/20 to-pink-600/20',
+    bgColor: 'bg-linear-to-br from-purple-600/20 to-pink-600/20',
     borderColor: 'border-purple-400'
   }
 ]
@@ -145,15 +145,15 @@ const whyPartnerReasons = [
             
             <div class="space-y-4 text-lg text-gray-300">
               <p class="flex items-start">
-                <CheckIcon class="mr-3 h-6 w-6 flex-shrink-0 text-yellow-400 mt-0.5" />
+                <CheckIcon class="mr-3 h-6 w-6 shrink-0 text-yellow-400 mt-0.5" />
                 <span>Join a growing ecosystem of nomad-focused brands and services</span>
               </p>
               <p class="flex items-start">
-                <CheckIcon class="mr-3 h-6 w-6 flex-shrink-0 text-yellow-400 mt-0.5" />
+                <CheckIcon class="mr-3 h-6 w-6 shrink-0 text-yellow-400 mt-0.5" />
                 <span>Reach an engaged audience of location-independent professionals</span>
               </p>
               <p class="flex items-start">
-                <CheckIcon class="mr-3 h-6 w-6 flex-shrink-0 text-yellow-400 mt-0.5" />
+                <CheckIcon class="mr-3 h-6 w-6 shrink-0 text-yellow-400 mt-0.5" />
                 <span>Benefit from our unique print-first approach with global distribution</span>
               </p>
             </div>
@@ -241,13 +241,13 @@ const whyPartnerReasons = [
                 <div class="text-3xl font-bold text-white">{tier.price}</div>
               </div>
 
-              <div class="flex-grow">
+              <div class="grow">
                 <p class="text-gray-300 mb-6">{tier.description}</p>
                 
                 <ul class="space-y-3 mb-8">
                   {tier.features.map((feature) => (
                     <li class="flex items-start">
-                      <CheckIcon class="mr-3 h-5 w-5 flex-shrink-0 text-yellow-400 mt-0.5" />
+                      <CheckIcon class="mr-3 h-5 w-5 shrink-0 text-yellow-400 mt-0.5" />
                       <span class="text-gray-300">{feature}</span>
                     </li>
                   ))}

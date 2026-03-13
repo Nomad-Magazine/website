@@ -120,7 +120,7 @@ const seo: SEOProps = {
 ---
 
 <Layout seo={seo}>
-  <div class="bg-gradient-to-br from-gray-50 to-white">
+  <div class="bg-linear-to-br from-gray-50 to-white">
     <!-- Hero Section -->
     <section class="relative overflow-hidden px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-4xl text-center">
@@ -149,7 +149,7 @@ const seo: SEOProps = {
         <div class="space-y-8">
           <!-- Step 1 -->
           <div class="flex items-start gap-6">
-            <div class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-yellow-400 text-black font-bold text-lg">
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-yellow-400 text-black font-bold text-lg">
               1
                 </div>
                 <div>
@@ -162,7 +162,7 @@ const seo: SEOProps = {
 
           <!-- Step 2 -->
           <div class="flex items-start gap-6">
-            <div class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-yellow-400 text-black font-bold text-lg">
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-yellow-400 text-black font-bold text-lg">
               2
             </div>
             <div>
@@ -175,7 +175,7 @@ const seo: SEOProps = {
 
           <!-- Step 3 -->
           <div class="flex items-start gap-6">
-            <div class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-yellow-400 text-black font-bold text-lg">
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-yellow-400 text-black font-bold text-lg">
               3
             </div>
             <div>
@@ -320,7 +320,7 @@ const seo: SEOProps = {
 
         <!-- Call to Action -->
         <div class="mt-12 text-center">
-          <div class="rounded-lg bg-gradient-to-r from-yellow-400 to-yellow-500 p-8 shadow-xl">
+          <div class="rounded-lg bg-linear-to-r from-yellow-400 to-yellow-500 p-8 shadow-xl">
             <h3 class="mb-4 text-2xl font-bold text-black">Ready to Share Your Story?</h3>
             <p class="mb-6 text-black/80">
               Submit your pitch or article draft and join our community of nomad writers.
@@ -408,7 +408,7 @@ const seo: SEOProps = {
       const colorClass = categoryColors[category.id] || 'from-gray-500/20 to-gray-600/20 border-gray-500/30';
 
       return `
-        <div class="group relative overflow-hidden rounded-xl bg-gradient-to-br ${colorClass} border p-6 transition-all hover:scale-105 hover:shadow-lg cursor-pointer"
+        <div class="group relative overflow-hidden rounded-xl bg-linear-to-br ${colorClass} border p-6 transition-all hover:scale-105 hover:shadow-lg cursor-pointer"
              data-category-id="${category.id}"
              data-category-title="${category.title}">
           <div class="flex flex-col items-center text-center">

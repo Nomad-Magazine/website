@@ -143,7 +143,7 @@ const seo: SEOProps = {
                     alt={featuredPost.data.heroImageAlt || featuredPost.data.title}
                     width={800}
                     height={400}
-                    class="w-full aspect-[2/1] object-cover rounded-2xl"
+                    class="w-full aspect-2/1 object-cover rounded-2xl"
                   />
                 </div>
                 <div class="mt-4 space-y-3">
@@ -178,7 +178,7 @@ const seo: SEOProps = {
                       alt={topRowPosts[0].data.heroImageAlt || topRowPosts[0].data.title}
                       width={400}
                       height={250}
-                      class="w-full aspect-[8/5] object-cover rounded-2xl"
+                      class="w-full aspect-8/5 object-cover rounded-2xl"
                     />
                   </div>
                   <div class="space-y-2">
@@ -208,7 +208,7 @@ const seo: SEOProps = {
                       alt={topRowPosts[1].data.heroImageAlt || topRowPosts[1].data.title}
                       width={400}
                       height={250}
-                      class="w-full aspect-[8/5] object-cover rounded-2xl"
+                      class="w-full aspect-8/5 object-cover rounded-2xl"
                     />
                   </div>
                   <div class="space-y-2">
@@ -238,7 +238,7 @@ const seo: SEOProps = {
                       alt={topRowPosts[2].data.heroImageAlt || topRowPosts[2].data.title}
                       width={400}
                       height={250}
-                      class="w-full aspect-[8/5] object-cover rounded-2xl"
+                      class="w-full aspect-8/5 object-cover rounded-2xl"
                     />
                   </div>
                   <div class="space-y-2">
@@ -271,7 +271,7 @@ const seo: SEOProps = {
                       alt={topRowPosts[3].data.heroImageAlt || topRowPosts[3].data.title}
                       width={300}
                       height={200}
-                      class="w-full aspect-[3/2] object-cover rounded-2xl"
+                      class="w-full aspect-3/2 object-cover rounded-2xl"
                     />
                   </div>
                   <div class="space-y-2">
@@ -301,7 +301,7 @@ const seo: SEOProps = {
                       alt={topRowPosts[4].data.heroImageAlt || topRowPosts[4].data.title}
                       width={300}
                       height={200}
-                      class="w-full aspect-[3/2] object-cover rounded-2xl"
+                      class="w-full aspect-3/2 object-cover rounded-2xl"
                     />
                   </div>
                   <div class="space-y-2">
@@ -331,7 +331,7 @@ const seo: SEOProps = {
                       alt={topRowPosts[5].data.heroImageAlt || topRowPosts[5].data.title}
                       width={300}
                       height={200}
-                      class="w-full aspect-[3/2] object-cover rounded-2xl"
+                      class="w-full aspect-3/2 object-cover rounded-2xl"
                     />
                   </div>
                   <div class="space-y-2">
@@ -367,7 +367,7 @@ const seo: SEOProps = {
             <div class="space-y-6">
               {sidebarRecentPosts.map((post) => (
                 <article class="flex gap-4">
-                  <div class="flex-shrink-0">
+                  <div class="shrink-0">
                     <Image
                       src={post.data.heroImage || "/images/edition-003-cover_holded_front_face.webp"}
                       alt={post.data.heroImageAlt || post.data.title}
@@ -394,7 +394,7 @@ const seo: SEOProps = {
             </div>
 
             <!-- Magazine Box -->
-            <div class="mt-12 bg-gradient-to-br from-yellow-400 to-orange-500 text-black rounded-lg overflow-hidden">
+            <div class="mt-12 bg-linear-to-br from-yellow-400 to-orange-500 text-black rounded-lg overflow-hidden">
               <div class="relative">
                 <Image
                   src="/images/edition-002-multiple-cover-background-purple.webp"
@@ -403,7 +403,7 @@ const seo: SEOProps = {
                   height={400}
                   class="w-full h-48 object-cover"
                 />
-                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div class="absolute inset-0 bg-linear-to-t from-black/60 to-transparent"></div>
               </div>
               <div class="p-6 space-y-4">
                 <div class="text-xs uppercase tracking-wider font-bold">
@@ -435,7 +435,7 @@ const seo: SEOProps = {
               </div>
               <div class="space-y-4">
                 <div class="flex items-center gap-3">
-                  <div class="flex-shrink-0 w-8 h-8 bg-yellow-400 rounded flex items-center justify-center">
+                  <div class="shrink-0 w-8 h-8 bg-yellow-400 rounded flex items-center justify-center">
                     <svg class="w-4 h-4 text-black" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                     </svg>
@@ -496,7 +496,7 @@ const seo: SEOProps = {
                   class="aspect-video w-full object-cover"
                   loading="lazy"
                 />
-                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div class="absolute inset-0 bg-linear-to-t from-black/60 to-transparent"></div>
                 <div class="absolute bottom-2 right-2 rounded bg-black/80 px-2 py-1 text-xs text-white">
                   {video.duration}
                 </div>
@@ -541,7 +541,7 @@ const seo: SEOProps = {
               <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div class="relative">
                   {featuredStoriesHero && (
-                    <div class="aspect-[16/10] overflow-hidden rounded-l-2xl">
+                    <div class="aspect-16/10 overflow-hidden rounded-l-2xl">
                       <Image
                         src={featuredStoriesHero.data.heroImage || "/images/edition-003-cover_holded_front_face.webp"}
                         alt={featuredStoriesHero.data.heroImageAlt || featuredStoriesHero.data.title}
@@ -551,7 +551,7 @@ const seo: SEOProps = {
                       />
                     </div>
                   )}
-                  <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent rounded-l-2xl"></div>
+                  <div class="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent rounded-l-2xl"></div>
                 </div>
                 
                 <div class="p-8 flex flex-col justify-center">
@@ -609,7 +609,7 @@ const seo: SEOProps = {
                     />
                   </div>
                 )}
-                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                <div class="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent"></div>
               </div>
 
               <div class="p-6">
@@ -678,7 +678,7 @@ const seo: SEOProps = {
                       />
                     </div>
                   )}
-                  <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                  <div class="absolute inset-0 bg-linear-to-t from-black/40 to-transparent"></div>
                 </div>
                 
                 <div class="p-5">
@@ -726,9 +726,9 @@ const seo: SEOProps = {
           
           <div id="end-message" class="mt-12 text-center hidden">
             <div class="inline-flex items-center gap-2 text-sm text-neutral-400">
-              <div class="h-px w-8 bg-gradient-to-r from-transparent to-neutral-600"></div>
+              <div class="h-px w-8 bg-linear-to-r from-transparent to-neutral-600"></div>
               <span>End of articles</span>
-              <div class="h-px w-8 bg-gradient-to-l from-transparent to-neutral-600"></div>
+              <div class="h-px w-8 bg-linear-to-l from-transparent to-neutral-600"></div>
             </div>
           </div>
         </div>

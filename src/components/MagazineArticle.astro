@@ -36,10 +36,10 @@ const {
 } = Astro.props
 ---
 
-<article class="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
+<article class="min-h-screen bg-linear-to-b from-gray-900 to-black text-white">
   <!-- Article Header -->
   <header class="relative overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+    <div class="absolute inset-0 bg-linear-to-t from-black/80 to-transparent z-10"></div>
     <img 
       src={coverImage} 
       alt={title}
@@ -98,7 +98,7 @@ const {
             href={`/magazine/edition-1/${prevArticle.id}`}
             class="group flex items-center gap-4 rounded-lg bg-gray-800/50 p-6 transition-all hover:bg-gray-800"
           >
-            <div class="flex-shrink-0">
+            <div class="shrink-0">
               <svg class="h-6 w-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
               </svg>
@@ -137,7 +137,7 @@ const {
               </h3>
               <p class="text-sm text-gray-400">by {nextArticle.author}</p>
             </div>
-            <div class="flex-shrink-0">
+            <div class="shrink-0">
               <svg class="h-6 w-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
               </svg>

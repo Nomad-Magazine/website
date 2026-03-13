@@ -91,7 +91,7 @@ const initial = submission?.company_name?.charAt(0).toUpperCase() ?? '?'
           <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 group">
             <div class="flex flex-col md:flex-row items-start gap-6">
               <!-- Logo -->
-              <div class="flex-shrink-0">
+              <div class="shrink-0">
                 <div class="w-32 h-32 rounded-xl flex items-center justify-center p-1 bg-white">
                   {submission.logo_url ? (
                     <img
@@ -121,7 +121,7 @@ const initial = submission?.company_name?.charAt(0).toUpperCase() ?? '?'
                   </div>
 
                   <!-- Category badge -->
-                  <div class="flex items-center gap-4 flex-shrink-0">
+                  <div class="flex items-center gap-4 shrink-0">
                     {submission.category && (
                       <span class="bg-yellow-400/20 text-yellow-400 px-3 py-1 rounded-full text-sm font-medium border border-yellow-400/30">
                         {submission.category}

@@ -54,12 +54,12 @@ const team = [
           <img 
             src={member.img} 
             alt={member.name} 
-            class={`object-cover z-10 -mt-32 mx-auto mb-0 md:mb-0 md:mx-0 w-[22rem] h-[22rem] md:-ml-32 md:-mr-4`}
+            class={`object-cover z-10 -mt-32 mx-auto mb-0 md:mb-0 md:mx-0 w-88 h-88 md:-ml-32 md:-mr-4`}
           />
           <div class="w-full">
             <div class="flex flex-col md:flex-row md:items-center gap-2 mb-2">
-              <span class="bg-black text-white font-extrabold px-3 py-1 text-2xl rounded rotate-[-2deg] inline-block w-fit tracking-tight shadow">{member.name.split(' ')[0]}</span>
-              <span class="bg-white border-2 border-black font-extrabold px-3 py-1 text-2xl rounded rotate-[2deg] inline-block w-fit tracking-tight shadow ml-0 md:ml-2">{member.name.split(' ').slice(1).join(' ')}</span>
+              <span class="bg-black text-white font-extrabold px-3 py-1 text-2xl rounded -rotate-2 inline-block w-fit tracking-tight shadow">{member.name.split(' ')[0]}</span>
+              <span class="bg-white border-2 border-black font-extrabold px-3 py-1 text-2xl rounded rotate-2 inline-block w-fit tracking-tight shadow ml-0 md:ml-2">{member.name.split(' ').slice(1).join(' ')}</span>
             </div>
             <p class="text-base text-gray-800 mb-4">{member.bio}</p>
             <div class="flex flex-wrap gap-4 text-sm font-semibold">

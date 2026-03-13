@@ -308,7 +308,7 @@ const seo: SEOProps = {
                       <div class="directory-item bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 group cursor-pointer relative" data-category={record.sb685ab800?.label || 'uncategorized'} onclick={link ? `window.open('${link}', '_blank')` : undefined}>
                         <div class="flex flex-col md:flex-row items-start gap-6">
                           <!-- Logo/Image -->
-                          <div class="flex-shrink-0">
+                          <div class="shrink-0">
                             <div class={`w-32 h-32 rounded-xl flex items-center justify-center p-1 ${
                               ['Fresh Global', 'Falmouth University', 'SUMA', 'Scaglia y Asociados', 'goldenweeks'].includes(record.title) ? 'bg-gray-800' : 'bg-white'
                             }`}>
@@ -339,7 +339,7 @@ const seo: SEOProps = {
                                   {/* Featured Badge */}
                                   {isFeatured(record) && (
                                     <span
-                                      class="inline-flex items-center gap-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg"
+                                      class="inline-flex items-center gap-1 bg-linear-to-r from-blue-500 to-blue-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg"
                                       title="Featured"
                                     >
                                       <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -352,7 +352,7 @@ const seo: SEOProps = {
                                   {(record.supporter || record.monthly_supporter || record.is_supporter || record.supporter_status === 'Monthly Supporter' || record.status === 'Monthly Supporter' || monthlySupporters.includes(record.title)) && (
                                     <a
                                       href="/support-the-magazine/"
-                                      class="inline-flex items-center gap-1 bg-gradient-to-r from-red-600 to-red-700 text-white px-3 py-1 rounded-full text-xs font-bold hover:from-red-700 hover:to-red-800 transition-all duration-200 shadow-lg"
+                                      class="inline-flex items-center gap-1 bg-linear-to-r from-red-600 to-red-700 text-white px-3 py-1 rounded-full text-xs font-bold hover:from-red-700 hover:to-red-800 transition-all duration-200 shadow-lg"
                                       title="Monthly Supporter"
                                     >
                                       <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -364,7 +364,7 @@ const seo: SEOProps = {
                                   {/* Featured Partner Badge */}
                                   {featuredPartners.includes(record.title) && (
                                     <span
-                                      class="inline-flex items-center gap-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg"
+                                      class="inline-flex items-center gap-1 bg-linear-to-r from-purple-600 to-blue-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg"
                                       title="Featured"
                                     >
                                       <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -445,7 +445,7 @@ const seo: SEOProps = {
           <div class="lg:col-span-1">
             <div class="sticky top-8 space-y-3 max-h-[calc(100vh-6rem)] overflow-y-auto pr-2" style="scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.3) transparent;">
               <!-- Boost Your Listing CTA -->
-              <div class="bg-gradient-to-r from-yellow-400/20 to-yellow-600/20 border border-yellow-400/30 rounded-xl p-4">
+              <div class="bg-linear-to-r from-yellow-400/20 to-yellow-600/20 border border-yellow-400/30 rounded-xl p-4">
                 <h3 class="text-base font-bold text-white mb-2 flex items-center gap-1">
                   <MaterialSymbolsElectricBolt width="16" height="16" class="text-yellow-400" />
                   Already Listed?
@@ -567,7 +567,7 @@ const seo: SEOProps = {
                 </h3>
                 
                 <div class="group relative overflow-hidden rounded-lg cursor-pointer mb-2">
-                  <div class="relative aspect-[2/1]">
+                  <div class="relative aspect-2/1">
                     <img
                       src={latestVideo.thumbnail}
                       alt={latestVideo.title}
@@ -623,7 +623,7 @@ const seo: SEOProps = {
                 </h3>
                 
                 <div class="group relative overflow-hidden rounded-lg cursor-pointer mb-2">
-                  <div class="relative aspect-[2/1]">
+                  <div class="relative aspect-2/1">
                     <img
                       src={youtubeVideos[1].thumbnail}
                       alt={youtubeVideos[1].title}

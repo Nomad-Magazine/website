@@ -60,14 +60,14 @@ const directoryListings = records
 
 const getCategoryColor = (category: string) => {
   switch(category) {
-    case 'APP': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
-    case 'SERVICE': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
-    case 'EVENTS': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
-    case 'OTHER': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
-    case 'COMMUNITY': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
-    case 'COACHING': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
-    case 'COLIVING': return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
-    default: return 'bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'APP': return 'bg-linear-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'SERVICE': return 'bg-linear-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'EVENTS': return 'bg-linear-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'OTHER': return 'bg-linear-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'COMMUNITY': return 'bg-linear-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'COACHING': return 'bg-linear-to-r from-yellow-400 to-amber-500 text-gray-900'
+    case 'COLIVING': return 'bg-linear-to-r from-yellow-400 to-amber-500 text-gray-900'
+    default: return 'bg-linear-to-r from-yellow-400 to-amber-500 text-gray-900'
   }
 }
 ---
@@ -148,7 +148,7 @@ const getCategoryColor = (category: string) => {
           </div>
         </div>
 
-        <div class="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-2xl p-8 text-center mb-12">
+        <div class="bg-linear-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-2xl p-8 text-center mb-12">
           <p class="text-2xl text-gray-900 font-semibold mb-4">
             Instead of feeling like a stranger, you'll feel at home — fast.
           </p>
@@ -169,7 +169,7 @@ const getCategoryColor = (category: string) => {
       </article>
 
       <!-- CTA Section -->
-      <div class="bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-8 text-center mb-12 text-white">
+      <div class="bg-linear-to-r from-blue-600 to-blue-700 rounded-2xl p-8 text-center mb-12 text-white">
         <h3 class="text-2xl font-bold mb-4">Ready to Connect?</h3>
         <p class="text-blue-100 mb-6 text-lg">Join 5.7 million expats in 420 cities worldwide</p>
         <a 
@@ -200,7 +200,7 @@ const getCategoryColor = (category: string) => {
           {directoryListings.map((listing: any) => (
             <div class="border border-gray-200 rounded-2xl p-6 hover:border-orange-500 hover:shadow-lg transition-all duration-200 bg-white">
               <div class="flex gap-4">
-                <div class="flex-shrink-0">
+                <div class="shrink-0">
                   <div class={`w-16 h-16 rounded-xl flex items-center justify-center overflow-hidden p-1 ${
                     listing.name?.toLowerCase().includes('imaginethat') ||
                     listing.name?.toLowerCase().includes('imagine that') ||
@@ -238,7 +238,7 @@ const getCategoryColor = (category: string) => {
                     {listing.isSupporter && (
                       <a 
                         href="/support-the-magazine/" 
-                        class="inline-flex items-center gap-1 bg-gradient-to-r from-red-600 to-red-700 text-white px-2 py-1 rounded-full text-xs font-bold hover:from-red-700 hover:to-red-800 transition-all duration-200 shadow-lg"
+                        class="inline-flex items-center gap-1 bg-linear-to-r from-red-600 to-red-700 text-white px-2 py-1 rounded-full text-xs font-bold hover:from-red-700 hover:to-red-800 transition-all duration-200 shadow-lg"
                         title="Monthly Supporter"
                       >
                         <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24">
