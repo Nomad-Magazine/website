@@ -35,13 +35,6 @@ const eventType = `$subscribe_${tag}`
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const turnstile = (window as Window & {
-      turnstile?: {
-        getResponse: (container?: Element | null) => string
-        reset: (container?: Element | null) => void
-      }
-    }).turnstile
-
     const forms = document.querySelectorAll('.subscribe-form')
 
     forms.forEach((form) => {
@@ -54,20 +47,30 @@ const eventType = `$subscribe_${tag}`
         if (!submitButton) return
 
         const turnstileWidget = form.querySelector('.cf-turnstile') as HTMLElement | null
-        const turnstileResponse = turnstile?.getResponse(turnstileWidget)
+        const turnstile = (window as Window & {
+          turnstile?: {
+            getResponse: (container?: Element | null) => string
+            reset: (container?: Element | null) => void
+          }
+        }).turnstile
+
+        const formData = new FormData(form as HTMLFormElement)
+        const turnstileResponse =
+          formData.get('cf-turnstile-response')?.toString().trim() ||
+          turnstile?.getResponse(turnstileWidget) ||
+          ''
 
         if (!turnstileResponse) {
           alert('Please complete the captcha verification.')
           return
         }
 
+        formData.set('cf-turnstile-response', turnstileResponse)
+
         // Disable submit button
         submitButton.disabled = true
         const originalText = submitButton.textContent
         submitButton.textContent = 'Submitting...'
-
-        const formData = new FormData(form as HTMLFormElement)
-        formData.append('cf-turnstile-response', turnstileResponse)
 
         try {
           const response = await fetch('/api/bento-event', {
