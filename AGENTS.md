@@ -408,3 +408,6 @@ Before considering any work complete, verify:
 
 **Remember**: This website's success depends on SEO ranking and performance. Every change should be evaluated through this lens. When in doubt, prioritize SEO best practices, performance optimization, accessibility, and mobile experience.
 
+## Code structure
+
+make sure any maintenance script are stored in scripts folder and not in src/pages or src/components or any other place. This is to avoid confusion and to keep the codebase organized.

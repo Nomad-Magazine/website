@@ -202,6 +202,7 @@ if (shouldGenerate && name && birthdate) {
       <input type="email" name="email" id="email" placeholder="Your email address" required>
       <label for="birthdate" style="color: #7c2d12; font-size: 0.9rem; margin-bottom: 8px; display: block; text-align: left; font-style: italic;">Your birthdate</label>
       <input type="date" name="birthdate" id="birthdate" placeholder="Select your birthdate" required>
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAACXWfgpGaqB_A50e" data-theme="light"></div>
       <button type="submit" id="horoscope-submit">Get My Horoscope</button>
     </form>
   )}
@@ -295,6 +296,13 @@ if (shouldGenerate && name && birthdate) {
 
       const name = nameInput.value;
       const birthdate = birthdateInput.value;
+      const turnstileWidget = horoscopeForm.querySelector('.cf-turnstile') as HTMLElement | null;
+      const turnstileResponse = (window as Window & { turnstile?: { getResponse: (container?: Element | null) => string; reset: (container?: Element | null) => void } }).turnstile?.getResponse(turnstileWidget);
+
+      if (!turnstileResponse) {
+        alert('Please complete the captcha verification.');
+        return;
+      }
 
       // Disable submit button
       horoscopeSubmit.disabled = true;
@@ -302,6 +310,7 @@ if (shouldGenerate && name && birthdate) {
       horoscopeSubmit.textContent = 'Submitting...';
 
       const formData = new FormData(horoscopeForm as HTMLFormElement);
+      formData.append('cf-turnstile-response', turnstileResponse);
 
       try {
         const response = await fetch('/api/bento-event', {
@@ -316,11 +325,17 @@ if (shouldGenerate && name && birthdate) {
           const redirectUrl = `${window.location.origin}/horoscope/?name=${encodeURIComponent(name)}&birthdate=${encodeURIComponent(birthdate)}&generate=true`;
           window.location.href = redirectUrl;
         } else {
+          if ((window as Window & { turnstile?: { reset: (container?: Element | null) => void } }).turnstile && turnstileWidget) {
+            (window as Window & { turnstile?: { reset: (container?: Element | null) => void } }).turnstile?.reset(turnstileWidget);
+          }
           alert(data.error || 'Failed to subscribe. Please try again.');
           horoscopeSubmit.disabled = false;
           horoscopeSubmit.textContent = originalText || 'Get My Horoscope';
         }
       } catch (error) {
+        if ((window as Window & { turnstile?: { reset: (container?: Element | null) => void } }).turnstile && turnstileWidget) {
+          (window as Window & { turnstile?: { reset: (container?: Element | null) => void } }).turnstile?.reset(turnstileWidget);
+        }
         alert('An error occurred. Please try again.');
         horoscopeSubmit.disabled = false;
         horoscopeSubmit.textContent = originalText || 'Get My Horoscope';
@@ -328,3 +343,5 @@ if (shouldGenerate && name && birthdate) {
     });
   }
 </script> 
+
+<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>

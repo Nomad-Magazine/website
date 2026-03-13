@@ -1,6 +1,5 @@
 const sharp = require('sharp');
 const fs = require('fs');
-const path = require('path');
 
 const srcPath = '/Users/pityakova/.cursor/projects/Users-pityakova-Documents-NGM-Website/assets/nomad-hero-photorealistic-collage.png';
 const destPath = '/Users/pityakova/Documents/NGM/Website/public/images/nomad-hero-photorealistic-collage.webp';
