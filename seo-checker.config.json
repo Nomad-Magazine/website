@@ -1,5 +1,5 @@
 {
-  "distPath": "./dist",
+  "distPath": "./dist/client",
   "baseUrl": "https://nomad-magazine.com",
   "languages": [
     "en"

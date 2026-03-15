@@ -1,0 +1,26 @@
+---
+export const prerender = true
+
+import { getCollection } from 'astro:content'
+import ArticlePostPage from '~/components/ArticlePostPage.astro'
+import { normalizeContentEntries } from '~/utils/content'
+
+const slug = Astro.url.pathname
+  .replace(/index\.html$/, '')
+  .replace(/\/+$/, '')
+  .split('/')
+  .filter(Boolean)
+  .at(-1)
+const allPosts = normalizeContentEntries(await getCollection('article'))
+const post = allPosts.find((entry) => {
+  const rawSlugValue = (entry.data as { slug?: string }).slug
+  const rawSlug = typeof rawSlugValue === 'string' ? rawSlugValue.replace(/^\/+|\/+$/g, '') : ''
+  return entry.slug === slug || rawSlug === slug
+})
+
+if (!post) {
+  throw new Error(`Article post not found for slug: ${slug}`)
+}
+---
+
+<ArticlePostPage post={post} allPosts={allPosts} />

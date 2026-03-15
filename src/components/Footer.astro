@@ -17,8 +17,8 @@ const footerSections = [
   {
     title: 'Magazine & Content',
     links: [
-      { text: 'Latest Edition', url: '/editions/third-edition' },
-      { text: 'All Editions', url: '/editions' },
+      { text: 'Latest Edition', url: '/editions/third-edition/' },
+      { text: 'All Editions', url: '/editions/' },
       { text: 'Blog', url: '/blog/' },
       { text: 'Articles', url: '/articles/' },
     ]
@@ -26,27 +26,27 @@ const footerSections = [
   {
     title: 'Community & Resources',
     links: [
-      { text: 'Newsletter', url: '/newsletter' },
-      { text: 'Newsletter Guidelines', url: '/newsletter-guidelines' },
+      { text: 'Newsletter', url: '/newsletter/' },
+      { text: 'Newsletter Guidelines', url: '/newsletter-guidelines/' },
       { text: 'Digital Nomad Wiki', url: '/digital-nomad-wiki/' },
     ]
   },
   {
     title: 'Business & Partners',
     links: [
-      { text: 'Nomad Directory', url: '/nomad_directory' },
+      { text: 'Nomad Directory', url: '/nomad_directory/' },
       { text: 'Partners', url: '/partners/' },
       { text: 'Brand Placement', url: '/brand-placement-next-edition-847291/' },
-      { text: 'Distribution Partners', url: '/distribution-list' },
-      { text: 'Writers Program', url: '/writers' },
+      { text: 'Distribution Partners', url: '/distribution-list/' },
+      { text: 'Writers Program', url: '/writers/' },
     ]
   },
   {
     title: 'About & Legal',
     links: [
-      { text: 'About Us', url: '/our-story' },
+      { text: 'About Us', url: '/our-story/' },
       { text: 'Our Team', url: '/#team' },
-      { text: 'Support the Magazine', url: '/support-the-magazine' },
+      { text: 'Support the Magazine', url: '/support-the-magazine/' },
       { text: 'Contact', url: 'mailto:hey@nomadgossip.com' },
     ]
   }
@@ -61,9 +61,9 @@ const footerSections = [
       <div class="mb-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
         {footerSections.map((section) => (
           <div class="space-y-4">
-            <h3 class="text-lg font-bold text-gray-900 font-inter">
+            <p class="text-lg font-bold text-gray-900 font-inter">
               {section.title}
-            </h3>
+            </p>
             <ul class="space-y-3">
               {section.links.map((link) => (
                 <li>
@@ -83,9 +83,9 @@ const footerSections = [
       <!-- Newsletter Signup Section -->
       <div class="mb-12 pt-8 border-t border-gray-200">
         <div class="text-center max-w-2xl mx-auto">
-          <h3 class="text-2xl font-bold text-gray-900 mb-4">
+          <p class="text-2xl font-bold text-gray-900 mb-4">
             Join Our Global Nomad Community
-          </h3>
+          </p>
           <p class="text-gray-600 mb-6">
             Get exclusive insights, destination guides, and nomad stories delivered to your inbox weekly.
           </p>
@@ -148,9 +148,9 @@ const footerSections = [
       <div class="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
         {footerSections.map((section) => (
           <div class="space-y-3">
-            <h3 class="text-lg font-bold text-gray-900">
+            <p class="text-lg font-bold text-gray-900">
               {section.title}
-            </h3>
+            </p>
             <ul class="space-y-2">
               {section.links.map((link) => (
                 <li>
@@ -169,9 +169,9 @@ const footerSections = [
       
       <!-- Mobile Newsletter Section -->
       <div class="mb-8 text-center border-t border-gray-200 pt-8">
-        <h3 class="text-xl font-bold text-gray-900 mb-3">
+        <p class="text-xl font-bold text-gray-900 mb-3">
           Join Our Community
-        </h3>
+        </p>
         <div class="flex flex-col gap-3">
           <a 
             href="/newsletter/" 

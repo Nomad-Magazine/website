@@ -1,4 +1,4 @@
-const normalizeSlug = (id: string) => id.replace(/^.*\//, '').replace(/\.md$/, '')
+const normalizeSlug = (id: string) => id.replace(/\/+$/g, '').replace(/^.*\//, '').replace(/\.md$/, '')
 const sanitizeSlug = (slug: string) => slug.replace(/^\/+|\/+$/g, '')
 
 type ContentDataWithOptionalSlug = Record<string, unknown> & {

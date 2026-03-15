@@ -5,29 +5,61 @@ import cloudflare from '@astrojs/cloudflare'
 import { defineConfig, envField } from 'astro/config'
 import { glob } from 'glob'
 import { readFileSync, statSync } from 'node:fs'
+import { basename } from 'node:path'
 import rehypeExternalLinks from 'rehype-external-links'
 
 const site = process.env.SITE_URL ?? 'https://nomad-magazine.com'
+
+const normalizeRouteSlug = (value) => value.trim().replace(/^['"]|['"]$/g, '').replace(/^\/+|\/+$/g, '')
+
+function getContentRouteEntries(collection) {
+  const files = glob.sync(`src/content/${collection}/*.md`)
+  return files.map((file) => {
+    const stat = statSync(file)
+    const content = readFileSync(file, 'utf-8')
+    const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/)
+    const frontmatter = frontmatterMatch?.[1] ?? ''
+    const slugMatch = frontmatter.match(/slug:\s*(.+)/)
+    const updatedAtMatch = frontmatter.match(/updated_at:\s*(.+)/)
+
+    return {
+      slug: normalizeRouteSlug(slugMatch?.[1] ?? basename(file, '.md')),
+      lastmod: updatedAtMatch ? new Date(normalizeRouteSlug(updatedAtMatch[1])) : stat.mtime,
+    }
+  })
+}
+
+const injectContentStaticRoutes = () => ({
+  name: 'inject-content-static-routes',
+  hooks: {
+    'astro:config:setup': ({ injectRoute }) => {
+      for (const { slug } of getContentRouteEntries('blog')) {
+        injectRoute({
+          pattern: `/blog/${slug}`,
+          entrypoint: './src/generated/pages/blog-post.astro',
+          prerender: true,
+        })
+      }
+
+      for (const { slug } of getContentRouteEntries('article')) {
+        injectRoute({
+          pattern: `/articles/${slug}`,
+          entrypoint: './src/generated/pages/article-post.astro',
+          prerender: true,
+        })
+      }
+    },
+  },
+})
 
 // Build a map of page paths to their lastmod dates for sitemap
 function getPageLastModDates() {
   const lastModMap = new Map()
 
-  // Get blog post dates from frontmatter
-  const blogFiles = glob.sync('src/content/blog/*.md')
-  for (const file of blogFiles) {
-    const content = readFileSync(file, 'utf-8')
-    const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/)
-    if (frontmatterMatch) {
-      const frontmatter = frontmatterMatch[1]
-      const updatedAtMatch = frontmatter.match(/updated_at:\s*(.+)/)
-      const slugMatch = frontmatter.match(/slug:\s*(.+)/)
-      if (updatedAtMatch && slugMatch) {
-        const slug = slugMatch[1].trim()
-        const updatedAt = updatedAtMatch[1].trim()
-        lastModMap.set(`/blog/${slug}`, new Date(updatedAt))
-        lastModMap.set(`/blog/${slug}/`, new Date(updatedAt))
-      }
+  for (const [collection, basePath] of [['blog', '/blog'], ['article', '/articles']]) {
+    for (const { slug, lastmod } of getContentRouteEntries(collection)) {
+      lastModMap.set(`${basePath}/${slug}`, lastmod)
+      lastModMap.set(`${basePath}/${slug}/`, lastmod)
     }
   }
 
@@ -82,6 +114,7 @@ export default defineConfig({
     ],
   },
   integrations: [
+    injectContentStaticRoutes(),
     sitemap({
       changefreq: 'weekly',
       priority: 0.7,
