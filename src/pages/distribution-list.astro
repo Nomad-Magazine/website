@@ -323,14 +323,18 @@ const seo: SEOProps = {
 
   <!-- Image Modal Component -->
   <ImageModal />
+
+  <!-- Data passed from server to client -->
+  <script type="application/json" id="distribution-data" set:html={JSON.stringify(distributionLocations)}></script>
   </div>
 </Layout>
 
-<script is:inline define:vars={{ distributionLocations }}>
+<script is:inline>
   let allLocations = [];
 
   // Initialize data from server
-  allLocations = distributionLocations;
+  const dataEl = document.getElementById('distribution-data');
+  allLocations = dataEl ? JSON.parse(dataEl.textContent) : [];
 
   function updateStats() {
     const totalLocations = allLocations.length;
