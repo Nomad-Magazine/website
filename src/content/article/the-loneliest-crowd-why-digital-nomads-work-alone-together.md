@@ -124,4 +124,4 @@ Because the issue was never that nomads don't want connection.
 
 ## About the Author
 
-**Michael Hensel** is a long-term digital nomad and founder who has spent years working from cafes across Southeast Asia and Europe. His work explores how physical spaces, technology, and human behavior intersect in the remote work era, with a focus on practical ways to help people better connect while traveling. Learn more at [lattecino.com](https://lattecino.com), or on [Instagram](https://www.instagram.com/lattecino.official/).
+**Michael Hensel** is a long-term digital nomad and founder who has spent years working from cafes across Southeast Asia and Europe. His work explores how physical spaces, technology, and human behavior intersect in the remote work era, with a focus on practical ways to help people better connect while traveling. Learn more at [lattecino.com](https://lattecino.com), on [LinkedIn](https://www.linkedin.com/in/michaelhensel), or on [TikTok](https://www.tiktok.com/@lattecinoofficial).
