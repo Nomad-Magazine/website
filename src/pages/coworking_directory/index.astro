@@ -31,10 +31,20 @@ function extractCountry(location: string): string {
   const words = location.trim().split(/\s+/)
   const last = normalizeCountry(words[words.length - 1])
   if (COUNTRY_TO_CONTINENT[last]) return last
-  return normalizeCountry(location.trim())
+  const whole = normalizeCountry(location.trim())
+  if (COUNTRY_TO_CONTINENT[whole]) return whole
+  return ''
 }
 function slugify(str: string): string {
   return str.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+}
+function normalizeUrl(raw: any): string | null {
+  if (!raw || typeof raw !== 'string') return null
+  const trimmed = raw.trim()
+  if (!trimmed) return null
+  if (/^https?:\/\//i.test(trimmed)) return trimmed.replace(/^Https:\/\//i, 'https://')
+  if (trimmed.startsWith('www.')) return `https://${trimmed}`
+  return null
 }
 
 const { records = [] } = await fetchReportRecords('68614a111208586bd05d3c3a')
@@ -63,8 +73,8 @@ const coworkingLocations = records
       city: loc.includes(',') ? loc.split(',')[0].trim() : '',
       country,
       continent: COUNTRY_TO_CONTINENT[country] || '',
-      website_url: r.sb788c266b?.[0] || null,
-      google_maps_url: r.s2d652f699 || null,
+      website_url: normalizeUrl(r.sb788c266b?.[0]),
+      google_maps_url: normalizeUrl(r.s2d652f699),
       images,
       category: r.sb685ab800?.label || '',
       discount_code: r.s9c0ff01ed || null,
