@@ -1,0 +1,356 @@
+---
+export const prerender = true;
+
+import Layout, { type SEOProps } from '~/layouts/Layout.astro';
+import WikiSidebar from '~/components/WikiSidebar.astro';
+
+const seo: SEOProps = {
+  title: 'Chapter 9: The Ecosystem of Digital Nomad Services – Digital Nomad Encyclopedia',
+  description: 'Explore the full ecosystem of services that support digital nomads: coworking, fintech, insurance, legal tools, job boards, and events.',
+  keywords: 'digital nomad services, digital nomad guide chapter 9, the ecosystem of digital nomad services, nomad encyclopedia',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Chapter 9: The Ecosystem of Digital Nomad Services',
+    description: 'Explore the full ecosystem of services that support digital nomads: coworking, fintech, insurance, legal tools, job boards, and events.',
+    url: `${Astro.site}digital-nomad-wiki/chapter-9/`,
+    isPartOf: {
+      '@type': 'Book',
+      name: 'Digital Nomad Encyclopedia',
+      url: `${Astro.site}digital-nomad-wiki/`,
+    },
+    author: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      url: `${Astro.site}`,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      url: `${Astro.site}`,
+    },
+  },
+};
+---
+
+<Layout seo={seo}>
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-yellow-400 text-black px-3 py-1 rounded text-sm font-medium z-50">Skip to main content</a>
+  <div class="min-h-screen bg-gray-50">
+    <div class="max-w-7xl mx-auto flex">
+      <WikiSidebar currentChapter={9} />
+
+      <main id="main-content" class="flex-1 min-w-0">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 py-8 lg:py-12">
+
+          <!-- Breadcrumb -->
+          <nav class="flex items-center gap-2 text-xs text-gray-500 mb-8" aria-label="Breadcrumb">
+            <a href="/digital-nomad-wiki/" class="hover:text-gray-700">Encyclopedia</a>
+            <span aria-hidden="true">›</span>
+            <span class="text-gray-700 font-medium">Chapter 9</span>
+          </nav>
+
+<!-- Chapter 9: The Ecosystem of Digital Nomad Services -->
+<section id="ecosystem-services" class="mb-16">
+  <div class="prose prose-lg max-w-none">
+    <div class="mb-8">
+      <span class="inline-block bg-cyan-100 text-cyan-800 px-3 py-1 rounded-full text-sm font-medium mb-4">
+        Chapter 9
+      </span>
+      <h1 class="text-3xl font-bold text-gray-900 mb-4">
+        The Ecosystem of Digital Nomad Services
+      </h1>
+    </div>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-6">
+      <p>
+        Digital nomadism is no longer just a grassroots movement. It's a thriving, multi-billion-dollar industry. As more people embrace the location-independent lifestyle, a wide range of services, platforms, and businesses have emerged to meet their needs.
+      </p>
+      
+      <p>
+        From coworking chains and banking platforms to insurance startups and community networks, a vibrant ecosystem now supports every aspect of the nomadic journey.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 1. Coworking & Coliving Operators -->
+<section id="coworking-coliving" class="mb-12">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-6">1. Coworking & Coliving Operators</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-6">
+      <p>
+        Coworking and coliving have become staples of the nomad lifestyle, providing not just workspace or accommodation, but community and structure.
+      </p>
+      
+      <h4 class="text-xl font-semibold text-gray-900 mb-4">Coworking Chains:</h4>
+      
+      <ul class="space-y-3 list-disc pl-6">
+        <li><strong><a href="https://wework.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">WeWork</a>:</strong> Global presence, with stylish offices in major cities.</li>
+        <li><strong><a href="https://selina.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Selina</a>:</strong> Blends coworking with accommodation, yoga, and surf retreats.</li>
+        <li><strong><a href="https://impacthub.net" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Impact Hub</a>:</strong> Focus on social entrepreneurship and community.</li>
+        <li><strong><a href="https://outpost-asia.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Outpost</a>:</strong> Popular in Bali and Sri Lanka, known for strong nomad networks.</li>
+      </ul>
+      
+      <h4 class="text-xl font-semibold text-gray-900 mb-4">Coliving Brands:</h4>
+      
+      <ul class="space-y-3 list-disc pl-6">
+        <li><strong><a href="https://outsite.co" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Outsite</a>:</strong> Beautifully designed coliving homes from Lisbon to Santa Cruz.</li>
+        <li><strong><a href="https://sunandco.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Sun and Co.</a>:</strong> A community-driven space in Jávea, Spain.</li>
+        <li><strong><a href="https://roam.co" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Roam</a>:</strong> High-end coliving in Bali, Tokyo, and Miami.</li>
+        <li><strong><a href="https://remoteyear.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Remote Year</a>:</strong> Offers curated programs where a group travels together monthly.</li>
+      </ul>
+      
+      <p>
+        These services offer stability and a plug-and-play lifestyle: fast Wi-Fi, shared kitchens, cleaning services, social events, and sometimes even childcare. Explore accommodation options in our <a href="/nomad_directory/" class="text-gray-800 hover:text-gray-900 underline">Nomad Directory</a>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 2. Financial Services & Banking Tools -->
+<section id="financial-services" class="mb-12">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-6">2. Financial Services & Banking Tools</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-4">
+      <p>
+        Managing money across borders is a major pain point. Fortunately, fintech companies now cater directly to digital nomads:
+      </p>
+      
+      <ul class="space-y-3 list-disc pl-6">
+        <li><strong>Wise (TransferWise):</strong> Multi-currency accounts, low-fee transfers, and borderless banking.</li>
+        <li><strong><a href="https://revolut.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Revolut</a>:</strong> Currency exchange, crypto access, budgeting, and savings vaults.</li>
+        <li><strong><a href="https://n26.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">N26</a>:</strong> A full European mobile bank with intuitive design and no ATM fees.</li>
+        <li><strong><a href="https://payoneer.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Payoneer</a>:</strong> Popular for freelancers working with global marketplaces.</li>
+      </ul>
+      
+      <p>
+        These platforms enable nomads to get paid, save, spend, and invest from anywhere.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 3. Insurance & Healthcare -->
+<section id="insurance-healthcare" class="mb-12">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-6">3. Insurance & Healthcare</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-4">
+      <p>
+        Remote work needs remote-friendly insurance.
+      </p>
+      
+      <ul class="space-y-3 list-disc pl-6">
+        <li><strong>SafetyWing:</strong> Health insurance designed specifically for nomads, including COVID-19 and emergency care.</li>
+        <li><strong><a href="https://worldnomads.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">World Nomads</a>:</strong> Long-established, offering travel and gear protection.</li>
+        <li><strong><a href="https://remotehealth.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Remote Health</a>:</strong> Tailored group coverage for remote teams.</li>
+        <li><strong><a href="https://imglobal.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">IMG Global</a>:</strong> Offers long-term health plans and international emergency support.</li>
+      </ul>
+      
+      <p>
+        Telehealth is growing too—apps like <a href="https://airdoctor.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">AirDoctor</a> and <a href="https://babylonhealth.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Babylon Health</a> offer medical consultations across borders.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 4. Legal, Tax & Residency Services -->
+<section id="legal-tax-services" class="mb-12">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-6">4. Legal, Tax & Residency Services</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-4">
+      <p>
+        Navigating international tax and immigration law is complex. A number of consultancies and services help nomads stay compliant:
+      </p>
+      
+      <ul class="space-y-3 list-disc pl-6">
+        <li><strong><a href="https://nomadcapitalist.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Nomad Capitalist</a>:</strong> Strategic consulting for global citizens.</li>
+        <li><strong>Heavnn:</strong> Tax optimization for remote workers and location-independent entrepreneurs.</li>
+        <li><strong>Nomads Embassy:</strong> Visa services, community support, and relocation tools.</li>
+        <li><strong>Startupr:</strong> Helps register international businesses (especially in Hong Kong or the U.S.).</li>
+      </ul>
+      
+      <p>
+        Digital nomads can now apply for e-Residency (like Estonia's program), open foreign bank accounts, and manage international legal documents—all online.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 5. Community Platforms -->
+<section id="community-platforms-eco" class="mb-12">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-6">5. Community Platforms</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-4">
+      <p>
+        Connection is a cornerstone of nomadic life. These platforms make it easier to find events, people, and local insights.
+      </p>
+      
+      <ul class="space-y-3 list-disc pl-6">
+        <li><strong>Nomad List:</strong> City rankings based on cost, Wi-Fi speed, safety, and user reviews.</li>
+        <li><strong><a href="https://remoteok.io" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Remote OK</a>:</strong> Job board for remote work, from the creators of Nomad List.</li>
+        <li><strong><a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Facebook Groups</a>:</strong> Almost every major city has a "Digital Nomads in [City]" group for housing, events, and advice.</li>
+        <li><strong><a href="https://slack.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Slack</a>/<a href="https://discord.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Discord</a>:</strong> Private communities form around specific interests—e.g., female nomads, remote designers, solo travelers.</li>
+        <li><strong>Meetup:</strong> Listings for events, dinners, hikes, language exchanges, and more.</li>
+      </ul>
+      
+      <p>
+        Some nomads even form their own "tribes" and travel together for months or years at a time. Discover more tools and services in our <a href="/nomad_directory/" class="text-gray-800 hover:text-gray-900 underline">Nomad Directory</a>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 6. Work and Job Platforms -->
+<section id="work-job-platforms" class="mb-12">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-6">6. Work and Job Platforms</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-6">
+      <p>
+        Getting started often means landing a remote gig. These platforms help nomads find flexible, location-independent work:
+      </p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div>
+          <h5 class="text-lg font-semibold text-gray-900 mb-2">Remote Job Boards</h5>
+          <ul class="space-y-1 text-gray-700 list-disc pl-4">
+            <li><a href="https://weworkremotely.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">We Work Remotely</a></li>
+            <li><a href="https://remoteok.io" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Remote OK</a></li>
+            <li><a href="https://flexjobs.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">FlexJobs</a></li>
+            <li><a href="https://angel.co" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">AngelList Talent</a></li>
+            <li><a href="https://jobspresso.co" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Jobspresso</a></li>
+            <li><a href="https://remotive.io" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Remotive</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h5 class="text-lg font-semibold text-gray-900 mb-2">Freelance Platforms</h5>
+          <ul class="space-y-1 text-gray-700 list-disc pl-4">
+            <li><a href="https://upwork.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Upwork</a></li>
+            <li><a href="https://fiverr.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Fiverr</a></li>
+            <li><a href="https://toptal.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Toptal</a></li>
+            <li><a href="https://99designs.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">99designs</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h5 class="text-lg font-semibold text-gray-900 mb-2">Creator Platforms</h5>
+          <ul class="space-y-1 text-gray-700 list-disc pl-4">
+            <li><a href="https://substack.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Substack</a> (writing)</li>
+            <li><a href="https://patreon.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Patreon</a> (membership)</li>
+            <li><a href="https://gumroad.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Gumroad</a> (digital products)</li>
+            <li><a href="https://teachable.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Teachable</a> (online courses)</li>
+            <li><a href="https://podia.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Podia</a> (all-in-one)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. Events, Retreats, and Conferences -->
+<section id="events-retreats" class="mb-12">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-6">7. Events, Retreats, and Conferences</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-4">
+      <p>
+        Nomad-specific events help remote workers connect in real life.
+      </p>
+      
+      <ul class="space-y-3 list-disc pl-6">
+        <li><strong><a href="https://nomadcruise.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Nomad Cruise</a>:</strong> A floating conference that gathers hundreds of nomads for talks, workshops, and travel.</li>
+        <li><strong><a href="https://7in7conference.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">7in7</a>:</strong> A global conference series for experienced nomads.</li>
+        <li><strong><a href="https://runningremote.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Running Remote</a>:</strong> Focused on scaling remote teams and company culture.</li>
+        <li><strong>Coworking Retreats:</strong> Many brands offer week- or month-long escapes for deep work, wellness, or adventure.</li>
+      </ul>
+      
+      <p>
+        These experiences often forge lifelong friendships, business collaborations, and even romantic partnerships. Stay updated on upcoming events through our <a href="/newsletter/" class="text-gray-800 hover:text-gray-900 underline">newsletter</a>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 8. Tools of the Trade -->
+<section id="tools-trade" class="mb-16">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-6">8. Tools of the Trade</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-6">
+      <p>
+        Every nomad builds a digital toolbox. Popular apps include:
+      </p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <h5 class="text-lg font-semibold text-gray-900 mb-3">Productivity & Work</h5>
+          <ul class="space-y-1 text-gray-700 list-disc pl-4">
+            <li><a href="https://notion.so" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Notion</a> (workspace for docs, tasks, wikis)</li>
+            <li><a href="https://trello.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Trello</a>/<a href="https://clickup.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">ClickUp</a> (project management)</li>
+            <li><a href="https://slack.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Slack</a>/<a href="https://zoom.us" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Zoom</a> (communication)</li>
+            <li><a href="https://workspace.google.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Google Workspace</a> (collaboration)</li>
+          </ul>
+        </div>
+        
+        <div>
+          <h5 class="text-lg font-semibold text-gray-900 mb-3">Travel & Security</h5>
+          <ul class="space-y-1 text-gray-700 list-disc pl-4">
+            <li><a href="https://nordvpn.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">VPNs</a> (security on public Wi-Fi)</li>
+            <li><a href="https://airalo.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Airalo</a> (eSIMs for connectivity)</li>
+            <li><a href="https://rome2rio.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Rome2Rio</a>/<a href="https://skyscanner.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Skyscanner</a>/<a href="https://hopper.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Hopper</a> (travel)</li>
+            <li><a href="https://trail-wallet.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Trail Wallet</a> (expense tracking)</li>
+          </ul>
+        </div>
+      </div>
+      
+      <p>
+        The right stack reduces friction and boosts focus. Explore our <a href="/blog/15-essential-apps-for-digital-nomads-in-2025/" class="text-gray-800 hover:text-gray-900 underline">essential apps guide</a> for detailed tool reviews.
+      </p>
+      
+      <div class="bg-cyan-50 border-l-4 border-cyan-400 p-4 my-6">
+        <p class="text-cyan-800">
+          <strong>Industry Insight:</strong> The digital nomad lifestyle has given rise to an entire economy of services that make borderless work and life possible. This ecosystem continues to expand, offering new levels of convenience, security, and connection to a globally mobile workforce. Explore vetted services in our <a href="/nomad_directory/" class="text-gray-800 hover:text-gray-900 underline">Nomad Directory</a>.
+        </p>
+      </div>
+      
+      <p>
+        In the next chapter, we'll examine the criticisms and controversies surrounding the digital nomad movement—from gentrification to cultural impact to environmental concerns.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+          <!-- Prev / Next Navigation -->
+          <div class="flex items-center justify-between gap-4 mt-16 pt-8 border-t border-gray-200">
+            <a href="/digital-nomad-wiki/chapter-8/" class="flex items-center gap-2 px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors max-w-[48%]">
+              <svg class="w-4 h-4 shrink-0 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+              <span><span class="block text-xs text-gray-400">Chapter 8</span><span class="font-medium">Life on the Move</span></span>
+            </a>
+            <a href="/digital-nomad-wiki/chapter-10/" class="flex items-center gap-2 px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors max-w-[48%] text-right ml-auto">
+              <span><span class="block text-xs text-gray-400">Chapter 10</span><span class="font-medium">Criticism and Controversies</span></span>
+              <svg class="w-4 h-4 shrink-0 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+
+          <!-- Suggest Edit -->
+          <div class="mt-6 text-right">
+            <a href="mailto:hey@nomad-magazine.com?subject=Wiki%20Edit%20-%20Chapter%209&body=Chapter%3A%20Chapter%209%20-%20The%20Ecosystem%20of%20Digital%20Nomad%20Services%0ASection%3A%20%0AProposed%20Change%3A%20%0AReason%3A%20"
+              class="inline-flex items-center text-xs text-gray-400 hover:text-gray-600 transition-colors">
+              <svg class="mr-1 h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+              </svg>
+              Suggest an Edit
+            </a>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</Layout>

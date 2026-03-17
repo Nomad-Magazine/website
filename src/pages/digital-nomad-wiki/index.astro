@@ -1,0 +1,183 @@
+---
+export const prerender = true;
+
+import Layout, { type SEOProps } from '~/layouts/Layout.astro';
+import WikiSidebar from '~/components/WikiSidebar.astro';
+
+const seo: SEOProps = {
+  title: 'Digital Nomad Encyclopedia - Complete 12-Chapter Guide to Nomad Life',
+  description: 'The ultimate comprehensive guide to digital nomadism. 12 detailed chapters covering history, demographics, destinations, legal aspects, finances, lifestyle, future trends, and more.',
+  keywords: 'digital nomad wiki, nomad guide, remote work guide, nomad history, digital nomad lifestyle, nomad resources, nomad encyclopedia, complete nomad guide',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'Book',
+    name: 'Digital Nomad Encyclopedia',
+    headline: 'Digital Nomad Encyclopedia - Complete 12-Chapter Guide to Nomad Life',
+    description: 'The ultimate comprehensive guide to digital nomadism. 12 detailed chapters covering history, demographics, destinations, legal aspects, finances, lifestyle, future trends, and more.',
+    url: `${Astro.site}digital-nomad-wiki/`,
+    numberOfPages: 12,
+    author: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      url: `${Astro.site}`,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      url: `${Astro.site}`,
+    },
+  },
+};
+
+const chapters = [
+  { num: 1,  slug: 'chapter-1',  title: 'What Is the Digital Nomad Lifestyle?',        desc: 'The Lifestyle',    summary: 'Economic autonomy, temporal flexibility, lifestyle design, and who the nomad life is really for.' },
+  { num: 2,  slug: 'chapter-2',  title: 'A Brief History of Digital Nomadism',          desc: 'Origins',          summary: 'From pre-internet pioneers to the pandemic revolution — how the movement was born.' },
+  { num: 3,  slug: 'chapter-3',  title: 'Who Are the Digital Nomads?',                  desc: 'The People',       summary: 'Demographics, nomad types, motivations, myths, and the evolving nomad identity.' },
+  { num: 4,  slug: 'chapter-4',  title: 'The Infrastructure of a Lifestyle',            desc: 'The Tools',        summary: 'Coworking, coliving, visas, insurance, banking tools, and community platforms.' },
+  { num: 5,  slug: 'chapter-5',  title: 'Where Do They Go?',                            desc: 'Destinations',     summary: 'Top nomad cities, emerging locations, seasonal circuits, and slowmad patterns.' },
+  { num: 6,  slug: 'chapter-6',  title: 'Legal Life and Visas',                         desc: 'Visas & Law',      summary: 'Digital nomad visas, tax residency, banking entities, and staying legally compliant.' },
+  { num: 7,  slug: 'chapter-7',  title: 'Money Matters',                                desc: 'Finances',         summary: 'How nomads earn, geoarbitrage, banking across borders, taxes, and retirement planning.' },
+  { num: 8,  slug: 'chapter-8',  title: 'Life on the Move',                             desc: 'Daily Life',       summary: 'Health, relationships, finding rhythm, avoiding burnout, and the joys of the journey.' },
+  { num: 9,  slug: 'chapter-9',  title: 'The Ecosystem of Digital Nomad Services',      desc: 'Services',         summary: 'Coworking chains, fintech, insurance, legal services, job boards, and events.' },
+  { num: 10, slug: 'chapter-10', title: 'Criticism and Controversies',                  desc: 'Controversies',    summary: 'Gentrification, cultural insensitivity, environmental footprint, privilege, and backlash.' },
+  { num: 11, slug: 'chapter-11', title: 'The Future of Nomadism',                       desc: "What's Next",      summary: 'Slow travel, remote-first societies, nomad villages, new tech, and ethical accountability.' },
+  { num: 12, slug: 'chapter-12', title: 'Entering the Digital Nomad Market',            desc: 'For Brands',       summary: 'How to build a brand in the nomad space — community, organic growth, and integrity.' },
+];
+---
+
+<Layout seo={seo}>
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-yellow-400 text-black px-3 py-1 rounded text-sm font-medium z-50">Skip to main content</a>
+  <div class="min-h-screen bg-gray-50">
+    <div class="max-w-7xl mx-auto flex">
+      <WikiSidebar currentChapter={0} />
+
+      <main id="main-content" class="flex-1 min-w-0">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 py-8 lg:py-12">
+
+          <!-- Hero -->
+          <section class="mb-10">
+            <span class="inline-block bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium mb-4">Introduction</span>
+            <h1 class="text-4xl font-bold text-gray-900 mb-4 leading-tight">A New Way to Live and Work</h1>
+            <p class="text-xl text-gray-600 mb-3 leading-relaxed">
+              The most complete guide to digital nomadism — covering history, destinations, visas, money, lifestyle, and the future of remote work.
+            </p>
+            <p class="text-base text-gray-500 mb-8">
+              For nomad-curious beginners, remote workers planning a move, researchers, and brands entering the space.
+            </p>
+
+            <!-- Quick entry buttons -->
+            <div class="flex flex-wrap gap-2 mb-8">
+              <a href="/digital-nomad-wiki/chapter-1/" class="inline-flex items-center px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-black text-sm font-semibold rounded-full transition-colors">
+                Start Here →
+              </a>
+              <a href="/digital-nomad-wiki/chapter-5/" class="inline-flex items-center px-4 py-2 bg-white hover:bg-gray-50 text-gray-700 text-sm font-medium rounded-full border border-gray-300 transition-colors">
+                Best Destinations
+              </a>
+              <a href="/digital-nomad-wiki/chapter-6/" class="inline-flex items-center px-4 py-2 bg-white hover:bg-gray-50 text-gray-700 text-sm font-medium rounded-full border border-gray-300 transition-colors">
+                Visas &amp; Legal
+              </a>
+              <a href="/digital-nomad-wiki/chapter-7/" class="inline-flex items-center px-4 py-2 bg-white hover:bg-gray-50 text-gray-700 text-sm font-medium rounded-full border border-gray-300 transition-colors">
+                Money &amp; Finances
+              </a>
+              <a href="/digital-nomad-wiki/chapter-12/" class="inline-flex items-center px-4 py-2 bg-white hover:bg-gray-50 text-gray-700 text-sm font-medium rounded-full border border-gray-300 transition-colors">
+                For Brands
+              </a>
+            </div>
+
+            <!-- Most searched topics -->
+            <div class="bg-gray-50 border border-gray-200 rounded-lg p-5 mb-8">
+              <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Most searched topics</p>
+              <div class="flex flex-wrap gap-x-6 gap-y-2">
+                <a href="/digital-nomad-wiki/chapter-1/" class="text-sm text-blue-600 hover:text-blue-800 hover:underline">What is a digital nomad?</a>
+                <a href="/digital-nomad-wiki/chapter-6/#digital-nomad-visas" class="text-sm text-blue-600 hover:text-blue-800 hover:underline">Best nomad visas</a>
+                <a href="/digital-nomad-wiki/chapter-5/#top-nomad-cities" class="text-sm text-blue-600 hover:text-blue-800 hover:underline">Top nomad cities</a>
+                <a href="/digital-nomad-wiki/chapter-7/#how-nomads-earn" class="text-sm text-blue-600 hover:text-blue-800 hover:underline">How nomads earn money</a>
+                <a href="/digital-nomad-wiki/chapter-7/#geoarbitrage" class="text-sm text-blue-600 hover:text-blue-800 hover:underline">Geoarbitrage explained</a>
+                <a href="/digital-nomad-wiki/chapter-8/#avoiding-burnout" class="text-sm text-blue-600 hover:text-blue-800 hover:underline">Avoiding burnout</a>
+                <a href="/digital-nomad-wiki/chapter-11/" class="text-sm text-blue-600 hover:text-blue-800 hover:underline">Future of nomadism</a>
+                <a href="/digital-nomad-wiki/chapter-3/#nomad-types" class="text-sm text-blue-600 hover:text-blue-800 hover:underline">Types of digital nomads</a>
+              </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+              <div class="bg-white rounded-lg p-3 border border-gray-200 text-center">
+                <div class="text-2xl font-bold text-blue-600">12</div>
+                <div class="text-xs text-gray-500">Chapters</div>
+              </div>
+              <div class="bg-white rounded-lg p-3 border border-gray-200 text-center">
+                <div class="text-2xl font-bold text-purple-600">75+</div>
+                <div class="text-xs text-gray-500">Sections</div>
+              </div>
+              <div class="bg-white rounded-lg p-3 border border-gray-200 text-center">
+                <div class="text-2xl font-bold text-teal-600">20+</div>
+                <div class="text-xs text-gray-500">Destinations</div>
+              </div>
+              <div class="bg-white rounded-lg p-3 border border-gray-200 text-center">
+                <div class="text-2xl font-bold text-emerald-600">100+</div>
+                <div class="text-xs text-gray-500">Tools &amp; Services</div>
+              </div>
+            </div>
+
+            <!-- Intro text -->
+            <div class="text-lg text-gray-700 leading-relaxed space-y-4 border-t border-gray-100 pt-6">
+              <p>The digital nomad lifestyle is one of the most fascinating cultural shifts of the 21st century. It's a movement powered by technology, shaped by values of freedom and curiosity, and sustained by a complex global industry that caters to the location-independent.</p>
+              <p>This guide unpacks the entire digital nomad ecosystem—from its origins to its future. Whether you're nomad-curious, considering the leap, or simply trying to understand the new world of remote work, this guide is your deep dive into the digital nomad lifestyle industry.</p>
+              <p>In this guide, we'll not only explore the what and how of digital nomadism but dive deeper into the sociology, economics, cultural implications, and global trends shaping this transformative movement.</p>
+            </div>
+          </section>
+
+          <!-- Newsletter CTA -->
+          <div class="bg-yellow-50 border border-yellow-200 rounded-lg px-6 py-4 mb-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <p class="text-sm text-yellow-900 font-medium">Get weekly nomad insights, destination guides, and stories from the magazine.</p>
+            <a href="/newsletter/" class="shrink-0 inline-flex items-center px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-black text-sm font-semibold rounded-full transition-colors">
+              Subscribe to Newsletter →
+            </a>
+          </div>
+
+          <!-- Chapter Cards -->
+          <section>
+            <h2 class="text-xl font-bold text-gray-900 mb-6">All Chapters</h2>
+            <div class="space-y-3">
+              {chapters.map((ch) => (
+                <a href={`/digital-nomad-wiki/${ch.slug}/`} class="flex items-start gap-4 bg-white border border-gray-200 rounded-lg px-5 py-4 hover:border-gray-300 hover:shadow-sm transition-all group">
+                  <span class="shrink-0 w-8 h-8 bg-gray-100 group-hover:bg-gray-900 text-gray-600 group-hover:text-white rounded-full flex items-center justify-center text-sm font-bold transition-colors">
+                    {ch.num}
+                  </span>
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-2 mb-0.5">
+                      <span class="text-xs font-semibold text-gray-400 uppercase tracking-wide">{ch.desc}</span>
+                    </div>
+                    <p class="text-sm font-semibold text-gray-900 group-hover:text-black mb-1">{ch.title}</p>
+                    <p class="text-xs text-gray-500 leading-relaxed">{ch.summary}</p>
+                  </div>
+                  <svg class="w-4 h-4 shrink-0 text-gray-300 group-hover:text-gray-500 mt-1 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                  </svg>
+                </a>
+              ))}
+
+              <!-- Conclusion card -->
+              <a href="/digital-nomad-wiki/conclusion/" class="flex items-start gap-4 bg-white border border-gray-200 rounded-lg px-5 py-4 hover:border-gray-300 hover:shadow-sm transition-all group">
+                <span class="shrink-0 w-8 h-8 bg-gray-100 group-hover:bg-gray-900 text-gray-600 group-hover:text-white rounded-full flex items-center justify-center text-xs font-bold transition-colors">
+                  ∞
+                </span>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-2 mb-0.5">
+                    <span class="text-xs font-semibold text-gray-400 uppercase tracking-wide">Conclusion</span>
+                  </div>
+                  <p class="text-sm font-semibold text-gray-900 group-hover:text-black mb-1">More Than a Lifestyle — A Movement Reshaping the World</p>
+                  <p class="text-xs text-gray-500 leading-relaxed">A reflection on freedom, purpose, and the future of location-independent living.</p>
+                </div>
+                <svg class="w-4 h-4 shrink-0 text-gray-300 group-hover:text-gray-500 mt-1 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+              </a>
+            </div>
+          </section>
+
+        </div>
+      </main>
+    </div>
+  </div>
+</Layout>

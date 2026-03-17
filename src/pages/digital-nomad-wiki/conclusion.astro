@@ -1,0 +1,129 @@
+---
+export const prerender = true;
+
+import Layout, { type SEOProps } from '~/layouts/Layout.astro';
+import WikiSidebar from '~/components/WikiSidebar.astro';
+
+const seo: SEOProps = {
+  title: 'Conclusion: A Movement Reshaping the World – Digital Nomad Encyclopedia',
+  description: 'The conclusion of the Digital Nomad Encyclopedia — a reflection on freedom, flexibility, and building a life of purpose in a globally connected world.',
+  keywords: 'digital nomad conclusion, nomad movement, digital nomad future, nomad lifestyle guide',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Conclusion: More Than a Lifestyle — A Movement Reshaping the World',
+    description: 'The conclusion of the Digital Nomad Encyclopedia.',
+    url: `${Astro.site}digital-nomad-wiki/conclusion/`,
+    isPartOf: {
+      '@type': 'Book',
+      name: 'Digital Nomad Encyclopedia',
+      url: `${Astro.site}digital-nomad-wiki/`,
+    },
+    author: { '@type': 'Organization', name: 'Nomad Magazine', url: `${Astro.site}` },
+    publisher: { '@type': 'Organization', name: 'Nomad Magazine', url: `${Astro.site}` },
+  },
+};
+---
+
+<Layout seo={seo}>
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-yellow-400 text-black px-3 py-1 rounded text-sm font-medium z-50">Skip to main content</a>
+  <div class="min-h-screen bg-gray-50">
+    <div class="max-w-7xl mx-auto flex">
+      <WikiSidebar currentChapter={13} />
+
+      <main id="main-content" class="flex-1 min-w-0">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 py-8 lg:py-12">
+
+          <!-- Breadcrumb -->
+          <nav class="flex items-center gap-2 text-xs text-gray-500 mb-8" aria-label="Breadcrumb">
+            <a href="/digital-nomad-wiki/" class="hover:text-gray-700">Encyclopedia</a>
+            <span aria-hidden="true">›</span>
+            <span class="text-gray-700 font-medium">Conclusion</span>
+          </nav>
+
+<!-- Conclusion: More Than a Lifestyle—A Movement Reshaping the World -->
+<section id="conclusion-movement" class="mb-16">
+  <div class="prose prose-lg max-w-none">
+    <div class="mb-8">
+      <span class="inline-block bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm font-medium mb-4">
+        Conclusion
+      </span>
+      <h1 class="text-3xl font-bold text-gray-900 mb-4">
+        More Than a Lifestyle—A Movement Reshaping the World
+      </h1>
+    </div>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-6">
+      <p>
+        Digital nomadism is no longer a fringe experiment. It's a powerful reimagining of how we live, work, connect, and grow. What began as a rebellion against the 9-to-5 has evolved into a legitimate global lifestyle, supported by infrastructure, policies, and culture.
+      </p>
+      
+      <p>
+        It's also a mirror.
+      </p>
+      
+      <p>
+        A mirror reflecting our collective search for freedom, flexibility, creativity, and community in an increasingly uncertain world.
+      </p>
+      
+      <p>
+        Through this guide, we've traveled through the origins and evolution of the movement, explored the practicalities of work and wellness on the road, unpacked criticisms and challenges, and looked ahead to a future that's more connected, mobile, and ethically aware.
+      </p>
+      
+      <p>
+        Whether you're a traveler, entrepreneur, policymaker, or simply someone who dreams of more freedom, the digital nomad lifestyle offers a powerful blueprint—not just for escape, but for transformation.
+      </p>
+      
+      <ul class="space-y-2 list-disc pl-6">
+        <li>It encourages us to live intentionally.</li>
+        <li>To question the boundaries that once confined us.</li>
+        <li>To explore ways of working that support life—not the other way around.</li>
+        <li>And to recognize that a fulfilling, flexible, globally aware life is not only possible—but within reach.</li>
+      </ul>
+      
+      <p>
+        So whether you're ready to pack your bags or still building your runway, know this:
+      </p>
+      
+      <div class="bg-linear-to-r from-blue-50 to-purple-50 border-l-4 border-blue-400 p-6 my-8 text-center">
+        <p class="text-xl font-medium text-blue-900 mb-4">
+          The nomad movement isn't about running away. It's about moving forward—toward a life that fits you, a world that feels smaller, and a future built on purpose.
+        </p>
+        <p class="text-lg text-blue-800">
+          And your journey is just beginning.
+        </p>
+        <p class="text-2xl font-bold text-blue-900 mt-4">
+          Safe travels.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+          <!-- Prev / Next Navigation -->
+          <div class="flex items-center justify-between gap-4 mt-16 pt-8 border-t border-gray-200">
+            <a href="/digital-nomad-wiki/chapter-12/" class="flex items-center gap-2 px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors">
+              <svg class="w-4 h-4 shrink-0 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+              <span><span class="block text-xs text-gray-400">Chapter 12</span><span class="font-medium">Entering the Market</span></span>
+            </a>
+            <a href="/digital-nomad-wiki/" class="flex items-center gap-2 px-4 py-3 bg-yellow-400 hover:bg-yellow-500 text-black rounded-lg text-sm font-semibold transition-colors ml-auto">
+              Back to Overview →
+            </a>
+          </div>
+
+          <!-- Suggest Edit -->
+          <div class="mt-6 text-right">
+            <a href="mailto:hey@nomad-magazine.com?subject=Wiki%20Edit%20-%20Conclusion"
+              class="inline-flex items-center text-xs text-gray-400 hover:text-gray-600 transition-colors">
+              <svg class="mr-1 h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+              </svg>
+              Suggest an Edit
+            </a>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</Layout>

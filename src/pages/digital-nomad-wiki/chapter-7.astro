@@ -1,0 +1,341 @@
+---
+export const prerender = true;
+
+import Layout, { type SEOProps } from '~/layouts/Layout.astro';
+import WikiSidebar from '~/components/WikiSidebar.astro';
+
+const seo: SEOProps = {
+  title: 'Chapter 7: Money Matters – Digital Nomad Encyclopedia',
+  description: 'How digital nomads earn, manage money, leverage geoarbitrage, bank across borders, handle taxes, and plan for the future.',
+  keywords: 'digital nomad finances, digital nomad guide chapter 7, money matters, nomad encyclopedia',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Chapter 7: Money Matters',
+    description: 'How digital nomads earn, manage money, leverage geoarbitrage, bank across borders, handle taxes, and plan for the future.',
+    url: `${Astro.site}digital-nomad-wiki/chapter-7/`,
+    isPartOf: {
+      '@type': 'Book',
+      name: 'Digital Nomad Encyclopedia',
+      url: `${Astro.site}digital-nomad-wiki/`,
+    },
+    author: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      url: `${Astro.site}`,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      url: `${Astro.site}`,
+    },
+  },
+};
+---
+
+<Layout seo={seo}>
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-yellow-400 text-black px-3 py-1 rounded text-sm font-medium z-50">Skip to main content</a>
+  <div class="min-h-screen bg-gray-50">
+    <div class="max-w-7xl mx-auto flex">
+      <WikiSidebar currentChapter={7} />
+
+      <main id="main-content" class="flex-1 min-w-0">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 py-8 lg:py-12">
+
+          <!-- Breadcrumb -->
+          <nav class="flex items-center gap-2 text-xs text-gray-500 mb-8" aria-label="Breadcrumb">
+            <a href="/digital-nomad-wiki/" class="hover:text-gray-700">Encyclopedia</a>
+            <span aria-hidden="true">›</span>
+            <span class="text-gray-700 font-medium">Chapter 7</span>
+          </nav>
+
+<!-- Chapter 7: Money Matters -->
+<section id="money-matters" class="mb-16">
+  <div class="prose prose-lg max-w-none">
+    <div class="mb-8">
+      <span class="inline-block bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-sm font-medium mb-4">
+        Chapter 7
+      </span>
+      <h1 class="text-3xl font-bold text-gray-900 mb-4">
+        Money Matters
+      </h1>
+    </div>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-6">
+      <p>
+        Behind the lifestyle images of sunsets and surfboards lies the practical reality: money fuels freedom. Whether you're freelancing from Vietnam or running a SaaS startup from Portugal, financial clarity and management are essential to a sustainable nomadic life. In this chapter, we explore how digital nomads earn, save, invest, and spend their money around the world.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- How Digital Nomads Earn -->
+<section id="how-nomads-earn" class="mb-12">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-6">How Digital Nomads Earn</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-6">
+      <p>
+        Nomads have diverse income sources. Some work full-time for remote companies. Others juggle multiple freelance contracts. Many run online businesses or monetize their lifestyle through content.
+      </p>
+      
+      <h4 class="text-xl font-semibold text-gray-900 mb-4">Popular Income Streams:</h4>
+      
+      <div class="space-y-4">
+        <div>
+          <h5 class="text-lg font-semibold text-gray-900 mb-2">Freelancing</h5>
+          <p>Writing, design, web development, SEO, marketing, and virtual assistance. Platforms like Upwork, Fiverr, and Toptal offer job access.</p>
+        </div>
+        
+        <div>
+          <h5 class="text-lg font-semibold text-gray-900 mb-2">Remote Employment</h5>
+          <p>Full-time remote jobs in tech, customer support, sales, and education. Sites like We Work Remotely and Remote OK list openings.</p>
+        </div>
+        
+        <div>
+          <h5 class="text-lg font-semibold text-gray-900 mb-2">Online Business</h5>
+          <p>eCommerce (Shopify, Amazon FBA), affiliate marketing, dropshipping, or creating digital products (courses, templates).</p>
+        </div>
+        
+        <div>
+          <h5 class="text-lg font-semibold text-gray-900 mb-2">Consulting & Coaching</h5>
+          <p>Professionals offer services in productivity, leadership, branding, or wellness, often via Zoom.</p>
+        </div>
+        
+        <div>
+          <h5 class="text-lg font-semibold text-gray-900 mb-2">Content Creation</h5>
+          <p>Bloggers, YouTubers, podcasters, and Instagrammers monetize through ads, sponsorships, and memberships (via Patreon, Substack, or Buy Me a Coffee).</p>
+        </div>
+        
+        <div>
+          <h5 class="text-lg font-semibold text-gray-900 mb-2">Investments</h5>
+          <p>Some nomads supplement income with crypto, stocks, or rental property earnings.</p>
+        </div>
+      </div>
+      
+      <p>
+        Many combine streams for stability. A writer might freelance and sell an online course. A developer might build products while working part-time. Learn more about <a href="/blog/the-business-of-being-a-digital-nomad-freelancers-startups-and-remote-entrepreneurs/" class="text-gray-800 hover:text-gray-900 underline">building multiple income streams</a> as a nomad.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Geoarbitrage: Earning High, Spending Low -->
+<section id="geoarbitrage" class="mb-12">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-6">Geoarbitrage: Earning High, Spending Low</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-6">
+      <p>
+        Geoarbitrage—the practice of earning in a strong currency and spending in a weaker one—is a financial superpower for nomads.
+      </p>
+      
+      <div class="bg-emerald-50 border-l-4 border-emerald-400 p-4 my-6">
+        <p class="text-emerald-800">
+          <strong>Example:</strong> A UX designer making $5,000/month from U.S. clients might live in Mexico for $1,500/month, saving $3,500 while enjoying a high standard of living.
+        </p>
+      </div>
+      
+      <p>
+        This is one of the biggest draws of the lifestyle. It enables:
+      </p>
+      
+      <ul class="space-y-2 list-disc pl-6">
+        <li>Faster debt payoff</li>
+        <li>Increased savings/investment rates</li>
+        <li>Access to luxuries that might be unaffordable at home</li>
+      </ul>
+      
+      <p>
+        Of course, not all countries are "cheap." Cities like Tokyo or Zürich require high incomes. Nomads often choose destinations that match their financial situation.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Banking and Budgeting -->
+<section id="banking-budgeting" class="mb-12">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-6">Banking and Budgeting</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-6">
+      <p>
+        Managing finances across countries requires flexible tools.
+      </p>
+      
+      <h4 class="text-xl font-semibold text-gray-900 mb-4">Banking Options:</h4>
+      
+      <ul class="space-y-3 list-disc pl-6">
+        <li><strong><a href="/blog/15-essential-apps-for-digital-nomads-in-2025/" class="text-gray-800 hover:text-gray-900 underline">Wise</a> (formerly TransferWise):</strong> Multi-currency accounts, cheap transfers, global debit card.</li>
+        <li><strong><a href="https://revolut.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Revolut</a>:</strong> Real-time currency conversion, crypto access, stock trading, and budgeting tools.</li>
+        <li><strong><a href="https://n26.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">N26</a>:</strong> Digital-first European bank with sleek UX and fee-free international spending.</li>
+        <li><strong><a href="https://payoneer.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Payoneer</a>:</strong> Used by freelancers receiving payments from global platforms.</li>
+      </ul>
+      
+      <p>
+        Some nomads maintain a "home base" bank in their country of origin while using fintech accounts for daily expenses.
+      </p>
+      
+      <h4 class="text-xl font-semibold text-gray-900 mb-4">Budgeting Tools:</h4>
+      
+      <ul class="space-y-2 list-disc pl-6">
+        <li><strong><a href="https://youneedabudget.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">YNAB (You Need A Budget)</a>:</strong> Great for assigning every dollar a job.</li>
+        <li><strong><a href="https://trail-wallet.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Trail Wallet</a>:</strong> Expense tracking tailored for travelers.</li>
+        <li><strong><a href="https://monarchmoney.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Monarch</a>:</strong> Visual budgeting with collaborative features for couples or teams.</li>
+      </ul>
+      
+      <p>
+        Budgeting is essential. It's easy to overspend when constantly on the move, eating out, or booking last-minute flights. For comprehensive financial advice, read our <a href="/blog/the-business-of-being-a-digital-nomad-freelancers-startups-and-remote-entrepreneurs/" class="text-gray-800 hover:text-gray-900 underline">guide to nomad business and finances</a>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Taxes and Accounting -->
+<section id="taxes-accounting" class="mb-12">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-6">Taxes and Accounting</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-4">
+      <p>
+        Nomads often hire accountants specializing in international or expat tax law. U.S. citizens, for example, must file taxes no matter where they live.
+      </p>
+      
+      <p>
+        Helpful services include:
+      </p>
+      
+      <ul class="space-y-2 list-disc pl-6">
+        <li><a href="https://taxesforexpats.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Taxes for Expats</a></li>
+        <li><a href="https://heavnn.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Heavnn</a></li>
+        <li><a href="https://greenbacktaxservices.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Greenback Tax Services</a></li>
+      </ul>
+      
+      <p>
+        Many nomads form LLCs or corporations in low-tax jurisdictions. Estonian e-Residency is popular for EU business access without local residency.
+      </p>
+      
+      <p>
+        Keeping receipts, logging income, and documenting entry/exit dates helps clarify tax residency and deductions.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Insurance and Emergency Funds -->
+<section id="insurance-emergency" class="mb-12">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-6">Insurance and Emergency Funds</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-6">
+      <p>
+        Financial resilience is vital. Nomads often face:
+      </p>
+      
+      <ul class="space-y-2 list-disc pl-6">
+        <li>Lost flights</li>
+        <li>Emergency medical bills</li>
+        <li>Equipment theft or damage</li>
+        <li>Family emergencies requiring travel</li>
+      </ul>
+      
+      <p>
+        A robust emergency fund (3–6 months of expenses) and a reliable insurance policy (health, gear, liability) are non-negotiables. For detailed insurance guidance, see our <a href="/blog/ultimate-guide-to-travel-insurance-for-digital-nomads/" class="text-gray-800 hover:text-gray-900 underline">comprehensive insurance guide</a>.
+      </p>
+      
+      <p>
+        <a href="/blog/ultimate-guide-to-travel-insurance-for-digital-nomads/" class="text-gray-800 hover:text-gray-900 underline">SafetyWing</a> and World Nomads offer emergency evacuation, hospital coverage, and limited electronics protection. Some policies now cover COVID-19 and mental health.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Investment and Retirement Planning -->
+<section id="investment-retirement" class="mb-12">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-6">Investment and Retirement Planning</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-6">
+      <p>
+        Nomads can still build wealth for the long term:
+      </p>
+      
+      <ul class="space-y-2 list-disc pl-6">
+        <li>Index funds via platforms like <a href="https://vanguard.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Vanguard</a> or <a href="https://interactivebrokers.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Interactive Brokers</a></li>
+        <li>Cryptocurrencies for speculative investment or decentralized transactions</li>
+        <li>Real estate in home countries or investment destinations</li>
+        <li>Retirement accounts like IRAs, SIPPs, or tax-deferred plans</li>
+      </ul>
+      
+      <p>
+        However, mobile lifestyles make consistent contributions harder. Nomads must self-motivate to invest regularly and plan for old age.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Challenges and Mindset -->
+<section id="financial-challenges" class="mb-16">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-6">Challenges and Mindset</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-6">
+      <h4 class="text-xl font-semibold text-gray-900 mb-4">Common financial challenges:</h4>
+      
+      <ul class="space-y-2 list-disc pl-6">
+        <li>Inconsistent income (especially for freelancers)</li>
+        <li>Currency fluctuations</li>
+        <li>Delayed payments from international clients</li>
+        <li>Fear of losing everything due to instability</li>
+      </ul>
+      
+      <h4 class="text-xl font-semibold text-gray-900 mb-4">Overcoming these requires:</h4>
+      
+      <ul class="space-y-2 list-disc pl-6">
+        <li>Diversification of income</li>
+        <li>Maintaining a buffer (financial runway)</li>
+        <li>Cultivating a proactive, abundance-oriented money mindset</li>
+        <li>Seeking support via nomad finance communities</li>
+      </ul>
+      
+      <div class="bg-emerald-50 border-l-4 border-emerald-400 p-4 my-6">
+        <p class="text-emerald-800">
+          <strong>Key Takeaway:</strong> Money might not be the most glamorous part of the nomad lifestyle, but it is the foundation. With healthy habits, solid tools, and clear goals, digital nomads can build lives that are not only rich in experience—but financially secure, too.
+        </p>
+      </div>
+      
+      <p>
+        In the next chapter, we'll look at the human side of this lifestyle: how to stay balanced, grounded, and well while constantly on the move.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+          <!-- Prev / Next Navigation -->
+          <div class="flex items-center justify-between gap-4 mt-16 pt-8 border-t border-gray-200">
+            <a href="/digital-nomad-wiki/chapter-6/" class="flex items-center gap-2 px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors max-w-[48%]">
+              <svg class="w-4 h-4 shrink-0 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+              <span><span class="block text-xs text-gray-400">Chapter 6</span><span class="font-medium">Legal Life and Visas</span></span>
+            </a>
+            <a href="/digital-nomad-wiki/chapter-8/" class="flex items-center gap-2 px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors max-w-[48%] text-right ml-auto">
+              <span><span class="block text-xs text-gray-400">Chapter 8</span><span class="font-medium">Life on the Move</span></span>
+              <svg class="w-4 h-4 shrink-0 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+
+          <!-- Suggest Edit -->
+          <div class="mt-6 text-right">
+            <a href="mailto:hey@nomad-magazine.com?subject=Wiki%20Edit%20-%20Chapter%207&body=Chapter%3A%20Chapter%207%20-%20Money%20Matters%0ASection%3A%20%0AProposed%20Change%3A%20%0AReason%3A%20"
+              class="inline-flex items-center text-xs text-gray-400 hover:text-gray-600 transition-colors">
+              <svg class="mr-1 h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+              </svg>
+              Suggest an Edit
+            </a>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</Layout>

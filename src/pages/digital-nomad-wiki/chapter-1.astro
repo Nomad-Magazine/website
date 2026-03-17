@@ -1,0 +1,258 @@
+---
+export const prerender = true;
+
+import Layout, { type SEOProps } from '~/layouts/Layout.astro';
+import WikiSidebar from '~/components/WikiSidebar.astro';
+
+const seo: SEOProps = {
+  title: 'Chapter 1: What Is the Digital Nomad Lifestyle? – Digital Nomad Encyclopedia',
+  description: 'Learn what the digital nomad lifestyle really means — from economic autonomy and temporal flexibility to global citizenship and who it is for.',
+  keywords: 'digital nomad the lifestyle, digital nomad guide chapter 1, what is the digital nomad lifestyle?, nomad encyclopedia',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Chapter 1: What Is the Digital Nomad Lifestyle?',
+    description: 'Learn what the digital nomad lifestyle really means — from economic autonomy and temporal flexibility to global citizenship and who it is for.',
+    url: `${Astro.site}digital-nomad-wiki/chapter-1/`,
+    isPartOf: {
+      '@type': 'Book',
+      name: 'Digital Nomad Encyclopedia',
+      url: `${Astro.site}digital-nomad-wiki/`,
+    },
+    author: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      url: `${Astro.site}`,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      url: `${Astro.site}`,
+    },
+  },
+};
+---
+
+<Layout seo={seo}>
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-yellow-400 text-black px-3 py-1 rounded text-sm font-medium z-50">Skip to main content</a>
+  <div class="min-h-screen bg-gray-50">
+    <div class="max-w-7xl mx-auto flex">
+      <WikiSidebar currentChapter={1} />
+
+      <main id="main-content" class="flex-1 min-w-0">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 py-8 lg:py-12">
+
+          <!-- Breadcrumb -->
+          <nav class="flex items-center gap-2 text-xs text-gray-500 mb-8" aria-label="Breadcrumb">
+            <a href="/digital-nomad-wiki/" class="hover:text-gray-700">Encyclopedia</a>
+            <span aria-hidden="true">›</span>
+            <span class="text-gray-700 font-medium">Chapter 1</span>
+          </nav>
+
+<!-- Chapter 1: What Is the Digital Nomad Lifestyle? -->
+<section id="what-is-digital-nomadism" class="mb-16">
+  <div class="prose prose-lg max-w-none">
+    <div class="mb-8">
+      <span class="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium mb-4">
+        Chapter 1
+      </span>
+      <h1 class="text-3xl font-bold text-gray-900 mb-4">
+        What Is the Digital Nomad Lifestyle?
+      </h1>
+    </div>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-6">
+      <p>
+        A digital nomad is someone who earns a living online while traveling or living in different parts of the world. This lifestyle is built on the foundation of location independence—being able to work from anywhere with a decent Wi-Fi connection. It's not limited to any specific profession. Writers, developers, marketers, consultants, language tutors, designers, and even therapists can—and do—live this way.
+      </p>
+      
+      <p>
+        At first glance, it might look like a vacation that never ends. Instagram has glamorized the lifestyle with images of laptops on the beach, avocado toasts, and infinity pools. But the real picture is more nuanced. This is a lifestyle of trade-offs—freedom vs. stability, flexibility vs. routine, adventure vs. isolation.
+      </p>
+      
+      <p>
+        Digital nomadism is more than working remotely. It's a value system. People who choose this lifestyle tend to seek personal growth, cultural immersion, and a deeper sense of autonomy. Many reject traditional ideas of success, seeking instead a way to live and work on their own terms.
+      </p>
+      
+      <p>
+        To understand it fully, you need to break down the different layers:
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Economic Autonomy -->
+<section id="economic-autonomy" class="mb-12">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-4">1. Economic Autonomy</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-4">
+      <p>
+        Digital nomads often earn in currencies that have more value than the ones used where they live, allowing them to stretch their money further and build savings faster. This is called <strong>geoarbitrage</strong>—a central pillar of nomadic finances.
+      </p>
+      
+      <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 my-6">
+        <p class="text-yellow-800">
+          <strong>Example:</strong> A freelance designer earning $4,000/month USD might live comfortably in Medellín, Colombia, for $1,200/month while saving the rest.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Temporal Flexibility -->
+<section id="temporal-flexibility" class="mb-12">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-4">2. Temporal Flexibility</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-4">
+      <p>
+        Many nomads set their own schedules. This isn't just about avoiding rush hour—it's about choosing when to work, where, and how much. Some work traditional hours, others structure their weeks around surf lessons or sunrise hikes.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Lifestyle Design -->
+<section id="lifestyle-design" class="mb-12">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-4">3. Lifestyle Design</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-4">
+      <p>
+        The core idea of digital nomadism is designing your life proactively rather than fitting into a societal mold. It's about aligning daily choices with personal values, whether that means working from a hammock in Thailand or volunteering in Eastern Europe.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Adaptability -->
+<section id="adaptability" class="mb-12">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-4">4. Adaptability</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-4">
+      <p>
+        Life on the road requires quick thinking, resourcefulness, and a willingness to embrace uncertainty. Missed flights, visa issues, language barriers, and unstable Wi-Fi all become part of the learning curve. In turn, nomads often develop a higher tolerance for ambiguity and stronger problem-solving skills.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Global Citizenship -->
+<section id="global-citizenship" class="mb-12">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-4">5. Global Citizenship</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-4">
+      <p>
+        Digital nomads tend to see the world as interconnected. Their travels often bring greater empathy, exposure to different cultural norms, and a desire to contribute more consciously. They might learn local languages, support small businesses, or volunteer their skills.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Daily Life as a Digital Nomad -->
+<section id="daily-life" class="mb-12">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-6">Daily Life as a Digital Nomad</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-4">
+      <p>
+        A "typical" day is hard to define, but it usually blends work, exploration, and self-care. In Bali, you might start with yoga, then work from a coworking space, take a break for smoothie bowls, and spend your evening networking at a local event. In Lisbon, you could work from cafés and join fellow nomads for a sunset meetup.
+      </p>
+      
+      <p>
+        Many nomads develop routines that anchor them despite constant change—morning rituals, coworking schedules, or daily calls with loved ones.
+      </p>
+      
+      <p>
+        But the biggest shift is internal: a realization that life doesn't have to follow a linear path. That home is a mindset. That the best productivity hack is doing what you love, where you love to be.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Who Is It For? -->
+<section id="who-is-it-for" class="mb-12">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-6">Who Is It For?</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-4">
+      <p>
+        Not everyone thrives in this lifestyle. You need:
+      </p>
+      
+      <ul class="space-y-2 list-disc pl-6">
+        <li>A reliable income stream (remote job, freelance work, or online business)</li>
+        <li>Self-discipline and time management</li>
+        <li>An appetite for uncertainty and new experiences</li>
+        <li>Tech savviness and comfort with digital tools</li>
+        <li>An ability to form and maintain relationships on the move</li>
+      </ul>
+      
+      <p>
+        Those who flourish often value autonomy, curiosity, and self-growth more than status, routine, or material comfort.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Digital Nomadism vs. Remote Work -->
+<section id="nomadism-vs-remote-work" class="mb-16">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-6">Digital Nomadism vs. Remote Work</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-4">
+      <p>
+        All digital nomads are remote workers, but not all remote workers are nomads. Some remote employees work from a fixed home. What makes someone a digital nomad is the intentional choice to stay mobile while maintaining an income.
+      </p>
+      
+      <p>
+        It's a continuum, not a binary. Some nomads travel full-time; others rotate between "home bases" and nomadic periods. Some take breaks or settle down eventually. What unites them is the belief that work doesn't have to happen in one place—and neither does life.
+      </p>
+    </div>
+  </div>
+  
+  <!-- Chapter 1 Edit Suggestion -->
+  <div class="mt-8 text-right">
+    <a 
+      href="mailto:hey@nomad-magazine.com?subject=Digital%20Nomad%20Wiki%20-%20Chapter%201%20Edit%20Suggestion&body=Hi%20there%2C%0A%0AI%20have%20an%20edit%20suggestion%20for%20Chapter%201%20-%20What%20Is%20the%20Digital%20Nomad%20Lifestyle%3F%0A%0ASection%3A%20%0AProposed%20Change%3A%20%0AReason%3A%20%0A%0AThanks%21"
+      class="inline-flex items-center text-xs text-gray-500 hover:text-gray-700 transition-colors"
+    >
+      <svg class="mr-1 h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+      </svg>
+      Suggest an Edit
+    </a>
+  </div>
+</section>
+
+
+          <!-- Prev / Next Navigation -->
+          <div class="flex items-center justify-between gap-4 mt-16 pt-8 border-t border-gray-200">
+            <a href="/digital-nomad-wiki/" class="flex items-center gap-2 px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors max-w-[48%]">
+              <svg class="w-4 h-4 shrink-0 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+              <span><span class="block text-xs text-gray-400">Introduction</span><span class="font-medium">Introduction</span></span>
+            </a>
+            <a href="/digital-nomad-wiki/chapter-2/" class="flex items-center gap-2 px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors max-w-[48%] text-right ml-auto">
+              <span><span class="block text-xs text-gray-400">Chapter 2</span><span class="font-medium">A Brief History of Digital Nomadism</span></span>
+              <svg class="w-4 h-4 shrink-0 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+
+          <!-- Suggest Edit -->
+          <div class="mt-6 text-right">
+            <a href="mailto:hey@nomad-magazine.com?subject=Wiki%20Edit%20-%20Chapter%201&body=Chapter%3A%20Chapter%201%20-%20What%20Is%20the%20Digital%20Nomad%20Lifestyle%3F%0ASection%3A%20%0AProposed%20Change%3A%20%0AReason%3A%20"
+              class="inline-flex items-center text-xs text-gray-400 hover:text-gray-600 transition-colors">
+              <svg class="mr-1 h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+              </svg>
+              Suggest an Edit
+            </a>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</Layout>

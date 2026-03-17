@@ -1,0 +1,318 @@
+---
+export const prerender = true;
+
+import Layout, { type SEOProps } from '~/layouts/Layout.astro';
+import WikiSidebar from '~/components/WikiSidebar.astro';
+
+const seo: SEOProps = {
+  title: 'Chapter 6: Legal Life and Visas – Digital Nomad Encyclopedia',
+  description: 'A complete guide to digital nomad visas, tax residency, banking, health insurance, and staying legally compliant on the road.',
+  keywords: 'digital nomad visas & law, digital nomad guide chapter 6, legal life and visas, nomad encyclopedia',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Chapter 6: Legal Life and Visas',
+    description: 'A complete guide to digital nomad visas, tax residency, banking, health insurance, and staying legally compliant on the road.',
+    url: `${Astro.site}digital-nomad-wiki/chapter-6/`,
+    isPartOf: {
+      '@type': 'Book',
+      name: 'Digital Nomad Encyclopedia',
+      url: `${Astro.site}digital-nomad-wiki/`,
+    },
+    author: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      url: `${Astro.site}`,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      url: `${Astro.site}`,
+    },
+  },
+};
+---
+
+<Layout seo={seo}>
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-yellow-400 text-black px-3 py-1 rounded text-sm font-medium z-50">Skip to main content</a>
+  <div class="min-h-screen bg-gray-50">
+    <div class="max-w-7xl mx-auto flex">
+      <WikiSidebar currentChapter={6} />
+
+      <main id="main-content" class="flex-1 min-w-0">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 py-8 lg:py-12">
+
+          <!-- Breadcrumb -->
+          <nav class="flex items-center gap-2 text-xs text-gray-500 mb-8" aria-label="Breadcrumb">
+            <a href="/digital-nomad-wiki/" class="hover:text-gray-700">Encyclopedia</a>
+            <span aria-hidden="true">›</span>
+            <span class="text-gray-700 font-medium">Chapter 6</span>
+          </nav>
+
+<!-- Chapter 6: Legal Life and Visas -->
+<section id="legal-life-visas" class="mb-16">
+  <div class="prose prose-lg max-w-none">
+    <div class="mb-8">
+      <span class="inline-block bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-medium mb-4">
+        Chapter 6
+      </span>
+      <h1 class="text-3xl font-bold text-gray-900 mb-4">
+        Legal Life and Visas
+      </h1>
+    </div>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-6">
+      <p>
+        As digital nomadism moves from fringe to mainstream, the need for legal clarity becomes increasingly urgent. For years, nomads lived in legal gray zones—working online while holding tourist visas, managing taxes loosely, and flying under the radar of immigration systems. But this is changing.
+      </p>
+      
+      <p>
+        Governments, recognizing the economic opportunity presented by remote workers who earn abroad and spend locally, are crafting new policies to attract them. In this chapter, we explore the legal structures that are evolving to support—or sometimes complicate—the digital nomad lifestyle.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- The Visa Problem -->
+<section id="visa-problem" class="mb-12">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-6">The Visa Problem</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-6">
+      <p>
+        For much of digital nomad history, the standard practice was "visa runs." A nomad might live in Thailand on a 60-day tourist visa, then hop to Malaysia for a weekend before returning for another round. This approach—common in Southeast Asia, Latin America, and parts of Eastern Europe—was never technically legal for remote workers, but it was tolerated.
+      </p>
+      
+      <p>
+        However, prolonged tourist stays without proper documentation can be risky:
+      </p>
+      
+      <ul class="space-y-2 list-disc pl-6">
+        <li>You may violate immigration laws.</li>
+        <li>Overstays can result in fines, deportation, or bans.</li>
+        <li>Lack of clarity creates uncertainty around health insurance, housing, and taxation.</li>
+      </ul>
+      
+      <p>
+        As the lifestyle gained legitimacy, many governments began addressing these issues with tailored visa options.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Digital Nomad Visas: A Growing Trend -->
+<section id="digital-nomad-visas" class="mb-12">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-6">Digital Nomad Visas: A Growing Trend</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-6">
+      <p>
+        In recent years, dozens of countries have launched visa programs designed specifically for digital nomads. These visas typically allow remote workers to stay for extended periods—6 to 24 months—without converting their status into permanent residency or requiring local employment.
+      </p>
+      
+      <h4 class="text-xl font-semibold text-gray-900 mb-4">Notable Programs Include:</h4>
+      
+      <div class="space-y-4">
+        <div>
+          <h5 class="text-lg font-semibold text-gray-900 mb-2">Estonia</h5>
+          <p>First to launch a dedicated Digital Nomad Visa (2020). Requires proof of remote income and allows a 12-month stay.</p>
+        </div>
+        
+        <div>
+          <h5 class="text-lg font-semibold text-gray-900 mb-2">Portugal</h5>
+          <p>Offers the D7 Passive Income Visa and a specific digital nomad visa with attractive residency options.</p>
+        </div>
+        
+        <div>
+          <h5 class="text-lg font-semibold text-gray-900 mb-2">Croatia</h5>
+          <p>12-month digital nomad visa, income requirement of approx. €2,300/month.</p>
+        </div>
+        
+        <div>
+          <h5 class="text-lg font-semibold text-gray-900 mb-2">Barbados</h5>
+          <p>12-month "Welcome Stamp," ideal for North Americans looking to work from the Caribbean.</p>
+        </div>
+        
+        <div>
+          <h5 class="text-lg font-semibold text-gray-900 mb-2">Georgia</h5>
+          <p>Remotely from Georgia program (open to 95+ nationalities) with visa-free stay up to one year.</p>
+        </div>
+        
+        <div>
+          <h5 class="text-lg font-semibold text-gray-900 mb-2">Mexico</h5>
+          <p>While not branded as a nomad visa, Mexico's 180-day tourist visa and temporary resident visa make it extremely nomad-friendly.</p>
+        </div>
+      </div>
+      
+      <div class="bg-indigo-50 border-l-4 border-indigo-400 p-4 my-6">
+        <h5 class="text-lg font-semibold text-indigo-800 mb-2">These programs typically require:</h5>
+        <ul class="space-y-1 text-indigo-800 list-disc pl-6">
+          <li>Proof of stable monthly income (ranges from $1,500 to $4,000 USD)</li>
+          <li>Health insurance coverage</li>
+          <li>Clean criminal background checks</li>
+          <li>Application fees and documentation</li>
+        </ul>
+      </div>
+      
+      <p>
+        Some visas are renewable. Others may serve as a pathway to long-term residency, depending on the country's legal framework.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Taxation and Residency -->
+<section id="taxation-residency" class="mb-12">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-6">Taxation and Residency</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-6">
+      <p>
+        One of the trickiest aspects of nomad life is figuring out where (and whether) to pay taxes. Key terms to understand include:
+      </p>
+      
+      <div class="space-y-4">
+        <div>
+          <h5 class="text-lg font-semibold text-gray-900 mb-2">Tax Residency</h5>
+          <p>Usually triggered by spending more than 183 days in a country. If you're tax resident, you may owe taxes on your global income there.</p>
+        </div>
+        
+        <div>
+          <h5 class="text-lg font-semibold text-gray-900 mb-2">Non-Domiciled Status</h5>
+          <p>Some countries (like Portugal, under the NHR scheme) offer special tax treatment to foreign residents.</p>
+        </div>
+        
+        <div>
+          <h5 class="text-lg font-semibold text-gray-900 mb-2">Territorial Taxation</h5>
+          <p>Countries like Georgia, Panama, and Costa Rica tax only local income—so foreign income may be tax-free.</p>
+        </div>
+        
+        <div>
+          <h5 class="text-lg font-semibold text-gray-900 mb-2">Treaty Protection</h5>
+          <p>Double taxation treaties prevent you from being taxed twice on the same income, but they require paperwork and awareness.</p>
+        </div>
+      </div>
+      
+      <p>
+        Many nomads hire international tax consultants or use firms like <a href="https://nomadcapitalist.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Nomad Capitalist</a>, <a href="https://www.heavnn.io/" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Heavnn</a>, <a href="https://www.entity.inc/" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Entity Inc.</a>, or <a href="https://taxesforexpats.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">Taxes for Expats</a> to navigate this.
+      </p>
+      
+      <p>
+        Cryptocurrency income, remote stock options, and consulting fees can further complicate the picture—especially when laws vary widely across borders.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Banking and Business Entities -->
+<section id="banking-business" class="mb-12">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-6">Banking and Business Entities</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-6">
+      <p>
+        Establishing legal and financial infrastructure helps nomads manage income and expenses across borders.
+      </p>
+      
+      <div class="space-y-4">
+        <div>
+          <h5 class="text-lg font-semibold text-gray-900 mb-2">Banking</h5>
+          <p>Fintech services like Wise, Revolut, Payoneer, and N26 provide borderless banking with multi-currency support.</p>
+        </div>
+        
+        <div>
+          <h5 class="text-lg font-semibold text-gray-900 mb-2">Business Registration</h5>
+          <p>Some nomads register companies in Estonia (via e-Residency), the US (Wyoming/Delaware LLCs), or the UK to bill clients and handle contracts.</p>
+        </div>
+        
+        <div>
+          <h5 class="text-lg font-semibold text-gray-900 mb-2">Mailing Addresses</h5>
+          <p>Services like Earth Class Mail or virtual offices help maintain an official address for legal and tax purposes.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Health Insurance and Legal Coverage -->
+<section id="health-insurance-legal" class="mb-12">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-6">Health Insurance and Legal Coverage</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-4">
+      <p>
+        Traditional travel insurance often excludes long-term travel and remote work. Nomads now rely on:
+      </p>
+      
+      <ul class="space-y-3 list-disc pl-6">
+        <li><strong><a href="/blog/ultimate-guide-to-travel-insurance-for-digital-nomads/" class="text-gray-800 hover:text-gray-900 underline">SafetyWing</a>:</strong> Offers global health plans and COVID-19 coverage.</li>
+        <li><strong>Remote Health:</strong> Tailored to remote teams and long-term workers.</li>
+        <li><strong><a href="https://imglobal.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">IMG Global</a> and <a href="https://worldnomads.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-gray-900 underline">World Nomads</a>:</strong> Trusted for longer-term expat-style insurance.</li>
+      </ul>
+      
+      <p>
+        Some plans cover legal issues, stolen gear, and emergency evacuation.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Staying Legal on the Road -->
+<section id="staying-legal" class="mb-16">
+  <div class="prose prose-lg max-w-none">
+    <h3 class="text-2xl font-bold text-gray-900 mb-6">Staying Legal on the Road</h3>
+    
+    <div class="text-lg text-gray-700 leading-relaxed space-y-6">
+      <p>
+        While many nomads still take a flexible, semi-legal approach, the safest strategy is:
+      </p>
+      
+      <ul class="space-y-2 list-disc pl-6">
+        <li>Know your visa terms.</li>
+        <li>Avoid overstays.</li>
+        <li>Research tax rules based on how long you stay.</li>
+        <li>Keep clean records of entry/exit dates.</li>
+        <li>Use local SIM cards, addresses, and bank accounts with care.</li>
+      </ul>
+      
+      <p>
+        Being legally stable can unlock new benefits: access to banking, real estate, investments, healthcare, and peace of mind.
+      </p>
+      
+      <div class="bg-indigo-50 border-l-4 border-indigo-400 p-4 my-6">
+        <p class="text-indigo-800">
+          <strong>Next Up:</strong> In the next chapter, we'll explore the financial backbone of nomadism—how digital nomads earn, manage, and multiply their money across the world.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+          <!-- Prev / Next Navigation -->
+          <div class="flex items-center justify-between gap-4 mt-16 pt-8 border-t border-gray-200">
+            <a href="/digital-nomad-wiki/chapter-5/" class="flex items-center gap-2 px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors max-w-[48%]">
+              <svg class="w-4 h-4 shrink-0 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+              <span><span class="block text-xs text-gray-400">Chapter 5</span><span class="font-medium">Where Do They Go?</span></span>
+            </a>
+            <a href="/digital-nomad-wiki/chapter-7/" class="flex items-center gap-2 px-4 py-3 bg-white border border-gray-200 rounded-lg text-sm text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors max-w-[48%] text-right ml-auto">
+              <span><span class="block text-xs text-gray-400">Chapter 7</span><span class="font-medium">Money Matters</span></span>
+              <svg class="w-4 h-4 shrink-0 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+
+          <!-- Suggest Edit -->
+          <div class="mt-6 text-right">
+            <a href="mailto:hey@nomad-magazine.com?subject=Wiki%20Edit%20-%20Chapter%206&body=Chapter%3A%20Chapter%206%20-%20Legal%20Life%20and%20Visas%0ASection%3A%20%0AProposed%20Change%3A%20%0AReason%3A%20"
+              class="inline-flex items-center text-xs text-gray-400 hover:text-gray-600 transition-colors">
+              <svg class="mr-1 h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+              </svg>
+              Suggest an Edit
+            </a>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</Layout>
