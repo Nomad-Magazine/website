@@ -1,0 +1,389 @@
+---
+export const prerender = true;
+
+import { fetchReportRecords } from '~/utils/smartsuite'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
+import ImageModal from '~/components/ImageModal.astro'
+
+const COUNTRY_TO_CONTINENT: Record<string, string> = {
+  Portugal: 'Europe', Spain: 'Europe', Italy: 'Europe', France: 'Europe',
+  Germany: 'Europe', 'United Kingdom': 'Europe', Netherlands: 'Europe',
+  Greece: 'Europe', Bulgaria: 'Europe', Hungary: 'Europe', Ireland: 'Europe',
+  Slovenia: 'Europe', Croatia: 'Europe', Slovakia: 'Europe', Austria: 'Europe',
+  Poland: 'Europe', Malta: 'Europe', Belgium: 'Europe', Switzerland: 'Europe',
+  Japan: 'Asia', Thailand: 'Asia', Vietnam: 'Asia', Indonesia: 'Asia',
+  India: 'Asia', Philippines: 'Asia', 'South Korea': 'Asia', Taiwan: 'Asia',
+  Argentina: 'South America', Colombia: 'South America', Brazil: 'South America',
+  'Costa Rica': 'Central America', Mexico: 'North America',
+  USA: 'North America', Canada: 'North America',
+  Morocco: 'Africa', 'South Africa': 'Africa',
+}
+
+const COUNTRY_ALIASES: Record<string, string> = {
+  NL: 'Netherlands', 'The Netherlands': 'Netherlands',
+  Slovenija: 'Slovenia', UK: 'United Kingdom', Bali: 'Indonesia',
+}
+
+export async function getStaticPaths() {
+  const COUNTRY_TO_CONTINENT: Record<string, string> = {
+    Portugal: 'Europe', Spain: 'Europe', Italy: 'Europe', France: 'Europe',
+    Germany: 'Europe', 'United Kingdom': 'Europe', Netherlands: 'Europe',
+    Greece: 'Europe', Bulgaria: 'Europe', Hungary: 'Europe', Ireland: 'Europe',
+    Slovenia: 'Europe', Croatia: 'Europe', Slovakia: 'Europe', Austria: 'Europe',
+    Poland: 'Europe', Malta: 'Europe', Belgium: 'Europe', Switzerland: 'Europe',
+    Japan: 'Asia', Thailand: 'Asia', Vietnam: 'Asia', Indonesia: 'Asia',
+    India: 'Asia', Philippines: 'Asia', 'South Korea': 'Asia', Taiwan: 'Asia',
+    Argentina: 'South America', Colombia: 'South America', Brazil: 'South America',
+    'Costa Rica': 'Central America', Mexico: 'North America',
+    USA: 'North America', Canada: 'North America',
+    Morocco: 'Africa', 'South Africa': 'Africa',
+  }
+  const COUNTRY_ALIASES: Record<string, string> = {
+    NL: 'Netherlands', 'The Netherlands': 'Netherlands',
+    Slovenija: 'Slovenia', UK: 'United Kingdom', Bali: 'Indonesia',
+  }
+  function normalizeCountry(raw: string): string {
+    return COUNTRY_ALIASES[raw] || raw
+  }
+  function extractCountry(location: string): string {
+    if (!location) return ''
+    const parts = location.split(',')
+    if (parts.length >= 2) return normalizeCountry(parts[parts.length - 1].trim())
+    const words = location.trim().split(/\s+/)
+    const last = normalizeCountry(words[words.length - 1])
+    if (COUNTRY_TO_CONTINENT[last]) return last
+    const whole = normalizeCountry(location.trim())
+    if (COUNTRY_TO_CONTINENT[whole]) return whole
+    return ''
+  }
+  function slugify(str: string): string {
+    return str.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+  }
+
+  const { records = [] } = await fetchReportRecords('68614a111208586bd05d3c3a')
+
+  const allSpaces = records
+    .filter((r: any) => {
+      if (!r.s43a4b2808 || !r.title) return false
+      const cat = (r.sb685ab800?.label || '').toLowerCase()
+      return cat.includes('cowork') || cat === 'space' || cat === 'hub'
+    })
+    .map((r: any) => {
+      const loc = r.sed1a49986 || ''
+      const country = extractCountry(loc)
+      const city = loc.includes(',') ? loc.split(',')[0].trim() : ''
+      const continent = COUNTRY_TO_CONTINENT[country] || ''
+      const rawImages = [r.image, r.images, r.sf4ad525dd, r.s4ad525dd]
+        .filter(Boolean).flat().filter(Boolean)
+      return {
+        id: r.id,
+        name: r.title,
+        description: r.scea90e502 || r.description_markdown || '',
+        city, country, continent,
+        website_url: r.sb788c266b?.[0] || null,
+        google_maps_url: r.s2d652f699 || null,
+        images: [...new Set(rawImages)] as string[],
+        discount_code: r.s9c0ff01ed || null,
+        created_at: r.first_created?.on || new Date().toISOString(),
+      }
+    })
+    .filter((s: any) => s.country)
+
+  const countryCounts: Record<string, number> = {}
+  const continentCounts: Record<string, number> = {}
+  allSpaces.forEach((s: any) => {
+    countryCounts[s.country] = (countryCounts[s.country] || 0) + 1
+    if (s.continent) continentCounts[s.continent] = (continentCounts[s.continent] || 0) + 1
+  })
+
+  const navCountries = Object.entries(countryCounts).sort((a, b) => b[1] - a[1])
+  const navContinents = Object.entries(continentCounts).sort((a, b) => b[1] - a[1])
+
+  const paths: any[] = []
+
+  Object.entries(countryCounts).forEach(([country]) => {
+    const items = allSpaces.filter((s: any) => s.country === country)
+    paths.push({
+      params: { slug: slugify(country) },
+      props: { filterType: 'country', filterValue: country, items, navCountries, navContinents },
+    })
+  })
+
+  Object.entries(continentCounts).forEach(([continent]) => {
+    const items = allSpaces.filter((s: any) => s.continent === continent)
+    paths.push({
+      params: { slug: slugify(continent) },
+      props: { filterType: 'continent', filterValue: continent, items, navCountries, navContinents },
+    })
+  })
+
+  return paths
+}
+
+function normalizeCountry(raw: string): string {
+  return COUNTRY_ALIASES[raw] || raw
+}
+function extractCountry(location: string): string {
+  if (!location) return ''
+  const parts = location.split(',')
+  if (parts.length >= 2) return normalizeCountry(parts[parts.length - 1].trim())
+  const words = location.trim().split(/\s+/)
+  const last = normalizeCountry(words[words.length - 1])
+  if (COUNTRY_TO_CONTINENT[last]) return last
+  return normalizeCountry(location.trim())
+}
+function slugify(str: string): string {
+  return str.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+}
+
+const { filterType, filterValue, items, navCountries, navContinents } = Astro.props
+const count = items.length
+
+const isContinent = filterType === 'continent'
+
+const h1 = `Coworking Spaces in ${filterValue}`
+const h2 = isContinent
+  ? `${count} nomad-trusted coworking space${count !== 1 ? 's' : ''} across ${filterValue}`
+  : `${count} nomad-trusted coworking space${count !== 1 ? 's' : ''} in ${filterValue}`
+
+const metaTitle = `Coworking in ${filterValue} – ${count} Space${count !== 1 ? 's' : ''} for Digital Nomads | Nomad Magazine`
+const metaDescription = isContinent
+  ? `Browse ${count} coworking space${count !== 1 ? 's' : ''} across ${filterValue} trusted by digital nomads. Fast WiFi, flexible desks and nomad communities — vetted by Nomad Magazine.`
+  : `Find ${count} coworking space${count !== 1 ? 's' : ''} in ${filterValue} trusted by digital nomads. Every space here hosts Nomad Magazine — a signal they care about the remote work community.`
+
+const slug = slugify(filterValue)
+const canonicalUrl = `${Astro.site}coworking_directory/${slug}/`
+
+const seo: SEOProps = {
+  title: metaTitle,
+  description: metaDescription,
+  image: 'https://nomad-magazine.com/images/distribution-list-sowo-office-reference.webp',
+  keywords: `coworking ${filterValue.toLowerCase()}, coworking spaces ${filterValue.toLowerCase()}, digital nomad workspace ${filterValue.toLowerCase()}, remote work ${filterValue.toLowerCase()}`,
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: h1,
+    description: metaDescription,
+    url: canonicalUrl,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: { '@type': 'ImageObject', url: `${Astro.site}logo.svg` },
+    },
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: `${Astro.site}` },
+        { '@type': 'ListItem', position: 2, name: 'Coworking Directory', item: `${Astro.site}coworking_directory/` },
+        { '@type': 'ListItem', position: 3, name: filterValue, item: canonicalUrl },
+      ],
+    },
+  },
+}
+---
+
+<Layout seo={seo}>
+  <div class="bg-hoverw text-white min-h-screen">
+
+    <!-- Hero -->
+    <section class="pt-16 pb-10">
+      <div class="container mx-auto px-4 text-center">
+        <nav aria-label="Breadcrumb" class="flex items-center justify-center gap-2 text-sm text-gray-500 mb-6">
+          <a href="/" class="hover:text-gray-300 transition-colors">Home</a>
+          <span>/</span>
+          <a href="/coworking_directory/" class="hover:text-gray-300 transition-colors">Coworking Directory</a>
+          <span>/</span>
+          <span class="text-gray-300">{filterValue}</span>
+        </nav>
+
+        <h1 class="mx-auto max-w-4xl text-4xl font-bold md:text-6xl mb-3 leading-tight">
+          Coworking Spaces in <span class="text-yellow-400">{filterValue}</span>
+        </h1>
+        <h2 class="mx-auto max-w-3xl text-xl font-medium md:text-2xl mb-4 text-gray-300">{h2}</h2>
+        <p class="mx-auto max-w-2xl text-sm text-gray-400 mb-6">
+          Part of the <a href="/coworking_directory/" class="text-yellow-400 hover:text-yellow-300 underline transition-colors">Coworking Directory</a> — spaces that host Nomad Magazine, vetted by the remote work community.
+        </p>
+        <a href="/coworking-coliving-shipments/"
+          class="inline-flex items-center gap-2 bg-black hover:bg-gray-900 border-2 border-yellow-400 px-6 py-2.5 rounded-lg text-yellow-400 font-bold transition-all duration-200">
+          <MaterialSymbolsElectricBolt width="18" height="18" />
+          List Your Space in {filterValue}
+        </a>
+      </div>
+    </section>
+
+    <!-- Main layout -->
+    <section class="pb-20">
+      <div class="container mx-auto px-4 max-w-7xl">
+        <div class="flex flex-col lg:flex-row gap-8 items-start">
+
+          <!-- LEFT SIDEBAR -->
+          <aside class="w-full lg:w-64 shrink-0 lg:sticky lg:top-6" aria-label="Directory navigation">
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-6">
+
+              <a href="/coworking_directory/"
+                class="flex items-center gap-2 text-sm text-gray-400 hover:text-yellow-400 transition-colors group">
+                <svg class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                All Coworking Spaces
+              </a>
+
+              <!-- Search within -->
+              <div>
+                <label for="search-input" class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
+                  Search in {filterValue}
+                </label>
+                <div class="relative">
+                  <input type="text" id="search-input"
+                    placeholder="Name, city..."
+                    aria-label={`Search coworking spaces in ${filterValue}`}
+                    class="w-full px-4 py-2.5 pl-10 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-yellow-400 transition-all text-sm" />
+                  <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                  </svg>
+                </div>
+                <p class="text-xs text-gray-600 mt-1" id="search-count">{count} spaces</p>
+              </div>
+
+              <!-- Continents -->
+              {navContinents.length > 0 && (
+                <div>
+                  <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">By Continent</p>
+                  <div class="space-y-1">
+                    {(navContinents as [string, number][]).map(([continent, cnt]) => (
+                      <a href={`/coworking_directory/${slugify(continent)}/`}
+                        class={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all ${continent === filterValue ? 'bg-yellow-400 text-black font-semibold' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
+                        aria-current={continent === filterValue ? 'page' : undefined}>
+                        <span>{continent}</span>
+                        <span class={`text-xs ${continent === filterValue ? 'opacity-70' : 'text-gray-500'}`}>{cnt}</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <!-- Countries -->
+              {navCountries.length > 0 && (
+                <div>
+                  <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">By Country</p>
+                  <div class="space-y-1 max-h-72 overflow-y-auto pr-1" style="scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.2) transparent;">
+                    {(navCountries as [string, number][]).map(([country, cnt]) => (
+                      <a href={`/coworking_directory/${slugify(country)}/`}
+                        class={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all ${country === filterValue ? 'bg-yellow-400 text-black font-semibold' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
+                        aria-current={country === filterValue ? 'page' : undefined}>
+                        <span>{country}</span>
+                        <span class={`text-xs ${country === filterValue ? 'opacity-70' : 'text-gray-500'}`}>{cnt}</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </aside>
+
+          <!-- RIGHT: Listings (server-rendered for SEO) -->
+          <main class="flex-1 min-w-0" id="main-content">
+
+            <div id="directory-container" class="grid grid-cols-1 lg:grid-cols-2 gap-3">
+              {items.map((space: any) => {
+                const locText = [space.city, space.country].filter(Boolean).join(', ')
+                const thumb = space.images?.[0]
+                return (
+                  <div
+                    class="directory-card group flex items-start gap-4 p-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/8 transition-all duration-200"
+                    data-title={(space.name || '').toLowerCase()}
+                    data-desc={(space.description || '').toLowerCase()}
+                  >
+                    {thumb ? (
+                      <div class="shrink-0 w-24 h-20 rounded-lg overflow-hidden bg-neutral-800">
+                        <img src={thumb} alt={space.name} class="w-full h-full object-cover" loading="lazy" />
+                      </div>
+                    ) : (
+                      <div class="shrink-0 w-24 h-20 rounded-lg bg-neutral-800 flex items-center justify-center">
+                        <svg class="w-7 h-7 text-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-2 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                        </svg>
+                      </div>
+                    )}
+                    <div class="flex-1 min-w-0">
+                      <div class="flex items-start justify-between gap-2 mb-1">
+                        <h3 class="font-bold text-white text-sm leading-tight group-hover:text-yellow-400 transition-colors">{space.name}</h3>
+                        <span class="shrink-0 bg-blue-600/20 text-blue-400 px-2 py-0.5 rounded-full text-xs font-medium border border-blue-600/30">Coworking</span>
+                      </div>
+                      {locText && <p class="text-xs text-gray-400 mb-1">📍 {locText}</p>}
+                      <p class="text-xs text-gray-300 leading-relaxed line-clamp-2">{space.description || ''}</p>
+                      {space.discount_code && (
+                        <p class="mt-1 text-xs text-yellow-400 font-medium">Code: <span class="font-mono font-bold">{space.discount_code}</span></p>
+                      )}
+                      <div class="flex items-center gap-3 mt-2">
+                        {space.google_maps_url && (
+                          <a href={space.google_maps_url} target="_blank" rel="noopener noreferrer"
+                            aria-label={`Directions to ${space.name} (opens in new tab)`}
+                            class="text-xs text-yellow-400 hover:text-yellow-300 font-medium transition-colors">Directions →</a>
+                        )}
+                        {space.website_url && (
+                          <a href={space.website_url} target="_blank" rel="noopener noreferrer"
+                            aria-label={`${space.name} website (opens in new tab)`}
+                            class="text-xs text-gray-400 hover:text-gray-300 transition-colors truncate max-w-36">
+                            🌐 {space.website_url.replace(/^https?:\/\/(www\.)?/, '').split('/')[0]}
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+
+            <div id="empty-state" class="hidden text-center py-16">
+              <p class="text-gray-400">No results found. <button onclick="clearSearch()" class="text-yellow-400 underline">Clear search</button></p>
+            </div>
+
+            <!-- CTA -->
+            <div class="mt-16 bg-yellow-400/10 border border-yellow-400/20 rounded-2xl p-10 text-center">
+              <h2 class="text-2xl font-bold text-white mb-3">List Your Coworking in {filterValue}</h2>
+              <p class="text-gray-300 mb-6 max-w-xl mx-auto">
+                Host Nomad Magazine and get your space in front of thousands of digital nomads in {filterValue}.
+              </p>
+              <a href="/coworking-coliving-shipments/"
+                class="inline-flex items-center gap-2 bg-black hover:bg-gray-900 border-2 border-yellow-400 px-8 py-3 rounded-lg text-yellow-400 font-bold text-lg transition-all duration-200">
+                <MaterialSymbolsElectricBolt width="20" height="20" />
+                Get Free Magazines
+              </a>
+            </div>
+          </main>
+
+        </div>
+      </div>
+    </section>
+
+    <ImageModal />
+  </div>
+</Layout>
+
+<script is:inline>
+  const cards = Array.from(document.querySelectorAll('.directory-card'));
+  const countEl = document.getElementById('search-count');
+  const emptyEl = document.getElementById('empty-state');
+
+  window.clearSearch = function() {
+    const si = document.getElementById('search-input');
+    if (si) { si.value = ''; filterCards(''); }
+  };
+
+  function filterCards(query) {
+    let visible = 0;
+    cards.forEach(card => {
+      const match = !query || (card.getAttribute('data-title') || '').includes(query) || (card.getAttribute('data-desc') || '').includes(query);
+      card.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+    if (countEl) countEl.textContent = visible + ' space' + (visible !== 1 ? 's' : '');
+    if (emptyEl) emptyEl.classList.toggle('hidden', visible > 0);
+  }
+
+  const si = document.getElementById('search-input');
+  if (si) si.addEventListener('input', e => filterCards(e.target.value.toLowerCase().trim()));
+</script>

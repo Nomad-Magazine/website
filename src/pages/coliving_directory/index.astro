@@ -1,0 +1,308 @@
+---
+export const prerender = true;
+
+import { fetchReportRecords } from '~/utils/smartsuite'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
+
+const COUNTRY_TO_CONTINENT: Record<string, string> = {
+  Portugal: 'Europe', Spain: 'Europe', Italy: 'Europe', France: 'Europe',
+  Germany: 'Europe', 'United Kingdom': 'Europe', Netherlands: 'Europe',
+  Greece: 'Europe', Bulgaria: 'Europe', Hungary: 'Europe', Ireland: 'Europe',
+  Slovenia: 'Europe', Croatia: 'Europe', Slovakia: 'Europe', Austria: 'Europe',
+  Poland: 'Europe', Malta: 'Europe', Belgium: 'Europe', Switzerland: 'Europe',
+  Japan: 'Asia', Thailand: 'Asia', Vietnam: 'Asia', Indonesia: 'Asia',
+  India: 'Asia', Philippines: 'Asia', 'South Korea': 'Asia', Taiwan: 'Asia',
+  Argentina: 'South America', Colombia: 'South America', Brazil: 'South America',
+  'Costa Rica': 'Central America', Mexico: 'North America',
+  USA: 'North America', Canada: 'North America',
+  Morocco: 'Africa', 'South Africa': 'Africa',
+}
+
+const COUNTRY_ALIASES: Record<string, string> = {
+  NL: 'Netherlands', 'The Netherlands': 'Netherlands',
+  Slovenija: 'Slovenia', UK: 'United Kingdom', Bali: 'Indonesia',
+}
+
+function normalizeCountry(raw: string): string {
+  return COUNTRY_ALIASES[raw] || raw
+}
+
+function extractCountry(location: string): string {
+  if (!location) return ''
+  const parts = location.split(',')
+  if (parts.length >= 2) return normalizeCountry(parts[parts.length - 1].trim())
+  const words = location.trim().split(/\s+/)
+  const last = normalizeCountry(words[words.length - 1])
+  if (COUNTRY_TO_CONTINENT[last]) return last
+  const whole = normalizeCountry(location.trim())
+  if (COUNTRY_TO_CONTINENT[whole]) return whole
+  return ''
+}
+
+function slugify(str: string): string {
+  return str.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+}
+
+const { records = [] } = await fetchReportRecords('68614a111208586bd05d3c3a')
+
+const colivingSpaces = records
+  .filter((r: any) => r.title && (r.sb685ab800?.label || '').toLowerCase() === 'coliving')
+  .map((r: any) => {
+    const loc = r.sed1a49986 || ''
+    const country = extractCountry(loc)
+    const city = loc.includes(',') ? loc.split(',')[0].trim() : ''
+    const continent = COUNTRY_TO_CONTINENT[country] || ''
+    return {
+      id: r.id,
+      name: r.title,
+      description: r.scea90e502 || r.description_markdown || '',
+      city,
+      country,
+      continent,
+      website_url: r.sb788c266b?.[0] || null,
+      google_maps_url: r.s2d652f699 || null,
+      images: [...new Set([r.image, r.images, r.sf4ad525dd].filter(Boolean).flat().filter(Boolean))] as string[],
+      discount_code: r.s9c0ff01ed || null,
+      created_at: r.first_created?.on || new Date().toISOString(),
+    }
+  })
+  .sort((a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+
+// Build navigation data for location sub-pages
+const countryCounts: Record<string, number> = {}
+const continentCounts: Record<string, number> = {}
+colivingSpaces.forEach((s: any) => {
+  if (s.country) countryCounts[s.country] = (countryCounts[s.country] || 0) + 1
+  if (s.continent) continentCounts[s.continent] = (continentCounts[s.continent] || 0) + 1
+})
+const countryLinks = Object.entries(countryCounts).sort((a, b) => b[1] - a[1])
+const continentLinks = Object.entries(continentCounts).sort((a, b) => b[1] - a[1])
+const totalWithLocation = colivingSpaces.filter((s: any) => s.country).length
+
+const seo: SEOProps = {
+  title: 'Coliving Directory – Best Coliving Spaces for Digital Nomads Worldwide',
+  description: 'Discover the best coliving spaces for digital nomads worldwide. Browse vetted coliving communities in Europe, Asia, Latin America and beyond — curated by Nomad Magazine.',
+  image: `${Astro.site}images/Nomad-directory.webp`,
+  keywords: 'coliving directory, coliving spaces, digital nomad coliving, coliving community, coliving Europe, coliving Portugal, coliving worldwide',
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Coliving Directory – Nomad Magazine',
+    description: 'Vetted coliving spaces for digital nomads, curated by Nomad Magazine.',
+    url: `${Astro.site}coliving_directory/`,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: { '@type': 'ImageObject', url: `${Astro.site}logo.svg` },
+    },
+  },
+}
+---
+
+<Layout seo={seo}>
+  <div class="bg-hoverw text-white min-h-screen">
+
+    <!-- Hero -->
+    <section class="pt-16 pb-10">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center mb-10">
+          <p class="text-sm font-semibold text-yellow-400 uppercase tracking-widest mb-3">Coliving Directory</p>
+          <h1 class="text-4xl font-bold md:text-6xl mb-4 leading-tight">
+            Find Your Next <span class="text-yellow-400">Coliving Space</span>
+          </h1>
+          <p class="text-lg text-gray-300 mb-2">
+            Vetted coliving communities for digital nomads — curated by Nomad Magazine
+          </p>
+          <div class="flex items-center justify-center gap-6 text-sm text-gray-400 mt-6">
+            <div class="flex items-center gap-2">
+              <span class="text-2xl font-bold text-yellow-400" id="stat-total">{colivingSpaces.length}</span>
+              <span>Spaces</span>
+            </div>
+            <span class="text-gray-600">·</span>
+            <div class="flex items-center gap-2">
+              <span class="text-2xl font-bold text-yellow-400">{countryLinks.length}</span>
+              <span>Countries</span>
+            </div>
+            <span class="text-gray-600">·</span>
+            <div class="flex items-center gap-2">
+              <span class="text-2xl font-bold text-yellow-400">{continentLinks.length}</span>
+              <span>Continents</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Search -->
+        <div class="max-w-2xl mx-auto mb-8">
+          <div class="relative">
+            <input type="text" id="search-input"
+              placeholder="Search by name, city, country..."
+              aria-label="Search coliving spaces"
+              class="w-full px-4 py-3 pl-12 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-yellow-400 focus:bg-white/15 transition-all duration-200" />
+            <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Browse by Location -->
+        {continentLinks.length > 0 && (
+          <div class="max-w-4xl mx-auto mb-6">
+            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider text-center mb-3">Browse by Continent</p>
+            <div class="flex flex-wrap justify-center gap-2 mb-4">
+              {continentLinks.map(([continent, count]) => (
+                <a href={`/coliving_directory/${slugify(continent)}/`}
+                  class="inline-flex items-center gap-1.5 px-4 py-2 bg-white/10 hover:bg-yellow-400 hover:text-black border border-white/20 hover:border-yellow-400 rounded-full text-sm font-medium text-white transition-all duration-200">
+                  {continent}
+                  <span class="px-1.5 py-0.5 bg-white/20 rounded-full text-xs">{count}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {countryLinks.length > 0 && (
+          <div class="max-w-4xl mx-auto">
+            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider text-center mb-3">Browse by Country</p>
+            <div class="flex flex-wrap justify-center gap-2">
+              {countryLinks.map(([country, count]) => (
+                <a href={`/coliving_directory/${slugify(country)}/`}
+                  class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/10 hover:bg-yellow-400 hover:text-black border border-white/20 hover:border-yellow-400 rounded-full text-sm font-medium text-white transition-all duration-200">
+                  {country}
+                  <span class="px-1.5 py-0.5 bg-white/20 rounded-full text-xs">{count}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+
+    <!-- Grid -->
+    <section class="px-4 py-8 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-5xl">
+        <div id="loading-spinner" class="text-center py-12">
+          <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-yellow-400"></div>
+          <p class="mt-2 text-neutral-400 text-sm">Loading spaces...</p>
+        </div>
+        <div id="spaces-grid" class="hidden grid-cols-1 lg:grid-cols-2 gap-3"></div>
+        <div id="no-results" class="text-center py-12 hidden">
+          <p class="text-xl text-neutral-400">No coliving spaces found matching your search.</p>
+        </div>
+        <div id="load-more-container" class="text-center mt-8 hidden">
+          <button id="load-more-btn"
+            class="px-8 py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-white font-medium transition-all duration-200">
+            Load More
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="pb-20">
+      <div class="container mx-auto px-4 max-w-5xl">
+        <div class="bg-yellow-400/10 border border-yellow-400/20 rounded-2xl p-10 text-center">
+          <h2 class="text-2xl font-bold text-white mb-3">List Your Coliving Space — Free</h2>
+          <p class="text-gray-300 mb-6 max-w-xl mx-auto">
+            Get your coliving space in front of thousands of digital nomads. Join the Nomad Magazine directory.
+          </p>
+          <a href="/coworking-coliving-shipments/"
+            class="inline-flex items-center gap-2 bg-black hover:bg-gray-900 border-2 border-yellow-400 px-8 py-3 rounded-lg text-yellow-400 font-bold text-lg transition-all duration-200">
+            <MaterialSymbolsElectricBolt width="20" height="20" />
+            Get Listed
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Data -->
+    <div id="coliving-data" hidden data-items={JSON.stringify(colivingSpaces)}></div>
+  </div>
+</Layout>
+
+<script is:inline>
+  const ITEMS_PER_PAGE = 20;
+  const _dataEl = document.getElementById('coliving-data');
+  let allSpaces = _dataEl ? JSON.parse(_dataEl.getAttribute('data-items')) : [];
+  let filteredSpaces = [...allSpaces];
+  let displayedCount = ITEMS_PER_PAGE;
+  let currentSearch = '';
+
+  function esc(str) {
+    return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+
+  function renderCard(s) {
+    const desc = s.description || '';
+    const short = desc.length > 160 ? desc.slice(0, 160) : desc;
+    const descId = 'cs-' + s.id;
+    const thumb = s.images && s.images[0];
+    const loc = [s.city, s.country].filter(Boolean).join(', ');
+    const thumbHtml = thumb
+      ? '<div class="shrink-0 w-24 h-20 rounded-lg overflow-hidden bg-neutral-800"><img src="' + esc(thumb) + '" alt="' + esc(s.name) + '" class="w-full h-full object-cover" loading="lazy" /></div>'
+      : '<div class="shrink-0 w-24 h-20 rounded-lg bg-neutral-800 flex items-center justify-center"><span class="text-2xl font-bold text-neutral-500">' + esc((s.name||'C').charAt(0).toUpperCase()) + '</span></div>';
+    return '<div class="group flex items-start gap-4 p-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/8 transition-all duration-200">' +
+      thumbHtml +
+      '<div class="flex-1 min-w-0">' +
+        '<h3 class="font-bold text-white text-sm leading-tight group-hover:text-yellow-400 transition-colors mb-1">' + esc(s.name) + '</h3>' +
+        (loc ? '<p class="text-xs text-gray-400 mb-1">📍 ' + esc(loc) + (s.continent ? ' · ' + esc(s.continent) : '') + '</p>' : '') +
+        '<p id="' + descId + '" class="text-xs text-gray-300 leading-relaxed">' + esc(short) + (desc.length > 160 ? '…' : '') + '</p>' +
+        (desc.length > 160 ? '<button class="read-more-btn text-xs text-yellow-400 hover:text-yellow-300 mt-0.5" data-id="' + descId + '" data-full="' + esc(desc) + '" data-short="' + esc(short) + '">Read more →</button>' : '') +
+        (s.discount_code ? '<p class="mt-1 text-xs text-yellow-400 font-medium">Code: <span class="font-mono font-bold">' + esc(s.discount_code) + '</span></p>' : '') +
+        '<div class="flex items-center gap-3 mt-2">' +
+          (s.google_maps_url ? '<a href="' + esc(s.google_maps_url) + '" target="_blank" rel="noopener noreferrer" aria-label="Directions to ' + esc(s.name) + ' (opens in new tab)" class="text-xs text-yellow-400 hover:text-yellow-300 font-medium">Directions →</a>' : '') +
+          (s.website_url ? '<a href="' + esc(s.website_url) + '" target="_blank" rel="noopener noreferrer" aria-label="' + esc(s.name) + ' website (opens in new tab)" class="text-xs text-gray-400 hover:text-gray-300 truncate max-w-36">🌐 ' + esc(s.website_url.replace(/^https?:\/\/(www\.)?/,'').split('/')[0]) + '</a>' : '') +
+        '</div>' +
+      '</div></div>';
+  }
+
+  function renderGrid() {
+    const grid = document.getElementById('spaces-grid');
+    const spinner = document.getElementById('loading-spinner');
+    const noResults = document.getElementById('no-results');
+    const lmc = document.getElementById('load-more-container');
+    const lmb = document.getElementById('load-more-btn');
+    if (spinner) spinner.classList.add('hidden');
+    if (filteredSpaces.length === 0) {
+      if (grid) { grid.classList.add('hidden'); grid.style.display = ''; }
+      if (noResults) noResults.classList.remove('hidden');
+      if (lmc) lmc.classList.add('hidden');
+      return;
+    }
+    if (noResults) noResults.classList.add('hidden');
+    if (grid) { grid.classList.remove('hidden'); grid.style.display = 'grid'; }
+    if (grid) grid.innerHTML = filteredSpaces.slice(0, displayedCount).map(renderCard).join('');
+    const rem = filteredSpaces.length - displayedCount;
+    if (lmc) lmc.classList.toggle('hidden', rem <= 0);
+    if (lmb && rem > 0) lmb.textContent = 'Load More (' + rem + ' more)';
+    document.querySelectorAll('.read-more-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const el = document.getElementById(btn.dataset.id);
+        if (!el) return;
+        if (btn.textContent.includes('Read more')) { el.textContent = btn.dataset.full; btn.textContent = 'Show less'; }
+        else { el.textContent = btn.dataset.short + '…'; btn.textContent = 'Read more →'; }
+      });
+    });
+  }
+
+  function applyFilters() {
+    filteredSpaces = allSpaces.filter(s => {
+      if (!currentSearch) return true;
+      return (s.name + ' ' + s.description + ' ' + s.city + ' ' + s.country + ' ' + s.continent).toLowerCase().includes(currentSearch);
+    });
+    displayedCount = ITEMS_PER_PAGE;
+    renderGrid();
+  }
+
+  function init() {
+    renderGrid();
+    const si = document.getElementById('search-input');
+    if (si) si.addEventListener('input', e => { currentSearch = e.target.value.toLowerCase().trim(); applyFilters(); });
+    const lmb = document.getElementById('load-more-btn');
+    if (lmb) lmb.addEventListener('click', () => { displayedCount += ITEMS_PER_PAGE; renderGrid(); });
+  }
+
+  if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', init); } else { init(); }
+</script>
