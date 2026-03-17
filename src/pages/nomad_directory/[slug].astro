@@ -346,38 +346,6 @@ const seo: SEOProps = {
                 </div>
               </div>
 
-              <!-- Locations (only shown if there are any) -->
-              {navContinents.length > 0 && (
-                <div>
-                  <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">By Continent</p>
-                  <div class="space-y-1">
-                    {(navContinents as [string, number][]).map(([continent, cnt]) => (
-                      <a href={`/nomad_directory/${slugify(continent)}/`}
-                        class={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all ${continent === filterValue ? 'bg-yellow-400 text-black font-semibold' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
-                        aria-current={continent === filterValue ? 'page' : undefined}>
-                        <span>{continent}</span>
-                        <span class={`text-xs ${continent === filterValue ? 'opacity-70' : 'text-gray-500'}`}>{cnt}</span>
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {navCountries.length > 0 && (
-                <div>
-                  <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">By Country</p>
-                  <div class="space-y-1">
-                    {(navCountries as [string, number][]).map(([country, cnt]) => (
-                      <a href={`/nomad_directory/${slugify(country)}/`}
-                        class={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all ${country === filterValue ? 'bg-yellow-400 text-black font-semibold' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
-                        aria-current={country === filterValue ? 'page' : undefined}>
-                        <span>{country}</span>
-                        <span class={`text-xs ${country === filterValue ? 'opacity-70' : 'text-gray-500'}`}>{cnt}</span>
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
           </aside>
 

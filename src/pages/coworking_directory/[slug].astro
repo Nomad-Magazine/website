@@ -25,6 +25,15 @@ const COUNTRY_ALIASES: Record<string, string> = {
   Slovenija: 'Slovenia', UK: 'United Kingdom', Bali: 'Indonesia',
 }
 
+function normalizeUrl(raw: any): string | null {
+  if (!raw || typeof raw !== 'string') return null
+  const trimmed = raw.trim()
+  if (!trimmed) return null
+  if (/^https?:\/\//i.test(trimmed)) return trimmed.replace(/^Https:\/\//i, 'https://')
+  if (trimmed.startsWith('www.')) return `https://${trimmed}`
+  return null
+}
+
 export async function getStaticPaths() {
   const COUNTRY_TO_CONTINENT: Record<string, string> = {
     Portugal: 'Europe', Spain: 'Europe', Italy: 'Europe', France: 'Europe',
@@ -60,6 +69,14 @@ export async function getStaticPaths() {
   function slugify(str: string): string {
     return str.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
   }
+  function normalizeUrlInner(raw: any): string | null {
+    if (!raw || typeof raw !== 'string') return null
+    const trimmed = raw.trim()
+    if (!trimmed) return null
+    if (/^https?:\/\//i.test(trimmed)) return trimmed.replace(/^Https:\/\//i, 'https://')
+    if (trimmed.startsWith('www.')) return `https://${trimmed}`
+    return null
+  }
 
   const { records = [] } = await fetchReportRecords('68614a111208586bd05d3c3a')
 
@@ -81,8 +98,8 @@ export async function getStaticPaths() {
         name: r.title,
         description: r.scea90e502 || r.description_markdown || '',
         city, country, continent,
-        website_url: r.sb788c266b?.[0] || null,
-        google_maps_url: r.s2d652f699 || null,
+        website_url: normalizeUrlInner(r.sb788c266b?.[0]),
+        google_maps_url: normalizeUrlInner(r.s2d652f699),
         images: [...new Set(rawImages)] as string[],
         discount_code: r.s9c0ff01ed || null,
         created_at: r.first_created?.on || new Date().toISOString(),
