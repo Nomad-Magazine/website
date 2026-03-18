@@ -58,44 +58,6 @@ activeRecords.forEach((r: any) => {
 })
 const categories = Object.entries(categoryCounts).sort((a, b) => b[1] - a[1])
 
-const COUNTRY_TO_CONTINENT: Record<string, string> = {
-  Portugal: 'Europe', Spain: 'Europe', Italy: 'Europe', France: 'Europe',
-  Germany: 'Europe', 'United Kingdom': 'Europe', Netherlands: 'Europe',
-  Greece: 'Europe', Bulgaria: 'Europe', Hungary: 'Europe', Ireland: 'Europe',
-  Slovenia: 'Europe', Croatia: 'Europe', Slovakia: 'Europe', Austria: 'Europe',
-  Poland: 'Europe', Malta: 'Europe', Belgium: 'Europe', Switzerland: 'Europe',
-  Japan: 'Asia', Thailand: 'Asia', Vietnam: 'Asia', Indonesia: 'Asia',
-  Argentina: 'South America', Colombia: 'South America', Brazil: 'South America',
-  'Costa Rica': 'Central America', Mexico: 'North America',
-}
-const COUNTRY_ALIASES: Record<string, string> = {
-  NL: 'Netherlands', 'The Netherlands': 'Netherlands',
-  Slovenija: 'Slovenia', UK: 'United Kingdom', Bali: 'Indonesia',
-}
-function extractCountry(loc: string): string {
-  if (!loc) return ''
-  const parts = loc.split(',')
-  if (parts.length >= 2) {
-    const raw = parts[parts.length - 1].trim()
-    return COUNTRY_ALIASES[raw] || raw
-  }
-  return ''
-}
-function slugifyLoc(str: string): string {
-  return str.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
-}
-const locCountryCounts: Record<string, number> = {}
-const locContinentCounts: Record<string, number> = {}
-records.filter((r: any) => r.sf4ad525dd).forEach((r: any) => {
-  const country = extractCountry(r.sed1a49986 || '')
-  if (!country || !COUNTRY_TO_CONTINENT[country]) return
-  locCountryCounts[country] = (locCountryCounts[country] || 0) + 1
-  const continent = COUNTRY_TO_CONTINENT[country]
-  locContinentCounts[continent] = (locContinentCounts[continent] || 0) + 1
-})
-const locCountryLinks = Object.entries(locCountryCounts).sort((a, b) => b[1] - a[1])
-const locContinentLinks = Object.entries(locContinentCounts).sort((a, b) => b[1] - a[1])
-
 const seo: SEOProps = {
   title: 'The Nomad Directory - The Living Database of the Nomad Economy',
   description: 'The definitive intelligence hub tracking trends, opportunities, and innovations in the digital nomad ecosystem. Discover emerging tools and services while contributing to nomad economy intelligence.',

@@ -6,34 +6,6 @@ import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
 import ImageModal from '~/components/ImageModal.astro'
 
-const COUNTRY_TO_CONTINENT: Record<string, string> = {
-  Portugal: 'Europe', Spain: 'Europe', Italy: 'Europe', France: 'Europe',
-  Germany: 'Europe', 'United Kingdom': 'Europe', Netherlands: 'Europe',
-  Greece: 'Europe', Bulgaria: 'Europe', Hungary: 'Europe', Ireland: 'Europe',
-  Slovenia: 'Europe', Croatia: 'Europe', Slovakia: 'Europe', Austria: 'Europe',
-  Poland: 'Europe', Malta: 'Europe', Belgium: 'Europe', Switzerland: 'Europe',
-  Japan: 'Asia', Thailand: 'Asia', Vietnam: 'Asia', Indonesia: 'Asia',
-  India: 'Asia', Philippines: 'Asia', 'South Korea': 'Asia', Taiwan: 'Asia',
-  Argentina: 'South America', Colombia: 'South America', Brazil: 'South America',
-  'Costa Rica': 'Central America', Mexico: 'North America',
-  USA: 'North America', Canada: 'North America',
-  Morocco: 'Africa', 'South Africa': 'Africa',
-}
-
-const COUNTRY_ALIASES: Record<string, string> = {
-  NL: 'Netherlands', 'The Netherlands': 'Netherlands',
-  Slovenija: 'Slovenia', UK: 'United Kingdom', Bali: 'Indonesia',
-}
-
-function normalizeUrl(raw: any): string | null {
-  if (!raw || typeof raw !== 'string') return null
-  const trimmed = raw.trim()
-  if (!trimmed) return null
-  if (/^https?:\/\//i.test(trimmed)) return trimmed.replace(/^Https:\/\//i, 'https://')
-  if (trimmed.startsWith('www.')) return `https://${trimmed}`
-  return null
-}
-
 export async function getStaticPaths() {
   const COUNTRY_TO_CONTINENT: Record<string, string> = {
     Portugal: 'Europe', Spain: 'Europe', Italy: 'Europe', France: 'Europe',
@@ -138,18 +110,6 @@ export async function getStaticPaths() {
   return paths
 }
 
-function normalizeCountry(raw: string): string {
-  return COUNTRY_ALIASES[raw] || raw
-}
-function extractCountry(location: string): string {
-  if (!location) return ''
-  const parts = location.split(',')
-  if (parts.length >= 2) return normalizeCountry(parts[parts.length - 1].trim())
-  const words = location.trim().split(/\s+/)
-  const last = normalizeCountry(words[words.length - 1])
-  if (COUNTRY_TO_CONTINENT[last]) return last
-  return normalizeCountry(location.trim())
-}
 function slugify(str: string): string {
   return str.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 }
