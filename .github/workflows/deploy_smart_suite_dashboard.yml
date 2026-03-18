@@ -40,7 +40,7 @@ jobs:
         working-directory: cloudflare_workers/smartsuite-dashboard
         run: |
           set -e
-          sed -i 's/GITHUB_TOKEN_PLACEHOLDER/${{ secrets.GITHUB_TOKEN }}/g' wrangler.jsonc
+          sed -i 's/GITHUB_TOKEN_PLACEHOLDER/${{ secrets.PERSONAL_ACCESS_TOKEN }}/g' wrangler.jsonc
           output=$(bunx wrangler@latest deploy)
           echo "$output"
           url=$(echo "$output" | grep -Eo 'https://[^[:space:]]*\.nomad-magazine\.com|https://[^[:space:]]*\.workers\.dev' | head -1)
