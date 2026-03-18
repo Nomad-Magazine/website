@@ -9,6 +9,18 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
 
 const { records = [] } = await fetchReportRecords('68614a111208586bd05d3c3a');
 
+function normalizeExternalUrl(raw: any): string | null {
+  if (!raw || typeof raw !== 'string') return null
+  const trimmed = raw.trim()
+  if (!trimmed) return null
+  const normalized = trimmed.replace(/^Https:\/\//i, 'https://')
+  if (/^https?:\/\//i.test(normalized)) return normalized
+  if (normalized.startsWith('www.')) return `https://${normalized}`
+  if (/^[a-z0-9][a-z0-9-_.]+\.[a-z]{2,}(?:[/?#].*)?$/i.test(normalized)) return `https://${normalized}`
+  if (normalized.startsWith('/')) return normalized
+  return null
+}
+
 const distributionPlaces = records
   .filter((r: any) => r.sd07d77f5e === true && r.title && r.s43a4b2808)
   .map((r: any) => {
@@ -19,8 +31,8 @@ const distributionPlaces = records
       name: r.title,
       location: loc,
       country,
-      website: r.sb788c266b?.[0] || null,
-      maps: r.s2d652f699 || null,
+      website: normalizeExternalUrl(r.sb788c266b?.[0]),
+      maps: normalizeExternalUrl(r.s2d652f699),
     };
   });
 

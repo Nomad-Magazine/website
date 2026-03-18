@@ -48,6 +48,14 @@ export async function getStaticPaths() {
     if (trimmed.startsWith('www.')) return `https://${trimmed}`
     return null
   }
+  function normalizeImageUrlList(...values: any[]): string[] {
+    const flattened = values.flatMap((value: any) => (Array.isArray(value) ? value : [value]))
+    const clean = flattened
+      .filter((value): value is string => typeof value === 'string')
+      .map((value) => value.trim())
+      .filter((value) => Boolean(value))
+    return [...new Set(clean)]
+  }
 
   const { records = [] } = await fetchReportRecords('68614a111208586bd05d3c3a')
 
@@ -65,7 +73,7 @@ export async function getStaticPaths() {
         city, country, continent,
         website_url: normalizeUrlInner(r.sb788c266b?.[0]),
         google_maps_url: normalizeUrlInner(r.s2d652f699),
-        images: [...new Set([r.image, r.images, r.sf4ad525dd].filter(Boolean).flat().filter(Boolean))] as string[],
+        images: normalizeImageUrlList(r.image, r.images, r.sf4ad525dd),
         discount_code: r.s9c0ff01ed || null,
       }
     })
@@ -261,7 +269,7 @@ const seo: SEOProps = {
             <div id="directory-container" class="space-y-4">
               {items.map((space: any) => {
                 const locText = [space.city, space.country].filter(Boolean).join(', ')
-                const thumb = space.images?.[0]
+                const thumb = typeof space.images?.[0] === 'string' ? space.images[0].trim() : ''
                 return (
                   <div
                     class="directory-card bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/10 transition-all duration-300 group"
