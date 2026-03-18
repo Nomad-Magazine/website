@@ -5,105 +5,450 @@ import Layout from '../../layouts/Layout.astro';
 
 const siteUrl = 'https://nomad-magazine.com';
 const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape_nocut.webp`;
+
+const magazineLocations = [
+  {
+    country: 'Spain',
+    location: 'Barcelona, Spain',
+    name: 'MOB Barcelona',
+    website: 'https://mob-barcelona.com/',
+    maps: 'https://www.google.com/maps/search/?api=1&query=MOB+Barcelona',
+    photos: [
+      {
+        src: '/images/distribution-list-mob.webp',
+        alt: 'Nomad Magazine available at MOB Barcelona',
+      },
+      {
+        src: '/images/distribution-list-mob-2.webp',
+        alt: 'Nomad Magazine displayed inside MOB Barcelona',
+      },
+    ],
+  },
+  {
+    country: 'Portugal',
+    location: 'Madeira, Portugal',
+    name: 'Madeira Friends',
+    website: 'https://madeirafriends.org/',
+    maps: 'https://www.google.com/maps/search/?api=1&query=Madeira+Friends+Madeira',
+    photos: [
+      {
+        src: '/images/distribution-list-madeirafriends.webp',
+        alt: 'Nomad Magazine available at Madeira Friends',
+      },
+      {
+        src: '/images/distribution-list-madeirafriends-2.webp',
+        alt: 'Nomad Magazine in front of Madeira Friends signage',
+      },
+    ],
+  },
+  {
+    country: 'Poland',
+    location: 'Warsaw, Poland',
+    name: 'WeWork Warsaw',
+    website: 'https://www.wework.com/',
+    maps: 'https://www.google.com/maps/search/?api=1&query=WeWork+Warsaw',
+    photos: [
+      {
+        src: '/images/distribution-list-wework.webp',
+        alt: 'Nomad Magazine available at WeWork Warsaw',
+      },
+      {
+        src: '/images/distribution-list-wework-2.webp',
+        alt: 'Nomad Magazine displayed at WeWork Warsaw',
+      },
+    ],
+  },
+];
+
+const locationCountries = ['All', ...new Set(magazineLocations.map(p => p.country))];
 ---
 
 <Layout 
-  title="Edition Four - Now Available in Print and Digital"
+  title="Nomad Magazine Edition Four: Where the Nomad World is Growing"
   ogImage={ogImageUrl}
   seo={{
-    title: "Nomad Magazine Edition Four - Available on Zinio, Magazine Cafe & More",
-    description: "Our best edition yet! 128 pages featuring Palermo, Bansko, Fukuoka, Madeira research, and more. Available in print and on all major digital platforms: Zinio, Magazine Cafe, Pling, and Zinio Unlimited.",
+    title: "Nomad Magazine Edition Four: Where the Nomad World is Growing",
+    description: "Discover where the nomad world is growing next. Edition Four features on-the-ground reporting from Palermo, Fukuoka, Bansko, and Madeira, plus real stories behind the location-independent lifestyle.",
     image: ogImageUrl,
     canonical: `${siteUrl}/editions/fourth-edition/`,
-    keywords: "nomad magazine, digital nomad, remote work, edition four, palermo, bansko, fukuoka, travel magazine, zinio, magazine cafe, pling, digital magazine",
+    keywords: "nomad magazine, digital nomad, remote work, edition four, palermo, bansko, fukuoka, madeira, vanlife, travel fashion",
   }}
 >
   <div class="coming-soon-container">
-    <!-- Cover Image Section -->
-    <div class="cover-section">
-      <img 
-        src="/images/edition-004-cover.webp" 
-        alt="Nomad Magazine Edition Four Cover" 
-        class="cover-image"
-      />
-    </div>
-
-    <div class="hero-text">
-      <h1>Edition Four</h1>
-      <h2>Now Available!</h2>
-    </div>
-    
-    <div class="subtitle">
-      <p>The best edition so far!</p>
-      <p class="pages">128 pages of pure high-end content</p>
-    </div>
-
-    <!-- Print Edition Banner -->
-    <section class="print-discount-banner">
-      <div class="discount-content">
-        <h3 class="discount-title">Order Print Edition</h3>
-        <p class="discount-subtitle">Get your copy of Nomad Magazine Edition Four in print.</p>
-        <a href="https://pay.nomad-magazine.com/b/fZu14nc2x1bdfAWf0l8bS0L" class="discount-button" target="_blank" rel="noopener noreferrer" aria-label="Order print edition (opens in new tab)">
-          📚 Order Print Edition Now
-        </a>
-      </div>
-    </section>
-
-    <!-- Digital Availability Section -->
-    <section class="digital-section">
-      <!-- ZINIO Primary -->
-      <div class="zinio-primary">
-        <h3 class="digital-main-title">📱 Now Available in Digital</h3>
-        <p class="digital-subtitle">Read on your favorite device with the best digital magazine experience</p>
-        <div class="zinio-buttons">
-          <a href="https://www.zinio.com/publications/nomad-magazine/45331" target="_blank" rel="noopener noreferrer" aria-label="Read Nomad Magazine on ZINIO Web Reader (opens in new tab)" class="zinio-button">
-            🌐 Web Reader
-          </a>
-          <a href="https://apps.apple.com/us/app/zinio-magazine-newsstand/id364297166" target="_blank" rel="noopener noreferrer" aria-label="Download ZINIO app on iOS App Store (opens in new tab)" class="zinio-button">
-            🍎 iOS App
-          </a>
-          <a href="https://play.google.com/store/apps/details?id=com.zinio.mobile.android.reader&pli=1" target="_blank" rel="noopener noreferrer" aria-label="Download ZINIO app on Google Play Store (opens in new tab)" class="zinio-button">
-            🤖 Android App
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "Nomad Magazine Edition Four",
+        "description": "Discover where the nomad world is growing next. Edition Four features on-the-ground reporting from Palermo, Fukuoka, Bansko, and Madeira, plus real stories behind the location-independent lifestyle.",
+        "image": "https://nomad-magazine.com/images/edition-004-cover.webp",
+        "brand": {
+          "@type": "Brand",
+          "name": "Nomad Magazine"
+        },
+        "offers": {
+          "@type": "Offer",
+          "url": "https://pay.nomad-magazine.com/b/fZu14nc2x1bdfAWf0l8bS0L",
+          "priceCurrency": "EUR",
+          "price": "22.00",
+          "availability": "https://schema.org/InStock",
+          "itemCondition": "https://schema.org/NewCondition"
+        }
+      }
+    </script>
+    <!-- Hero -->
+    <section class="hero-section">
+      <div class="hero-inner">
+        <div class="hero-cover-col">
+          <img
+            src="/images/edition-004-cover.webp"
+            alt="Nomad Magazine Edition Four — Palermo: A Better Way to Work and Live"
+            class="cover-image"
+            fetchpriority="high"
+          />
+        </div>
+        <div class="hero-copy-col">
+          <p class="hero-eyebrow">Edition Four — Now Available</p>
+          <h1 class="hero-h1">Where the Nomad World Is Growing Next</h1>
+          <p class="hero-sub">Palermo, Fukuoka, Bansko, Madeira — reported from the ground, beautifully made to keep.</p>
+          <a
+            href="https://pay.nomad-magazine.com/b/fZu14nc2x1bdfAWf0l8bS0L"
+            class="hero-cta"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Buy print edition of Nomad Magazine Edition Four (opens in new tab)"
+          >
+            Buy Print Edition
           </a>
         </div>
       </div>
+      <!-- Proof strip -->
+      <ul class="proof-strip" aria-label="Edition highlights">
+        <li class="proof-item"><span class="proof-num">128</span><span class="proof-label">Pages</span></li>
+        <li class="proof-divider" aria-hidden="true"></li>
+        <li class="proof-item"><span class="proof-num">4</span><span class="proof-label">Destinations reported on the ground</span></li>
+        <li class="proof-divider" aria-hidden="true"></li>
+        <li class="proof-item"><span class="proof-num">Premium</span><span class="proof-label">Print edition</span></li>
+        <li class="proof-divider" aria-hidden="true"></li>
+        <li class="proof-item"><span class="proof-num">100%</span><span class="proof-label">Independent, not AI-written</span></li>
+      </ul>
+    </section>
 
-      <!-- Other Platforms -->
-      <div class="other-platforms">
-        <h4 class="platforms-heading">📲 All Mobile Platforms</h4>
-        <p class="platforms-text">Already available on all major digital platforms. Pick the one you already use:</p>
-        <div class="platforms-links">
-          <a href="https://www.zinio.com/publications/nomad-magazine/45331" target="_blank" rel="noopener noreferrer" aria-label="Read on Zinio (opens in new tab)" class="platform-link">
-            Zinio ↗
-          </a>
-          <a href="https://www.magazinecafe.com/tr/title/nomad-magazine/n0" target="_blank" rel="noopener noreferrer" aria-label="Read on Magazine Cafe (opens in new tab)" class="platform-link">
-            Magazine Cafe ↗
-          </a>
-          <a href="https://www.plingapp.nl/magazine/nomad-magazine/n0" target="_blank" rel="noopener noreferrer" aria-label="Read on Pling (opens in new tab)" class="platform-link">
-            Pling ↗
-          </a>
-          <a href="https://www.ziniounlimited.com/us/magazine/nomad-magazine/n0" target="_blank" rel="noopener noreferrer" aria-label="Read on Zinio Unlimited (opens in new tab)" class="platform-link">
-            Zinio Unlimited ↗
+    <!-- Palermo Spotlight -->
+    <section class="palermo-section">
+      <div class="palermo-inner">
+        <div class="palermo-image-col">
+          <img
+            src="/images/edition-004-palermo-holding-magazine.webp"
+            alt="Holding Nomad Magazine Edition Four in Palermo, Italy"
+            class="palermo-image"
+            loading="lazy"
+          />
+        </div>
+        <div class="palermo-copy-col">
+          <p class="palermo-eyebrow">Cover Story</p>
+          <h2 class="palermo-heading">Palermo: A Better Way to Work and Live</h2>
+          <p class="palermo-body">Palermo is Italy's emerging nomad capital — and this is the issue that tells that story. Our cover feature goes on the ground in Sicily to explore why this city is attracting a new generation of location-independent workers, what the municipality is doing to welcome them, and what a genuinely good life can look like when you stop treating your city as a backdrop.</p>
+          <p class="palermo-body">It is not a destination guide. It is a reported story about a place becoming something new.</p>
+          <a
+            href="https://pay.nomad-magazine.com/b/fZu14nc2x1bdfAWf0l8bS0L"
+            class="palermo-cta"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Buy print edition to read the Palermo cover story (opens in new tab)"
+          >
+            Read It in Print
           </a>
         </div>
       </div>
     </section>
 
-    <div class="collage">
-      <span class="word word-1">Palermo</span>
-      <span class="word word-2">Bansko</span>
-      <span class="word word-3">Fukuoka</span>
-      <span class="word word-4">Madeira Research</span>
-      <span class="word word-5">Vanlife Photostory</span>
-      <span class="word word-6">Kristin Wilson</span>
-      <span class="word word-7">Online Education in creative</span>
-      <span class="word word-8">Coworking Contest</span>
-      <span class="word word-9">Nomad Directory</span>
-      <span class="word word-10">Parenting on the move</span>
-      <span class="word word-11">Queer Nomads</span>
-      <span class="word word-12">Nomad Fashion</span>
-    </div>
+    <!-- Visual Preview Strip -->
+    <section class="preview-section" aria-label="Inside Edition Four">
+      <div class="preview-header">
+        <p class="preview-eyebrow">Inside Edition Four</p>
+        <h2 class="preview-heading">See What You're Getting</h2>
+      </div>
+      <div class="preview-track">
+        <figure class="preview-card">
+          <img
+            src="/images/edition-004-palermo-illustration.webp"
+            alt="Palermo illustration — laptop on a terrace overlooking the city, cover story in Nomad Magazine Edition Four"
+            class="preview-img"
+            loading="lazy"
+          />
+          <figcaption class="preview-caption">
+            <span class="preview-topic">p. 10 — Palermo</span>
+            Why Palermo is becoming Italy's No.1 nomad capital — told through the mayor, the founders, and the people already living it.
+          </figcaption>
+        </figure>
+        <figure class="preview-card">
+          <img
+            src="/images/edition-004-Fukuoka.webp"
+            alt="Shinto temple in Fukuoka, Japan — featured in Nomad Magazine Edition Four"
+            class="preview-img"
+            loading="lazy"
+          />
+          <figcaption class="preview-caption">
+            <span class="preview-topic">p. 52 — Fukuoka</span>
+            Japan: The Art of Meaningful Encounters — on the community builders making Fukuoka a destination worth staying.
+          </figcaption>
+        </figure>
+        <figure class="preview-card">
+          <img
+            src="/images/edition-004-Bansko.webp"
+            alt="Bansko, Bulgaria — digital nomad destination, featured in Nomad Magazine Edition Four"
+            class="preview-img"
+            loading="lazy"
+          />
+          <figcaption class="preview-caption">
+            <span class="preview-topic">p. 90 — Bansko</span>
+            Digital Nomads in Bansko: 5 Years in the Making — how a Bulgarian ski town became a year-round nomad hub.
+          </figcaption>
+        </figure>
+        <figure class="preview-card">
+          <img
+            src="/images/edition-004-madeira-landscape.webp"
+            alt="Madeira coastline, Portugal — featured in the Nomad Research Lab in Edition Four"
+            class="preview-img"
+            loading="lazy"
+          />
+          <figcaption class="preview-caption">
+            <span class="preview-topic">p. 98 — Madeira</span>
+            The Nomad Research Lab: On Madeira — a data-driven look at the island that became the world's most famous nomad experiment.
+          </figcaption>
+        </figure>
+        <figure class="preview-card">
+          <img
+            src="/images/edition-004-kristin-wilson.webp"
+            alt="Kristin Wilson — interview feature in Nomad Magazine Edition Four"
+            class="preview-img"
+            loading="lazy"
+          />
+          <figcaption class="preview-caption">
+            <span class="preview-topic">p. 34 — Kristin Wilson</span>
+            Behind the Brand: Building a Business Around Freedom — 13 years on the road, 60+ countries, and the real story behind Traveling with Kristin.
+          </figcaption>
+        </figure>
+        <figure class="preview-card">
+          <img
+            src="/images/edition-004-vanlife.webp"
+            alt="Couple with dogs in a camper van — vanlife photo essay in Nomad Magazine Edition Four"
+            class="preview-img"
+            loading="lazy"
+          />
+          <figcaption class="preview-caption">
+            <span class="preview-topic">p. 40 — Vanlife</span>
+            The Beauty, Chaos, and Clarity of Life on Four Wheels — a photo essay by Cassandra Rae on what vanlife actually looks and feels like.
+          </figcaption>
+        </figure>
+        <figure class="preview-card">
+          <img
+            src="/images/edition-004-falmouth-creative-careers.webp"
+            alt="Unlocking Creative Careers — Falmouth University article in Nomad Magazine Edition Four"
+            class="preview-img"
+            loading="lazy"
+          />
+          <figcaption class="preview-caption">
+            <span class="preview-topic">p. 26 — Creative Education</span>
+            Unlocking Creative Careers — how Falmouth University empowers students through online study.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
 
+    <!-- Why This Issue -->
+    <section class="why-issue-section">
+      <div class="why-issue-content">
+        <h2 class="why-issue-heading">Why This Issue?</h2>
+        <p class="why-issue-text">
+          In our first three editions, we spent a lot of time on the human side of this lifestyle: mindfulness, relationships, loneliness, and community. This time, we went deeper into the question we hear the most: <strong>"Which nomad destinations are growing right now?"</strong>
+        </p>
+        <p class="why-issue-text">
+          We traveled to places gaining real momentum — Palermo, Fukuoka, Bansko, and Madeira — to talk to the people on the ground. We paired that destination reporting with deeper stories on identity, family, business, and creativity. The kind of editorial you won't find in an SEO article.
+        </p>
+      </div>
+    </section>
+
+    <!-- What's Inside Section -->
+    <section class="in-this-issue-section">
+      <h2 class="in-this-issue-heading">What's Inside</h2>
+      <div class="themed-blocks-grid">
+        
+        <!-- Block 1 -->
+        <div class="theme-block">
+          <div class="theme-header">
+            <span class="theme-icon">🌍</span>
+            <h3 class="theme-title">Where the Nomad World is Growing</h3>
+          </div>
+          <p class="theme-desc">On-the-ground reporting from the places gaining real momentum right now.</p>
+          <ul class="theme-articles">
+            <li>
+              <span class="article-page">p. 10</span>
+              <div>
+                <strong>Palermo:</strong> The Rise of Italy's No.1 Nomad Capital
+              </div>
+            </li>
+            <li>
+              <span class="article-page">p. 52</span>
+              <div>
+                <strong>Fukuoka:</strong> The Art of Meaningful Encounters in Japan
+              </div>
+            </li>
+            <li>
+              <span class="article-page">p. 90</span>
+              <div>
+                <strong>Bansko:</strong> 5 Years in the Making
+              </div>
+            </li>
+            <li>
+              <span class="article-page">p. 98</span>
+              <div>
+                <strong>Madeira:</strong> The Nomad Research Lab
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Block 2 -->
+        <div class="theme-block">
+          <div class="theme-header">
+            <span class="theme-icon">👤</span>
+            <h3 class="theme-title">Real Stories Behind the Lifestyle</h3>
+          </div>
+          <p class="theme-desc">Deep dives into identity, family, and building a life on your own terms.</p>
+          <ul class="theme-articles">
+            <li>
+              <span class="article-page">p. 34</span>
+              <div>
+                <strong>Kristin Wilson:</strong> Building a Business Around Freedom
+              </div>
+            </li>
+            <li>
+              <span class="article-page">p. 40</span>
+              <div>
+                <strong>Van Life:</strong> The Beauty, Chaos, and Clarity of Life on Four Wheels
+              </div>
+            </li>
+            <li>
+              <span class="article-page">p. 106</span>
+              <div>
+                <strong>Family:</strong> Raising Kids Without Borders
+              </div>
+            </li>
+            <li>
+              <span class="article-page">p. 114</span>
+              <div>
+                <strong>Identity:</strong> Queer Digital Nomads, The Hidden Demographic
+              </div>
+            </li>
+            <li>
+              <span class="article-page">p. 122</span>
+              <div>
+                <strong>Travel Fashion:</strong> How to Look Runway-Ready While Traveling
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Block 3 -->
+        <div class="theme-block">
+          <div class="theme-header">
+            <span class="theme-icon">🏗️</span>
+            <h3 class="theme-title">The Ecosystem Behind It All</h3>
+          </div>
+          <p class="theme-desc">The projects, spaces, and institutions shaping the future of remote work.</p>
+          <ul class="theme-articles">
+            <li>
+              <span class="article-page">p. 82</span>
+              <div>
+                <strong>Nomad Directory:</strong> The tools and brands making life simpler
+              </div>
+            </li>
+            <li>
+              <span class="article-page">p. 66</span>
+              <div>
+                <strong>The Coworkings Contest:</strong> Winners Revealed
+              </div>
+            </li>
+            <li>
+              <span class="article-page">p. 26</span>
+              <div>
+                <strong>Creative Education:</strong> How Falmouth University Empowers Online Study
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Block 4 -->
+        <div class="theme-block">
+          <div class="theme-header">
+            <span class="theme-icon">✨</span>
+            <h3 class="theme-title">Beautifully Made to Keep</h3>
+          </div>
+          <p class="theme-desc">A premium physical object designed for a slower, more enjoyable reading experience.</p>
+          <ul class="theme-articles">
+            <li>
+              <span class="article-page">—</span>
+              <div>
+                <strong>Premium Print:</strong> 128 pages of high-quality paper that feels substantial
+              </div>
+            </li>
+            <li>
+              <span class="article-page">—</span>
+              <div>
+                <strong>Visual Storytelling:</strong> Stunning photography and illustration throughout
+              </div>
+            </li>
+            <li>
+              <span class="article-page">—</span>
+              <div>
+                <strong>New Design:</strong> A simplified layout meant to linger on the page
+              </div>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Why Own in Print Section -->
+    <section class="own-in-print-section">
+      <div class="own-in-print-container">
+        <div class="own-in-print-content">
+          <h2 class="own-in-print-heading">Why Own It In Print?</h2>
+          <p class="own-in-print-text">
+            This is not disposable internet content. It's a premium physical object designed for a slower, more enjoyable reading experience. We believe some stories deserve to be held, not just scrolled past.
+          </p>
+          <ul class="own-in-print-list">
+            <li>
+              <span class="check-icon">✓</span>
+              <span><strong>128 Pages of Premium Print:</strong> High-quality paper that feels substantial in your hands.</span>
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <span><strong>Independent Editorial:</strong> Real stories from the ground, not AI-written SEO content.</span>
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <span><strong>Beautifully Designed:</strong> Stunning photography and a layout meant to linger on the page.</span>
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <span><strong>A Collectible Object:</strong> Made to keep on your coffee table or bookshelf for years to come.</span>
+            </li>
+          </ul>
+          <div class="own-in-print-cta-wrapper">
+            <a href="https://buy.stripe.com/28o17Z6mS51a6UUbII" class="hero-cta">
+              Buy Print Edition
+            </a>
+          </div>
+        </div>
+        <div class="own-in-print-image">
+          <img src="/images/edition-004-magazines-on-coffee-table.webp" alt="Nomad Magazine Edition Four on a coffee table" loading="lazy" />
+        </div>
+      </div>
+    </section>
 
     <!-- Partners Section -->
     <div class="partners-section">
@@ -158,70 +503,132 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
       </div>
     </div>
 
-    <!-- In This Issue Section -->
-    <section class="in-this-issue-section">
-      <h2 class="in-this-issue-heading">In This Issue</h2>
-      <div class="in-this-issue-grid">
-        <div class="issue-card">
-          <p class="issue-label">IN THIS ISSUE</p>
-          <h3 class="issue-title">Why Palermo, Why Now? The Rise Of Italy's No.1 Nomad Capital</h3>
-          <span class="issue-page">p. 10</span>
+    <!-- FAQ Section -->
+    <section class="faq-section">
+      <h2 class="faq-heading">Frequently Asked Questions</h2>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <h3 class="faq-question">Is this a print or digital magazine?</h3>
+          <p class="faq-answer">This is a premium, 128-page physical print magazine. We believe these stories are best read away from screens. (However, digital versions are available below if you prefer).</p>
         </div>
-        <div class="issue-card">
-          <p class="issue-label">IN THIS ISSUE</p>
-          <h3 class="issue-title">Unlocking Creative Careers: How Falmouth University Empowers Students Through Online Study</h3>
-          <span class="issue-page">p. 26</span>
+        <div class="faq-item">
+          <h3 class="faq-question">What does shipping look like?</h3>
+          <p class="faq-answer">We ship globally at a flat rate — same price everywhere. We process and ship orders once a week, so expect dispatch within a few days of ordering.</p>
         </div>
-        <div class="issue-card">
-          <p class="issue-label">IN THIS ISSUE</p>
-          <h3 class="issue-title">Behind The Brand Of Kristin Wilson: Building A Business Around Freedom</h3>
-          <span class="issue-page">p. 34</span>
+        <div class="faq-item">
+          <h3 class="faq-question">Is this a one-time purchase?</h3>
+          <p class="faq-answer">Yes, this is a single purchase for Edition Four. It is not a recurring subscription.</p>
         </div>
-        <div class="issue-card">
-          <p class="issue-label">IN THIS ISSUE</p>
-          <h3 class="issue-title">Van Life: The Beauty, Chaos, And Clarity Of Life On Four Wheels by Cassandra Rae</h3>
-          <span class="issue-page">p. 40</span>
+        <div class="faq-item">
+          <h3 class="faq-question">Are older editions available?</h3>
+          <p class="faq-answer">Yes, you can find previous editions in our shop, though quantities are limited as we don't reprint sold-out issues.</p>
         </div>
-        <div class="issue-card">
-          <p class="issue-label">IN THIS ISSUE</p>
-          <h3 class="issue-title">Japan: The Art Of Meaningful Encounters In Fukuoka</h3>
-          <span class="issue-page">p. 52</span>
+      </div>
+      <div class="faq-cta-wrapper">
+        <a href="https://buy.stripe.com/28o17Z6mS51a6UUbII" class="hero-cta">
+          Buy Print Edition
+        </a>
+      </div>
+    </section>
+
+    <!-- Digital Availability Section -->
+    <section class="digital-section">
+      <!-- ZINIO Primary -->
+      <div class="zinio-primary">
+        <h3 class="digital-main-title">📱 Prefer Digital?</h3>
+        <p class="digital-subtitle">Read on your favorite device with the best digital magazine experience</p>
+        <div class="zinio-buttons">
+          <a href="https://www.zinio.com/publications/nomad-magazine/45331" target="_blank" rel="noopener noreferrer" aria-label="Read Nomad Magazine on ZINIO Web Reader (opens in new tab)" class="zinio-button">
+            🌐 Web Reader
+          </a>
+          <a href="https://apps.apple.com/us/app/zinio-magazine-newsstand/id364297166" target="_blank" rel="noopener noreferrer" aria-label="Download ZINIO app on iOS App Store (opens in new tab)" class="zinio-button">
+            🍎 iOS App
+          </a>
+          <a href="https://play.google.com/store/apps/details?id=com.zinio.mobile.android.reader&pli=1" target="_blank" rel="noopener noreferrer" aria-label="Download ZINIO app on Google Play Store (opens in new tab)" class="zinio-button">
+            🤖 Android App
+          </a>
         </div>
-        <div class="issue-card">
-          <p class="issue-label">IN THIS ISSUE</p>
-          <h3 class="issue-title">The Coworkings Contest: Winners Revealed</h3>
-          <span class="issue-page">p. 66</span>
+      </div>
+
+      <!-- Other Platforms -->
+      <div class="other-platforms">
+        <h4 class="platforms-heading">📲 All Mobile Platforms</h4>
+        <p class="platforms-text">Already available on all major digital platforms. Pick the one you already use:</p>
+        <div class="platforms-links">
+          <a href="https://www.zinio.com/publications/nomad-magazine/45331" target="_blank" rel="noopener noreferrer" aria-label="Read on Zinio (opens in new tab)" class="platform-link">
+            Zinio ↗
+          </a>
+          <a href="https://www.magazinecafe.com/tr/title/nomad-magazine/n0" target="_blank" rel="noopener noreferrer" aria-label="Read on Magazine Cafe (opens in new tab)" class="platform-link">
+            Magazine Cafe ↗
+          </a>
+          <a href="https://www.plingapp.nl/magazine/nomad-magazine/n0" target="_blank" rel="noopener noreferrer" aria-label="Read on Pling (opens in new tab)" class="platform-link">
+            Pling ↗
+          </a>
+          <a href="https://www.ziniounlimited.com/us/magazine/nomad-magazine/n0" target="_blank" rel="noopener noreferrer" aria-label="Read on Zinio Unlimited (opens in new tab)" class="platform-link">
+            Zinio Unlimited ↗
+          </a>
         </div>
-        <div class="issue-card">
-          <p class="issue-label">IN THIS ISSUE</p>
-          <h3 class="issue-title">Nomad Directory</h3>
-          <span class="issue-page">p. 82</span>
-        </div>
-        <div class="issue-card">
-          <p class="issue-label">IN THIS ISSUE</p>
-          <h3 class="issue-title">Digital Nomads In Bansko: 5 Years In The Making</h3>
-          <span class="issue-page">p. 90</span>
-        </div>
-        <div class="issue-card">
-          <p class="issue-label">IN THIS ISSUE</p>
-          <h3 class="issue-title">The Nomad Research Lab: On Madeira</h3>
-          <span class="issue-page">p. 98</span>
-        </div>
-        <div class="issue-card">
-          <p class="issue-label">IN THIS ISSUE</p>
-          <h3 class="issue-title">Raising Kids Without Borders By Doris Dario</h3>
-          <span class="issue-page">p. 106</span>
-        </div>
-        <div class="issue-card">
-          <p class="issue-label">IN THIS ISSUE</p>
-          <h3 class="issue-title">Queer Digital Nomads: The Hidden Demographic by Saul O</h3>
-          <span class="issue-page">p. 114</span>
-        </div>
-        <div class="issue-card">
-          <p class="issue-label">IN THIS ISSUE</p>
-          <h3 class="issue-title">Travel Fashion: How To Look Runway-Ready While Traveling</h3>
-          <span class="issue-page">p. 122</span>
-        </div>
+      </div>
+    </section>
+
+    <!-- Find a Copy Section -->
+    <section class="find-copy-section">
+      <div class="find-copy-header">
+        <p class="find-copy-eyebrow">In the Wild</p>
+        <h2 class="find-copy-title">Find a Copy Near You</h2>
+      </div>
+
+      <div class="find-copy-filters" role="group" aria-label="Filter by country">
+        {locationCountries.map((c) => (
+          <button
+            class={`find-copy-filter-btn${c === 'All' ? ' is-active' : ''}`}
+            data-filter={c}
+            aria-pressed={c === 'All' ? 'true' : 'false'}
+          >{c}</button>
+        ))}
+      </div>
+
+      <div class="find-copy-grid" id="find-copy-grid">
+        {magazineLocations.map((place) => (
+          <article class="find-copy-card" data-country={place.country}>
+            <a
+              href={place.maps}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Open ${place.name} on Google Maps (opens in new tab)`}
+              class="find-copy-photo-wrap"
+            >
+              <img
+                src={place.photos[0].src}
+                alt={place.photos[0].alt}
+                class="find-copy-photo"
+                loading="lazy"
+              />
+              <div class="find-copy-overlay">
+                <p class="find-copy-city">{place.location}</p>
+                <h3 class="find-copy-name">{place.name}</h3>
+              </div>
+              <div class="find-copy-map-hint" aria-hidden="true">View on Maps ↗</div>
+            </a>
+            <div class="find-copy-footer">
+              <a
+                href={place.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Visit ${place.name} website (opens in new tab)`}
+                class="find-copy-link"
+              >Website ↗</a>
+              <span class="find-copy-sep" aria-hidden="true">·</span>
+              <a
+                href={place.maps}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Open ${place.name} on Google Maps (opens in new tab)`}
+                class="find-copy-link"
+              >Google Maps ↗</a>
+            </div>
+          </article>
+        ))}
       </div>
     </section>
 
@@ -268,174 +675,337 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
     color: white;
   }
 
-  .cover-section {
-    display: flex;
-    justify-content: center;
+  /* ── Hero ── */
+  .hero-section {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 4rem 2rem 0 2rem;
+  }
+
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 5rem;
     align-items: center;
-    padding: 3rem 0 2rem 0;
-    animation: fadeInScale 1s ease-out;
-  }
-
-  .cover-image {
-    max-width: 400px;
-    width: 100%;
-    height: auto;
-    border-radius: 12px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
-                0 0 40px rgba(78, 205, 196, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .cover-image:hover {
-    transform: scale(1.05);
-    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6),
-                0 0 60px rgba(78, 205, 196, 0.5);
-  }
-
-  @keyframes fadeInScale {
-    from {
-      opacity: 0;
-      transform: scale(0.9);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  .hero-text {
-    text-align: center;
-    margin-bottom: 2rem;
-    padding-top: 2rem;
-  }
-
-  .hero-text h1 {
-    font-size: clamp(3rem, 8vw, 6rem);
-    font-weight: 900;
-    letter-spacing: -0.02em;
-    margin: 0;
-    background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .hero-text h2 {
-    font-size: clamp(2rem, 5vw, 4rem);
-    font-weight: 300;
-    letter-spacing: 0.05em;
-    margin: 1rem 0;
-    color: #888;
-  }
-
-  .subtitle {
-    text-align: center;
     margin-bottom: 4rem;
   }
 
-  .subtitle p {
-    font-size: clamp(1.2rem, 2.5vw, 2rem);
-    font-weight: 500;
-    margin: 0.5rem 0;
-    color: #ddd;
+  .hero-cover-col {
+    display: flex;
+    justify-content: center;
   }
 
-  .subtitle .pages {
-    font-size: clamp(1rem, 2vw, 1.5rem);
-    color: #999;
-    font-weight: 300;
+  .cover-image {
+    width: 100%;
+    max-width: 380px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6),
+                0 0 48px rgba(78, 205, 196, 0.2);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
   }
 
-  .print-discount-banner {
+  .cover-image:hover {
+    transform: scale(1.03) rotate(-1deg);
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7),
+                0 0 64px rgba(78, 205, 196, 0.35);
+  }
+
+  .hero-copy-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .hero-eyebrow {
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #4ecdc4;
+  }
+
+  .hero-h1 {
+    margin: 0;
+    font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+    font-weight: 900;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    color: #ffffff;
+  }
+
+  .hero-sub {
+    margin: 0;
+    font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.6;
+    max-width: 480px;
+  }
+
+  .hero-cta {
+    display: inline-block;
+    background: #ffffff;
+    color: #1a1a1a;
+    padding: 1.1rem 2.8rem;
+    border-radius: 10px;
+    font-weight: 800;
+    font-size: clamp(1rem, 1.6vw, 1.15rem);
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  }
+
+  .hero-cta:hover {
+    background: #f0f0f0;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  }
+
+  /* Proof strip */
+  .proof-strip {
+    list-style: none;
+    margin: 0;
+    padding: 2rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .proof-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0 3rem;
+    text-align: center;
+  }
+
+  .proof-num {
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .proof-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  .proof-divider {
+    width: 1px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  /* ── Palermo Spotlight ── */
+  .palermo-section {
     max-width: 1400px;
-    margin: 3rem auto;
+    margin: 5rem auto;
     padding: 0 2rem;
   }
 
-  .discount-content {
-    background: linear-gradient(135deg, #ff6b6b 0%, #ff8c94 100%);
-    padding: 3rem 2rem;
-    border-radius: 16px;
-    text-align: center;
-    box-shadow: 0 20px 60px rgba(255, 107, 107, 0.3);
-    border: 3px solid rgba(255, 255, 255, 0.2);
+  .palermo-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
   }
 
-  .discount-badge {
-    display: inline-block;
-    background: rgba(255, 255, 255, 0.95);
-    color: #ff6b6b;
-    padding: 0.5rem 1.5rem;
-    border-radius: 20px;
-    font-weight: 800;
-    font-size: clamp(0.8rem, 1.5vw, 1rem);
-    letter-spacing: 0.05em;
-    margin-bottom: 1.5rem;
-    animation: pulse 2s infinite;
+  .palermo-image-col {
+    position: relative;
   }
 
-  @keyframes pulse {
-    0%, 100% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.05);
-    }
-  }
-
-  .discount-title {
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 900;
-    color: white;
-    margin: 0 0 1rem 0;
-    line-height: 1.2;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-  }
-
-  .discount-subtitle {
-    font-size: clamp(1.2rem, 3vw, 2rem);
-    color: white;
-    margin: 0 0 0.5rem 0;
-    line-height: 1.4;
-  }
-
-  .discount-code {
-    display: inline-block;
-    background: rgba(0, 0, 0, 0.3);
-    padding: 0.3rem 1rem;
-    border-radius: 8px;
-    font-family: monospace;
-    font-weight: 800;
-    font-size: clamp(1.3rem, 3.2vw, 2.2rem);
-    letter-spacing: 0.1em;
-    color: #ffe66d;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  }
-
-  .discount-deadline {
-    font-size: clamp(1rem, 2vw, 1.3rem);
-    color: rgba(255, 255, 255, 0.95);
-    margin: 1rem 0 2rem 0;
-    font-weight: 600;
-  }
-
-  .discount-button {
-    display: inline-block;
-    background: white;
-    color: #ff6b6b;
-    padding: 1.2rem 3rem;
+  .palermo-image {
+    width: 100%;
+    height: auto;
     border-radius: 12px;
-    font-weight: 800;
-    font-size: clamp(1rem, 2.2vw, 1.4rem);
-    text-decoration: none;
-    transition: all 0.3s ease;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    display: block;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
   }
 
-  .discount-button:hover {
-    background: rgba(255, 255, 255, 0.95);
-    transform: translateY(-3px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+  .palermo-copy-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .palermo-eyebrow {
+    margin: 0;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #ff6b6b;
+  }
+
+  .palermo-heading {
+    margin: 0;
+    font-size: clamp(1.8rem, 3.2vw, 2.8rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: #ffffff;
+  }
+
+  .palermo-body {
+    margin: 0;
+    font-size: clamp(1rem, 1.6vw, 1.1rem);
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.7;
+  }
+
+  .palermo-cta {
+    display: inline-block;
+    align-self: flex-start;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    color: #ffffff;
+    padding: 0.9rem 2.2rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+  }
+
+  .palermo-cta:hover {
+    border-color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+  }
+
+  /* ── Visual Preview Strip ── */
+  .preview-section {
+    margin: 5rem 0;
+    overflow: hidden;
+  }
+
+  .preview-header {
+    max-width: 1400px;
+    margin: 0 auto 2.5rem auto;
+    padding: 0 2rem;
+  }
+
+  .preview-eyebrow {
+    margin: 0 0 0.4rem 0;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #4ecdc4;
+  }
+
+  .preview-heading {
+    margin: 0;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+  }
+
+  .preview-track {
+    display: flex;
+    gap: 1.25rem;
+    padding: 0 2rem 1.5rem 2rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.15) transparent;
+  }
+
+  .preview-track::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .preview-track::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .preview-track::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.15);
+    border-radius: 2px;
+  }
+
+  .preview-card {
+    flex: 0 0 340px;
+    scroll-snap-align: start;
+    margin: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #111;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .preview-img {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  .preview-card:hover .preview-img {
+    transform: scale(1.04);
+  }
+
+  .preview-caption {
+    padding: 1rem 1.2rem 1.2rem 1.2rem;
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .preview-topic {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #4ecdc4;
+  }
+
+  /* ── Why This Issue ── */
+  .why-issue-section {
+    max-width: 800px;
+    margin: 6rem auto;
+    padding: 0 2rem;
+    text-align: center;
+  }
+
+  .why-issue-heading {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    margin: 0 0 2rem 0;
+  }
+
+  .why-issue-text {
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0 0 1.5rem 0;
+  }
+
+  .why-issue-text strong {
+    color: #ffffff;
+    font-weight: 700;
   }
 
   .partners-section {
@@ -763,6 +1333,188 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   }
 
+  .find-copy-section {
+    max-width: 1400px;
+    margin: 0 auto 4rem auto;
+    padding: 4rem 2rem;
+  }
+
+  .find-copy-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .find-copy-eyebrow {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #4ecdc4;
+  }
+
+  .find-copy-title {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .find-copy-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .find-copy-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #111;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .find-copy-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
+  }
+
+  .find-copy-photo-wrap {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    display: block;
+    cursor: pointer;
+  }
+
+  .find-copy-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+
+  .find-copy-card:hover .find-copy-photo {
+    transform: scale(1.04);
+  }
+
+  .find-copy-map-hint {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(0,0,0,0.65);
+    backdrop-filter: blur(6px);
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    letter-spacing: 0.03em;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    pointer-events: none;
+  }
+
+  .find-copy-card:hover .find-copy-map-hint {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .find-copy-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.5rem;
+    gap: 0.3rem;
+  }
+
+  .find-copy-city {
+    margin: 0;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #4ecdc4;
+  }
+
+  .find-copy-name {
+    margin: 0;
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  .find-copy-footer {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    background: #111;
+  }
+
+  .find-copy-link {
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  .find-copy-link:hover {
+    color: #4ecdc4;
+  }
+
+  .find-copy-sep {
+    color: rgba(255,255,255,0.2);
+    font-size: 0.85rem;
+  }
+
+  .find-copy-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+
+  .find-copy-filter-btn {
+    padding: 0.5rem 1.1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: transparent;
+    color: rgba(255,255,255,0.5);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  }
+
+  .find-copy-filter-btn:hover {
+    color: #fff;
+    border-color: rgba(255,255,255,0.4);
+  }
+
+  .find-copy-filter-btn.is-active {
+    background: #4ecdc4;
+    border-color: #4ecdc4;
+    color: #1a1a1a;
+  }
+
+  .find-copy-card[hidden] {
+    display: none;
+  }
+
   .shipment-section {
     max-width: 800px;
     margin: 4rem auto 2rem auto;
@@ -908,67 +1660,257 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
     transform: none;
   }
 
+  /* ── What's Inside ── */
   .in-this-issue-section {
-    max-width: 1400px;
-    margin: 0 auto 4rem auto;
-    padding: 4rem 2rem;
-    background: white;
-    border-radius: 16px;
+    max-width: 1000px;
+    margin: 0 auto 6rem auto;
+    padding: 0 2rem;
   }
 
   .in-this-issue-heading {
     text-align: center;
-    font-size: clamp(1.5rem, 3vw, 2.2rem);
-    font-weight: 700;
-    color: #333;
-    margin-bottom: 2.5rem;
-    letter-spacing: -0.01em;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 900;
+    color: #ffffff;
+    margin-bottom: 3rem;
+    letter-spacing: -0.02em;
   }
 
-  .in-this-issue-grid {
+  .themed-blocks-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .theme-block {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  .theme-block:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .theme-header-block {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  .theme-header-block:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .theme-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .theme-icon {
+    font-size: 2rem;
+  }
+
+  .theme-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .theme-desc {
+    font-size: 0.95rem;
+    color: #cccccc;
+    margin: 0 0 1rem 0;
+    line-height: 1.5;
+  }
+
+  .theme-articles {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .theme-articles li {
+    font-size: 1.05rem;
+    color: #e0e0e0;
+    line-height: 1.4;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .article-page {
+    color: #ff6b6b;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    min-width: 50px;
+    padding-top: 0.15rem;
+    flex-shrink: 0;
+  }
+
+  .theme-articles strong {
+    color: #ffffff;
+    font-weight: 700;
+    display: inline;
+    margin-right: 0.25rem;
+  }
+
+  /* ── Why Own In Print ── */
+  .own-in-print-section {
+    max-width: 1200px;
+    margin: 0 auto 6rem auto;
+    padding: 0 2rem;
+  }
+
+  .own-in-print-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    background: #1a1a1a;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .own-in-print-content {
+    padding: 4rem;
+    color: #ffffff;
+  }
+
+  .own-in-print-heading {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 900;
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  .own-in-print-text {
+    font-size: 1.15rem;
+    color: #cccccc;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+  }
+
+  .own-in-print-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 3rem 0;
+    display: flex;
+    flex-direction: column;
     gap: 1.5rem;
   }
 
-  .issue-card {
-    background: #f7f7f7;
-    border-radius: 12px;
-    padding: 1.5rem;
+  .own-in-print-list li {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    align-items: flex-start;
+    gap: 1rem;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: #e0e0e0;
   }
 
-  .issue-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-  }
-
-  .issue-label {
-    font-size: 0.7rem;
+  .own-in-print-list strong {
+    color: #ffffff;
     font-weight: 700;
-    letter-spacing: 0.1em;
-    color: #999;
-    margin: 0;
-    text-transform: uppercase;
   }
 
-  .issue-title {
-    font-size: clamp(1rem, 1.8vw, 1.15rem);
-    font-weight: 700;
-    color: #1a1a1a;
-    margin: 0;
-    line-height: 1.35;
-    flex: 1;
+  .check-icon {
+    color: #4ecdc4;
+    font-weight: bold;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    margin-top: -0.1rem;
   }
 
-  .issue-page {
-    font-size: 0.85rem;
-    color: #aaa;
-    font-weight: 500;
-    margin-top: 0.5rem;
+  .own-in-print-cta-wrapper {
+    display: flex;
+  }
+
+  .own-in-print-image {
+    height: 100%;
+    min-height: 500px;
+  }
+
+  .own-in-print-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ── FAQ Section ── */
+  .faq-section {
+    max-width: 1000px;
+    margin: 0 auto 6rem auto;
+    padding: 0 2rem;
+  }
+
+  .faq-heading {
+    text-align: center;
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    font-weight: 900;
+    color: #ffffff;
+    margin-bottom: 3rem;
+    letter-spacing: -0.02em;
+  }
+
+  .faq-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .faq-item {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 2rem;
+    border-radius: 12px;
+  }
+
+  .faq-question {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 0.75rem 0;
+    line-height: 1.3;
+  }
+
+  .faq-answer {
+    font-size: 0.95rem;
+    color: #cccccc;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .faq-cta-wrapper {
+    display: flex;
+    justify-content: center;
   }
 
   @media (max-width: 768px) {
@@ -976,21 +1918,87 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
       padding: 1rem;
     }
 
-    .cover-section {
-      padding: 2rem 0 1rem 0;
+    .hero-section {
+      padding: 2rem 1rem 0 1rem;
+    }
+
+    .hero-inner {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      margin-bottom: 2.5rem;
     }
 
     .cover-image {
       max-width: 280px;
+      margin: 0 auto;
     }
 
-    .hero-text {
-      padding-top: 1rem;
+    .hero-copy-col {
+      align-items: center;
+      text-align: center;
+    }
+
+    .hero-sub {
+      max-width: 100%;
+    }
+
+    .hero-cta {
+      width: 100%;
+      text-align: center;
+    }
+
+    .proof-strip {
+      gap: 1rem 0;
+      padding: 1.5rem 0;
+    }
+
+    .proof-item {
+      padding: 0 1.5rem;
+    }
+
+    .proof-divider {
+      display: none;
+    }
+
+    .palermo-section {
+      margin: 3rem auto;
+      padding: 0 1rem;
+    }
+
+    .palermo-inner {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .palermo-cta {
+      align-self: stretch;
+      text-align: center;
+    }
+
+    .preview-section {
+      margin: 3rem 0;
+    }
+
+    .preview-header {
+      padding: 0 1rem;
       margin-bottom: 1.5rem;
     }
 
-    .subtitle {
-      margin-bottom: 2rem;
+    .preview-track {
+      padding: 0 1rem 1.5rem 1rem;
+    }
+
+    .preview-card {
+      flex: 0 0 260px;
+    }
+
+    .why-issue-section {
+      margin: 4rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .why-issue-text {
+      text-align: left;
     }
 
     .partners-section {
@@ -1072,13 +2080,63 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
       margin-bottom: 3rem;
     }
 
-    .in-this-issue-grid {
+    .themed-blocks-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .theme-header {
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .theme-block, .theme-header-block {
+      padding: 2rem 1.5rem;
+    }
+
+    .own-in-print-section {
+      padding: 0 1rem;
+      margin-bottom: 4rem;
+    }
+
+    .own-in-print-container {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .own-in-print-content {
+      padding: 3rem 1.5rem;
+    }
+
+    .own-in-print-image {
+      min-height: 300px;
+      order: -1;
+    }
+
+    .own-in-print-cta-wrapper {
+      justify-content: center;
+    }
+
+    .faq-section {
+      padding: 0 1rem;
+      margin-bottom: 4rem;
+    }
+
+    .faq-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .find-copy-section {
+      padding: 3rem 1rem;
+    }
+
+    .find-copy-grid {
       grid-template-columns: 1fr;
     }
 
-    .collage {
-      gap: 0.5rem;
-      padding: 1rem 1rem 2rem 1rem;
+    .find-copy-photo-wrap {
+      aspect-ratio: 4 / 3;
     }
 
     .word {
@@ -1132,25 +2190,6 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
     .platform-link {
       width: 100%;
       justify-content: center;
-    }
-
-    .print-discount-banner {
-      margin: 2rem auto;
-      padding: 0 1rem;
-    }
-
-    .discount-content {
-      padding: 2rem 1.5rem;
-    }
-
-    .discount-badge {
-      font-size: clamp(0.7rem, 2vw, 0.9rem);
-      padding: 0.4rem 1rem;
-    }
-
-    .discount-button {
-      width: 100%;
-      padding: 1rem 2rem;
     }
 
     .newsletter-section {
@@ -1218,6 +2257,34 @@ const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape
       }
     })
   })
+</script>
+
+<script is:inline>
+  (function () {
+    const btns = document.querySelectorAll('.find-copy-filter-btn');
+    const cards = document.querySelectorAll('#find-copy-grid .find-copy-card');
+
+    btns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const filter = btn.dataset.filter;
+
+        btns.forEach(function (b) {
+          b.classList.remove('is-active');
+          b.setAttribute('aria-pressed', 'false');
+        });
+        btn.classList.add('is-active');
+        btn.setAttribute('aria-pressed', 'true');
+
+        cards.forEach(function (card) {
+          if (filter === 'All' || card.dataset.country === filter) {
+            card.removeAttribute('hidden');
+          } else {
+            card.setAttribute('hidden', '');
+          }
+        });
+      });
+    });
+  })();
 </script>
 
 <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>

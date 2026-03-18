@@ -330,11 +330,29 @@ const seo: SEOProps = {
 </Layout>
 
 <script is:inline>
+  // #region agent log
+  fetch('http://127.0.0.1:7653/ingest/02d1f581-dbef-4d10-90f7-b6e266034229',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'903b89'},body:JSON.stringify({sessionId:'903b89',location:'distribution-list.astro:script-start',message:'script started',data:{readyState:document.readyState},timestamp:Date.now(),hypothesisId:'H-A'})}).catch(()=>{});
+  // #endregion
+
   let allLocations = [];
 
   // Initialize data from server
   const dataEl = document.getElementById('distribution-data');
-  allLocations = dataEl ? JSON.parse(dataEl.textContent) : [];
+
+  // #region agent log
+  fetch('http://127.0.0.1:7653/ingest/02d1f581-dbef-4d10-90f7-b6e266034229',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'903b89'},body:JSON.stringify({sessionId:'903b89',location:'distribution-list.astro:data-element',message:'data element check',data:{elementFound:!!dataEl,textContentLength:dataEl?dataEl.textContent.length:0,first50:dataEl?dataEl.textContent.slice(0,50):'null'},timestamp:Date.now(),hypothesisId:'H-B'})}).catch(()=>{});
+  // #endregion
+
+  let parseError = null;
+  try {
+    allLocations = dataEl ? JSON.parse(dataEl.textContent) : [];
+  } catch(e) {
+    parseError = e.message;
+  }
+
+  // #region agent log
+  fetch('http://127.0.0.1:7653/ingest/02d1f581-dbef-4d10-90f7-b6e266034229',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'903b89'},body:JSON.stringify({sessionId:'903b89',location:'distribution-list.astro:after-parse',message:'parse result',data:{allLocationsLength:allLocations.length,parseError:parseError},timestamp:Date.now(),hypothesisId:'H-C'})}).catch(()=>{});
+  // #endregion
 
   function updateStats() {
     const totalLocations = allLocations.length;
@@ -711,6 +729,9 @@ const seo: SEOProps = {
 
   // Initialize when DOM is ready
   function initializeApp() {
+    // #region agent log
+    fetch('http://127.0.0.1:7653/ingest/02d1f581-dbef-4d10-90f7-b6e266034229',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'903b89'},body:JSON.stringify({sessionId:'903b89',location:'distribution-list.astro:initializeApp',message:'initializeApp called',data:{allLocationsLength:allLocations.length},timestamp:Date.now(),hypothesisId:'H-D H-E'})}).catch(()=>{});
+    // #endregion
     updateStats();
     renderLocations();
     populateFilters();
