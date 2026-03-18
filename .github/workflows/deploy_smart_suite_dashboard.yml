@@ -37,6 +37,7 @@ jobs:
         uses: oven-sh/setup-bun@v2
       
       - name: Deploy smartsuite-dashboard worker
+        working-directory: cloudflare_workers/smartsuite-dashboard
         run: |
           set -e
           sed -i 's/GITHUB_TOKEN_PLACEHOLDER/${{ secrets.GITHUB_TOKEN }}/g' wrangler.jsonc
