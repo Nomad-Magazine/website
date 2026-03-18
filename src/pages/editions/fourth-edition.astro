@@ -2,65 +2,29 @@
 export const prerender = true;
 
 import Layout from '../../layouts/Layout.astro';
+import { fetchReportRecords } from '~/utils/smartsuite';
 
 const siteUrl = 'https://nomad-magazine.com';
 const ogImageUrl = `${siteUrl}/images/nomad_magazine_lifestyle_no_text_landscape_nocut.webp`;
 
-const magazineLocations = [
-  {
-    country: 'Spain',
-    location: 'Barcelona, Spain',
-    name: 'MOB Barcelona',
-    website: 'https://mob-barcelona.com/',
-    maps: 'https://www.google.com/maps/search/?api=1&query=MOB+Barcelona',
-    photos: [
-      {
-        src: '/images/distribution-list-mob.webp',
-        alt: 'Nomad Magazine available at MOB Barcelona',
-      },
-      {
-        src: '/images/distribution-list-mob-2.webp',
-        alt: 'Nomad Magazine displayed inside MOB Barcelona',
-      },
-    ],
-  },
-  {
-    country: 'Portugal',
-    location: 'Madeira, Portugal',
-    name: 'Madeira Friends',
-    website: 'https://madeirafriends.org/',
-    maps: 'https://www.google.com/maps/search/?api=1&query=Madeira+Friends+Madeira',
-    photos: [
-      {
-        src: '/images/distribution-list-madeirafriends.webp',
-        alt: 'Nomad Magazine available at Madeira Friends',
-      },
-      {
-        src: '/images/distribution-list-madeirafriends-2.webp',
-        alt: 'Nomad Magazine in front of Madeira Friends signage',
-      },
-    ],
-  },
-  {
-    country: 'Poland',
-    location: 'Warsaw, Poland',
-    name: 'WeWork Warsaw',
-    website: 'https://www.wework.com/',
-    maps: 'https://www.google.com/maps/search/?api=1&query=WeWork+Warsaw',
-    photos: [
-      {
-        src: '/images/distribution-list-wework.webp',
-        alt: 'Nomad Magazine available at WeWork Warsaw',
-      },
-      {
-        src: '/images/distribution-list-wework-2.webp',
-        alt: 'Nomad Magazine displayed at WeWork Warsaw',
-      },
-    ],
-  },
-];
+const { records = [] } = await fetchReportRecords('68614a111208586bd05d3c3a');
 
-const locationCountries = ['All', ...new Set(magazineLocations.map(p => p.country))];
+const distributionPlaces = records
+  .filter((r: any) => r.sd07d77f5e === true && r.title && r.s43a4b2808)
+  .map((r: any) => {
+    const loc = r.sed1a49986 || '';
+    const parts = loc.split(',').map((s: string) => s.trim());
+    const country = parts.length > 1 ? parts[parts.length - 1] : (parts[0] || 'Other');
+    return {
+      name: r.title,
+      location: loc,
+      country,
+      website: r.sb788c266b?.[0] || null,
+      maps: r.s2d652f699 || null,
+    };
+  });
+
+const distroCountries = [...new Set(distributionPlaces.map((p: any) => p.country))].sort() as string[];
 ---
 
 <Layout 
@@ -572,65 +536,74 @@ const locationCountries = ['All', ...new Set(magazineLocations.map(p => p.countr
     </section>
 
     <!-- Find a Copy Section -->
-    <section class="find-copy-section">
-      <div class="find-copy-header">
-        <p class="find-copy-eyebrow">In the Wild</p>
-        <h2 class="find-copy-title">Find a Copy Near You</h2>
-      </div>
+    {distributionPlaces.length > 0 && (
+      <section class="distro-section">
+        <div class="distro-header">
+          <p class="distro-eyebrow">In the Wild</p>
+          <h2 class="distro-heading">Find a Spot to Read a Copy Near You</h2>
+          <p class="distro-subheading">These coworkings, colivings, and nomad hubs carry Nomad Magazine for their guests and members.</p>
+        </div>
 
-      <div class="find-copy-filters" role="group" aria-label="Filter by country">
-        {locationCountries.map((c) => (
-          <button
-            class={`find-copy-filter-btn${c === 'All' ? ' is-active' : ''}`}
-            data-filter={c}
-            aria-pressed={c === 'All' ? 'true' : 'false'}
-          >{c}</button>
-        ))}
-      </div>
+        <div class="distro-layout">
+          <!-- Country sidebar -->
+          <aside class="distro-sidebar" aria-label="Filter by country">
+            <p class="distro-sidebar-label">Country</p>
+            <ul class="distro-country-list">
+              <li>
+                <button class="distro-country-btn is-active" data-country="All">All <span class="distro-count" id="distro-count-all">{distributionPlaces.length}</span></button>
+              </li>
+              {distroCountries.map((c: string) => (
+                <li>
+                  <button class="distro-country-btn" data-country={c}>{c} <span class="distro-count">{distributionPlaces.filter((p: any) => p.country === c).length}</span></button>
+                </li>
+              ))}
+            </ul>
+          </aside>
 
-      <div class="find-copy-grid" id="find-copy-grid">
-        {magazineLocations.map((place) => (
-          <article class="find-copy-card" data-country={place.country}>
-            <a
-              href={place.maps}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Open ${place.name} on Google Maps (opens in new tab)`}
-              class="find-copy-photo-wrap"
-            >
-              <img
-                src={place.photos[0].src}
-                alt={place.photos[0].alt}
-                class="find-copy-photo"
-                loading="lazy"
-              />
-              <div class="find-copy-overlay">
-                <p class="find-copy-city">{place.location}</p>
-                <h3 class="find-copy-name">{place.name}</h3>
+          <!-- Main list -->
+          <div class="distro-main">
+            <div class="distro-toolbar">
+              <span class="distro-results" id="distro-results">{distributionPlaces.length} locations</span>
+              <div class="distro-sort-wrap">
+                <label for="distro-sort" class="distro-sort-label">Sort</label>
+                <select id="distro-sort" class="distro-sort-select" aria-label="Sort locations">
+                  <option value="default">Default</option>
+                  <option value="az">A → Z</option>
+                  <option value="za">Z → A</option>
+                </select>
               </div>
-              <div class="find-copy-map-hint" aria-hidden="true">View on Maps ↗</div>
-            </a>
-            <div class="find-copy-footer">
-              <a
-                href={place.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`Visit ${place.name} website (opens in new tab)`}
-                class="find-copy-link"
-              >Website ↗</a>
-              <span class="find-copy-sep" aria-hidden="true">·</span>
-              <a
-                href={place.maps}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`Open ${place.name} on Google Maps (opens in new tab)`}
-                class="find-copy-link"
-              >Google Maps ↗</a>
             </div>
-          </article>
-        ))}
-      </div>
-    </section>
+
+            <ul class="distro-list" id="distro-list">
+              {distributionPlaces.map((place: any) => (
+                <li class="distro-item" data-country={place.country} data-name={place.name}>
+                  <div class="distro-info">
+                    <span class="distro-name">{place.name}</span>
+                    {place.location && <span class="distro-location">{place.location}</span>}
+                  </div>
+                  <div class="distro-links">
+                    {place.website && (
+                      <a href={place.website} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${place.name} website (opens in new tab)`} class="distro-link">Website ↗</a>
+                    )}
+                    {place.maps && (
+                      <a href={place.maps} target="_blank" rel="noopener noreferrer" aria-label={`Open ${place.name} on Google Maps (opens in new tab)`} class="distro-link">Maps ↗</a>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+
+            <div class="distro-load-wrap" id="distro-load-wrap">
+              <button class="distro-load-more" id="distro-load-more">Load more</button>
+            </div>
+          </div>
+        </div>
+
+        <p class="distro-more">
+          <a href="/distribution-list/" class="distro-more-link">See full distribution list →</a>
+        </p>
+      </section>
+    )}
 
     <div class="shipment-section">
       <div class="shipment-content">
@@ -1333,186 +1306,270 @@ const locationCountries = ['All', ...new Set(magazineLocations.map(p => p.countr
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   }
 
-  .find-copy-section {
-    max-width: 1400px;
-    margin: 0 auto 4rem auto;
-    padding: 4rem 2rem;
+  /* ── Distribution List ── */
+  .distro-section {
+    max-width: 1000px;
+    margin: 0 auto 5rem auto;
+    padding: 0 2rem;
   }
 
-  .find-copy-header {
+  .distro-header {
     text-align: center;
     margin-bottom: 2.5rem;
   }
 
-  .find-copy-eyebrow {
-    margin: 0 0 0.5rem 0;
+  .distro-eyebrow {
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: #4ecdc4;
+    margin: 0 0 0.5rem 0;
   }
 
-  .find-copy-title {
-    margin: 0;
-    font-size: clamp(2rem, 4vw, 3rem);
+  .distro-heading {
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
     font-weight: 900;
     color: #ffffff;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.75rem 0;
   }
 
-  .find-copy-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.25rem;
-  }
-
-  .find-copy-card {
-    display: flex;
-    flex-direction: column;
-    border-radius: 16px;
-    overflow: hidden;
-    background: #111;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .find-copy-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
-  }
-
-  .find-copy-photo-wrap {
-    position: relative;
-    aspect-ratio: 3 / 4;
-    overflow: hidden;
-    display: block;
-    cursor: pointer;
-  }
-
-  .find-copy-photo {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.5s ease;
-  }
-
-  .find-copy-card:hover .find-copy-photo {
-    transform: scale(1.04);
-  }
-
-  .find-copy-map-hint {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: rgba(0,0,0,0.65);
-    backdrop-filter: blur(6px);
-    color: #ffffff;
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 0.35rem 0.75rem;
-    border-radius: 999px;
-    letter-spacing: 0.03em;
-    opacity: 0;
-    transform: translateY(-4px);
-    transition: opacity 0.25s ease, transform 0.25s ease;
-    pointer-events: none;
-  }
-
-  .find-copy-card:hover .find-copy-map-hint {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .find-copy-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 1.5rem;
-    gap: 0.3rem;
-  }
-
-  .find-copy-city {
+  .distro-subheading {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.5);
     margin: 0;
+    line-height: 1.5;
+  }
+
+  .distro-layout {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  /* Sidebar */
+  .distro-sidebar {
+    position: sticky;
+    top: 2rem;
+  }
+
+  .distro-sidebar-label {
     font-size: 0.7rem;
     font-weight: 700;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: #4ecdc4;
+    color: rgba(255,255,255,0.35);
+    margin: 0 0 0.75rem 0;
   }
 
-  .find-copy-name {
+  .distro-country-list {
+    list-style: none;
+    padding: 0;
     margin: 0;
-    font-size: clamp(1.2rem, 2vw, 1.5rem);
-    font-weight: 800;
-    color: #ffffff;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
   }
 
-  .find-copy-footer {
+  .distro-country-btn {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 0.45rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.5);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .distro-country-btn:hover {
+    background: rgba(255,255,255,0.05);
+    color: #ffffff;
+  }
+
+  .distro-country-btn.is-active {
+    background: rgba(78, 205, 196, 0.12);
+    color: #4ecdc4;
+    font-weight: 700;
+  }
+
+  .distro-count {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.25);
+  }
+
+  .distro-country-btn.is-active .distro-count {
+    color: rgba(78, 205, 196, 0.6);
+  }
+
+  /* Main */
+  .distro-main {
+    min-width: 0;
+  }
+
+  .distro-toolbar {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 1rem 1.5rem;
-    background: #111;
+    justify-content: space-between;
+    margin-bottom: 1rem;
   }
 
-  .find-copy-link {
-    color: rgba(255,255,255,0.55);
-    text-decoration: none;
+  .distro-results {
     font-size: 0.85rem;
-    font-weight: 500;
-    transition: color 0.2s ease;
+    color: rgba(255,255,255,0.35);
   }
 
-  .find-copy-link:hover {
-    color: #4ecdc4;
-  }
-
-  .find-copy-sep {
-    color: rgba(255,255,255,0.2);
-    font-size: 0.85rem;
-  }
-
-  .find-copy-filters {
+  .distro-sort-wrap {
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
     gap: 0.5rem;
-    justify-content: center;
-    margin-bottom: 2rem;
   }
 
-  .find-copy-filter-btn {
-    padding: 0.5rem 1.1rem;
-    border-radius: 999px;
-    border: 1px solid rgba(255,255,255,0.15);
-    background: transparent;
-    color: rgba(255,255,255,0.5);
-    font-size: 0.82rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
+  .distro-sort-label {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.35);
+  }
+
+  .distro-sort-select {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 0.8rem;
+    padding: 0.35rem 0.6rem;
     cursor: pointer;
-    transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    appearance: none;
   }
 
-  .find-copy-filter-btn:hover {
-    color: #fff;
-    border-color: rgba(255,255,255,0.4);
+  .distro-sort-select option {
+    background: #1a1a1a;
   }
 
-  .find-copy-filter-btn.is-active {
-    background: #4ecdc4;
-    border-color: #4ecdc4;
-    color: #1a1a1a;
+  .distro-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    overflow: hidden;
   }
 
-  .find-copy-card[hidden] {
+  .distro-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 1.25rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    transition: background 0.15s ease;
+  }
+
+  .distro-item:last-child {
+    border-bottom: none;
+  }
+
+  .distro-item:hover {
+    background: rgba(255,255,255,0.03);
+  }
+
+  .distro-item[hidden] {
     display: none;
+  }
+
+  .distro-info {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+  }
+
+  .distro-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .distro-location {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.35);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .distro-links {
+    display: flex;
+    gap: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .distro-link {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #4ecdc4;
+    text-decoration: none;
+    transition: opacity 0.15s ease;
+  }
+
+  .distro-link:hover {
+    opacity: 0.7;
+  }
+
+  .distro-load-wrap {
+    text-align: center;
+  }
+
+  .distro-load-more {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.6);
+    padding: 0.65rem 2rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .distro-load-more:hover {
+    border-color: rgba(255,255,255,0.4);
+    color: #ffffff;
+  }
+
+  .distro-load-more[hidden] {
+    display: none;
+  }
+
+  .distro-more {
+    margin: 2rem 0 0 0;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .distro-more-link {
+    color: rgba(255,255,255,0.35);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .distro-more-link:hover {
+    color: #ffffff;
   }
 
   .shipment-section {
@@ -2127,16 +2184,40 @@ const locationCountries = ['All', ...new Set(magazineLocations.map(p => p.countr
       gap: 1.5rem;
     }
 
-    .find-copy-section {
-      padding: 3rem 1rem;
+    .distro-section {
+      padding: 0 1rem;
     }
 
-    .find-copy-grid {
+    .distro-layout {
       grid-template-columns: 1fr;
     }
 
-    .find-copy-photo-wrap {
-      aspect-ratio: 4 / 3;
+    .distro-sidebar {
+      position: static;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .distro-sidebar-label {
+      margin: 0;
+    }
+
+    .distro-country-list {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    .distro-country-btn {
+      padding: 0.3rem 0.75rem;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .distro-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.4rem;
     }
 
     .word {
@@ -2259,32 +2340,81 @@ const locationCountries = ['All', ...new Set(magazineLocations.map(p => p.countr
   })
 </script>
 
-<script is:inline>
-  (function () {
-    const btns = document.querySelectorAll('.find-copy-filter-btn');
-    const cards = document.querySelectorAll('#find-copy-grid .find-copy-card');
-
-    btns.forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        const filter = btn.dataset.filter;
-
-        btns.forEach(function (b) {
-          b.classList.remove('is-active');
-          b.setAttribute('aria-pressed', 'false');
-        });
-        btn.classList.add('is-active');
-        btn.setAttribute('aria-pressed', 'true');
-
-        cards.forEach(function (card) {
-          if (filter === 'All' || card.dataset.country === filter) {
-            card.removeAttribute('hidden');
-          } else {
-            card.setAttribute('hidden', '');
-          }
-        });
-      });
-    });
-  })();
-</script>
 
 <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<script is:inline>
+(function () {
+  const PAGE_SIZE = 15;
+  const list = document.getElementById('distro-list');
+  if (!list) return;
+
+  const allItems = Array.from(list.querySelectorAll('.distro-item'));
+  const resultsEl = document.getElementById('distro-results');
+  const loadMoreBtn = document.getElementById('distro-load-more');
+  const loadWrap = document.getElementById('distro-load-wrap');
+  const sortSelect = document.getElementById('distro-sort');
+  const countryBtns = document.querySelectorAll('.distro-country-btn');
+
+  let activeCountry = 'All';
+  let sortOrder = 'default';
+  let shownCount = PAGE_SIZE;
+
+  const originalOrder = allItems.map((el, i) => ({ el, i }));
+
+  function getFiltered() {
+    let items = originalOrder.slice();
+    if (activeCountry !== 'All') {
+      items = items.filter(({ el }) => el.dataset.country === activeCountry);
+    }
+    if (sortOrder === 'az') {
+      items.sort((a, b) => a.el.dataset.name.localeCompare(b.el.dataset.name));
+    } else if (sortOrder === 'za') {
+      items.sort((a, b) => b.el.dataset.name.localeCompare(a.el.dataset.name));
+    }
+    return items;
+  }
+
+  function render() {
+    const filtered = getFiltered();
+    allItems.forEach(el => el.setAttribute('hidden', ''));
+    filtered.slice(0, shownCount).forEach(({ el }) => el.removeAttribute('hidden'));
+    if (resultsEl) resultsEl.textContent = filtered.length + ' location' + (filtered.length !== 1 ? 's' : '');
+    if (loadMoreBtn) {
+      if (shownCount >= filtered.length) {
+        loadWrap.setAttribute('hidden', '');
+      } else {
+        loadWrap.removeAttribute('hidden');
+      }
+    }
+  }
+
+  // Hide all initially then render
+  render();
+
+  countryBtns.forEach(btn => {
+    btn.addEventListener('click', function () {
+      activeCountry = this.dataset.country;
+      shownCount = PAGE_SIZE;
+      countryBtns.forEach(b => b.classList.remove('is-active'));
+      this.classList.add('is-active');
+      render();
+    });
+  });
+
+  if (sortSelect) {
+    sortSelect.addEventListener('change', function () {
+      sortOrder = this.value;
+      shownCount = PAGE_SIZE;
+      render();
+    });
+  }
+
+  if (loadMoreBtn) {
+    loadMoreBtn.addEventListener('click', function () {
+      shownCount += PAGE_SIZE;
+      render();
+    });
+  }
+})();
+</script>
