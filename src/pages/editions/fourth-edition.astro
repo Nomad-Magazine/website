@@ -19,8 +19,8 @@ const distributionPlaces = records
       name: r.title,
       location: loc,
       country,
-      website: r.sb788c266b?.[0] || null,
-      maps: r.s2d652f699 || null,
+      website: (() => { const u = r.sb788c266b?.[0]; if (!u || typeof u !== 'string') return null; const t = u.trim(); if (!t) return null; return /^https?:\/\//i.test(t) ? t.replace(/^Https:/i, 'https:') : `https://${t}`; })(),
+      maps: (() => { const u = r.s2d652f699; if (!u || typeof u !== 'string') return null; const t = u.trim(); if (!t || !/^https?:\/\//i.test(t)) return null; return t; })(),
     };
   });
 

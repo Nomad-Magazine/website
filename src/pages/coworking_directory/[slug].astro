@@ -64,7 +64,7 @@ export async function getStaticPaths() {
       const city = loc.includes(',') ? loc.split(',')[0].trim() : ''
       const continent = COUNTRY_TO_CONTINENT[country] || ''
       const rawImages = [r.image, r.images, r.sf4ad525dd, r.s4ad525dd]
-        .filter(Boolean).flat().filter(Boolean)
+        .filter(Boolean).flat().filter((s: any) => typeof s === 'string')
       return {
         id: r.id,
         name: r.title,

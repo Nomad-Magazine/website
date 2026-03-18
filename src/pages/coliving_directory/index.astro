@@ -62,7 +62,7 @@ const colivingSpaces = records
       continent,
       website_url: r.sb788c266b?.[0] || null,
       google_maps_url: r.s2d652f699 || null,
-      images: [...new Set([r.image, r.images, r.sf4ad525dd].filter(Boolean).flat().filter(Boolean))] as string[],
+      images: [...new Set([r.image, r.images, r.sf4ad525dd].filter(Boolean).flat().filter((s: any) => typeof s === 'string'))] as string[],
       discount_code: r.s9c0ff01ed || null,
       created_at: r.first_created?.on || new Date().toISOString(),
     }

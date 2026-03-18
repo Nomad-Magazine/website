@@ -65,7 +65,7 @@ export async function getStaticPaths() {
         city, country, continent,
         website_url: normalizeUrlInner(r.sb788c266b?.[0]),
         google_maps_url: normalizeUrlInner(r.s2d652f699),
-        images: [...new Set([r.image, r.images, r.sf4ad525dd].filter(Boolean).flat().filter(Boolean))] as string[],
+        images: [...new Set([r.image, r.images, r.sf4ad525dd].filter(Boolean).flat().filter((s: any) => typeof s === 'string'))] as string[],
         discount_code: r.s9c0ff01ed || null,
       }
     })

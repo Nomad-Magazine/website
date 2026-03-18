@@ -62,7 +62,7 @@ const coworkingLocations = records
       ? websiteDesc + '\n\n' + fullDesc
       : websiteDesc || fullDesc || ''
     const rawImages = [r.image, r.images, r.sf4ad525dd, r.s4ad525dd]
-      .filter(Boolean).flat().filter(Boolean)
+      .filter(Boolean).flat().filter((s: any) => typeof s === 'string')
     const images = [...new Set(rawImages)] as string[]
     const loc = r.sed1a49986 || ''
     const country = extractCountry(loc)
