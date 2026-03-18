@@ -20,7 +20,7 @@ const distributionPlaces = records
       location: loc,
       country,
       website: (() => { const u = r.sb788c266b?.[0]; if (!u || typeof u !== 'string') return null; const t = u.trim(); if (!t) return null; return /^https?:\/\//i.test(t) ? t.replace(/^Https:/i, 'https:') : `https://${t}`; })(),
-      maps: (() => { const u = r.s2d652f699; if (!u || typeof u !== 'string') return null; const t = u.trim(); if (!t || !/^https?:\/\//i.test(t)) return null; return t; })(),
+      maps: r.s2d652f699?.[0] || null,
     };
   });
 
