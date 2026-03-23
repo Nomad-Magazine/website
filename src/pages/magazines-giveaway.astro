@@ -463,6 +463,9 @@ const seo: SEOProps = {
     }
 
     // Handle date text and limit code
+    const expiryText = document.getElementById('expiry-text');
+    const limitField = document.getElementById('limit-field') as HTMLInputElement;
+
     if (limitCode && limitCode.length === 4) {
       const day = parseInt(limitCode.substring(0, 2));
       const month = parseInt(limitCode.substring(2, 4)) - 1; // JS months are 0-indexed
@@ -476,9 +479,6 @@ const seo: SEOProps = {
           day: 'numeric' 
         });
         
-        const expiryText = document.getElementById('expiry-text');
-        const limitField = document.getElementById('limit-field') as HTMLInputElement;
-        
         if (expiryText) {
           expiryText.textContent = `Offer valid until ${displayDateText}`;
         }
@@ -486,6 +486,18 @@ const seo: SEOProps = {
         if (limitField) {
           limitField.value = limitCode;
         }
+      }
+    } else {
+      // Show personal deadline based on first visit
+      const deadline = new Date(personalDeadline);
+      const displayDateText = deadline.toLocaleDateString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+      if (expiryText) {
+        expiryText.textContent = `Your offer expires ${displayDateText}`;
       }
     }
   });
@@ -506,9 +518,26 @@ const seo: SEOProps = {
     extendedDate = thisYearDate.getTime() > Date.now() ? thisYearDate : nextYearDate;
   }
   
-  // Default countdown timer - expires December 31, 2025 at 23:59:59
-  const defaultCountdownDate = new Date('December 31, 2025 23:59:59').getTime();
-  const countdownDate = extendedDate ? extendedDate.getTime() : defaultCountdownDate;
+  // Personal countdown: 48 hours from first visit, persisted in localStorage
+  const STORAGE_KEY = 'ngm_giveaway_deadline';
+  const COUNTDOWN_HOURS = 48;
+  let personalDeadline: number;
+  
+  const stored = localStorage.getItem(STORAGE_KEY);
+  if (stored) {
+    personalDeadline = parseInt(stored, 10);
+    // Reset if corrupted or in the past by more than 1 day (give grace period)
+    if (isNaN(personalDeadline) || personalDeadline < Date.now() - 86400000) {
+      personalDeadline = Date.now() + COUNTDOWN_HOURS * 3600000;
+      localStorage.setItem(STORAGE_KEY, String(personalDeadline));
+    }
+  } else {
+    personalDeadline = Date.now() + COUNTDOWN_HOURS * 3600000;
+    localStorage.setItem(STORAGE_KEY, String(personalDeadline));
+  }
+
+  // Priority: utm_campaign date override > personal 48h deadline
+  const countdownDate = extendedDate ? extendedDate.getTime() : personalDeadline;
 
   function updateCountdown() {
     const now = new Date().getTime();
