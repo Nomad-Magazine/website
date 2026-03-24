@@ -1,0 +1,745 @@
+---
+export const prerender = true;
+
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+
+const seo: SEOProps = {
+  title: "What's happening in the nomad world - Nomad Newsletter March 2026",
+  description: 'New articles, upcoming events, coworking spaces, community announcements, and nomad directory updates — March 2026 Nomad Newsletter.',
+  image: `${Astro.site}images/nomad-cafe-ignore-collage.webp`,
+  keywords: 'nomad magazine, digital nomad, newsletter, events, coworking, coliving, march 2026',
+  ogType: 'article',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: "What's happening in the nomad world",
+    description: 'New articles, upcoming events, coworking spaces, community announcements — March 2026 Nomad Newsletter.',
+    author: { '@type': 'Organization', name: 'Nomad Magazine' },
+    publisher: { '@type': 'Organization', name: 'Nomad Magazine', logo: { '@type': 'ImageObject', url: `${Astro.site}logo.svg` } },
+    datePublished: '2026-03-23',
+    url: `${Astro.site}newsletter-march-2026/`,
+  },
+}
+---
+
+<Layout seo={seo}>
+  <div class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-gray-900 text-white">
+      <div class="max-w-4xl mx-auto px-4 py-8 text-center">
+        <p class="text-gray-300 text-sm mb-2">Newsletter by Nomad Magazine to keep you inspired and connected</p>
+        <p class="text-yellow-400 text-sm font-bold uppercase tracking-wide">March 2026</p>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="bg-white">
+      <div class="relative px-4 py-8">
+        <div class="mx-auto flex max-w-7xl gap-12">
+
+          <!-- Left Sidebar -->
+          <aside class="hidden lg:block lg:w-48">
+            <div class="sticky top-24 space-y-6 text-sm">
+              <div>
+                <div class="mb-2 text-xs font-bold uppercase tracking-wider text-gray-500">Content</div>
+                <div class="space-y-1">
+                  <a href="/newsletter/" class="block rounded px-2 py-1.5 text-blue-600 font-semibold transition-colors hover:bg-blue-50 hover:text-blue-700">Subscribe</a>
+                  <a href="/editions/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Magazine Editions</a>
+                  <a href="/digital-nomad-wiki/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Digital Nomad Wiki</a>
+                  <a href="/articles/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Articles</a>
+                </div>
+              </div>
+              <div>
+                <div class="mb-2 text-xs font-bold uppercase tracking-wider text-gray-500">Partners</div>
+                <div class="space-y-1">
+                  <a href="/brand-placement-next-edition-847291/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Brand Placement</a>
+                  <a href="/nomad_directory/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Nomad Directory</a>
+                  <a href="/writers/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">For Writers</a>
+                  <a href="/distribution-list/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Distribution List</a>
+                </div>
+              </div>
+              <div>
+                <div class="mb-2 text-xs font-bold uppercase tracking-wider text-gray-500">Support</div>
+                <div class="space-y-1">
+                  <a href="/our-story/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Our Story</a>
+                  <a href="/support-the-magazine/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Support Magazine</a>
+                  <a href="/add-testimonials/" class="block rounded px-2 py-1.5 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900">Submit Review</a>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          <!-- Main Content -->
+          <main id="main-content" class="mx-auto w-full max-w-4xl flex-1">
+
+            <!-- Headline -->
+            <div class="text-center mb-12">
+              <h1 class="text-4xl md:text-5xl font-black text-gray-900 mb-4 leading-tight">What's happening in the nomad world</h1>
+              <p class="text-lg text-gray-600 font-medium">New articles · upcoming events · coworking spaces · community news</p>
+            </div>
+
+            <!-- Intro -->
+            <article class="mb-12">
+              <div class="prose prose-xl max-w-none mb-10">
+                <p class="text-xl text-gray-700 leading-relaxed mb-5">This month's newsletter is way too packed, we have to admit. There is just too much happening in the world right now, and we can't help it. Alongside long lines at US airports and rising oil risk that pushes petrol prices up, we asked our Nomad Directory partners what's happening on their side, and here is our "short" collection.</p>
+                <p class="text-xl text-gray-700 leading-relaxed mb-5">Three new articles on the site, a bunch of events across Europe, Asia, and beyond, a brand new coliving villa opening in Madeira, and announcements from the community building tools, retreats, and spaces for nomads.</p>
+                <p class="text-xl text-gray-700 leading-relaxed">Scroll through, grab what's useful, and share anything that might be relevant for someone in your network. That's what keeps this community going. 🙌</p>
+              </div>
+
+              <!-- ============================
+                   NEW ARTICLES
+              ============================= -->
+              <h2 class="text-3xl font-black text-gray-900 mb-6">New Articles</h2>
+
+              <!-- Article 1 -->
+              <div class="bg-white border border-gray-200 rounded-2xl mb-5 overflow-hidden hover:border-orange-400 hover:shadow-lg transition-all duration-200">
+                <div class="flex flex-col sm:flex-row">
+                  <div class="sm:w-56 shrink-0">
+                    <img src="https://nomad-magazine.com/images/nomad-cafe-ignore-collage.webp" alt="Digital nomads working alone together in a cafe" class="w-full h-48 sm:h-full object-cover sm:rounded-l-2xl rounded-t-2xl sm:rounded-tr-none" loading="lazy" />
+                  </div>
+                  <div class="p-6 flex flex-col justify-center">
+                    <p class="text-xs font-bold uppercase tracking-widest text-orange-600 mb-2">📰 Featured Article</p>
+                    <h3 class="text-xl font-black text-gray-900 mb-2 leading-tight">The Loneliest Crowd: Why Digital Nomads Work Alone, Together</h3>
+                    <p class="text-sm text-gray-500 mb-3">By <strong class="text-gray-700">Michael Hensel</strong> · Digital Nomad & Founder</p>
+                    <p class="text-sm text-gray-600 leading-relaxed mb-4">You can be surrounded by your people in a café and still feel completely alone. Michael digs into the paradox of nomad loneliness — and why it's an infrastructure problem, not a personality one.</p>
+                    <a href="https://nomad-magazine.com/articles/the-loneliest-crowd-why-digital-nomads-work-alone-together/" target="_blank" rel="noopener noreferrer" class="text-orange-600 font-bold text-sm hover:text-orange-700">Read Full Story →</a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Article 2 -->
+              <div class="bg-white border border-gray-200 rounded-2xl mb-5 overflow-hidden hover:border-orange-400 hover:shadow-lg transition-all duration-200">
+                <div class="flex flex-col sm:flex-row">
+                  <div class="sm:w-56 shrink-0">
+                    <img src="https://nomad-magazine.com/images/smart-nomad-hero.webp" alt="Digital nomad working in a Tier 2 city coworking space" class="w-full h-48 sm:h-full object-cover sm:rounded-l-2xl rounded-t-2xl sm:rounded-tr-none" loading="lazy" />
+                  </div>
+                  <div class="p-6 flex flex-col justify-center">
+                    <p class="text-xs font-bold uppercase tracking-widest text-orange-600 mb-2">📰 Featured Article</p>
+                    <h3 class="text-xl font-black text-gray-900 mb-2 leading-tight">Smart Nomad 2026: Tier 2 Cities & Cost of Living Guide</h3>
+                    <p class="text-sm text-gray-500 mb-3">By <strong class="text-gray-700">Tushar Sharma</strong> · NomadWallets.com</p>
+                    <p class="text-sm text-gray-600 leading-relaxed mb-4">Lisbon, Bali, Mexico City — the cheap era is over. Tushar breaks down the rise of Tier 2 cities like Bansko and Tirana, where you get 80% of the lifestyle for half the cost.</p>
+                    <a href="https://nomad-magazine.com/articles/smart-nomad-tier-2-cities-cost-of-living-2026/" target="_blank" rel="noopener noreferrer" class="text-orange-600 font-bold text-sm hover:text-orange-700">Read Full Guide →</a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Article 3 -->
+              <div class="bg-white border border-gray-200 rounded-2xl mb-12 overflow-hidden hover:border-orange-400 hover:shadow-lg transition-all duration-200">
+                <div class="flex flex-col sm:flex-row">
+                  <div class="sm:w-56 shrink-0">
+                    <img src="https://nomad-magazine.com/images/emerging-destinations-2026-thumbnail.webp" alt="Emerging travel destinations 2026 — Tbilisi, Medellin, Osaka, Tirana" class="w-full h-48 sm:h-full object-cover sm:rounded-l-2xl rounded-t-2xl sm:rounded-tr-none" loading="lazy" />
+                  </div>
+                  <div class="p-6 flex flex-col justify-center">
+                    <p class="text-xs font-bold uppercase tracking-widest text-orange-600 mb-2">📰 Featured Article</p>
+                    <h3 class="text-xl font-black text-gray-900 mb-2 leading-tight">Move Over Madrid: These Cities Will Be the Travel Stars This Year</h3>
+                    <p class="text-sm text-gray-500 mb-3">By <strong class="text-gray-700">Toby Patrick</strong> · Freelance Writer</p>
+                    <p class="text-sm text-gray-600 leading-relaxed mb-4">Tbilisi, Medellín, Osaka, Tirana, Marseille, Cape Town — the most authentic, underrated cities to visit in 2026 before everyone else catches on.</p>
+                    <a href="https://nomad-magazine.com/articles/move-over-madrid-emerging-travel-destinations-2026/" target="_blank" rel="noopener noreferrer" class="text-orange-600 font-bold text-sm hover:text-orange-700">Read Full Article →</a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ============================
+                   EVENTS & RETREATS
+              ============================= -->
+              <h2 class="text-3xl font-black text-gray-900 mb-6">Events & Retreats</h2>
+
+              <div class="space-y-5 mb-8">
+
+                <!-- Alicante -->
+                <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:border-orange-400 hover:shadow-lg transition-all duration-200">
+                  <div class="flex flex-col sm:flex-row">
+                    <div class="sm:w-56 shrink-0">
+                      <img src="/images/alicante-drawing.jpg" alt="Alicante, Spain" class="w-full h-40 sm:h-full object-cover sm:rounded-l-2xl rounded-t-2xl sm:rounded-tr-none" loading="lazy" />
+                    </div>
+                    <div class="p-6">
+                      <span class="inline-block bg-gray-900 text-yellow-400 text-xs font-bold uppercase px-3 py-1 rounded-md mb-3">April 20–26, 2026</span>
+                      <h3 class="text-xl font-black text-gray-900 mb-1">Alicante Nomad Summit</h3>
+                      <p class="text-sm text-gray-500 font-semibold mb-2">📍 Alicante, Spain</p>
+                      <div class="flex flex-wrap gap-3 text-xs text-gray-500 mb-3">
+                        <span><strong>⏱️</strong> 7 Days</span>
+                        <span><strong>👥</strong> 150+ expected</span>
+                        <span><strong>🎯</strong> Future of work, community</span>
+                      </div>
+                      <p class="text-sm text-gray-600 leading-relaxed mb-3">An international gathering of digital nomads, remote workers, and community builders. Talks, workshops, networking, and local experiences.</p>
+                      <div class="bg-gray-50 border-l-4 border-gray-800 px-3 py-2 text-xs text-gray-600 mb-4 rounded-r-lg">Discount: Use <strong>GOSSIP20</strong> for 20% off</div>
+                      <a href="https://alicantenomadsummit.com" target="_blank" rel="noopener noreferrer" class="inline-block bg-gray-900 hover:bg-gray-700 text-white font-bold py-2 px-5 rounded-lg text-sm transition-colors">Learn More →</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Egypt -->
+                <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:border-orange-400 hover:shadow-lg transition-all duration-200">
+                  <div class="flex flex-col sm:flex-row">
+                    <div class="sm:w-56 shrink-0">
+                      <img src="/images/egypt-diving-drawing.jpg" alt="Scuba diving in Hurghada, Red Sea, Egypt" class="w-full h-40 sm:h-full object-cover sm:rounded-l-2xl rounded-t-2xl sm:rounded-tr-none" loading="lazy" />
+                    </div>
+                    <div class="p-6">
+                      <span class="inline-block bg-gray-900 text-yellow-400 text-xs font-bold uppercase px-3 py-1 rounded-md mb-3">Apr 24 – May 23, 2026</span>
+                      <h3 class="text-xl font-black text-gray-900 mb-1">Dive & Work Retreat — Egypt</h3>
+                      <p class="text-sm text-gray-500 font-semibold mb-2">📍 Hurghada, Red Sea</p>
+                      <div class="flex flex-wrap gap-3 text-xs text-gray-500 mb-3">
+                        <span><strong>⏱️</strong> 30 Days</span>
+                        <span><strong>🏠</strong> Villa + Coworking</span>
+                        <span><strong>🤿</strong> Diving & Desert</span>
+                      </div>
+                      <p class="text-sm text-gray-600 leading-relaxed mb-3">A 1-month retreat combining focused remote work with weekend diving in the Red Sea. Perfect for nomads who want productivity with underwater adventures.</p>
+                      <div class="bg-orange-50 border-l-4 border-orange-500 px-3 py-2 text-xs text-orange-800 font-semibold mb-4 rounded-r-lg">⚠️ Last spots available!</div>
+                      <a href="https://divingnomads.club/experiences/dive-work-retreat-egypt-2026/" target="_blank" rel="noopener noreferrer" class="inline-block bg-gray-900 hover:bg-gray-700 text-white font-bold py-2 px-5 rounded-lg text-sm transition-colors">Learn More →</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- FUTRFEST Osaka -->
+                <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:border-orange-400 hover:shadow-lg transition-all duration-200">
+                  <div class="flex flex-col sm:flex-row">
+                    <div class="sm:w-56 shrink-0">
+                      <img src="/images/osaka-drawing.jpg" alt="Osaka, Japan" class="w-full h-40 sm:h-full object-cover sm:rounded-l-2xl rounded-t-2xl sm:rounded-tr-none" loading="lazy" />
+                    </div>
+                    <div class="p-6">
+                      <span class="inline-block bg-gray-900 text-yellow-400 text-xs font-bold uppercase px-3 py-1 rounded-md mb-3">May 11–22, 2026</span>
+                      <h3 class="text-xl font-black text-gray-900 mb-1">FUTRFEST 2026 — Osaka</h3>
+                      <p class="text-sm text-gray-500 font-semibold mb-2">📍 Osaka, Japan</p>
+                      <div class="flex flex-wrap gap-3 text-xs text-gray-500 mb-3">
+                        <span><strong>⏱️</strong> 12 Days</span>
+                        <span><strong>👥</strong> 30 people</span>
+                        <span><strong>🏢</strong> + 1 month coworking</span>
+                      </div>
+                      <p class="text-sm text-gray-600 leading-relaxed mb-4">A global coworking and community experience for remote professionals, startup founders, and digital nomads. Combines productivity, cultural immersion, and meaningful connections through curated workshops and local experiences in Osaka.</p>
+                      <a href="https://futrworks.com/news/1028" target="_blank" rel="noopener noreferrer" class="inline-block bg-gray-900 hover:bg-gray-700 text-white font-bold py-2 px-5 rounded-lg text-sm transition-colors">Learn More →</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Better Neighbors Romania -->
+                <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:border-orange-400 hover:shadow-lg transition-all duration-200">
+                  <div class="flex flex-col sm:flex-row">
+                    <div class="sm:w-56 shrink-0">
+                      <img src="/images/transylvania-drawing.jpg" alt="Transylvania, Romania" class="w-full h-40 sm:h-full object-cover sm:rounded-l-2xl rounded-t-2xl sm:rounded-tr-none" loading="lazy" />
+                    </div>
+                    <div class="p-6">
+                      <span class="inline-block bg-gray-900 text-yellow-400 text-xs font-bold uppercase px-3 py-1 rounded-md mb-3">May 10 – Jun 18, 2026</span>
+                      <h3 class="text-xl font-black text-gray-900 mb-1">The Better Neighbors — Summer Retreat</h3>
+                      <p class="text-sm text-gray-500 font-semibold mb-2">📍 Transylvania, Romania</p>
+                      <div class="flex flex-wrap gap-3 text-xs text-gray-500 mb-3">
+                        <span><strong>⏱️</strong> 40 Days</span>
+                        <span><strong>👥</strong> 15 people</span>
+                        <span><strong>💶</strong> From €180/week</span>
+                      </div>
+                      <p class="text-sm text-gray-600 leading-relaxed mb-3">Work, slow travel, and give back through a local NGO in the fresh mountain air of Transylvania. Bonus: Free gym & mountain spa.</p>
+                      <div class="bg-gray-50 border-l-4 border-gray-800 px-3 py-2 text-xs text-gray-600 mb-4 rounded-r-lg">Discount: Use <strong>GOSSIPBETTER</strong> for €100 off</div>
+                      <a href="https://www.thebetterneighbors.com/romania" target="_blank" rel="noopener noreferrer" class="inline-block bg-gray-900 hover:bg-gray-700 text-white font-bold py-2 px-5 rounded-lg text-sm transition-colors">Learn More →</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Fire Fest -->
+                <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:border-orange-400 hover:shadow-lg transition-all duration-200">
+                  <div class="flex flex-col sm:flex-row">
+                    <div class="sm:w-56 shrink-0">
+                      <img src="/images/swiss-alps-drawing.jpg" alt="Swiss Alps" class="w-full h-40 sm:h-full object-cover sm:rounded-l-2xl rounded-t-2xl sm:rounded-tr-none" loading="lazy" />
+                    </div>
+                    <div class="p-6">
+                      <span class="inline-block bg-gray-900 text-yellow-400 text-xs font-bold uppercase px-3 py-1 rounded-md mb-3">May 17–24, 2026</span>
+                      <h3 class="text-xl font-black text-gray-900 mb-1">Fire Fest — Ignite Your Journey</h3>
+                      <p class="text-sm text-gray-500 font-semibold mb-2">📍 Swiss Alps</p>
+                      <div class="flex flex-wrap gap-3 text-xs text-gray-500 mb-3">
+                        <span><strong>⏱️</strong> 7 Days</span>
+                        <span><strong>👥</strong> 15–40 people</span>
+                        <span><strong>🎯</strong> Entrepreneurship</span>
+                      </div>
+                      <p class="text-sm text-gray-600 leading-relaxed mb-3">A one-week gathering in the Swiss Alps for people who want more freedom in life and work. Inspiring talks, unconferences, and outdoor activities.</p>
+                      <div class="bg-gray-50 border-l-4 border-gray-800 px-3 py-2 text-xs text-gray-600 mb-4 rounded-r-lg">Discount: Use <strong>NOMAD50</strong> for 50 CHF off</div>
+                      <a href="https://nomad-fest.com/events/festivals/the-fire-7-day-fest-ignite-your-journey" target="_blank" rel="noopener noreferrer" class="inline-block bg-gray-900 hover:bg-gray-700 text-white font-bold py-2 px-5 rounded-lg text-sm transition-colors">Learn More →</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Longevity Fest -->
+                <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:border-orange-400 hover:shadow-lg transition-all duration-200">
+                  <div class="flex flex-col sm:flex-row">
+                    <div class="sm:w-56 shrink-0">
+                      <img src="/images/swiss-alps-drawing.jpg" alt="Swiss Alps" class="w-full h-40 sm:h-full object-cover sm:rounded-l-2xl rounded-t-2xl sm:rounded-tr-none" loading="lazy" />
+                    </div>
+                    <div class="p-6">
+                      <span class="inline-block bg-gray-900 text-yellow-400 text-xs font-bold uppercase px-3 py-1 rounded-md mb-3">May 24–31, 2026</span>
+                      <h3 class="text-xl font-black text-gray-900 mb-1">1st Longevity Fest</h3>
+                      <p class="text-sm text-gray-500 font-semibold mb-2">📍 Swiss Alps</p>
+                      <div class="flex flex-wrap gap-3 text-xs text-gray-500 mb-3">
+                        <span><strong>⏱️</strong> 7 Days</span>
+                        <span><strong>👥</strong> 20–40 people</span>
+                        <span><strong>🎯</strong> Health, longevity</span>
+                      </div>
+                      <p class="text-sm text-gray-600 leading-relaxed mb-3">A nomad-style festival focused on health, longevity, and meaningful connection. Talks, mountain hikes, sauna & cold plunge.</p>
+                      <div class="bg-gray-50 border-l-4 border-gray-800 px-3 py-2 text-xs text-gray-600 mb-4 rounded-r-lg">Discount: Use <strong>NOMAD50</strong> for 50 CHF off</div>
+                      <a href="https://nomad-fest.com/events/festivals/1st-longevity-fest" target="_blank" rel="noopener noreferrer" class="inline-block bg-gray-900 hover:bg-gray-700 text-white font-bold py-2 px-5 rounded-lg text-sm transition-colors">Learn More →</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Boracay -->
+                <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:border-orange-400 hover:shadow-lg transition-all duration-200">
+                  <div class="flex flex-col sm:flex-row">
+                    <div class="sm:w-56 shrink-0">
+                      <img src="/images/boracay-drawing.jpg" alt="Boracay, Philippines" class="w-full h-40 sm:h-full object-cover sm:rounded-l-2xl rounded-t-2xl sm:rounded-tr-none" loading="lazy" />
+                    </div>
+                    <div class="p-6">
+                      <span class="inline-block bg-gray-900 text-yellow-400 text-xs font-bold uppercase px-3 py-1 rounded-md mb-3">May 22–29, 2026</span>
+                      <h3 class="text-xl font-black text-gray-900 mb-1">Nomad Workation Retreat</h3>
+                      <p class="text-sm text-gray-500 font-semibold mb-2">📍 Boracay, Philippines</p>
+                      <div class="flex flex-wrap gap-3 text-xs text-gray-500 mb-3">
+                        <span><strong>⏱️</strong> 7 Days</span>
+                        <span><strong>🎯</strong> Business Growth</span>
+                        <span><strong>✈️</strong> From Manila</span>
+                      </div>
+                      <p class="text-sm text-gray-600 leading-relaxed mb-4">Blend productive work days with island life on one of the Philippines' most famous beaches. Come with a friend and get 10% off for both.</p>
+                      <a href="https://www.baybayinhub.com/nomad-workation-retreat/boracay/" target="_blank" rel="noopener noreferrer" class="inline-block bg-gray-900 hover:bg-gray-700 text-white font-bold py-2 px-5 rounded-lg text-sm transition-colors">Learn More →</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Zanzibar -->
+                <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:border-orange-400 hover:shadow-lg transition-all duration-200">
+                  <div class="flex flex-col sm:flex-row">
+                    <div class="sm:w-56 shrink-0">
+                      <img src="/images/zanzibar-drawing.jpg" alt="Zanzibar, Tanzania" class="w-full h-40 sm:h-full object-cover sm:rounded-l-2xl rounded-t-2xl sm:rounded-tr-none" loading="lazy" />
+                    </div>
+                    <div class="p-6">
+                      <span class="inline-block bg-gray-900 text-yellow-400 text-xs font-bold uppercase px-3 py-1 rounded-md mb-3">November 2026</span>
+                      <h3 class="text-xl font-black text-gray-900 mb-1">goldenweeks Retreat Zanzibar</h3>
+                      <p class="text-sm text-gray-500 font-semibold mb-2">📍 Zanzibar, Tanzania</p>
+                      <div class="flex flex-wrap gap-3 text-xs text-gray-500 mb-3">
+                        <span><strong>⏱️</strong> 2 Weeks</span>
+                        <span><strong>👥</strong> 8 people</span>
+                        <span><strong>🎯</strong> Deep work</span>
+                      </div>
+                      <p class="text-sm text-gray-600 leading-relaxed mb-3">A focused workation retreat for ambitious digital nomads and founders. Finish a big project, mastermind with driven people, and enjoy slow ocean evenings.</p>
+                      <div class="bg-gray-50 border-l-4 border-gray-800 px-3 py-2 text-xs text-gray-600 mb-4 rounded-r-lg">Priority: Use <strong>GOLDENWEEKSZNZ</strong></div>
+                      <a href="https://goldenweeks.co" target="_blank" rel="noopener noreferrer" class="inline-block bg-gray-900 hover:bg-gray-700 text-white font-bold py-2 px-5 rounded-lg text-sm transition-colors">Join Waitlist →</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Camp Big Daddy -->
+                <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:border-orange-400 hover:shadow-lg transition-all duration-200">
+                  <div class="flex flex-col sm:flex-row">
+                    <div class="sm:w-56 shrink-0">
+                      <img src="/images/tuscany-camp-drawing.jpg" alt="Summer camp in Tuscany, Italy with campfire and team games" class="w-full h-40 sm:h-full object-cover sm:rounded-l-2xl rounded-t-2xl sm:rounded-tr-none" loading="lazy" />
+                    </div>
+                    <div class="p-6">
+                      <span class="inline-block bg-gray-900 text-yellow-400 text-xs font-bold uppercase px-3 py-1 rounded-md mb-3">Feb 12–15, 2027</span>
+                      <h3 class="text-xl font-black text-gray-900 mb-1">Camp Big Daddy 2027</h3>
+                      <p class="text-sm text-gray-500 font-semibold mb-2">📍 Tuscany, Italy</p>
+                      <div class="flex flex-wrap gap-3 text-xs text-gray-500 mb-3">
+                        <span><strong>⏱️</strong> 4 Days</span>
+                        <span><strong>👥</strong> Up to 60 people</span>
+                        <span><strong>🏕️</strong> Summer Camp</span>
+                      </div>
+                      <p class="text-sm text-gray-600 leading-relaxed mb-4">Epic team games, campfires, outdoor adventures, and surprise activities — all with food, drinks, and accommodation covered.</p>
+                      <div class="flex flex-wrap gap-3">
+                        <a href="https://nomadsummercamp.com/" target="_blank" rel="noopener noreferrer" class="inline-block bg-gray-900 hover:bg-gray-700 text-white font-bold py-2 px-5 rounded-lg text-sm transition-colors">Learn More →</a>
+                        <a href="https://www.youtube.com/watch?v=j8RlL1rbtu0" target="_blank" rel="noopener noreferrer" class="inline-block text-gray-500 hover:text-gray-700 font-semibold py-2 text-sm transition-colors">▶ Watch Aftermovie</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- More upcoming events -->
+              <p class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4">More upcoming events</p>
+              <div class="space-y-3 mb-12">
+
+                <div class="border border-gray-200 rounded-xl p-4 bg-white hover:border-orange-400 transition-colors">
+                  <div class="flex gap-4">
+                    <span class="shrink-0 bg-gray-900 text-yellow-400 text-xs font-bold px-2.5 py-1 rounded-lg h-fit">Mar 25</span>
+                    <div>
+                      <h4 class="text-base font-bold text-gray-900 mb-0.5">Abenteuer mit Sinn — Christina Haverkamp</h4>
+                      <p class="text-xs text-gray-500 mb-1">March 25 · ~2 hours · CoWorkBude · Hamburg · Open event (in German)</p>
+                      <p class="text-sm text-gray-600 mb-2">An inspiring talk about meaningful adventures, personal growth, and finding purpose.</p>
+                      <a href="https://www.eventbrite.de/e/abenteuer-mit-sinn-christina-haverkamp-tickets-1982659112778" target="_blank" rel="noopener noreferrer" class="text-orange-600 font-semibold text-sm hover:text-orange-700">Register →</a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="border border-gray-200 rounded-xl p-4 bg-white hover:border-orange-400 transition-colors">
+                  <div class="flex gap-4">
+                    <span class="shrink-0 bg-gray-900 text-yellow-400 text-xs font-bold px-2.5 py-1 rounded-lg h-fit">Apr 14</span>
+                    <div>
+                      <h4 class="text-base font-bold text-gray-900 mb-0.5">ImagineThat Founders Club — Sales Masterclass</h4>
+                      <p class="text-xs text-gray-500 mb-1">April 14 · 12:00 CET · Online · For founders in their first 0–36 months</p>
+                      <p class="text-sm text-gray-600 mb-2">Practical sales masterclass for early-stage founders, plus an intro to the ImagineThat Network — a curated community for entrepreneurs.</p>
+                      <a href="https://luma.com/vpulloa1" target="_blank" rel="noopener noreferrer" class="text-orange-600 font-semibold text-sm hover:text-orange-700">Register →</a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="border border-gray-200 rounded-xl p-4 bg-white hover:border-orange-400 transition-colors">
+                  <div class="flex gap-4">
+                    <span class="shrink-0 bg-gray-900 text-yellow-400 text-xs font-bold px-2.5 py-1 rounded-lg h-fit">Apr 24</span>
+                    <div>
+                      <h4 class="text-base font-bold text-gray-900 mb-0.5">Erasmus Youth Speak Forum</h4>
+                      <p class="text-xs text-gray-500 mb-1">April 24 · 1 Day · Germany · 150–200 participants</p>
+                      <p class="text-sm text-gray-600 mb-2">"Degrees without jobs: Why graduates struggle to enter the job market" — interactive exchange between students, institutions, and businesses.</p>
+                      <a href="mailto:helene.antysiak@aiesec.de" class="text-orange-600 font-semibold hover:text-orange-700 text-sm">✉ Get email →</a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="border border-gray-200 rounded-xl p-4 bg-white hover:border-orange-400 transition-colors">
+                  <div class="flex gap-4">
+                    <span class="shrink-0 bg-gray-900 text-yellow-400 text-xs font-bold px-2.5 py-1 rounded-lg h-fit">Apr 25</span>
+                    <div>
+                      <h4 class="text-base font-bold text-gray-900 mb-0.5">How to Buy Property in Spain — Online Event</h4>
+                      <p class="text-xs text-gray-500 mb-1">April 25 · ~75 min · Online</p>
+                      <p class="text-sm text-gray-600 mb-2">Where to buy, how financing works, what taxes you'll pay, and how to avoid the traps most international buyers fall into.</p>
+                      <a href="https://luma.com/j4mdiqg4" target="_blank" rel="noopener noreferrer" class="text-orange-600 font-semibold text-sm hover:text-orange-700">Register →</a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="border border-gray-200 rounded-xl p-4 bg-white hover:border-orange-400 transition-colors">
+                  <div class="flex gap-4">
+                    <span class="shrink-0 bg-gray-900 text-yellow-400 text-xs font-bold px-2.5 py-1 rounded-lg h-fit">Jun 5</span>
+                    <div>
+                      <h4 class="text-base font-bold text-gray-900 mb-0.5">Erasmus Youth2Business Forum</h4>
+                      <p class="text-xs text-gray-500 mb-1">June 5 · 1 Day · Germany · 150–200 participants</p>
+                      <p class="text-sm text-gray-600 mb-2">Platform for companies and students to network — workshops, Opportunities Fair, and direct employer-student engagement.</p>
+                      <a href="mailto:helene.antysiak@aiesec.de" class="text-orange-600 font-semibold hover:text-orange-700 text-sm">✉ Get email →</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ============================
+                   NOMADICARDS FEATURED
+              ============================= -->
+              <div class="bg-gray-900 rounded-2xl overflow-hidden mb-12">
+                <div class="flex flex-col sm:flex-row">
+                  <div class="p-8 flex-1 flex flex-col justify-center">
+                    <p class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">🃏 Looking for a New Home</p>
+                    <h3 class="text-2xl font-black text-white mb-3 leading-tight">Nomadicards is looking for a new owner</h3>
+                    <p class="text-gray-300 leading-relaxed mb-5">A conversation card game passed around colivings and nomad dinner tables for years. Francesco wants to hand it over to someone who sees its potential — free of charge. Just keep it alive and growing.</p>
+                    <div class="flex flex-wrap gap-4">
+                      <a href="mailto:info@francescocarlucci.com" class="text-yellow-400 font-semibold hover:text-yellow-300">✉ Get email →</a>
+                      <a href="https://nomadicards.com/" target="_blank" rel="noopener noreferrer" class="text-gray-400 font-semibold hover:text-gray-200">Learn more →</a>
+                    </div>
+                  </div>
+                  <div class="sm:w-48 shrink-0">
+                    <img src="/images/nomadicards.jpg" alt="Nomadicards conversation card game for digital nomads" class="w-full h-48 sm:h-full object-cover sm:rounded-r-2xl rounded-b-2xl sm:rounded-bl-none" loading="lazy" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- ============================
+                   COWORKING & COLIVING
+              ============================= -->
+              <h2 class="text-3xl font-black text-gray-900 mb-6">Coworking & Coliving</h2>
+
+              <div class="space-y-5 mb-12">
+
+                <!-- Madeira Remote -->
+                <div class="bg-white border-2 border-gray-200 rounded-2xl overflow-hidden hover:border-orange-400 hover:shadow-lg transition-all duration-200">
+                  <div class="flex flex-col sm:flex-row">
+                    <div class="sm:w-52 shrink-0">
+                      <img src="/images/madeira-remote-coliving-terrace.jpg" alt="Madeira Remote coliving rooftop terrace with jacuzzi and yellow chairs" class="w-full h-52 sm:h-full object-cover sm:rounded-l-2xl rounded-t-2xl sm:rounded-tr-none" loading="lazy" />
+                    </div>
+                    <div class="p-6">
+                      <div class="flex flex-wrap gap-2 mb-3">
+                        <span class="bg-orange-600 text-white text-xs font-bold px-3 py-1 rounded-full">✨ New Coliving</span>
+                        <span class="bg-gray-100 text-gray-700 text-xs font-semibold px-3 py-1 rounded-full">🇵🇹 Madeira, Portugal</span>
+                      </div>
+                      <h3 class="text-xl font-black text-gray-900 mb-2">Madeira Remote — Brand New 5-Bedroom Villa</h3>
+                      <p class="text-sm text-gray-600 leading-relaxed mb-3">Thoughtfully designed for nomads who want more than just a place to stay: fast Wi-Fi, dedicated workspaces, inspiring surroundings, and yes — a jacuzzi. Special opening rates available for a limited time.</p>
+                      <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-50 border border-gray-200 text-gray-600 text-xs font-semibold px-2 py-1 rounded-lg">🛁 Jacuzzi</span>
+                        <span class="bg-gray-50 border border-gray-200 text-gray-600 text-xs font-semibold px-2 py-1 rounded-lg">⚡ Fast Wi-Fi</span>
+                        <span class="bg-gray-50 border border-gray-200 text-gray-600 text-xs font-semibold px-2 py-1 rounded-lg">🏡 5 Bedrooms</span>
+                        <span class="bg-orange-50 border border-orange-200 text-orange-700 text-xs font-bold px-2 py-1 rounded-lg">🎉 Opening Rates</span>
+                      </div>
+                      <a href="https://madeiraremote.com" target="_blank" rel="noopener noreferrer" class="inline-block bg-gray-900 hover:bg-gray-700 text-white font-bold py-2.5 px-5 rounded-xl text-sm transition-colors">Explore Villa →</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- SALT Fukuoka -->
+                <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:border-orange-400 hover:shadow-lg transition-all duration-200">
+                  <div class="flex flex-col sm:flex-row">
+                    <div class="sm:w-52 shrink-0 relative">
+                      <img src="/images/salt-workspace.jpg" alt="SALT seaside coworking space in Fukuoka, Japan" class="w-full h-48 sm:h-full object-cover sm:rounded-l-2xl rounded-t-2xl sm:rounded-tr-none" loading="lazy" />
+                      <div class="absolute top-3 left-1/2 -translate-x-1/2 bg-white rounded-lg px-2 py-1 shadow-md">
+                        <img src="https://cdn.files.smartsuite.com/security=p:eyJjYWxsIjogWyJyZWFkIiwgImNvbnZlcnQiXSwgImV4cGlyeSI6IDI0MDQ4NDM0NTkuMzcyODM3LCAiaGFuZGxlIjogInNOTkxteVZGVHpLUG1jSWdGajE3In0=,s:92d2f480a94f89317dcb407058e12d6fdce2ff0cd0a635ca805f375274828192/sNNLmyVFTzKPmcIgFj17" alt="SALT logo" class="h-6 w-auto" />
+                      </div>
+                    </div>
+                    <div class="p-6">
+                      <h3 class="text-lg font-bold text-gray-900 mb-1">SALT Coworking — Fukuoka, Japan 🇯🇵</h3>
+                      <p class="text-xs text-gray-500 mb-3">Nomad Plan · Seaside Coworking</p>
+                      <p class="text-sm text-gray-600 leading-relaxed mb-4">SALT's new Nomad Plan offers flexible access to a seaside coworking space designed for remote workers seeking productivity and connection to nature and local community. Optional guidance for nearby seaside accommodation.</p>
+                      <a href="https://salt.today/2025/12/26/%e3%83%8e%e3%83%9e%e3%83%89%e3%83%97%e3%83%a9%e3%83%b3-%e9%96%8b%e5%a7%8b%e3%81%ae%e3%81%8a%e7%9f%a7%e3%82%89%e3%81%9b/" target="_blank" rel="noopener noreferrer" class="text-orange-600 font-bold text-sm hover:text-orange-700">Learn More →</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Space Shack Berlin -->
+                <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:border-orange-400 hover:shadow-lg transition-all duration-200">
+                  <div class="flex flex-col sm:flex-row">
+                    <div class="sm:w-52 shrink-0">
+                      <img src="/images/Space-Shack-coworking.jpg" alt="Space Shack coworking space in Berlin, Germany" class="w-full h-48 sm:h-full object-cover sm:rounded-l-2xl rounded-t-2xl sm:rounded-tr-none" loading="lazy" />
+                    </div>
+                    <div class="p-6">
+                      <h3 class="text-lg font-bold text-gray-900 mb-1">Space Shack — Berlin, Germany 🇩🇪</h3>
+                      <p class="text-xs text-gray-500 mb-3">Coworking Community · Founders & Creatives</p>
+                      <p class="text-sm text-gray-600 leading-relaxed mb-4">Space Shack is building a vibrant coworking community in Berlin for young founders, freelancers, and creatives. Futuristic coworking spaces, lounges, and event areas designed for meaningful collaboration. Looking for your next co-founder? This is the place.</p>
+                      <a href="https://www.space-shack.com" target="_blank" rel="noopener noreferrer" class="text-orange-600 font-bold text-sm hover:text-orange-700">Visit Space Shack →</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Beehive Stuttgart -->
+                <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:border-orange-400 hover:shadow-lg transition-all duration-200">
+                  <div class="flex flex-col sm:flex-row">
+                    <div class="sm:w-52 shrink-0">
+                      <img src="/images/STU_Honey_Hall_Sternhoehe.jpg" alt="Beehive Stuttgart Sternhöhe event space" class="w-full h-48 sm:h-full object-cover sm:rounded-l-2xl rounded-t-2xl sm:rounded-tr-none" loading="lazy" />
+                    </div>
+                    <div class="p-6">
+                      <p class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-1">Flexible dates · Stuttgart, Germany</p>
+                      <h3 class="text-lg font-bold text-gray-900 mb-2">Event Space at Beehive Stuttgart Sternhöhe</h3>
+                      <p class="text-sm text-gray-600 leading-relaxed mb-4">Planning an event or meeting? Spacious campus-style venue for up to 100 people, run with heart and passion.</p>
+                      <a href="https://beehive-coworking.de" target="_blank" rel="noopener noreferrer" class="text-orange-600 font-bold text-sm hover:text-orange-700">View Venue →</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </article>
+
+            <!-- ============================
+                 COMMUNITY ANNOUNCEMENTS
+            ============================= -->
+            <section class="mb-12">
+              <h2 class="text-3xl font-black text-gray-900 mb-2">Community Announcements</h2>
+              <p class="text-sm text-gray-500 mb-6">Free announcements from partners listed in the <a href="/nomad_directory/" class="text-orange-600 font-semibold hover:text-orange-700">Nomad Directory</a></p>
+
+              <div class="space-y-4">
+
+                <!-- Casa Marianas -->
+                <div class="border border-gray-200 rounded-xl p-6 bg-white hover:border-orange-500 hover:shadow-lg transition-all duration-200">
+                  <div class="flex gap-4">
+                    <div class="shrink-0 w-12 h-12 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-center overflow-hidden">
+                      <img src="https://cdn.files.smartsuite.com/security=p:eyJjYWxsIjogWyJyZWFkIiwgImNvbnZlcnQiXSwgImV4cGlyeSI6IDI0MDQ4NDM0NTQuNzg5NjE1LCAiaGFuZGxlIjogIktYZ2RYeDhvUjZhMnBFaTE0NUlqIn0=,s:a7410663f66ea5397dbdbf2a46d80ace821f23d685aff6b2352fd490fdadb358/KXgdXx8oR6a2pEi145Ij" alt="Casa Marianas logo" class="max-w-full max-h-full object-contain" />
+                    </div>
+                    <div class="flex-1">
+                  <p class="text-orange-600 text-xs font-bold uppercase tracking-wider mb-2">💼 Hiring</p>
+                  <h3 class="text-lg font-bold text-gray-900 mb-2">Casa Marianas — Social Media Manager, Saipan 🇲🇵</h3>
+                  <p class="text-gray-700 leading-relaxed mb-3 text-sm">The first co-working space and digital nomad hotel in Saipan is hiring a live-in Social Media Manager. Free accommodation + stipend, 6+ months, steps from the Pacific beach.</p>
+                  <div class="flex flex-wrap gap-4">
+                    <a href="mailto:hello@casamarianas.com" class="text-orange-600 font-semibold hover:text-orange-700 text-sm">✉ Get email →</a>
+                    <a href="https://casamarianas.com/" target="_blank" rel="noopener noreferrer" class="text-gray-500 font-semibold hover:text-gray-700 text-sm">Learn more →</a>
+                  </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Nomadico -->
+                <div class="border border-orange-200 rounded-xl p-6 bg-white hover:border-orange-500 hover:shadow-lg transition-all duration-200">
+                  <div class="flex gap-4">
+                    <div class="shrink-0 w-12 h-12 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-center overflow-hidden">
+                      <img src="https://cdn.files.smartsuite.com/security=p:eyJjYWxsIjogWyJyZWFkIiwgImNvbnZlcnQiXSwgImV4cGlyeSI6IDI0MDQ4NDM0OTcuNTIxOTIxLCAiaGFuZGxlIjogInJFaW5WcFYyUXdPbmV6WmhrOUk4In0=,s:ccfb95409b92e7da4fb2bb666683bd3aea41748d64fb0b0f0b2de7c81fa9c290/rEinVpV2QwOnezZhk9I8" alt="Nomadico logo" class="max-w-full max-h-full object-contain" />
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex flex-wrap gap-2 mb-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-gray-500">Nomadico</span>
+                        <span class="bg-green-50 text-green-700 border border-green-200 px-2 py-0.5 rounded text-xs font-bold">🆓 Free Stay</span>
+                        <span class="bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded text-xs font-bold">🤝 Volunteer</span>
+                      </div>
+                      <h3 class="text-lg font-bold text-gray-900 mb-3">3 Things from Nomadico</h3>
+                      <p class="text-gray-700 leading-relaxed mb-2 text-sm"><strong>1.</strong> Content creator collab: get a free 1-week stay or 50% off longer stays in exchange for content. <a href="https://forms.gle/RMp57X96hVEmgcUd9" target="_blank" rel="noopener noreferrer" class="text-orange-600 font-semibold hover:text-orange-700">Apply here →</a></p>
+                      <p class="text-gray-700 leading-relaxed text-sm"><strong>2.</strong> Matilde is inviting community managers and volunteers — free accommodation in exchange for hosting the community. <a href="https://docs.google.com/forms/d/e/1FAIpQLSfTOE1kCmnfSGzK0iSiRd71ahkRUvGyt_PhDADj2_LwtSxuIw/viewform" target="_blank" rel="noopener noreferrer" class="text-orange-600 font-semibold hover:text-orange-700">Apply here →</a></p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- NomadTax Bulgaria -->
+                <div class="border border-gray-200 rounded-xl p-6 bg-white hover:border-orange-500 hover:shadow-lg transition-all duration-200">
+                  <div class="flex gap-4">
+                    <div class="shrink-0 w-12 h-12 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-center overflow-hidden">
+                      <img src="https://cdn.files.smartsuite.com/security=p:eyJjYWxsIjogWyJyZWFkIiwgImNvbnZlcnQiXSwgImV4cGlyeSI6IDI0MDQ4NDM0ODcuNTY0NjU3LCAiaGFuZGxlIjogIjlLbG0yTTZ3VE1HdUZlU1BRbVJnIn0=,s:242d374da7504a7f7b9f094883e780a5bb84c9ce1be977c8f919d0c1989a22e3/9Klm2M6wTMGuFeSPQmRg" alt="NomadTax Bulgaria logo" class="max-w-full max-h-full object-contain" />
+                    </div>
+                    <div class="flex-1">
+                      <p class="text-orange-600 text-xs font-bold uppercase tracking-wider mb-2">💸 Earn Income</p>
+                      <h3 class="text-lg font-bold text-gray-900 mb-2">NomadTax Bulgaria — Ambassador Program</h3>
+                      <p class="text-gray-700 leading-relaxed mb-3 text-sm">Earn €400 per new client win promoting Bulgaria as a tax-friendly base. Fully remote freelance position. Chris from NomadTax Bulgaria Ltd. is expanding the ambassador team.</p>
+                      <a href="mailto:info@nomadtax.bg" class="text-orange-600 font-semibold hover:text-orange-700 text-sm">✉ Get email →</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Falmouth University -->
+                <div class="border border-gray-200 rounded-xl p-6 bg-white hover:border-orange-500 hover:shadow-lg transition-all duration-200">
+                  <div class="flex gap-4">
+                    <div class="shrink-0 w-12 h-12 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-center overflow-hidden">
+                      <img src="https://cdn.files.smartsuite.com/security=p:eyJjYWxsIjogWyJyZWFkIiwgImNvbnZlcnQiXSwgImV4cGlyeSI6IDI0MDQ4NDM0NzYuNTUyNDUyLCAiaGFuZGxlIjogIjR6ZlZUZXFUUkppVzBUWk1qMXp6In0=,s:79c37d1d1bace79a5e7836cd8f160df4585b72d13b88020675b16cd270df4404/4zfVTeqTRJiW0TZMj1zz" alt="Falmouth University logo" class="max-w-full max-h-full object-contain" />
+                    </div>
+                    <div class="flex-1">
+                      <p class="text-orange-600 text-xs font-bold uppercase tracking-wider mb-2">🎓 Education</p>
+                      <h3 class="text-lg font-bold text-gray-900 mb-2">Falmouth University — Online Master's Degrees</h3>
+                      <p class="text-gray-700 leading-relaxed mb-3 text-sm">Applications now open for May & September 2026. Fine Art, Illustration, Marketing, Film & TV and more — flexible online programmes designed to fit a nomadic lifestyle.</p>
+                      <p class="text-sm">
+                        <a href="https://www.falmouth.ac.uk/study/online/postgraduate?utm_source=nomadmag&utm_medium=referral&utm_campaign=onlinestudy&utm_content=newsletterannouncement" target="_blank" rel="noopener noreferrer" class="text-orange-600 font-semibold hover:text-orange-700">Discover more →</a>
+                        <span class="text-gray-400 mx-2">·</span>
+                        <a href="mailto:online.study@falmouth.ac.uk" class="text-orange-600 hover:text-orange-700">✉ Get email →</a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- SOVENTURE -->
+                <div class="border border-gray-200 rounded-xl p-6 bg-white hover:border-orange-500 hover:shadow-lg transition-all duration-200">
+                  <div class="flex gap-4">
+                    <div class="shrink-0 w-12 h-12 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-center overflow-hidden">
+                      <img src="https://cdn.files.smartsuite.com/security=p:eyJjYWxsIjogWyJyZWFkIiwgImNvbnZlcnQiXSwgImV4cGlyeSI6IDI0MDQ4NDM0OTIuNTg4MTUxLCAiaGFuZGxlIjogIkdYT1dBQk9ZUWhIOU1CSUtzNE9GIn0=,s:128b2d2f26cb551a9d29be2ca3208522551e1ff9fd05f195fceb37b936955f10/GXOWABOYQhH9MBIKs4OF" alt="SOVENTURE logo" class="max-w-full max-h-full object-contain" />
+                    </div>
+                    <div class="flex-1">
+                      <p class="text-orange-600 text-xs font-bold uppercase tracking-wider mb-2">🛡️ Insurance</p>
+                      <h3 class="text-lg font-bold text-gray-900 mb-2">SOVENTURE — Travel Insurance with BCBS</h3>
+                      <p class="text-gray-700 leading-relaxed mb-3 text-sm">New plans from Blue Cross Blue Shield — two tiers of customisable coverage including up to $500k emergency evacuation, adventure activities, and global care network with direct hospital billing in many cases.</p>
+                      <a href="https://www.soventure.com" target="_blank" rel="noopener noreferrer" class="text-orange-600 font-semibold hover:text-orange-700 text-sm">Explore Plans →</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- NAiO -->
+                <div class="border border-gray-200 rounded-xl p-6 bg-white hover:border-orange-500 hover:shadow-lg transition-all duration-200">
+                  <div class="flex gap-4">
+                    <div class="shrink-0 w-12 h-12 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-center overflow-hidden">
+                      <img src="https://cdn.files.smartsuite.com/security=p:eyJjYWxsIjogWyJyZWFkIiwgImNvbnZlcnQiXSwgImV4cGlyeSI6IDI0MDQ4NDM0ODkuNzA5NzM3LCAiaGFuZGxlIjogIkpxSm1KVG9BVDlHV2NhcTVPSnhjIn0=,s:20d0f274473b6308c9e50f3ba064194bde10531183629ec25b7c062d3c24eba3/JqJmJToAT9GWcaq5OJxc" alt="NAiO logo" class="max-w-full max-h-full object-contain" />
+                    </div>
+                    <div class="flex-1">
+                      <p class="text-orange-600 text-xs font-bold uppercase tracking-wider mb-2">📱 App · Now in Beta</p>
+                      <h3 class="text-lg font-bold text-gray-900 mb-2">NAiO — All-in-One Platform for Nomads</h3>
+                      <p class="text-gray-700 leading-relaxed mb-3 text-sm">Web prototype live at <a href="https://app.naio.one" target="_blank" rel="noopener noreferrer" class="text-orange-600 hover:text-orange-700">app.naio.one</a>. Expense & visa trackers, location history, 45 countries, nomad insurance, tax services, SIM cards, community & events. From nomads, for nomads. <strong>Beta testers welcome — sign up now and be among the first to shape the product.</strong></p>
+                      <div class="flex flex-wrap gap-4">
+                        <a href="https://app.naio.one/auth/register" target="_blank" rel="noopener noreferrer" class="inline-block bg-gray-900 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg text-sm transition-colors">Register for early access →</a>
+                        <a href="mailto:noah.haidl@naio.one" class="text-orange-600 font-semibold hover:text-orange-700 text-sm self-center">✉ Get email →</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Lattecino -->
+                <div class="border border-gray-200 rounded-xl p-6 bg-white hover:border-orange-500 hover:shadow-lg transition-all duration-200">
+                  <div class="flex gap-4">
+                    <div class="shrink-0 w-12 h-12 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-center overflow-hidden">
+                      <img src="https://cdn.files.smartsuite.com/security=p:eyJjYWxsIjogWyJyZWFkIiwgImNvbnZlcnQiXSwgImV4cGlyeSI6IDI0MDQ4NDM0NTUuOTA5NDcyLCAiaGFuZGxlIjogIjRUWnNreURUT1NSbHU2MzIwaFlBIn0=,s:bde4ff3840abfd063b6cdb9eec270a2c67ecc5f482cd51ccf74aefcea816a8d8/4TZskyDTOSRlu6320hYA" alt="Lattecino logo" class="max-w-full max-h-full object-contain" />
+                    </div>
+                    <div class="flex-1">
+                      <p class="text-orange-600 text-xs font-bold uppercase tracking-wider mb-2">☕ App · Early Access</p>
+                      <h3 class="text-lg font-bold text-gray-900 mb-2">Lattecino — Café Discovery for Digital Nomads</h3>
+                      <p class="text-gray-700 leading-relaxed mb-3 text-sm">11,000+ cafés across 40 cities with real filters: fast Wi-Fi, laptop-friendly, great AC. Coming soon: see who's in a café right now and say hi. Early access open before iOS launch.</p>
+                      <a href="https://lattecino.com" target="_blank" rel="noopener noreferrer" class="text-orange-600 font-semibold hover:text-orange-700 text-sm">Join Founding Community →</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- DataBench -->
+                <div class="border border-gray-200 rounded-xl p-6 bg-white hover:border-orange-500 hover:shadow-lg transition-all duration-200">
+                  <div class="flex gap-4">
+                    <div class="shrink-0 w-12 h-12 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-center overflow-hidden p-1">
+                      <img src="/images/databench-logo-transparent.png" alt="DataBench logo" class="max-w-full max-h-full object-contain" />
+                    </div>
+                    <div class="flex-1">
+                      <p class="text-orange-600 text-xs font-bold uppercase tracking-wider mb-2">💻 Tech & Privacy</p>
+                      <h3 class="text-lg font-bold text-gray-900 mb-2">DataBench × First Person Initiative</h3>
+                      <p class="text-gray-700 leading-relaxed text-sm mb-3">Brisbane-based DataBench has partnered with the First Person Cooperative (SF) — developing a privacy-preserving solution for distinguishing people from AI agents online, without biometric databases. Their mission: return dignity and personal ownership to every digital life.</p>
+                      <a href="https://databench.com.au/" target="_blank" rel="noopener noreferrer" class="text-gray-500 font-semibold hover:text-gray-700 text-sm">Learn more →</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- SSBM Consulting -->
+                <div class="border border-gray-200 rounded-xl p-6 bg-white hover:border-orange-500 hover:shadow-lg transition-all duration-200">
+                  <div class="flex gap-4">
+                    <div class="shrink-0 w-12 h-12 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-center overflow-hidden">
+                      <img src="https://cdn.files.smartsuite.com/security=p:eyJjYWxsIjogWyJyZWFkIiwgImNvbnZlcnQiXSwgImV4cGlyeSI6IDI0MDQ4NDM0NTIuNTAyNDgxLCAiaGFuZGxlIjogImJIRU5MRFZDUnRla0wwZW15WHh2In0=,s:d53a7ea16aad3de620e5572441aa1b75a417c916f7d99942808b56140d1637aa/bHENLDVCRtekL0emyXxv" alt="SSBM Consulting logo" class="max-w-full max-h-full object-contain" />
+                    </div>
+                    <div class="flex-1">
+                      <p class="text-orange-600 text-xs font-bold uppercase tracking-wider mb-2">🧾 Tax Services</p>
+                      <h3 class="text-lg font-bold text-gray-900 mb-2">SSBM Consulting — US Tax for Expats</h3>
+                      <p class="text-gray-700 leading-relaxed mb-3 text-sm">Sandra from SSBM Consulting offers tax services and digital products for Americans living abroad — helping expats understand U.S. tax responsibilities, avoid common mistakes, and feel confident overseas. Open to partnerships with expat communities and nomad platforms.</p>
+                      <a href="mailto:sandra@ssbmconsulting.com" class="text-orange-600 font-semibold hover:text-orange-700 text-sm">✉ Get email →</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Global Nomad Pass -->
+                <div class="border border-gray-200 rounded-xl p-6 bg-white hover:border-orange-500 hover:shadow-lg transition-all duration-200">
+                  <div class="flex gap-4">
+                    <div class="shrink-0 w-12 h-12 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-center overflow-hidden">
+                      <img src="https://cdn.files.smartsuite.com/security=p:eyJjYWxsIjogWyJyZWFkIiwgImNvbnZlcnQiXSwgImV4cGlyeSI6IDI0MDQ4NDM1MTkuNjQ2Nzk1LCAiaGFuZGxlIjogImJ1VHBYdXB2U3hLRDl0VzJITlVWIn0=,s:89b8afb3687eb7529dcd7fe3b90e6772f4c75ec4464fb38b7318b97df17babfa/buTpXupvSxKD9tW2HNUV" alt="Global Nomad Pass logo" class="max-w-full max-h-full object-contain" />
+                    </div>
+                    <div class="flex-1">
+                      <p class="text-orange-600 text-xs font-bold uppercase tracking-wider mb-2">✈️ Travel Deal</p>
+                      <h3 class="text-lg font-bold text-gray-900 mb-2">Global Nomad Pass × AEGEAN Airlines — 20% Off Flights to Greece</h3>
+                      <p class="text-gray-700 leading-relaxed mb-4 text-sm">Global Nomad Pass has partnered with AEGEAN Airlines and Marketing Greece to reward travelers heading to Greece. Get 20% off your next AEGEAN flight (one-way or round trip, valid through Oct 15, 2026) — plus a free Global Nomad Pass membership for up to 50% off at local cafés, restaurants, coworking spaces, fitness studios, and more across 25+ destinations worldwide.</p>
+                      <a href="https://globalnomadpass.com/aegean" target="_blank" rel="noopener noreferrer" class="inline-block bg-gray-900 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded-lg text-sm transition-colors">Get your FREE pass →</a>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </section>
+
+            <!-- ============================
+                 NOMAD DIRECTORY
+            ============================= -->
+            <section class="mb-12 bg-gray-50 rounded-2xl p-8">
+              <h2 class="text-2xl font-black text-gray-900 mb-1">Latest Nomad Directory Listings</h2>
+              <p class="text-sm text-gray-500 mb-6">New tools and spaces added to our database — <a href="/nomad_directory/" class="text-orange-600 font-semibold hover:text-orange-700">view all 167+ listings →</a></p>
+              <div class="text-center">
+                <a href="/nomad_directory/" class="inline-block bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-xl transition-all duration-200">
+                  🚀 View All 167+ Directory Listings
+                </a>
+              </div>
+            </section>
+
+            <!-- ============================
+                 ABOUT THE MAGAZINE
+            ============================= -->
+            <section class="mb-12">
+              <div class="bg-yellow-50 border-2 border-yellow-400 rounded-2xl p-8 text-center">
+                <span class="bg-amber-600 text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide">📖 About the Magazine</span>
+                <h3 class="text-3xl font-black text-gray-900 mt-4 mb-3">Whether you live it or dream of it</h3>
+                <p class="text-base text-gray-600 leading-relaxed mb-6 max-w-xl mx-auto">Nomad Magazine is the most distributed premium print & digital publication focused on authentic digital nomad and remote work stories from around the world. For digital nomads, remote professionals, travellers, and culturally curious readers across Europe and beyond, we spotlight sustainable tourism, local voices, and the communities shaping this lifestyle.</p>
+                <div class="flex flex-wrap gap-3 justify-center">
+                  <a href="/editions/fourth-edition/" class="inline-block bg-amber-600 hover:bg-amber-700 text-white font-bold py-3.5 px-7 rounded-xl shadow-lg transition-all duration-200">Order Edition Four →</a>
+                  <a href="/editions/" class="inline-block text-amber-800 hover:text-amber-900 font-semibold py-3.5 px-5 transition-colors">All editions →</a>
+                </div>
+              </div>
+            </section>
+
+          </main>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+      <div class="max-w-4xl mx-auto px-4 py-5 text-center">
+        <p class="text-xs text-white">
+          © 2026 Nomad Magazine. All rights reserved.<br>
+          <a href="https://nomad-magazine.com/" class="text-yellow-400 hover:underline">nomad-magazine.com</a>
+        </p>
+      </div>
+    </footer>
+
+    <!-- Back to Newsletter -->
+    <div class="text-center py-6 bg-gray-50">
+      <a href="/newsletter/" class="inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors duration-200">
+        <svg class="mr-2 w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        Back to Newsletter
+      </a>
+    </div>
+
+  </div>
+</Layout>
