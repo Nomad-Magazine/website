@@ -1,0 +1,816 @@
+---
+export const prerender = true
+
+import { getCollection } from 'astro:content'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+
+const rawArticles = await getCollection('article', ({ data }) => data.published !== false)
+const articles = rawArticles.sort((a, b) => {
+  const dateA = new Date(a.data.pubDate || 0).getTime()
+  const dateB = new Date(b.data.pubDate || 0).getTime()
+  return dateB - dateA
+})
+
+// Score a sentence for "Instagram-worthiness":
+// higher = more compelling as a standalone quote
+function scoreQuote(s: string): number {
+  let sc = 0
+  const lower = s.toLowerCase()
+  // Sweet spot length: 80–200 chars
+  if (s.length >= 80 && s.length <= 200) sc += 4
+  else if (s.length >= 50 && s.length <= 240) sc += 2
+  else sc -= 2
+  // Contrast / tension words that create intrigue
+  for (const w of ['yet', 'still', 'despite', 'instead', 'paradox', 'alone', 'actually',
+                    'never', 'always', 'why', 'reality', 'truth', 'irony', 'but ', 'however',
+                    'surprising', 'unexpected', 'hidden', 'beneath', 'beyond', 'secret']) {
+    if (lower.includes(w)) sc += 2
+  }
+  // Emotional / human resonance
+  for (const w of ['feel', 'freedom', 'community', 'dream', 'discover', 'change',
+                    'struggle', 'love', 'fear', 'hope', 'belong', 'connect', 'lonely',
+                    'together', 'people', 'life', 'world', 'home', 'journey']) {
+    if (lower.includes(w)) sc += 1
+  }
+  // Starts strong (not "The ", "A ", "In ", "It " etc.)
+  if (/^(What|Why|How|When|Where|No |Not |Most |For |Every|Some|While|Although|Despite|This is|There |We |You |They )/.test(s)) sc += 2
+  // Avoid dry, listy, or link-heavy text
+  if (s.includes('http') || s.includes('www.') || s.includes('://')) sc -= 5
+  if (/^\d+\./.test(s)) sc -= 3
+  return sc
+}
+
+// Extract all candidate quotes from <mark> tags + body sentences, ranked by score
+function extractHighlights(body: string): string[] {
+  const candidates: Array<{ text: string; score: number; fromMark: boolean }> = []
+
+  // 1. <mark> highlights (author-chosen — get a base bonus)
+  const markRegex = /<mark>(.*?)<\/mark>/g
+  let match
+  while ((match = markRegex.exec(body)) !== null) {
+    const text = match[1].replace(/<[^>]+>/g, '').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').trim()
+    if (text.length > 30) candidates.push({ text, score: scoreQuote(text) + 3, fromMark: true })
+  }
+
+  // 2. Standalone sentences from body paragraphs
+  const cleanLine = (l: string) =>
+    l.replace(/<[^>]+>/g, '').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').trim()
+
+  for (const line of body.split('\n')) {
+    const cl = cleanLine(line)
+    if (!cl || cl.startsWith('#') || cl.startsWith('|') || cl.startsWith('-') || cl.startsWith('!')) continue
+    for (const sentence of cl.match(/[^.!?]+[.!?]+/g) ?? []) {
+      const s = sentence.trim()
+      if (s.length < 50 || s.length > 280) continue
+      if (s.includes('http') || s.includes('www.')) continue
+      candidates.push({ text: s, score: scoreQuote(s), fromMark: false })
+    }
+  }
+
+  // Deduplicate, sort by score, return top texts
+  const seen = new Set<string>()
+  return candidates
+    .sort((a, b) => b.score - a.score)
+    .filter(c => { const k = c.text.slice(0, 60); if (seen.has(k)) return false; seen.add(k); return true })
+    .slice(0, 6)
+    .map(c => c.text)
+}
+
+function extractH2s(body: string): string[] {
+  const h2Regex = /^## (.+)$/gm
+  const headings: string[] = []
+  let match
+  while ((match = h2Regex.exec(body)) !== null) {
+    headings.push(match[1].trim())
+  }
+  return headings.slice(0, 5)
+}
+
+// Returns [{heading, snippet}] — first plain-text sentence after each H2, trimmed at a sentence end
+function extractH2Snippets(body: string): { heading: string; snippet: string }[] {
+  const sections = body.split(/^## /m).slice(1)
+  return sections.slice(0, 4).map(section => {
+    const lines = section.split('\n')
+    const heading = lines[0].trim()
+    // Collect the first substantive paragraph (may span multiple lines)
+    const rawLines = lines
+      .slice(1)
+      .map(l => l.replace(/<[^>]+>/g, '').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').trim())
+      .filter(l => l.length > 0 && !l.startsWith('#') && !l.startsWith('-') && !l.startsWith('|'))
+    const paragraph = rawLines.slice(0, 3).join(' ')
+    // Trim to the last full sentence that fits within ~160 chars
+    const maxLen = 160
+    let trimmed = paragraph
+    if (trimmed.length > maxLen) {
+      // Try to cut at a sentence boundary (., !, ?)
+      const cut = trimmed.slice(0, maxLen)
+      const sentenceEnd = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('! '), cut.lastIndexOf('? '))
+      trimmed = sentenceEnd > 60 ? trimmed.slice(0, sentenceEnd + 1) : cut.replace(/\s\S+$/, '') + '…'
+    }
+    return { heading, snippet: trimmed }
+  })
+}
+
+function formatDate(date: Date | undefined): string {
+  if (!date) return ''
+  return new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+}
+
+function getTags(tag: string | undefined): string[] {
+  if (!tag) return []
+  return tag.split(',').map(t => t.trim()).filter(Boolean).slice(0, 3)
+}
+
+// Extract city/location names from article
+// Prefer only H2 subsection headings so the list shows actually featured destinations.
+// Fallback to body/title matching only when no place-based subsections exist.
+function extractCities(title: string, body: string): string[] {
+  const cities = new Set<string>()
+  
+  // Common patterns for H2 section titles like "Tallinn, Estonia: Europe's Digital Pioneer"
+  const h2Regex = /^## (.+?)(?::|—)/gm
+  let match
+  while ((match = h2Regex.exec(body)) !== null) {
+    const heading = match[1].trim()
+    // If heading contains a comma (city, country pattern), take everything before colon/dash
+    if (heading.includes(',')) {
+      const cityPart = heading.split(',')[0].trim()
+      if (cityPart.length > 2 && cityPart.length < 25) cities.add(cityPart)
+    }
+  }
+
+  // If we already found place-based subsections, stop there.
+  if (cities.size > 0) {
+    return Array.from(cities).slice(0, 8)
+  }
+
+  // Fallback: scan body/title for common place names only when no subsection cities exist.
+  const knownCities = [
+    'Tallinn', 'Sofia', 'Edinburgh', 'Valencia', 'Lisbon', 'Porto', 'Barcelona', 'Madrid',
+    'Berlin', 'Prague', 'Budapest', 'Krakow', 'Warsaw', 'Vienna', 'Amsterdam', 'Paris',
+    'London', 'Dublin', 'Copenhagen', 'Stockholm', 'Oslo', 'Helsinki', 'Reykjavik',
+    'Athens', 'Rome', 'Milan', 'Florence', 'Venice', 'Naples', 'Palermo',
+    'Bali', 'Chiang Mai', 'Bangkok', 'Hanoi', 'Ho Chi Minh', 'Hoi An', 'Da Nang',
+    'Tokyo', 'Osaka', 'Kyoto', 'Seoul', 'Singapore', 'Kuala Lumpur', 'Penang',
+    'Mexico City', 'Playa del Carmen', 'Tulum', 'Oaxaca', 'Medellin', 'Bogota',
+    'Buenos Aires', 'Santiago', 'Lima', 'Cusco', 'Quito', 'Rio de Janeiro', 'São Paulo',
+    'Dubai', 'Tel Aviv', 'Istanbul', 'Cape Town', 'Nairobi', 'Marrakech', 'Cairo',
+    'New York', 'San Francisco', 'Austin', 'Miami', 'Seattle', 'Portland', 'Denver',
+    'Montreal', 'Toronto', 'Vancouver', 'Sydney', 'Melbourne', 'Wellington', 'Auckland',
+    'Bansko'
+  ]
+
+  const bodyText = body.replace(/<[^>]+>/g, ' ').replace(/\[[^\]]+\]\([^)]+\)/g, ' ')
+  for (const city of knownCities) {
+    const regex = new RegExp(`\\b${city}\\b`, 'i')
+    if (regex.test(bodyText) || regex.test(title)) {
+      cities.add(city)
+    }
+  }
+
+  return Array.from(cities).slice(0, 8)
+}
+
+function toHashtag(t: string): string {
+  return '#' + t.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '')
+}
+
+function generateLinkedInCopy(
+  title: string,
+  description: string,
+  h2s: string[],
+  highlights: string[],
+  tags: string[],
+  articleUrl: string,
+  author?: string
+): string {
+  const hashtags = [...tags.map(toHashtag), '#DigitalNomad', '#RemoteWork', '#NomadMagazine'].join(' ')
+  const points = h2s.slice(0, 4).map(h => `→ ${h}`).join('\n')
+  const insight = highlights[0] ?? ''
+  const lines: string[] = []
+
+  // Hook — rephrase title as a question or statement
+  const hook = title.endsWith('?') ? title : `${title} — here's what you need to know.`
+  lines.push(hook, '')
+
+  lines.push(description, '')
+
+  if (points) {
+    lines.push('What you\'ll find in this article:', points, '')
+  }
+
+  if (insight) {
+    lines.push(`💡 "${insight}"`, '')
+  }
+
+  lines.push('Full article 👇', `https://${articleUrl}`, '')
+  lines.push(hashtags)
+
+  if (author) {
+    lines.push('', `By ${author} for Nomad Magazine`)
+  }
+
+  return lines.join('\n')
+}
+
+function generateTwitterCopy(
+  title: string,
+  description: string,
+  tags: string[],
+  highlights: string[],
+  articleUrl: string
+): string {
+  const hashtags = [...tags.slice(0, 2).map(toHashtag), '#NomadMagazine'].join(' ')
+  // Use first highlight or first ~180 chars of description as the insight line
+  const insight = highlights[0] ?? description
+  const maxLen = 180
+  const truncated = insight.length > maxLen ? insight.slice(0, maxLen - 1) + '…' : insight
+
+  return [truncated, '', `https://${articleUrl}`, '', hashtags].join('\n')
+}
+
+const seo: SEOProps = {
+  title: 'Article Social Cards - Internal Tool',
+  description: 'Internal use only - Social media image templates for articles',
+  noIndex: true,
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Article Social Cards',
+    description: 'Internal use only',
+    url: `${Astro.site}internal/article-social-cards/`,
+  },
+}
+---
+
+<Layout seo={seo}>
+  <div class="bg-gray-950 min-h-screen">
+
+    <!-- Sticky Header -->
+    <div class="bg-gray-900 border-b border-gray-800 sticky top-0 z-50">
+      <div class="max-w-screen-2xl mx-auto px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div>
+          <h1 class="text-white font-bold text-lg">Article Social Media Cards</h1>
+          <p class="text-gray-500 text-xs mt-0.5">{articles.length} articles · Internal use only · noindex</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <label for="article-filter" class="text-gray-400 text-sm shrink-0">Jump to:</label>
+          <select
+            id="article-filter"
+            class="bg-gray-800 text-white border border-gray-700 rounded-lg px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-yellow-400 outline-none max-w-xs"
+          >
+            <option value="all">All articles</option>
+            {articles.map(article => (
+              <option value={article.id}>{article.data.title}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Format Legend -->
+    <div class="max-w-screen-2xl mx-auto px-6 pt-6 pb-2">
+      <div class="flex flex-wrap gap-3 text-xs">
+        <span class="bg-pink-950/60 text-pink-300 border border-pink-800/50 px-3 py-1.5 rounded-full font-medium">Instagram · 5–7 slides · 3:4 portrait (1080×1440)</span>
+        <span class="bg-blue-950/60 text-blue-300 border border-blue-800/50 px-3 py-1.5 rounded-full font-medium">LinkedIn · 1 image · 1.91:1 landscape</span>
+        <span class="bg-sky-950/60 text-sky-300 border border-sky-800/50 px-3 py-1.5 rounded-full font-medium">Twitter / X · 1 image · 16:9</span>
+        <span class="ml-auto text-gray-600 py-1.5">Click ↓ PNG below any card to download with text</span>
+      </div>
+    </div>
+
+    <!-- Articles -->
+    <div class="max-w-screen-2xl mx-auto px-6 py-6 space-y-20" id="articles-container">
+      {articles.map(article => {
+        const data = article.data
+        const body = article.body ?? ''
+        const highlights = extractHighlights(body)
+        const h2s = extractH2s(body)
+        const tags = getTags(data.tag)
+        const heroImage = data.heroImage ?? ''
+        const heroImageAlt = data.heroImageAlt ?? data.title
+        const slug = (data as any).slug || article.id.replace(/^article\//, '').replace(/\.md$/, '')
+        const articleUrl = `nomad-magazine.com/articles/${slug}/`
+        const pubDateStr = formatDate(data.pubDate)
+        const h2Snippets = extractH2Snippets(body)
+        const cities = extractCities(data.title, body)
+        const citySlides = h2Snippets
+          .filter(({ heading, snippet }) => heading && snippet)
+          .slice(0, 2)
+        const instagramSlideCount = 5 + citySlides.length
+
+        // Slide 2 uses highlights[0] as its featured quote.
+        // Slide 4 must use a different highlight to avoid repetition.
+        // Slide 3 shows h2 headings as a numbered list (overview angle, not repeated snippets).
+        const slide2Quote = highlights[0]
+        const slide3Quote = 'In 2026, remote workers are no longer just looking for short-term travel experiences; they are searching for cities that support long-term, sustainable living.'
+        const slide4CustomQuote = 'The cost of living is relatively high but affordable for nomads with a higher income, offering more affordable options just outside the centre'
+        const slide5CustomQuote = 'Valencia in Spain is a great choice, as it has evolved from a hidden gem to a fully established digital nomad hub.'
+        const slide4Quote = highlights.length >= 2
+          ? highlights[1]                                          // second highlight — distinct from slide 2
+          : (highlights[0] ? data.description : data.description) // slide 2 already used the only highlight
+
+        // Slide 3 key points: prefer h2s not already previewed in slide 2 snippets,
+        // fall back to all h2s if not enough extras
+        const slide2HeadingsUsed = new Set(h2Snippets.slice(0, 3).map(s => s.heading))
+        const remainingH2s = h2s.filter(h => !slide2HeadingsUsed.has(h))
+        const keyPoints = remainingH2s.length >= 3
+          ? remainingH2s.slice(0, 5)
+          : h2s.length >= 3
+            ? h2s.slice(0, 5)
+            : [...h2s, ...tags].slice(0, 5)
+        const linkedInCopy = generateLinkedInCopy(data.title, data.description, h2s, highlights, tags, articleUrl, data.author)
+        const twitterCopy = generateTwitterCopy(data.title, data.description, tags, highlights, articleUrl)
+
+        return (
+          <section class="article-section" data-slug={article.id} id={`article-${article.id}`}>
+
+            <!-- Section Header -->
+            <div class="flex items-start justify-between mb-6 pb-4 border-b border-gray-800">
+              <div class="min-w-0 flex-1 mr-4">
+                <div class="flex flex-wrap items-center gap-2 mb-2">
+                  {tags.map(tag => (
+                    <span class="bg-yellow-400 text-black text-xs font-bold px-2.5 py-0.5 rounded-full">{tag}</span>
+                  ))}
+                  <span class="text-gray-600 text-xs">{pubDateStr}</span>
+                </div>
+                <h2 class="text-white text-xl font-bold leading-snug">{data.title}</h2>
+                {data.author && <p class="text-gray-500 text-sm mt-1">by {data.author}</p>}
+              </div>
+              <a
+                href={`/articles/${slug}/`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Open article: ${data.title} (opens in new tab)`}
+                class="text-yellow-400 hover:text-yellow-300 text-sm font-medium shrink-0 transition-colors"
+              >
+                View →
+              </a>
+            </div>
+
+            <!-- ═══════════════════════════════════════
+                 INSTAGRAM CAROUSEL (1:1 square slides)
+                 ═══════════════════════════════════════ -->
+            <div class="mb-10">
+              <div class="flex items-center gap-2 mb-4">
+                <div class="w-2 h-2 rounded-full bg-pink-400" aria-hidden="true"></div>
+                <h3 class="text-pink-300 text-xs font-bold uppercase tracking-widest">Instagram Carousel · 1080×1440px (3:4) · {instagramSlideCount} slides</h3>
+              </div>
+
+              <div class="flex gap-4 overflow-x-auto snap-x snap-mandatory relative" style="padding-bottom:44px;" role="list" aria-label="Instagram carousel slides">
+
+                <!-- Slide 1: Cover -->
+                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label="Slide 1 of 5: Cover">
+                  <div class="card-capture relative w-full h-full rounded-none overflow-hidden shadow-2xl shadow-black/50">
+                    {heroImage
+                      ? <img src={heroImage} alt={heroImageAlt} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
+                      : <div class="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900"></div>
+                    }
+                    <div class="absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-black/10"></div>
+                    <div class="absolute inset-0 flex flex-col justify-between p-6">
+                      <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                          <img src="/logo.svg" alt="" aria-hidden="true" class="w-7 h-7" crossorigin="anonymous" />
+                          <span class="text-white/70 text-[11px] font-bold uppercase tracking-widest">Nomad Magazine</span>
+                        </div>
+                        <div class="flex gap-1" aria-hidden="true">
+                          {Array.from({ length: instagramSlideCount }).map((_, i) => (
+                            <div class={`rounded-full ${i === 0 ? 'bg-yellow-400 w-4 h-1.5' : 'bg-white/25 w-1.5 h-1.5'}`}></div>
+                          ))}
+                        </div>
+                      </div>
+                      <div>
+                        <h3 class="text-white font-bold text-xl leading-tight mb-3 drop-shadow-lg">{data.title}</h3>
+                        {data.author && <p class="text-white/50 text-xs">by {data.author}</p>}
+                      </div>
+                    </div>
+                    <div class="absolute bottom-2 right-3 text-white/25 text-[10px] font-mono">1/{instagramSlideCount}</div>
+                  </div>
+                  <button class="download-btn" data-filename={`ig-01-cover-${slug}.png`} data-width="1080" aria-label="Download slide 1">↓ PNG</button>
+                </div>
+
+                <!-- Slide 2: Quote (white version of slide 4) -->
+                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide 2 of ${instagramSlideCount}: Key quote`}>
+                  <div class="card-capture relative w-full h-full rounded-none overflow-hidden bg-white shadow-2xl shadow-black/30">
+                    <div class="p-6 flex flex-col h-full">
+                      <div class="flex items-center justify-between mb-2">
+                        <img src="/logo.svg" alt="" aria-hidden="true" class="w-5 h-5 opacity-20" crossorigin="anonymous" />
+                      </div>
+                      <div class="text-yellow-400 text-8xl font-serif leading-none select-none" aria-hidden="true">"</div>
+                      <div class="flex-1 flex flex-col justify-center -mt-4">
+                        <p class="text-gray-900 text-sm font-semibold leading-relaxed">
+                          {slide2Quote ?? data.description}
+                        </p>
+                      </div>
+                      <div class="mt-4 pt-4 border-t border-gray-100">
+                        {data.author && <p class="text-gray-500 text-xs font-medium">{data.author}</p>}
+                        <p class="text-gray-300 text-xs">nomad-magazine.com</p>
+                      </div>
+                    </div>
+                    <div class="absolute bottom-2 right-3 text-gray-200 text-[10px] font-mono">2/{instagramSlideCount}</div>
+                  </div>
+                  <button class="download-btn" data-filename={`ig-02-quote-${slug}.png`} data-width="1080" aria-label="Download slide 2">↓ PNG</button>
+                </div>
+
+                <!-- Slide 3: City Quote Card -->
+                {citySlides[0] && (
+                  <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide 3 of ${instagramSlideCount}: City detail`}>
+                    <div class="card-capture relative w-full h-full rounded-none overflow-hidden bg-yellow-400 shadow-2xl shadow-black/30">
+                      <div class="p-6 flex flex-col h-full">
+                        <div class="flex items-center justify-end mb-2">
+                          <img src="/logo.svg" alt="" aria-hidden="true" class="w-5 h-5 opacity-40" crossorigin="anonymous" />
+                        </div>
+                        <div class="text-black/15 text-8xl font-serif leading-none select-none" aria-hidden="true">"</div>
+                        <div class="flex-1 flex flex-col justify-center -mt-6">
+                          <p class="text-black text-sm font-semibold leading-relaxed">
+                            {slide3Quote}
+                          </p>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-black/10">
+                          {data.author && <p class="text-black/60 text-xs font-medium">{data.author}</p>}
+                          <p class="text-black/40 text-xs">nomad-magazine.com</p>
+                        </div>
+                      </div>
+                      <div class="absolute bottom-2 right-3 text-black/20 text-[10px] font-mono">3/{instagramSlideCount}</div>
+                    </div>
+                    <button class="download-btn" data-filename={`ig-03-city1-${slug}.png`} data-width="1080" aria-label="Download slide 3">↓ PNG</button>
+                  </div>
+                )}
+
+                <!-- Slide 4: City Quote Card -->
+                {citySlides[1] && (
+                  <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide 4 of ${instagramSlideCount}: City detail`}>
+                    <div class="card-capture relative w-full h-full rounded-none overflow-hidden shadow-2xl shadow-black/50">
+                      <img src="/images/edinburgh-card-bg.png" alt="Edinburgh" class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" onerror="this.src='/images/best-cities-remote-workers-2026.webp'" />
+                      <div class="absolute inset-0 bg-black/60"></div>
+                      <div class="absolute inset-0 p-6 flex flex-col">
+                        <div class="flex items-center justify-end mb-2">
+                          <img src="/logo.svg" alt="" aria-hidden="true" class="w-5 h-5 opacity-50" crossorigin="anonymous" />
+                        </div>
+                        <div class="text-yellow-400/30 text-8xl font-serif leading-none select-none" aria-hidden="true">"</div>
+                        <div class="flex-1 flex flex-col justify-center -mt-6">
+                          <p class="text-white text-sm font-semibold leading-relaxed drop-shadow-md">
+                            {slide4CustomQuote}
+                          </p>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-white/20">
+                          {data.author && <p class="text-white/80 text-xs font-medium">{data.author}</p>}
+                          <p class="text-white/50 text-xs">nomad-magazine.com</p>
+                        </div>
+                      </div>
+                      <div class="absolute bottom-2 right-3 text-white/30 text-[10px] font-mono">4/{instagramSlideCount}</div>
+                    </div>
+                    <button class="download-btn" data-filename={`ig-04-city2-${slug}.png`} data-width="1080" aria-label="Download slide 4">↓ PNG</button>
+                  </div>
+                )}
+
+                <!-- Slide 5: Image Quote -->
+                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide ${3 + citySlides.length} of ${instagramSlideCount}: Key insight`}>
+                  <div class="card-capture relative w-full h-full rounded-none overflow-hidden shadow-2xl shadow-black/50">
+                    <img src="/images/valencia-card-bg.png" alt="Valencia" class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" onerror="this.src='/images/best-cities-remote-workers-2026.webp'" />
+                    <div class="absolute inset-0 bg-black/60"></div>
+                    <div class="absolute inset-0 p-6 flex flex-col">
+                      <div class="flex items-center justify-between mb-2">
+                        <img src="/logo.svg" alt="" aria-hidden="true" class="w-5 h-5 opacity-50" crossorigin="anonymous" />
+                      </div>
+                      <div class="text-yellow-400/30 text-8xl font-serif leading-none select-none" aria-hidden="true">"</div>
+                      <div class="flex-1 flex flex-col justify-center -mt-6">
+                        <p class="text-white text-sm font-semibold leading-relaxed drop-shadow-md">
+                          {slide5CustomQuote}
+                        </p>
+                      </div>
+                      <div class="mt-4 pt-4 border-t border-white/20">
+                        {data.author && <p class="text-white/80 text-xs font-medium">{data.author}</p>}
+                        <p class="text-white/50 text-xs">nomad-magazine.com</p>
+                      </div>
+                    </div>
+                    <div class="absolute bottom-2 right-3 text-white/30 text-[10px] font-mono">{3 + citySlides.length}/{instagramSlideCount}</div>
+                  </div>
+                  <button class="download-btn" data-filename={`ig-${String(3 + citySlides.length).padStart(2, '0')}-quote-${slug}.png`} data-width="1080" aria-label="Download image quote slide">↓ PNG</button>
+                </div>
+
+                <!-- Slide 6: Cities mentioned (if article has location focus) or key topics fallback -->
+                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide ${4 + citySlides.length} of ${instagramSlideCount}: Featured locations`}>
+                  <div class="card-capture relative w-full h-full rounded-none overflow-hidden bg-[#121111] shadow-2xl shadow-black/50">
+                    <div class="p-6 flex flex-col h-full">
+                      <div class="flex items-center justify-between mb-6">
+                        <span class="text-yellow-400 text-[11px] font-bold uppercase tracking-widest">
+                          {cities.length > 0 ? 'Featured in this article' : 'In this article'}
+                        </span>
+                        <img src="/logo.svg" alt="" aria-hidden="true" class="w-5 h-5 opacity-50" crossorigin="anonymous" />
+                      </div>
+                      <div class="flex-1 space-y-4">
+                        {cities.length > 0 ? (
+                          cities.slice(0, 6).map((city, i) => (
+                            <div class="flex items-start gap-3">
+                              <span class="text-yellow-400 font-bold text-base leading-none mt-0.5 shrink-0 font-mono">
+                                {String(i + 1).padStart(2, '0')}
+                              </span>
+                              <p class="text-white text-sm leading-snug">{city}</p>
+                            </div>
+                          ))
+                        ) : (
+                          keyPoints.slice(0, 4).map((point, i) => (
+                            <div class="flex items-start gap-3">
+                              <span class="text-yellow-400 font-bold text-base leading-none mt-0.5 shrink-0 font-mono">
+                                {String(i + 1).padStart(2, '0')}
+                              </span>
+                              <p class="text-white text-sm leading-snug">{point}</p>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                      <div class="mt-4 pt-4 border-t border-gray-800">
+                        <p class="text-gray-600 text-[11px] font-mono">{articleUrl}</p>
+                      </div>
+                    </div>
+                    <div class="absolute bottom-2 right-3 text-gray-700 text-[10px] font-mono">{4 + citySlides.length}/{instagramSlideCount}</div>
+                  </div>
+                  <button class="download-btn" data-filename={`ig-${String(4 + citySlides.length).padStart(2, '0')}-${cities.length > 0 ? 'cities' : 'topics'}-${slug}.png`} data-width="1080" aria-label="Download featured locations slide">↓ PNG</button>
+                </div>
+
+                <!-- Slide 7: CTA -->
+                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide ${5 + citySlides.length} of ${instagramSlideCount}: Call to action`}>
+                  <div class="card-capture relative w-full h-full rounded-none overflow-hidden shadow-2xl shadow-black/50">
+                    {heroImage
+                      ? <img src={heroImage} alt={heroImageAlt} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
+                      : <div class="absolute inset-0 bg-gradient-to-br from-yellow-500 to-yellow-700"></div>
+                    }
+                    <div class="absolute inset-0 bg-black/75"></div>
+                    <div class="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
+                      <img src="/logo.svg" alt="" aria-hidden="true" class="w-10 h-10 mb-4" crossorigin="anonymous" />
+                      <p class="text-yellow-400 text-[11px] font-bold uppercase tracking-widest mb-3">Read the full article</p>
+                      <h3 class="text-white font-bold text-base leading-snug mb-5">{data.title}</h3>
+                      <div class="bg-yellow-400 text-black text-xs font-bold px-5 py-2.5 rounded-full max-w-full break-all">
+                        {articleUrl}
+                      </div>
+                      <p class="text-white/40 text-xs mt-4">🔗 Link in bio</p>
+                    </div>
+                    <div class="absolute bottom-2 right-3 text-white/20 text-[10px] font-mono">{5 + citySlides.length}/{instagramSlideCount}</div>
+                  </div>
+                  <button class="download-btn" data-filename={`ig-${String(5 + citySlides.length).padStart(2, '0')}-cta-${slug}.png`} data-width="1080" aria-label="Download CTA slide">↓ PNG</button>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- ═══════════════════════════
+                 LINKEDIN (1.91:1 landscape)
+                 ═══════════════════════════ -->
+            <div class="mb-10">
+              <div class="flex items-center gap-2 mb-4">
+                <div class="w-2 h-2 rounded-full bg-blue-400" aria-hidden="true"></div>
+                <h3 class="text-blue-300 text-xs font-bold uppercase tracking-widest">LinkedIn · 1200×627px</h3>
+              </div>
+              <div class="card-wrapper relative group" style="max-width:600px;padding-bottom:36px;">
+                <div class="card-capture relative rounded-none overflow-hidden shadow-2xl shadow-black/50" style="aspect-ratio:1.91/1;">
+                  {heroImage
+                    ? <img src={heroImage} alt={heroImageAlt} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
+                    : <div class="absolute inset-0 bg-gradient-to-r from-gray-900 to-gray-700"></div>
+                  }
+                  <div class="absolute inset-0 bg-linear-to-r from-black/90 via-black/60 to-transparent"></div>
+                  <div class="absolute inset-0 flex flex-col justify-between p-7">
+                    <div class="flex items-center gap-2">
+                      <img src="/logo.svg" alt="" aria-hidden="true" class="w-7 h-7" crossorigin="anonymous" />
+                      <span class="text-white/70 text-xs font-bold uppercase tracking-widest">Nomad Magazine</span>
+                    </div>
+                    <div>
+                      {tags[0] && (
+                        <span class="inline-block bg-yellow-400 text-black text-xs font-bold px-3 py-1 rounded-full mb-3">{tags[0]}</span>
+                      )}
+                      <h3 class="text-white font-bold text-2xl leading-tight mb-2 drop-shadow-lg">{data.title}</h3>
+                      <p class="text-white/65 text-sm leading-relaxed" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">
+                        {data.description}
+                      </p>
+                      <p class="text-yellow-400/70 text-xs mt-3 font-mono">{articleUrl}</p>
+                    </div>
+                  </div>
+                </div>
+                <button class="download-btn" data-filename={`linkedin-${slug}.png`} data-width="1200" aria-label="Download LinkedIn image">↓ PNG</button>
+              </div>
+
+              <!-- LinkedIn copy -->
+              <div class="copy-block mt-4" style="max-width:600px;">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-gray-500 text-[11px] font-bold uppercase tracking-widest">Proposed LinkedIn post copy</span>
+                  <button class="copy-text-btn text-[11px] font-semibold text-blue-300 hover:text-white border border-blue-800/50 hover:border-blue-400 bg-blue-950/40 hover:bg-blue-900/50 px-3 py-1 rounded-lg transition-colors" aria-label="Copy LinkedIn post text">Copy text</button>
+                </div>
+                <textarea
+                  class="copy-textarea w-full bg-gray-900 border border-gray-800 text-gray-300 text-xs leading-relaxed rounded-xl p-4 resize-none font-mono focus-visible:ring-2 focus-visible:ring-blue-500 outline-none"
+                  rows="12"
+                  readonly
+                >{linkedInCopy}</textarea>
+                <p class="text-gray-600 text-[11px] mt-1">~{linkedInCopy.length} chars · Edit before posting · LinkedIn allows up to 3000 chars</p>
+              </div>
+            </div>
+
+            <!-- ═══════════════
+                 TWITTER/X (16:9)
+                 ═══════════════ -->
+            <div class="mb-4">
+              <div class="flex items-center gap-2 mb-4">
+                <div class="w-2 h-2 rounded-full bg-sky-400" aria-hidden="true"></div>
+                <h3 class="text-sky-300 text-xs font-bold uppercase tracking-widest">Twitter / X · 1600×900px</h3>
+              </div>
+              <div class="card-wrapper relative group" style="max-width:600px;padding-bottom:36px;">
+                <div class="card-capture relative rounded-none overflow-hidden shadow-2xl shadow-black/50" style="aspect-ratio:16/9;">
+                  {heroImage
+                    ? <img src={heroImage} alt={heroImageAlt} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
+                    : <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-black"></div>
+                  }
+                  <div class="absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-transparent"></div>
+                  <div class="absolute top-0 left-0 right-0 h-1 bg-yellow-400" aria-hidden="true"></div>
+                  <div class="absolute inset-0 flex flex-col justify-between p-6">
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center gap-2">
+                        <img src="/logo.svg" alt="" aria-hidden="true" class="w-6 h-6" crossorigin="anonymous" />
+                        <span class="text-white/60 text-xs font-bold uppercase tracking-wider">Nomad Magazine</span>
+                      </div>
+                      {tags[0] && (
+                        <span class="bg-yellow-400 text-black text-xs font-bold px-2.5 py-0.5 rounded-full">{tags[0]}</span>
+                      )}
+                    </div>
+                    <div>
+                      <h3 class="text-white font-bold text-xl leading-tight mb-1 drop-shadow-lg">{data.title}</h3>
+                      <div class="flex items-center gap-3 mt-2">
+                        {data.author && <span class="text-white/50 text-xs">{data.author}</span>}
+                        <span class="text-yellow-400/80 text-xs font-mono">{articleUrl}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button class="download-btn" data-filename={`twitter-${slug}.png`} data-width="1600" aria-label="Download Twitter image">↓ PNG</button>
+              </div>
+
+              <!-- Twitter copy -->
+              <div class="copy-block mt-4" style="max-width:600px;">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-gray-500 text-[11px] font-bold uppercase tracking-widest">Proposed Twitter / X post copy</span>
+                  <div class="flex items-center gap-2">
+                    <span class="char-counter text-[11px] text-gray-600 font-mono" data-max="280">{twitterCopy.length}/280</span>
+                    <button class="copy-text-btn text-[11px] font-semibold text-sky-300 hover:text-white border border-sky-800/50 hover:border-sky-400 bg-sky-950/40 hover:bg-sky-900/50 px-3 py-1 rounded-lg transition-colors" aria-label="Copy Twitter post text">Copy text</button>
+                  </div>
+                </div>
+                <textarea
+                  class="copy-textarea w-full bg-gray-900 border border-gray-800 text-gray-300 text-xs leading-relaxed rounded-xl p-4 resize-none font-mono focus-visible:ring-2 focus-visible:ring-sky-500 outline-none"
+                  rows="6"
+                  readonly
+                >{twitterCopy}</textarea>
+                <p class={`text-[11px] mt-1 ${twitterCopy.length > 280 ? 'text-red-400' : 'text-gray-600'}`}>
+                  {twitterCopy.length > 280 ? `⚠ ${twitterCopy.length - 280} chars over limit — trim before posting` : `${twitterCopy.length}/280 chars · Edit before posting`}
+                </p>
+              </div>
+            </div>
+
+          </section>
+        )
+      })}
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center py-10 px-4">
+      <div class="inline-block bg-red-950/60 border border-red-800/50 rounded-xl px-8 py-5">
+        <p class="text-red-400 font-bold text-sm mb-1">INTERNAL USE ONLY</p>
+        <p class="text-gray-500 text-sm">Not indexed · For social media content creation</p>
+        <p class="text-gray-600 text-xs mt-2">Click the ↓ PNG button below each card to download the full composition with text</p>
+      </div>
+    </div>
+
+  </div>
+</Layout>
+
+<!-- html-to-image: handles modern CSS (Tailwind v4 oklch, color-mix, gradients) correctly -->
+<script is:inline src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
+
+<script>
+  // Article filter
+  const select = document.getElementById('article-filter') as HTMLSelectElement | null
+  const sections = document.querySelectorAll<HTMLElement>('.article-section')
+
+  select?.addEventListener('change', () => {
+    const val = select.value
+    sections.forEach(section => {
+      section.style.display = (val === 'all' || section.dataset.slug === val) ? '' : 'none'
+    })
+    if (val !== 'all') {
+      const target = document.getElementById(`article-${CSS.escape(val)}`)
+      target?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  })
+
+  // Copy-text handler
+  document.addEventListener('click', async (e: MouseEvent) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.copy-text-btn')
+    if (!btn) return
+    const block = btn.closest<HTMLElement>('.copy-block')
+    const textarea = block?.querySelector<HTMLTextAreaElement>('.copy-textarea')
+    if (!textarea) return
+    try {
+      await navigator.clipboard.writeText(textarea.value)
+      const orig = btn.textContent
+      btn.textContent = '✓ Copied!'
+      setTimeout(() => { btn.textContent = orig }, 2000)
+    } catch {
+      textarea.select()
+      document.execCommand('copy')
+    }
+  })
+
+  // Download handler — uses html-to-image (handles Tailwind v4 modern CSS correctly)
+  document.addEventListener('click', async (e: MouseEvent) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.download-btn')
+    if (!btn) return
+
+    const wrapper = btn.closest<HTMLElement>('.card-wrapper')
+    const card = wrapper?.querySelector<HTMLElement>('.card-capture')
+    if (!card) return
+
+    const filename = btn.dataset.filename ?? 'social-card.png'
+    const targetWidth = parseInt(btn.dataset.width ?? '1080', 10)
+    const pixelRatio = targetWidth / card.offsetWidth
+
+    const originalText = btn.textContent ?? '↓ PNG'
+    btn.textContent = '⏳ Rendering…'
+    btn.disabled = true
+
+    try {
+      // html-to-image uses SVG foreignObject — renders modern CSS including oklch, color-mix, gradients
+      // @ts-ignore — loaded via CDN
+      const dataUrl: string = await window.htmlToImage.toPng(card, {
+        pixelRatio,
+        cacheBust: true,
+        skipAutoScale: false,
+        // Ensure font and image loading finishes before capture
+        onclone: (_doc: Document, el: HTMLElement) => {
+          // Force all images to load before capture
+          el.querySelectorAll('img').forEach((img: HTMLImageElement) => {
+            img.crossOrigin = 'anonymous'
+          })
+        },
+      })
+
+      const link = document.createElement('a')
+      link.download = filename
+      link.href = dataUrl
+      link.click()
+    } catch (err) {
+      console.error('Card capture failed:', err)
+      alert('Download failed. In Chrome: right-click the card → Inspect → right-click the highlighted element → "Capture node screenshot".')
+    } finally {
+      btn.textContent = originalText
+      btn.disabled = false
+    }
+  })
+</script>
+
+<style>
+  /* Download button — sits below the card (outside overflow-hidden, never captured) */
+  .download-btn {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    background: #1f2937;
+    color: #facc15;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 20px;
+    border: 1px solid #374151;
+    cursor: pointer;
+    line-height: 1;
+    white-space: nowrap;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+
+  /* For LinkedIn/Twitter wrappers where card-wrapper has max-width: align left */
+  .card-wrapper[style*="max-width"] .download-btn {
+    left: 0;
+    transform: none;
+  }
+
+  .download-btn:hover {
+    background: #facc15;
+    color: #000;
+    border-color: #facc15;
+  }
+
+  .download-btn:disabled {
+    cursor: wait;
+    background: #111827;
+    color: #6b7280;
+    border-color: #374151;
+  }
+
+  /* Thin scrollbar for carousel row */
+  .overflow-x-auto {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.15) transparent;
+  }
+  .overflow-x-auto::-webkit-scrollbar { height: 4px; }
+  .overflow-x-auto::-webkit-scrollbar-track { background: transparent; }
+  .overflow-x-auto::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.15);
+    border-radius: 2px;
+  }
+</style>
