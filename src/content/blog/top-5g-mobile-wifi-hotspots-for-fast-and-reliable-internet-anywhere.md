@@ -291,6 +291,20 @@ Your decision boils down to what you value most: speed, coverage, or price.
 
 Whether you're a frequent traveler needing global coverage or a remote worker prioritizing domestic reliability, this guide ensures you pick the right hotspot for your needs.
 
+### Alternative: Travel Lighter with a [Holafly eSIM](https://esim.holafly.com/plans/)
+
+If you don't want to carry, charge, and make room in your bag for a separate hotspot device, an eSIM can be a simpler way to stay connected. [Holafly Plans](https://esim.holafly.com/plans/) let you use your phone as the connection hub and share data via hotspot with your laptop, tablet, or other devices [\[19\]](https://esim.holafly.com/faq/using-an-esim/share-internet-hotspot-holafly-esim/), so you can save luggage space and skip the extra hardware. For travelers who want reliable internet without packing another gadget, it's a flexible alternative, with coverage in more than 160 destinations [\[20\]](https://plans.holafly.com/products/all-in).
+
+![Holafly Plans - global eSIM with hotspot sharing in 170 countries](/images/holafly-plans-global-esim.webp)
+
+| Feature | Dedicated 5G Hotspot | Holafly eSIM |
+| --- | --- | --- |
+| Best for | Remote workers, teams, or anyone who wants a separate internet device | Travelers who want to pack lighter and use their phone as a hotspot |
+| What you carry | One extra device plus charging cable | No extra device beyond your phone |
+| Setup | Turn on the hotspot and connect your devices | Activate the eSIM and share data from your phone |
+| Main advantage | Keeps your phone free and avoids draining its battery | Saves luggage space and skips the need for extra hardware |
+| Main trade-off | Another gadget to pack, charge, and keep track of | Depends on phone eSIM compatibility and your phone battery |
+
 ## Which Hotspot Should You Buy?
 
 Looking for the perfect 5G hotspot? Here are some top picks based on specific needs:
@@ -302,6 +316,8 @@ For **T‑Mobile users on a budget**, the **Inseego 5G MiFi M2000** offers great
 If you’re on Verizon’s network, the **Orbic Speed 5G UW** is a solid pick at $299.99. It provides access to Verizon’s Ultra Wideband network, supports 30 devices, and boasts a battery life of nearly 12 hours.
 
 For **international travelers**, the **Skyroam Solis 5G** stands out. It offers coverage in over 140 countries with virtual SIM technology and automatic network switching. With a 24-hour battery life and a durable design, it’s perfect for extended trips abroad.
+
+If you’d rather avoid carrying a separate hotspot at all, **Holafly eSIM** is also worth considering as a lighter alternative. It lets you share data from your phone with other devices and offers plans that cover more than 160 destinations [\[20\]](https://plans.holafly.com/products/all-in). Setup takes just a few minutes — you can follow their [step-by-step installation guide](https://esim.holafly.com/esim-installation-and-activation-instructions/) [\[21\]](https://esim.holafly.com/esim-installation-and-activation-instructions/) to get started before you even leave home.
 
 Here’s a quick comparison to help you decide:
 
