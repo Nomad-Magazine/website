@@ -6,7 +6,7 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-03-02T04:42:45.592Z
-updated_at: 2025-06-01T13:43:52.808Z
+updated_at: 2026-04-01T13:42:47.000Z
 head_image: https://assets.seobotai.com/nomadgossip.com/67c3a5dae68199dea862b854-1740890826212.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: 5G hotspots, mobile WiFi, portable internet, remote work, reliable connectivity, travel internet, Wi-Fi 6, budget hotspots
