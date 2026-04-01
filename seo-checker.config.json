@@ -46,7 +46,20 @@
     "severityOverrides": {},
     "thresholdOverrides": {}
   },
-  "exclusions": ["email_backup/**", "internal/**", "newsletters/**"],
+  "exclusions": [
+    {
+      "filePath": "email_backup/**",
+      "reason": "Backup files are not part of the deployed site."
+    },
+    {
+      "filePath": "internal/**",
+      "reason": "Internal tools should be excluded from SEO checks."
+    },
+    {
+      "filePath": "newsletters/**",
+      "reason": "Newsletter pages are not tracked as SEO landing pages."
+    }
+  ],
   "failOn": ["error"],
   "maxIssues": 0,
   "outputFormat": "console"

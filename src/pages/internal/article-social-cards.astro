@@ -296,7 +296,7 @@ const seo: SEOProps = {
         const citySlides = h2Snippets
           .filter(({ heading, snippet }) => heading && snippet)
           .slice(0, 2)
-        const instagramSlideCount = 5 + citySlides.length
+        const instagramSlideCount = 6 + citySlides.length
 
         // Slide 2 uses highlights[0] as its featured quote.
         // Slide 4 must use a different highlight to avoid repetition.
@@ -305,6 +305,7 @@ const seo: SEOProps = {
         const slide3Quote = 'In 2026, remote workers are no longer just looking for short-term travel experiences; they are searching for cities that support long-term, sustainable living.'
         const slide4CustomQuote = 'The cost of living is relatively high but affordable for nomads with a higher income, offering more affordable options just outside the centre'
         const slide5CustomQuote = 'Valencia in Spain is a great choice, as it has evolved from a hidden gem to a fully established digital nomad hub.'
+        const slide6ResilienceQuote = 'Remote work is no longer only about travel. In a more uncertain world, it gives people the flexibility to adapt faster, protect their income, and build a life that can keep moving through change.'
         const slide4Quote = highlights.length >= 2
           ? highlights[1]                                          // second highlight — distinct from slide 2
           : (highlights[0] ? data.description : data.description) // slide 2 already used the only highlight
@@ -359,7 +360,7 @@ const seo: SEOProps = {
               <div class="flex gap-4 overflow-x-auto snap-x snap-mandatory relative" style="padding-bottom:44px;" role="list" aria-label="Instagram carousel slides">
 
                 <!-- Slide 1: Cover -->
-                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label="Slide 1 of 5: Cover">
+                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide 1 of ${instagramSlideCount}: Cover`}>
                   <div class="card-capture relative w-full h-full rounded-none overflow-hidden shadow-2xl shadow-black/50">
                     {heroImage
                       ? <img src={heroImage} alt={heroImageAlt} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
@@ -528,8 +529,32 @@ const seo: SEOProps = {
                   <button class="download-btn" data-filename={`ig-${String(4 + citySlides.length).padStart(2, '0')}-${cities.length > 0 ? 'cities' : 'topics'}-${slug}.png`} data-width="1080" aria-label="Download featured locations slide">↓ PNG</button>
                 </div>
 
-                <!-- Slide 7: CTA -->
-                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide ${5 + citySlides.length} of ${instagramSlideCount}: Call to action`}>
+                <!-- Slide 7: Adaptability message -->
+                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide ${5 + citySlides.length} of ${instagramSlideCount}: Adaptability message`}>
+                  <div class="card-capture relative w-full h-full rounded-none overflow-hidden bg-[#121111] shadow-2xl shadow-black/50">
+                    <div class="absolute inset-0 bg-linear-to-br from-yellow-400/10 via-transparent to-yellow-500/5"></div>
+                    <div class="p-6 relative flex flex-col h-full">
+                      <div class="flex items-center justify-between mb-3">
+                        <span class="text-yellow-400 text-[11px] font-bold uppercase tracking-widest">Remote work is resilience</span>
+                        <img src="/logo.svg" alt="" aria-hidden="true" class="w-5 h-5 opacity-50" crossorigin="anonymous" />
+                      </div>
+                      <div class="text-yellow-400/20 text-8xl font-serif leading-none select-none" aria-hidden="true">"</div>
+                      <div class="flex-1 flex flex-col justify-center -mt-5">
+                        <p class="text-white text-sm font-semibold leading-relaxed">
+                          {slide6ResilienceQuote}
+                        </p>
+                      </div>
+                      <div class="mt-4 pt-4 border-t border-white/10">
+                        <p class="text-white/45 text-xs">nomad-magazine.com</p>
+                      </div>
+                    </div>
+                    <div class="absolute bottom-2 right-3 text-white/20 text-[10px] font-mono">{5 + citySlides.length}/{instagramSlideCount}</div>
+                  </div>
+                  <button class="download-btn" data-filename={`ig-${String(5 + citySlides.length).padStart(2, '0')}-adaptability-${slug}.png`} data-width="1080" aria-label="Download adaptability slide">↓ PNG</button>
+                </div>
+
+                <!-- Slide 8: CTA -->
+                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide ${6 + citySlides.length} of ${instagramSlideCount}: Call to action`}>
                   <div class="card-capture relative w-full h-full rounded-none overflow-hidden shadow-2xl shadow-black/50">
                     {heroImage
                       ? <img src={heroImage} alt={heroImageAlt} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
@@ -545,9 +570,9 @@ const seo: SEOProps = {
                       </div>
                       <p class="text-white/40 text-xs mt-4">🔗 Link in bio</p>
                     </div>
-                    <div class="absolute bottom-2 right-3 text-white/20 text-[10px] font-mono">{5 + citySlides.length}/{instagramSlideCount}</div>
+                    <div class="absolute bottom-2 right-3 text-white/20 text-[10px] font-mono">{6 + citySlides.length}/{instagramSlideCount}</div>
                   </div>
-                  <button class="download-btn" data-filename={`ig-${String(5 + citySlides.length).padStart(2, '0')}-cta-${slug}.png`} data-width="1080" aria-label="Download CTA slide">↓ PNG</button>
+                  <button class="download-btn" data-filename={`ig-${String(6 + citySlides.length).padStart(2, '0')}-cta-${slug}.png`} data-width="1080" aria-label="Download CTA slide">↓ PNG</button>
                 </div>
 
               </div>
