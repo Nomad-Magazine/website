@@ -298,17 +298,22 @@ const seo: SEOProps = {
           .slice(0, 2)
         const instagramSlideCount = 6 + citySlides.length
 
-        // Slide 2 uses highlights[0] as its featured quote.
-        // Slide 4 must use a different highlight to avoid repetition.
-        // Slide 3 shows h2 headings as a numbered list (overview angle, not repeated snippets).
-        const slide2Quote = highlights[0]
-        const slide3Quote = 'In 2026, remote workers are no longer just looking for short-term travel experiences; they are searching for cities that support long-term, sustainable living.'
-        const slide4CustomQuote = 'The cost of living is relatively high but affordable for nomads with a higher income, offering more affordable options just outside the centre'
-        const slide5CustomQuote = 'Valencia in Spain is a great choice, as it has evolved from a hidden gem to a fully established digital nomad hub.'
+        // Each slide quote is pulled from the article body so cards are unique per article.
+        const slide2Quote = highlights[0] ?? data.description
+
+        // Slide 3 (yellow): first city section snippet, else second highlight, else description
+        const slide3Quote = citySlides[0]?.snippet ?? highlights[1] ?? highlights[0] ?? data.description
+
+        // Slide 4 (photo bg): second city section snippet, else third highlight, else second highlight
+        const slide4Quote = citySlides[1]?.snippet ?? highlights[2] ?? highlights[1] ?? data.description
+
+        // Slide 5 (photo bg): scored best remaining highlight not already used in slides 2-4
+        const usedInEarlierSlides = new Set([slide2Quote, slide3Quote, slide4Quote])
+        const slide5Quote = highlights.find(h => !usedInEarlierSlides.has(h))
+          ?? h2Snippets.find(s => s.snippet && !usedInEarlierSlides.has(s.snippet))?.snippet
+          ?? data.description
+
         const slide6ResilienceQuote = 'Remote work is no longer only about travel. In a more uncertain world, it gives people the flexibility to adapt faster, protect their income, and build a life that can keep moving through change.'
-        const slide4Quote = highlights.length >= 2
-          ? highlights[1]                                          // second highlight — distinct from slide 2
-          : (highlights[0] ? data.description : data.description) // slide 2 already used the only highlight
 
         // Slide 3 key points: prefer h2s not already previewed in slide 2 snippets,
         // fall back to all h2s if not enough extras
@@ -450,7 +455,7 @@ const seo: SEOProps = {
                         <div class="text-yellow-400/30 text-8xl font-serif leading-none select-none" aria-hidden="true">"</div>
                         <div class="flex-1 flex flex-col justify-center -mt-6">
                           <p class="text-white text-sm font-semibold leading-relaxed drop-shadow-md">
-                            {slide4CustomQuote}
+                            {slide4Quote}
                           </p>
                         </div>
                         <div class="mt-4 pt-4 border-t border-white/20">
@@ -476,7 +481,7 @@ const seo: SEOProps = {
                       <div class="text-yellow-400/30 text-8xl font-serif leading-none select-none" aria-hidden="true">"</div>
                       <div class="flex-1 flex flex-col justify-center -mt-6">
                         <p class="text-white text-sm font-semibold leading-relaxed drop-shadow-md">
-                          {slide5CustomQuote}
+                          {slide5Quote}
                         </p>
                       </div>
                       <div class="mt-4 pt-4 border-t border-white/20">
