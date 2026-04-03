@@ -255,10 +255,10 @@ const youtubeVideos = [
 import { createWebSiteSchema } from '~/utils/schema'
 
 const seo: SEOProps = {
-  title: 'Nomad Magazine - The First Global Digital Nomad Magazine',
-  description: 'The first global digital nomad magazine. For people who work and live everywhere (or dream of it). Inspiring stories from nomads around the world.',
+  title: 'Nomad Magazine | Digital Nomad, Remote Work & Nomad Lifestyle',
+  description: 'Nomad Magazine covers digital nomad life, remote work, and the modern nomad lifestyle through stories, destination guides, community insights, and independent journalism.',
   image: `${Astro.site}images/magazine-hold-against-chest.webp`,
-  keywords: 'digital nomad magazine, remote work, nomad lifestyle, travel, coworking, nomad community, global nomads',
+  keywords: 'digital nomad, digital nomad magazine, remote work, nomad lifestyle, location independent work, digital nomad stories, remote work tips, nomad community',
   canonical: `${Astro.site}`,
   ldJSON: createWebSiteSchema({ url: Astro.site?.toString() }),
 }
@@ -269,20 +269,23 @@ const seo: SEOProps = {
     <div class="grid grid-cols-1 items-center gap-8 sm:gap-16 lg:grid-cols-2">
       <div class="space-y-6 sm:space-y-8">
         <div class="space-y-4 sm:space-y-6">
-          <p class="font-justme text-4xl text-gray-800">the first global digital nomad magazine</p>
-          <h1 class="md:text-12xl xl:text-22xl text-7xl font-semibold text-gray-900 xl:leading-18">This magazine will show you the Digital Nomad World 🌴</h1>
+          <p class="font-justme text-4xl text-gray-800">independent digital nomad magazine</p>
+          <h1 class="md:text-12xl xl:text-22xl text-7xl font-semibold text-gray-900 xl:leading-18">Remote Work, Nomad Lifestyle & Real Stories</h1>
+          <p class="max-w-2xl text-lg text-gray-700">
+            The most distributed print and digital magazine for people who work remotely, travel freely, and live on their own terms.
+          </p>
           <div class="space-y-3 text-lg text-gray-700">
             <p class="flex items-center">
               <CheckIcon class="mr-2 h-6 w-6 shrink-0 text-black" aria-hidden="true" />
-              <span>Made for people brave enough to travel and live life differently</span>
+              <span>Digital nomad stories — real people, real places, real life</span>
             </p>
             <p class="flex items-center">
               <CheckIcon class="mr-2 h-6 w-6 shrink-0 text-black" aria-hidden="true" />
-              <span>Discover amazing places to travel, work from, and meet like-minded people</span>
+              <span>Remote work ideas and guides built for life on the move</span>
             </p>
             <p class="flex items-center">
               <CheckIcon class="mr-2 h-6 w-6 shrink-0 text-black" aria-hidden="true" />
-              <span>Learn how to make money, stay healthy, and live your best nomadic life</span>
+              <span>Nomad lifestyle — honest, human, and community-first</span>
             </p>
           </div>
         </div>
@@ -299,15 +302,15 @@ const seo: SEOProps = {
             </a>
             </div>
             <a
-              href="/editions"
+              href="/editions/"
               class="w-full sm:w-auto inline-block rounded bg-yellow-400 px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-black shadow-md transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 order-last sm:order-first"
-              aria-label="View all magazine editions"
+              aria-label="View all digital nomad magazine editions"
             >
               VIEW ALL EDITIONS
             </a>
           </div>
           <div class="mt-2 text-xs sm:text-sm text-gray-700">
-            P.S. It's nice to get away from screens once in a while! <a href="/blog/7-tips-for-balancing-work-and-travel/" class="text-gray-800 hover:text-gray-900">Learn how to balance work and travel</a>.
+            P.S. It's nice to get away from screens once in a while! <a href="/blog/7-tips-for-balancing-work-and-travel/" class="text-gray-800 hover:text-gray-900">Read our remote work and travel balance guide</a>.
           </div>
         </div>
       </div>
@@ -316,6 +319,37 @@ const seo: SEOProps = {
       </div>
     </div>
   </div>
+
+  <section class="border-t border-gray-200 bg-white px-4 py-16 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl">
+      <div class="mb-10 max-w-3xl">
+        <h2 class="text-3xl font-bold text-gray-900">What We Cover: Digital Nomad, Remote Work and Nomad Lifestyle</h2>
+        <p class="mt-3 text-lg text-gray-700">
+          Honest journalism for people who chose a different path.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <article class="rounded-2xl border border-gray-200 bg-gray-50 p-6">
+          <h3 class="text-xl font-bold text-gray-900">Digital Nomad Stories</h3>
+          <p class="mt-3 text-gray-700">
+            Destinations, visas, community, and the unfiltered reality of digital nomad life — told by the people living it.
+          </p>
+        </article>
+        <article class="rounded-2xl border border-gray-200 bg-gray-50 p-6">
+          <h3 class="text-xl font-bold text-gray-900">Remote Work Guides</h3>
+          <p class="mt-3 text-gray-700">
+            Tools, routines, and remote work ideas for people who need their laptop to go wherever they go.
+          </p>
+        </article>
+        <article class="rounded-2xl border border-gray-200 bg-gray-50 p-6">
+          <h3 class="text-xl font-bold text-gray-900">Nomad Lifestyle Insights</h3>
+          <p class="mt-3 text-gray-700">
+            Health, money, relationships, slow travel — the messy, beautiful side of building a nomad lifestyle from scratch.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
   
   <div class="bg-hoverw text-white">
     <ThirdEdition />
@@ -327,13 +361,13 @@ const seo: SEOProps = {
       <div class="mx-auto max-w-7xl">
         <div class="mb-12 flex items-center justify-between">
           <div>
-            <h2 class="text-3xl font-bold text-white">Nomad Directory</h2>
-            <p class="mt-2 text-lg text-neutral-400">Latest tools, services, and companies for digital nomads</p>
+            <h2 class="text-3xl font-bold text-white">Digital Nomad Directory</h2>
+            <p class="mt-2 text-lg text-neutral-400">Remote work tools, services, and companies for digital nomads</p>
           </div>
           <a
-            href="/nomad_directory"
+            href="/nomad_directory/"
             class="inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-4 py-2 text-sm font-bold text-black transition-all hover:bg-yellow-300"
-            aria-label="View all entries in the Nomad Directory"
+            aria-label="View all digital nomad directory entries"
           >
             View All
             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -408,7 +442,7 @@ const seo: SEOProps = {
                         )}
                         {entry.isSupporter && (
                           <a
-                            href="/support-the-magazine"
+                            href="/support-the-magazine/"
                             class="inline-flex items-center gap-1 bg-linear-to-r from-red-600 to-red-700 text-white px-2 py-0.5 rounded-full text-xs font-bold hover:from-red-700 hover:to-red-800 transition-all duration-200"
                             title="Monthly Supporter"
                             aria-label="Monthly Supporter - Learn how to support the magazine"
@@ -445,7 +479,7 @@ const seo: SEOProps = {
                       rel={entry.link.startsWith('http') ? 'noopener noreferrer' : undefined}
                       class="inline-flex items-center text-yellow-400 text-sm font-medium hover:text-yellow-300 transition-colors"
                     >
-                      Learn more →
+                      View directory listing →
                     </a>
                   </div>
                 </div>
@@ -456,11 +490,11 @@ const seo: SEOProps = {
         
         <div class="mt-12 text-center">
           <a
-            href="/nomad_directory"
+            href="/nomad_directory/"
             class="inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-6 py-3 text-sm font-bold text-black transition-all hover:bg-yellow-300 hover:scale-105"
-            aria-label="Browse the full Nomad Directory"
+            aria-label="Browse the full digital nomad directory"
           >
-            Browse Full Directory
+            Browse Full Digital Nomad Directory
             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
             </svg>
@@ -655,8 +689,8 @@ const seo: SEOProps = {
     <section class="border-b border-neutral-800 bg-neutral-900/30 px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <div class="mb-12">
-          <h2 class="text-3xl font-bold text-white">Latest <span class="text-yellow-400">Nomad</span> Insights</h2>
-          <p class="mt-2 text-lg text-neutral-400">Essential reads for the modern digital nomad</p>
+          <h2 class="text-3xl font-bold text-white">Latest <span class="text-yellow-400">Digital Nomad</span> and Remote Work Articles</h2>
+          <p class="mt-2 text-lg text-neutral-400">Essential reads on digital nomad life, remote work, and the modern nomad lifestyle</p>
         </div>
         
         <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -684,7 +718,7 @@ const seo: SEOProps = {
                 <h3 class={`mb-3 font-bold text-white group-hover:text-yellow-400 transition-colors ${
                   index === 0 ? 'text-xl' : 'text-lg'
                 }`}>
-                  <a href={`/articles/${post.slug}`} class="after:absolute after:inset-0">
+                  <a href={`/articles/${post.slug}/`} class="after:absolute after:inset-0">
                     {post.data.title}
                   </a>
                 </h3>
@@ -707,9 +741,9 @@ const seo: SEOProps = {
           <a
             href="/articles/"
             class="inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-6 py-3 text-sm font-bold text-black transition-all hover:bg-yellow-300 hover:scale-105"
-            aria-label="Read more articles"
+            aria-label="Read more digital nomad and remote work articles"
           >
-            Read More Articles
+            Read More Digital Nomad Articles
             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
             </svg>
@@ -937,7 +971,7 @@ const seo: SEOProps = {
             href="/editions/fourth-edition/"
             class="inline-block bg-yellow-400 text-black text-xs font-bold px-3 py-1.5 rounded hover:bg-yellow-300 transition-colors"
           >
-            Learn More
+            View Edition
           </a>
         </div>
         <button
@@ -1023,7 +1057,7 @@ const seo: SEOProps = {
                 <p>A one-month program where you'll try out 10 different remote-friendly jobs through hands-on workshops led by experienced mentors.</p>
                 <p>Immerse yourself in local life, sharing meals with new friends, joining community events, and enjoying the slow pace of living by the ocean.</p>
                 <p>Perfect for those curious about remote work or living in Japan.</p>`,
-      actions: '<a href="https://nomadnia.net/nomadexp" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-black px-6 py-3 rounded-lg font-bold transition-all" aria-label="Learn more about Nomad Experience Japan program (opens in new tab)">Learn More →</a>'
+      actions: '<a href="https://nomadnia.net/nomadexp" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-black px-6 py-3 rounded-lg font-bold transition-all" aria-label="View details for Nomad Experience Japan program (opens in new tab)">View Program Details →</a>'
     },
     'falmouth-university': {
       title: 'Creativity Without Limits: Online Master\'s Degrees',
@@ -1032,7 +1066,7 @@ const seo: SEOProps = {
                 <p>Falmouth University's online master's degrees are designed around you. With a decade of experience delivering transformative online postgraduate study, they've helped creatives worldwide level up their careers.</p>
                 <p>From Fine Art and Illustration to Marketing and Film & TV, their flexible programmes let you deepen your practice, expand your network, and future-proof your career.</p>
                 <p>Study from anywhere, at your own pace, while receiving world-class creative education.</p>`,
-      actions: '<a href="https://www.falmouth.ac.uk/study/online" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-black px-6 py-3 rounded-lg font-bold transition-all" aria-label="Learn more about Falmouth University online programs (opens in new tab)">Learn More →</a>'
+      actions: '<a href="https://www.falmouth.ac.uk/study/online" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-black px-6 py-3 rounded-lg font-bold transition-all" aria-label="View Falmouth University online program details (opens in new tab)">View Program Details →</a>'
     },
     'max-browser': {
       title: 'Max Browser - New Year, New Privacy Setup',
