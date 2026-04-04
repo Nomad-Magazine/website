@@ -6,7 +6,7 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-03-18T22:51:43.265Z
-updated_at: 2025-03-18T22:52:17.386Z
+updated_at: 2026-04-04T14:38:08.000Z
 head_image: https://assets.seobotai.com/nomadgossip.com/67d9f31f31389773b3fed47d-1742338337386.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: eSIM, international travel, data plans, mobile connectivity, digital nomads
