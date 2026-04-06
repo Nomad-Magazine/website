@@ -1,0 +1,887 @@
+---
+export const prerender = true;
+
+import { fetchReportRecords } from '~/utils/smartsuite'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import ImageModal from '~/components/ImageModal.astro'
+
+type Space = {
+  id: string
+  name: string
+  city: string
+  country: string
+  location: string
+  shortDescription: string
+  fullDescription: string
+  websiteUrl: string | null
+  googleMapsUrl: string | null
+  images: string[]
+}
+
+type PageTarget = {
+  citySlug: string
+  countrySlug: string
+  type: 'city' | 'country'
+  label: string
+  country: string
+  altLabels?: string[]
+}
+
+type CityContent = {
+  intro: string
+  whyWork: string
+  neighborhoods: string
+  whoItSuits: string
+  practicalNote: string
+  metaDescription: string
+  faqs: Array<{ q: string; a: string }>
+}
+
+const CITY_CONTENT: Record<string, CityContent> = {
+  barcelona: {
+    intro: "Barcelona earns its reputation. The light is different here, the pace is different, and somehow the work feels different too. These {count} coworking spaces carry Nomad Magazine on-site — our signal they genuinely welcome remote workers.",
+    whyWork: "Strong infrastructure, year-round sun, and a city that takes work culture seriously. Barcelona has a proper tech and startup ecosystem, fast fibre everywhere, and enough nomads passing through that you'll never struggle to find people to collaborate with.",
+    neighborhoods: "The 22@ district in Poblenou is the official innovation quarter, but El Born, Eixample, and Gràcia each have their own working character. Most of the spaces on this list are in the centre — walkable, caffeinated, and plugged in.",
+    whoItSuits: "Remote workers who want a European base with beach access, a serious food scene, and a social life that doesn't require effort. Good for designers, developers, founders, and anyone who thrives in a city that mixes ambition with pleasure.",
+    practicalNote: "Barcelona runs pricier than Lisbon or Tbilisi but still reasonable by Western European standards. Best seasons are April–June and September–October — summer is crowded and sweltering. Day passes at most spaces run €15–25.",
+    metaDescription: "Best coworking spaces in Barcelona — {count} venues that carry Nomad Magazine on-site. Real desks, fast WiFi, and nomad-friendly communities in Eixample, Poblenou, El Born and beyond.",
+    faqs: [
+      { q: "Is Barcelona good for digital nomads?", a: "Yes — Barcelona has strong infrastructure, a large expat and nomad community, and a quality of life that's hard to match in Europe. English is widely spoken in coworking spaces, and the city is well-connected internationally." },
+      { q: "What neighbourhoods are best for coworking in Barcelona?", a: "Poblenou (22@ district) is the tech hub, but Eixample, El Born, and Gràcia all have excellent independent spaces. Most nomads base themselves in Eixample for central access to everything." },
+      { q: "How much does a coworking day pass cost in Barcelona?", a: "Expect €15–25 for a hot desk day pass. Monthly memberships typically range from €180–350 depending on the space and access hours." },
+      { q: "What's the best time of year to work from Barcelona?", a: "April–June and September–October are ideal — good weather without peak-tourist crowds. July and August are very hot and the city fills with tourists, which pushes up prices and noise." },
+    ],
+  },
+  lisbon: {
+    intro: "Lisbon got found out — but it's still worth it. The light here does something to your productivity. Slow mornings, strong espresso, and a city that quietly gets things done. These {count} coworking spaces carry Nomad Magazine on-site — our shortlist of the ones that actually welcome the crowd.",
+    whyWork: "Lisbon has been Europe's nomad capital for a reason: affordable (for now), English-friendly, reliably sunny, and with a startup scene that punches above its size. Internet speeds are solid, the coffee is excellent, and the tram lines will ruin you for every other city.",
+    neighborhoods: "LX Factory and Santos attract the creative crowd. Cais do Sodré sits between the river and the action. Príncipe Real is quieter and residential. Mouraria and Alfama are beautiful to live in but less practical for daily work. Most nomads find their rhythm in Chiado or Intendente.",
+    whoItSuits: "First-time nomads who want a soft landing with full infrastructure. Designers and founders who care about aesthetics. Anyone escaping grey Northern European winters. Surfers who also have Zoom calls.",
+    practicalNote: "Lisbon is getting more expensive fast — budget accordingly. Best months are October–April (mild and uncrowded). Summer is hot and packed with tourists. A good coworking desk runs €15–20/day; monthly from €150.",
+    metaDescription: "Best coworking spaces in Lisbon — {count} venues that carry Nomad Magazine on-site. Nomad-friendly desks, fast WiFi, and community in LX Factory, Chiado, and beyond.",
+    faqs: [
+      { q: "Is Lisbon good for digital nomads?", a: "Lisbon is one of the most established nomad cities in Europe. It has strong English proficiency, reliable internet, an active startup and freelance community, and a quality of life that's hard to beat at its price point — though costs have risen significantly since 2022." },
+      { q: "What are the best neighbourhoods for coworking in Lisbon?", a: "Chiado and Cais do Sodré are the most central. LX Factory in Alcântara is popular with creatives. Príncipe Real has quieter, design-forward spaces. Intendente is up-and-coming and more affordable." },
+      { q: "How much does coworking in Lisbon cost?", a: "Day passes typically range from €12–20. Monthly hot desk memberships run €120–250 depending on location and amenities. Prices have increased alongside the city's general cost of living." },
+      { q: "When is the best time to work from Lisbon?", a: "October through April is ideal — mild weather, fewer tourists, and a more local, calmer atmosphere. Summer (July–August) is hot and extremely busy with tourists, which affects prices and availability." },
+    ],
+  },
+  berlin: {
+    intro: "Berlin doesn't care what time you start — as long as the work is real. It's one of the most practical cities in Europe to base yourself: affordable, massive, endlessly stimulating, and with a coworking scene that's had two decades to mature. These {count} spaces carry Nomad Magazine on-site.",
+    whyWork: "Berlin has a proper tech ecosystem, a huge freelance culture, and some of Europe's most interesting independent coworking spaces. Costs are low by capital city standards. Internet is good. Nobody judges you for taking a long lunch.",
+    neighborhoods: "Kreuzberg is the creative heart — Betahaus and Velt Studio both sit here. Mitte is the corporate-adjacent option. Prenzlauer Berg is quieter and family-oriented. Neukölln attracts the most interesting mix of freelancers, artists, and founders. Friedrichshain is where the energy spills over from the club scene into startup culture.",
+    whoItSuits: "Creatives, developers, and founders who want an affordable European base without sacrificing cultural depth. People who like variety in their week. Anyone who's spent too long in a city where everyone does the same thing.",
+    practicalNote: "Berlin is still one of the most affordable capitals in Western Europe. Day passes run €10–20. Monthly memberships from €120. Cold winters (November–February) make coworking especially appealing — the spaces are warm, the coffee is good, and the city has a different kind of energy off-season.",
+    metaDescription: "Best coworking spaces in Berlin — {count} venues that carry Nomad Magazine on-site. Affordable desks, creative communities, and fast WiFi in Kreuzberg, Mitte, Prenzlauer Berg and beyond.",
+    faqs: [
+      { q: "Is Berlin good for digital nomads?", a: "Berlin is one of Europe's best cities for remote workers — affordable, well-connected, with a massive freelance and startup community. The city has a well-established coworking culture and plenty of independent spaces beyond the big chains." },
+      { q: "Which Berlin neighbourhoods have the best coworking spaces?", a: "Kreuzberg has the densest concentration of quality independent spaces. Mitte is more corporate. Prenzlauer Berg is quieter and residential. Neukölln and Friedrichshain attract younger, more experimental crowds." },
+      { q: "How much does coworking in Berlin cost?", a: "Berlin is affordable by European capital standards. Day passes typically cost €10–20. Monthly memberships range from €120–250 depending on location and desk type." },
+      { q: "What's the best time of year to work from Berlin?", a: "May through September offers the best weather and outdoor cafe culture. Winter is cold but the indoor coworking scene thrives — many nomads find Berlin surprisingly productive in the colder months when distractions are fewer." },
+    ],
+  },
+  porto: {
+    intro: "Porto is what Lisbon was ten years ago — before the crowds caught on. Grittier, cheaper, and with a creative energy that feels genuinely earned. These {count} coworking spaces carry Nomad Magazine on-site — our shortlist for a city that rewards showing up.",
+    whyWork: "Porto has a fast-growing startup and tech scene, excellent fibre internet, and a cost of living that still undercuts most Western European cities. The city takes craft seriously — whether that's wine, design, or code.",
+    neighborhoods: "Bonfim is the up-and-coming nomad quarter. Cedofeita has independent cafés and creative studios. Foz is quieter and closer to the ocean. The historic Ribeira waterfront is beautiful but more tourist-facing. Most working spaces are a short metro ride from anywhere.",
+    whoItSuits: "Remote workers who want authenticity over hype. Designers, developers, and writers who do their best work when the city isn't competing for their attention. Anyone tired of paying Lisbon prices.",
+    practicalNote: "Porto is one of Europe's best value cities. Day passes typically run €10–18. Monthly memberships from €100. Best months are May–October for weather; the off-season is rainy but the city slows down in a good way.",
+    metaDescription: "Best coworking spaces in Porto — {count} venues that carry Nomad Magazine on-site. Affordable desks, fast WiFi, and a real creative community in Bonfim, Cedofeita and beyond.",
+    faqs: [
+      { q: "Is Porto good for digital nomads?", a: "Porto is one of Europe's most underrated nomad cities. It has fast internet, a growing startup ecosystem, excellent food, and lower costs than Lisbon. The city has a more authentic, local feel with a strong creative community." },
+      { q: "Which neighbourhoods are best for coworking in Porto?", a: "Bonfim is the emerging nomad hub. Cedofeita has a dense concentration of independent spaces and cafés. Baixa is central and accessible. Foz is quieter and good for those wanting proximity to the coast." },
+      { q: "How much does coworking in Porto cost?", a: "Porto is very affordable. Day passes run €10–18. Monthly hot desk memberships typically range from €100–200, making it significantly cheaper than Lisbon or Barcelona." },
+      { q: "When is the best time to work from Porto?", a: "May through October has the best weather. The off-season (November–March) is wetter but cheaper and quieter — many nomads prefer Porto out of season for focused work." },
+    ],
+  },
+  sofia: {
+    intro: "Sofia is one of Europe's best-kept secrets for remote work — and the nomad community that's found it isn't rushing to share. These {count} coworking spaces carry Nomad Magazine on-site, in a city that offers EU access, fast internet, and prices that belong to a different era.",
+    whyWork: "Bulgaria has some of the fastest and cheapest internet in Europe. Sofia is an EU capital with a growing tech and startup scene, affordable accommodation, and a cost of living that makes almost everywhere else feel expensive. It's the Eastern European base that makes financial sense.",
+    neighborhoods: "The centre (around NDK and Vitosha Boulevard) has the best coworking density. Lozenets is residential and quiet. The area around Sofia University draws younger freelancers. The city is small enough that neighbourhoods blend together — most spaces are walkable or one metro stop apart.",
+    whoItSuits: "Budget-conscious nomads, developers, and anyone who wants EU access without EU prices. People who prefer a functional, underrated city to a hyped one. Tech-first workers who care more about speed and cost than aesthetics.",
+    practicalNote: "Sofia is strikingly affordable — day passes run €5–12 and monthly memberships from €60–120. Best months are April–June and September–October. Summers can be hot; winters are cold but manageable. The Vitosha mountain is 30 minutes from the centre.",
+    metaDescription: "Best coworking spaces in Sofia — {count} venues that carry Nomad Magazine on-site. Fast internet, EU access, and some of Europe's most affordable desks.",
+    faqs: [
+      { q: "Is Sofia good for digital nomads?", a: "Sofia is one of Europe's best-value nomad destinations. It offers EU access, some of the fastest internet speeds on the continent, a growing tech ecosystem, and very low costs for accommodation and coworking." },
+      { q: "Is Bulgaria safe for digital nomads?", a: "Yes — Sofia is a safe EU capital with stable infrastructure. It has an established expat and nomad community, and English is widely understood in coworking spaces and tech circles." },
+      { q: "How much does coworking in Sofia cost?", a: "Sofia is extremely affordable. Day passes typically cost €5–12. Monthly memberships range from €60–120, making it one of the cheapest coworking markets in Europe." },
+      { q: "What's the internet speed like in Sofia?", a: "Bulgaria consistently ranks among the top 5 countries in Europe for internet speed. Coworking spaces in Sofia typically offer gigabit connections — fast enough for anything." },
+    ],
+  },
+  hamburg: {
+    intro: "Hamburg is Germany's maritime city — practical, prosperous, and less obvious than Berlin. These {count} coworking spaces carry Nomad Magazine on-site, in a city that runs well and doesn't need to make a fuss about it.",
+    whyWork: "Hamburg has a strong media, logistics, and startup ecosystem. It's well-connected internationally, has excellent infrastructure, and offers a calmer working rhythm than Berlin without sacrificing quality. The Elbe waterfront genuinely improves your day.",
+    neighborhoods: "HafenCity is the modern harbour district with contemporary spaces. Altona has a creative, residential character. Eimsbüttel attracts freelancers and young professionals. The city is compact and very navigable by bike or transit.",
+    whoItSuits: "Remote workers who want German-level infrastructure without Berlin's volume. Media professionals, logistics-adjacent consultants, and anyone who appreciates a city that functions beautifully. Good for those who prefer a quieter, more focused work environment.",
+    practicalNote: "Hamburg is more expensive than Berlin — expect to pay €15–25 for a day pass. Monthly memberships run €150–300. Best months are May–September. The winters are grey and wet but the indoor culture is excellent.",
+    metaDescription: "Best coworking spaces in Hamburg — {count} venues that carry Nomad Magazine on-site. Reliable desks, fast WiFi, and a well-functioning city for focused remote work.",
+    faqs: [
+      { q: "Is Hamburg good for digital nomads?", a: "Hamburg is an excellent choice for nomads who want German infrastructure and quality of life without Berlin's scale and noise. It has strong connectivity, a well-developed coworking scene, and a compact, navigable layout." },
+      { q: "How does Hamburg compare to Berlin for remote work?", a: "Hamburg is calmer, more expensive, and has a stronger business and media focus. Berlin has more creative energy and is cheaper. Both have excellent coworking infrastructure — the choice depends on your industry and preferred vibe." },
+      { q: "How much does coworking in Hamburg cost?", a: "Day passes typically run €15–25. Monthly memberships range from €150–300. Hamburg is more expensive than Berlin but comparable to other major German cities." },
+      { q: "What's the best neighbourhood for coworking in Hamburg?", a: "HafenCity is the most modern — purpose-built and well-connected. Altona is more creative and residential. Eimsbüttel has a good mix of independent spaces and cafés popular with freelancers." },
+    ],
+  },
+  athens: {
+    intro: "Athens is arriving — slowly, on its own terms. The infrastructure has caught up, the creative scene is real, and the city is still affordable enough to feel like a discovery. These {count} coworking spaces carry Nomad Magazine on-site.",
+    whyWork: "Athens has dramatically improved its connectivity and workspace infrastructure in recent years. The cost of living is low, the food is extraordinary, and the combination of ancient city and modern startup energy is unlike anywhere else in Europe.",
+    neighborhoods: "Monastiraki and Psirri are the creative heart — cafés, studios, and energy. Kolonaki is more upscale. Exarchia is rough-edged but fascinating. Koukaki (near the Acropolis) has become a quiet nomad favourite. Most coworking spaces cluster around the centre.",
+    whoItSuits: "Remote workers who want Mediterranean lifestyle at Southern European prices. History lovers, food obsessives, and anyone drawn to a city that's reinventing itself without losing its character. Good for those who can handle occasional infrastructure inconsistency.",
+    practicalNote: "Athens is very affordable — day passes from €8–15, monthly memberships from €80–150. Best months are April–June and September–November. July and August are extremely hot and busy with tourists. The metro is cheap and reliable.",
+    metaDescription: "Best coworking spaces in Athens — {count} venues that carry Nomad Magazine on-site. Affordable desks, improving infrastructure, and a city that's quietly becoming one of Europe's best nomad bases.",
+    faqs: [
+      { q: "Is Athens good for digital nomads?", a: "Athens has become an increasingly solid nomad city — affordable, well-connected by air, with improving coworking infrastructure and a Mediterranean quality of life that's hard to match at the price point." },
+      { q: "What's the internet like in Athens for remote work?", a: "Internet quality has improved significantly in recent years. Most coworking spaces offer fast, reliable connections. Public WiFi is inconsistent but coworking memberships solve this completely." },
+      { q: "How much does coworking in Athens cost?", a: "Athens is very affordable. Day passes typically cost €8–15. Monthly memberships range from €80–150, making it one of the cheaper major European capitals for coworking." },
+      { q: "When is the best time to work from Athens?", a: "April–June and September–November are ideal — pleasant temperatures and fewer tourists. July and August are extremely hot (35°C+) and the city fills with visitors, which affects both prices and atmosphere." },
+    ],
+  },
+  budapest: {
+    intro: "Budapest is one of Central Europe's most liveable cities — beautiful, functional, and still underpriced for what it offers. These {count} coworking spaces carry Nomad Magazine on-site, in a city that takes remote work seriously.",
+    whyWork: "Budapest has a strong tech and startup ecosystem, fast internet, and a cost of living that sits comfortably below Western European capitals. The city blends Austro-Hungarian architecture with a genuinely modern digital economy.",
+    neighborhoods: "District VII (the Jewish Quarter / ruin bar area) is the most nomad-dense. District V (the city centre) has more professional spaces. The Buda side is quieter and residential. Kazinczy Street and its surrounding area is where most of the energy concentrates.",
+    whoItSuits: "Culture lovers who also have spreadsheets to finish. Budget-conscious nomads who refuse to compromise on quality of life. Those wanting a Central European base with excellent transport links to Vienna, Prague, and beyond.",
+    practicalNote: "Budapest offers excellent value — day passes run €8–15 (or the equivalent in HUF). Monthly memberships from €80–150. Best months are April–October. Winters are cold but the thermal bath culture makes them bearable.",
+    metaDescription: "Best coworking spaces in Budapest — {count} venues that carry Nomad Magazine on-site. Affordable desks in a Central European city that punches well above its weight.",
+    faqs: [
+      { q: "Is Budapest good for digital nomads?", a: "Budapest is consistently rated one of Central Europe's best nomad cities — affordable, beautiful, with good internet, a growing tech scene, and a quality of life that rivals much more expensive capitals." },
+      { q: "Which districts are best for coworking in Budapest?", a: "District VII (the ruin bar quarter) has the highest concentration of nomad-friendly spaces and cafés. District V is more central and business-oriented. Most nomads based themselves around the Dohány Street area." },
+      { q: "Do I need to know Hungarian to work from Budapest?", a: "Not at all. English is widely spoken in coworking spaces and the tech community. Most space staff are fluent, and the digital nomad community is large and internationally connected." },
+      { q: "How much does coworking in Budapest cost?", a: "Very affordable. Day passes typically run €8–15 (or HUF equivalent). Monthly memberships range from €80–150, which is significantly cheaper than Vienna or Prague." },
+    ],
+  },
+  amsterdam: {
+    intro: "Amsterdam is expensive, international, and unapologetically well-organised. If you can afford the city, it rewards you with excellent infrastructure, a genuinely global community, and canal views that make video calls feel more interesting. These {count} coworking spaces carry Nomad Magazine on-site.",
+    whyWork: "Amsterdam has one of Europe's strongest startup and scale-up ecosystems. English is the de facto working language. The city is superbly connected — to the rest of Europe and internationally. Infrastructure is excellent and the culture of flexible, independent work is well-established.",
+    neighborhoods: "Jordaan is beautiful and central but expensive. De Pijp has a younger, more creative vibe. The NDSM Wharf (North Amsterdam) is industrial-creative and popular with tech companies. Centrum is convenient but touristy. Oud-West has a quieter, residential character with good café culture.",
+    whoItSuits: "Professionals who need European headquarters energy. Tech, design, and media workers who benefit from Amsterdam's international ecosystem. Those with a budget to match the city's ambitions.",
+    practicalNote: "Amsterdam is one of Europe's most expensive cities — day passes from €20–35, monthly memberships from €250–500. Best months are April–October. The city is navigable entirely by bike and very walkable. Rain is frequent but rarely stops anyone.",
+    metaDescription: "Best coworking spaces in Amsterdam — {count} venues that carry Nomad Magazine on-site. Premium desks, global community, and excellent infrastructure in Europe's most international city.",
+    faqs: [
+      { q: "Is Amsterdam good for digital nomads?", a: "Amsterdam is excellent for nomads with a higher budget. It offers unmatched connectivity, English as the working language, a strong tech ecosystem, and a quality of life that's hard to fault — if you can manage the cost." },
+      { q: "How expensive is coworking in Amsterdam?", a: "Amsterdam is one of Europe's pricier cities for workspace. Day passes typically cost €20–35. Monthly memberships range from €250–500. Budget accordingly — but the quality and infrastructure justify the price." },
+      { q: "Which neighbourhoods are best for coworking in Amsterdam?", a: "De Pijp and Jordaan have the best independent spaces. The NDSM Wharf area is great for creative and tech companies. Oud-West is quieter with good cafés for focused solo work." },
+      { q: "Do I need to speak Dutch to work from Amsterdam?", a: "No — English is the working language of Amsterdam's startup and tech scene. Most coworking spaces operate entirely in English and have highly international communities." },
+    ],
+  },
+  madeira: {
+    intro: "Madeira was the original digital nomad experiment — and it worked. The Portuguese government created the Ponta do Sol Digital Nomad Village and the island took it seriously. These {count} coworking spaces carry Nomad Magazine on-site, in a place that was designed to make remote work feel like the right choice.",
+    whyWork: "Madeira has year-round mild climate (18–25°C), fast fibre internet, subsidised coworking infrastructure, and a small but tight-knit nomad community. The island is safe, English-friendly, and strikingly beautiful. You'll get work done and not feel bad about where you're doing it.",
+    neighborhoods: "Ponta do Sol is where the Digital Nomad Village was established — a small village with a community space, sea views, and a social dynamic that's genuinely different from city coworking. Funchal (the capital) has more traditional urban spaces and all city amenities.",
+    whoItSuits: "Nomads who want nature access without sacrificing connectivity. Those drawn to a tight community rather than anonymous city coworking. Anyone who wants to work and hike and surf in the same week without it feeling like a compromise.",
+    practicalNote: "Madeira is affordable for a Portuguese destination — day passes from €10–18, monthly from €100–150 in Ponta do Sol. Funchal runs slightly higher. Flights from European capitals are frequent and cheap. Weather is excellent year-round — no real bad season.",
+    metaDescription: "Best coworking spaces in Madeira — {count} venues that carry Nomad Magazine on-site. Island infrastructure, year-round mild weather, and the original Digital Nomad Village at Ponta do Sol.",
+    faqs: [
+      { q: "Is Madeira good for digital nomads?", a: "Madeira is one of the world's most purpose-built nomad destinations — the Portuguese government established the Digital Nomad Village in Ponta do Sol in 2021, and the island has invested heavily in connectivity and nomad infrastructure." },
+      { q: "What is the Madeira Digital Nomad Village?", a: "The Digital Nomad Village is a coworking space in Ponta do Sol, set up by the regional government to attract remote workers. It offers subsidised workspace, community events, and accommodation connections in a small coastal village with sea views." },
+      { q: "How fast is the internet in Madeira?", a: "Internet is fast and reliable across the island. Funchal and Ponta do Sol both have gigabit fibre available in coworking spaces. The government has invested significantly in connectivity infrastructure." },
+      { q: "When is the best time to visit Madeira for remote work?", a: "Any time — Madeira has a genuinely mild climate year-round (18–25°C). There's no bad season. Autumn and winter are actually quieter and can feel more productive." },
+    ],
+  },
+  'las-palmas': {
+    intro: "Las Palmas de Gran Canaria has a permanent spring, a surf break at the end of the city beach, and a coworking scene built by and for people who work remotely. These {count} coworking spaces carry Nomad Magazine on-site — in a Spanish city that figured out the nomad thing early.",
+    whyWork: "Gran Canaria sits in the Atlantic, 200km off the coast of Morocco — technically Spain, with EU rules, Spanish prices, and 300 days of sun. Las Palmas has reliable fibre, a well-established nomad community, and a city layout that puts beach, café, and desk within walking distance.",
+    neighborhoods: "Las Canteras beach area is the nomad heartland — spaces, cafés, and accommodation all cluster here. Triana (the old shopping district) has a more traditional character. Vegueta (the historic old town) is beautiful but quieter for working.",
+    whoItSuits: "Surfers who work. Anyone wanting year-round sun without flying to Southeast Asia. Those who want a Spanish-speaking EU city that isn't overrun by tourists.",
+    practicalNote: "Las Palmas is affordable by Spanish standards — day passes from €10–18, monthly memberships from €100–180. Flights from European capitals are frequent and cheap. Weather is consistent year-round; the water temperature is swimmable in January.",
+    metaDescription: "Best coworking spaces in Las Palmas — {count} venues that carry Nomad Magazine on-site. Year-round sun, surf, and a city that's been welcoming remote workers for years.",
+    faqs: [
+      { q: "Is Las Palmas good for digital nomads?", a: "Las Palmas (Gran Canaria) is one of Europe's most established nomad destinations — year-round warm weather, EU rules, Spanish prices, fast internet, and a community that's been there long enough to develop real infrastructure." },
+      { q: "Can I surf and work from Las Palmas?", a: "Yes — Las Canteras beach is a city beach with a year-round swimmable break, and several surf schools operate nearby. The city is laid out so you can surf before work and return to your desk without losing the morning." },
+      { q: "How much does coworking in Las Palmas cost?", a: "Day passes typically cost €10–18. Monthly memberships range from €100–180. The city is notably affordable compared to mainland Spain or other warm-weather nomad destinations." },
+      { q: "What's the internet like in Las Palmas?", a: "Internet is reliable and fast — the Canary Islands have invested heavily in fibre infrastructure. Most coworking spaces offer gigabit connections and backup connections as standard." },
+    ],
+  },
+  vienna: {
+    intro: "Vienna operates at a different frequency — unhurried, precise, and extraordinarily liveable. This coworking space carries Nomad Magazine on-site, in a city that's been perfecting the art of productive daily life since the Habsburg era.",
+    whyWork: "Vienna has world-class public transport, excellent internet infrastructure, and a Kaffeehauskultur (coffee house culture) that was doing coworking before the word existed. The city is clean, safe, well-connected internationally, and has a growing startup scene.",
+    neighborhoods: "The 1st district (Innere Stadt) is historic and central. Neubau (7th) is the creative quarter with independent studios and cafés. Mariahilf (6th) is lively and walkable. The Naschmarkt area attracts a mix of freelancers and creatives. The U-Bahn connects everything in minutes.",
+    whoItSuits: "Those who appreciate a city that functions beautifully. Cultural workers, consultants with European clients, and anyone who wants a high quality of life without chaos. Vienna suits the methodical nomad who plans their days and enjoys them.",
+    practicalNote: "Vienna is one of Europe's more expensive cities — day passes from €20–30, monthly memberships from €200–400. Best months are April–October. Winters are cold but culturally rich. The public transport is exceptional and can replace the need for a car entirely.",
+    metaDescription: "Best coworking spaces in Vienna — {count} venues that carry Nomad Magazine on-site. World-class infrastructure, coffee house culture, and a city that sets the standard for liveable remote work.",
+    faqs: [
+      { q: "Is Vienna good for digital nomads?", a: "Vienna is excellent for nomads who prioritise quality of life and infrastructure. It's expensive compared to Central European alternatives, but the city functions beautifully, is extremely safe, and has a growing startup and creative community." },
+      { q: "How does Vienna compare to other European cities for remote work?", a: "Vienna offers better quality of life and infrastructure than most cities in the region. It's more expensive than Prague or Budapest but cheaper than Zurich or Amsterdam, with arguably better public services than either." },
+      { q: "How much does coworking in Vienna cost?", a: "Day passes typically cost €20–30. Monthly memberships range from €200–400, putting Vienna on the pricier end of Central European coworking markets." },
+      { q: "Can I rely on Vienna's coffee houses for working?", a: "Vienna's Kaffeehäuser (coffee houses) are famous for welcoming long stays — ordering one coffee and sitting for hours is culturally accepted. Many nomads use them for focused solo work, keeping coworking spaces for collaborative or call-heavy days." },
+    ],
+  },
+  brussels: {
+    intro: "Brussels is Europe's capital — literally. It's underrated as a nomad base, overlooked in favour of Amsterdam or Berlin, but for those who find it, the city rewards the choice. This coworking space carries Nomad Magazine on-site.",
+    whyWork: "Brussels is well-connected, multilingual (French, Dutch, English), and sits at the centre of Europe geographically and politically. It has a strong EU-adjacent professional ecosystem and infrastructure that's quietly excellent. The food and beer are genuinely world-class.",
+    neighborhoods: "Ixelles is the most nomad-friendly — young, international, café-dense. Saint-Gilles has a creative bohemian character. Schaerbeek and Molenbeek are up-and-coming. The EU Quarter (around Schuman) is professional and convenient for those in policy or NGO work.",
+    whoItSuits: "Policy professionals, EU-adjacent consultants, NGO workers, and anyone who wants a well-connected European base that's less loud than Amsterdam or Paris. Those who appreciate underrated cities.",
+    practicalNote: "Brussels is moderately priced by Western European standards — day passes from €15–25, monthly from €150–300. The public transport (metro, tram, bike) is good. Best months are May–September; winters are grey and damp.",
+    metaDescription: "Best coworking spaces in Brussels — {count} venues that carry Nomad Magazine on-site. Europe's political capital, with solid infrastructure and an underrated nomad community.",
+    faqs: [
+      { q: "Is Brussels good for digital nomads?", a: "Brussels is underrated as a nomad city. It's well-connected, central to Europe, English-friendly in professional settings, and has solid coworking infrastructure. It suits those working in or around EU-adjacent industries." },
+      { q: "What language do I need in Brussels?", a: "Brussels is officially bilingual (French and Dutch), but English is widely used in coworking spaces and the professional community. In EU Quarter settings, English is often the primary working language." },
+      { q: "How much does coworking in Brussels cost?", a: "Day passes typically run €15–25. Monthly memberships range from €150–300. Brussels is moderately priced compared to Amsterdam or Paris but more expensive than Eastern European capitals." },
+      { q: "Is Brussels well-connected for travel?", a: "Exceptionally so. Eurostar to London takes under 2 hours. High-speed trains reach Paris in 1h20, Amsterdam in 2 hours, and Cologne in under 2 hours. Brussels Airport has flights across Europe and internationally." },
+    ],
+  },
+  bansko: {
+    intro: "Bansko didn't plan to become a nomad hub — it just happened. A Bulgarian ski resort with fast internet, cheap everything, and a community that formed naturally and stuck. This coworking space carries Nomad Magazine on-site.",
+    whyWork: "Bansko offers something rare: mountains, community, and internet speeds that beat most capital cities. It's cheap, social, and has attracted a self-selecting crowd of people who are serious about both their work and their lifestyle. The ski slopes are a bonus.",
+    neighborhoods: "Bansko is a small town — the old town area (with its pubs, restaurants, and coworking spaces) is walkable in 15 minutes. The ski gondola station is a 10-minute walk. Everything that matters is within easy reach of everything else.",
+    whoItSuits: "Nomads who want a tight community and mountain lifestyle. Ski season workers (December–March). Those who want to stretch their budget further than any European capital can offer. People who've burned out on city nomading.",
+    practicalNote: "Bansko is very cheap — expect to pay €5–10 for a coworking day. Monthly memberships from €50–100. Ski season (December–March) is the peak nomad season — the community is at its densest and most energetic. Summer is quieter but perfectly pleasant.",
+    metaDescription: "Best coworking spaces in Bansko — {count} venues that carry Nomad Magazine on-site. Mountain living, budget-friendly desks, and a nomad community that's genuinely hard to leave.",
+    faqs: [
+      { q: "Is Bansko good for digital nomads?", a: "Bansko is one of Europe's most beloved nomad communities — built organically around the combination of cheap living, mountain lifestyle, and surprisingly good internet. It's a magnet for nomads who want community alongside their work." },
+      { q: "What is Bansko like in winter vs summer?", a: "Winter (December–March) is peak nomad season — the community is at its largest, the skiing is excellent, and the après-ski social scene makes it easy to meet people. Summer is quieter, good for hiking, and still has an active community." },
+      { q: "How cheap is it to live and work in Bansko?", a: "Bansko is extremely affordable. Coworking day passes run €5–10. Monthly memberships from €50–100. Accommodation and food are significantly cheaper than any Western European city." },
+      { q: "Is the internet fast enough in Bansko for video calls and remote work?", a: "Yes — despite being a mountain resort, Bansko has fast fibre internet in its coworking spaces. The nomad community has actively pushed for quality connectivity, and it shows." },
+    ],
+  },
+  zagreb: {
+    intro: "Zagreb is Croatia without the tourist season — functional, affordable, and sitting on the edge of a country people only visit for the coast. This coworking space carries Nomad Magazine on-site, in a capital that makes daily life easy.",
+    whyWork: "Zagreb has solid EU-standard infrastructure, fast internet, a growing tech and startup scene, and costs that are still well below Western European levels. It's a practical, navigable city that lets you focus on work without constant distraction.",
+    neighborhoods: "Gornji Grad (Upper Town) is the historic heart. Donji Grad (Lower Town) has the commercial centre with better transit access. Medveščak and Gornja Dubrava attract young professionals. The tram system is simple and covers the city well.",
+    whoItSuits: "Those wanting a Balkan base with EU stability and infrastructure. Remote workers who want practical affordability without Eastern Europe's rougher edges. Anyone who uses Croatia as a base for exploring the Adriatic coast on weekends.",
+    practicalNote: "Zagreb is affordable — day passes from €8–15, monthly memberships from €80–150. Best months are April–October. Summers are warm but not extreme. The coast (Zadar, Split) is 2–3 hours by bus or car — easy weekending.",
+    metaDescription: "Best coworking spaces in Zagreb — {count} venues that carry Nomad Magazine on-site. EU-standard infrastructure, affordable desks, and Croatia's underrated capital as your base.",
+    faqs: [
+      { q: "Is Zagreb good for digital nomads?", a: "Zagreb is a solid EU capital for remote work — affordable, safe, with good infrastructure and a growing digital economy. It's less developed as a nomad hub than Lisbon or Berlin but has real advantages in cost and quality of life." },
+      { q: "Is Croatia in the EU and Schengen?", a: "Croatia joined the EU in 2013 and the Schengen Area in 2023, making Zagreb a fully EU-integrated base for nomads who need EU access and free movement across Europe." },
+      { q: "How much does coworking in Zagreb cost?", a: "Day passes typically run €8–15. Monthly memberships range from €80–150. Zagreb is notably affordable compared to Western European capitals while offering comparable infrastructure." },
+      { q: "Can I visit the Croatian coast from Zagreb?", a: "Easily — Zadar is about 2.5 hours by car or bus, Split is 4 hours. Many Zagreb-based nomads use the city as a weekday base and the Dalmatian coast for weekends during summer." },
+    ],
+  },
+  dublin: {
+    intro: "Dublin is expensive and worth knowing why. It's the English-speaking tech capital of Europe — where the major American companies based their European operations. This coworking space carries Nomad Magazine on-site.",
+    whyWork: "Dublin hosts the European headquarters of Google, Meta, Airbnb, Stripe, and dozens more. The networking density is unlike anywhere else in Europe for tech. English is the working language, the legal infrastructure is familiar to US-based nomads, and the startup scene is real.",
+    neighborhoods: "Silicon Docks (around Grand Canal Dock) is where the tech companies cluster. Temple Bar is tourist-facing but central. Docklands has the newest buildings and fastest internet. Rathmines and Ranelagh are quieter residential areas popular with working professionals.",
+    whoItSuits: "Tech professionals who need EU-English access. Anyone networking in enterprise tech or SaaS. Those who want English-speaking Europe without compromising on startup ecosystem quality.",
+    practicalNote: "Dublin is expensive — among the highest costs in Europe. Day passes from €25–40, monthly memberships from €300–600. Housing and food are also high. Best months are May–September. Rain is frequent but rarely stops the city.",
+    metaDescription: "Best coworking spaces in Dublin — {count} venues that carry Nomad Magazine on-site. English-speaking EU base in Europe's tech capital, with unmatched startup ecosystem access.",
+    faqs: [
+      { q: "Is Dublin good for digital nomads?", a: "Dublin is excellent for tech-focused nomads who need English-speaking EU access and networking in enterprise tech. It's expensive — among the highest costs in Europe — but the ecosystem density is unmatched." },
+      { q: "Why do so many tech companies have European offices in Dublin?", a: "Ireland's corporate tax rate (12.5%) and English-speaking workforce made Dublin the preferred European headquarters for US tech companies. This concentration creates an unusual networking density for the tech community." },
+      { q: "How expensive is coworking in Dublin?", a: "Dublin is among the most expensive European cities for coworking. Day passes typically cost €25–40. Monthly memberships range from €300–600. Factor overall costs of living when planning a Dublin stay." },
+      { q: "Is Dublin a good base for exploring Europe?", a: "Dublin Airport has good European connections, but Ireland is not in the Schengen Area, which can add border crossing steps. For pure Schengen access, another EU city is more practical as a base." },
+    ],
+  },
+  cork: {
+    intro: "Cork has a chip on its shoulder about Dublin, and it's justified. Ireland's second city is more affordable, smaller, and increasingly vibrant — with a food scene that's arguably better and a pace that lets you breathe. This coworking space carries Nomad Magazine on-site.",
+    whyWork: "Cork has a growing pharma, tech, and startup ecosystem — Apple's European operations are based nearby. English language, EU access, and lower costs than Dublin. The city has a genuine character that's easier to settle into.",
+    neighborhoods: "The city centre (around Patrick Street and the English Market) is compact and walkable. Douglas and Ballintemple are quieter residential areas. The Docklands area is developing new workspace infrastructure. University College Cork brings student and researcher energy to the south side.",
+    whoItSuits: "Those who want the benefits of an English-speaking EU tech city without Dublin's costs and scale. Remote workers who want a smaller, more human city. Those with connections to the pharmaceutical or tech industries based in the region.",
+    practicalNote: "Cork is notably cheaper than Dublin — day passes from €15–25, monthly memberships from €150–250. The city is small enough to navigate without a car. Best months are May–September. The coast and countryside are within 30 minutes.",
+    metaDescription: "Best coworking spaces in Cork — {count} venues that carry Nomad Magazine on-site. Ireland's second city: English-speaking, EU access, lower costs, and a growing tech and startup scene.",
+    faqs: [
+      { q: "Is Cork good for digital nomads?", a: "Cork is a solid alternative to Dublin for nomads wanting English-speaking EU access at lower cost. It has a growing tech and pharma ecosystem, a genuine city character, and easy access to the Irish countryside and coast." },
+      { q: "How does Cork compare to Dublin for remote work?", a: "Cork is significantly cheaper, smaller, and more relaxed. Dublin has more tech networking density. Cork suits those who want Irish-base benefits without Dublin's scale, cost, and intensity." },
+      { q: "How much does coworking in Cork cost?", a: "Day passes typically run €15–25. Monthly memberships range from €150–250 — notably cheaper than Dublin while offering comparable workspace quality." },
+      { q: "What is Cork known for professionally?", a: "Cork is home to several major pharma multinationals and has Apple's European operations based in nearby Holyhill. This creates an ecosystem different from Dublin's pure tech focus — with more manufacturing, pharma, and operations-side remote work." },
+    ],
+  },
+  malta: {
+    intro: "Malta is tiny, English-speaking, EU-integrated, and warmer than anywhere else on this list in winter. These {count} coworking spaces carry Nomad Magazine on-site — in a Mediterranean island state that's increasingly attracting remote workers who've thought it through.",
+    whyWork: "Malta punches above its size. It's an EU member with English as an official language, a growing iGaming and fintech ecosystem, 300 days of sun, and a geographic position in the central Mediterranean that makes it excellent for travel. Internet infrastructure has improved dramatically.",
+    neighborhoods: "Valletta is the historic capital — small, walkable, and beautiful, with the most established workspace options. St Julian's and Sliema are the main commercial and nightlife areas, with newer coworking spaces. Gzira and Msida are more affordable and practical for longer stays.",
+    whoItSuits: "Those who want year-round warmth with EU rules. iGaming, fintech, and crypto professionals (Malta has a strong ecosystem in all three). Anyone who wants a Mediterranean base with English as the working language.",
+    practicalNote: "Malta is moderately priced — day passes from €12–20, monthly memberships from €120–200. Summer (July–August) is very hot and peak tourist season. Best working months are September–June. The island is small — you can drive across it in 45 minutes.",
+    metaDescription: "Best coworking spaces in Malta — {count} venues that carry Nomad Magazine on-site. English-speaking EU island with year-round warmth, a fintech ecosystem, and Mediterranean lifestyle.",
+    faqs: [
+      { q: "Is Malta good for digital nomads?", a: "Malta is an underrated nomad destination — EU member, English-speaking, warm year-round, and with a growing tech and fintech ecosystem. The island is small and easy to navigate, and the cost of living is moderate." },
+      { q: "What industries are strong in Malta?", a: "Malta has a particularly strong iGaming, fintech, and cryptocurrency industry — many companies in these sectors are registered or operated from Malta. This creates networking opportunities for those in digital finance and gaming." },
+      { q: "Is Malta expensive for remote workers?", a: "Malta is moderately priced by EU standards. Day passes for coworking cost €12–20. Monthly memberships run €120–200. Accommodation varies widely — Valletta is pricier, Gzira and Msida more affordable." },
+      { q: "When is the best time to work from Malta?", a: "September through June is ideal — warm but not extreme, fewer tourists, and a more local atmosphere. July and August are very hot (35°C+) and the island fills with visitors. Malta genuinely has no bad winter." },
+    ],
+  },
+  warsaw: {
+    intro: "Warsaw rebuilt itself from nothing after WWII and didn't stop. It's now one of Central Europe's most dynamic economies, with a serious tech sector and a city that rewards those who look past the surface. This coworking space carries Nomad Magazine on-site.",
+    whyWork: "Warsaw has become a major European tech hub — Bolt, Allegro, and dozens of well-funded startups are based here. Internet is fast, costs are still below Western European levels, and the city has invested heavily in modern workspace infrastructure.",
+    neighborhoods: "Śródmieście (city centre) has the highest concentration of coworking spaces. Mokotów is the tech district — sometimes called the 'Silicon Valley of Poland'. Praga (east bank) is up-and-coming and creative. Żoliborz is quieter and residential.",
+    whoItSuits: "Tech-focused nomads who want a Central European base with a real startup ecosystem. Those interested in the broader CEE tech scene. Anyone who wants to work in an EU city that's growing fast and still affordable.",
+    practicalNote: "Warsaw is affordable — day passes from €8–15 (or PLN equivalent), monthly memberships from €80–150. Best months are May–September. Winters are cold (sometimes -10°C) but the indoor culture is good and the city functions regardless.",
+    metaDescription: "Best coworking spaces in Warsaw — {count} venues that carry Nomad Magazine on-site. Poland's tech capital, affordable EU infrastructure, and a startup scene that's been quietly building for a decade.",
+    faqs: [
+      { q: "Is Warsaw good for digital nomads?", a: "Warsaw is increasingly excellent for tech-focused nomads. It has a fast-growing startup ecosystem, fast internet, EU access, and costs that are still significantly below Western European levels." },
+      { q: "What is Warsaw's tech scene like?", a: "Warsaw is home to some of Europe's fastest-growing tech companies — Allegro, Booksy, and DocPlanner are all Warsaw-based. The city has a large pool of engineering talent and a growing VC ecosystem, making it a real tech hub." },
+      { q: "How much does coworking in Warsaw cost?", a: "Very affordable. Day passes typically run €8–15 (PLN equivalent). Monthly memberships range from €80–150. Warsaw offers some of Europe's best value for workspace quality." },
+      { q: "Is Warsaw safe for nomads?", a: "Warsaw is a safe, EU-standard capital with good public transport, healthcare, and infrastructure. English is widely spoken in professional settings. The city is very welcoming to international remote workers." },
+    ],
+  },
+  trnava: {
+    intro: "Trnava is not on anyone's list — which is exactly the point. Slovakia's oldest royal city sits 45 minutes from both Bratislava and Vienna, with a completely unhurried pace and costs that feel from another decade. This coworking space carries Nomad Magazine on-site.",
+    whyWork: "Trnava offers something increasingly rare: a quiet, functional Central European city where you can work without being pulled in twelve directions. Fast internet, very low costs, and an easy commute to major capitals when you need them.",
+    neighborhoods: "Trnava is small — the historic centre is walkable in 20 minutes. The main square (Trojičné námestie) is the social hub. Most of what you need is within cycling distance. It's a city where you notice the architecture because nothing is competing for your attention.",
+    whoItSuits: "Those who want extreme affordability and quiet focus. Nomads in the CEE region looking for a base between assignments. Anyone who finds Bratislava or Vienna too expensive but wants proximity to both.",
+    practicalNote: "Trnava is very affordable — coworking from €5–10/day. The train to Bratislava runs frequently (45 min) and Vienna is reachable in under 2 hours. Best months are April–October. Winters are cold but manageable.",
+    metaDescription: "Best coworking spaces in Trnava — {count} venues that carry Nomad Magazine on-site. Slovakia's quietest nomad base, 45 minutes from Bratislava and under 2 hours from Vienna.",
+    faqs: [
+      { q: "Why would a digital nomad choose Trnava?", a: "Trnava offers an unusual combination: very low costs, a quiet productive environment, and easy access to Bratislava (45 min) and Vienna (under 2 hours). For nomads who want focus and affordability without total isolation, it's a genuine option." },
+      { q: "Is Trnava well connected?", a: "Trnava is on the main Bratislava–Vienna rail corridor. Trains run frequently throughout the day. Vienna Airport is under 90 minutes away, giving access to international flights without the higher costs of Bratislava or Vienna accommodation." },
+      { q: "How affordable is Trnava?", a: "Very — among the most affordable cities on this list. Coworking typically costs €5–10/day. Accommodation, food, and coffee are all significantly below any Western European city, and even below Bratislava." },
+      { q: "What language is spoken in Trnava?", a: "Slovak is the official language. English proficiency in professional settings is moderate — better in coworking spaces and among younger professionals. German is also useful given proximity to Austria." },
+    ],
+  },
+  ljubljana: {
+    intro: "Ljubljana is Europe's greenest capital — car-free city centre, river running through it, alps visible on clear days. These {count} coworking spaces carry Nomad Magazine on-site, in a city small enough to feel human and functional enough to not notice the size.",
+    whyWork: "Ljubljana is the kind of city that makes you more productive without trying. It's clean, quiet, well-organised, and has solid internet infrastructure for its size. Slovenia punches above its weight in quality of life, and Ljubljana is the proof.",
+    neighborhoods: "The city centre (around Prešeren Square and the Old Town) is pedestrianised and beautifully walkable. Trnovo and Krakovo are quiet residential neighbourhoods south of the centre. Šiška is the industrial-creative quarter with newer workspace options. Everything is connected by an excellent bus network and very cycle-friendly streets.",
+    whoItSuits: "Those who want Alpine and Mediterranean access in one base. Quality-of-life maximisers. Anyone who's tired of big cities and wants to try a small capital without sacrificing EU access or infrastructure.",
+    practicalNote: "Ljubljana is moderately priced — day passes from €10–18, monthly memberships from €100–180. Best months are April–October. The Alps are 45 minutes away; the Adriatic coast is under 90 minutes. The city works year-round.",
+    metaDescription: "Best coworking spaces in Ljubljana — {count} venues that carry Nomad Magazine on-site. Europe's greenest capital: car-free centre, mountain views, and EU infrastructure in a human-scale city.",
+    faqs: [
+      { q: "Is Ljubljana good for digital nomads?", a: "Ljubljana is excellent for nomads who prioritise quality of life and accessibility. It's small enough to feel manageable but has EU-standard infrastructure, solid internet, and a growing startup community." },
+      { q: "What makes Ljubljana unique as a nomad base?", a: "Ljubljana is pedestrianised in the centre, surrounded by mountains, and within 90 minutes of the Adriatic. It's one of the few European capitals where you can genuinely disconnect from urban stress while staying connected to EU infrastructure." },
+      { q: "How much does coworking in Ljubljana cost?", a: "Day passes typically run €10–18. Monthly memberships range from €100–180. Ljubljana is moderately priced — more than Sofia or Trnava, less than Vienna or Amsterdam." },
+      { q: "Can I visit the Alps from Ljubljana?", a: "Easily — Lake Bled is 45 minutes by car, and the Triglav National Park is within an hour. The Julian Alps are genuinely spectacular and accessible for a weekend or even a day trip from the city." },
+    ],
+  },
+  maribor: {
+    intro: "Maribor is Slovenia's second city and proud of it. University-driven, unpretentious, and with a pace that makes Ljubljana feel rushed. This coworking space carries Nomad Magazine on-site.",
+    whyWork: "Maribor has fast internet, very low costs, and the kind of unhurried atmosphere that some people discover is exactly what they needed for deep work. The University of Maribor creates a young, international community that keeps the city curious.",
+    neighborhoods: "The city centre (around the Lent riverside and the main square) is compact and walkable. The university quarter is east of centre. Pobrežje and Tabor are residential. The old vine — the world's oldest living grapevine — sits in the Lent district on the Drava riverbank.",
+    whoItSuits: "Those who want Slovenia's quality of life at a fraction of Ljubljana's cost. Nomads seeking genuine quiet focus. Students and academics on extended stays. Anyone drawn to a smaller city with real cultural depth.",
+    practicalNote: "Maribor is very affordable — coworking from €6–12/day. Ljubljana is 1.5 hours away by train. The Austrian border is 20 minutes away. Best months are April–October; winters are cold but Pohorje ski resort is minutes from the city.",
+    metaDescription: "Best coworking spaces in Maribor — {count} venues that carry Nomad Magazine on-site. Slovenia's second city: affordable, university-driven, and quieter than Ljubljana.",
+    faqs: [
+      { q: "Is Maribor worth choosing over Ljubljana for remote work?", a: "For nomads who want lower costs and a quieter environment, Maribor is a genuine alternative. It has solid internet, EU infrastructure, and is close enough to Ljubljana and Austria for when you need a bigger city or airport." },
+      { q: "What is Maribor known for?", a: "Maribor is home to the world's oldest living grapevine (over 400 years old), the University of Maribor (one of Slovenia's largest), and the Pohorje ski and hiking area directly accessible from the city." },
+      { q: "How affordable is Maribor?", a: "Maribor is one of the more affordable cities on this list. Coworking typically costs €6–12/day. Accommodation and food are significantly cheaper than Ljubljana." },
+      { q: "How do I get from Maribor to other European cities?", a: "Maribor has direct train connections to Ljubljana (1.5 hours), Graz (1 hour), and Vienna (2.5 hours). Graz Airport is 1 hour away; Ljubljana Airport is under 2 hours." },
+    ],
+  },
+  albufeira: {
+    intro: "Albufeira is Portugal's Algarve — sun, Atlantic, and a coworking scene building itself alongside the surf crowd. This coworking space carries Nomad Magazine on-site, in a region where the seasons work in your favour.",
+    whyWork: "The Algarve has the best weather in mainland Europe — 300 days of sun, mild winters, and a coast that makes the working day feel less abstract. Connectivity has improved substantially as the nomad community has grown. English is widely spoken.",
+    neighborhoods: "Albufeira's old town (Beco da Tira Chapéus area) has the most character. The tourist strip along the beach is more seasonal. The surrounding towns — Armação de Pêra, Ferreiras — are quieter year-round bases. The whole region is best explored with a car.",
+    whoItSuits: "Nomads who surf or swim as part of their working rhythm. Those escaping Northern European winters without flying to Asia. Remote workers who want a Portuguese base with more sun than Lisbon.",
+    practicalNote: "The Algarve is Portugal but pricier in peak season (July–August). October–April is the sweet spot — warm, quiet, and genuinely affordable. Day passes run €10–18. A car is useful.",
+    metaDescription: "Best coworking spaces in Albufeira — {count} venues that carry Nomad Magazine on-site. Portugal's sunny Algarve coast with improving nomad infrastructure and year-round warmth.",
+    faqs: [
+      { q: "Is the Algarve good for digital nomads?", a: "The Algarve is excellent for nomads who prioritise outdoor lifestyle and weather. Connectivity has improved significantly, and the nomad community has grown. The winter months (October–April) offer the best combination of weather, quiet, and affordability." },
+      { q: "Do I need a car in Albufeira?", a: "For exploring the region, yes — a car makes the Algarve much more accessible. For day-to-day work in Albufeira itself, you can manage without one, but public transport between towns is limited." },
+      { q: "When is the best time to work from the Algarve?", a: "October through April is the nomad sweet spot — mild weather (15–20°C), no tourist crowds, and lower prices. Summer (July–August) is very hot and the most expensive time to be there." },
+      { q: "How does Albufeira compare to Lisbon for remote work?", a: "Albufeira has better weather and more beach access but fewer coworking options and a smaller professional community. Lisbon has better infrastructure and networking. Many nomads use the Algarve as a seasonal retreat from Lisbon." },
+    ],
+  },
+  portimao: {
+    intro: "Portimão sits at the mouth of the Arade River with one of the best beaches in Portugal — Praia da Rocha — a short walk from the centre. This coworking space carries Nomad Magazine on-site, in a working city on the Algarve coast.",
+    whyWork: "Portimão is the Algarve's second city and more of a real town than a resort. It has actual local infrastructure — supermarkets, services, healthcare — alongside the year-round sunshine that makes the region so attractive. The beach is exceptional.",
+    neighborhoods: "The town centre along the Arade riverfront has the best character. Praia da Rocha (2km south) is the beach area with more accommodation and a seasonal tourist presence. Portimão is compact enough to be cycle-friendly and walkable day-to-day.",
+    whoItSuits: "Those who want Algarve lifestyle in a working town rather than a resort. Nomads who want beach access without being surrounded by holiday-makers year-round. Anyone who finds Albufeira too touristy.",
+    practicalNote: "Portimão is affordable, especially October–April. Day passes from €10–15. Faro Airport is about 60km east (car or bus). Lagos is 20 minutes west. The weather is genuinely exceptional from March through November.",
+    metaDescription: "Best coworking spaces in Portimão — {count} venues that carry Nomad Magazine on-site. Real Algarve town with Praia da Rocha on the doorstep and year-round Portuguese sun.",
+    faqs: [
+      { q: "Is Portimão better than Albufeira for nomads?", a: "Portimão has more of a real local town character than Albufeira, which can feel more resort-focused. Both have good beach access. The choice depends on whether you prefer a local working environment or a tourist-adjacent one." },
+      { q: "What beach is near Portimão?", a: "Praia da Rocha is one of the Algarve's most spectacular beaches — wide, backed by dramatic cliffs, and accessible on foot from Portimão town centre in about 20 minutes." },
+      { q: "How do I get to Portimão without a car?", a: "There's a train line from Faro to Tunes, and buses continue to Portimão. From Lisbon, the Rede Expressos coach takes about 3.5 hours. Within the region, a car or bike is helpful." },
+      { q: "Is the internet good enough in Portimão for remote work?", a: "Connectivity in the Algarve has improved significantly as the nomad community has grown. Coworking spaces have reliable fibre connections. Mobile coverage (NOS, MEO, Vodafone) is solid across the region." },
+    ],
+  },
+  'calle-hermosa': {
+    intro: "Calle Hermosa is one of Central America's best-kept surf spots — a beach break between Jacó and Hermosa that's attracted a small but serious community of nomads who came for the waves and stayed for the life. This coworking space carries Nomad Magazine on-site.",
+    whyWork: "Costa Rica has excellent internet by Central American standards, stable infrastructure, and a government that's friendly to remote workers. Calle Hermosa's pace is set by the tides — you work when the waves are bad and surf when they're good.",
+    neighborhoods: "Calle Hermosa is a stretch of beach south of Jacó — small, walkable, and completely unpretentious. Jacó is 5 minutes north and has more amenities. Herradura (north) and Esterillos (south) are quiet alternatives. A car or scooter opens up the whole Central Pacific coast.",
+    whoItSuits: "Surfers who work. Nomads who want a Pacific coast base outside Southeast Asia. Those drawn to Costa Rica's stability and English-friendly environment. Anyone looking for a Central American base that doesn't require adjusting to challenging infrastructure.",
+    practicalNote: "Costa Rica is pricier than its neighbours but offers first-world stability. Day passes from $15–25 USD. Accommodation ranges widely. The dry season (December–April) brings consistent surf and sunshine. The green season (May–November) gets heavy rain but the surf often improves.",
+    metaDescription: "Best coworking spaces in Calle Hermosa, Costa Rica — {count} venues that carry Nomad Magazine on-site. Pacific surf, stable infrastructure, and a Costa Rica digital nomad base.",
+    faqs: [
+      { q: "Is Calle Hermosa good for digital nomads?", a: "Calle Hermosa suits a specific type of nomad: those who surf and want to build their day around waves. It has solid internet by Central American standards and a small, focused community." },
+      { q: "How does Costa Rica compare to other nomad destinations for remote work?", a: "Costa Rica is more expensive than Southeast Asia but offers stability, English friendliness, and Pacific coast lifestyle that's hard to replicate. It's the most infrastructure-reliable country in Central America." },
+      { q: "Does Costa Rica have a digital nomad visa?", a: "Yes — Costa Rica launched a Digital Nomad Visa allowing remote workers to stay for up to 1 year (renewable for another year), with tax exemptions on foreign income. It requires proof of at least $3,000/month income." },
+      { q: "What's the surf like at Calle Hermosa?", a: "Calle Hermosa has a powerful beach break that works on a range of swells. It's one of the more consistent spots on the Central Pacific coast, popular with intermediate and advanced surfers." },
+    ],
+  },
+}
+
+export async function getStaticPaths() {
+  const targetPages: PageTarget[] = [
+    { citySlug: 'barcelona',    countrySlug: 'spain',       type: 'city', label: 'Barcelona',    country: 'Spain'       },
+    { citySlug: 'lisbon',       countrySlug: 'portugal',    type: 'city', label: 'Lisbon',       country: 'Portugal'    },
+    { citySlug: 'berlin',       countrySlug: 'germany',     type: 'city', label: 'Berlin',       country: 'Germany'     },
+    { citySlug: 'porto',        countrySlug: 'portugal',    type: 'city', label: 'Porto',        country: 'Portugal'    },
+    { citySlug: 'sofia',        countrySlug: 'bulgaria',    type: 'city', label: 'Sofia',        country: 'Bulgaria'    },
+    { citySlug: 'hamburg',      countrySlug: 'germany',     type: 'city', label: 'Hamburg',      country: 'Germany'     },
+    { citySlug: 'athens',       countrySlug: 'greece',      type: 'city', label: 'Athens',       country: 'Greece'      },
+    { citySlug: 'budapest',     countrySlug: 'hungary',     type: 'city', label: 'Budapest',     country: 'Hungary'     },
+    { citySlug: 'amsterdam',    countrySlug: 'netherlands', type: 'city', label: 'Amsterdam',    country: 'Netherlands' },
+    { citySlug: 'madeira',      countrySlug: 'portugal',    type: 'city', label: 'Madeira',      country: 'Portugal',   altLabels: ['Madeira Island'] },
+    { citySlug: 'las-palmas',   countrySlug: 'spain',       type: 'city', label: 'Las Palmas',   country: 'Spain'       },
+    { citySlug: 'vienna',       countrySlug: 'austria',     type: 'city', label: 'Vienna',       country: 'Austria'     },
+    { citySlug: 'brussels',     countrySlug: 'belgium',     type: 'city', label: 'Brussels',     country: 'Belgium'     },
+    { citySlug: 'bansko',       countrySlug: 'bulgaria',    type: 'city', label: 'Bansko',       country: 'Bulgaria'    },
+    { citySlug: 'zagreb',       countrySlug: 'croatia',     type: 'city', label: 'Zagreb',       country: 'Croatia'     },
+    { citySlug: 'dublin',       countrySlug: 'ireland',     type: 'city', label: 'Dublin',       country: 'Ireland'     },
+    { citySlug: 'cork',         countrySlug: 'ireland',     type: 'city', label: 'Cork',         country: 'Ireland'     },
+    { citySlug: 'malta',        countrySlug: 'malta',       type: 'city', label: 'Malta',        country: 'Malta',      altLabels: ['Valletta'] },
+    { citySlug: 'warsaw',       countrySlug: 'poland',      type: 'city', label: 'Warsaw',       country: 'Poland'      },
+    { citySlug: 'trnava',       countrySlug: 'slovakia',    type: 'city', label: 'Trnava',       country: 'Slovakia'    },
+    { citySlug: 'ljubljana',    countrySlug: 'slovenia',    type: 'city', label: 'Ljubljana',    country: 'Slovenia'    },
+    { citySlug: 'maribor',      countrySlug: 'slovenia',    type: 'city', label: 'Maribor',      country: 'Slovenia'    },
+    { citySlug: 'albufeira',    countrySlug: 'portugal',    type: 'city', label: 'Albufeira',    country: 'Portugal'    },
+    { citySlug: 'portimao',     countrySlug: 'portugal',    type: 'city', label: 'Portimão',     country: 'Portugal'    },
+    { citySlug: 'calle-hermosa',countrySlug: 'costa-rica',  type: 'city', label: 'Calle Hermosa',country: 'Costa Rica'  },
+  ]
+
+  const COUNTRY_ALIASES: Record<string, string> = {
+    NL: 'Netherlands', 'The Netherlands': 'Netherlands',
+    Slovenija: 'Slovenia', UK: 'United Kingdom', Bali: 'Indonesia',
+    Brussels: 'Belgium',
+  }
+
+  const normalizeCountry = (raw: string): string => COUNTRY_ALIASES[raw] || raw
+
+  const extractCity = (location: string): string => {
+    if (!location) return ''
+    return location.includes(',') ? location.split(',')[0].trim() : location.trim()
+  }
+
+  const extractCountry = (location: string): string => {
+    if (!location) return ''
+    const parts = location.split(',')
+    if (parts.length >= 2) return normalizeCountry(parts[parts.length - 1].trim())
+    return normalizeCountry(location.trim())
+  }
+
+  const stripHtml = (input: string): string =>
+    input
+      .replace(/<br\s*\/?>/gi, '\n').replace(/<\/p>/gi, '\n\n').replace(/<[^>]+>/g, ' ')
+      .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/\s+\n/g, '\n')
+      .replace(/\n{3,}/g, '\n\n').replace(/[ \t]{2,}/g, ' ').trim()
+
+  const normalizeUrl = (raw: unknown): string | null => {
+    const value = Array.isArray(raw) ? raw[0] : raw
+    if (!value || typeof value !== 'string') return null
+    const trimmed = value.trim()
+    if (!trimmed) return null
+    if (/^https?:\/\//i.test(trimmed)) return trimmed.replace(/^http:\/\//i, 'https://')
+    if (trimmed.startsWith('www.')) return `https://${trimmed}`
+    return null
+  }
+
+  const uniqStrings = (values: unknown[]): string[] =>
+    [...new Set(values.filter((value): value is string => typeof value === 'string' && value.trim().length > 0))]
+
+  const { records = [] } = await fetchReportRecords('68614a111208586bd05d3c3a')
+  const allSpaces: Space[] = records
+    .filter((record: any) => {
+      if (!record.s43a4b2808 || !record.title) return false
+      const category = (record.sb685ab800?.label || '').toLowerCase()
+      return category.includes('cowork') || category === 'space' || category === 'hub'
+    })
+    .map((record: any) => {
+      const location = record.sed1a49986 || ''
+      const shortDescription = stripHtml(record.scea90e502 || '')
+      const fullDescription = stripHtml(record.description_markdown || record.scea90e502 || '')
+      return {
+        id: record.id,
+        name: record.title,
+        city: extractCity(location),
+        country: extractCountry(location),
+        location,
+        shortDescription,
+        fullDescription,
+        websiteUrl: normalizeUrl(record.sb788c266b),
+        googleMapsUrl: normalizeUrl(record.s2d652f699),
+        images: uniqStrings([record.image, record.images, record.sf4ad525dd, record.s4ad525dd].filter(Boolean).flat()),
+      }
+    })
+    .sort((a, b) => {
+      if (b.images.length !== a.images.length) return b.images.length - a.images.length
+      return a.name.localeCompare(b.name)
+    })
+
+  return targetPages.map((target) => {
+    const cityNames = [target.label, ...(target.altLabels || [])].map(l => l.toLowerCase())
+    const items = allSpaces.filter((space) =>
+      target.type === 'city'
+        ? cityNames.includes(space.city.toLowerCase())
+        : space.country.toLowerCase() === target.label.toLowerCase()
+    )
+    return {
+      params: { country: target.countrySlug, city: target.citySlug },
+      props: { target, items },
+    }
+  })
+}
+
+const { target, items } = Astro.props as { target: PageTarget; items: Space[] }
+
+const content = CITY_CONTENT[target.citySlug]
+const introText = content.intro.replace('{count}', String(items.length))
+const metaDesc  = content.metaDescription.replace('{count}', String(items.length))
+
+const titleLocation = target.label
+const title       = `${items.length} Best Coworking Spaces in ${titleLocation} | Nomad Magazine`
+const canonicalUrl = `${Astro.site}where-to-work/${target.countrySlug}/${target.citySlug}/`
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: content.faqs.map(({ q, a }) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
+}
+
+const seo: SEOProps = {
+  title,
+  description: metaDesc,
+  canonical: canonicalUrl,
+  image: `${Astro.site}images/distribution-list-sowo-office-reference.webp`,
+  keywords: `best coworking spaces in ${titleLocation.toLowerCase()}, coworking ${titleLocation.toLowerCase()}, where to work in ${titleLocation.toLowerCase()}, digital nomad ${titleLocation.toLowerCase()}, coworking spaces ${target.country.toLowerCase()}`,
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: title,
+    description: metaDesc,
+    url: canonicalUrl,
+    publisher: { '@type': 'Organization', name: 'Nomad Magazine', logo: { '@type': 'ImageObject', url: `${Astro.site}logo.svg` } },
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Where To Work', item: `${Astro.site}where-to-work/` },
+        { '@type': 'ListItem', position: 2, name: target.country, item: `${Astro.site}where-to-work/${target.countrySlug}/` },
+        { '@type': 'ListItem', position: 3, name: `Best Coworking Spaces in ${titleLocation}`, item: canonicalUrl },
+      ],
+    },
+  },
+}
+---
+
+<Layout seo={seo}>
+  <div class="min-h-screen bg-stone-50 text-neutral-900">
+    <section class="pt-16 pb-10">
+      <div class="container mx-auto px-4">
+        <div class="mx-auto max-w-5xl">
+          <nav aria-label="Breadcrumb" class="mb-6 flex items-center gap-2 text-sm text-neutral-500">
+            <a href="/where-to-work/" class="transition-colors hover:text-yellow-400">Home</a>
+            <span>/</span>
+            <a href={`/where-to-work/${target.countrySlug}/`} class="transition-colors hover:text-yellow-400">{target.country}</a>
+            <span>/</span>
+            <span class="text-neutral-800">{titleLocation}</span>
+          </nav>
+
+          <div class="max-w-3xl">
+            <p class="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-yellow-500">Where To Work</p>
+            <h1 class="text-4xl font-bold leading-tight md:text-6xl">
+              {items.length} Best Coworking Spaces in {titleLocation}
+            </h1>
+            <p class="mt-5 text-lg text-neutral-600">{introText}</p>
+            <div class="mt-6 flex flex-wrap gap-3">
+              <a href="/where-to-work/" class="inline-flex items-center rounded-lg border border-yellow-400 bg-yellow-400 px-5 py-3 text-sm font-semibold text-black transition-colors hover:bg-yellow-300">
+                Browse Full Directory
+              </a>
+              <a href="https://app.smartsuite.com/form/s4tmc086/PkCqPGzQWl" target="_blank" rel="noopener noreferrer" aria-label="List your coworking space (opens in new tab)" class="inline-flex items-center rounded-lg border border-neutral-300 bg-white px-5 py-3 text-sm font-semibold text-neutral-900 transition-colors hover:bg-neutral-100">
+                List Your Space
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* ── City editorial ─────────────────────────────────────────────────── */}
+    <section class="border-t border-neutral-200 bg-white py-14">
+      <div class="container mx-auto px-4">
+        <div class="mx-auto max-w-5xl">
+          <div class="grid gap-px overflow-hidden rounded-3xl border border-neutral-200 bg-neutral-200 md:grid-cols-2">
+
+            <div class="group bg-white px-8 py-9 transition-colors hover:bg-stone-50">
+              <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-yellow-400/15">
+                <svg class="h-5 w-5 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+              </div>
+              <h2 class="text-base font-bold text-neutral-900">Why people work from {titleLocation}</h2>
+              <p class="mt-3 text-sm leading-7 text-neutral-500">{content.whyWork}</p>
+            </div>
+
+            <div class="group bg-white px-8 py-9 transition-colors hover:bg-stone-50">
+              <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-blue-400/15">
+                <svg class="h-5 w-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+              </div>
+              <h2 class="text-base font-bold text-neutral-900">Neighbourhoods & location context</h2>
+              <p class="mt-3 text-sm leading-7 text-neutral-500">{content.neighborhoods}</p>
+            </div>
+
+            <div class="group bg-white px-8 py-9 transition-colors hover:bg-stone-50">
+              <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400/15">
+                <svg class="h-5 w-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+              </div>
+              <h2 class="text-base font-bold text-neutral-900">Who {titleLocation} suits</h2>
+              <p class="mt-3 text-sm leading-7 text-neutral-500">{content.whoItSuits}</p>
+            </div>
+
+            <div class="group bg-white px-8 py-9 transition-colors hover:bg-stone-50">
+              <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-rose-400/15">
+                <svg class="h-5 w-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <h2 class="text-base font-bold text-neutral-900">Cost, vibe & best season</h2>
+              <p class="mt-3 text-sm leading-7 text-neutral-500">{content.practicalNote}</p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pb-20 pt-14">
+      <div class="container mx-auto px-4">
+        <div class="mx-auto max-w-5xl">
+          <div class="mb-8 max-w-3xl">
+            <h2 class="text-2xl font-bold text-neutral-900 md:text-3xl">All {items.length} spaces in {titleLocation}</h2>
+            <p class="mt-3 text-neutral-600">
+              Each space below carries Nomad Magazine — our signal that they're genuinely welcoming to remote workers. Same audience, same vibe.
+            </p>
+          </div>
+
+          <div class="grid gap-5">
+            {items.map((space) => {
+              const hasLongDescription =
+                space.fullDescription &&
+                space.fullDescription.length > space.shortDescription.length + 40
+
+              return hasLongDescription ? (
+                /* ── Feature card: 3-image strip left, full story right ── */
+                <article class="overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-sm">
+                  <div class="grid items-stretch lg:grid-cols-[42%_58%]">
+                    {/* Left: vertical stack (up to 3 previews, +N more on last) */}
+                    <div class="flex min-h-72 flex-col gap-px overflow-hidden border-b border-neutral-200 bg-neutral-200 lg:min-h-0 lg:h-full lg:min-h-[28rem] lg:border-b-0 lg:border-r">
+                      {space.images.length === 0 && (
+                        <div class="flex min-h-72 flex-1 items-center justify-center bg-neutral-100">
+                          <span class="text-sm text-neutral-500">No photo available</span>
+                        </div>
+                      )}
+                      {space.images.length === 1 && (
+                        <button type="button" class="relative min-h-72 flex-1 cursor-zoom-in overflow-hidden bg-neutral-100 lg:min-h-0"
+                          data-open-gallery data-name={space.name} data-images={JSON.stringify(space.images)} data-index={0}
+                          aria-label={`View photo of ${space.name} (opens gallery)`}>
+                          <img src={space.images[0]} alt={`${space.name} coworking`} class="h-full w-full object-cover transition-transform duration-500 hover:scale-105" loading="eager" />
+                        </button>
+                      )}
+                      {space.images.length === 2 && (
+                        <>
+                          <button type="button" class="relative min-h-36 flex-1 cursor-zoom-in overflow-hidden bg-neutral-100 lg:min-h-0"
+                            data-open-gallery data-name={space.name} data-images={JSON.stringify(space.images)} data-index={0}
+                            aria-label={`View photo 1 of ${space.name} (opens gallery)`}>
+                            <img src={space.images[0]} alt={`${space.name} coworking — photo 1`} class="h-full w-full object-cover transition-transform duration-500 hover:scale-105" loading="eager" />
+                          </button>
+                          <button type="button" class="relative min-h-36 flex-1 cursor-zoom-in overflow-hidden bg-neutral-100 lg:min-h-0"
+                            data-open-gallery data-name={space.name} data-images={JSON.stringify(space.images)} data-index={1}
+                            aria-label={`View photo 2 of ${space.name} (opens gallery)`}>
+                            <img src={space.images[1]} alt={`${space.name} coworking — photo 2`} class="h-full w-full object-cover transition-transform duration-500 hover:scale-105" loading="lazy" />
+                          </button>
+                        </>
+                      )}
+                      {space.images.length >= 3 && (
+                        <>
+                          <button type="button" class="relative min-h-24 flex-1 cursor-zoom-in overflow-hidden bg-neutral-100 lg:min-h-0"
+                            data-open-gallery data-name={space.name} data-images={JSON.stringify(space.images)} data-index={0}
+                            aria-label={`View photo 1 of ${space.name} (opens gallery)`}>
+                            <img src={space.images[0]} alt={`${space.name} coworking — photo 1`} class="h-full w-full object-cover transition-transform duration-500 hover:scale-105" loading="eager" />
+                          </button>
+                          <button type="button" class="relative min-h-24 flex-1 cursor-zoom-in overflow-hidden bg-neutral-100 lg:min-h-0"
+                            data-open-gallery data-name={space.name} data-images={JSON.stringify(space.images)} data-index={1}
+                            aria-label={`View photo 2 of ${space.name} (opens gallery)`}>
+                            <img src={space.images[1]} alt={`${space.name} coworking — photo 2`} class="h-full w-full object-cover transition-transform duration-500 hover:scale-105" loading="lazy" />
+                          </button>
+                          <button type="button" class="relative min-h-24 flex-1 cursor-zoom-in overflow-hidden bg-neutral-100 lg:min-h-0"
+                            data-open-gallery data-name={space.name} data-images={JSON.stringify(space.images)} data-index={2}
+                            aria-label={space.images.length > 3 ? `View all ${space.images.length} photos of ${space.name} (opens gallery)` : `View photo 3 of ${space.name} (opens gallery)`}>
+                            <img src={space.images[2]} alt={`${space.name} coworking — photo 3`} class="h-full w-full object-cover transition-transform duration-500 hover:scale-105" loading="lazy" />
+                            {space.images.length > 3 && (
+                              <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                                <span class="text-sm font-bold text-white">+{space.images.length - 3} more</span>
+                              </div>
+                            )}
+                          </button>
+                        </>
+                      )}
+                    </div>
+                    {/* Right: full story */}
+                    <div class="p-7 md:p-9">
+                      <div class="flex flex-wrap items-start justify-between gap-3">
+                        <div>
+                          <p class="text-sm text-yellow-500">{space.location}</p>
+                          <h3 class="mt-1 text-2xl font-bold text-neutral-900">{space.name}</h3>
+                        </div>
+                        <span class="rounded-full border border-blue-400/30 bg-blue-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-blue-400">Coworking</span>
+                      </div>
+                      <h4 class="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-neutral-400">Our Story</h4>
+                      <p class="mt-3 whitespace-pre-line text-sm leading-7 text-neutral-600">{space.fullDescription}</p>
+                      <div class="mt-6 flex flex-wrap gap-3">
+                        {space.websiteUrl && (
+                          <a href={space.websiteUrl} target="_blank" rel="noopener noreferrer"
+                            aria-label={`${space.name} website (opens in new tab)`}
+                            class="inline-flex items-center rounded-lg border border-yellow-400 bg-yellow-400/10 px-4 py-2 text-sm font-semibold text-yellow-600 transition-colors hover:bg-yellow-400 hover:text-black">
+                            Visit Website
+                          </a>
+                        )}
+                        {space.googleMapsUrl && (
+                          <a href={space.googleMapsUrl} target="_blank" rel="noopener noreferrer"
+                            aria-label={`Directions to ${space.name} (opens in new tab)`}
+                            class="inline-flex items-center rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm font-semibold text-neutral-900 transition-colors hover:bg-neutral-100">
+                            Open Map
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              ) : (
+                /* ── Compact card: short description only ── */
+                <article class="overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-sm">
+                  <div class="grid lg:grid-cols-[300px_1fr]">
+                    <div class="border-b border-neutral-200 lg:border-b-0 lg:border-r">
+                      {space.images.length > 0 ? (
+                        <div class="carousel-root relative h-64 overflow-hidden lg:h-full" data-carousel data-id={space.id} data-count={space.images.length}>
+                          <div class="carousel-track flex h-full transition-transform duration-300 ease-in-out" data-track>
+                            {space.images.map((img, i) => (
+                              <button type="button" class="carousel-slide relative h-64 w-full shrink-0 cursor-zoom-in lg:h-full"
+                                data-open-gallery data-name={space.name} data-images={JSON.stringify(space.images)} data-index={i}
+                                aria-label={`View photo ${i + 1} of ${space.name} (opens gallery)`}>
+                                <img src={img} alt={`${space.name} coworking — photo ${i + 1}`} class="h-full w-full object-cover" loading={i === 0 ? 'eager' : 'lazy'} />
+                              </button>
+                            ))}
+                          </div>
+                          {space.images.length > 1 && (
+                            <>
+                              <button type="button" class="carousel-prev absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/40 p-1.5 text-white backdrop-blur-sm transition hover:bg-black/60" data-dir="-1" aria-label={`Previous photo of ${space.name}`}>
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+                              </button>
+                              <button type="button" class="carousel-next absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/40 p-1.5 text-white backdrop-blur-sm transition hover:bg-black/60" data-dir="1" aria-label={`Next photo of ${space.name}`}>
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+                              </button>
+                              <div class="absolute bottom-2 left-1/2 z-10 flex -translate-x-1/2 gap-1" aria-hidden="true">
+                                {space.images.map((_, i) => (
+                                  <span class={`carousel-dot block h-1.5 rounded-full transition-all duration-200 ${i === 0 ? 'w-4 bg-white' : 'w-1.5 bg-white/50'}`} data-dot={i} />
+                                ))}
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      ) : (
+                        <div class="flex h-64 items-center justify-center bg-neutral-100">
+                          <span class="text-sm text-neutral-500">No photo available</span>
+                        </div>
+                      )}
+                    </div>
+                    <div class="p-6 md:p-7">
+                      <div class="flex flex-wrap items-start justify-between gap-3">
+                        <div>
+                          <p class="text-sm text-yellow-500">{space.location}</p>
+                          <h3 class="mt-1 text-2xl font-bold text-neutral-900">{space.name}</h3>
+                        </div>
+                        <span class="rounded-full border border-blue-400/30 bg-blue-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-blue-400">Coworking</span>
+                      </div>
+                      {space.shortDescription && (
+                        <p class="mt-5 text-base leading-7 text-neutral-700">{space.shortDescription}</p>
+                      )}
+                      <div class="mt-6 flex flex-wrap gap-3">
+                        {space.websiteUrl && (
+                          <a href={space.websiteUrl} target="_blank" rel="noopener noreferrer"
+                            aria-label={`${space.name} website (opens in new tab)`}
+                            class="inline-flex items-center rounded-lg border border-yellow-400 bg-yellow-400/10 px-4 py-2 text-sm font-semibold text-yellow-600 transition-colors hover:bg-yellow-400 hover:text-black">
+                            Visit Website
+                          </a>
+                        )}
+                        {space.googleMapsUrl && (
+                          <a href={space.googleMapsUrl} target="_blank" rel="noopener noreferrer"
+                            aria-label={`Directions to ${space.name} (opens in new tab)`}
+                            class="inline-flex items-center rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm font-semibold text-neutral-900 transition-colors hover:bg-neutral-100">
+                            Open Map
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              )
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <ImageModal />
+
+    {/* ── FAQ ────────────────────────────────────────────────────────────────── */}
+    <section class="border-t border-neutral-200 bg-white py-16">
+      <div class="container mx-auto px-4">
+        <div class="mx-auto max-w-3xl">
+          <h2 class="mb-8 text-2xl font-bold text-neutral-900">Frequently asked questions</h2>
+          <dl class="space-y-6">
+            {content.faqs.map(({ q, a }) => (
+              <div class="rounded-2xl border border-neutral-200 px-6 py-5">
+                <dt class="font-semibold text-neutral-900">{q}</dt>
+                <dd class="mt-2 text-sm leading-7 text-neutral-600">{a}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+<script is:inline>
+  // ── Carousels ────────────────────────────────────────────────────────────────
+  document.querySelectorAll('[data-carousel]').forEach((root) => {
+    const track = root.querySelector('[data-track]');
+    const dots  = root.querySelectorAll('[data-dot]');
+    const total = Number(root.dataset.count);
+    if (!track || total < 2) return;
+
+    let current = 0;
+
+    function goTo(index) {
+      current = (index + total) % total;
+      track.style.transform = `translateX(-${current * 100}%)`;
+      dots.forEach((d, i) => {
+        d.classList.toggle('w-4',   i === current);
+        d.classList.toggle('bg-white', i === current);
+        d.classList.toggle('w-1.5', i !== current);
+        d.classList.toggle('bg-white/50', i !== current);
+      });
+    }
+
+    root.querySelector('.carousel-prev')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      goTo(current - 1);
+    });
+    root.querySelector('.carousel-next')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      goTo(current + 1);
+    });
+
+    // touch/swipe
+    let startX = 0;
+    root.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
+    root.addEventListener('touchend',   (e) => {
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) goTo(current + (dx < 0 ? 1 : -1));
+    });
+  });
+
+  // ── Gallery lightbox ─────────────────────────────────────────────────────────
+  document.querySelectorAll('[data-open-gallery]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const images = JSON.parse(button.getAttribute('data-images') || '[]');
+      const name   = button.getAttribute('data-name') || 'Workspace';
+      const index  = Number(button.getAttribute('data-index') || 0);
+      if (window.openImageModal && images.length > 0) {
+        window.openImageModal(name, images, index);
+      }
+    });
+  });
+
+  // ── Read-more toggles — kept for future use ─────────────────────────────────
+</script>

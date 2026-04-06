@@ -1,0 +1,201 @@
+---
+export const prerender = true;
+
+import { fetchReportRecords } from '~/utils/smartsuite'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+
+type CityCard = {
+  citySlug: string
+  countrySlug: string
+  label: string
+  country: string
+  count: number
+  heroImage: string | null
+  tagline: string
+  altLabels: string[]
+}
+
+const CITIES = [
+  { citySlug: 'barcelona',     countrySlug: 'spain',       label: 'Barcelona',     country: 'Spain',       tagline: 'Sun, startups, and serious espresso.',                     altLabels: [] },
+  { citySlug: 'porto',         countrySlug: 'portugal',    label: 'Porto',         country: 'Portugal',    tagline: 'Grittier than Lisbon. Cheaper. Worth it.',                altLabels: [] },
+  { citySlug: 'sofia',         countrySlug: 'bulgaria',    label: 'Sofia',         country: 'Bulgaria',    tagline: 'EU access. Gigabit internet. Unbeatable prices.',         altLabels: [] },
+  { citySlug: 'berlin',        countrySlug: 'germany',     label: 'Berlin',        country: 'Germany',     tagline: 'Creative, affordable, endlessly productive.',             altLabels: [] },
+  { citySlug: 'lisbon',        countrySlug: 'portugal',    label: 'Lisbon',        country: 'Portugal',    tagline: 'Europe\'s favourite soft landing for nomads.',            altLabels: [] },
+  { citySlug: 'budapest',      countrySlug: 'hungary',     label: 'Budapest',      country: 'Hungary',     tagline: 'Central Europe\'s most liveable city.',                   altLabels: [] },
+  { citySlug: 'athens',        countrySlug: 'greece',      label: 'Athens',        country: 'Greece',      tagline: 'Mediterranean lifestyle at real prices.',                 altLabels: [] },
+  { citySlug: 'amsterdam',     countrySlug: 'netherlands', label: 'Amsterdam',     country: 'Netherlands', tagline: 'Premium. International. Worth the price.',               altLabels: [] },
+  { citySlug: 'madeira',       countrySlug: 'portugal',    label: 'Madeira',       country: 'Portugal',    tagline: 'The original Digital Nomad Village.',                     altLabels: ['Madeira Island'] },
+  { citySlug: 'las-palmas',    countrySlug: 'spain',       label: 'Las Palmas',    country: 'Spain',       tagline: 'Eternal spring. Surf at lunch. EU rules.',               altLabels: [] },
+  { citySlug: 'hamburg',       countrySlug: 'germany',     label: 'Hamburg',       country: 'Germany',     tagline: 'Germany without the Berlin noise.',                       altLabels: [] },
+  { citySlug: 'vienna',        countrySlug: 'austria',     label: 'Vienna',        country: 'Austria',     tagline: 'Coffee house culture perfected.',                         altLabels: [] },
+  { citySlug: 'warsaw',        countrySlug: 'poland',      label: 'Warsaw',        country: 'Poland',      tagline: 'CEE tech hub, still underpriced.',                        altLabels: [] },
+  { citySlug: 'zagreb',        countrySlug: 'croatia',     label: 'Zagreb',        country: 'Croatia',     tagline: 'EU Croatia without the tourist season.',                  altLabels: [] },
+  { citySlug: 'ljubljana',     countrySlug: 'slovenia',    label: 'Ljubljana',     country: 'Slovenia',    tagline: 'The greenest capital in Europe.',                         altLabels: [] },
+  { citySlug: 'brussels',      countrySlug: 'belgium',     label: 'Brussels',      country: 'Belgium',     tagline: 'Europe\'s political centre. Underrated nomad city.',      altLabels: [] },
+  { citySlug: 'bansko',        countrySlug: 'bulgaria',    label: 'Bansko',        country: 'Bulgaria',    tagline: 'Mountains, community, and €5 coworking.',                altLabels: [] },
+  { citySlug: 'dublin',        countrySlug: 'ireland',     label: 'Dublin',        country: 'Ireland',     tagline: 'English-speaking EU tech capital.',                       altLabels: [] },
+  { citySlug: 'malta',         countrySlug: 'malta',       label: 'Malta',         country: 'Malta',       tagline: 'Year-round sun. English. EU member.',                     altLabels: ['Valletta'] },
+  { citySlug: 'cork',          countrySlug: 'ireland',     label: 'Cork',          country: 'Ireland',     tagline: 'Ireland\'s second city. Half the price of Dublin.',       altLabels: [] },
+  { citySlug: 'maribor',       countrySlug: 'slovenia',    label: 'Maribor',       country: 'Slovenia',    tagline: 'Quiet, affordable, Alps on the doorstep.',               altLabels: [] },
+  { citySlug: 'albufeira',     countrySlug: 'portugal',    label: 'Albufeira',     country: 'Portugal',    tagline: 'Algarve sun and a growing nomad scene.',                  altLabels: [] },
+  { citySlug: 'portimao',      countrySlug: 'portugal',    label: 'Portimão',      country: 'Portugal',    tagline: 'Real Algarve town. Praia da Rocha on the doorstep.',      altLabels: [] },
+  { citySlug: 'trnava',        countrySlug: 'slovakia',    label: 'Trnava',        country: 'Slovakia',    tagline: '45 min from Bratislava. Under 2h from Vienna.',           altLabels: [] },
+  { citySlug: 'calle-hermosa', countrySlug: 'costa-rica',  label: 'Calle Hermosa', country: 'Costa Rica',  tagline: 'Pacific surf, stable internet, Costa Rica lifestyle.',    altLabels: [] },
+]
+
+const extractCity = (location: string): string => {
+  if (!location) return ''
+  return location.includes(',') ? location.split(',')[0].trim() : location.trim()
+}
+
+const uniqStrings = (values: unknown[]): string[] =>
+  [...new Set(values.filter((v): v is string => typeof v === 'string' && v.trim().length > 0))]
+
+const { records = [] } = await fetchReportRecords('68614a111208586bd05d3c3a')
+const activeCoworks = records.filter((r: any) => {
+  if (!r.s43a4b2808 || !r.title) return false
+  const cat = (r.sb685ab800?.label || '').toLowerCase()
+  return cat.includes('cowork') || cat === 'space' || cat === 'hub'
+})
+
+const cityCards: CityCard[] = CITIES.map((city) => {
+  const cityNames = [city.label, ...(city.altLabels || [])].map(l => l.toLowerCase())
+  const spaces = activeCoworks.filter((r: any) =>
+    cityNames.includes(extractCity(r.sed1a49986 || '').toLowerCase())
+  )
+  const heroImage = spaces
+    .flatMap((r: any) => uniqStrings([r.image, r.images, r.sf4ad525dd, r.s4ad525dd].filter(Boolean).flat()))
+    .find(Boolean) ?? null
+
+  return { ...city, count: spaces.length, heroImage }
+})
+
+const totalSpaces = cityCards.reduce((sum, c) => sum + c.count, 0)
+const totalCities = cityCards.length
+
+const canonicalUrl = `${Astro.site}where-to-work/`
+const title = `Coworking Space Near Me | Nomad Magazine`
+const description = `Every coworking space here carries Nomad Magazine on-site — our way of knowing they get the digital nomad needs. ${totalSpaces} spaces across ${totalCities} cities.`
+
+const seo: SEOProps = {
+  title,
+  description,
+  canonical: canonicalUrl,
+  image: `${Astro.site}images/distribution-list-sowo-office-reference.webp`,
+  keywords: 'best coworking spaces, where to work, digital nomad coworking, coworking barcelona, coworking lisbon, coworking berlin, nomad friendly coworking',
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: title,
+    description,
+    url: canonicalUrl,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: { '@type': 'ImageObject', url: `${Astro.site}logo.svg` },
+    },
+  },
+}
+---
+
+<Layout seo={seo}>
+  <div class="min-h-screen bg-stone-50 text-neutral-900">
+
+    {/* ── Hero ─────────────────────────────────────────────────────────────── */}
+    <section class="pt-20 pb-14">
+      <div class="container mx-auto px-4">
+        <div class="mx-auto max-w-3xl text-center">
+          <p class="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-yellow-500">Where To Work</p>
+          <h1 class="text-4xl font-bold leading-tight md:text-6xl">
+            Coworking Space Near Me
+          </h1>
+          <p class="mx-auto mt-5 max-w-xl text-lg text-neutral-500">
+            Every coworking space here carries Nomad Magazine on-site — our way of knowing they get the digital nomad needs.
+          </p>
+          <div class="mt-4 inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-4 py-2 text-sm text-neutral-500">
+            <span class="h-2 w-2 rounded-full bg-yellow-400"></span>
+            {totalSpaces} spaces across {totalCities} cities
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* ── City grid ────────────────────────────────────────────────────────── */}
+    <section style="padding-bottom: 8rem; padding-top: 1rem;">
+      <div class="container mx-auto px-4">
+        <div class="mx-auto max-w-5xl">
+          <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {cityCards.map((city) => (
+              <a
+                href={`/where-to-work/${city.countrySlug}/${city.citySlug}/`}
+                class="group relative overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                aria-label={`${city.count} best coworking spaces in ${city.label}`}
+              >
+                {/* Image */}
+                <div class="relative h-52 w-full overflow-hidden bg-neutral-100">
+                  {city.heroImage ? (
+                    <img
+                      src={city.heroImage}
+                      alt={`Coworking space in ${city.label}, ${city.country}`}
+                      class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div class="flex h-full items-center justify-center bg-neutral-100">
+                      <span class="text-sm text-neutral-400">No photo</span>
+                    </div>
+                  )}
+                  {/* Overlay gradient */}
+                  <div class="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent" aria-hidden="true"></div>
+                  {/* Count badge */}
+                  <div class="absolute bottom-3 left-4 flex items-center gap-1.5">
+                    <span class="rounded-full bg-yellow-400 px-2.5 py-0.5 text-xs font-bold text-black">
+                      {city.count} spaces
+                    </span>
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div class="px-5 py-5">
+                  <p class="text-xs font-semibold uppercase tracking-widest text-neutral-400">{city.country}</p>
+                  <h2 class="mt-1 text-xl font-bold text-neutral-900 group-hover:text-yellow-500 transition-colors">{city.label}</h2>
+                  <p class="mt-1.5 text-sm text-neutral-500">{city.tagline}</p>
+                  <div class="mt-4 flex items-center gap-1 text-sm font-semibold text-yellow-500">
+                    View spaces
+                    <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* ── CTA ──────────────────────────────────────────────────────────────── */}
+    <section class="border-t border-neutral-200 bg-white py-20">
+      <div class="container mx-auto px-4">
+        <div class="mx-auto max-w-2xl text-center">
+          <h2 class="text-2xl font-bold text-neutral-900">Run a coworking space?</h2>
+          <p class="mt-3 text-neutral-500">
+            If your space hosts Nomad Magazine and you'd like to be listed here, get in touch.
+            We'll add your city and your space to the directory.
+          </p>
+          <a
+            href="https://app.smartsuite.com/form/s4tmc086/PkCqPGzQWl"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="List your coworking space (opens in new tab)"
+            class="mt-6 inline-flex items-center rounded-lg border border-yellow-400 bg-yellow-400 px-6 py-3 text-sm font-semibold text-black transition-colors hover:bg-yellow-300"
+          >
+            List Your Space
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</Layout>

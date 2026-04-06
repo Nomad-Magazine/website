@@ -1,0 +1,279 @@
+---
+export const prerender = true;
+
+import { fetchReportRecords } from '~/utils/smartsuite'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+
+type CityEntry = {
+  citySlug: string
+  countrySlug: string
+  label: string
+  country: string
+  tagline: string
+  altLabels: string[]
+}
+
+type CountryContent = {
+  intro: string
+  metaDescription: string
+}
+
+const COUNTRY_CONTENT: Record<string, CountryContent> = {
+  spain: {
+    intro: "Spain has been quietly building one of Europe's best infrastructures for remote work — sun-drenched, well-connected, and with a café culture that makes long working days feel like a lifestyle choice.",
+    metaDescription: "Best coworking spaces in Spain — nomad-friendly venues carrying Nomad Magazine on-site in Barcelona, Las Palmas, and beyond. Real desks, fast WiFi, EU access.",
+  },
+  portugal: {
+    intro: "Portugal has earned its reputation as Europe's nomad country. From Lisbon to Porto to Madeira to the Algarve coast, it consistently offers the right combination of sun, internet, affordability, and English-friendly infrastructure.",
+    metaDescription: "Best coworking spaces in Portugal — nomad-friendly venues carrying Nomad Magazine on-site across Lisbon, Porto, Madeira, and the Algarve. EU access, year-round warmth.",
+  },
+  germany: {
+    intro: "Germany's coworking scene is mature, well-organised, and built to last. Berlin and Hamburg each offer a different working character — both with German-standard infrastructure and a freelance culture that's been developing for two decades.",
+    metaDescription: "Best coworking spaces in Germany — nomad-friendly venues carrying Nomad Magazine on-site in Berlin and Hamburg. Reliable infrastructure, fast internet, strong ecosystems.",
+  },
+  bulgaria: {
+    intro: "Bulgaria is Europe's most underrated nomad country. EU access, gigabit internet, extreme affordability, and two very different experiences: Sofia's urban tech scene and Bansko's mountain community.",
+    metaDescription: "Best coworking spaces in Bulgaria — nomad-friendly venues carrying Nomad Magazine on-site in Sofia and Bansko. EU access, fast internet, and some of Europe's lowest costs.",
+  },
+  greece: {
+    intro: "Greece is arriving as a serious nomad destination — Mediterranean lifestyle, ancient city energy, and a cost of living that makes the choice easy. Athens is the centre, but the whole country is opening up to remote workers.",
+    metaDescription: "Best coworking spaces in Greece — nomad-friendly venues carrying Nomad Magazine on-site in Athens. Mediterranean lifestyle, affordable desks, improving infrastructure.",
+  },
+  hungary: {
+    intro: "Hungary offers Central Europe at its most liveable — Budapest is beautiful, functional, culturally rich, and still affordable. It's a city that consistently surprises nomads who expected less.",
+    metaDescription: "Best coworking spaces in Hungary — nomad-friendly venues carrying Nomad Magazine on-site in Budapest. Central Europe's most liveable city at a price that still makes sense.",
+  },
+  netherlands: {
+    intro: "The Netherlands sets the standard for European remote work infrastructure. Amsterdam is expensive and worth it — English as the working language, a world-class startup ecosystem, and a city that functions beautifully.",
+    metaDescription: "Best coworking spaces in the Netherlands — nomad-friendly venues carrying Nomad Magazine on-site in Amsterdam. Premium infrastructure, global community, English-first environment.",
+  },
+  austria: {
+    intro: "Austria is where quality of life becomes an argument for productivity. Vienna operates on a different frequency — precise, unhurried, and extraordinarily well-organised.",
+    metaDescription: "Best coworking spaces in Austria — nomad-friendly venues carrying Nomad Magazine on-site in Vienna. World-class infrastructure, coffee house culture, exceptional public services.",
+  },
+  belgium: {
+    intro: "Belgium is underrated as a nomad country. Brussels sits at the literal centre of Europe, is multilingual, well-connected by rail to every major Western European city, and has solid coworking infrastructure that most people haven't found yet.",
+    metaDescription: "Best coworking spaces in Belgium — nomad-friendly venues carrying Nomad Magazine on-site in Brussels. Europe's political capital with underrated nomad infrastructure.",
+  },
+  croatia: {
+    intro: "Croatia joined Schengen in 2023 and the conversation changed. Zagreb is now a fully EU-integrated capital with real infrastructure and affordable costs — a different proposition from the tourist-facing coast.",
+    metaDescription: "Best coworking spaces in Croatia — nomad-friendly venues carrying Nomad Magazine on-site in Zagreb. EU-integrated, affordable, and closer to the Adriatic than anywhere else.",
+  },
+  ireland: {
+    intro: "Ireland is English-speaking, EU-integrated, and home to the European headquarters of every major American tech company. Dublin is the obvious choice; Cork is the smarter one if you're watching your budget.",
+    metaDescription: "Best coworking spaces in Ireland — nomad-friendly venues carrying Nomad Magazine on-site in Dublin and Cork. English-speaking EU tech hub with unmatched enterprise networking.",
+  },
+  malta: {
+    intro: "Malta is small, warm, English-speaking, and EU. It's a Mediterranean island state that's built a serious fintech and iGaming ecosystem — and a nomad scene that's quietly thriving year-round.",
+    metaDescription: "Best coworking spaces in Malta — nomad-friendly venues carrying Nomad Magazine on-site. English-speaking EU island, year-round warmth, and a growing digital economy.",
+  },
+  poland: {
+    intro: "Poland has built one of Central Europe's most impressive tech ecosystems largely without fanfare. Warsaw is the centre — affordable, fast-growing, and increasingly on the radar of serious nomads.",
+    metaDescription: "Best coworking spaces in Poland — nomad-friendly venues carrying Nomad Magazine on-site in Warsaw. CEE tech hub with EU access and costs well below Western Europe.",
+  },
+  slovakia: {
+    intro: "Slovakia sits between Austria and Hungary and doesn't make a fuss about it. Trnava is quiet, cheap, and within easy reach of both Bratislava and Vienna — a base that rewards those who find it.",
+    metaDescription: "Best coworking spaces in Slovakia — nomad-friendly venues carrying Nomad Magazine on-site in Trnava. Affordable Central European base, 45 minutes from Bratislava.",
+  },
+  slovenia: {
+    intro: "Slovenia is Alpine and Mediterranean at once. Ljubljana is one of Europe's most liveable small capitals; Maribor is quieter and cheaper. Both operate with EU-standard infrastructure in a country that genuinely prioritises quality of life.",
+    metaDescription: "Best coworking spaces in Slovenia — nomad-friendly venues carrying Nomad Magazine on-site in Ljubljana and Maribor. Europe's greenest country with excellent quality of life.",
+  },
+  'costa-rica': {
+    intro: "Costa Rica is Central America's most stable and connected country for remote work. Calle Hermosa is where the Pacific surf crowd and the laptop crowd overlap — on a coast that makes the working day feel like a different kind of choice.",
+    metaDescription: "Best coworking spaces in Costa Rica — nomad-friendly venues carrying Nomad Magazine on-site. Pacific coast lifestyle, stable infrastructure, and a digital nomad visa.",
+  },
+}
+
+const ALL_CITIES: CityEntry[] = [
+  { citySlug: 'barcelona',     countrySlug: 'spain',       label: 'Barcelona',     country: 'Spain',       tagline: 'Sun, startups, and serious espresso.',                  altLabels: [] },
+  { citySlug: 'las-palmas',    countrySlug: 'spain',       label: 'Las Palmas',    country: 'Spain',       tagline: 'Eternal spring. Surf at lunch. EU rules.',              altLabels: [] },
+  { citySlug: 'lisbon',        countrySlug: 'portugal',    label: 'Lisbon',        country: 'Portugal',    tagline: "Europe's favourite soft landing for nomads.",            altLabels: [] },
+  { citySlug: 'porto',         countrySlug: 'portugal',    label: 'Porto',         country: 'Portugal',    tagline: 'Grittier than Lisbon. Cheaper. Worth it.',              altLabels: [] },
+  { citySlug: 'madeira',       countrySlug: 'portugal',    label: 'Madeira',       country: 'Portugal',    tagline: 'The original Digital Nomad Village.',                   altLabels: ['Madeira Island'] },
+  { citySlug: 'albufeira',     countrySlug: 'portugal',    label: 'Albufeira',     country: 'Portugal',    tagline: 'Algarve sun and a growing nomad scene.',                altLabels: [] },
+  { citySlug: 'portimao',      countrySlug: 'portugal',    label: 'Portimão',      country: 'Portugal',    tagline: 'Real Algarve town. Praia da Rocha on the doorstep.',    altLabels: [] },
+  { citySlug: 'berlin',        countrySlug: 'germany',     label: 'Berlin',        country: 'Germany',     tagline: 'Creative, affordable, endlessly productive.',           altLabels: [] },
+  { citySlug: 'hamburg',       countrySlug: 'germany',     label: 'Hamburg',       country: 'Germany',     tagline: 'Germany without the Berlin noise.',                     altLabels: [] },
+  { citySlug: 'sofia',         countrySlug: 'bulgaria',    label: 'Sofia',         country: 'Bulgaria',    tagline: 'EU access. Gigabit internet. Unbeatable prices.',       altLabels: [] },
+  { citySlug: 'bansko',        countrySlug: 'bulgaria',    label: 'Bansko',        country: 'Bulgaria',    tagline: 'Mountains, community, and €5 coworking.',              altLabels: [] },
+  { citySlug: 'athens',        countrySlug: 'greece',      label: 'Athens',        country: 'Greece',      tagline: 'Mediterranean lifestyle at real prices.',               altLabels: [] },
+  { citySlug: 'budapest',      countrySlug: 'hungary',     label: 'Budapest',      country: 'Hungary',     tagline: "Central Europe's most liveable city.",                  altLabels: [] },
+  { citySlug: 'amsterdam',     countrySlug: 'netherlands', label: 'Amsterdam',     country: 'Netherlands', tagline: 'Premium. International. Worth the price.',             altLabels: [] },
+  { citySlug: 'vienna',        countrySlug: 'austria',     label: 'Vienna',        country: 'Austria',     tagline: 'Coffee house culture perfected.',                       altLabels: [] },
+  { citySlug: 'brussels',      countrySlug: 'belgium',     label: 'Brussels',      country: 'Belgium',     tagline: "Europe's political centre. Underrated nomad city.",     altLabels: [] },
+  { citySlug: 'zagreb',        countrySlug: 'croatia',     label: 'Zagreb',        country: 'Croatia',     tagline: 'EU Croatia without the tourist season.',                altLabels: [] },
+  { citySlug: 'dublin',        countrySlug: 'ireland',     label: 'Dublin',        country: 'Ireland',     tagline: 'English-speaking EU tech capital.',                     altLabels: [] },
+  { citySlug: 'cork',          countrySlug: 'ireland',     label: 'Cork',          country: 'Ireland',     tagline: "Ireland's second city. Half the price of Dublin.",      altLabels: [] },
+  { citySlug: 'malta',         countrySlug: 'malta',       label: 'Malta',         country: 'Malta',       tagline: 'Year-round sun. English. EU member.',                   altLabels: ['Valletta'] },
+  { citySlug: 'warsaw',        countrySlug: 'poland',      label: 'Warsaw',        country: 'Poland',      tagline: 'CEE tech hub, still underpriced.',                      altLabels: [] },
+  { citySlug: 'trnava',        countrySlug: 'slovakia',    label: 'Trnava',        country: 'Slovakia',    tagline: '45 min from Bratislava. Under 2h from Vienna.',         altLabels: [] },
+  { citySlug: 'ljubljana',     countrySlug: 'slovenia',    label: 'Ljubljana',     country: 'Slovenia',    tagline: 'The greenest capital in Europe.',                       altLabels: [] },
+  { citySlug: 'maribor',       countrySlug: 'slovenia',    label: 'Maribor',       country: 'Slovenia',    tagline: 'Quiet, affordable, Alps on the doorstep.',             altLabels: [] },
+  { citySlug: 'calle-hermosa', countrySlug: 'costa-rica',  label: 'Calle Hermosa', country: 'Costa Rica',  tagline: 'Pacific surf, stable internet, Costa Rica lifestyle.',  altLabels: [] },
+]
+
+export async function getStaticPaths() {
+  const countries = [
+    'spain', 'portugal', 'germany', 'bulgaria', 'greece', 'hungary',
+    'netherlands', 'austria', 'belgium', 'croatia', 'ireland', 'malta',
+    'poland', 'slovakia', 'slovenia', 'costa-rica',
+  ]
+  return countries.map((country) => ({ params: { country } }))
+}
+
+const { country } = Astro.params
+const content = COUNTRY_CONTENT[country]
+const citiesInCountry = ALL_CITIES.filter(c => c.countrySlug === country)
+
+const extractCity = (location: string): string => {
+  if (!location) return ''
+  return location.includes(',') ? location.split(',')[0].trim() : location.trim()
+}
+
+const { records = [] } = await fetchReportRecords('68614a111208586bd05d3c3a')
+const activeCoworks = records.filter((r: any) => {
+  if (!r.s43a4b2808 || !r.title) return false
+  const cat = (r.sb685ab800?.label || '').toLowerCase()
+  return cat.includes('cowork') || cat === 'space' || cat === 'hub'
+})
+
+const cityCards = citiesInCountry.map((city) => {
+  const cityNames = [city.label, ...(city.altLabels || [])].map(l => l.toLowerCase())
+  const spaces = activeCoworks.filter((r: any) =>
+    cityNames.includes(extractCity(r.sed1a49986 || '').toLowerCase())
+  )
+  const uniqStrings = (values: unknown[]): string[] =>
+    [...new Set(values.filter((v): v is string => typeof v === 'string' && v.trim().length > 0))]
+  const heroImage = spaces
+    .flatMap((r: any) => uniqStrings([r.image, r.images, r.sf4ad525dd, r.s4ad525dd].filter(Boolean).flat()))
+    .find(Boolean) ?? null
+  return { ...city, count: spaces.length, heroImage }
+})
+
+const countryName = citiesInCountry[0]?.country ?? country
+const totalSpaces = cityCards.reduce((sum, c) => sum + c.count, 0)
+const canonicalUrl = `${Astro.site}where-to-work/${country}/`
+const title = `Coworking Spaces in ${countryName} | Nomad Magazine`
+
+const seo: SEOProps = {
+  title,
+  description: content.metaDescription,
+  canonical: canonicalUrl,
+  image: `${Astro.site}images/distribution-list-sowo-office-reference.webp`,
+  keywords: `coworking spaces in ${countryName.toLowerCase()}, best coworking ${countryName.toLowerCase()}, digital nomad ${countryName.toLowerCase()}, where to work in ${countryName.toLowerCase()}`,
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: title,
+    description: content.metaDescription,
+    url: canonicalUrl,
+    publisher: { '@type': 'Organization', name: 'Nomad Magazine', logo: { '@type': 'ImageObject', url: `${Astro.site}logo.svg` } },
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Where To Work', item: `${Astro.site}where-to-work/` },
+        { '@type': 'ListItem', position: 2, name: `Coworking in ${countryName}`, item: canonicalUrl },
+      ],
+    },
+  },
+}
+---
+
+<Layout seo={seo}>
+  <div class="min-h-screen bg-stone-50 text-neutral-900">
+
+    <section class="pt-16 pb-10">
+      <div class="container mx-auto px-4">
+        <div class="mx-auto max-w-5xl">
+          <nav aria-label="Breadcrumb" class="mb-6 flex items-center gap-2 text-sm text-neutral-500">
+            <a href="/where-to-work/" class="transition-colors hover:text-yellow-400">Home</a>
+            <span>/</span>
+            <span class="text-neutral-800">{countryName}</span>
+          </nav>
+
+          <div class="max-w-3xl">
+            <p class="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-yellow-500">Where To Work</p>
+            <h1 class="text-4xl font-bold leading-tight md:text-6xl">
+              Coworking Spaces<br class="hidden md:block" /> in {countryName}
+            </h1>
+            <p class="mt-5 text-lg text-neutral-500">{content.intro}</p>
+            <div class="mt-4 inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-4 py-2 text-sm text-neutral-500">
+              <span class="h-2 w-2 rounded-full bg-yellow-400"></span>
+              {totalSpaces} spaces across {cityCards.length} {cityCards.length === 1 ? 'city' : 'cities'}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding-bottom: 8rem; padding-top: 1rem;">
+      <div class="container mx-auto px-4">
+        <div class="mx-auto max-w-5xl">
+          <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {cityCards.map((city) => (
+              <a
+                href={`/where-to-work/${city.countrySlug}/${city.citySlug}/`}
+                class="group relative overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                aria-label={`${city.count} best coworking spaces in ${city.label}`}
+              >
+                <div class="relative h-52 w-full overflow-hidden bg-neutral-100">
+                  {city.heroImage ? (
+                    <img
+                      src={city.heroImage}
+                      alt={`Coworking space in ${city.label}, ${city.country}`}
+                      class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div class="flex h-full items-center justify-center bg-neutral-100">
+                      <span class="text-sm text-neutral-400">No photo</span>
+                    </div>
+                  )}
+                  <div class="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent" aria-hidden="true"></div>
+                  <div class="absolute bottom-3 left-4">
+                    <span class="rounded-full bg-yellow-400 px-2.5 py-0.5 text-xs font-bold text-black">
+                      {city.count} {city.count === 1 ? 'space' : 'spaces'}
+                    </span>
+                  </div>
+                </div>
+                <div class="px-5 py-5">
+                  <h2 class="text-xl font-bold text-neutral-900 transition-colors group-hover:text-yellow-500">{city.label}</h2>
+                  <p class="mt-1.5 text-sm text-neutral-500">{city.tagline}</p>
+                  <div class="mt-4 flex items-center gap-1 text-sm font-semibold text-yellow-500">
+                    View spaces
+                    <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="border-t border-neutral-200 bg-white py-16">
+      <div class="container mx-auto px-4">
+        <div class="mx-auto max-w-2xl text-center">
+          <h2 class="text-2xl font-bold text-neutral-900">Run a coworking space in {countryName}?</h2>
+          <p class="mt-3 text-neutral-500">
+            If your space hosts Nomad Magazine and you'd like to be listed here, get in touch.
+          </p>
+          <a
+            href="https://app.smartsuite.com/form/s4tmc086/PkCqPGzQWl"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="List your coworking space (opens in new tab)"
+            class="mt-6 inline-flex items-center rounded-lg border border-yellow-400 bg-yellow-400 px-6 py-3 text-sm font-semibold text-black transition-colors hover:bg-yellow-300"
+          >
+            List Your Space
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</Layout>
