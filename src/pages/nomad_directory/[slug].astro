@@ -90,14 +90,14 @@ export async function getStaticPaths() {
   // Build location counts from active records that have a valid country
   const countryCounts: Record<string, number> = {}
   const continentCounts: Record<string, number> = {}
-  active.forEach((r: any) => {
+  for (const r of active) {
     const country = extractCountry(r.sed1a49986 || '')
-    if (!country) return
+    if (!country) continue
     const continent = COUNTRY_TO_CONTINENT[country]
-    if (!continent) return
+    if (!continent) continue
     countryCounts[country] = (countryCounts[country] || 0) + 1
     continentCounts[continent] = (continentCounts[continent] || 0) + 1
-  })
+  }
   const paths: any[] = []
 
   // Category pages
@@ -129,33 +129,9 @@ export async function getStaticPaths() {
 
 const { type, filterValue, records, navCategories } = Astro.props
 
-const monthlySupporters = [
-  'DataBench', 'Max Browser', 'DataBench (Max Browser)', 'Max',
-  'NomadTax Bulgaria Ltd.', 'Colive Fukuoka',
-  'The Center for Competitiveness and Innovation (Colombia)', 'SSBM Consulting LLC',
-]
-const featuredPartners = ['Colive Fukuoka', 'Falmouth University', 'InterNations', 'NomadTax Bulgaria Ltd.', 'Max Browser', 'Coconut-Office']
-const pinnedItems = ['SSBM Consulting LLC', 'Coconut-Office']
-const featuredItems = ['SSBM Consulting LLC', 'DataBench']
 const darkLogoCompanies = ['Fresh Global', 'Falmouth University', 'SUMA', 'Scaglia y Asociados', 'goldenweeks']
 
-const isSupporter = (r: any) =>
-  r.supporter || r.monthly_supporter || r.is_supporter ||
-  r.supporter_status === 'Monthly Supporter' || r.status === 'Monthly Supporter' ||
-  monthlySupporters.includes(r.title)
-const isFeatured = (r: any) => featuredItems.includes(r.title)
-
-const allActive = records
-  .filter((r: any) => r.sf4ad525dd)
-  .sort((a: any, b: any) => {
-    const ap = pinnedItems.includes(a.title), bp = pinnedItems.includes(b.title)
-    const af = isFeatured(a), bf = isFeatured(b)
-    if (ap && !bp) return -1; if (!ap && bp) return 1
-    if (af && !bf) return -1; if (!af && bf) return 1
-    const as_ = isSupporter(a), bs = isSupporter(b)
-    if (as_ && !bs) return -1; if (!as_ && bs) return 1
-    return 0
-  })
+const allActive = records.filter((r: any) => r.sf4ad525dd)
 
 const totalAll = allActive.length
 
@@ -431,19 +407,13 @@ const seo: SEOProps = {
                         <div class="flex flex-wrap items-start justify-between gap-2 mb-1.5">
                           <div class="flex items-center gap-2 flex-wrap">
                             <h3 class="text-base font-bold text-white group-hover:text-yellow-400 transition-colors leading-tight">{record.title}</h3>
-                            {(isFeatured(record) || isSupporter(record) || featuredPartners.includes(record.title)) && (
-                              <span class="inline-flex items-center gap-1 bg-yellow-400 text-black px-2.5 py-0.5 rounded-full text-xs font-bold">
-                                <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                                Featured
-                              </span>
-                            )}
                           </div>
                           <div class="flex items-center gap-1.5 shrink-0">
                             {catLabel && (
                               <span class="bg-yellow-400/20 text-yellow-400 px-2.5 py-0.5 rounded-full text-xs font-medium border border-yellow-400/30">{catLabel}</span>
                             )}
                             {locText && (
-                              <span class="bg-blue-600/20 text-blue-400 px-2.5 py-0.5 rounded-full text-xs font-medium border border-blue-600/30">📍 {locText.split(',').slice(-1)[0].trim()}</span>
+                              <span class="bg-blue-600/20 text-blue-400 px-2.5 py-0.5 rounded-full text-xs font-medium border border-blue-600/30">{locText.split(',').slice(-1)[0].trim()}</span>
                             )}
                           </div>
                         </div>
