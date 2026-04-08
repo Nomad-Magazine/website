@@ -86,7 +86,7 @@ const pageLastModDates = getPageLastModDates()
 export default defineConfig({
   output: 'server',
   experimental: {
-    rustCompiler: true
+    rustCompiler: true,
   },
   markdown: {
     rehypePlugins: [
