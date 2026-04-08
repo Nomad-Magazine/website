@@ -129,7 +129,15 @@ export async function getStaticPaths() {
 
 const { type, filterValue, records, navCategories } = Astro.props
 
-const darkLogoCompanies = ['Fresh Global', 'Falmouth University', 'SUMA', 'Scaglia y Asociados', 'goldenweeks']
+const darkLogoCompanies = [
+  'Fresh Global',
+  'Falmouth University',
+  'SUMA',
+  'Scaglia y Asociados',
+  'goldenweeks',
+  'Anytime Mailbox',
+  'WESPA Spaces',
+]
 
 const allActive = records.filter((r: any) => r.sf4ad525dd)
 

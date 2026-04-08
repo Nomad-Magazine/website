@@ -54,6 +54,16 @@ const monthlySupporters = [
   // Add more supporter company names here as needed
 ]
 
+const directoryDarkLogoTitles = [
+  'Fresh Global',
+  'Falmouth University',
+  'SUMA',
+  'Scaglia y Asociados',
+  'goldenweeks',
+  'Anytime Mailbox',
+  'WESPA Spaces',
+]
+
 // Helper function to check if a record is a supporter
 const isSupporter = (record: any) => {
   return record.supporter || 
@@ -328,7 +338,7 @@ const seo: SEOProps = {
                   <!-- Logo -->
                   <div class="shrink-0">
                     <div class={`w-28 h-28 rounded-xl overflow-hidden flex items-center justify-center ${
-                      ['Fresh Global', 'Falmouth University', 'SUMA', 'Scaglia y Asociados', 'goldenweeks'].includes(entry.title)
+                      directoryDarkLogoTitles.includes(entry.title)
                         ? 'bg-gray-800' 
                         : 'bg-white'
                     }`}>
@@ -340,7 +350,7 @@ const seo: SEOProps = {
                         />
                       ) : (
                         <span class={`font-bold text-3xl ${
-                          ['Fresh Global', 'Falmouth University', 'SUMA', 'Scaglia y Asociados', 'goldenweeks'].includes(entry.title)
+                          directoryDarkLogoTitles.includes(entry.title)
                             ? 'text-white'
                             : 'text-black'
                         }`}>
