@@ -2,6 +2,7 @@ import sitemap from '@astrojs/sitemap'
 import Icons from 'unplugin-icons/vite'
 import tailwindcss from '@tailwindcss/vite'
 import cloudflare from '@astrojs/cloudflare'
+import pagefind from 'astro-pagefind'
 import { defineConfig, envField } from 'astro/config'
 import { glob } from 'glob'
 import { readFileSync, statSync } from 'node:fs'
@@ -115,6 +116,7 @@ export default defineConfig({
   },
   integrations: [
     injectContentStaticRoutes(),
+    pagefind(),
     sitemap({
       changefreq: 'weekly',
       priority: 0.7,

@@ -20,6 +20,8 @@ const blogSchema = z.object({
   // Extended format fields
   slug: z.string().optional(),
   author: z.string().optional(),
+  /** When set, hero byline reads "{byline_type} by {author}" (e.g. Essay) */
+  byline_type: z.string().optional(),
   author_image_url: z.string().optional(),
   author_url: z.string().optional(),
   keywords: z.string().optional(),
@@ -38,6 +40,7 @@ const blogSchema = z.object({
     heroImage: data.heroImage || data.head_image,
     heroImageAlt: data.head_image_alt,
     author: data.author,
+    bylineType: data.byline_type,
     authorImageUrl: data.author_image_url,
     authorUrl: data.author_url,
     keywords: data.keywords,

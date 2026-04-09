@@ -33,6 +33,7 @@
     "@dotenvx/dotenvx": "^1.54.1",
     "@iconify/json": "^2.2.449",
     "@tailwindcss/typography": "^0.5.19",
+    "astro-pagefind": "^1.8.6",
     "glob": "^13.0.6",
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",

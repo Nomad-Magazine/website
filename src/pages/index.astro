@@ -15,7 +15,7 @@ import ThirdEdition from '~/components/ThirdEdition.astro'
 import PastEditions from '~/components/PastEditions.astro'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import BrandPlacement from '~/components/BrandPlacement.astro'
-import MagazinePreview from '~/components/MagazinePreview.astro'
+// import MagazinePreview from '~/components/MagazinePreview.astro' // restore when new photography is ready
 import GrowingCommunity from '~/components/GrowingCommunity.astro'
 import MagazineStack from '~/components/MagazineStack.astro'
 import StickyAnnouncementBar from '~/components/StickyAnnouncementBar.astro'
@@ -39,8 +39,8 @@ const sortByDateDesc = (a: any, b: any) => {
 
 publishedArticles.sort(sortByDateDesc)
 
-// Get top 3 latest articles
-const latestPosts = publishedArticles.slice(0, 3)
+// Get top 6 latest articles
+const latestPosts = publishedArticles.slice(0, 6)
 
 // Hardcoded Monthly Supporters list (same as nomad_directory.astro)
 const monthlySupporters = [
@@ -101,25 +101,25 @@ const stickyBarItems = [
   {
     type: 'announcement' as const,
     title: 'Casa Marianas Hiring Social Media Manager in Saipan',
-    link: '#announcements',
+    link: '/nomad_directory/',
     badge: 'HIRING'
   },
   {
     type: 'announcement' as const,
     title: 'Nomad Experience Japan - March 2-27, 2026',
-    link: '#announcements',
+    link: '/nomad_directory/',
     badge: 'EVENT'
   },
   {
     type: 'announcement' as const,
     title: 'Wonder House Coliving Manager - €900/month + Accommodation',
-    link: '#announcements',
+    link: '/nomad_directory/',
     badge: 'OPPORTUNITY'
   },
   {
     type: 'announcement' as const,
     title: 'Nomadicards Looking for New Home - Free Handover',
-    link: '#announcements',
+    link: '/nomad_directory/',
     badge: 'NEW'
   },
   // Top directory entries
@@ -307,8 +307,75 @@ const seo: SEOProps = {
   <div class="bg-hoverw text-white">
     <ThirdEdition />
     <PastEditions />
-    <MagazinePreview />
-    
+    <!-- MagazinePreview hidden until new photography; restore import + <MagazinePreview /> -->
+
+    <!-- Digital Nomad Insights Section - Latest Articles -->
+    <section class="border-b border-neutral-800 bg-neutral-900/30 px-4 py-16 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-12">
+          <h2 class="text-3xl font-bold text-white">Latest <span class="text-yellow-400">Digital Nomad</span> and Remote Work Articles</h2>
+          <p class="mt-2 text-lg text-neutral-400">Essential reads on digital nomad life, remote work, and the modern nomad lifestyle</p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {latestPosts.map((post, index) => (
+            <article class={`group relative overflow-hidden rounded-2xl transition-all hover:scale-105 ${
+              index === 0
+                ? 'bg-linear-to-br from-yellow-500/20 to-orange-500/20 hover:from-yellow-500/30 hover:to-orange-500/30'
+                : 'bg-neutral-900/50 hover:bg-neutral-900/80'
+            }`}>
+              <div class="relative aspect-video">
+                <img
+                  src={post.data.heroImage || '/images/default-blog-hero.webp'}
+                  alt={post.data.title}
+                  class="h-full w-full object-cover"
+                  loading="lazy"
+                />
+                <div class="absolute inset-0 bg-linear-to-t from-black/60 to-transparent"></div>
+                {index === 0 && (
+                  <div class="absolute top-4 left-4">
+                    <span class="inline-block rounded-full bg-yellow-400 px-3 py-1 text-xs font-bold text-black uppercase">Latest</span>
+                  </div>
+                )}
+              </div>
+              <div class="p-6">
+                <h3 class={`mb-3 font-bold text-white group-hover:text-yellow-400 transition-colors ${
+                  index === 0 ? 'text-xl' : 'text-lg'
+                }`}>
+                  <a href={`/articles/${post.slug}/`} class="after:absolute after:inset-0">
+                    {post.data.title}
+                  </a>
+                </h3>
+                <p class="text-sm text-neutral-300 line-clamp-3">
+                  {post.data.description}
+                </p>
+                <div class="mt-4 flex items-center text-xs text-neutral-400">
+                  <span>{new Date(post.data.pubDate || post.data.updatedDate || '2024-01-01').toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                  })}</span>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div class="mt-12 text-center">
+          <a
+            href="/articles/"
+            class="inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-6 py-3 text-sm font-bold text-black transition-all hover:bg-yellow-300 hover:scale-105"
+            aria-label="Read more digital nomad and remote work articles"
+          >
+            Read More Digital Nomad Articles
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
     <!-- Nomad Directory Section -->
     <section class="border-b border-neutral-800 bg-neutral-900/30 px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
@@ -428,254 +495,6 @@ const seo: SEOProps = {
       </div>
     </section>
 
-    <!-- Community Announcements -->
-    <section id="announcements" class="border-b border-neutral-800 bg-linear-to-b from-neutral-900/30 to-neutral-900/50 px-4 py-16 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-7xl">
-        <div class="mb-12 text-center">
-          <div class="inline-flex items-center justify-center gap-2 mb-4">
-            <span class="text-4xl">📢</span>
-            <h2 class="text-3xl font-bold text-white">Community <span class="text-yellow-400">Announcements</span></h2>
-          </div>
-          <p class="mt-2 text-lg text-neutral-400">Opportunities, events, and updates from the nomad ecosystem</p>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <!-- Nomadicards -->
-          <div class="group bg-linear-to-br from-white/5 to-white/2 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:border-yellow-400/50 hover:shadow-xl hover:shadow-yellow-400/10 transition-all duration-300 cursor-pointer" onclick="openAnnouncementModal('nomadicards')">
-            <div class="flex items-start justify-between mb-4">
-              <span class="inline-flex items-center gap-1.5 bg-orange-500/20 text-orange-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-orange-500/30">
-                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
-                </svg>
-                Community
-              </span>
-            </div>
-            <h3 class="text-lg font-bold text-white mb-3 group-hover:text-yellow-400 transition-colors">Nomadicards is Looking for a New Home</h3>
-            <p class="text-sm text-gray-300 leading-relaxed mb-4 line-clamp-4">
-              Nomadicards has been on the road for a while now — passed around colivings, pulled out at dinner tables, and used to spark the kind of conversations that make nomad communities feel like home. I'd love for the project to find a new home and a new life. If that someone might be you, I'd be happy to hand Nomadicards over at no cost. — Francesco
-            </p>
-            <div class="flex items-center justify-between mt-auto pt-4 border-t border-white/10">
-              <span class="text-xs text-gray-400 font-medium">Free Handover</span>
-              <button class="inline-flex items-center gap-1 text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors group" aria-label="Read more about Nomadicards">
-                Read More
-                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <!-- Casa Marianas -->
-          <div class="group bg-linear-to-br from-white/5 to-white/2 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:border-yellow-400/50 hover:shadow-xl hover:shadow-yellow-400/10 transition-all duration-300 cursor-pointer" onclick="openAnnouncementModal('casa-marianas')">
-            <div class="flex items-start justify-between mb-4">
-              <span class="inline-flex items-center gap-1.5 bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-green-500/30">
-                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                </svg>
-                Opportunity
-              </span>
-            </div>
-            <h3 class="text-lg font-bold text-white mb-3 group-hover:text-yellow-400 transition-colors">Casa Marianas - Live/Work Social Media Manager</h3>
-            <p class="text-sm text-gray-300 leading-relaxed mb-4 line-clamp-4">
-              Casa Marianas is the first co-working space and digital nomad hotel in Saipan, a U.S. commonwealth in the remote Pacific. We are hiring for a live-in social media manager interested in spending 6+ months living and working here. Free accommodation and stipend provided.
-            </p>
-            <div class="flex items-center justify-between mt-auto pt-4 border-t border-white/10">
-              <span class="text-xs text-gray-400 font-medium">📍 Saipan, Pacific</span>
-              <button class="inline-flex items-center gap-1 text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors group" aria-label="Read more about Casa Marianas opportunity">
-                Read More
-                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <!-- Nomad Experience Japan -->
-          <div class="group bg-linear-to-br from-white/5 to-white/2 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:border-yellow-400/50 hover:shadow-xl hover:shadow-yellow-400/10 transition-all duration-300 cursor-pointer" onclick="openAnnouncementModal('nomad-experience-japan')">
-            <div class="flex items-start justify-between mb-4">
-              <span class="inline-flex items-center gap-1.5 bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-purple-500/30">
-                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M12 14l9-5-9-5-9 5 9 5z M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"/>
-                </svg>
-                Program
-              </span>
-            </div>
-            <h3 class="text-lg font-bold text-white mb-3 group-hover:text-yellow-400 transition-colors">Nomad Experience - One Month in Japan</h3>
-            <p class="text-sm text-gray-300 leading-relaxed mb-4 line-clamp-4">
-              A one-month program where you'll try out 10 different remote-friendly jobs through hands-on workshops led by experienced mentors. Immerse yourself in local life, sharing meals with new friends, joining community events, and enjoying the slow pace of living by the ocean.
-            </p>
-            <div class="flex items-center justify-between mt-auto pt-4 border-t border-white/10">
-              <span class="text-xs text-gray-400 font-medium">📅 Mar 2-27 | 📍 Shimoda</span>
-              <button class="inline-flex items-center gap-1 text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors group" aria-label="Read more about Nomad Experience Japan program">
-                Read More
-                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <!-- Falmouth University -->
-          <div class="group bg-linear-to-br from-white/5 to-white/2 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:border-yellow-400/50 hover:shadow-xl hover:shadow-yellow-400/10 transition-all duration-300 cursor-pointer" onclick="openAnnouncementModal('falmouth-university')">
-            <div class="flex items-start justify-between mb-4">
-              <span class="inline-flex items-center gap-1.5 bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-blue-500/30">
-                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M12 14l9-5-9-5-9 5 9 5z M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
-                </svg>
-                Education
-              </span>
-            </div>
-            <h3 class="text-lg font-bold text-white mb-3 group-hover:text-yellow-400 transition-colors">Creativity Without Limits: Online Master's Degrees</h3>
-            <p class="text-sm text-gray-300 leading-relaxed mb-4 line-clamp-4">
-              Falmouth University's online master's degrees are designed around you. With a decade of experience delivering transformative online postgraduate study, they've helped creatives worldwide level up their careers. From Fine Art and Illustration to Marketing and Film & TV.
-            </p>
-            <div class="flex items-center justify-between mt-auto pt-4 border-t border-white/10">
-              <span class="text-xs text-gray-400 font-medium">May & Sep 2026</span>
-              <button class="inline-flex items-center gap-1 text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors group" aria-label="Read more about Falmouth University online programs">
-                Read More
-                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <!-- Max Browser -->
-          <div class="group bg-linear-to-br from-white/5 to-white/2 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:border-yellow-400/50 hover:shadow-xl hover:shadow-yellow-400/10 transition-all duration-300 cursor-pointer" onclick="openAnnouncementModal('max-browser')">
-            <div class="flex items-start justify-between mb-4">
-              <span class="inline-flex items-center gap-1.5 bg-indigo-500/20 text-indigo-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-indigo-500/30">
-                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                </svg>
-                Software
-              </span>
-            </div>
-            <h3 class="text-lg font-bold text-white mb-3 group-hover:text-yellow-400 transition-colors">Max Browser - New Year, New Privacy Setup</h3>
-            <p class="text-sm text-gray-300 leading-relaxed mb-4 line-clamp-4">
-              New year, new hotels, new airports, new insecure Wi-Fi networks. In 2026, bring Max wherever you work. Spend less time managing settings and more time exploring, with a more private setup by default. Now available across all major platforms.
-            </p>
-            <div class="flex items-center justify-between mt-auto pt-4 border-t border-white/10">
-              <span class="text-xs text-gray-400 font-medium">iOS, Android, Mac, Win</span>
-              <button class="inline-flex items-center gap-1 text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors group" aria-label="Read more about Max Browser">
-                Read More
-                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <!-- Wonder House -->
-          <div class="group bg-linear-to-br from-white/5 to-white/2 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:border-yellow-400/50 hover:shadow-xl hover:shadow-yellow-400/10 transition-all duration-300 cursor-pointer" onclick="openAnnouncementModal('wonder-house')">
-            <div class="flex items-start justify-between mb-4">
-              <span class="inline-flex items-center gap-1.5 bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-green-500/30">
-                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                </svg>
-                Opportunity
-              </span>
-            </div>
-            <h3 class="text-lg font-bold text-white mb-3 group-hover:text-yellow-400 transition-colors">Wonder House - Coliving Manager Scholarship</h3>
-            <p class="text-sm text-gray-300 leading-relaxed mb-4 line-clamp-4">
-              Anya from Wonder House is looking for someone to help run their new coliving space in a stunning natural setting, just 1 hour from Barcelona. Approximate commitment of 30h per week for 6 months – accommodation included + €900 monthly scholarship after a trial period.
-            </p>
-            <div class="flex items-center justify-between mt-auto pt-4 border-t border-white/10">
-              <span class="text-xs text-gray-400 font-medium">📍 Near Barcelona</span>
-              <button class="inline-flex items-center gap-1 text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors group" aria-label="Read more about Wonder House coliving manager opportunity">
-                Read More
-                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="mt-12 text-center">
-          <a
-            href="/nomad_directory/"
-            class="inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-8 py-4 text-base font-bold text-black transition-all hover:bg-yellow-300 hover:scale-105 shadow-lg hover:shadow-xl"
-            aria-label="View more announcements in the Nomad Directory"
-          >
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
-            </svg>
-            More Announcements in Directory
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Digital Nomad Insights Section - Latest Articles -->
-    <section class="border-b border-neutral-800 bg-neutral-900/30 px-4 py-16 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-7xl">
-        <div class="mb-12">
-          <h2 class="text-3xl font-bold text-white">Latest <span class="text-yellow-400">Digital Nomad</span> and Remote Work Articles</h2>
-          <p class="mt-2 text-lg text-neutral-400">Essential reads on digital nomad life, remote work, and the modern nomad lifestyle</p>
-        </div>
-        
-        <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {latestPosts.map((post, index) => (
-            <article class={`group relative overflow-hidden rounded-2xl transition-all hover:scale-105 ${
-              index === 0 
-                ? 'col-span-1 md:col-span-2 lg:col-span-1 bg-linear-to-br from-yellow-500/20 to-orange-500/20 hover:from-yellow-500/30 hover:to-orange-500/30' 
-                : 'bg-neutral-900/50 hover:bg-neutral-900/80'
-            }`}>
-              <div class="relative aspect-video">
-                <img
-                  src={post.data.heroImage || '/images/default-blog-hero.webp'}
-                  alt={post.data.title}
-                  class="h-full w-full object-cover"
-                  loading="lazy"
-                />
-                <div class="absolute inset-0 bg-linear-to-t from-black/60 to-transparent"></div>
-                {index === 0 && (
-                  <div class="absolute top-4 left-4">
-                    <span class="inline-block rounded-full bg-yellow-400 px-3 py-1 text-xs font-bold text-black uppercase">Latest</span>
-                  </div>
-                )}
-              </div>
-              <div class="p-6">
-                <h3 class={`mb-3 font-bold text-white group-hover:text-yellow-400 transition-colors ${
-                  index === 0 ? 'text-xl' : 'text-lg'
-                }`}>
-                  <a href={`/articles/${post.slug}/`} class="after:absolute after:inset-0">
-                    {post.data.title}
-                  </a>
-                </h3>
-                <p class="text-sm text-neutral-300 line-clamp-3">
-                  {post.data.description}
-                </p>
-                <div class="mt-4 flex items-center text-xs text-neutral-400">
-                  <span>{new Date(post.data.pubDate || post.data.updatedDate || '2024-01-01').toLocaleDateString('en-US', { 
-                    year: 'numeric', 
-                    month: 'short', 
-                    day: 'numeric' 
-                  })}</span>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-        
-        <div class="mt-12 text-center">
-          <a
-            href="/articles/"
-            class="inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-6 py-3 text-sm font-bold text-black transition-all hover:bg-yellow-300 hover:scale-105"
-            aria-label="Read more digital nomad and remote work articles"
-          >
-            Read More Digital Nomad Articles
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </section>
 
     <!-- YouTube Section -->
     <section class="border-b border-neutral-800 bg-neutral-900/30 px-4 py-16 sm:px-6 lg:px-8">
@@ -859,26 +678,6 @@ const seo: SEOProps = {
   <div class="bg-gray-50">
     <GetInvolved />
   </div>
-  
-  
-  <!-- Announcement Modal -->
-  <div id="announcement-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <div class="relative mx-4 max-w-2xl w-full max-h-[90vh] overflow-y-auto bg-linear-to-br from-neutral-900 to-neutral-800 border border-white/20 rounded-2xl shadow-2xl">
-      <div class="sticky top-0 z-10 bg-linear-to-b from-neutral-900 to-neutral-900/95 border-b border-white/10 px-6 py-4 flex items-center justify-between">
-        <h2 id="modal-title" class="text-xl font-bold text-white"></h2>
-        <button onclick="closeAnnouncementModal()" class="text-gray-400 hover:text-white transition-colors p-2" aria-label="Close modal">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-          </svg>
-        </button>
-      </div>
-      <div class="px-6 py-6">
-        <div id="modal-badge" class="mb-4"></div>
-        <div id="modal-content" class="text-gray-300 leading-relaxed space-y-4"></div>
-        <div id="modal-actions" class="mt-6 pt-6 border-t border-white/10"></div>
-      </div>
-    </div>
-  </div>
 
   <!-- Sticky Magazine CTA -->
   <div id="sticky-cta" class="fixed bottom-4 right-4 z-50 hidden">
@@ -948,130 +747,6 @@ const seo: SEOProps = {
     }
   });
 
-  // Announcement modal data
-  const announcementData = {
-    'nomadicards': {
-      title: 'Nomadicards is Looking for a New Home',
-      badge: '<span class="inline-flex items-center gap-1.5 bg-orange-500/20 text-orange-400 px-3 py-1.5 rounded-full text-sm font-bold uppercase tracking-wider border border-orange-500/30"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>Community · Free Handover</span>',
-      content: `<p>Nomadicards has been on the road for a while now — passed around colivings, pulled out at dinner tables, and used to spark the kind of conversations that make nomad communities feel like home. And the feedback has always been the same: the cards work.</p>
-                <p>Right now though, Nomadicards is a bit… homeless 😅</p>
-                <p>I'd love for the project to find a new home and a new life — someone who sees its potential and would enjoy helping it reach more coliving spaces, experiment with new editions, and maybe even include questions proposed by the community itself.</p>
-                <p>If that someone might be you, I'd be happy to hand Nomadicards over at no cost. This was never a money project for me — I just want to see it stay alive and shared.</p>
-                <p>If this resonates, feel free to reach out ❤️</p>
-                <p class="font-medium text-white">— Francesco</p>`,
-      actions: '<a href="mailto:francesco@nomadicards.com" class="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-black px-6 py-3 rounded-lg font-bold transition-all" aria-label="Contact Francesco about Nomadicards (opens email client)">Get Email →</a>'
-    },
-    'casa-marianas': {
-      title: 'Casa Marianas - Live/Work Social Media Manager',
-      badge: '<span class="inline-flex items-center gap-1.5 bg-green-500/20 text-green-400 px-3 py-1.5 rounded-full text-sm font-bold uppercase tracking-wider border border-green-500/30"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>Opportunity · Saipan, Pacific</span>',
-      content: `<p>Casa Marianas is the first co-working space and digital nomad hotel in Saipan, a U.S. commonwealth in the remote Pacific.</p>
-                <p>We are hiring for a live-in social media manager interested in spending 6+ months living and working here.</p>
-                <p><strong>What's included:</strong></p>
-                <ul class="list-disc list-inside space-y-1 ml-4">
-                  <li>Free accommodation</li>
-                  <li>Monthly stipend provided</li>
-                  <li>6+ months commitment</li>
-                  <li>Remote Pacific location (Saipan)</li>
-                </ul>`,
-      actions: '<a href="mailto:hello@casamarianas.com" class="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-black px-6 py-3 rounded-lg font-bold transition-all" aria-label="Contact Casa Marianas (opens email client)">Get Email →</a>'
-    },
-    'nomad-experience-japan': {
-      title: 'Nomad Experience - One Month in Japan',
-      badge: '<span class="inline-flex items-center gap-1.5 bg-purple-500/20 text-purple-400 px-3 py-1.5 rounded-full text-sm font-bold uppercase tracking-wider border border-purple-500/30"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 14l9-5-9-5-9 5 9 5z M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>Program · Japan</span>',
-      content: `<p><strong>📅 March 2 - 27, 2026 | 📍 Shimoda, Japan</strong></p>
-                <p>A one-month program where you'll try out 10 different remote-friendly jobs through hands-on workshops led by experienced mentors.</p>
-                <p>Immerse yourself in local life, sharing meals with new friends, joining community events, and enjoying the slow pace of living by the ocean.</p>
-                <p>Perfect for those curious about remote work or living in Japan.</p>`,
-      actions: '<a href="https://nomadnia.net/nomadexp" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-black px-6 py-3 rounded-lg font-bold transition-all" aria-label="View details for Nomad Experience Japan program (opens in new tab)">View Program Details →</a>'
-    },
-    'falmouth-university': {
-      title: 'Creativity Without Limits: Online Master\'s Degrees',
-      badge: '<span class="inline-flex items-center gap-1.5 bg-blue-500/20 text-blue-400 px-3 py-1.5 rounded-full text-sm font-bold uppercase tracking-wider border border-blue-500/30"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 14l9-5-9-5-9 5 9 5z M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>Education · Online Masters</span>',
-      content: `<p><strong>Applications Open for May 2026 & September 2026</strong></p>
-                <p>Falmouth University's online master's degrees are designed around you. With a decade of experience delivering transformative online postgraduate study, they've helped creatives worldwide level up their careers.</p>
-                <p>From Fine Art and Illustration to Marketing and Film & TV, their flexible programmes let you deepen your practice, expand your network, and future-proof your career.</p>
-                <p>Study from anywhere, at your own pace, while receiving world-class creative education.</p>`,
-      actions: '<a href="https://www.falmouth.ac.uk/study/online" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-black px-6 py-3 rounded-lg font-bold transition-all" aria-label="View Falmouth University online program details (opens in new tab)">View Program Details →</a>'
-    },
-    'max-browser': {
-      title: 'Max Browser - New Year, New Privacy Setup',
-      badge: '<span class="inline-flex items-center gap-1.5 bg-indigo-500/20 text-indigo-400 px-3 py-1.5 rounded-full text-sm font-bold uppercase tracking-wider border border-indigo-500/30"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>Software · Privacy</span>',
-      content: `<p><strong>Now Live on Android, iOS, MacOS & Windows</strong></p>
-                <p>New year, new hotels, new airports, new insecure Wi-Fi networks. In 2026, bring Max wherever you work.</p>
-                <p>Spend less time managing settings and more time exploring, with a more private setup by default.</p>
-                <p>No matter where you're working from – a beach café, a co-working hub, or a long-haul flight – Max is now available across all major platforms.</p>
-                <p>Browse safer on the road with built-in privacy protection designed for digital nomads.</p>`,
-      actions: '<a href="https://maxbrowser.com.au/downloads/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-black px-6 py-3 rounded-lg font-bold transition-all" aria-label="Download Max Browser (opens in new tab)">Download →</a>'
-    },
-    'wonder-house': {
-      title: 'Wonder House - Coliving Manager Scholarship',
-      badge: '<span class="inline-flex items-center gap-1.5 bg-green-500/20 text-green-400 px-3 py-1.5 rounded-full text-sm font-bold uppercase tracking-wider border border-green-500/30"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>Opportunity · Near Barcelona</span>',
-      content: `<p>Anya from Wonder House is looking for someone to help run their new coliving space in a stunning natural setting, just 1 hour from Barcelona.</p>
-                <p><strong>Position Details:</strong></p>
-                <ul class="list-disc list-inside space-y-1 ml-4">
-                  <li>30 hours per week commitment</li>
-                  <li>6-month duration</li>
-                  <li>Accommodation included</li>
-                  <li>€900 monthly scholarship (after trial period)</li>
-                  <li>Located 1 hour from Barcelona</li>
-                  <li>Beautiful natural setting</li>
-                </ul>
-                <p>A unique opportunity to gain coliving management experience while living in a stunning location near Barcelona.</p>`,
-      actions: '<a href="mailto:hello@wonderhousecoliving.com" class="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-black px-6 py-3 rounded-lg font-bold transition-all" aria-label="Contact Wonder House about coliving manager position (opens email client)">Get Email →</a>'
-    }
-  };
-
-  // Global functions for modal
-  declare global {
-    interface Window {
-      openAnnouncementModal: (id: string) => void;
-      closeAnnouncementModal: () => void;
-    }
-  }
-
-  window.openAnnouncementModal = function(id: string) {
-    const modal = document.getElementById('announcement-modal');
-    const data = announcementData[id as keyof typeof announcementData];
-    
-    if (!modal || !data) return;
-    
-    const title = document.getElementById('modal-title');
-    const badge = document.getElementById('modal-badge');
-    const content = document.getElementById('modal-content');
-    const actions = document.getElementById('modal-actions');
-    
-    if (title) title.textContent = data.title;
-    if (badge) badge.innerHTML = data.badge;
-    if (content) content.innerHTML = data.content;
-    if (actions) actions.innerHTML = data.actions;
-    
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-  };
-
-  window.closeAnnouncementModal = function() {
-    const modal = document.getElementById('announcement-modal');
-    if (!modal) return;
-    
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-    document.body.style.overflow = '';
-  };
-
-  // Close modal on background click
-  document.getElementById('announcement-modal')?.addEventListener('click', function(e) {
-    if (e.target === this) {
-      window.closeAnnouncementModal();
-    }
-  });
-
-  // Close modal on ESC key
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-      window.closeAnnouncementModal();
-    }
-  });
 </script>
 
 <!-- Sticky Auto-scrolling Ticker at Bottom -->

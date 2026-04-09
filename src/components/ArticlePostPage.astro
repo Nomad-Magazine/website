@@ -75,9 +75,14 @@ const seo: SEOProps = {
               {post.data.author && (
                 <div class="text-lg">
                   {post.data.authorUrl ? (
-                    <span>by <a href={post.data.authorUrl} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${post.data.author}'s profile (opens in new tab)`} class="underline hover:text-yellow-400 transition-colors">{post.data.author}</a></span>
+                    <span>
+                      {post.data.bylineType ? `${post.data.bylineType} ` : ''}by{' '}
+                      <a href={post.data.authorUrl} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${post.data.author}'s profile (opens in new tab)`} class="underline hover:text-yellow-400 transition-colors">{post.data.author}</a>
+                    </span>
                   ) : (
-                    <span>by {post.data.author}</span>
+                    <span>
+                      {post.data.bylineType ? `${post.data.bylineType} ` : ''}by {post.data.author}
+                    </span>
                   )}
                 </div>
               )}

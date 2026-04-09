@@ -66,7 +66,7 @@ export function createWebSiteSchema(options?: {
 }): WithContext<WebSite> {
   const url = options?.url || SITE_URL
   const description = options?.description || 'The first global digital nomad magazine'
-  const searchUrlTemplate = options?.searchUrlTemplate || `${SITE_URL}blog/?q={search_term_string}`
+  const searchUrlTemplate = options?.searchUrlTemplate || `${SITE_URL}search/?q={search_term_string}`
 
   return {
     '@context': 'https://schema.org',

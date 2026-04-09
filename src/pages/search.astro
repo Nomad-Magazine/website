@@ -1,0 +1,64 @@
+---
+export const prerender = true
+
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import PagefindSearch from 'astro-pagefind/components/Search'
+import { createWebPageSchema } from '~/utils/schema'
+
+const site = Astro.site?.toString() ?? 'https://nomad-magazine.com/'
+const pageUrl = new URL('/search/', site).href
+const initialQuery = Astro.url.searchParams.get('q') ?? undefined
+
+const title = 'Search Nomad Magazine - Articles & Digital Nomad Guides'
+const description =
+  'Search Nomad Magazine for digital nomad articles, remote work guides, travel stories, magazine editions, and coworking resources. Find destinations, tips, and editorial content in one place.'
+
+const seo: SEOProps = {
+  title,
+  description,
+  canonical: pageUrl,
+  keywords:
+    'search, nomad magazine, digital nomad articles, remote work guides, travel magazine, coworking, nomad destinations',
+  ogType: 'website',
+  ldJSON: createWebPageSchema({
+    name: title,
+    url: pageUrl,
+    description,
+    image: `${site}images/magazine-hold-against-chest.webp`,
+  }),
+}
+---
+
+<Layout seo={seo}>
+  <div class="min-h-screen bg-gray-50">
+    <div class="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
+      <h1 class="mb-2 text-3xl font-black tracking-tight text-gray-900 sm:text-4xl">Search</h1>
+      <p class="mb-8 text-lg text-gray-600">
+        Find articles, blog posts, guides, and pages across Nomad Magazine.
+      </p>
+      <div class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
+        <PagefindSearch id="site-search" query={initialQuery} className="pagefind-ui-custom" />
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style is:global>
+  .pagefind-ui-custom .pagefind-ui__search-input {
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    border: 2px solid rgb(229 231 235);
+  }
+  .pagefind-ui-custom .pagefind-ui__search-input:focus {
+    outline: none;
+    border-color: rgb(234 179 8);
+    box-shadow: 0 0 0 2px rgb(254 240 138 / 0.5);
+  }
+  .pagefind-ui-custom .pagefind-ui__result-link {
+    color: rgb(17 24 39);
+    font-weight: 700;
+  }
+  .pagefind-ui-custom .pagefind-ui__result-link:hover {
+    color: rgb(202 138 4);
+  }
+</style>

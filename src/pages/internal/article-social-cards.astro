@@ -282,6 +282,11 @@ const seo: SEOProps = {
     <div class="max-w-screen-2xl mx-auto px-6 py-6 space-y-20" id="articles-container">
       {articles.map(article => {
         const data = article.data
+        const igAuthorCredit = data.author
+          ? data.bylineType
+            ? `${data.bylineType} by ${data.author}`
+            : `by ${data.author}`
+          : ''
         const body = article.body ?? ''
         const highlights = extractHighlights(body)
         const h2s = extractH2s(body)
@@ -296,19 +301,45 @@ const seo: SEOProps = {
         const citySlides = h2Snippets
           .filter(({ heading, snippet }) => heading && snippet)
           .slice(0, 2)
-        const instagramSlideCount = 6 + citySlides.length
+        /** Second city card is a generic Edinburgh photo — skip for Mongolia luxury article */
+        const showIgSecondCitySlide = slug !== 'mongolia-redefining-luxury'
+        const igCitySlideCount =
+          (citySlides[0] ? 1 : 0) + (citySlides[1] && showIgSecondCitySlide ? 1 : 0)
+        /** Extra quote card (Mongolia luxury): Milky Way / clear skies */
+        const showIgMilkyWaySlide = slug === 'mongolia-redefining-luxury'
+        const igMilkyWayQuote =
+          'Due to low humidity, the sky is often clear, allowing a full display of the Milky Way year-round. The main factor is being in a rural area, away from pollution.'
+        const igExtraAfterImageSlideCount = showIgMilkyWaySlide ? 1 : 0
+        const instagramSlideCount = 6 + igCitySlideCount + igExtraAfterImageSlideCount
+
+        /** Image-quote slide (4th card when only one “city” slide): Mongolia uses steppe art, not Valencia stock */
+        const igImageQuoteBg =
+          slug === 'mongolia-redefining-luxury'
+            ? '/images/mongolia-Beyond-Guidebooks.webp'
+            : '/images/valencia-card-bg.png'
+        const igImageQuoteBgAlt =
+          slug === 'mongolia-redefining-luxury'
+            ? 'Horse riders crossing the Mongolian steppe with blue-hued mountains and sky'
+            : 'Valencia'
 
         // Each slide quote is pulled from the article body so cards are unique per article.
         const slide2Quote = highlights[0] ?? data.description
 
         // Slide 3 (yellow): first city section snippet, else second highlight, else description
-        const slide3Quote = citySlides[0]?.snippet ?? highlights[1] ?? highlights[0] ?? data.description
+        const slide3Quote =
+          slug === 'mongolia-redefining-luxury'
+            ? 'For every traveler, there is a moment in Mongolia when your sense of scale changes. Tension is released, and your mind and body relax.'
+            : citySlides[0]?.snippet ?? highlights[1] ?? highlights[0] ?? data.description
 
         // Slide 4 (photo bg): second city section snippet, else third highlight, else second highlight
         const slide4Quote = citySlides[1]?.snippet ?? highlights[2] ?? highlights[1] ?? data.description
 
         // Slide 5 (photo bg): scored best remaining highlight not already used in slides 2-4
-        const usedInEarlierSlides = new Set([slide2Quote, slide3Quote, slide4Quote])
+        const usedInEarlierSlides = new Set(
+          !showIgSecondCitySlide && citySlides[1]
+            ? [slide2Quote, slide3Quote]
+            : [slide2Quote, slide3Quote, slide4Quote],
+        )
         const slide5Quote = highlights.find(h => !usedInEarlierSlides.has(h))
           ?? h2Snippets.find(s => s.snippet && !usedInEarlierSlides.has(s.snippet))?.snippet
           ?? data.description
@@ -324,6 +355,7 @@ const seo: SEOProps = {
           : h2s.length >= 3
             ? h2s.slice(0, 5)
             : [...h2s, ...tags].slice(0, 5)
+
         const linkedInCopy = generateLinkedInCopy(data.title, data.description, h2s, highlights, tags, articleUrl, data.author)
         const twitterCopy = generateTwitterCopy(data.title, data.description, tags, highlights, articleUrl)
 
@@ -340,7 +372,7 @@ const seo: SEOProps = {
                   <span class="text-gray-600 text-xs">{pubDateStr}</span>
                 </div>
                 <h2 class="text-white text-xl font-bold leading-snug">{data.title}</h2>
-                {data.author && <p class="text-gray-500 text-sm mt-1">by {data.author}</p>}
+                {igAuthorCredit && <p class="text-gray-500 text-sm mt-1">{igAuthorCredit}</p>}
               </div>
               <a
                 href={`/articles/${slug}/`}
@@ -386,7 +418,7 @@ const seo: SEOProps = {
                       </div>
                       <div>
                         <h3 class="text-white font-bold text-xl leading-tight mb-3 drop-shadow-lg">{data.title}</h3>
-                        {data.author && <p class="text-white/50 text-xs">by {data.author}</p>}
+                        {igAuthorCredit && <p class="text-white/50 text-xs">{igAuthorCredit}</p>}
                       </div>
                     </div>
                     <div class="absolute bottom-2 right-3 text-white/25 text-[10px] font-mono">1/{instagramSlideCount}</div>
@@ -443,7 +475,7 @@ const seo: SEOProps = {
                 )}
 
                 <!-- Slide 4: City Quote Card -->
-                {citySlides[1] && (
+                {citySlides[1] && showIgSecondCitySlide && (
                   <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide 4 of ${instagramSlideCount}: City detail`}>
                     <div class="card-capture relative w-full h-full rounded-none overflow-hidden shadow-2xl shadow-black/50">
                       <img src="/images/edinburgh-card-bg.png" alt="Edinburgh" class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" onerror="this.src='/images/best-cities-remote-workers-2026.webp'" />
@@ -470,9 +502,9 @@ const seo: SEOProps = {
                 )}
 
                 <!-- Slide 5: Image Quote -->
-                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide ${3 + citySlides.length} of ${instagramSlideCount}: Key insight`}>
+                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide ${3 + igCitySlideCount} of ${instagramSlideCount}: Key insight`}>
                   <div class="card-capture relative w-full h-full rounded-none overflow-hidden shadow-2xl shadow-black/50">
-                    <img src="/images/valencia-card-bg.png" alt="Valencia" class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" onerror="this.src='/images/best-cities-remote-workers-2026.webp'" />
+                    <img src={igImageQuoteBg} alt={igImageQuoteBgAlt} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" onerror="this.src='/images/best-cities-remote-workers-2026.webp'" />
                     <div class="absolute inset-0 bg-black/60"></div>
                     <div class="absolute inset-0 p-6 flex flex-col">
                       <div class="flex items-center justify-between mb-2">
@@ -489,13 +521,36 @@ const seo: SEOProps = {
                         <p class="text-white/50 text-xs">nomad-magazine.com</p>
                       </div>
                     </div>
-                    <div class="absolute bottom-2 right-3 text-white/30 text-[10px] font-mono">{3 + citySlides.length}/{instagramSlideCount}</div>
+                    <div class="absolute bottom-2 right-3 text-white/30 text-[10px] font-mono">{3 + igCitySlideCount}/{instagramSlideCount}</div>
                   </div>
-                  <button class="download-btn" data-filename={`ig-${String(3 + citySlides.length).padStart(2, '0')}-quote-${slug}.png`} data-width="1080" aria-label="Download image quote slide">↓ PNG</button>
+                  <button class="download-btn" data-filename={`ig-${String(3 + igCitySlideCount).padStart(2, '0')}-quote-${slug}.png`} data-width="1080" aria-label="Download image quote slide">↓ PNG</button>
                 </div>
 
+                <!-- Mongolia: extra white card — Milky Way / rural skies -->
+                {showIgMilkyWaySlide && (
+                  <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide ${4 + igCitySlideCount} of ${instagramSlideCount}: Milky Way quote`}>
+                    <div class="card-capture relative w-full h-full rounded-none overflow-hidden bg-white shadow-2xl shadow-black/30">
+                      <div class="p-6 flex flex-col h-full">
+                        <div class="flex items-center justify-between mb-2">
+                          <img src="/logo.svg" alt="" aria-hidden="true" class="w-5 h-5 opacity-20" crossorigin="anonymous" />
+                        </div>
+                        <div class="text-yellow-400 text-8xl font-serif leading-none select-none" aria-hidden="true">"</div>
+                        <div class="flex-1 flex flex-col justify-center -mt-4">
+                          <p class="text-gray-900 text-sm font-semibold leading-relaxed">{igMilkyWayQuote}</p>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-gray-100">
+                          {data.author && <p class="text-gray-500 text-xs font-medium">{data.author}</p>}
+                          <p class="text-gray-300 text-xs">nomad-magazine.com</p>
+                        </div>
+                      </div>
+                      <div class="absolute bottom-2 right-3 text-gray-200 text-[10px] font-mono">{4 + igCitySlideCount}/{instagramSlideCount}</div>
+                    </div>
+                    <button class="download-btn" data-filename={`ig-${String(4 + igCitySlideCount).padStart(2, '0')}-milky-way-${slug}.png`} data-width="1080" aria-label="Download Milky Way quote slide">↓ PNG</button>
+                  </div>
+                )}
+
                 <!-- Slide 6: Cities mentioned (if article has location focus) or key topics fallback -->
-                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide ${4 + citySlides.length} of ${instagramSlideCount}: Featured locations`}>
+                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide ${4 + igCitySlideCount + igExtraAfterImageSlideCount} of ${instagramSlideCount}: Featured locations`}>
                   <div class="card-capture relative w-full h-full rounded-none overflow-hidden bg-[#121111] shadow-2xl shadow-black/50">
                     <div class="p-6 flex flex-col h-full">
                       <div class="flex items-center justify-between mb-6">
@@ -529,13 +584,13 @@ const seo: SEOProps = {
                         <p class="text-gray-600 text-[11px] font-mono">{articleUrl}</p>
                       </div>
                     </div>
-                    <div class="absolute bottom-2 right-3 text-gray-700 text-[10px] font-mono">{4 + citySlides.length}/{instagramSlideCount}</div>
+                    <div class="absolute bottom-2 right-3 text-gray-700 text-[10px] font-mono">{4 + igCitySlideCount + igExtraAfterImageSlideCount}/{instagramSlideCount}</div>
                   </div>
-                  <button class="download-btn" data-filename={`ig-${String(4 + citySlides.length).padStart(2, '0')}-${cities.length > 0 ? 'cities' : 'topics'}-${slug}.png`} data-width="1080" aria-label="Download featured locations slide">↓ PNG</button>
+                  <button class="download-btn" data-filename={`ig-${String(4 + igCitySlideCount + igExtraAfterImageSlideCount).padStart(2, '0')}-${cities.length > 0 ? 'cities' : 'topics'}-${slug}.png`} data-width="1080" aria-label="Download featured locations slide">↓ PNG</button>
                 </div>
 
                 <!-- Slide 7: Adaptability message -->
-                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide ${5 + citySlides.length} of ${instagramSlideCount}: Adaptability message`}>
+                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide ${5 + igCitySlideCount + igExtraAfterImageSlideCount} of ${instagramSlideCount}: Adaptability message`}>
                   <div class="card-capture relative w-full h-full rounded-none overflow-hidden bg-[#121111] shadow-2xl shadow-black/50">
                     <div class="absolute inset-0 bg-linear-to-br from-yellow-400/10 via-transparent to-yellow-500/5"></div>
                     <div class="p-6 relative flex flex-col h-full">
@@ -553,13 +608,13 @@ const seo: SEOProps = {
                         <p class="text-white/45 text-xs">nomad-magazine.com</p>
                       </div>
                     </div>
-                    <div class="absolute bottom-2 right-3 text-white/20 text-[10px] font-mono">{5 + citySlides.length}/{instagramSlideCount}</div>
+                    <div class="absolute bottom-2 right-3 text-white/20 text-[10px] font-mono">{5 + igCitySlideCount + igExtraAfterImageSlideCount}/{instagramSlideCount}</div>
                   </div>
-                  <button class="download-btn" data-filename={`ig-${String(5 + citySlides.length).padStart(2, '0')}-adaptability-${slug}.png`} data-width="1080" aria-label="Download adaptability slide">↓ PNG</button>
+                  <button class="download-btn" data-filename={`ig-${String(5 + igCitySlideCount + igExtraAfterImageSlideCount).padStart(2, '0')}-adaptability-${slug}.png`} data-width="1080" aria-label="Download adaptability slide">↓ PNG</button>
                 </div>
 
                 <!-- Slide 8: CTA -->
-                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide ${6 + citySlides.length} of ${instagramSlideCount}: Call to action`}>
+                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide ${6 + igCitySlideCount + igExtraAfterImageSlideCount} of ${instagramSlideCount}: Call to action`}>
                   <div class="card-capture relative w-full h-full rounded-none overflow-hidden shadow-2xl shadow-black/50">
                     {heroImage
                       ? <img src={heroImage} alt={heroImageAlt} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
@@ -575,9 +630,9 @@ const seo: SEOProps = {
                       </div>
                       <p class="text-white/40 text-xs mt-4">🔗 Link in bio</p>
                     </div>
-                    <div class="absolute bottom-2 right-3 text-white/20 text-[10px] font-mono">{6 + citySlides.length}/{instagramSlideCount}</div>
+                    <div class="absolute bottom-2 right-3 text-white/20 text-[10px] font-mono">{6 + igCitySlideCount + igExtraAfterImageSlideCount}/{instagramSlideCount}</div>
                   </div>
-                  <button class="download-btn" data-filename={`ig-${String(6 + citySlides.length).padStart(2, '0')}-cta-${slug}.png`} data-width="1080" aria-label="Download CTA slide">↓ PNG</button>
+                  <button class="download-btn" data-filename={`ig-${String(6 + igCitySlideCount + igExtraAfterImageSlideCount).padStart(2, '0')}-cta-${slug}.png`} data-width="1080" aria-label="Download CTA slide">↓ PNG</button>
                 </div>
 
               </div>

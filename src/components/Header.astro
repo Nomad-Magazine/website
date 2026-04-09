@@ -2,6 +2,7 @@
 import IsIconDownOutline from '~icons/lsicon/down-outline'
 import CloseIcon from '~icons/material-symbols-light/close'
 import MenuIcon from '~icons/material-symbols-light/menu-rounded'
+import SearchIcon from '~icons/material-symbols-light/search'
 
 const navLinks = [
   {
@@ -87,6 +88,13 @@ const navLinks = [
             </div>
           </div>
         </nav>
+        <a
+          href="/search/"
+          class="hidden text-gray-900 transition-colors hover:text-yellow-600 lg:inline-flex lg:items-center"
+          aria-label="Search Nomad Magazine"
+        >
+          <SearchIcon class="h-7 w-7" aria-hidden="true" />
+        </a>
       </div>
       <!-- Buttons -->
       <div class="hidden items-center space-x-4 lg:flex">
@@ -135,6 +143,10 @@ const navLinks = [
           </div>
         </div>
       </div>
+      <a href="/search/" class="flex items-center gap-2 transition-colors hover:text-yellow-400">
+        <SearchIcon class="h-6 w-6 shrink-0" aria-hidden="true" />
+        Search
+      </a>
       <a href="/newsletter/" class="transition-colors hover:text-yellow-400">Newsletter</a>
       <a href="/our-story/" class="transition-colors hover:text-yellow-400">Our Story</a>
               <div class="space-y-4">
