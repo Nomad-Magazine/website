@@ -1,7 +1,7 @@
 ---
 export const prerender = true
 
-import { getCollection } from 'astro:content'
+import { getCollection, type CollectionEntry } from 'astro:content'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 
 const rawArticles = await getCollection('article', ({ data }) => data.published !== false)
@@ -45,7 +45,7 @@ function extractHighlights(body: string): string[] {
   const candidates: Array<{ text: string; score: number; fromMark: boolean }> = []
 
   // 1. <mark> highlights (author-chosen — get a base bonus)
-  const markRegex = /<mark>(.*?)<\/mark>/g
+  const markRegex = /<mark[^>]*>(.*?)<\/mark>/gs
   let match
   while ((match = markRegex.exec(body)) !== null) {
     const text = match[1].replace(/<[^>]+>/g, '').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').trim()
@@ -76,6 +76,110 @@ function extractHighlights(body: string): string[] {
     .map(c => c.text)
 }
 
+type BodyImage = { url: string; alt: string }
+type StorySection = { heading: string; snippet: string; image?: BodyImage }
+
+function cleanRichText(text: string): string {
+  return text
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function splitIntoSentences(text: string): string[] {
+  return (
+    cleanRichText(text)
+      .match(/[^.!?]+[.!?]+|[^.!?]+$/g)
+      ?.map((s) => s.trim())
+      .filter(Boolean) ?? []
+  )
+}
+
+function closeUnbalancedQuotes(text: string): string {
+  const quoteCount = (text.match(/"/g) ?? []).length
+  if (quoteCount % 2 === 0) return text
+
+  const trailingPunctuation = text.match(/[.,;:!?)]*$/)?.[0] ?? ''
+  const core = trailingPunctuation ? text.slice(0, -trailingPunctuation.length) : text
+  return `${core}"${trailingPunctuation}`
+}
+
+function scoreStorySentence(sentence: string): number {
+  let sc = scoreQuote(sentence)
+  const lower = sentence.toLowerCase()
+
+  for (const w of [
+    'status quo', 'intentional', 'community', 'bubble', 'comfort zone', 'apartheid',
+    'authentic', 'authenticity', 'immersion', 'colonial', 'gentrification', 'africa',
+    'african', 'heartbeat', 'amapiano', 'history', 'local', 'travel', 'nomad',
+    'nexus', 'deep connection', 'mirror reality', 'responsible', 'privilege',
+    'understanding', 'contribute', 'revolutionary', 'thriving', 'progressing',
+  ]) {
+    if (lower.includes(w)) sc += 3
+  }
+
+  for (const w of [
+    'as 20', 'i didn\'t initially', 'i had to', 'afterwards', 'later that night',
+    'the next day', 'one of the highlights', 'to my delight', 'before i left',
+    'it\'s almost', 'during the welcome', 'i went inside and saw', 'i walked back',
+    'i got closer', 'the actor playing', 'black panther', 'john kani', 'king t\'chaka',
+    'agenda', 'work call', 'hotel lobby',
+  ]) {
+    if (lower.includes(w)) sc -= 4
+  }
+
+  if (/^(As|During|After|Before|Later|The next day|One of the highlights)\b/.test(sentence)) sc -= 3
+  if (/^I (went|walked|saw|got|had|slept|thought|met|arrived|arrive|started)\b/.test(sentence)) sc -= 5
+  if (/^The actor playing\b/.test(sentence)) sc -= 8
+  if (sentence.length > 220) sc -= 2
+
+  return sc
+}
+
+function pickBestStorySentence(text: string): string {
+  const sentences = splitIntoSentences(text)
+    .filter((s) => s.length >= 55 && s.length <= 260)
+    .sort((a, b) => scoreStorySentence(b) - scoreStorySentence(a))
+  return closeUnbalancedQuotes(sentences[0] ?? cleanRichText(text).slice(0, 200).trim())
+}
+
+function extractStorySections(body: string): StorySection[] {
+  const sections = body.split(/^## /m).slice(1)
+
+  return sections
+    .map((section) => {
+      const lines = section.split('\n')
+      const heading = lines[0].trim()
+      const rawBody = lines.slice(1).join('\n')
+      const image = extractImagesFromBody(rawBody)[0]
+      const paragraphText = lines
+        .slice(1)
+        .filter((line) => {
+          const t = line.trim()
+          return Boolean(
+            t &&
+            !t.startsWith('<img') &&
+            !t.startsWith('<div') &&
+            !t.startsWith('### ') &&
+            !t.startsWith('- ') &&
+            !t.startsWith('*Essay by')
+          )
+        })
+        .join(' ')
+      return {
+        heading,
+        snippet: pickBestStorySentence(paragraphText),
+        image,
+      }
+    })
+    .filter((section) =>
+      Boolean(section.heading) &&
+      Boolean(section.snippet) &&
+      !/^(About the author|Colophon|Tipsheets)$/i.test(section.heading)
+    )
+}
+
 function extractH2s(body: string): string[] {
   const h2Regex = /^## (.+)$/gm
   const headings: string[] = []
@@ -83,7 +187,7 @@ function extractH2s(body: string): string[] {
   while ((match = h2Regex.exec(body)) !== null) {
     headings.push(match[1].trim())
   }
-  return headings.slice(0, 5)
+  return headings
 }
 
 // Returns [{heading, snippet}] — first plain-text sentence after each H2, trimmed at a sentence end
@@ -121,86 +225,99 @@ function getTags(tag: string | undefined): string[] {
   return tag.split(',').map(t => t.trim()).filter(Boolean).slice(0, 3)
 }
 
-// Extract city/location names from article
-// Prefer only H2 subsection headings so the list shows actually featured destinations.
-// Fallback to body/title matching only when no place-based subsections exist.
-function extractCities(title: string, body: string): string[] {
-  const cities = new Set<string>()
-  
-  // Common patterns for H2 section titles like "Tallinn, Estonia: Europe's Digital Pioneer"
-  const h2Regex = /^## (.+?)(?::|—)/gm
-  let match
-  while ((match = h2Regex.exec(body)) !== null) {
-    const heading = match[1].trim()
-    // If heading contains a comma (city, country pattern), take everything before colon/dash
-    if (heading.includes(',')) {
-      const cityPart = heading.split(',')[0].trim()
-      if (cityPart.length > 2 && cityPart.length < 25) cities.add(cityPart)
+/** H2 headings that are not story beats for the carousel deck */
+function storyH2s(h2s: string[]): string[] {
+  return h2s.filter(h => !/^(About the author|Colophon|Tipsheets)$/i.test(h.trim()))
+}
+
+function buildStoryOutline(headings: string[]): string[] {
+  if (headings.length <= 6) return headings
+  return [...headings.slice(0, 2), ...headings.slice(-4)]
+}
+
+function extractImagesFromBody(body: string): BodyImage[] {
+  const found: BodyImage[] = []
+
+  const mdImg = /!\[([^\]]*)\]\(\s*([^)]+?)\s*\)/g
+  let m: RegExpExecArray | null
+  while ((m = mdImg.exec(body)) !== null) {
+    const url = m[2].trim()
+    if (url.startsWith('/') || url.startsWith('http')) {
+      found.push({ url, alt: (m[1] || '').trim() })
     }
   }
 
-  // If we already found place-based subsections, stop there.
-  if (cities.size > 0) {
-    return Array.from(cities).slice(0, 8)
+  const htmlImgTag = /<img\b[^>]*>/gi
+  while ((m = htmlImgTag.exec(body)) !== null) {
+    const tag = m[0]
+    const srcMatch = /\bsrc\s*=\s*["']([^"']+)["']/i.exec(tag)
+    if (!srcMatch) continue
+    const url = srcMatch[1].trim()
+    if (!url.startsWith('/') && !url.startsWith('http')) continue
+    const altMatch = /\balt\s*=\s*["']([^"']*)["']/i.exec(tag)
+    found.push({ url, alt: (altMatch?.[1] || '').trim() })
   }
 
-  // Fallback: scan body/title for common place names only when no subsection cities exist.
-  const knownCities = [
-    'Tallinn', 'Sofia', 'Edinburgh', 'Valencia', 'Lisbon', 'Porto', 'Barcelona', 'Madrid',
-    'Berlin', 'Prague', 'Budapest', 'Krakow', 'Warsaw', 'Vienna', 'Amsterdam', 'Paris',
-    'London', 'Dublin', 'Copenhagen', 'Stockholm', 'Oslo', 'Helsinki', 'Reykjavik',
-    'Athens', 'Rome', 'Milan', 'Florence', 'Venice', 'Naples', 'Palermo',
-    'Bali', 'Chiang Mai', 'Bangkok', 'Hanoi', 'Ho Chi Minh', 'Hoi An', 'Da Nang',
-    'Tokyo', 'Osaka', 'Kyoto', 'Seoul', 'Singapore', 'Kuala Lumpur', 'Penang',
-    'Mexico City', 'Playa del Carmen', 'Tulum', 'Oaxaca', 'Medellin', 'Bogota',
-    'Buenos Aires', 'Santiago', 'Lima', 'Cusco', 'Quito', 'Rio de Janeiro', 'São Paulo',
-    'Dubai', 'Tel Aviv', 'Istanbul', 'Cape Town', 'Nairobi', 'Marrakech', 'Cairo',
-    'New York', 'San Francisco', 'Austin', 'Miami', 'Seattle', 'Portland', 'Denver',
-    'Montreal', 'Toronto', 'Vancouver', 'Sydney', 'Melbourne', 'Wellington', 'Auckland',
-    'Bansko'
-  ]
+  return found
+}
 
-  const bodyText = body.replace(/<[^>]+>/g, ' ').replace(/\[[^\]]+\]\([^)]+\)/g, ' ')
-  for (const city of knownCities) {
-    const regex = new RegExp(`\\b${city}\\b`, 'i')
-    if (regex.test(bodyText) || regex.test(title)) {
-      cities.add(city)
-    }
+function dedupeBodyImages(images: BodyImage[]): BodyImage[] {
+  const seen = new Set<string>()
+  const out: BodyImage[] = []
+  for (const im of images) {
+    if (!im.url || seen.has(im.url)) continue
+    seen.add(im.url)
+    out.push(im)
   }
+  return out
+}
 
-  return Array.from(cities).slice(0, 8)
+/** Images from markdown/HTML in article order; hero last as fallback so middle slides prefer in-article art */
+function buildEditorialImageDeck(heroUrl: string, heroAlt: string | undefined, body: string): BodyImage[] {
+  const fromBody = dedupeBodyImages(extractImagesFromBody(body))
+  const withoutHero = fromBody.filter((im) => im.url !== heroUrl)
+  if (withoutHero.length > 0) return withoutHero
+  if (heroUrl) return [{ url: heroUrl, alt: heroAlt || '' }]
+  return []
 }
 
 function toHashtag(t: string): string {
   return '#' + t.replace(/\s+/g, '').replace(/[^a-zA-Z0-9]/g, '')
 }
 
+function truncateCopy(text: string, maxLen: number): string {
+  const clean = cleanRichText(text)
+  if (clean.length <= maxLen) return clean
+  return clean.slice(0, maxLen).replace(/\s+\S*$/, '').trim() + '...'
+}
+
 function generateLinkedInCopy(
   title: string,
   description: string,
-  h2s: string[],
-  highlights: string[],
+  storySections: StorySection[],
   tags: string[],
   articleUrl: string,
-  author?: string
+  author?: string,
+  takeaway?: string
 ): string {
   const hashtags = [...tags.map(toHashtag), '#DigitalNomad', '#RemoteWork', '#NomadMagazine'].join(' ')
-  const points = h2s.slice(0, 4).map(h => `→ ${h}`).join('\n')
-  const insight = highlights[0] ?? ''
+  const opening = truncateCopy(storySections[0]?.snippet || description, 220)
+  const middleSections = storySections.slice(1, 4)
   const lines: string[] = []
 
-  // Hook — rephrase title as a question or statement
-  const hook = title.endsWith('?') ? title : `${title} — here's what you need to know.`
-  lines.push(hook, '')
+  lines.push(title, '')
+  lines.push(opening, '')
 
-  lines.push(description, '')
-
-  if (points) {
-    lines.push('What you\'ll find in this article:', points, '')
+  if (middleSections.length > 0) {
+    lines.push('Inside the story:')
+    for (const section of middleSections) {
+      lines.push(`- ${section.heading}: ${truncateCopy(section.snippet, 150)}`)
+    }
+    lines.push('')
   }
 
-  if (insight) {
-    lines.push(`💡 "${insight}"`, '')
+  if (takeaway) {
+    lines.push(`Takeaway: ${truncateCopy(takeaway, 220)}`, '')
   }
 
   lines.push('Full article 👇', `https://${articleUrl}`, '')
@@ -227,6 +344,163 @@ function generateTwitterCopy(
   const truncated = insight.length > maxLen ? insight.slice(0, maxLen - 1) + '…' : insight
 
   return [truncated, '', `https://${articleUrl}`, '', hashtags].join('\n')
+}
+
+type ArticleEntry = CollectionEntry<'article'>
+
+function computeArticleSocialPack(article: ArticleEntry) {
+  const data = article.data
+  const igAuthorCredit = data.author
+    ? data.bylineType
+      ? `${data.bylineType} by ${data.author}`
+      : `by ${data.author}`
+    : ''
+  const body = article.body ?? ''
+  const highlights = extractHighlights(body)
+  const h2s = extractH2s(body)
+  const storySections = extractStorySections(body)
+  const tags = getTags(data.tag)
+  const heroImage = data.heroImage ?? ''
+  const heroImageAlt = data.heroImageAlt ?? data.title
+  const slug =
+    (data as { slug?: string }).slug ||
+    article.id.replace(/^article\//, '').replace(/\.md$/, '')
+  const articleUrl = `nomad-magazine.com/articles/${slug}/`
+  const pubDateStr = formatDate(data.pubDate)
+  const h2Snippets = extractH2Snippets(body)
+  const citySlides = storySections
+    .slice(1)
+    .slice(0, 2)
+  const showIgSecondCitySlide = Boolean(citySlides[1])
+  const igCitySlideCount = (citySlides[0] ? 1 : 0) + (showIgSecondCitySlide ? 1 : 0)
+  const instagramSlideCount = 6 + igCitySlideCount
+
+  const editorialDeck = buildEditorialImageDeck(heroImage, heroImageAlt, body)
+  let igSecondSectionPhoto: BodyImage = citySlides[1]?.image ?? editorialDeck[1] ?? editorialDeck[0]
+
+  const usedStoryHeadings = new Set([
+    storySections[0]?.heading,
+    citySlides[0]?.heading,
+    citySlides[1]?.heading,
+  ].filter(Boolean))
+  const slide5Section =
+    storySections.findLast((section) => !usedStoryHeadings.has(section.heading)) ??
+    storySections[storySections.length - 1] ??
+    storySections[0]
+
+  let igImageQuotePhoto: BodyImage = slide5Section?.image ?? editorialDeck[2] ?? editorialDeck[0]
+  if (
+    igImageQuotePhoto.url === igSecondSectionPhoto.url &&
+    heroImage &&
+    heroImage !== igSecondSectionPhoto.url
+  ) {
+    igImageQuotePhoto = { url: heroImage, alt: heroImageAlt || data.title }
+  }
+
+  const slide2Quote = storySections[0]?.snippet ?? highlights[0] ?? data.description
+  const slide3Quote =
+    citySlides[0]?.snippet ?? highlights[1] ?? highlights[0] ?? data.description
+  const slide4Quote = citySlides[1]?.snippet ?? highlights[2] ?? highlights[1] ?? data.description
+  const slide3Kicker = citySlides[0]?.heading ?? 'Story beat'
+  const slide4Kicker = citySlides[1]?.heading ?? 'Story beat'
+  const slide5Kicker = slide5Section?.heading ?? 'Key insight'
+
+  const usedInEarlierSlides = new Set<string>([
+    slide2Quote,
+    slide3Quote,
+    ...(showIgSecondCitySlide ? [slide4Quote] : []),
+  ])
+
+  let slide5Quote = slide5Section?.snippet ?? data.description
+  if (slide5Quote === data.description) {
+    for (const s of h2Snippets) {
+      if (s.snippet && !usedInEarlierSlides.has(s.snippet)) {
+        slide5Quote = s.snippet
+        break
+      }
+    }
+  }
+
+  const usedThroughSlide5 = new Set([...usedInEarlierSlides, slide5Quote])
+
+  const takeawayBullets = body
+    .split('\n')
+    .map((line) => line.trim())
+    .filter((line) => line.startsWith('- '))
+    .map((line) => cleanRichText(line.slice(2)))
+    .filter((line) => line.length >= 50)
+
+  let closingInsight = ''
+  for (const bullet of takeawayBullets) {
+    if (!usedThroughSlide5.has(bullet)) {
+      closingInsight = bullet
+      break
+    }
+  }
+  for (const h of highlights) {
+    if (!closingInsight && !usedThroughSlide5.has(h) && h.length >= 40) {
+      closingInsight = h
+      break
+    }
+  }
+  if (!closingInsight) {
+    const descSents = data.description.match(/[^.!?]+[.!?]+/g) ?? []
+    closingInsight = descSents[descSents.length - 1]?.trim() || data.description
+  }
+  if (closingInsight.length > 220) {
+    closingInsight = closingInsight.slice(0, 217).trim() + '…'
+  }
+
+  const closingSlideKicker =
+    takeawayBullets.length > 0
+      ? 'Takeaway'
+      : h2s.length > 0
+        ? h2s[h2s.length - 1].length > 44
+          ? h2s[h2s.length - 1].slice(0, 41) + '…'
+          : h2s[h2s.length - 1]
+        : tags[0] || 'From this story'
+
+  const h2sDeck = storyH2s(h2s)
+  const keyPoints = h2sDeck.length > 0 ? buildStoryOutline(h2sDeck) : tags.slice(0, 6)
+
+  const linkedInCopy = generateLinkedInCopy(
+    data.title,
+    data.description,
+    storySections,
+    tags,
+    articleUrl,
+    data.author,
+    takeawayBullets[0],
+  )
+  const twitterCopy = generateTwitterCopy(data.title, data.description, tags, highlights, articleUrl)
+
+  return {
+    igAuthorCredit,
+    tags,
+    heroImage,
+    heroImageAlt,
+    slug,
+    articleUrl,
+    pubDateStr,
+    citySlides,
+    showIgSecondCitySlide,
+    igCitySlideCount,
+    instagramSlideCount,
+    igSecondSectionPhoto,
+    igImageQuotePhoto,
+    slide2Quote,
+    slide3Quote,
+    slide4Quote,
+    slide3Kicker,
+    slide4Kicker,
+    slide5Quote,
+    slide5Kicker,
+    closingInsight,
+    closingSlideKicker,
+    keyPoints,
+    linkedInCopy,
+    twitterCopy,
+  }
 }
 
 const seo: SEOProps = {
@@ -280,85 +554,9 @@ const seo: SEOProps = {
 
     <!-- Articles -->
     <div class="max-w-screen-2xl mx-auto px-6 py-6 space-y-20" id="articles-container">
-      {articles.map(article => {
+      {articles.map((article) => {
+        const p = computeArticleSocialPack(article)
         const data = article.data
-        const igAuthorCredit = data.author
-          ? data.bylineType
-            ? `${data.bylineType} by ${data.author}`
-            : `by ${data.author}`
-          : ''
-        const body = article.body ?? ''
-        const highlights = extractHighlights(body)
-        const h2s = extractH2s(body)
-        const tags = getTags(data.tag)
-        const heroImage = data.heroImage ?? ''
-        const heroImageAlt = data.heroImageAlt ?? data.title
-        const slug = (data as any).slug || article.id.replace(/^article\//, '').replace(/\.md$/, '')
-        const articleUrl = `nomad-magazine.com/articles/${slug}/`
-        const pubDateStr = formatDate(data.pubDate)
-        const h2Snippets = extractH2Snippets(body)
-        const cities = extractCities(data.title, body)
-        const citySlides = h2Snippets
-          .filter(({ heading, snippet }) => heading && snippet)
-          .slice(0, 2)
-        /** Second city card is a generic Edinburgh photo — skip for Mongolia luxury article */
-        const showIgSecondCitySlide = slug !== 'mongolia-redefining-luxury'
-        const igCitySlideCount =
-          (citySlides[0] ? 1 : 0) + (citySlides[1] && showIgSecondCitySlide ? 1 : 0)
-        /** Extra quote card (Mongolia luxury): Milky Way / clear skies */
-        const showIgMilkyWaySlide = slug === 'mongolia-redefining-luxury'
-        const igMilkyWayQuote =
-          'Due to low humidity, the sky is often clear, allowing a full display of the Milky Way year-round. The main factor is being in a rural area, away from pollution.'
-        const igExtraAfterImageSlideCount = showIgMilkyWaySlide ? 1 : 0
-        const instagramSlideCount = 6 + igCitySlideCount + igExtraAfterImageSlideCount
-
-        /** Image-quote slide (4th card when only one “city” slide): Mongolia uses steppe art, not Valencia stock */
-        const igImageQuoteBg =
-          slug === 'mongolia-redefining-luxury'
-            ? '/images/mongolia-Beyond-Guidebooks.webp'
-            : '/images/valencia-card-bg.png'
-        const igImageQuoteBgAlt =
-          slug === 'mongolia-redefining-luxury'
-            ? 'Horse riders crossing the Mongolian steppe with blue-hued mountains and sky'
-            : 'Valencia'
-
-        // Each slide quote is pulled from the article body so cards are unique per article.
-        const slide2Quote = highlights[0] ?? data.description
-
-        // Slide 3 (yellow): first city section snippet, else second highlight, else description
-        const slide3Quote =
-          slug === 'mongolia-redefining-luxury'
-            ? 'For every traveler, there is a moment in Mongolia when your sense of scale changes. Tension is released, and your mind and body relax.'
-            : citySlides[0]?.snippet ?? highlights[1] ?? highlights[0] ?? data.description
-
-        // Slide 4 (photo bg): second city section snippet, else third highlight, else second highlight
-        const slide4Quote = citySlides[1]?.snippet ?? highlights[2] ?? highlights[1] ?? data.description
-
-        // Slide 5 (photo bg): scored best remaining highlight not already used in slides 2-4
-        const usedInEarlierSlides = new Set(
-          !showIgSecondCitySlide && citySlides[1]
-            ? [slide2Quote, slide3Quote]
-            : [slide2Quote, slide3Quote, slide4Quote],
-        )
-        const slide5Quote = highlights.find(h => !usedInEarlierSlides.has(h))
-          ?? h2Snippets.find(s => s.snippet && !usedInEarlierSlides.has(s.snippet))?.snippet
-          ?? data.description
-
-        const slide6ResilienceQuote = 'Remote work is no longer only about travel. In a more uncertain world, it gives people the flexibility to adapt faster, protect their income, and build a life that can keep moving through change.'
-
-        // Slide 3 key points: prefer h2s not already previewed in slide 2 snippets,
-        // fall back to all h2s if not enough extras
-        const slide2HeadingsUsed = new Set(h2Snippets.slice(0, 3).map(s => s.heading))
-        const remainingH2s = h2s.filter(h => !slide2HeadingsUsed.has(h))
-        const keyPoints = remainingH2s.length >= 3
-          ? remainingH2s.slice(0, 5)
-          : h2s.length >= 3
-            ? h2s.slice(0, 5)
-            : [...h2s, ...tags].slice(0, 5)
-
-        const linkedInCopy = generateLinkedInCopy(data.title, data.description, h2s, highlights, tags, articleUrl, data.author)
-        const twitterCopy = generateTwitterCopy(data.title, data.description, tags, highlights, articleUrl)
-
         return (
           <section class="article-section" data-slug={article.id} id={`article-${article.id}`}>
 
@@ -366,16 +564,16 @@ const seo: SEOProps = {
             <div class="flex items-start justify-between mb-6 pb-4 border-b border-gray-800">
               <div class="min-w-0 flex-1 mr-4">
                 <div class="flex flex-wrap items-center gap-2 mb-2">
-                  {tags.map(tag => (
+                  {p.tags.map(tag => (
                     <span class="bg-yellow-400 text-black text-xs font-bold px-2.5 py-0.5 rounded-full">{tag}</span>
                   ))}
-                  <span class="text-gray-600 text-xs">{pubDateStr}</span>
+                  <span class="text-gray-600 text-xs">{p.pubDateStr}</span>
                 </div>
                 <h2 class="text-white text-xl font-bold leading-snug">{data.title}</h2>
-                {igAuthorCredit && <p class="text-gray-500 text-sm mt-1">{igAuthorCredit}</p>}
+                {p.igAuthorCredit && <p class="text-gray-500 text-sm mt-1">{p.igAuthorCredit}</p>}
               </div>
               <a
-                href={`/articles/${slug}/`}
+                href={`/articles/${p.slug}/`}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`Open article: ${data.title} (opens in new tab)`}
@@ -391,16 +589,16 @@ const seo: SEOProps = {
             <div class="mb-10">
               <div class="flex items-center gap-2 mb-4">
                 <div class="w-2 h-2 rounded-full bg-pink-400" aria-hidden="true"></div>
-                <h3 class="text-pink-300 text-xs font-bold uppercase tracking-widest">Instagram Carousel · 1080×1440px (3:4) · {instagramSlideCount} slides</h3>
+                <h3 class="text-pink-300 text-xs font-bold uppercase tracking-widest">Instagram Carousel · 1080×1440px (3:4) · {p.instagramSlideCount} slides</h3>
               </div>
 
               <div class="flex gap-4 overflow-x-auto snap-x snap-mandatory relative" style="padding-bottom:44px;" role="list" aria-label="Instagram carousel slides">
 
                 <!-- Slide 1: Cover -->
-                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide 1 of ${instagramSlideCount}: Cover`}>
+                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide 1 of ${p.instagramSlideCount}: Cover`}>
                   <div class="card-capture relative w-full h-full rounded-none overflow-hidden shadow-2xl shadow-black/50">
-                    {heroImage
-                      ? <img src={heroImage} alt={heroImageAlt} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
+                    {p.heroImage
+                      ? <img src={p.heroImage} alt={p.heroImageAlt} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
                       : <div class="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900"></div>
                     }
                     <div class="absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-black/10"></div>
@@ -411,23 +609,23 @@ const seo: SEOProps = {
                           <span class="text-white/70 text-[11px] font-bold uppercase tracking-widest">Nomad Magazine</span>
                         </div>
                         <div class="flex gap-1" aria-hidden="true">
-                          {Array.from({ length: instagramSlideCount }).map((_, i) => (
+                          {Array.from({ length: p.instagramSlideCount }).map((_, i) => (
                             <div class={`rounded-full ${i === 0 ? 'bg-yellow-400 w-4 h-1.5' : 'bg-white/25 w-1.5 h-1.5'}`}></div>
                           ))}
                         </div>
                       </div>
                       <div>
                         <h3 class="text-white font-bold text-xl leading-tight mb-3 drop-shadow-lg">{data.title}</h3>
-                        {igAuthorCredit && <p class="text-white/50 text-xs">{igAuthorCredit}</p>}
+                        {p.igAuthorCredit && <p class="text-white/50 text-xs">{p.igAuthorCredit}</p>}
                       </div>
                     </div>
-                    <div class="absolute bottom-2 right-3 text-white/25 text-[10px] font-mono">1/{instagramSlideCount}</div>
+                    <div class="absolute bottom-2 right-3 text-white/25 text-[10px] font-mono">1/{p.instagramSlideCount}</div>
                   </div>
-                  <button class="download-btn" data-filename={`ig-01-cover-${slug}.png`} data-width="1080" aria-label="Download slide 1">↓ PNG</button>
+                  <button class="download-btn" data-filename={`ig-01-cover-${p.slug}.png`} data-width="1080" aria-label="Download slide 1">↓ PNG</button>
                 </div>
 
                 <!-- Slide 2: Quote (white version of slide 4) -->
-                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide 2 of ${instagramSlideCount}: Key quote`}>
+                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide 2 of ${p.instagramSlideCount}: Key quote`}>
                   <div class="card-capture relative w-full h-full rounded-none overflow-hidden bg-white shadow-2xl shadow-black/30">
                     <div class="p-6 flex flex-col h-full">
                       <div class="flex items-center justify-between mb-2">
@@ -436,7 +634,7 @@ const seo: SEOProps = {
                       <div class="text-yellow-400 text-8xl font-serif leading-none select-none" aria-hidden="true">"</div>
                       <div class="flex-1 flex flex-col justify-center -mt-4">
                         <p class="text-gray-900 text-sm font-semibold leading-relaxed">
-                          {slide2Quote ?? data.description}
+                          {p.slide2Quote ?? data.description}
                         </p>
                       </div>
                       <div class="mt-4 pt-4 border-t border-gray-100">
@@ -444,23 +642,24 @@ const seo: SEOProps = {
                         <p class="text-gray-300 text-xs">nomad-magazine.com</p>
                       </div>
                     </div>
-                    <div class="absolute bottom-2 right-3 text-gray-200 text-[10px] font-mono">2/{instagramSlideCount}</div>
+                    <div class="absolute bottom-2 right-3 text-gray-200 text-[10px] font-mono">2/{p.instagramSlideCount}</div>
                   </div>
-                  <button class="download-btn" data-filename={`ig-02-quote-${slug}.png`} data-width="1080" aria-label="Download slide 2">↓ PNG</button>
+                  <button class="download-btn" data-filename={`ig-02-quote-${p.slug}.png`} data-width="1080" aria-label="Download slide 2">↓ PNG</button>
                 </div>
 
                 <!-- Slide 3: City Quote Card -->
-                {citySlides[0] && (
-                  <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide 3 of ${instagramSlideCount}: City detail`}>
+                {p.citySlides[0] && (
+                  <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide 3 of ${p.instagramSlideCount}: City detail`}>
                     <div class="card-capture relative w-full h-full rounded-none overflow-hidden bg-yellow-400 shadow-2xl shadow-black/30">
                       <div class="p-6 flex flex-col h-full">
-                        <div class="flex items-center justify-end mb-2">
+                        <div class="flex items-center justify-between mb-2">
+                          <span class="text-black/60 text-[11px] font-bold uppercase tracking-widest">{p.slide3Kicker}</span>
                           <img src="/logo.svg" alt="" aria-hidden="true" class="w-5 h-5 opacity-40" crossorigin="anonymous" />
                         </div>
                         <div class="text-black/15 text-8xl font-serif leading-none select-none" aria-hidden="true">"</div>
                         <div class="flex-1 flex flex-col justify-center -mt-6">
                           <p class="text-black text-sm font-semibold leading-relaxed">
-                            {slide3Quote}
+                            {p.slide3Quote}
                           </p>
                         </div>
                         <div class="mt-4 pt-4 border-t border-black/10">
@@ -468,26 +667,27 @@ const seo: SEOProps = {
                           <p class="text-black/40 text-xs">nomad-magazine.com</p>
                         </div>
                       </div>
-                      <div class="absolute bottom-2 right-3 text-black/20 text-[10px] font-mono">3/{instagramSlideCount}</div>
+                      <div class="absolute bottom-2 right-3 text-black/20 text-[10px] font-mono">3/{p.instagramSlideCount}</div>
                     </div>
-                    <button class="download-btn" data-filename={`ig-03-city1-${slug}.png`} data-width="1080" aria-label="Download slide 3">↓ PNG</button>
+                    <button class="download-btn" data-filename={`ig-03-city1-${p.slug}.png`} data-width="1080" aria-label="Download slide 3">↓ PNG</button>
                   </div>
                 )}
 
                 <!-- Slide 4: City Quote Card -->
-                {citySlides[1] && showIgSecondCitySlide && (
-                  <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide 4 of ${instagramSlideCount}: City detail`}>
+                {p.citySlides[1] && p.showIgSecondCitySlide && (
+                  <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide 4 of ${p.instagramSlideCount}: City detail`}>
                     <div class="card-capture relative w-full h-full rounded-none overflow-hidden shadow-2xl shadow-black/50">
-                      <img src="/images/edinburgh-card-bg.png" alt="Edinburgh" class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" onerror="this.src='/images/best-cities-remote-workers-2026.webp'" />
+                      <img src={p.igSecondSectionPhoto.url} alt={p.igSecondSectionPhoto.alt || data.title} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
                       <div class="absolute inset-0 bg-black/60"></div>
                       <div class="absolute inset-0 p-6 flex flex-col">
-                        <div class="flex items-center justify-end mb-2">
+                        <div class="flex items-center justify-between mb-2">
+                          <span class="text-yellow-400 text-[11px] font-bold uppercase tracking-widest">{p.slide4Kicker}</span>
                           <img src="/logo.svg" alt="" aria-hidden="true" class="w-5 h-5 opacity-50" crossorigin="anonymous" />
                         </div>
                         <div class="text-yellow-400/30 text-8xl font-serif leading-none select-none" aria-hidden="true">"</div>
                         <div class="flex-1 flex flex-col justify-center -mt-6">
                           <p class="text-white text-sm font-semibold leading-relaxed drop-shadow-md">
-                            {slide4Quote}
+                            {p.slide4Quote}
                           </p>
                         </div>
                         <div class="mt-4 pt-4 border-t border-white/20">
@@ -495,25 +695,26 @@ const seo: SEOProps = {
                           <p class="text-white/50 text-xs">nomad-magazine.com</p>
                         </div>
                       </div>
-                      <div class="absolute bottom-2 right-3 text-white/30 text-[10px] font-mono">4/{instagramSlideCount}</div>
+                      <div class="absolute bottom-2 right-3 text-white/30 text-[10px] font-mono">4/{p.instagramSlideCount}</div>
                     </div>
-                    <button class="download-btn" data-filename={`ig-04-city2-${slug}.png`} data-width="1080" aria-label="Download slide 4">↓ PNG</button>
+                    <button class="download-btn" data-filename={`ig-04-city2-${p.slug}.png`} data-width="1080" aria-label="Download slide 4">↓ PNG</button>
                   </div>
                 )}
 
                 <!-- Slide 5: Image Quote -->
-                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide ${3 + igCitySlideCount} of ${instagramSlideCount}: Key insight`}>
+                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide ${3 + p.igCitySlideCount} of ${p.instagramSlideCount}: Key insight`}>
                   <div class="card-capture relative w-full h-full rounded-none overflow-hidden shadow-2xl shadow-black/50">
-                    <img src={igImageQuoteBg} alt={igImageQuoteBgAlt} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" onerror="this.src='/images/best-cities-remote-workers-2026.webp'" />
+                    <img src={p.igImageQuotePhoto.url} alt={p.igImageQuotePhoto.alt || data.title} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
                     <div class="absolute inset-0 bg-black/60"></div>
                     <div class="absolute inset-0 p-6 flex flex-col">
                       <div class="flex items-center justify-between mb-2">
+                        <span class="text-yellow-400 text-[11px] font-bold uppercase tracking-widest">{p.slide5Kicker}</span>
                         <img src="/logo.svg" alt="" aria-hidden="true" class="w-5 h-5 opacity-50" crossorigin="anonymous" />
                       </div>
                       <div class="text-yellow-400/30 text-8xl font-serif leading-none select-none" aria-hidden="true">"</div>
                       <div class="flex-1 flex flex-col justify-center -mt-6">
                         <p class="text-white text-sm font-semibold leading-relaxed drop-shadow-md">
-                          {slide5Quote}
+                          {p.slide5Quote}
                         </p>
                       </div>
                       <div class="mt-4 pt-4 border-t border-white/20">
@@ -521,103 +722,69 @@ const seo: SEOProps = {
                         <p class="text-white/50 text-xs">nomad-magazine.com</p>
                       </div>
                     </div>
-                    <div class="absolute bottom-2 right-3 text-white/30 text-[10px] font-mono">{3 + igCitySlideCount}/{instagramSlideCount}</div>
+                    <div class="absolute bottom-2 right-3 text-white/30 text-[10px] font-mono">{3 + p.igCitySlideCount}/{p.instagramSlideCount}</div>
                   </div>
-                  <button class="download-btn" data-filename={`ig-${String(3 + igCitySlideCount).padStart(2, '0')}-quote-${slug}.png`} data-width="1080" aria-label="Download image quote slide">↓ PNG</button>
+                  <button class="download-btn" data-filename={`ig-${String(3 + p.igCitySlideCount).padStart(2, '0')}-quote-${p.slug}.png`} data-width="1080" aria-label="Download image quote slide">↓ PNG</button>
                 </div>
 
-                <!-- Mongolia: extra white card — Milky Way / rural skies -->
-                {showIgMilkyWaySlide && (
-                  <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide ${4 + igCitySlideCount} of ${instagramSlideCount}: Milky Way quote`}>
-                    <div class="card-capture relative w-full h-full rounded-none overflow-hidden bg-white shadow-2xl shadow-black/30">
-                      <div class="p-6 flex flex-col h-full">
-                        <div class="flex items-center justify-between mb-2">
-                          <img src="/logo.svg" alt="" aria-hidden="true" class="w-5 h-5 opacity-20" crossorigin="anonymous" />
-                        </div>
-                        <div class="text-yellow-400 text-8xl font-serif leading-none select-none" aria-hidden="true">"</div>
-                        <div class="flex-1 flex flex-col justify-center -mt-4">
-                          <p class="text-gray-900 text-sm font-semibold leading-relaxed">{igMilkyWayQuote}</p>
-                        </div>
-                        <div class="mt-4 pt-4 border-t border-gray-100">
-                          {data.author && <p class="text-gray-500 text-xs font-medium">{data.author}</p>}
-                          <p class="text-gray-300 text-xs">nomad-magazine.com</p>
-                        </div>
-                      </div>
-                      <div class="absolute bottom-2 right-3 text-gray-200 text-[10px] font-mono">{4 + igCitySlideCount}/{instagramSlideCount}</div>
-                    </div>
-                    <button class="download-btn" data-filename={`ig-${String(4 + igCitySlideCount).padStart(2, '0')}-milky-way-${slug}.png`} data-width="1080" aria-label="Download Milky Way quote slide">↓ PNG</button>
-                  </div>
-                )}
-
-                <!-- Slide 6: Cities mentioned (if article has location focus) or key topics fallback -->
-                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide ${4 + igCitySlideCount + igExtraAfterImageSlideCount} of ${instagramSlideCount}: Featured locations`}>
+                <!-- Slide 6: Section titles (H2) from the article -->
+                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide ${4 + p.igCitySlideCount} of ${p.instagramSlideCount}: Story sections`}>
                   <div class="card-capture relative w-full h-full rounded-none overflow-hidden bg-[#121111] shadow-2xl shadow-black/50">
                     <div class="p-6 flex flex-col h-full">
                       <div class="flex items-center justify-between mb-6">
                         <span class="text-yellow-400 text-[11px] font-bold uppercase tracking-widest">
-                          {cities.length > 0 ? 'Featured in this article' : 'In this article'}
+                          In this story
                         </span>
                         <img src="/logo.svg" alt="" aria-hidden="true" class="w-5 h-5 opacity-50" crossorigin="anonymous" />
                       </div>
                       <div class="flex-1 space-y-4">
-                        {cities.length > 0 ? (
-                          cities.slice(0, 6).map((city, i) => (
-                            <div class="flex items-start gap-3">
-                              <span class="text-yellow-400 font-bold text-base leading-none mt-0.5 shrink-0 font-mono">
-                                {String(i + 1).padStart(2, '0')}
-                              </span>
-                              <p class="text-white text-sm leading-snug">{city}</p>
-                            </div>
-                          ))
-                        ) : (
-                          keyPoints.slice(0, 4).map((point, i) => (
-                            <div class="flex items-start gap-3">
-                              <span class="text-yellow-400 font-bold text-base leading-none mt-0.5 shrink-0 font-mono">
-                                {String(i + 1).padStart(2, '0')}
-                              </span>
-                              <p class="text-white text-sm leading-snug">{point}</p>
-                            </div>
-                          ))
-                        )}
+                        {p.keyPoints.slice(0, 6).map((point, i) => (
+                          <div class="flex items-start gap-3">
+                            <span class="text-yellow-400 font-bold text-base leading-none mt-0.5 shrink-0 font-mono">
+                              {String(i + 1).padStart(2, '0')}
+                            </span>
+                            <p class="text-white text-sm leading-snug">{point}</p>
+                          </div>
+                        ))}
                       </div>
                       <div class="mt-4 pt-4 border-t border-gray-800">
-                        <p class="text-gray-600 text-[11px] font-mono">{articleUrl}</p>
+                        <p class="text-gray-600 text-[11px] font-mono">{p.articleUrl}</p>
                       </div>
                     </div>
-                    <div class="absolute bottom-2 right-3 text-gray-700 text-[10px] font-mono">{4 + igCitySlideCount + igExtraAfterImageSlideCount}/{instagramSlideCount}</div>
+                    <div class="absolute bottom-2 right-3 text-gray-700 text-[10px] font-mono">{4 + p.igCitySlideCount}/{p.instagramSlideCount}</div>
                   </div>
-                  <button class="download-btn" data-filename={`ig-${String(4 + igCitySlideCount + igExtraAfterImageSlideCount).padStart(2, '0')}-${cities.length > 0 ? 'cities' : 'topics'}-${slug}.png`} data-width="1080" aria-label="Download featured locations slide">↓ PNG</button>
+                  <button class="download-btn" data-filename={`ig-${String(4 + p.igCitySlideCount).padStart(2, '0')}-sections-${p.slug}.png`} data-width="1080" aria-label="Download story sections slide">↓ PNG</button>
                 </div>
 
-                <!-- Slide 7: Adaptability message -->
-                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide ${5 + igCitySlideCount + igExtraAfterImageSlideCount} of ${instagramSlideCount}: Adaptability message`}>
+                <!-- Slide 7: Closing insight from this article -->
+                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide ${5 + p.igCitySlideCount} of ${p.instagramSlideCount}: Closing insight`}>
                   <div class="card-capture relative w-full h-full rounded-none overflow-hidden bg-[#121111] shadow-2xl shadow-black/50">
                     <div class="absolute inset-0 bg-linear-to-br from-yellow-400/10 via-transparent to-yellow-500/5"></div>
                     <div class="p-6 relative flex flex-col h-full">
                       <div class="flex items-center justify-between mb-3">
-                        <span class="text-yellow-400 text-[11px] font-bold uppercase tracking-widest">Remote work is resilience</span>
+                        <span class="text-yellow-400 text-[11px] font-bold uppercase tracking-widest">{p.closingSlideKicker}</span>
                         <img src="/logo.svg" alt="" aria-hidden="true" class="w-5 h-5 opacity-50" crossorigin="anonymous" />
                       </div>
                       <div class="text-yellow-400/20 text-8xl font-serif leading-none select-none" aria-hidden="true">"</div>
                       <div class="flex-1 flex flex-col justify-center -mt-5">
                         <p class="text-white text-sm font-semibold leading-relaxed">
-                          {slide6ResilienceQuote}
+                          {p.closingInsight}
                         </p>
                       </div>
                       <div class="mt-4 pt-4 border-t border-white/10">
                         <p class="text-white/45 text-xs">nomad-magazine.com</p>
                       </div>
                     </div>
-                    <div class="absolute bottom-2 right-3 text-white/20 text-[10px] font-mono">{5 + igCitySlideCount + igExtraAfterImageSlideCount}/{instagramSlideCount}</div>
+                    <div class="absolute bottom-2 right-3 text-white/20 text-[10px] font-mono">{5 + p.igCitySlideCount}/{p.instagramSlideCount}</div>
                   </div>
-                  <button class="download-btn" data-filename={`ig-${String(5 + igCitySlideCount + igExtraAfterImageSlideCount).padStart(2, '0')}-adaptability-${slug}.png`} data-width="1080" aria-label="Download adaptability slide">↓ PNG</button>
+                  <button class="download-btn" data-filename={`ig-${String(5 + p.igCitySlideCount).padStart(2, '0')}-closing-${p.slug}.png`} data-width="1080" aria-label="Download closing insight slide">↓ PNG</button>
                 </div>
 
                 <!-- Slide 8: CTA -->
-                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide ${6 + igCitySlideCount + igExtraAfterImageSlideCount} of ${instagramSlideCount}: Call to action`}>
+                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide ${6 + p.igCitySlideCount} of ${p.instagramSlideCount}: Call to action`}>
                   <div class="card-capture relative w-full h-full rounded-none overflow-hidden shadow-2xl shadow-black/50">
-                    {heroImage
-                      ? <img src={heroImage} alt={heroImageAlt} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
+                    {p.heroImage
+                      ? <img src={p.heroImage} alt={p.heroImageAlt} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
                       : <div class="absolute inset-0 bg-gradient-to-br from-yellow-500 to-yellow-700"></div>
                     }
                     <div class="absolute inset-0 bg-black/75"></div>
@@ -626,13 +793,13 @@ const seo: SEOProps = {
                       <p class="text-yellow-400 text-[11px] font-bold uppercase tracking-widest mb-3">Read the full article</p>
                       <h3 class="text-white font-bold text-base leading-snug mb-5">{data.title}</h3>
                       <div class="bg-yellow-400 text-black text-xs font-bold px-5 py-2.5 rounded-full max-w-full break-all">
-                        {articleUrl}
+                        {p.articleUrl}
                       </div>
                       <p class="text-white/40 text-xs mt-4">🔗 Link in bio</p>
                     </div>
-                    <div class="absolute bottom-2 right-3 text-white/20 text-[10px] font-mono">{6 + igCitySlideCount + igExtraAfterImageSlideCount}/{instagramSlideCount}</div>
+                    <div class="absolute bottom-2 right-3 text-white/20 text-[10px] font-mono">{6 + p.igCitySlideCount}/{p.instagramSlideCount}</div>
                   </div>
-                  <button class="download-btn" data-filename={`ig-${String(6 + igCitySlideCount + igExtraAfterImageSlideCount).padStart(2, '0')}-cta-${slug}.png`} data-width="1080" aria-label="Download CTA slide">↓ PNG</button>
+                  <button class="download-btn" data-filename={`ig-${String(6 + p.igCitySlideCount).padStart(2, '0')}-cta-${p.slug}.png`} data-width="1080" aria-label="Download CTA slide">↓ PNG</button>
                 </div>
 
               </div>
@@ -648,8 +815,8 @@ const seo: SEOProps = {
               </div>
               <div class="card-wrapper relative group" style="max-width:600px;padding-bottom:36px;">
                 <div class="card-capture relative rounded-none overflow-hidden shadow-2xl shadow-black/50" style="aspect-ratio:1.91/1;">
-                  {heroImage
-                    ? <img src={heroImage} alt={heroImageAlt} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
+                  {p.heroImage
+                    ? <img src={p.heroImage} alt={p.heroImageAlt} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
                     : <div class="absolute inset-0 bg-gradient-to-r from-gray-900 to-gray-700"></div>
                   }
                   <div class="absolute inset-0 bg-linear-to-r from-black/90 via-black/60 to-transparent"></div>
@@ -659,18 +826,18 @@ const seo: SEOProps = {
                       <span class="text-white/70 text-xs font-bold uppercase tracking-widest">Nomad Magazine</span>
                     </div>
                     <div>
-                      {tags[0] && (
-                        <span class="inline-block bg-yellow-400 text-black text-xs font-bold px-3 py-1 rounded-full mb-3">{tags[0]}</span>
+                      {p.tags[0] && (
+                        <span class="inline-block bg-yellow-400 text-black text-xs font-bold px-3 py-1 rounded-full mb-3">{p.tags[0]}</span>
                       )}
                       <h3 class="text-white font-bold text-2xl leading-tight mb-2 drop-shadow-lg">{data.title}</h3>
                       <p class="text-white/65 text-sm leading-relaxed" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">
                         {data.description}
                       </p>
-                      <p class="text-yellow-400/70 text-xs mt-3 font-mono">{articleUrl}</p>
+                      <p class="text-yellow-400/70 text-xs mt-3 font-mono">{p.articleUrl}</p>
                     </div>
                   </div>
                 </div>
-                <button class="download-btn" data-filename={`linkedin-${slug}.png`} data-width="1200" aria-label="Download LinkedIn image">↓ PNG</button>
+                <button class="download-btn" data-filename={`linkedin-${p.slug}.png`} data-width="1200" aria-label="Download LinkedIn image">↓ PNG</button>
               </div>
 
               <!-- LinkedIn copy -->
@@ -683,8 +850,8 @@ const seo: SEOProps = {
                   class="copy-textarea w-full bg-gray-900 border border-gray-800 text-gray-300 text-xs leading-relaxed rounded-xl p-4 resize-none font-mono focus-visible:ring-2 focus-visible:ring-blue-500 outline-none"
                   rows="12"
                   readonly
-                >{linkedInCopy}</textarea>
-                <p class="text-gray-600 text-[11px] mt-1">~{linkedInCopy.length} chars · Edit before posting · LinkedIn allows up to 3000 chars</p>
+                >{p.linkedInCopy}</textarea>
+                <p class="text-gray-600 text-[11px] mt-1">~{p.linkedInCopy.length} chars · Edit before posting · LinkedIn allows up to 3000 chars</p>
               </div>
             </div>
 
@@ -698,8 +865,8 @@ const seo: SEOProps = {
               </div>
               <div class="card-wrapper relative group" style="max-width:600px;padding-bottom:36px;">
                 <div class="card-capture relative rounded-none overflow-hidden shadow-2xl shadow-black/50" style="aspect-ratio:16/9;">
-                  {heroImage
-                    ? <img src={heroImage} alt={heroImageAlt} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
+                  {p.heroImage
+                    ? <img src={p.heroImage} alt={p.heroImageAlt} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
                     : <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-black"></div>
                   }
                   <div class="absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-transparent"></div>
@@ -710,20 +877,20 @@ const seo: SEOProps = {
                         <img src="/logo.svg" alt="" aria-hidden="true" class="w-6 h-6" crossorigin="anonymous" />
                         <span class="text-white/60 text-xs font-bold uppercase tracking-wider">Nomad Magazine</span>
                       </div>
-                      {tags[0] && (
-                        <span class="bg-yellow-400 text-black text-xs font-bold px-2.5 py-0.5 rounded-full">{tags[0]}</span>
+                      {p.tags[0] && (
+                        <span class="bg-yellow-400 text-black text-xs font-bold px-2.5 py-0.5 rounded-full">{p.tags[0]}</span>
                       )}
                     </div>
                     <div>
                       <h3 class="text-white font-bold text-xl leading-tight mb-1 drop-shadow-lg">{data.title}</h3>
                       <div class="flex items-center gap-3 mt-2">
                         {data.author && <span class="text-white/50 text-xs">{data.author}</span>}
-                        <span class="text-yellow-400/80 text-xs font-mono">{articleUrl}</span>
+                        <span class="text-yellow-400/80 text-xs font-mono">{p.articleUrl}</span>
                       </div>
                     </div>
                   </div>
                 </div>
-                <button class="download-btn" data-filename={`twitter-${slug}.png`} data-width="1600" aria-label="Download Twitter image">↓ PNG</button>
+                <button class="download-btn" data-filename={`twitter-${p.slug}.png`} data-width="1600" aria-label="Download Twitter image">↓ PNG</button>
               </div>
 
               <!-- Twitter copy -->
@@ -731,7 +898,7 @@ const seo: SEOProps = {
                 <div class="flex items-center justify-between mb-2">
                   <span class="text-gray-500 text-[11px] font-bold uppercase tracking-widest">Proposed Twitter / X post copy</span>
                   <div class="flex items-center gap-2">
-                    <span class="char-counter text-[11px] text-gray-600 font-mono" data-max="280">{twitterCopy.length}/280</span>
+                    <span class="char-counter text-[11px] text-gray-600 font-mono" data-max="280">{p.twitterCopy.length}/280</span>
                     <button class="copy-text-btn text-[11px] font-semibold text-sky-300 hover:text-white border border-sky-800/50 hover:border-sky-400 bg-sky-950/40 hover:bg-sky-900/50 px-3 py-1 rounded-lg transition-colors" aria-label="Copy Twitter post text">Copy text</button>
                   </div>
                 </div>
@@ -739,9 +906,9 @@ const seo: SEOProps = {
                   class="copy-textarea w-full bg-gray-900 border border-gray-800 text-gray-300 text-xs leading-relaxed rounded-xl p-4 resize-none font-mono focus-visible:ring-2 focus-visible:ring-sky-500 outline-none"
                   rows="6"
                   readonly
-                >{twitterCopy}</textarea>
-                <p class={`text-[11px] mt-1 ${twitterCopy.length > 280 ? 'text-red-400' : 'text-gray-600'}`}>
-                  {twitterCopy.length > 280 ? `⚠ ${twitterCopy.length - 280} chars over limit — trim before posting` : `${twitterCopy.length}/280 chars · Edit before posting`}
+                >{p.twitterCopy}</textarea>
+                <p class={`text-[11px] mt-1 ${p.twitterCopy.length > 280 ? 'text-red-400' : 'text-gray-600'}`}>
+                  {p.twitterCopy.length > 280 ? `⚠ ${p.twitterCopy.length - 280} chars over limit — trim before posting` : `${p.twitterCopy.length}/280 chars · Edit before posting`}
                 </p>
               </div>
             </div>
