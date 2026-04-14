@@ -2,7 +2,7 @@
 slug: tadaima-2025-coliving-program-japan-digital-nomads-locals
 title: "TADAIMA 2025: Japan's Revolutionary Coliving Program Connecting Digital Nomads and Local Communities"
 description: Discover TADAIMA 2025, a groundbreaking month-long coliving program in Shimoda, Japan, designed to bridge digital nomads with local communities through dialogue, workshops, and shared living experiences.
-author: Martin Donadieu
+author: Nomad Magazine
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-01-24T12:00:00.000Z

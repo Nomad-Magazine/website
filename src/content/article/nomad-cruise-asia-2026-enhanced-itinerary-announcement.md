@@ -2,7 +2,7 @@
 slug: nomad-cruise-asia-2026-enhanced-itinerary-announcement
 title: "Next Nomad Cruise Sails Across Asia: Hong Kong → Japan → South Korea → Philippines | February 14-25, 2026"
 description: "Nomad Cruise shares friendly updates on their Asia 2026 journey, now a 12-day adventure with new stops, extra sea days, and more time to connect with 300+ digital nomads and entrepreneurs."
-author: Nomad Magazine Editorial Team
+author: Nomad Magazine
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://nomad-magazine.com
 created_at: 2025-11-13T12:00:00.000Z

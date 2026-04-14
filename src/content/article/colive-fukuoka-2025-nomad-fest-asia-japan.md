@@ -2,7 +2,7 @@
 slug: colive-fukuoka-2025-nomad-fest-asia-japan
 title: "Colive Fukuoka 2025: Asia's Premier Digital Nomad Festival Returns to Japan"
 description: Discover Colive Fukuoka 2025, the No.1 digital nomad festival in Asia featuring a 10-day program, RAMEN TECH startup week, and unique Japanese cultural experiences in Fukuoka City.
-author: Nomad Magazine Team
+author: Nomad Magazine
 author_image_url: /images/team/ngm-team.png
 author_url: https://nomad-magazine.com/about
 created_at: 2025-09-02T12:00:00.000Z
