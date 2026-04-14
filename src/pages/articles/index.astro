@@ -129,8 +129,8 @@ const seo: SEOProps = {
                       <a href={`/authors/${authorSlug(featuredPost.data.author)}/`} class="hover:text-white transition-colors">{featuredPost.data.author}</a>
                     ) : 'Nomad Magazine'}
                   </div>
-                  <h1 class="text-3xl lg:text-4xl font-bold leading-tight text-white">
-                    <a href={`/articles/${featuredPost.slug}/`} class="hover:text-neutral-300 transition-colors">
+                  <h1 class="text-3xl lg:text-4xl font-bold leading-tight text-yellow-400">
+                    <a href={`/articles/${featuredPost.slug}/`} class="hover:text-yellow-300 transition-colors">
                       {featuredPost.data.title}
                     </a>
                   </h1>
@@ -368,8 +368,8 @@ const seo: SEOProps = {
                     />
                   </div>
                   <div class="space-y-1 flex-1">
-                    <h3 class="text-sm font-bold leading-tight text-white">
-                      <a href={`/articles/${post.slug}/`} class="hover:text-neutral-300 transition-colors">
+                    <h3 class="text-sm font-bold leading-tight text-yellow-400">
+                      <a href={`/articles/${post.slug}/`} class="hover:text-yellow-300 transition-colors">
                         {post.data.title}
                       </a>
                     </h3>
@@ -507,7 +507,7 @@ const seo: SEOProps = {
                     <span>{Math.ceil(featuredStoriesHero.body.length / 1000)} min read</span>
                   </div>
                   
-                  <h3 class="mb-4 text-3xl font-bold leading-tight text-white group-hover:text-yellow-400 transition-colors">
+                  <h3 class="mb-4 text-3xl font-bold leading-tight text-yellow-400 group-hover:text-yellow-300 transition-colors">
                     <a href={`/articles/${featuredStoriesHero.slug}/`} class="after:absolute after:inset-0">
                       {featuredStoriesHero.data.title}
                     </a>
@@ -570,7 +570,7 @@ const seo: SEOProps = {
                   <span>{Math.ceil(post.body.length / 1000)} min</span>
                 </div>
 
-                <h3 class="mb-3 text-xl font-bold leading-tight text-white group-hover:text-yellow-400 transition-colors">
+                <h3 class="mb-3 text-xl font-bold leading-tight text-yellow-400 group-hover:text-yellow-300 transition-colors">
                   <a href={`/articles/${post.slug}/`} class="after:absolute after:inset-0">
                     {post.data.title}
                   </a>
@@ -645,7 +645,7 @@ const seo: SEOProps = {
                     <span>{Math.ceil(post.body.length / 1000)} min</span>
                   </div>
                   
-                  <h3 class="mb-2 text-base font-semibold leading-tight text-white group-hover:text-yellow-400 transition-colors">
+                  <h3 class="mb-2 text-base font-semibold leading-tight text-yellow-400 group-hover:text-yellow-300 transition-colors">
                     <a href={`/articles/${post.slug}/`} class="after:absolute after:inset-0">
                       {post.data.title}
                     </a>
