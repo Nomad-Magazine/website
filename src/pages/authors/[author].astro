@@ -1,0 +1,138 @@
+---
+export const prerender = true;
+
+import { getCollection } from 'astro:content'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import { Image } from 'astro:assets'
+import { normalizeContentEntries } from '~/utils/content'
+
+export async function getStaticPaths() {
+  const allArticles = normalizeContentEntries(await getCollection('article'))
+  const authors = new Map<string, string>()
+
+  for (const post of allArticles) {
+    if (post.data.author && post.data.published !== false) {
+      const slug = post.data.author
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^a-z0-9-]/g, '')
+      authors.set(slug, post.data.author)
+    }
+  }
+
+  return Array.from(authors.entries()).map(([slug, name]) => ({
+    params: { author: slug },
+    props: { authorName: name },
+  }))
+}
+
+const { authorName } = Astro.props
+
+const allArticles = normalizeContentEntries(await getCollection('article'))
+const posts = allArticles
+  .filter(
+    (post) =>
+      post.data.published !== false &&
+      post.data.author === authorName,
+  )
+  .sort((a, b) => {
+    const dateA = a.data.pubDate || new Date(0)
+    const dateB = b.data.pubDate || new Date(0)
+    return dateB.valueOf() - dateA.valueOf()
+  })
+
+const seo: SEOProps = {
+  title: `${authorName} – Articles on Nomad Magazine`,
+  description: `Read all articles written by ${authorName} on Nomad Magazine. Hand-written stories, essays, and insights from an invited author.`,
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    name: `${authorName} – Nomad Magazine`,
+    description: `Articles by ${authorName}`,
+    url: `${Astro.site}authors/${Astro.params.author}/`,
+  },
+}
+---
+
+<Layout seo={seo}>
+  <div class="bg-hoverw min-h-screen">
+    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+
+      <!-- Author header -->
+      <header class="mb-12">
+        <p class="text-xs uppercase tracking-widest text-neutral-500 mb-2">Author</p>
+        <h1 class="text-4xl font-bold text-white mb-3">{authorName}</h1>
+        <p class="text-neutral-400 text-sm">
+          {posts.length} article{posts.length !== 1 ? 's' : ''} published on Nomad Magazine
+        </p>
+        <div class="mt-4 h-px bg-neutral-800 w-full"></div>
+      </header>
+
+      <!-- Articles grid -->
+      {posts.length === 0 ? (
+        <p class="text-neutral-400">No published articles found for this author.</p>
+      ) : (
+        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post) => (
+            <article class="group relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900/30 transition-all hover:border-neutral-700 hover:bg-neutral-900/60">
+              {post.data.heroImage && (
+                <div class="aspect-video overflow-hidden">
+                  <Image
+                    src={post.data.heroImage}
+                    alt={post.data.heroImageAlt || post.data.title}
+                    width={600}
+                    height={338}
+                    class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                </div>
+              )}
+              <div class="p-6 space-y-3">
+                <div class="text-xs text-neutral-500 font-medium uppercase tracking-wider">
+                  {post.data.pubDate?.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                  })}
+                  {post.body && (
+                    <span> · {Math.ceil(post.body.length / 1000)} min read</span>
+                  )}
+                </div>
+                <h2 class="text-lg font-bold leading-tight text-white group-hover:text-yellow-400 transition-colors">
+                  <a href={`/articles/${post.slug}/`} class="after:absolute after:inset-0">
+                    {post.data.title}
+                  </a>
+                </h2>
+                <p class="text-sm text-neutral-400 line-clamp-3">
+                  {post.data.description}
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
+
+      <div class="mt-16 text-center">
+        <a
+          href="/articles/"
+          class="inline-flex items-center gap-2 text-sm text-neutral-400 hover:text-white transition-colors"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to all articles
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

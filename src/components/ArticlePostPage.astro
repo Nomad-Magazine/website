@@ -73,17 +73,21 @@ const seo: SEOProps = {
             <h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">{post.data.title}</h1>
             <div class="mt-4 flex flex-col items-center gap-2">
               {post.data.author && (
-                <div class="text-lg">
-                  {post.data.authorUrl ? (
-                    <span>
-                      {post.data.bylineType ? `${post.data.bylineType} ` : ''}by{' '}
-                      <a href={post.data.authorUrl} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${post.data.author}'s profile (opens in new tab)`} class="underline hover:text-yellow-400 transition-colors">{post.data.author}</a>
-                    </span>
-                  ) : (
-                    <span>
-                      {post.data.bylineType ? `${post.data.bylineType} ` : ''}by {post.data.author}
-                    </span>
-                  )}
+                <div class="text-lg flex flex-col items-center gap-1">
+                  <span>
+                    {post.data.bylineType ? `${post.data.bylineType} ` : ''}by{' '}
+                    {post.data.authorUrl ? (
+                      <a href={post.data.authorUrl} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${post.data.author}'s website (opens in new tab)`} class="underline hover:text-yellow-400 transition-colors">{post.data.author}</a>
+                    ) : (
+                      <span>{post.data.author}</span>
+                    )}
+                  </span>
+                  <a
+                    href={`/authors/${post.data.author.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}/`}
+                    class="text-sm text-yellow-400/80 hover:text-yellow-400 transition-colors"
+                  >
+                    More articles by this author →
+                  </a>
                 </div>
               )}
               {post.data.pubDate && (
