@@ -12,6 +12,11 @@ export default {
     console.log(`[CONFIG] Found ${validPasswords.length} valid password(s) configured`);
 
     const url = new URL(request.url);
+  // The requested file is fully driven by the URL path.
+  // Example: /issues/nomad-january-2026.pdf -> path === "issues/nomad-january-2026.pdf".
+    // Keep filenames slug-style with hyphens and no spaces.
+  // This same dynamic path is used for the R2 lookup and sent to Bento as details.file_path,
+  // so Bento automations/emails can reuse it to build the correct download link.
     const path = url.pathname.replace(/^\/+/, ""); // remove leading /
 
     console.log(`[PATH] Requested path: "${path}"`);
@@ -198,6 +203,8 @@ function passwordForm(pathname, msg = "") {
 
 // helper to render download page
 function downloadPage(pathname) {
+  // The displayed/downloaded filename is just the last segment of the dynamic path.
+  // Example: "issues/nomad-january-2026.pdf" -> "nomad-january-2026.pdf".
   const filename = pathname.split("/").pop() || "file";
   const downloadUrl = `/${pathname}?download=1`;
 
