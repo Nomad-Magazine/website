@@ -50,14 +50,29 @@ const distroCountries = [...new Set(distributionPlaces.map((p: any) => p.country
           "@type": "Brand",
           "name": "Nomad Magazine"
         },
-        "offers": {
-          "@type": "Offer",
-          "url": "https://pay.nomad-magazine.com/b/fZu14nc2x1bdfAWf0l8bS0L",
-          "priceCurrency": "EUR",
-          "price": "22.00",
-          "availability": "https://schema.org/InStock",
-          "itemCondition": "https://schema.org/NewCondition"
-        }
+        "offers": [
+          {
+            "@type": "Offer",
+            "url": "https://magculture.com/products/nomad-magazine-4",
+            "availability": "https://schema.org/InStock",
+            "itemCondition": "https://schema.org/NewCondition",
+            "seller": { "@type": "Organization", "name": "MagCulture" }
+          },
+          {
+            "@type": "Offer",
+            "url": "https://brot.sk/products/nomad-magazine-4",
+            "availability": "https://schema.org/InStock",
+            "itemCondition": "https://schema.org/NewCondition",
+            "seller": { "@type": "Organization", "name": "Brot" }
+          },
+          {
+            "@type": "Offer",
+            "url": "https://www.op34.studio/products/nomad-magazine-issue-4",
+            "availability": "https://schema.org/InStock",
+            "itemCondition": "https://schema.org/NewCondition",
+            "seller": { "@type": "Organization", "name": "OP34 Studio" }
+          }
+        ]
       }
     </script>
     <!-- Hero -->
@@ -75,15 +90,20 @@ const distroCountries = [...new Set(distributionPlaces.map((p: any) => p.country
           <p class="hero-eyebrow">Edition Four — Now Available</p>
           <h1 class="hero-h1">Where the Nomad World Is Growing Next</h1>
           <p class="hero-sub">Palermo, Fukuoka, Bansko, Madeira — reported from the ground, beautifully made to keep.</p>
-          <a
-            href="https://pay.nomad-magazine.com/b/fZu14nc2x1bdfAWf0l8bS0L"
-            class="hero-cta"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Buy print edition of Nomad Magazine Edition Four (opens in new tab)"
-          >
-            Buy Print Edition
-          </a>
+          <div class="print-retailers" aria-label="Where to buy Nomad Magazine Edition Four in print">
+            <p class="print-retailers-label">Where to buy:</p>
+            <ul class="print-retailers-list">
+              <li>
+                <a href="https://magculture.com/products/nomad-magazine-4" class="print-retailer-link" target="_blank" rel="noopener noreferrer" aria-label="Buy Nomad Magazine Edition 4 from MagCulture UK (opens in new tab)">UK — MagCulture</a>
+              </li>
+              <li>
+                <a href="https://brot.sk/products/nomad-magazine-4" class="print-retailer-link" target="_blank" rel="noopener noreferrer" aria-label="Buy Nomad Magazine Edition 4 from Brot Slovakia (opens in new tab)">Slovakia — Brot</a>
+              </li>
+              <li>
+                <a href="https://www.op34.studio/products/nomad-magazine-issue-4" class="print-retailer-link" target="_blank" rel="noopener noreferrer" aria-label="Buy Nomad Magazine Issue 4 from OP34 Studio Bulgaria (opens in new tab)">Bulgaria — OP34 Studio</a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       <!-- Proof strip -->
@@ -115,11 +135,11 @@ const distroCountries = [...new Set(distributionPlaces.map((p: any) => p.country
           <p class="palermo-body">Palermo is Italy's emerging nomad capital — and this is the issue that tells that story. Our cover feature goes on the ground in Sicily to explore why this city is attracting a new generation of location-independent workers, what the municipality is doing to welcome them, and what a genuinely good life can look like when you stop treating your city as a backdrop.</p>
           <p class="palermo-body">It is not a destination guide. It is a reported story about a place becoming something new.</p>
           <a
-            href="https://pay.nomad-magazine.com/b/fZu14nc2x1bdfAWf0l8bS0L"
+            href="https://magculture.com/products/nomad-magazine-4"
             class="palermo-cta"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Buy print edition to read the Palermo cover story (opens in new tab)"
+            aria-label="Buy print edition to read the Palermo cover story at MagCulture UK (opens in new tab)"
           >
             Read It in Print
           </a>
@@ -402,10 +422,19 @@ const distroCountries = [...new Set(distributionPlaces.map((p: any) => p.country
               <span><strong>A Collectible Object:</strong> Made to keep on your coffee table or bookshelf for years to come.</span>
             </li>
           </ul>
-          <div class="own-in-print-cta-wrapper">
-            <a href="https://pay.nomad-magazine.com/b/fZu14nc2x1bdfAWf0l8bS0L" class="hero-cta" target="_blank" rel="noopener noreferrer" aria-label="Buy print edition (opens in new tab)">
-              Buy Print Edition
-            </a>
+          <div class="own-in-print-cta-wrapper print-retailers" aria-label="Where to buy Nomad Magazine Edition Four in print">
+            <p class="print-retailers-label">Where to buy:</p>
+            <ul class="print-retailers-list">
+              <li>
+                <a href="https://magculture.com/products/nomad-magazine-4" class="hero-cta" target="_blank" rel="noopener noreferrer" aria-label="Buy Nomad Magazine Edition 4 from MagCulture UK (opens in new tab)">UK — MagCulture</a>
+              </li>
+              <li>
+                <a href="https://brot.sk/products/nomad-magazine-4" class="hero-cta" target="_blank" rel="noopener noreferrer" aria-label="Buy Nomad Magazine Edition 4 from Brot Slovakia (opens in new tab)">Slovakia — Brot</a>
+              </li>
+              <li>
+                <a href="https://www.op34.studio/products/nomad-magazine-issue-4" class="hero-cta" target="_blank" rel="noopener noreferrer" aria-label="Buy Nomad Magazine Issue 4 from OP34 Studio Bulgaria (opens in new tab)">Bulgaria — OP34 Studio</a>
+              </li>
+            </ul>
           </div>
         </div>
         <div class="own-in-print-image">
@@ -477,7 +506,7 @@ const distroCountries = [...new Set(distributionPlaces.map((p: any) => p.country
         </div>
         <div class="faq-item">
           <h3 class="faq-question">What does shipping look like?</h3>
-          <p class="faq-answer">We ship globally at a flat rate — same price everywhere. We process and ship orders once a week, so expect dispatch within a few days of ordering.</p>
+          <p class="faq-answer">We no longer ship magazines ourselves. Order the print edition from a retailer in your region (UK, Slovakia, or Bulgaria — see links on this page); delivery times and rates are set by each partner.</p>
         </div>
         <div class="faq-item">
           <h3 class="faq-question">Is this a one-time purchase?</h3>
@@ -488,10 +517,19 @@ const distroCountries = [...new Set(distributionPlaces.map((p: any) => p.country
           <p class="faq-answer">Yes, you can find previous editions in our shop, though quantities are limited as we don't reprint sold-out issues.</p>
         </div>
       </div>
-      <div class="faq-cta-wrapper">
-        <a href="https://pay.nomad-magazine.com/b/fZu14nc2x1bdfAWf0l8bS0L" class="hero-cta" target="_blank" rel="noopener noreferrer" aria-label="Buy print edition (opens in new tab)">
-          Buy Print Edition
-        </a>
+      <div class="faq-cta-wrapper print-retailers print-retailers--centered" aria-label="Where to buy Nomad Magazine Edition Four in print">
+        <p class="print-retailers-label">Where to buy:</p>
+        <ul class="print-retailers-list print-retailers-list--inline">
+          <li>
+            <a href="https://magculture.com/products/nomad-magazine-4" class="hero-cta" target="_blank" rel="noopener noreferrer" aria-label="Buy Nomad Magazine Edition 4 from MagCulture UK (opens in new tab)">UK — MagCulture</a>
+          </li>
+          <li>
+            <a href="https://brot.sk/products/nomad-magazine-4" class="hero-cta" target="_blank" rel="noopener noreferrer" aria-label="Buy Nomad Magazine Edition 4 from Brot Slovakia (opens in new tab)">Slovakia — Brot</a>
+          </li>
+          <li>
+            <a href="https://www.op34.studio/products/nomad-magazine-issue-4" class="hero-cta" target="_blank" rel="noopener noreferrer" aria-label="Buy Nomad Magazine Issue 4 from OP34 Studio Bulgaria (opens in new tab)">Bulgaria — OP34 Studio</a>
+          </li>
+        </ul>
       </div>
     </section>
 
@@ -735,6 +773,74 @@ const distroCountries = [...new Set(distributionPlaces.map((p: any) => p.country
     background: #f0f0f0;
     transform: translateY(-3px);
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  }
+
+  .print-retailers {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 100%;
+  }
+
+  .print-retailers--centered {
+    align-items: center;
+    text-align: center;
+  }
+
+  .print-retailers-label {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #4ecdc4;
+  }
+
+  .print-retailers-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    width: 100%;
+  }
+
+  .print-retailers-list--inline {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  .print-retailers-list .hero-cta {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .print-retailers-list--inline .hero-cta {
+    width: auto;
+  }
+
+  .print-retailer-link {
+    display: inline-block;
+    align-self: flex-start;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    color: #ffffff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+  }
+
+  .print-retailer-link:hover {
+    border-color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
   }
 
   /* Proof strip */
@@ -2002,6 +2108,19 @@ const distroCountries = [...new Set(distributionPlaces.map((p: any) => p.country
     .hero-cta {
       width: 100%;
       text-align: center;
+    }
+
+    .print-retailer-link {
+      align-self: stretch;
+      text-align: center;
+    }
+
+    .print-retailers-list--inline {
+      flex-direction: column;
+    }
+
+    .print-retailers-list--inline .hero-cta {
+      width: 100%;
     }
 
     .proof-strip {
