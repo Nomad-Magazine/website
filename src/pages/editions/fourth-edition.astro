@@ -122,12 +122,70 @@ const distroCountries = [...new Set(distributionPlaces.map((p: any) => p.country
     <section class="palermo-section">
       <div class="palermo-inner">
         <div class="palermo-image-col">
-          <img
-            src="/images/edition-004-palermo-holding-magazine.webp"
-            alt="Holding Nomad Magazine Edition Four in Palermo, Italy"
-            class="palermo-image"
-            loading="lazy"
-          />
+          <div class="palermo-carousel" aria-label="Photos of Nomad Magazine Edition Four spreads and covers" role="region">
+            <div class="palermo-carousel-track" id="palermo-carousel-track">
+              <div class="palermo-carousel-slide">
+                <img src="/images/edition-004-palermo-holding-magazine.webp" alt="Holding Nomad Magazine Edition Four in Palermo, Italy" class="palermo-carousel-img" fetchpriority="high" />
+              </div>
+              <div class="palermo-carousel-slide">
+                <img src="/images/edition-004-photo-cover-in-palermo.webp" alt="Nomad Magazine Edition Four held up in front of a Palermo church" class="palermo-carousel-img" loading="lazy" />
+              </div>
+              <div class="palermo-carousel-slide">
+                <img src="/images/edition-004-photo-palermo-article.webp" alt="Why Palermo? Why Now? — article spread from Nomad Magazine Edition Four" class="palermo-carousel-img" loading="lazy" />
+              </div>
+              <div class="palermo-carousel-slide">
+                <img src="/images/edition-004-photo-cover-in-palermo-2.webp" alt="Nomad Magazine Edition Four cover held in Palermo, Sicily" class="palermo-carousel-img" loading="lazy" />
+              </div>
+              <div class="palermo-carousel-slide">
+                <img src="/images/edition-004-photo-fukuoka-japan-article.webp" alt="Fukuoka, Japan article spread from Nomad Magazine Edition Four" class="palermo-carousel-img" loading="lazy" />
+              </div>
+              <div class="palermo-carousel-slide">
+                <img src="/images/edition-004-photo-bansko-article.webp" alt="Digital Nomads in Bansko — article spread in Nomad Magazine Edition Four" class="palermo-carousel-img" loading="lazy" />
+              </div>
+              <div class="palermo-carousel-slide">
+                <img src="/images/edition-004-photo-research-on-madeira.webp" alt="Nomad Research Lab on Madeira — data spread in Nomad Magazine Edition Four" class="palermo-carousel-img" loading="lazy" />
+              </div>
+              <div class="palermo-carousel-slide">
+                <img src="/images/edition-004-photo-kristin-wilson-article.webp" alt="Behind the Brand: Building a Business Around Freedom — Kristin Wilson spread" class="palermo-carousel-img" loading="lazy" />
+              </div>
+              <div class="palermo-carousel-slide">
+                <img src="/images/edition-004-photo-van-travel-article.webp" alt="The Beauty, Chaos, and Clarity of Life on Four Wheels — van life article spread" class="palermo-carousel-img" loading="lazy" />
+              </div>
+              <div class="palermo-carousel-slide">
+                <img src="/images/edition-004-photo-van-travel.webp" alt="Van life photo feature in Nomad Magazine Edition Four" class="palermo-carousel-img" loading="lazy" />
+              </div>
+              <div class="palermo-carousel-slide">
+                <img src="/images/edition-004-photo-raising-kids-without-borthers.webp" alt="Raising Kids Without Borders opening spread in Nomad Magazine Edition Four" class="palermo-carousel-img" loading="lazy" />
+              </div>
+              <div class="palermo-carousel-slide">
+                <img src="/images/edition-004-photo-queer-nomads.webp" alt="Queer Digital Nomads: The Hidden Demographic — article spread" class="palermo-carousel-img" loading="lazy" />
+              </div>
+              <div class="palermo-carousel-slide">
+                <img src="/images/edition-004-photo-travel-fashion.webp" alt="Travel fashion article spread in Nomad Magazine Edition Four" class="palermo-carousel-img" loading="lazy" />
+              </div>
+              <div class="palermo-carousel-slide">
+                <img src="/images/edition-004-photo-cowork-funchal-coworking-contest.webp" alt="Cowork Funchal — coworking contest winner spread in Nomad Magazine Edition Four" class="palermo-carousel-img" loading="lazy" />
+              </div>
+              <div class="palermo-carousel-slide">
+                <img src="/images/edition-004-photo-coworking-contest.webp" alt="Coworking contest spread in Nomad Magazine Edition Four" class="palermo-carousel-img" loading="lazy" />
+              </div>
+              <div class="palermo-carousel-slide">
+                <img src="/images/edition-004-photo-coworking-directory.webp" alt="Coworking directory pages in Nomad Magazine Edition Four" class="palermo-carousel-img" loading="lazy" />
+              </div>
+              <div class="palermo-carousel-slide">
+                <img src="/images/edition-004-photo-nomad-directory.webp" alt="Nomad Directory pages in Nomad Magazine Edition Four" class="palermo-carousel-img" loading="lazy" />
+              </div>
+              <div class="palermo-carousel-slide">
+                <img src="/images/edition-004-photo-creative-education-article.webp" alt="Creative Education — Falmouth University article spread in Nomad Magazine Edition Four" class="palermo-carousel-img" loading="lazy" />
+              </div>
+              <div class="palermo-carousel-slide">
+                <img src="/images/edition-004-photo-palermo-courtyard-cover.webp" alt="Nomad Magazine Vol. 4 Palermo cover held up in a sunny courtyard in Palermo, Italy" class="palermo-carousel-img" loading="lazy" />
+              </div>
+            </div>
+            <button type="button" class="palermo-carousel-btn palermo-carousel-prev" aria-label="Previous photo" id="palermo-prev">&#8592;</button>
+            <button type="button" class="palermo-carousel-btn palermo-carousel-next" aria-label="Next photo" id="palermo-next">&#8594;</button>
+            <p class="palermo-carousel-counter" aria-live="polite"><span id="palermo-slide-idx">1</span> / <span id="palermo-slide-total">19</span></p>
+          </div>
         </div>
         <div class="palermo-copy-col">
           <p class="palermo-eyebrow">Cover Story</p>
@@ -905,13 +963,78 @@ const distroCountries = [...new Set(distributionPlaces.map((p: any) => p.country
     position: relative;
   }
 
-  .palermo-image {
+  .palermo-carousel {
+    position: relative;
     width: 100%;
-    height: auto;
     border-radius: 12px;
-    display: block;
+    overflow: hidden;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
   }
+
+  .palermo-carousel-track {
+    display: flex;
+    align-items: flex-start;
+    transition: transform 0.45s ease;
+    will-change: transform;
+  }
+
+  .palermo-carousel-slide {
+    flex: 0 0 100%;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .palermo-carousel-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    object-position: center top;
+  }
+
+  .palermo-carousel-counter {
+    position: absolute;
+    bottom: 0.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .palermo-carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.45);
+    border: none;
+    color: #fff;
+    font-size: 1.25rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+    z-index: 2;
+    line-height: 1;
+  }
+
+  .palermo-carousel-btn:hover {
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  .palermo-carousel-prev { left: 0.75rem; }
+  .palermo-carousel-next { right: 0.75rem; }
 
   .palermo-copy-col {
     display: flex;
@@ -2459,6 +2582,48 @@ const distroCountries = [...new Set(distributionPlaces.map((p: any) => p.country
   })
 </script>
 
+
+<script is:inline>
+(function () {
+  const track = document.getElementById('palermo-carousel-track');
+  const idxEl = document.getElementById('palermo-slide-idx');
+  const totalEl = document.getElementById('palermo-slide-total');
+  const total = track ? track.children.length : 0;
+  let current = 0;
+  let timer;
+
+  if (totalEl) totalEl.textContent = String(total);
+
+  function go(idx) {
+    current = (idx + total) % total;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    if (idxEl) idxEl.textContent = String(current + 1);
+  }
+
+  function startAuto() {
+    timer = setInterval(() => go(current + 1), 4000);
+  }
+
+  function stopAuto() {
+    clearInterval(timer);
+  }
+
+  if (track && total > 1) {
+    document.getElementById('palermo-prev')?.addEventListener('click', () => { stopAuto(); go(current - 1); startAuto(); });
+    document.getElementById('palermo-next')?.addEventListener('click', () => { stopAuto(); go(current + 1); startAuto(); });
+
+    let startX = 0;
+    track.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; stopAuto(); }, { passive: true });
+    track.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) go(dx < 0 ? current + 1 : current - 1);
+      startAuto();
+    });
+
+    startAuto();
+  }
+})();
+</script>
 
 <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
