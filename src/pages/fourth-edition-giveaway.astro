@@ -1,0 +1,538 @@
+---
+export const prerender = true;
+
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+
+const pageUrl = `${Astro.site}fourth-edition-giveaway/`
+
+const seo: SEOProps = {
+  title: 'Free Fourth Edition Download | Nomad Magazine Giveaway',
+  description:
+    'Download Nomad Magazine Edition Four for free and explore Palermo, Fukuoka, Bansko, and Madeira through deeply reported stories and nomad insights.',
+  image: `${Astro.site}images/edition-004-cover.webp`,
+  canonical: pageUrl,
+  keywords:
+    'free fourth edition, nomad magazine edition four, digital nomad magazine, Palermo, Fukuoka, Bansko, Madeira',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Free Nomad Magazine Edition Four Giveaway',
+    description:
+      'Download Nomad Magazine Edition Four for free and explore Palermo, Fukuoka, Bansko, and Madeira through deeply reported stories and nomad insights.',
+    url: pageUrl,
+    mainEntity: {
+      '@type': 'Offer',
+      name: 'Free Nomad Magazine Edition Four',
+      description: 'A free digital copy of Nomad Magazine Edition Four.',
+      price: '0',
+      priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock',
+      itemOffered: {
+        '@type': 'Product',
+        name: 'Nomad Magazine Edition Four',
+        description:
+          'Nomad Magazine Edition Four featuring Palermo, Fukuoka, Bansko, and Madeira.',
+        image: `${Astro.site}images/edition-004-cover.webp`,
+        brand: {
+          '@type': 'Brand',
+          name: 'Nomad Magazine',
+        },
+      },
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      url: `${Astro.site}`,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${Astro.site}logo.svg`,
+      },
+    },
+  },
+}
+---
+
+<Layout seo={seo}>
+  <div class="min-h-screen bg-linear-to-b from-white to-amber-50/40">
+    <div class="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
+      <div class="mb-12 text-center">
+        <div id="partner-section" class="mb-6 items-center justify-center gap-3" style="display: none;">
+          <span class="text-lg text-gray-600">In partnership with</span>
+          <div class="flex items-center gap-2">
+            <img id="partner-favicon" src="" alt="" aria-hidden="true" class="h-6 w-6" loading="eager" />
+            <span id="partner-name" class="font-semibold text-gray-800"></span>
+          </div>
+        </div>
+        <p class="mb-4 font-justme text-3xl text-gray-800">Edition Four Giveaway</p>
+        <h1 class="mb-6 text-5xl font-bold text-gray-900 sm:text-6xl lg:text-7xl">
+          Get Latest Edition for Free
+        </h1>
+        <p class="mx-auto max-w-2xl text-xl text-gray-700">
+          128 pages. Palermo, Fukuoka, Bansko, Madeira — reported from the ground. Enter your email and we'll send it instantly.
+        </p>
+        <p class="mt-4 mx-auto max-w-xl text-base font-medium text-gray-700">
+          <a href="/editions/fourth-edition/" class="font-bold text-amber-700 underline decoration-2 underline-offset-4 hover:text-amber-900 transition-colors" aria-label="Learn about Nomad Magazine Edition Four">Learn about Edition Four →</a>
+        </p>
+
+        <div class="mt-8 inline-block rounded-xl bg-linear-to-r from-red-500 to-orange-500 px-6 py-4 text-white shadow-lg">
+          <p class="mb-2 text-sm font-semibold uppercase tracking-wider">Limited Time Offer Ends In:</p>
+          <div id="countdown" class="flex justify-center gap-4 text-center">
+            <div>
+              <div class="text-3xl font-bold" id="days">00</div>
+              <div class="text-xs uppercase">Days</div>
+            </div>
+            <div class="text-3xl font-bold">:</div>
+            <div>
+              <div class="text-3xl font-bold" id="hours">00</div>
+              <div class="text-xs uppercase">Hours</div>
+            </div>
+            <div class="text-3xl font-bold">:</div>
+            <div>
+              <div class="text-3xl font-bold" id="minutes">00</div>
+              <div class="text-xs uppercase">Minutes</div>
+            </div>
+            <div class="text-3xl font-bold">:</div>
+            <div>
+              <div class="text-3xl font-bold" id="seconds">00</div>
+              <div class="text-xs uppercase">Seconds</div>
+            </div>
+          </div>
+          <p id="expiry-text" class="mt-3 text-xs opacity-90">Offer valid until December 31, 2026</p>
+        </div>
+      </div>
+
+      <div class="mb-12 grid items-center gap-8 lg:grid-cols-[minmax(0,380px)_1fr]">
+        <div class="mx-auto w-full max-w-sm">
+          <div class="overflow-hidden rounded-2xl shadow-2xl">
+            <img
+              src="/images/edition-004-cover.webp"
+              alt="Nomad Magazine Fourth Edition cover"
+              class="h-full w-full object-cover"
+              loading="eager"
+            />
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <div class="rounded-2xl border border-amber-100 bg-white p-6 shadow-sm">
+            <p class="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-amber-600">What is inside</p>
+            <h2 class="mb-3 text-3xl font-bold text-gray-900">One edition. Big stories.</h2>
+            <p class="text-lg leading-relaxed text-gray-700">
+              Palermo, Fukuoka, Bansko, Madeira — on-the-ground reporting, real interviews, independent editorial. Not AI. Not SEO filler.
+            </p>
+          </div>
+
+          <div class="grid gap-4 sm:grid-cols-3">
+            <div class="rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-100">
+              <p class="text-3xl font-bold text-gray-900">128</p>
+              <p class="mt-2 text-sm text-gray-600">pages of editorial stories and visual features</p>
+            </div>
+            <div class="rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-100">
+              <p class="text-3xl font-bold text-gray-900">4</p>
+              <p class="mt-2 text-sm text-gray-600">destination stories from Palermo to Madeira</p>
+            </div>
+            <div class="rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-100">
+              <p class="text-3xl font-bold text-gray-900">100%</p>
+              <p class="mt-2 text-sm text-gray-600">independent reporting made for the nomad world</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Photo strip -->
+      <div class="giveaway-photo-strip" aria-label="Pages from Nomad Magazine Edition Four">
+        <div class="giveaway-photo-track">
+          <img src="/images/edition-004-photo-cover-in-palermo.webp" alt="Nomad Magazine Edition Four held in Palermo" loading="lazy" class="giveaway-photo" />
+          <img src="/images/edition-004-photo-palermo-article.webp" alt="Why Palermo? Why Now? — article spread" loading="lazy" class="giveaway-photo" />
+          <img src="/images/edition-004-photo-fukuoka-japan-article.webp" alt="Fukuoka, Japan article spread" loading="lazy" class="giveaway-photo" />
+          <img src="/images/edition-004-photo-bansko-article.webp" alt="Digital Nomads in Bansko — article spread" loading="lazy" class="giveaway-photo" />
+          <img src="/images/edition-004-photo-research-on-madeira.webp" alt="Nomad Research Lab on Madeira spread" loading="lazy" class="giveaway-photo" />
+          <img src="/images/edition-004-photo-kristin-wilson-article.webp" alt="Building a Business Around Freedom — Kristin Wilson spread" loading="lazy" class="giveaway-photo" />
+          <img src="/images/edition-004-photo-queer-nomads.webp" alt="Queer Digital Nomads: The Hidden Demographic — article spread" loading="lazy" class="giveaway-photo" />
+          <img src="/images/edition-004-photo-van-travel-article.webp" alt="The Beauty, Chaos, and Clarity of Life on Four Wheels — van life spread" loading="lazy" class="giveaway-photo" />
+          <img src="/images/edition-004-photo-travel-fashion.webp" alt="Travel fashion article spread" loading="lazy" class="giveaway-photo" />
+          <img src="/images/edition-004-photo-cowork-funchal-coworking-contest.webp" alt="Cowork Funchal — coworking contest winner" loading="lazy" class="giveaway-photo" />
+          <img src="/images/edition-004-photo-cover-in-palermo-2.webp" alt="Nomad Magazine Edition Four cover in Palermo, Sicily" loading="lazy" class="giveaway-photo" />
+        </div>
+      </div>
+
+      <div class="mx-auto max-w-2xl">
+        <form id="bento-formkit-uugzwmxk" class="bento-formkit" aria-label="Download Nomad Magazine Edition Four">
+          <div class="bento-formkit-headline">Download Edition Four</div>
+          <div class="bento-formkit-subheader">Enter your email and we will send your free edition right away.</div>
+
+          <input type="hidden" name="event_type" value="giveaway2025" />
+          <input type="hidden" name="edition" value="edition-four" />
+          <input type="hidden" name="subscriber_tags" value="issueFOURgiveaway" />
+          <input type="hidden" id="partner-field" name="utm_source" value="" />
+          <input type="hidden" id="limit-field" name="utm_campaign" value="" />
+
+          <div class="field-group">
+            <label for="first_name" class="field-label">Your name <span class="required">*</span></label>
+            <p class="field-helper">First name or how you&apos;d like to be addressed</p>
+            <input type="text" id="first_name" name="first_name" class="bento-formkit-input" placeholder="Your name" required autocomplete="given-name" />
+          </div>
+
+          <div class="field-group">
+            <label for="email" class="field-label">Email Address <span class="required">*</span></label>
+            <p class="field-helper">We will send your edition here</p>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="your@email.com"
+              class="bento-formkit-input"
+              required
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+            />
+          </div>
+
+          <div class="field-group">
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAACXWfgpGaqB_A50e" data-theme="light"></div>
+          </div>
+
+          <div id="error-message" class="hidden rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-700"></div>
+
+          <button type="submit" id="submit-button" class="bento-formkit-button">Get My Free Edition</button>
+          <div class="bento-formkit-disclosure">
+            By entering your email, you will get access to Nomad Magazine Edition Four and occasional updates about new stories, future issues, and special projects.
+          </div>
+        </form>
+      </div>
+
+      <div class="mx-auto mt-12 max-w-xl rounded-2xl border border-amber-200 bg-amber-50 px-6 py-5 text-center shadow-sm sm:px-8 sm:py-6">
+        <p class="text-base leading-relaxed text-gray-800 sm:text-lg">
+          <span class="font-medium text-gray-700">Curious what&apos;s in the issue?</span>
+          <a href="/editions/fourth-edition/" class="ml-1 font-bold text-amber-800 underline decoration-2 underline-offset-4 hover:text-amber-950 transition-colors" aria-label="Learn about Nomad Magazine Edition Four">Learn about Edition Four →</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .giveaway-photo-strip {
+    margin: 2rem -1rem 2.5rem -1rem;
+    overflow: hidden;
+  }
+
+  .giveaway-photo-track {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0 1rem;
+  }
+
+  .giveaway-photo-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .giveaway-photo {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    width: 320px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .giveaway-photo:hover {
+    transform: scale(1.03);
+  }
+
+  @media (max-width: 640px) {
+    .giveaway-photo {
+      width: 240px;
+      height: 170px;
+    }
+  }
+
+  .font-justme {
+    font-family: 'Just Me Again Down Here', cursive;
+  }
+
+  #bento-formkit-uugzwmxk {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 2rem !important;
+    border-radius: 16px !important;
+    background: #fff !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06) !important;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+  }
+
+  .bento-formkit-headline {
+    margin-bottom: 0.75rem !important;
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: #111827 !important;
+    line-height: 1.2 !important;
+  }
+
+  .bento-formkit-subheader {
+    margin-bottom: 1.5rem !important;
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+    color: #4b5563 !important;
+  }
+
+  .field-group {
+    margin-bottom: 1.5rem !important;
+  }
+
+  .field-label {
+    display: block !important;
+    margin-bottom: 0.35rem !important;
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    color: #111827 !important;
+  }
+
+  .field-label .required {
+    color: #ef4444 !important;
+  }
+
+  .field-helper {
+    margin: 0 0 0.5rem 0 !important;
+    font-size: 0.85rem !important;
+    font-style: italic !important;
+    color: #6b7280 !important;
+  }
+
+  #bento-formkit-uugzwmxk input[type='text'],
+  #bento-formkit-uugzwmxk input[type='email'] {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0.75rem 1rem !important;
+    border: 1px solid #d1d5db !important;
+    border-radius: 10px !important;
+    background-color: #fff !important;
+    color: #111827 !important;
+    box-sizing: border-box !important;
+    font-size: 1rem !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+  }
+
+  #bento-formkit-uugzwmxk input:focus {
+    outline: none !important;
+    border-color: #f59e0b !important;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15) !important;
+  }
+
+  #bento-formkit-uugzwmxk button {
+    width: 100% !important;
+    margin: 0.5rem 0 0 !important;
+    padding: 0.85rem 1.25rem !important;
+    border: none !important;
+    border-radius: 10px !important;
+    background-color: #fbbf24 !important;
+    color: #1f2937 !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    box-sizing: border-box !important;
+    transition: background-color 0.2s ease, transform 0.1s ease !important;
+  }
+
+  #bento-formkit-uugzwmxk button:hover {
+    background-color: #fcd34d !important;
+    transform: translateY(-1px) !important;
+  }
+
+  #bento-formkit-uugzwmxk button:active {
+    transform: translateY(0) !important;
+  }
+
+  .bento-formkit-disclosure {
+    margin-top: 1rem !important;
+    font-size: 0.8rem !important;
+    line-height: 1.5 !important;
+    color: #6b7280 !important;
+  }
+</style>
+
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const partnerDomain = urlParams.get('utm_source');
+  const limitCode = urlParams.get('utm_campaign');
+
+  document.addEventListener('DOMContentLoaded', function () {
+    if (partnerDomain) {
+      const partnerSection = document.getElementById('partner-section');
+      const partnerFavicon = document.getElementById('partner-favicon') as HTMLImageElement;
+      const partnerName = document.getElementById('partner-name');
+      const partnerField = document.getElementById('partner-field') as HTMLInputElement;
+
+      if (partnerSection && partnerFavicon && partnerName && partnerField) {
+        partnerField.value = partnerDomain;
+
+        if (partnerDomain.includes('.')) {
+          partnerSection.style.display = 'flex';
+          partnerName.textContent = partnerDomain;
+          partnerFavicon.src = `https://www.google.com/s2/favicons?domain=${partnerDomain}&sz=32`;
+          partnerFavicon.alt = `${partnerDomain} favicon`;
+          partnerFavicon.style.display = 'inline';
+          partnerFavicon.onerror = function () {
+            partnerFavicon.style.display = 'none';
+          };
+        }
+      }
+    }
+
+    const expiryText = document.getElementById('expiry-text');
+    const limitField = document.getElementById('limit-field') as HTMLInputElement;
+
+    if (limitCode && limitCode.length === 4) {
+      const day = parseInt(limitCode.substring(0, 2));
+      const month = parseInt(limitCode.substring(2, 4)) - 1;
+      const currentYear = new Date().getFullYear();
+
+      if (month >= 0 && month <= 11 && day >= 1 && day <= 31) {
+        const date = new Date(currentYear, month, day);
+        const displayDateText = date.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        });
+
+        if (expiryText) {
+          expiryText.textContent = `Offer valid until ${displayDateText}`;
+        }
+
+        if (limitField) {
+          limitField.value = limitCode;
+        }
+      }
+    } else {
+      const deadline = new Date(personalDeadline);
+      const displayDateText = deadline.toLocaleDateString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+
+      if (expiryText) {
+        expiryText.textContent = `Your offer expires ${displayDateText}`;
+      }
+    }
+  });
+
+  let extendedDate = null;
+  if (limitCode && limitCode.length === 4) {
+    const day = parseInt(limitCode.substring(0, 2));
+    const month = parseInt(limitCode.substring(2, 4)) - 1;
+    const currentYear = new Date().getFullYear();
+    const nextYear = currentYear + 1;
+
+    const thisYearDate = new Date(currentYear, month, day, 23, 59, 59);
+    const nextYearDate = new Date(nextYear, month, day, 23, 59, 59);
+    extendedDate = thisYearDate.getTime() > Date.now() ? thisYearDate : nextYearDate;
+  }
+
+  const STORAGE_KEY = 'ngm_edition_four_giveaway_deadline';
+  const COUNTDOWN_HOURS = 48;
+  let personalDeadline: number;
+
+  const stored = localStorage.getItem(STORAGE_KEY);
+  if (stored) {
+    personalDeadline = parseInt(stored, 10);
+    if (isNaN(personalDeadline) || personalDeadline < Date.now() - 86400000) {
+      personalDeadline = Date.now() + COUNTDOWN_HOURS * 3600000;
+      localStorage.setItem(STORAGE_KEY, String(personalDeadline));
+    }
+  } else {
+    personalDeadline = Date.now() + COUNTDOWN_HOURS * 3600000;
+    localStorage.setItem(STORAGE_KEY, String(personalDeadline));
+  }
+
+  const countdownDate = extendedDate ? extendedDate.getTime() : personalDeadline;
+
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = countdownDate - now;
+
+    if (distance < 0) {
+      document.getElementById('days')!.textContent = '00';
+      document.getElementById('hours')!.textContent = '00';
+      document.getElementById('minutes')!.textContent = '00';
+      document.getElementById('seconds')!.textContent = '00';
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById('days')!.textContent = String(days).padStart(2, '0');
+    document.getElementById('hours')!.textContent = String(hours).padStart(2, '0');
+    document.getElementById('minutes')!.textContent = String(minutes).padStart(2, '0');
+    document.getElementById('seconds')!.textContent = String(seconds).padStart(2, '0');
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('bento-formkit-uugzwmxk') as HTMLFormElement;
+    const submitButton = document.getElementById('submit-button') as HTMLButtonElement;
+    const errorMessage = document.getElementById('error-message') as HTMLDivElement;
+
+    if (form) {
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        submitButton.disabled = true;
+        submitButton.textContent = 'Submitting...';
+        errorMessage.classList.add('hidden');
+
+        const formData = new FormData(form);
+        const turnstileResponse = (window as any).turnstile?.getResponse();
+
+        if (!turnstileResponse) {
+          errorMessage.textContent = 'Please complete the captcha verification.';
+          errorMessage.classList.remove('hidden');
+          submitButton.disabled = false;
+          submitButton.textContent = 'Get My Free Edition';
+          return;
+        }
+
+        formData.append('cf-turnstile-response', turnstileResponse);
+
+        try {
+          const response = await fetch('/api/bento-event', {
+            method: 'POST',
+            body: formData,
+          });
+
+          const data = (await response.json()) as { success?: boolean; error?: string };
+
+          if (response.ok && data.success) {
+            window.location.href = '/thank-you/';
+          } else {
+            errorMessage.textContent = data.error || 'Failed to subscribe. Please try again.';
+            errorMessage.classList.remove('hidden');
+            submitButton.disabled = false;
+            submitButton.textContent = 'Get My Free Edition';
+          }
+        } catch (_error) {
+          errorMessage.textContent = 'An error occurred. Please try again.';
+          errorMessage.classList.remove('hidden');
+          submitButton.disabled = false;
+          submitButton.textContent = 'Get My Free Edition';
+        }
+      });
+    }
+  });
+</script>
+
+<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>

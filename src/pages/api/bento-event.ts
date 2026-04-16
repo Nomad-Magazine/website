@@ -124,10 +124,20 @@ export const POST: APIRoute = async ({ request }) => {
       })
     }
 
-    // Collect all form fields except email, event_type, and cf-turnstile-response
+    const subscriberTagsRaw = formData.get('subscriber_tags')
+    const subscriberTags =
+      typeof subscriberTagsRaw === 'string' && subscriberTagsRaw.trim() !== '' ? subscriberTagsRaw.trim() : null
+
+    // Collect all form fields except email, event_type, cf-turnstile-response, and subscriber_tags (import-only)
     const fields: Record<string, string> = {}
     for (const [key, value] of formData.entries()) {
-      if (key !== 'email' && key !== 'event_type' && key !== 'cf-turnstile-response' && typeof value === 'string') {
+      if (
+        key !== 'email' &&
+        key !== 'event_type' &&
+        key !== 'cf-turnstile-response' &&
+        key !== 'subscriber_tags' &&
+        typeof value === 'string'
+      ) {
         fields[key] = value
       }
     }
@@ -139,24 +149,26 @@ export const POST: APIRoute = async ({ request }) => {
     const authString = `${BENTO_PUBLISHABLE_KEY}:${BENTO_SECRET_KEY}`
     const base64 = Buffer.from(authString).toString('base64')
 
-    const bentoResponse = await fetch(`https://app.bentonow.com/api/v1/batch/events`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Basic ${base64}`,
-        'User-Agent': 'Nomad-Magazine-API/1.0',
+    const bentoResponse = await fetch(
+      `https://app.bentonow.com/api/v1/batch/events?site_uuid=${encodeURIComponent(BENTO_SITE_UUID)}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Basic ${base64}`,
+          'User-Agent': 'Nomad-Magazine-API/1.0',
+        },
+        body: JSON.stringify({
+          events: [
+            {
+              email: email,
+              type: eventType,
+              fields: fields,
+            },
+          ],
+        }),
       },
-      body: JSON.stringify({
-        site_uuid: BENTO_SITE_UUID,
-        events: [
-          {
-            email: email,
-            type: eventType,
-            fields: fields,
-          },
-        ],
-      }),
-    })
+    )
 
     console.log(`[BENTO-EVENT] Bento API response status: ${bentoResponse.status}`)
 
@@ -171,6 +183,43 @@ export const POST: APIRoute = async ({ request }) => {
 
     const responseData = await bentoResponse.json()
     console.log('[BENTO-EVENT] Successfully submitted event:', JSON.stringify(responseData))
+
+    if (subscriberTags) {
+      const firstName = typeof fields.first_name === 'string' ? fields.first_name.trim() : ''
+      const subscriberPayload: Record<string, string> = {
+        email: String(email),
+        tags: subscriberTags,
+      }
+      if (firstName) subscriberPayload.first_name = firstName
+
+      console.log('[BENTO-EVENT] Submitting subscriber import for tags')
+      const subResponse = await fetch(
+        `https://app.bentonow.com/api/v1/batch/subscribers?site_uuid=${encodeURIComponent(BENTO_SITE_UUID)}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Basic ${base64}`,
+            'User-Agent': 'Nomad-Magazine-API/1.0',
+          },
+          body: JSON.stringify({
+            subscribers: [subscriberPayload],
+          }),
+        },
+      )
+
+      console.log(`[BENTO-EVENT] Bento subscribers API response status: ${subResponse.status}`)
+      if (!subResponse.ok) {
+        const errorText = await subResponse.text()
+        console.error(`[BENTO-EVENT] Bento subscribers API error (status ${subResponse.status}): ${errorText}`)
+        return new Response(JSON.stringify({ error: 'Failed to apply subscriber tags' }), {
+          status: 500,
+          headers: { 'Content-Type': 'application/json' },
+        })
+      }
+      const subData = await subResponse.json()
+      console.log('[BENTO-EVENT] Subscriber import result:', JSON.stringify(subData))
+    }
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,
