@@ -1,37 +1,33 @@
 ---
 const issues = [
   {
-    title: "Available in print & digital",
+    title: 'Available in print & digital',
     imageUrl: '/images/edition-004-cover.webp',
     alt: 'Edition Four',
     link: '/editions/fourth-edition/',
-    linkText: "See What's Inside",
-    sampleUrl: '/editions/fourth-edition/',
+    downloadUrl: '/fourth-edition-giveaway/',
     isComingSoon: false,
   },
   {
-    title: "Available in print & digital",
+    title: 'Available in print & digital',
     imageUrl: '/images/third-edition-cover-hd.webp',
     alt: 'Mind, Body, Tech for Nomad Life',
     link: '/editions/third-edition/',
-    linkText: "See What's Inside",
-    sampleUrl: '/editions/third-edition/',
+    downloadUrl: '/third-edition-giveaway/',
   },
   {
     title: 'Available in print & digital',
     imageUrl: '/images/edition-002-cover.webp',
     alt: 'Inside Remote Communities',
     link: '/editions/second-edition/',
-    linkText: 'Download Sample',
-    sampleUrl: '/free-weekly-articles/',
+    downloadUrl: '/second-edition-giveaway/',
   },
   {
     title: 'Available in print & digital',
     imageUrl: '/images/first-edition-cover-hd.webp',
     alt: 'Digital Nomadism',
     link: '/editions/first-edition/',
-    linkText: 'Download Sample',
-    sampleUrl: '/free-article-what-not-to-do-on-first-date/',
+    downloadUrl: '/first-edition-giveaway/',
   },
 ]
 ---
@@ -56,11 +52,16 @@ const issues = [
               )}
               <h3 class="text-lg font-semibold text-yellow-400">{issue.title}</h3>
             </a>
-            {issue.sampleUrl && (
-              <a href={issue.sampleUrl} class="mt-2 inline-block text-white underline">
-                {issue.linkText}
+            <div class="mt-2 flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+              <a href={issue.link} class="inline-block text-white underline">
+                Learn More
               </a>
-            )}
+              {issue.downloadUrl && (
+                <a href={issue.downloadUrl} class="inline-block text-white underline">
+                  Download PDF
+                </a>
+              )}
+            </div>
           </div>
         ))
       }

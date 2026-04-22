@@ -1,5 +1,7 @@
 ---
-const faqs = [
+export type FAQItem = { question: string; answer: string }
+
+const defaultFaqs: FAQItem[] = [
   {
     question: 'What formats are available?',
     answer: 'Both printed and digital versions are available, offering 104 pages of unique and experts content.',
@@ -22,6 +24,13 @@ const faqs = [
       'Want Nomad Magazine in your hotel, co-working space, co-living, or office? Fantastic! Reach out to us at <a href="mailto:hey@nomadgossip.com">hey@nomadgossip.com</a> for details.',
   },
 ]
+
+interface Props {
+  items?: FAQItem[]
+}
+
+const { items } = Astro.props
+const faqs = items ?? defaultFaqs
 ---
 
 <div class="bg-[#f8f8f8] py-24">

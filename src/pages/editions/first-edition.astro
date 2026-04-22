@@ -3,18 +3,43 @@ export const prerender = true
 
 import FAQ from '~/components/FAQ.astro'
 import FAQContact from '~/components/FAQContact.astro'
-import PaymentPlan from '~/components/PaymentPlan.astro'
 import Testimonials from '~/components/Testimonials.astro'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import ProductCarousel from '~/components/ProductCarousel.astro'
 import EditionStats from '~/components/EditionStats.astro'
 import Sponsors from '~/components/Sponsors.astro'
-import PreOrderSection from '~/components/PreOrderSection.astro'
 import MagazinePreview from '~/components/MagazinePreview.astro'
 import AuthorsGrid from '~/components/AuthorsGrid.astro'
 import EditionHero from '~/components/EditionHero.astro'
 import EditionWelcome from '~/components/EditionWelcome.astro'
 import WhatsComingCarousel from '~/components/WhatsComingCarousel.astro'
+import type { FAQItem } from '~/components/FAQ.astro'
+
+const editionOneFreePdfFaq: FAQItem[] = [
+  {
+    question: 'How do I get Edition One?',
+    answer:
+      'Use <strong>Download free PDF</strong> above. On the next page, enter your email — we send you the full issue as a PDF.',
+  },
+  {
+    question: 'Is it really free?',
+    answer: 'Yes. There is no paid checkout for Edition One on this page — only the free PDF giveaway.',
+  },
+  {
+    question: 'Can I read it on my phone or tablet?',
+    answer: 'Yes. The PDF opens on any device once you receive it.',
+  },
+  {
+    question: 'Do you still sell print or paid digital for this issue here?',
+    answer:
+      'No. On this page we only offer the <strong>free PDF</strong>. See our latest edition pages if you want print or paid digital for new issues.',
+  },
+  {
+    question: 'How can I spread the word?',
+    answer:
+      'Want Nomad Magazine in your hotel, co-working space, co-living, or office? Reach out at <a href="mailto:hey@nomadgossip.com">hey@nomadgossip.com</a>.',
+  },
+]
 
 const slides = [
   {
@@ -175,7 +200,7 @@ const articleSlides = [
 const seo: SEOProps = {
   title: 'Edition 001 - Nomad Magazine | Digital Nomad Stories',
   description:
-    'The first Edition of Nomad Magazine. 100 pages of unique content, Yellow Pages directory, and exclusive nomad stories. Available in digital and print formats.',
+    'The first Edition of Nomad Magazine — 100 pages of unique content and the Yellow Pages directory. Download the full PDF free.',
   image: '/images/edition-001-cover.webp',
       keywords: 'nomad magazine edition 001, digital nomad magazine, nomad magazine, nomad stories, remote work magazine',
   ogType: 'website',
@@ -183,7 +208,7 @@ const seo: SEOProps = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: 'Nomad Magazine Edition 001',
-    description: 'The first Edition of Nomad Magazine with 100 pages of unique content',
+    description: 'The first Edition of Nomad Magazine — free PDF download',
     url: `${Astro.site}editions/first-edition/`,
     image: '/images/edition-001-cover.webp',
     sku: 'NGM-001',
@@ -194,31 +219,11 @@ const seo: SEOProps = {
     offers: [
       {
         '@type': 'Offer',
-        name: 'Edition 001 (Digital Version, Single Purchase)',
-        price: '14.00',
+        name: 'Edition 001 (Free PDF)',
+        price: '0',
         priceCurrency: 'EUR',
         availability: 'https://schema.org/InStock',
-        url: 'https://pay.nomad-magazine.com/b/bJe00j0jPbPRewScSd8bS0j',
-        hasMerchantReturnPolicy: {
-          '@type': 'MerchantReturnPolicy',
-          returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
-        },
-        seller: {
-          '@type': 'Organization',
-          name: 'Nomad Magazine',
-        },
-      },
-      {
-        '@type': 'Offer',
-        name: 'Edition 001 (Print Version, Single Purchase)',
-        price: '22.00',
-        priceCurrency: 'EUR',
-        availability: 'https://schema.org/InStock',
-        url: 'https://buy.stripe.com/5kA3fA9vH3yd1Ko6ou',
-        hasMerchantReturnPolicy: {
-          '@type': 'MerchantReturnPolicy',
-          returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
-        },
+        url: `${Astro.site}first-edition-giveaway/`,
         seller: {
           '@type': 'Organization',
           name: 'Nomad Magazine',
@@ -231,18 +236,14 @@ const seo: SEOProps = {
 
 <Layout seo={seo}>
   <EditionHero
-    printUrl="https://buy.stripe.com/5kA3fA9vH3yd1Ko6ou"
-    digitalUrl="https://pay.nomad-magazine.com/b/bJe00j0jPbPRewScSd8bS0j"
-    waitlistUrl=""
     editionNumber="Edition 001"
     title="The first Edition of Nomad Magazine. 100 pages of unique content."
+    subtitle="Download the full PDF free — one email unlocks your copy."
     coverImage="/images/edition-001-cover.webp"
     coverImageAlt="Nomad Magazine Edition 001 cover"
-    digitalPrice="€14"
-    printPrice="€22"
+    freePdfUrl="/first-edition-giveaway/"
   />
-  
-  
+
   <EditionStats
     stats={[
       { value: '100', label: 'Pages' },
@@ -258,43 +259,9 @@ const seo: SEOProps = {
     bodyHtml={`<p>Welcome to the first edition of Nomad Magazine. Inside, you'll discover the real stories behind nomadic life—from commitment issues and cultural dating guides to responsible travel and the future of AI in business.</p><p>What's inside this pioneering issue:</p><ul role="list" class="list-disc pl-6"><li><strong>The Real Reason Behind Commitment Issues</strong> - Exploring the "perfection-paradox" among nomads</li><li><strong>From the Rat Race to Freedom</strong> - Tarek's journey to meaningful nomadic impact</li><li><strong>Cultural Dating Guide</strong> - What NOT to do on first dates across 5 countries</li><li><strong>4 Inconvenient Truths About Nomad Insurance</strong> - Essential coverage insights</li><li><strong>Best Digital Nomad Retreats</strong> - Curated experiences that blend work and purpose</li><li><strong>Business and AI Innovation</strong> - How technology transforms nomad entrepreneurship</li><li><strong>Yellow Pages: Digital Nomad Directory</strong> - Your essential resource guide</li></ul><p><a href="/free-article-what-not-to-do-on-first-date/" class="font-medium underline">Download free sample article</a></p>`}
   />
 
-  <!-- Payment Options Section -->
-  <section class="my-12 flex flex-col items-center justify-center gap-8 lg:flex-row">
-    <!-- Carousel/Slider -->
-    <div class="w-full shrink-0 px-4 sm:px-8 md:w-1/2 md:px-0">
+  <section class="my-12 px-4 sm:px-8" aria-label="Edition One preview">
+    <div class="mx-auto max-w-3xl">
       <ProductCarousel slides={slides} firstSlideMaxWidth={true} />
-    </div>
-    <!-- Product Info -->
-    <div class="w-full lg:w-1/2 lg:max-w-md">
-      <PaymentPlan
-        issueNumber="EDITION 001"
-        issueDescription="The first edition of Nomad Magazine. 100 pages of unique content, Yellow Pages, and more."
-        digitalPlans={[
-          {
-            id: 'single-purchase',
-            title: 'Single Purchase',
-            subtitle: 'Pay for one issue',
-            features: [
-              { text: 'Exclusive NGM newsletters' },
-              { text: 'First to unlock the new NGM edition' },
-              { text: 'Lifetime access to digital magazine' },
-            ],
-            price: '€14',
-            priceNote: 'only 3 copy at this price',
-            url: 'https://pay.nomad-magazine.com/b/bJe00j0jPbPRewScSd8bS0j',
-          },
-        ]}
-        printPlan={{
-          id: 'print',
-          title: 'Single Purchase on MagCulture',
-          subtitle: 'Pay for one issue',
-          features: [{ text: 'Printed NGM edition' }, { text: 'Exclusive NGM newsletters' }],
-          price: '€22',
-          priceNote: '* Delivery cost included',
-          url: 'https://magculture.com/products/nomad-gossip-magazine-1',
-        }}
-        orderButtonText="Read Now!"
-      />
     </div>
   </section>
 
@@ -304,7 +271,6 @@ const seo: SEOProps = {
     slides={articleSlides}
   />
 
-  <PreOrderSection name="👀  GET MY MAGAZINE" preOrderUrl="https://buy.stripe.com/5kA3fA9vH3yd1Ko6ou" waitlistUrl="" scrollToPayment={true} />
   <AuthorsGrid {authors} />
   <MagazinePreview
     titleClass="mt-4"
@@ -313,10 +279,9 @@ const seo: SEOProps = {
     subTitle="Magazine Preview"
     subTitleClass="font-justme text-black! text-2xl! font-medium!"
   />
-  <FAQ />
+  <FAQ items={editionOneFreePdfFaq} />
   <FAQContact />
   <Testimonials sectionClass="bg-hoverw [&_h2]:text-white" />
-  <PreOrderSection preOrderUrl="https://buy.stripe.com/5kA3fA9vH3yd1Ko6ou" waitlistUrl="" scrollToPayment={true} />
 </Layout>
 
 <style>

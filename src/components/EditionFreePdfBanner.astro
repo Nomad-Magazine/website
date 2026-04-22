@@ -1,0 +1,28 @@
+---
+interface Props {
+  href: string
+  editionLabel: string
+}
+
+const { href, editionLabel } = Astro.props
+---
+
+<section
+  class="border-y border-amber-500/25 bg-linear-to-r from-amber-950 via-stone-900 to-amber-950 py-5"
+  aria-label={`${editionLabel} free PDF download`}
+>
+  <div
+    class="mx-auto flex max-w-5xl flex-col items-center justify-center gap-3 px-4 text-center sm:flex-row sm:gap-6 sm:text-left"
+  >
+    <p class="text-sm leading-relaxed text-amber-50/95 sm:min-w-0 sm:flex-1">
+      <span class="font-bold text-amber-300">{editionLabel}:</span>
+      Get the full digital issue free — one email unlocks your PDF.
+    </p>
+    <a
+      href={href}
+      class="inline-flex shrink-0 items-center justify-center rounded-lg bg-amber-400 px-5 py-2.5 text-sm font-bold text-stone-900 shadow-md transition hover:bg-amber-300"
+    >
+      Download free PDF →
+    </a>
+  </div>
+</section>

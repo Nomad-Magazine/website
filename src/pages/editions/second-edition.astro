@@ -3,18 +3,44 @@ export const prerender = true
 
 import FAQ from '~/components/FAQ.astro'
 import FAQContact from '~/components/FAQContact.astro'
-import PaymentPlan from '~/components/PaymentPlan.astro'
 import Testimonials from '~/components/Testimonials.astro'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import ProductCarousel from '~/components/ProductCarousel.astro'
 import EditionStats from '~/components/EditionStats.astro'
 import Sponsors from '~/components/Sponsors.astro'
-import PreOrderSection from '~/components/PreOrderSection.astro'
 import MagazinePreview from '~/components/MagazinePreview.astro'
 import AuthorsGrid from '~/components/AuthorsGrid.astro'
 import EditionHero from '~/components/EditionHero.astro'
 import EditionWelcome from '~/components/EditionWelcome.astro'
 import WhatsComingCarousel from '~/components/WhatsComingCarousel.astro'
+import type { FAQItem } from '~/components/FAQ.astro'
+
+const editionTwoFreePdfFaq: FAQItem[] = [
+  {
+    question: 'How do I get Edition Two?',
+    answer:
+      'Use <strong>Download free PDF</strong> above. On the next page, enter your email — we send you the full issue as a PDF.',
+  },
+  {
+    question: 'Is it really free?',
+    answer: 'Yes. There is no paid checkout for Edition Two on this page — only the free PDF giveaway.',
+  },
+  {
+    question: 'Can I read it on my phone or tablet?',
+    answer:
+      'Yes. Use the <strong>free PDF</strong> on any device, or read Nomad Magazine in the <strong>Zinio</strong> app (iOS, Android, and web) for a full newsstand-style experience.',
+  },
+  {
+    question: 'Do you sell print or paid digital downloads on this page?',
+    answer:
+      'No. Here you get the <strong>free PDF</strong> (email signup) and links to read on <strong>Zinio</strong>. For our newest issues, see the latest edition pages for print and other options.',
+  },
+  {
+    question: 'How can I spread the word?',
+    answer:
+      'Want Nomad Magazine in your hotel, co-working space, co-living, or office? Reach out at <a href="mailto:hey@nomadgossip.com">hey@nomadgossip.com</a>.',
+  },
+]
 
 const slides = [
   {
@@ -154,7 +180,7 @@ const articleSlides = [
 const seo: SEOProps = {
   title: 'Edition 002 - Nomad Magazine | Digital Nomad Communities & Japan',
   description:
-    'Edition 002 of Nomad Magazine focuses on digital nomad communities and Japan as a destination. 110 pages of exclusive content, interviews, and nomad insights.',
+    'Edition 002 — digital nomad communities and Japan. Download the free PDF or read in the Zinio app.',
   image: `${Astro.site}images/edition-002-cover-background-purple.webp`,
       keywords: 'nomad magazine edition 002, digital nomad communities, japan nomad, nomad magazine, remote work magazine',
   ogType: 'website',
@@ -162,7 +188,7 @@ const seo: SEOProps = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: 'Nomad Magazine Edition 002',
-    description: 'Edition 002 focusing on digital nomad communities and Japan as a destination',
+    description: 'Edition 002 — free PDF and Zinio; digital nomad communities and Japan',
     url: `${Astro.site}editions/second-edition/`,
     image: `${Astro.site}images/edition-002-cover-background-purple.webp`,
     sku: 'NGM-002',
@@ -173,31 +199,11 @@ const seo: SEOProps = {
     offers: [
       {
         '@type': 'Offer',
-        name: 'Edition 002 (Digital Version, Single Purchase)',
-        price: '9.00',
+        name: 'Edition 002 (Free PDF)',
+        price: '0',
         priceCurrency: 'EUR',
         availability: 'https://schema.org/InStock',
-        url: 'https://buy.stripe.com/aEUbLOcE4d4ZcqQ146',
-        hasMerchantReturnPolicy: {
-          '@type': 'MerchantReturnPolicy',
-          returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
-        },
-        seller: {
-          '@type': 'Organization',
-          name: 'Nomad Magazine',
-        },
-      },
-      {
-        '@type': 'Offer',
-        name: 'Edition 002 (Print Version, Single Purchase)',
-        price: '22.00',
-        priceCurrency: 'EUR',
-        availability: 'https://schema.org/InStock',
-        url: 'https://buy.stripe.com/fZe7vygUk3upfD2bIL',
-        hasMerchantReturnPolicy: {
-          '@type': 'MerchantReturnPolicy',
-          returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
-        },
+        url: `${Astro.site}second-edition-giveaway/`,
         seller: {
           '@type': 'Organization',
           name: 'Nomad Magazine',
@@ -210,18 +216,52 @@ const seo: SEOProps = {
 
 <Layout seo={seo}>
   <EditionHero
-    printUrl="https://buy.stripe.com/fZe7vygUk3upfD2bIL"
-    digitalUrl="https://buy.stripe.com/aEUbLOcE4d4ZcqQ146"
-    waitlistUrl=""
     editionNumber="Edition 002"
     title="Your guide into digital nomad communities in 110-page masterpiece."
+    subtitle="Download the full PDF free, or read in the Zinio app (mobile & web)."
     coverImage="/images/edition-002-cover-background-purple.webp"
     coverImageAlt="Nomad Magazine Edition 002 cover"
-    digitalPrice="€9"
-    printPrice="€22"
+    freePdfUrl="/second-edition-giveaway/"
   />
-  
-  
+
+  <section class="bg-linear-to-r from-purple-600 to-indigo-600 py-8" id="zinio-reading" aria-label="Read on Zinio">
+    <div class="container mx-auto px-4">
+      <div class="text-center text-white">
+        <h3 class="mb-3 text-2xl font-bold md:text-3xl">📱 Read on ZINIO</h3>
+        <p class="mb-6 text-lg opacity-90">Nomad Magazine in the Zinio app — web, iPhone, and Android</p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a
+            href="https://www.zinio.com/publications/nomad-magazine/45331/issues/708503"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Read Nomad Magazine on ZINIO Web Reader"
+            class="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 font-semibold text-purple-600 transition hover:bg-gray-100"
+          >
+            🌐 Web Reader
+          </a>
+          <a
+            href="https://apps.apple.com/us/app/zinio-magazine-newsstand/id364297166"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Download ZINIO app on iOS App Store"
+            class="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 font-semibold text-purple-600 transition hover:bg-gray-100"
+          >
+            🍎 iOS App
+          </a>
+          <a
+            href="https://play.google.com/store/apps/details?id=com.zinio.mobile.android.reader&pli=1"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Download ZINIO app on Google Play Store"
+            class="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 font-semibold text-purple-600 transition hover:bg-gray-100"
+          >
+            🤖 Android App
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <EditionStats
     stats={[
       { value: '110', label: 'Pages' },
@@ -237,44 +277,9 @@ const seo: SEOProps = {
     bodyHtml={`<p><strong>We turned nomad life into a 110-page masterpiece.</strong></p><p><strong>In focus: Nomad Communities and Japan as a new destination.</strong></p><p>This edition of <strong>NGM</strong> takes you deeper into the heart of the digital nomad lifestyle, with a special focus on <em>the communities that shape it</em> and getting to know the digital nomad scene of <em>Japan</em>.</p><p>What's inside this community-focused issue:</p><ul role="list" class="list-disc pl-6"><li><strong>When Nomads Flock Together</strong> - The vibrant Nomad Cruise culture and values</li><li><strong>Eastern Promises</strong> - Japan as a unique, peaceful, and cultural haven for nomads</li><li><strong>The Truth Behind Japan's Digital Nomad Visa</strong> - Real insights from a local lawyer</li><li><strong>Friendships That Last a Lifetime</strong> - Deep connections through shared nomadic experiences</li><li><strong>Japanese Wisdom on Nomadic Life</strong> - Zen, wabi-sabi, and mindful living lessons</li><li><strong>Digital Nomad Family Chronicles</strong> - Combining parenthood with nomadism</li><li><strong>Growing Muscles, Sharing Knowledge</strong> - Madeira's thriving nomad scene</li><li><strong>Digital Nomad Events 2025</strong> - Your calendar for networking and growth</li><li><strong>Top 6 Accommodation Platforms</strong> - Best booking sites for nomads</li></ul><p>Plus insights on crypto, coworking spaces, and portable work gear!</p>`}
   />
 
-  <!-- Payment Options Section -->
-  <section class="my-12 flex flex-col items-start justify-center gap-8 md:flex-row">
-    <!-- Carousel/Slider -->
-    <div class="w-full shrink-0 px-4 sm:px-8 md:w-1/2 md:px-0">
+  <section class="my-12 px-4 sm:px-8" aria-label="Edition Two preview">
+    <div class="mx-auto max-w-4xl">
       <ProductCarousel {slides} firstSlideMaxWidth={false} />
-    </div>
-    <!-- Product Info -->
-    <div class="w-full max-w-md md:w-1/2">
-      <PaymentPlan
-        issueNumber="EDITION 002"
-        issueDescription="Your guide into digital nomad communities in 110-page masterpiece."
-        digitalPlans={[
-          {
-            id: 'single-purchase',
-            title: 'Single Purchase',
-            subtitle: 'Pay for one issue',
-            features: [
-              { text: 'Exclusive NGM newsletters' },
-              { text: 'First to unlock the new NGM issue' },
-              { text: 'Lifetime access to digital magazine' },
-            ],
-            price: '€9',
-            priceNote: 'only 3 copy at this price',
-            url: 'https://buy.stripe.com/aEUbLOcE4d4ZcqQ146',
-            defaultChecked: false,
-          },
-        ]}
-        printPlan={{
-          id: 'print',
-          title: 'Single Purchase',
-          subtitle: 'Pay for one issue',
-          features: [{ text: 'Printed NGM issue' }, { text: 'Exclusive NGM newsletters' }],
-          price: '€22',
-          priceNote: "It's almost shipment cost - €17-20 (included)",
-          url: 'https://buy.stripe.com/fZe7vygUk3upfD2bIL',
-        }}
-        orderButtonText="Order Now"
-      />
     </div>
   </section>
 
@@ -284,7 +289,6 @@ const seo: SEOProps = {
     slides={articleSlides}
   />
 
-  <PreOrderSection name="👀  GET MY MAGAZINE" preOrderUrl="https://buy.stripe.com/fZe7vygUk3upfD2bIL" waitlistUrl="" scrollToPayment={true} />
   <AuthorsGrid {authors} />
   <MagazinePreview
     titleClass="mt-4"
@@ -294,9 +298,8 @@ const seo: SEOProps = {
     subTitleClass="font-justme text-black! text-2xl! font-medium!"
   />
   <Testimonials sectionClass="bg-hoverw [&_h2]:text-white" />
-  <FAQ />
+  <FAQ items={editionTwoFreePdfFaq} />
   <FAQContact />
-  <PreOrderSection preOrderUrl="https://buy.stripe.com/fZe7vygUk3upfD2bIL" waitlistUrl="" scrollToPayment={true} />
 </Layout>
 
 <style>

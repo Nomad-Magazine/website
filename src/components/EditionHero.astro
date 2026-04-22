@@ -1,7 +1,7 @@
 ---
 interface Props {
-  printUrl: string
-  digitalUrl: string
+  printUrl?: string
+  digitalUrl?: string
   waitlistUrl?: string
   editionNumber: string
   title: string
@@ -10,34 +10,44 @@ interface Props {
   coverImageSrcset?: string
   coverImageSizes?: string
   coverImageAlt: string
-  digitalPrice: string
-  printPrice: string
+  digitalPrice?: string
+  printPrice?: string
   digitalButtonText?: string
   printButtonText?: string
   footerText?: string
+  /** When set, shows only this CTA — no paid print/digital buttons. */
+  freePdfUrl?: string
+  freePdfButtonText?: string
 }
 
-const { 
-  printUrl, 
-  digitalUrl, 
+const {
+  printUrl = '',
+  digitalUrl = '',
   waitlistUrl,
   editionNumber,
   title,
-  subtitle = "Read by 1000+ nomads worldwide",
+  subtitle = 'Read by 1000+ nomads worldwide',
   coverImage,
   coverImageSrcset,
-  coverImageSizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 40vw",
+  coverImageSizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 40vw',
   coverImageAlt,
-  digitalPrice,
-  printPrice,
+  digitalPrice = '',
+  printPrice = '',
   digitalButtonText,
   printButtonText,
-  footerText
+  footerText,
+  freePdfUrl,
+  freePdfButtonText = 'Download free PDF',
 }: Props = Astro.props
 
-const defaultDigitalButtonText = `GET DIGITAL NOW - ${digitalPrice}`
-const defaultPrintButtonText = `ORDER PRINT - ${printPrice}`
-const defaultFooterText = `* Prefer instant access? Digital edition available for ${digitalPrice}.\n** Want the full experience? Printed and shipped for ${printPrice}.`
+const isFreePdfOnly = Boolean(freePdfUrl?.trim())
+
+const defaultDigitalButtonText = digitalPrice ? `GET DIGITAL NOW - ${digitalPrice}` : 'GET DIGITAL NOW'
+const defaultPrintButtonText = printPrice ? `ORDER PRINT - ${printPrice}` : 'ORDER PRINT'
+const defaultFooterText =
+  digitalPrice && printPrice
+    ? `* Prefer instant access? Digital edition available for ${digitalPrice}.\n** Want the full experience? Printed and shipped for ${printPrice}.`
+    : ''
 ---
 
 <div class="mx-auto max-w-7xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
@@ -45,50 +55,71 @@ const defaultFooterText = `* Prefer instant access? Digital edition available fo
     <div class="space-y-6 sm:space-y-8">
       <div class="space-y-4 sm:space-y-6">
         <div class="text-base sm:text-lg font-semibold text-gray-800">Nomad Magazine: {editionNumber}</div>
-        <h1 class="mb-4 text-3xl sm:text-4xl leading-tight font-bold md:text-6xl" set:html={title}></h1>
+        <h1 class="mb-4 text-3xl sm:text-4xl leading-tight font-bold md:text-6xl" set:html={title} />
         <div class="text-base sm:text-lg font-semibold text-gray-700">{subtitle}</div>
       </div>
       <div class="space-y-4">
-        <div class="mb-2 flex flex-col gap-4 sm:flex-row sm:items-end">
-          <a
-            href={digitalUrl}
-            data-event="reserve magazine"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="glow-animate w-full sm:w-auto inline-block rounded border-2 border-yellow-400 bg-black px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-yellow-400 transition-colors duration-200 hover:bg-yellow-400 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-300 order-first sm:order-last"
-          >
-            {digitalButtonText || defaultDigitalButtonText}
-          </a>
-          <div class="flex flex-col items-center order-last sm:order-first space-y-3">
-            <span class="mb-1 inline-block rounded-full bg-yellow-400 px-3 py-1 text-xs font-bold text-black uppercase tracking-wide shadow">Recommended</span>
-            <a
-              href={printUrl || '#payment-plan'}
-              data-event="reserve magazine"
-              data-plan="print"
-              class="w-full sm:w-auto inline-block rounded bg-yellow-400 px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-black shadow-md transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300"
-              target={printUrl ? '_blank' : '_self'}
-              onclick={!printUrl ? 'return scrollToPaymentPlan()' : undefined}
-            >
-              {printButtonText || defaultPrintButtonText}
-            </a>
-            {waitlistUrl && waitlistUrl.trim() && (
+        {
+          isFreePdfOnly ? (
+            <div class="space-y-4">
               <a
-                href={waitlistUrl}
-                class="text-xs text-gray-700 font-semibold underline underline-offset-4 hover:text-yellow-500 transition-colors"
-                target="_blank"
-                rel="noopener noreferrer"
+                href={freePdfUrl}
+                data-event="free pdf giveaway"
+                class="glow-animate inline-block w-full rounded border-2 border-yellow-400 bg-black px-6 py-3 text-center text-base font-extrabold text-yellow-400 transition-colors duration-200 hover:bg-yellow-400 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-300 sm:w-auto sm:px-8 sm:text-lg"
               >
-                Join the print waitlist
+                {freePdfButtonText}
               </a>
-            )}
-          </div>
-        </div>
-        <div class="mt-2 text-xs sm:text-sm text-gray-700" style="white-space: pre-line;">
-          {footerText || defaultFooterText}
-        </div>
+              <div class="mt-2 text-xs text-gray-700 sm:text-sm" style="white-space: pre-line;">
+                {footerText || 'Get the full digital issue free — one email unlocks your PDF.'}
+              </div>
+            </div>
+          ) : (
+            <>
+              <div class="mb-2 flex flex-col gap-4 sm:flex-row sm:items-end">
+                <a
+                  href={digitalUrl}
+                  data-event="reserve magazine"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="glow-animate order-first inline-block w-full rounded border-2 border-yellow-400 bg-black px-6 py-3 text-center text-base font-extrabold text-yellow-400 transition-colors duration-200 hover:bg-yellow-400 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-300 sm:order-last sm:w-auto sm:px-8 sm:text-lg"
+                >
+                  {digitalButtonText || defaultDigitalButtonText}
+                </a>
+                <div class="order-last flex flex-col items-center space-y-3 sm:order-first">
+                  <span class="mb-1 inline-block rounded-full bg-yellow-400 px-3 py-1 text-xs font-bold uppercase tracking-wide text-black shadow">
+                    Recommended
+                  </span>
+                  <a
+                    href={printUrl || '#payment-plan'}
+                    data-event="reserve magazine"
+                    data-plan="print"
+                    class="inline-block w-full rounded bg-yellow-400 px-6 py-3 text-center text-base font-extrabold text-black shadow-md transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 sm:w-auto sm:px-8 sm:text-lg"
+                    target={printUrl ? '_blank' : '_self'}
+                    onclick={!printUrl ? 'return scrollToPaymentPlan()' : undefined}
+                  >
+                    {printButtonText || defaultPrintButtonText}
+                  </a>
+                  {waitlistUrl && waitlistUrl.trim() && (
+                    <a
+                      href={waitlistUrl}
+                      class="text-xs font-semibold text-gray-700 underline underline-offset-4 transition-colors hover:text-yellow-500"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Join the print waitlist
+                    </a>
+                  )}
+                </div>
+              </div>
+              <div class="mt-2 text-xs text-gray-700 sm:text-sm" style="white-space: pre-line;">
+                {footerText || defaultFooterText}
+              </div>
+            </>
+          )
+        }
       </div>
     </div>
-    <div class="flex justify-center lg:justify-end order-first lg:order-last">
+    <div class="order-first flex justify-center lg:order-last">
       <img
         src={coverImage}
         srcset={coverImageSrcset}
@@ -99,35 +130,35 @@ const defaultFooterText = `* Prefer instant access? Digital edition available fo
       />
     </div>
   </div>
-  </div>
 </div>
 
 <script is:inline>
-globalThis.scrollToPaymentPlan = function scrollToPaymentPlan() {
-  // Set hash to trigger print selection
-  window.location.hash = 'payment-plan-print';
-
-  // Scroll to payment plan component
-  const paymentPlan = document.getElementById('payment-plan');
-  if (paymentPlan) {
-    paymentPlan.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center'
-    });
+  globalThis.scrollToPaymentPlan = function scrollToPaymentPlan() {
+    window.location.hash = 'payment-plan-print'
+    const paymentPlan = document.getElementById('payment-plan')
+    if (paymentPlan) {
+      paymentPlan.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      })
+    }
+    return false
   }
-
-  // Prevent default link behavior
-  return false;
-};
 </script>
 
 <style>
-@keyframes glow {
-  0% { box-shadow: 0 0 0 0 #fde047; }
-  50% { box-shadow: 0 0 16px 4px #fde047; }
-  100% { box-shadow: 0 0 0 0 #fde047; }
-}
-.glow-animate {
-  animation: glow 1.5s infinite;
-}
+  @keyframes glow {
+    0% {
+      box-shadow: 0 0 0 0 #fde047;
+    }
+    50% {
+      box-shadow: 0 0 16px 4px #fde047;
+    }
+    100% {
+      box-shadow: 0 0 0 0 #fde047;
+    }
+  }
+  .glow-animate {
+    animation: glow 1.5s infinite;
+  }
 </style>
