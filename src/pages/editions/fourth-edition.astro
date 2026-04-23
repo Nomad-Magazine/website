@@ -683,11 +683,11 @@ const distroCountries = [...new Set(distributionPlaces.map((p: any) => p.country
             <p class="distro-sidebar-label">Country</p>
             <ul class="distro-country-list">
               <li>
-                <button class="distro-country-btn is-active" data-country="All">All <span class="distro-count" id="distro-count-all">{distributionPlaces.length}</span></button>
+                <button class="distro-country-btn is-active" data-country="All">All</button>
               </li>
               {distroCountries.map((c: string) => (
                 <li>
-                  <button class="distro-country-btn" data-country={c}>{c} <span class="distro-count">{distributionPlaces.filter((p: any) => p.country === c).length}</span></button>
+                  <button class="distro-country-btn" data-country={c}>{c}</button>
                 </li>
               ))}
             </ul>
@@ -696,7 +696,6 @@ const distroCountries = [...new Set(distributionPlaces.map((p: any) => p.country
           <!-- Main list -->
           <div class="distro-main">
             <div class="distro-toolbar">
-              <span class="distro-results" id="distro-results">{distributionPlaces.length} locations</span>
               <div class="distro-sort-wrap">
                 <label for="distro-sort" class="distro-sort-label">Sort</label>
                 <select id="distro-sort" class="distro-sort-select" aria-label="Sort locations">
@@ -1844,15 +1843,6 @@ const distroCountries = [...new Set(distributionPlaces.map((p: any) => p.country
     font-weight: 700;
   }
 
-  .distro-count {
-    font-size: 0.75rem;
-    color: rgba(255,255,255,0.25);
-  }
-
-  .distro-country-btn.is-active .distro-count {
-    color: rgba(78, 205, 196, 0.6);
-  }
-
   /* Main */
   .distro-main {
     min-width: 0;
@@ -1861,13 +1851,8 @@ const distroCountries = [...new Set(distributionPlaces.map((p: any) => p.country
   .distro-toolbar {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     margin-bottom: 1rem;
-  }
-
-  .distro-results {
-    font-size: 0.85rem;
-    color: rgba(255,255,255,0.35);
   }
 
   .distro-sort-wrap {
@@ -2862,7 +2847,6 @@ const distroCountries = [...new Set(distributionPlaces.map((p: any) => p.country
   if (!list) return;
 
   const allItems = Array.from(list.querySelectorAll('.distro-item'));
-  const resultsEl = document.getElementById('distro-results');
   const loadMoreBtn = document.getElementById('distro-load-more');
   const loadWrap = document.getElementById('distro-load-wrap');
   const sortSelect = document.getElementById('distro-sort');
@@ -2891,7 +2875,6 @@ const distroCountries = [...new Set(distributionPlaces.map((p: any) => p.country
     const filtered = getFiltered();
     allItems.forEach(el => el.setAttribute('hidden', ''));
     filtered.slice(0, shownCount).forEach(({ el }) => el.removeAttribute('hidden'));
-    if (resultsEl) resultsEl.textContent = filtered.length + ' location' + (filtered.length !== 1 ? 's' : '');
     if (loadMoreBtn) {
       if (shownCount >= filtered.length) {
         loadWrap.setAttribute('hidden', '');
