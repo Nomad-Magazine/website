@@ -43,6 +43,7 @@ export const defaultOrganization: Organization = {
     'https://www.instagram.com/nomadgossipmag/',
     'https://www.youtube.com/@nomadmagazine',
     'https://www.linkedin.com/company/nomad-magazine/',
+    'https://substack.com/@nomadmagazinecom',
   ],
 }
 
@@ -248,6 +249,7 @@ export function createOrganizationSchema(options?: {
       'https://www.instagram.com/nomadgossipmag/',
       'https://www.youtube.com/@nomadmagazine',
       'https://www.linkedin.com/company/nomad-magazine/',
+      'https://substack.com/@nomadmagazinecom',
     ],
   }
 }
