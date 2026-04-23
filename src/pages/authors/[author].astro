@@ -4,7 +4,16 @@ export const prerender = true;
 import { getCollection } from 'astro:content'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import { Image } from 'astro:assets'
+import { AUTHOR_PAGE_BIOS } from '~/const/authorPageBios'
 import { normalizeContentEntries } from '~/utils/content'
+
+function pickAuthorBio(p: { data: Record<string, unknown> }): string | undefined {
+  const d = p.data
+  const b = d.authorBio ?? d.author_bio
+  if (b == null) return undefined
+  const s = String(b).trim()
+  return s === '' ? undefined : s
+}
 
 export async function getStaticPaths() {
   const allArticles = normalizeContentEntries(await getCollection('article'))
@@ -41,15 +50,46 @@ const posts = allArticles
     return dateB.valueOf() - dateA.valueOf()
   })
 
+const authorUrl = posts.find((p) => p.data.authorUrl)?.data.authorUrl
+const authorImageUrl = posts.find((p) => p.data.authorImageUrl)?.data.authorImageUrl
+
+const authorPageSlug = Astro.params.author ?? ''
+const authorBio = (() => {
+  for (const p of posts) {
+    const b = pickAuthorBio(p)
+    if (b) return b
+  }
+  return AUTHOR_PAGE_BIOS[authorPageSlug] ?? undefined
+})()
+
+const authorUrlLabel = authorUrl
+  ? (() => {
+      try {
+        return new URL(authorUrl).hostname
+      } catch {
+        return authorUrl
+      }
+    })()
+  : null
+
+const authorBioPlain = authorBio
+  ? String(authorBio)
+      .replace(/<[^>]*>/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+  : null
+
 const seo: SEOProps = {
   title: `${authorName} – Articles on Nomad Magazine`,
-  description: `Read all articles written by ${authorName} on Nomad Magazine. Hand-written stories, essays, and insights from an invited author.`,
+  description: authorBioPlain
+    ? `${authorName} — ${authorBioPlain}`
+    : `Read all articles written by ${authorName} on Nomad Magazine. Hand-written stories, essays, and insights from an invited author.`,
   ogType: 'website',
   ldJSON: {
     '@context': 'https://schema.org',
     '@type': 'ProfilePage',
     name: `${authorName} – Nomad Magazine`,
-    description: `Articles by ${authorName}`,
+    description: authorBioPlain ?? `Articles by ${authorName}`,
     url: `${Astro.site}authors/${Astro.params.author}/`,
   },
 }
@@ -62,11 +102,55 @@ const seo: SEOProps = {
       <!-- Author header -->
       <header class="mb-12">
         <p class="text-xs uppercase tracking-widest text-neutral-500 mb-2">Author</p>
-        <h1 class="text-4xl font-bold text-white mb-3">{authorName}</h1>
-        <p class="text-neutral-400 text-sm">
-          {posts.length} article{posts.length !== 1 ? 's' : ''} published on Nomad Magazine
-        </p>
-        <div class="mt-4 h-px bg-neutral-800 w-full"></div>
+        <div class="flex flex-col gap-6 sm:flex-row sm:items-start">
+          {authorImageUrl && (
+            <div class="shrink-0">
+              <img
+                src={authorImageUrl}
+                alt={authorName}
+                width="160"
+                height="160"
+                class="h-32 w-32 rounded-full object-cover border-2 border-neutral-700 sm:h-40 sm:w-40"
+                loading="eager"
+                decoding="async"
+              />
+            </div>
+          )}
+          <div class="min-w-0 flex-1">
+            <h1 class="text-4xl font-bold text-white mb-3">{authorName}</h1>
+            {authorUrl && (
+              <p class="mb-2">
+                <a
+                  href={authorUrl}
+                  class="text-sm text-amber-400/90 hover:text-amber-300 transition-colors"
+                  rel="noopener noreferrer"
+                >
+                  {authorUrlLabel}
+                </a>
+              </p>
+            )}
+            <p class="text-neutral-400 text-sm">
+              {posts.length} article{posts.length !== 1 ? 's' : ''} published on Nomad Magazine
+            </p>
+          </div>
+        </div>
+
+        {authorBio && (
+          <section class="mt-10 max-w-3xl" aria-labelledby="author-about-heading">
+            <h2
+              id="author-about-heading"
+              class="text-sm font-semibold tracking-wide text-white"
+            >
+              About the author:
+            </h2>
+            <div
+              class="mt-2 text-base leading-relaxed text-neutral-300 [&_a]:text-amber-400/90 [&_a]:underline [&_a:hover]:text-amber-300"
+              set:html={authorBio}
+            />
+          </section>
+        )}
+
+        <div class="mt-8 h-px bg-neutral-800 w-full" />
       </header>
 
       <!-- Articles grid -->

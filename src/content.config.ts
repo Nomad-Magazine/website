@@ -24,6 +24,8 @@ const blogSchema = z.object({
   byline_type: z.string().optional(),
   author_image_url: z.string().optional(),
   author_url: z.string().optional(),
+  /** Shown on /authors/{slug}/ when set (usually matches “About the author” in the article) */
+  author_bio: z.string().optional(),
   keywords: z.string().optional(),
   tag: z.string().optional(),
   published: z.boolean().optional(),
@@ -43,6 +45,9 @@ const blogSchema = z.object({
     bylineType: data.byline_type,
     authorImageUrl: data.author_image_url,
     authorUrl: data.author_url,
+    authorBio: data.author_bio,
+    // Keep so consumers can read either shape if tooling merges raw + transformed data
+    author_bio: data.author_bio,
     keywords: data.keywords,
     tag: data.tag,
     published: data.published ?? true,

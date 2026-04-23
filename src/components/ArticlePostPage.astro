@@ -6,6 +6,11 @@ import { createBlogPostingSchema } from '~/utils/schema'
 
 const { post, allPosts } = Astro.props
 
+const authorPageSlug = post.data.author
+  ? post.data.author.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+  : ''
+const authorPageHref = authorPageSlug ? `/authors/${authorPageSlug}/` : null
+
 const currentPostTags = post.data.tag ? post.data.tag.split(',').map((t: string) => t.trim()) : []
 
 let relatedPosts = allPosts
@@ -53,7 +58,9 @@ const seo: SEOProps = {
     dateModified: post.data.updatedDate?.toISOString(),
     author: {
       name: post.data.author || 'Nomad Magazine',
-      url: post.data.authorUrl || 'https://nomad-magazine.com/',
+      url: authorPageHref
+        ? new URL(authorPageHref, Astro.site).href
+        : post.data.authorUrl || 'https://nomad-magazine.com/',
     },
     articleSection: 'Digital Nomad Lifestyle',
     keywords: post.data.keywords || 'digital nomad, remote work, travel, nomad lifestyle',
@@ -76,8 +83,8 @@ const seo: SEOProps = {
                 <div class="text-lg flex flex-col items-center gap-1">
                   <span>
                     {post.data.bylineType ? `${post.data.bylineType} ` : ''}by{' '}
-                    {post.data.authorUrl ? (
-                      <a href={post.data.authorUrl} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${post.data.author}'s website (opens in new tab)`} class="underline hover:text-yellow-400 transition-colors">{post.data.author}</a>
+                    {authorPageHref ? (
+                      <a href={authorPageHref} class="underline hover:text-yellow-400 transition-colors">{post.data.author}</a>
                     ) : (
                       <span>{post.data.author}</span>
                     )}
