@@ -3,7 +3,7 @@ slug: traveling-world-digital-nomad-events-2026/
 title: "Traveling The World Through Digital Nomad Events in 2026"
 description: Plan your 2026 travel route around digital nomad events - from Nomad Summit in Chiang Mai to Nomad Cruise Asia, Italia Nomad Fest in Palermo, Vietnam Nomad Fest in Da Nang, and Bansko Nomad Fest. Your complete guide to event-based nomad travel.
 author: Nomad Magazine
-author_image_url: /images/nomad-magazine-logo.png
+author_image_url: /logo.svg
 author_url: https://nomad-magazine.com
 created_at: 2025-12-19T12:00:00.000Z
 updated_at: 2026-01-03T16:31:51.000Z

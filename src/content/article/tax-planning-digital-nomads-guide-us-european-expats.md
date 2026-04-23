@@ -3,7 +3,7 @@ slug: tax-planning-digital-nomads-guide-us-european-expats/
 title: "Tax Planning for Digital Nomads: A Practical Guide for US and European Expats"
 description: Master digital nomad tax planning with this guide covering FEIE, FTC, state residency rules, European 183-day thresholds, and avoiding double taxation mistakes.
 author: Tushar Sharma
-author_image_url: /images/nomad-magazine-logo.png
+author_image_url: /logo.svg
 author_url: https://nomadwallets.com/
 created_at: 2026-01-12T12:00:00.000Z
 updated_at: 2026-01-12T12:00:00.000Z
