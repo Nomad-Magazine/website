@@ -88,55 +88,13 @@ const allValidEntries = records
 // Get first 12 entries for regular display
 const regularDirectoryEntries = allValidEntries.slice(0, 12)
 
-// Prepare sticky bar items - mix of announcements, directory, articles, and partnership
-const stickyBarItems = [
-  // Partnership CTA
-  {
-    type: 'announcement' as const,
-    title: 'Partner with Nomad Magazine - Reach 100+ Coworking Spaces Worldwide',
-    link: '/brand-placement-next-edition-847291/',
-    badge: 'PARTNER'
-  },
-  // Key announcements
-  {
-    type: 'announcement' as const,
-    title: 'Casa Marianas Hiring Social Media Manager in Saipan',
-    link: '/nomad_directory/',
-    badge: 'HIRING'
-  },
-  {
-    type: 'announcement' as const,
-    title: 'Nomad Experience Japan - March 2-27, 2026',
-    link: '/nomad_directory/',
-    badge: 'EVENT'
-  },
-  {
-    type: 'announcement' as const,
-    title: 'Wonder House Coliving Manager - €900/month + Accommodation',
-    link: '/nomad_directory/',
-    badge: 'OPPORTUNITY'
-  },
-  {
-    type: 'announcement' as const,
-    title: 'Nomadicards Looking for New Home - Free Handover',
-    link: '/nomad_directory/',
-    badge: 'NEW'
-  },
-  // Top directory entries
-  ...allValidEntries.slice(0, 3).map((entry: any) => ({
-    type: 'directory' as const,
-    title: `${entry.title} - ${entry.category}`,
-    link: entry.link,
-    badge: 'DIRECTORY'
-  })),
-  // Latest articles
-  ...latestPosts.slice(0, 2).map((post: any) => ({
-    type: 'article' as const,
-    title: post.data.title,
-    link: `/articles/${post.slug}/`,
-    badge: 'ARTICLE'
-  }))
-]
+// Bottom ticker: latest articles only
+const stickyBarItems = publishedArticles.slice(0, 12).map((post) => ({
+  type: 'article' as const,
+  title: post.data.title,
+  link: `/articles/${post.slug}/`,
+  badge: 'ARTICLE',
+}))
 
 // YouTube channel videos
 const youtubeVideos = [
@@ -749,5 +707,4 @@ const seo: SEOProps = {
 
 </script>
 
-<!-- Sticky Auto-scrolling Ticker at Bottom -->
-<StickyAnnouncementBar items={stickyBarItems} />
+{stickyBarItems.length > 0 && <StickyAnnouncementBar items={stickyBarItems} />}
