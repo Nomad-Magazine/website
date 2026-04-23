@@ -2,6 +2,7 @@
 export const prerender = true;
 
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import GiveawayOtherEditionsUpsell from '~/components/GiveawayOtherEditionsUpsell.astro'
 
 const pageUrl = `${Astro.site}first-edition-giveaway/`
 
@@ -142,7 +143,6 @@ const seo: SEOProps = {
       <!-- Photo strip -->
       <div class="giveaway-photo-strip" aria-label="Pages from Nomad Magazine Edition One">
         <div class="giveaway-photo-track">
-          <img src="/images/edition-001-cover.webp" alt="Nomad Magazine First Edition cover" loading="lazy" class="giveaway-photo" />
           <img src="/images/edition-001-commitment-issues-bori-vigh.webp" alt="The real reason behind commitment issues — article spread" loading="lazy" class="giveaway-photo" />
           <img src="/images/edition-001-vigh-bori-commitment-issues-article.webp" alt="Commitment issues article by Bori Vigh" loading="lazy" class="giveaway-photo" />
           <img src="/images/edition-001-rat-race-freedom-tarek-kholoussy.webp" alt="From the rat race to freedom — Tarek Kholoussy article spread" loading="lazy" class="giveaway-photo" />
@@ -215,6 +215,8 @@ const seo: SEOProps = {
           <a href="/editions/first-edition/" class="ml-1 font-bold text-amber-800 underline decoration-2 underline-offset-4 hover:text-amber-950 transition-colors" aria-label="Learn about Nomad Magazine Edition One">Learn about Edition One →</a>
         </p>
       </div>
+
+      <GiveawayOtherEditionsUpsell exclude={1} />
     </div>
   </div>
 </Layout>

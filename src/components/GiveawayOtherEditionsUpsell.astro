@@ -1,0 +1,75 @@
+---
+interface Props {
+  /** Current giveaway edition (1–4); those cards are omitted. */
+  exclude: 1 | 2 | 3 | 4
+}
+
+const { exclude } = Astro.props
+
+const editions = [
+  {
+    num: 1 as const,
+    href: '/first-edition-giveaway/',
+    title: 'Edition One',
+    subtitle: 'The launch edition →',
+    img: '/images/edition-001-cover.webp',
+    ariaLabel: 'Free PDF giveaway for Edition One',
+  },
+  {
+    num: 2 as const,
+    href: '/second-edition-giveaway/',
+    title: 'Edition Two',
+    subtitle: 'Nomad communities & Japan →',
+    img: '/images/edition-002-cover.webp',
+    ariaLabel: 'Free PDF giveaway for Edition Two',
+  },
+  {
+    num: 3 as const,
+    href: '/third-edition-giveaway/',
+    title: 'Edition Three',
+    subtitle: 'Mind, body & tech →',
+    img: '/images/edition-003-cover.webp',
+    ariaLabel: 'Free PDF giveaway for Edition Three',
+  },
+  {
+    num: 4 as const,
+    href: '/fourth-edition-giveaway/',
+    title: 'Edition Four',
+    subtitle: 'Where the nomad world is growing →',
+    img: '/images/edition-004-cover.webp',
+    ariaLabel: 'Free PDF giveaway for Edition Four',
+  },
+]
+
+const items = editions.filter((e) => e.num !== exclude)
+---
+
+<section class="mx-auto mt-14 max-w-4xl" aria-label="Other free PDF editions">
+  <p class="mb-3 text-center text-xs font-semibold uppercase tracking-[0.2em] text-amber-600">More to read</p>
+  <h2 class="mb-2 text-center text-2xl font-bold text-gray-900 sm:text-3xl">Grab the other editions — free PDF too</h2>
+  <p class="mx-auto mb-8 max-w-lg text-center text-gray-600">
+    Each page has its own short form (same idea as here): one email, one PDF.
+  </p>
+  <div class="grid gap-5 sm:grid-cols-3">
+    {
+      items.map((e) => (
+        <a
+          href={e.href}
+          class="group flex flex-col items-center rounded-2xl border border-gray-200 bg-white p-4 text-center shadow-sm transition hover:border-amber-300 hover:shadow-md"
+          aria-label={e.ariaLabel}
+        >
+          <img
+            src={e.img}
+            alt=""
+            width="200"
+            height="260"
+            class="mb-3 h-44 w-auto max-w-full rounded-lg object-cover shadow ring-1 ring-gray-100"
+            loading="lazy"
+          />
+          <span class="font-bold text-gray-900 group-hover:text-amber-800">{e.title}</span>
+          <span class="mt-1 text-sm text-gray-600">{e.subtitle}</span>
+        </a>
+      ))
+    }
+  </div>
+</section>
