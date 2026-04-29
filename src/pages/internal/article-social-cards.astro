@@ -348,6 +348,65 @@ function generateTwitterCopy(
 
 type ArticleEntry = CollectionEntry<'article'>
 
+type SocialCopyOverride = {
+  slide2Quote?: string
+  slide3Quote?: string
+  slide4Quote?: string
+  slide5Quote?: string
+  slide3Kicker?: string
+  slide4Kicker?: string
+  slide5Kicker?: string
+  closingInsight?: string
+  closingSlideKicker?: string
+  keyPoints?: string[]
+  linkedInCopy?: string
+  twitterCopy?: string
+}
+
+const socialCopyOverrides: Record<string, SocialCopyOverride> = {
+  'beyond-travel-new-nomad-chapter': {
+    slide2Quote: 'I told myself it would be temporary. Enjoying life somewhere warm, then returning to Germany and being a responsible adult again.',
+    slide3Kicker: 'The turn',
+    slide3Quote: 'Instead, I turned my whole life around: I flew to Bali, fell in love with the tropical vibe, and built a remote work setup.',
+    slide4Kicker: 'The hidden cost',
+    slide4Quote: 'After two years, being free to travel anywhere came with a hidden cost: I had to restart my life over and over again.',
+    slide5Kicker: 'A different freedom',
+    slide5Quote: 'I didn\'t want less freedom, but I needed more stability. I didn\'t have to stop traveling, I just had to change the way I lived the "nomad" life.',
+    closingSlideKicker: 'The real point',
+    closingInsight: 'Digital nomadism is an experience, not a lifelong obligation. You\'re allowed to step in and out of it however often you like.',
+    keyPoints: [
+      'When freedom starts to feel like logistics',
+      'Building Nomadwise from the road',
+      'Why constant movement made focus harder',
+      'Choosing Ericeira without quitting travel',
+      'Redefining nomad life as freedom of choice',
+    ],
+    linkedInCopy: `A beautiful personal story by Leonie, freelance project manager and co-founder of Nomadwise, about the hidden cost of full-time travel, choosing a base in Portugal, and finding a calmer version of nomad life.
+
+"I didn't want less freedom, but I needed more stability. I didn't have to stop traveling, I just had to change the way I lived the "nomad" life."
+
+For Leonie, the next chapter was not about giving up nomad life. It was about changing the rhythm.
+
+Inside the story:
+- How constant relocation quietly drained focus
+- Why building Nomadwise made stability feel necessary
+- What changed when Ericeira became a base
+- Why slowing down can still be digital nomadism
+
+Read Leonie's personal story:
+https://nomad-magazine.com/articles/beyond-travel-new-nomad-chapter/
+
+#DigitalNomad #RemoteWork #NomadLife #Portugal #NomadMagazine`,
+    twitterCopy: `The hidden cost of nomad freedom: restarting your life in every new place.
+
+Leonie writes about moving from full-time travel to a Portugal base without giving up the nomad life.
+
+https://nomad-magazine.com/articles/beyond-travel-new-nomad-chapter/
+
+#DigitalNomad #RemoteWork`,
+  },
+}
+
 function computeArticleSocialPack(article: ArticleEntry) {
   const data = article.data
   const igAuthorCredit = data.author
@@ -397,13 +456,13 @@ function computeArticleSocialPack(article: ArticleEntry) {
     igImageQuotePhoto = { url: heroImage, alt: heroImageAlt || data.title }
   }
 
-  const slide2Quote = storySections[0]?.snippet ?? highlights[0] ?? data.description
-  const slide3Quote =
+  let slide2Quote = storySections[0]?.snippet ?? highlights[0] ?? data.description
+  let slide3Quote =
     citySlides[0]?.snippet ?? highlights[1] ?? highlights[0] ?? data.description
-  const slide4Quote = citySlides[1]?.snippet ?? highlights[2] ?? highlights[1] ?? data.description
-  const slide3Kicker = citySlides[0]?.heading ?? 'Story beat'
-  const slide4Kicker = citySlides[1]?.heading ?? 'Story beat'
-  const slide5Kicker = slide5Section?.heading ?? 'Key insight'
+  let slide4Quote = citySlides[1]?.snippet ?? highlights[2] ?? highlights[1] ?? data.description
+  let slide3Kicker = citySlides[0]?.heading ?? 'Story beat'
+  let slide4Kicker = citySlides[1]?.heading ?? 'Story beat'
+  let slide5Kicker = slide5Section?.heading ?? 'Key insight'
 
   const usedInEarlierSlides = new Set<string>([
     slide2Quote,
@@ -451,7 +510,7 @@ function computeArticleSocialPack(article: ArticleEntry) {
     closingInsight = closingInsight.slice(0, 217).trim() + '…'
   }
 
-  const closingSlideKicker =
+  let closingSlideKicker =
     takeawayBullets.length > 0
       ? 'Takeaway'
       : h2s.length > 0
@@ -461,9 +520,9 @@ function computeArticleSocialPack(article: ArticleEntry) {
         : tags[0] || 'From this story'
 
   const h2sDeck = storyH2s(h2s)
-  const keyPoints = h2sDeck.length > 0 ? buildStoryOutline(h2sDeck) : tags.slice(0, 6)
+  let keyPoints = h2sDeck.length > 0 ? buildStoryOutline(h2sDeck) : tags.slice(0, 6)
 
-  const linkedInCopy = generateLinkedInCopy(
+  let linkedInCopy = generateLinkedInCopy(
     data.title,
     data.description,
     storySections,
@@ -472,7 +531,23 @@ function computeArticleSocialPack(article: ArticleEntry) {
     data.author,
     takeawayBullets[0],
   )
-  const twitterCopy = generateTwitterCopy(data.title, data.description, tags, highlights, articleUrl)
+  let twitterCopy = generateTwitterCopy(data.title, data.description, tags, highlights, articleUrl)
+
+  const override = socialCopyOverrides[slug]
+  if (override) {
+    slide2Quote = override.slide2Quote ?? slide2Quote
+    slide3Quote = override.slide3Quote ?? slide3Quote
+    slide4Quote = override.slide4Quote ?? slide4Quote
+    slide5Quote = override.slide5Quote ?? slide5Quote
+    slide3Kicker = override.slide3Kicker ?? slide3Kicker
+    slide4Kicker = override.slide4Kicker ?? slide4Kicker
+    slide5Kicker = override.slide5Kicker ?? slide5Kicker
+    closingInsight = override.closingInsight ?? closingInsight
+    closingSlideKicker = override.closingSlideKicker ?? closingSlideKicker
+    keyPoints = override.keyPoints ?? keyPoints
+    linkedInCopy = override.linkedInCopy ?? linkedInCopy
+    twitterCopy = override.twitterCopy ?? twitterCopy
+  }
 
   return {
     igAuthorCredit,
