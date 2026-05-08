@@ -14,6 +14,8 @@ const blogSchema = z.object({
 
   // Image fields - handle both formats
   heroImage: z.string().optional(),
+  /** Alias for head_image_alt; merged with head_image_alt in transform */
+  heroImageAlt: z.string().optional(),
   head_image: z.string().optional(),
   head_image_alt: z.string().optional(),
 
@@ -40,7 +42,7 @@ const blogSchema = z.object({
     pubDate: data.pubDate || data.created_at,
     updatedDate: data.updated_at,
     heroImage: data.heroImage || data.head_image,
-    heroImageAlt: data.head_image_alt,
+    heroImageAlt: data.heroImageAlt || data.head_image_alt,
     author: data.author,
     bylineType: data.byline_type,
     authorImageUrl: data.author_image_url,

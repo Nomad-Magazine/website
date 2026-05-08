@@ -37,7 +37,7 @@ My first week here, I was walking my dog along Beach Road at sunset. No crowds. 
 
 Coming from Charlotte, it did not feel ordinary at all.
 
-![Turquoise water and white sand along Beach Road walkway, Saipan](/images/saipan-beach-road-walk.webp)
+<img src="/images/saipan-beach-road-walk.webp" alt="Turquoise water and white sand along Beach Road walkway, Saipan" width="1024" height="576" loading="lazy" decoding="async" class="w-full rounded-lg" />
 
 <p class="text-sm text-neutral-500 not-prose mb-6 -mt-4">Photographs in this article were provided by the author.</p>
 
@@ -57,7 +57,7 @@ Almost nobody in the remote work conversation has heard of this place, but that 
 
 On my first trip here, a friend took me to get pizza in Garapan, the closest thing the island has to a downtown.
 
-![Elevated view of Garapan business district and Saipan coastline](/images/saipan-garapan-coastal-town.webp)
+<img src="/images/saipan-garapan-coastal-town.webp" alt="Elevated view of Garapan business district and the Saipan coastline" width="1024" height="576" loading="lazy" decoding="async" class="w-full rounded-lg" />
 
 The restaurant was not really open yet. No chairs. No tables. Boxes stacked everywhere. They were doing takeout and some deliveries.
 
@@ -87,7 +87,7 @@ It is also a U.S. territory in the legal sense, which matters practically. You d
 
 Arriving in Saipan is a hybrid process. Immigration is handled by U.S. Customs and Border Protection, while customs itself is managed locally by the Northern Mariana Islands government. It reflects the island's status in a nutshell: American in some ways, distinctly its own in others.
 
-![Traditional Chamorro latte hut on latte stone pillars, Saipan](/images/saipan-chamorro-latte-hut.webp)
+<img src="/images/saipan-chamorro-latte-hut.webp" alt="Traditional Chamorro latte hut raised on latte stone pillars, Saipan" width="1024" height="576" loading="lazy" decoding="async" class="w-full rounded-lg" />
 
 For non-American visitors, the CNMI operates its own visa waiver program separate from the U.S. mainland. It currently covers twelve countries across the Asia-Pacific region, plus the United Kingdom; but does not yet include most of continental Europe. Eligible travelers apply through a simple electronic authorization before departure, similar to the U.S. ESTA process, and can stay up to 45 days.
 
@@ -133,7 +133,7 @@ Local Facebook groups are where people rent homes, sell cars, promote businesses
 
 You just have to show up.
 
-![Bird Island limestone islet and rugged Saipan coastline](/images/saipan-bird-island-cliffs.webp)
+<img src="/images/saipan-bird-island-cliffs.webp" alt="Bird Island limestone islet and rugged volcanic coastline, Saipan" width="1024" height="575" loading="lazy" decoding="async" class="w-full rounded-lg" />
 
 ## Who It Is Really For
 
@@ -141,7 +141,7 @@ The people I see doing well here are the ones that are ready to stop collecting 
 
 They work during the day, explore the island in the evenings, and become part of the rhythm of the place instead of passing through it.
 
-![Scuba diver seen through a hatch from inside the Chinsen Shoan Maru shipwreck, Saipan](/images/saipan-chinsen-shoan-maru-shipwreck-dive.webp)
+<img src="/images/saipan-chinsen-shoan-maru-shipwreck-dive.webp" alt="Scuba diver seen through a hatch from inside the Chinsen Shoan Maru shipwreck, Saipan" width="1024" height="683" loading="lazy" decoding="async" class="w-full rounded-lg" />
 
 Saipan is not for everyone.
 
