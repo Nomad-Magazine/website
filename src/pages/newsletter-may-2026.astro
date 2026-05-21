@@ -1,0 +1,53 @@
+---
+export const prerender = true;
+
+import emailHtml from '../../email_backup/newsletter-may-2026-pause-free-pdfs.html?raw'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+
+const bodyMatch = emailHtml.match(/<body[^>]*>([\s\S]*)<\/body>/i)
+let contentHtml = bodyMatch?.[1] ?? emailHtml
+
+contentHtml = contentHtml
+  .replace(/\{\{\s*visitor\.unsubscribe_url\s*\}\}/g, '')
+  .replace(
+    /<p style="color:#6b7280;font-size:11px;margin:0;">\s*<\/p>/g,
+    '',
+  )
+  .replace(/https:\/\/nomad-magazine\.com(\/images\/)/g, '$1')
+
+const seo: SEOProps = {
+  title: 'Good news. Hard news. And four FREE editions! — Nomad Newsletter May 2026',
+  description:
+    'All four Nomad Magazine editions free as PDF, a pause in print, fresh articles, Palermo on YouTube, and print copies at coworkings across Europe and Costa Rica.',
+  image: `${Astro.site}images/edition-004-cover.webp`,
+  keywords:
+    'nomad magazine, free PDF, print pause, digital nomad, newsletter, may 2026, edition four, coworking, coliving',
+  ogType: 'article',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Good news. Hard news. And four FREE editions!',
+    description:
+      'All four Nomad Magazine editions free as PDF, a pause in print, and what is next for Nomad Magazine online.',
+    author: { '@type': 'Person', name: 'Lera Pitiakova' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Nomad Magazine',
+      logo: { '@type': 'ImageObject', url: `${Astro.site}logo.svg` },
+    },
+    datePublished: '2026-05-20',
+    url: `${Astro.site}newsletter-may-2026/`,
+  },
+}
+---
+
+<Layout seo={seo}>
+  <div class="newsletter-email-view" set:html={contentHtml} />
+</Layout>
+
+<style is:global>
+  .newsletter-email-view img {
+    max-width: 100%;
+    height: auto;
+  }
+</style>
