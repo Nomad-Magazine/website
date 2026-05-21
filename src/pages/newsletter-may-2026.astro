@@ -1,7 +1,7 @@
 ---
 export const prerender = true;
 
-import emailHtml from '../../email_backup/newsletter-may-2026-pause-free-pdfs.html?raw'
+import emailHtml from '~/data/newsletters/newsletter-may-2026-pause-free-pdfs.html?raw'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 
 const bodyMatch = emailHtml.match(/<body[^>]*>([\s\S]*)<\/body>/i)
