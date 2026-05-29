@@ -1,0 +1,809 @@
+---
+export const prerender = true
+
+import { fetchReportRecords } from '~/utils/smartsuite'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import { directoryLogoBoxClass, directoryLogoImageClassFor, directoryLogoInitialClass, directoryLogoUrlFor, needsDarkLogoBackground } from '~/const/nomadDirectoryWhiteLogos'
+import { newDirectoryListingTitles, nomadDirectoryUrl } from '~/const/newDirectoryListings'
+import {
+  computeBatchSocialPack,
+  computeListingSocialPack,
+  displayLink,
+  formatOfferForCard,
+  normalizeLink,
+  resolveHeroImage,
+  resolvePlaceImage,
+  slugify,
+  type BatchIgSlide,
+  type DirectoryListingInput,
+  type IgSlide,
+} from '~/utils/directorySocialCards'
+
+const { records = [] } = await fetchReportRecords('6857167d82358a0f5e038c3f')
+
+const allListings: DirectoryListingInput[] = records
+  .filter((r: any) => r.sf4ad525dd && r.title)
+  .map((r: any) => ({
+    id: String(r.id),
+    title: r.title,
+    category: r.sb685ab800?.label || '',
+    description: r.scea90e502 || '',
+    specialOffer: r.s5576966ee || '',
+    link: normalizeLink(r.link || r.sb788c266b?.[0] || ''),
+    logo: directoryLogoUrlFor(r.title, r.image && r.image !== '/logo.svg' ? r.image : ''),
+    isDarkLogo: needsDarkLogoBackground(r.title),
+    slug: slugify(r.title),
+  }))
+
+const listingPacks = await Promise.all(
+  newDirectoryListingTitles
+    .map((title) => allListings.find((l) => l.title === title))
+    .filter(Boolean)
+    .map(async (listing) => {
+      const heroImage = await resolveHeroImage(listing!)
+      const placeImage = await resolvePlaceImage(listing!, heroImage)
+      return { listing: listing!, pack: computeListingSocialPack(listing!, heroImage, placeImage) }
+    }),
+)
+
+const batchPack = computeBatchSocialPack(
+  listingPacks.map(({ listing, pack }) => ({
+    ...listing,
+    heroImage: pack.heroImage,
+    placeImage: pack.placeImage,
+  })),
+)
+
+const seo: SEOProps = {
+  title: 'Nomad Directory Social Cards - Internal Tool',
+  description: 'Internal use only - Social media cards for new Nomad Directory listings',
+  noIndex: true,
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Nomad Directory Social Cards',
+    description: 'Internal use only',
+    url: `${Astro.site}internal/nomad-directory-social-cards/`,
+  },
+}
+
+function slideLabel(slide: IgSlide): string {
+  if (slide.kind === 'cover') return 'Cover'
+  if (slide.kind === 'about') return slide.parts > 1 ? `About (${slide.part}/${slide.parts})` : 'About'
+  if (slide.kind === 'place') return 'The space'
+  if (slide.kind === 'offer') return 'Special offer'
+  if (slide.kind === 'hero-quote') return 'Highlight'
+  return 'CTA'
+}
+
+function slideFilename(slug: string, slide: IgSlide): string {
+  const n = String(slide.index).padStart(2, '0')
+  return `ig-${n}-${slide.kind}-${slug}.png`
+}
+
+function batchSlideLabel(slide: BatchIgSlide, listingTitle?: string): string {
+  if (slide.kind === 'batch-intro') return 'New listings intro'
+  if (slide.kind === 'batch-cta') return 'Directory CTA'
+  if (slide.focus === 'place') return `${listingTitle ?? 'Listing'} · The space`
+  if (slide.focus === 'offer') return `${listingTitle ?? 'Listing'} · Offer`
+  return `${listingTitle ?? 'Listing'} · About${slide.part ? ` ${slide.part}` : ''}`
+}
+
+function batchSlideFilename(slide: BatchIgSlide): string {
+  const n = String(slide.index).padStart(2, '0')
+  if (slide.kind === 'batch-intro') return `ig-batch-${n}-new-listings.png`
+  if (slide.kind === 'batch-cta') return `ig-batch-${n}-cta.png`
+  return `ig-batch-${n}-${slide.listingSlug}-${slide.focus}.png`
+}
+---
+
+<Layout seo={seo}>
+  <div class="bg-gray-950 min-h-screen">
+
+    <div class="bg-gray-900 border-b border-gray-800 sticky top-0 z-50">
+      <div class="max-w-screen-2xl mx-auto px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div>
+          <h1 class="text-white font-bold text-lg">Nomad Directory Social Cards</h1>
+          <p class="text-gray-500 text-xs mt-0.5">{listingPacks.length} new listings · Internal use only · noindex</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <label for="listing-filter" class="text-gray-400 text-sm shrink-0">Jump to:</label>
+          <select
+            id="listing-filter"
+            class="bg-gray-800 text-white border border-gray-700 rounded-lg px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-yellow-400 outline-none max-w-xs"
+          >
+            <option value="all">All listings</option>
+            <option value="batch">Batch carousel (4 listings)</option>
+            {listingPacks.map(({ listing }) => (
+              <option value={listing.slug}>{listing.title}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-screen-2xl mx-auto px-6 pt-6 pb-2">
+      <div class="flex flex-wrap gap-3 text-xs">
+        <span class="bg-pink-950/60 text-pink-300 border border-pink-800/50 px-3 py-1.5 rounded-full font-medium">Instagram · dynamic slides · 3:4 portrait (1080×1440)</span>
+        <span class="bg-blue-950/60 text-blue-300 border border-blue-800/50 px-3 py-1.5 rounded-full font-medium">LinkedIn · 1 image · 1.91:1 landscape</span>
+        <span class="bg-sky-950/60 text-sky-300 border border-sky-800/50 px-3 py-1.5 rounded-full font-medium">Twitter / X · 1 image · 16:9</span>
+        <span class="ml-auto text-gray-600 py-1.5">Long text splits across slides · Hero photos from listing websites</span>
+      </div>
+    </div>
+
+    <div class="max-w-screen-2xl mx-auto px-6 py-6 space-y-20" id="listings-container">
+
+      <!-- Batch carousel: all 4 new listings -->
+      <section class="listing-section batch-section" data-slug="batch" id="listing-batch">
+        <div class="flex items-start justify-between mb-6 pb-4 border-b border-gray-800">
+          <div class="min-w-0 flex-1 mr-4">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span class="bg-purple-400 text-black text-xs font-bold px-2.5 py-0.5 rounded-full">Batch series</span>
+              <span class="text-emerald-400 text-xs font-semibold uppercase tracking-wider">4 new listings</span>
+              <span class="text-gray-600 text-xs">{batchPack.slideCount} IG slides</span>
+            </div>
+            <h2 class="text-white text-xl font-bold leading-snug">New Listings Carousel</h2>
+            <p class="text-gray-500 text-sm mt-1">One intro card with all logos, then 1–2 detail cards per listing</p>
+          </div>
+          <a href={nomadDirectoryUrl} target="_blank" rel="noopener noreferrer" aria-label="Open Nomad Directory (opens in new tab)" class="text-yellow-400 hover:text-yellow-300 text-sm font-medium shrink-0 transition-colors">Directory →</a>
+        </div>
+
+        <div class="mb-10">
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-2 h-2 rounded-full bg-pink-400" aria-hidden="true"></div>
+            <h3 class="text-pink-300 text-xs font-bold uppercase tracking-widest">Instagram Batch Carousel · 1080×1440px · {batchPack.slideCount} slides</h3>
+          </div>
+
+          <div class="flex gap-4 overflow-x-auto snap-x snap-mandatory relative" style="padding-bottom:44px;" role="list">
+            {batchPack.slides.map((slide) => {
+              const listing = slide.kind === 'batch-detail'
+                ? batchPack.listings.find((l) => l.slug === slide.listingSlug)
+                : undefined
+              const listingNumber = listing
+                ? batchPack.listings.findIndex((l) => l.slug === slide.listingSlug) + 1
+                : 0
+              const logoInitial = listing ? (listing.title || 'C').charAt(0).toUpperCase() : ''
+
+              return (
+                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Batch slide ${slide.index} of ${batchPack.slideCount}: ${batchSlideLabel(slide, listing?.title)}`}>
+
+                  {slide.kind === 'batch-intro' && (
+                    <div class="card-capture relative w-full h-full rounded-none overflow-hidden bg-[#0f0f0f] shadow-2xl shadow-black/50">
+                      <div class="absolute inset-0 bg-linear-to-b from-yellow-400/8 via-transparent to-transparent"></div>
+                      <div class="p-6 relative flex flex-col h-full">
+                        <div class="flex items-center justify-between">
+                          <img src="/logo.svg" alt="" aria-hidden="true" class="w-6 h-6 opacity-80" crossorigin="anonymous" />
+                          <span class="text-yellow-400/90 text-[10px] font-bold uppercase tracking-[0.2em]">New listings</span>
+                        </div>
+
+                        <div class="flex-1 flex flex-col items-center justify-center text-center px-2">
+                          <h3 class="text-white font-bold text-[1.65rem] leading-[1.15] tracking-tight mb-2">New at<br />Nomad Directory</h3>
+                          <p class="text-white/45 text-[11px] mb-8">4 companies for digital nomads</p>
+
+                          <div class="grid grid-cols-2 gap-3 w-full max-w-[180px]">
+                            {batchPack.listings.map((item) => (
+                              <div class="aspect-square rounded-2xl overflow-hidden bg-black flex items-center justify-center p-3">
+                                {item.logo ? (
+                                  <img src={item.logo} alt={item.title} class="max-w-full max-h-full w-auto h-auto object-contain" crossorigin="anonymous" />
+                                ) : (
+                                  <span class={directoryLogoInitialClass}>{(item.title || 'C').charAt(0).toUpperCase()}</span>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        <p class="text-white/30 text-[10px] text-center tracking-wide">Swipe for details →</p>
+                      </div>
+                      <div class="absolute bottom-2 right-3 text-white/20 text-[10px] font-mono">{slide.index}/{batchPack.slideCount}</div>
+                    </div>
+                  )}
+
+                  {slide.kind === 'batch-detail' && listing && slide.focus === 'about' && (
+                    <div class="card-capture relative w-full h-full rounded-none overflow-hidden shadow-2xl shadow-black/50">
+                      <img src={slide.heroImage} alt={listing.title} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
+                      <div class="absolute inset-0 bg-linear-to-t from-black/95 via-black/70 to-black/35"></div>
+                      <div class="p-6 relative flex flex-col h-full">
+                        <div class="flex items-center justify-between mb-4">
+                          <span class="text-yellow-400 text-[11px] font-bold uppercase tracking-widest">
+                            New listing · {listingNumber}/{batchPack.listings.length}
+                          </span>
+                          <img src="/logo.svg" alt="" aria-hidden="true" class="w-5 h-5 opacity-50" crossorigin="anonymous" />
+                        </div>
+                        <div class="flex-1 flex flex-col justify-end">
+                          <div class="flex items-center gap-3 mb-4">
+                            <div class={directoryLogoBoxClass}>
+                              {listing.logo ? (
+                                <img src={listing.logo} alt={listing.title} class={directoryLogoImageClassFor(listing.title)} crossorigin="anonymous" />
+                              ) : (
+                                <span class={directoryLogoInitialClass}>{logoInitial}</span>
+                              )}
+                            </div>
+                            <div class="min-w-0">
+                              <h3 class="text-white font-bold text-lg leading-tight drop-shadow-lg">{listing.title}</h3>
+                              {listing.category && (
+                                <span class="text-yellow-400 text-[10px] font-medium">{listing.category}</span>
+                              )}
+                            </div>
+                          </div>
+                          <p class={`text-gray-200 leading-relaxed drop-shadow-md ${slide.text.length > 140 ? 'text-xs' : 'text-sm'}`}>{slide.text}</p>
+                          {listing.link && (
+                            <p class="text-blue-300 text-[11px] mt-3 underline">{displayLink(listing.link)} →</p>
+                          )}
+                        </div>
+                      </div>
+                      <div class="absolute bottom-2 right-3 text-white/25 text-[10px] font-mono">{slide.index}/{batchPack.slideCount}</div>
+                    </div>
+                  )}
+
+                  {slide.kind === 'batch-detail' && listing && slide.focus === 'offer' && (
+                    <div class="card-capture relative w-full h-full rounded-none overflow-hidden bg-[#121111] shadow-2xl shadow-black/50">
+                      <div class="p-6 flex flex-col h-full">
+                        <div class="flex items-center gap-3 mb-6">
+                          <div class={directoryLogoBoxClass}>
+                            {listing.logo ? (
+                              <img src={listing.logo} alt={listing.title} class={directoryLogoImageClassFor(listing.title)} crossorigin="anonymous" />
+                            ) : (
+                              <span class={directoryLogoInitialClass}>{logoInitial}</span>
+                            )}
+                          </div>
+                          <div class="min-w-0">
+                            <h3 class="text-white font-bold text-base leading-tight">{listing.title}</h3>
+                            {listing.category && <span class="text-yellow-400/80 text-[10px]">{listing.category}</span>}
+                          </div>
+                        </div>
+                        <div class="flex-1 flex flex-col justify-center">
+                          <p class="text-yellow-400 text-[11px] font-bold uppercase tracking-widest mb-3">Special offer</p>
+                          <p class={`text-white leading-relaxed ${formatOfferForCard(slide.text).length > 100 ? 'text-sm' : 'text-base'}`}>
+                            {formatOfferForCard(slide.text)}
+                          </p>
+                        </div>
+                        {listing.link && (
+                          <p class="text-yellow-400/70 text-xs mt-6">{displayLink(listing.link)} →</p>
+                        )}
+                      </div>
+                      <div class="absolute bottom-2 right-3 text-white/20 text-[10px] font-mono">{slide.index}/{batchPack.slideCount}</div>
+                    </div>
+                  )}
+
+                  {slide.kind === 'batch-detail' && listing && slide.focus === 'place' && slide.placeImage && (
+                    <div class="card-capture relative w-full h-full rounded-none overflow-hidden shadow-2xl shadow-black/50">
+                      <img src={slide.placeImage} alt={`${listing.title} coliving space`} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
+                      <div class="absolute bottom-2 right-3 text-white/25 text-[10px] font-mono">{slide.index}/{batchPack.slideCount}</div>
+                    </div>
+                  )}
+
+                  {slide.kind === 'batch-cta' && (
+                    <div class="card-capture relative w-full h-full rounded-none overflow-hidden bg-[#121111] shadow-2xl shadow-black/50">
+                      <div class="absolute inset-0 bg-linear-to-br from-yellow-400/15 via-[#121111] to-black"></div>
+                      <div class="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
+                        <img src="/logo.svg" alt="" aria-hidden="true" class="w-10 h-10 mb-4" crossorigin="anonymous" />
+                        <p class="text-yellow-400 text-[11px] font-bold uppercase tracking-widest mb-3">Explore the Nomad Directory</p>
+                        <h3 class="text-white font-bold text-lg leading-snug mb-2">150+ vetted companies for nomads</h3>
+                        <p class="text-gray-400 text-xs leading-relaxed mb-5">Colivings, coworkings, apps, insurance, legal — because Google doesn't get our lifestyle.</p>
+                        <div class="bg-yellow-400 text-black text-xs font-bold px-5 py-2.5 rounded-full max-w-full break-all">nomad-magazine.com/nomad_directory/</div>
+                        <p class="text-white/40 text-xs mt-4">🔗 Link in bio</p>
+                      </div>
+                      <div class="absolute bottom-2 right-3 text-white/20 text-[10px] font-mono">{slide.index}/{batchPack.slideCount}</div>
+                    </div>
+                  )}
+
+                  <button class="download-btn" data-filename={batchSlideFilename(slide)} data-width="1080" aria-label={`Download batch slide ${slide.index}`}>↓ PNG</button>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
+        <div class="mb-10">
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-2 h-2 rounded-full bg-blue-400" aria-hidden="true"></div>
+            <h3 class="text-blue-300 text-xs font-bold uppercase tracking-widest">LinkedIn · Batch · 1200×627px</h3>
+          </div>
+          <div class="card-wrapper relative group" style="max-width:600px;padding-bottom:36px;">
+            <div class="card-capture relative rounded-none overflow-hidden shadow-2xl shadow-black/50 bg-[#121111]" style="aspect-ratio:1.91/1;">
+              <div class="absolute inset-0 bg-linear-to-r from-yellow-400/10 via-transparent to-transparent"></div>
+              <div class="absolute inset-0 flex flex-col justify-between p-7">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <img src="/logo.svg" alt="" aria-hidden="true" class="w-7 h-7" crossorigin="anonymous" />
+                    <span class="text-white/70 text-xs font-bold uppercase tracking-widest">Nomad Directory</span>
+                  </div>
+                  <span class="bg-yellow-400 text-black text-xs font-bold px-3 py-1 rounded-full">4 new listings</span>
+                </div>
+                <div>
+                  <h3 class="text-white font-bold text-2xl leading-tight mb-3">New at Nomad Directory</h3>
+                  <div class="flex flex-wrap gap-2 mb-3">
+                    {batchPack.listings.map((item) => (
+                      <span class="bg-white/10 border border-white/15 text-white text-xs font-medium px-2.5 py-1 rounded-full">{item.title}</span>
+                    ))}
+                  </div>
+                  <p class="text-yellow-400/70 text-xs font-mono">nomad-magazine.com/nomad_directory/</p>
+                </div>
+              </div>
+            </div>
+            <button class="download-btn" data-filename="linkedin-batch-new-listings.png" data-width="1200" aria-label="Download batch LinkedIn image">↓ PNG</button>
+          </div>
+          <div class="copy-block mt-4" style="max-width:600px;">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-gray-500 text-[11px] font-bold uppercase tracking-widest">Proposed LinkedIn post copy</span>
+              <button class="copy-text-btn text-[11px] font-semibold text-blue-300 hover:text-white border border-blue-800/50 hover:border-blue-400 bg-blue-950/40 hover:bg-blue-900/50 px-3 py-1 rounded-lg transition-colors" aria-label="Copy batch LinkedIn post text">Copy text</button>
+            </div>
+            <textarea class="copy-textarea w-full bg-gray-900 border border-gray-800 text-gray-300 text-xs leading-relaxed rounded-xl p-4 resize-none font-mono focus-visible:ring-2 focus-visible:ring-blue-500 outline-none" rows="10" readonly>{batchPack.linkedInCopy}</textarea>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-2 h-2 rounded-full bg-sky-400" aria-hidden="true"></div>
+            <h3 class="text-sky-300 text-xs font-bold uppercase tracking-widest">Twitter / X · Batch · 1600×900px</h3>
+          </div>
+          <div class="card-wrapper relative group" style="max-width:600px;padding-bottom:36px;">
+            <div class="card-capture relative rounded-none overflow-hidden shadow-2xl shadow-black/50 bg-[#121111]" style="aspect-ratio:16/9;">
+              <div class="absolute top-0 left-0 right-0 h-1 bg-yellow-400" aria-hidden="true"></div>
+              <div class="absolute inset-0 flex flex-col justify-between p-6">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <img src="/logo.svg" alt="" aria-hidden="true" class="w-6 h-6" crossorigin="anonymous" />
+                    <span class="text-white/60 text-xs font-bold uppercase tracking-wider">Nomad Directory</span>
+                  </div>
+                  <span class="bg-yellow-400 text-black text-xs font-bold px-2.5 py-0.5 rounded-full">4 new</span>
+                </div>
+                <div>
+                  <h3 class="text-white font-bold text-xl leading-tight mb-2">4 new listings for nomads</h3>
+                  <p class="text-gray-300 text-sm">{batchPack.listings.map((l) => l.title).join(' · ')}</p>
+                </div>
+              </div>
+            </div>
+            <button class="download-btn" data-filename="twitter-batch-new-listings.png" data-width="1600" aria-label="Download batch Twitter image">↓ PNG</button>
+          </div>
+          <div class="copy-block mt-4" style="max-width:600px;">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-gray-500 text-[11px] font-bold uppercase tracking-widest">Proposed Twitter / X post copy</span>
+              <div class="flex items-center gap-2">
+                <span class="text-[11px] text-gray-600 font-mono">{batchPack.twitterCopy.length}/280</span>
+                <button class="copy-text-btn text-[11px] font-semibold text-sky-300 hover:text-white border border-sky-800/50 hover:border-sky-400 bg-sky-950/40 hover:bg-sky-900/50 px-3 py-1 rounded-lg transition-colors" aria-label="Copy batch Twitter post text">Copy text</button>
+              </div>
+            </div>
+            <textarea class="copy-textarea w-full bg-gray-900 border border-gray-800 text-gray-300 text-xs leading-relaxed rounded-xl p-4 resize-none font-mono focus-visible:ring-2 focus-visible:ring-sky-500 outline-none" rows="4" readonly>{batchPack.twitterCopy}</textarea>
+          </div>
+        </div>
+      </section>
+
+      {listingPacks.map(({ listing, pack }) => {
+        const logoInitial = (listing.title || 'C').charAt(0).toUpperCase()
+
+        return (
+          <section class="listing-section" data-slug={listing.slug} id={`listing-${listing.slug}`}>
+
+            <div class="flex items-start justify-between mb-6 pb-4 border-b border-gray-800">
+              <div class="min-w-0 flex-1 mr-4">
+                <div class="flex flex-wrap items-center gap-2 mb-2">
+                  {listing.category && (
+                    <span class="bg-yellow-400 text-black text-xs font-bold px-2.5 py-0.5 rounded-full">{listing.category}</span>
+                  )}
+                  <span class="text-emerald-400 text-xs font-semibold uppercase tracking-wider">New listing</span>
+                  <span class="text-gray-600 text-xs">{pack.instagramSlideCount} IG slides</span>
+                </div>
+                <h2 class="text-white text-xl font-bold leading-snug">{listing.title}</h2>
+                {listing.link && <p class="text-gray-500 text-sm mt-1">{displayLink(listing.link)}</p>}
+              </div>
+              <a href={nomadDirectoryUrl} target="_blank" rel="noopener noreferrer" aria-label="Open Nomad Directory (opens in new tab)" class="text-yellow-400 hover:text-yellow-300 text-sm font-medium shrink-0 transition-colors">Directory →</a>
+            </div>
+
+            <div class="mb-10">
+              <div class="flex items-center gap-2 mb-4">
+                <div class="w-2 h-2 rounded-full bg-pink-400" aria-hidden="true"></div>
+                <h3 class="text-pink-300 text-xs font-bold uppercase tracking-widest">Instagram Carousel · 1080×1440px · {pack.instagramSlideCount} slides</h3>
+              </div>
+
+              <div class="flex gap-4 overflow-x-auto snap-x snap-mandatory relative" style="padding-bottom:44px;" role="list">
+                {pack.instagramSlides.map((slide) => (
+                  <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide ${slide.index} of ${pack.instagramSlideCount}: ${slideLabel(slide)}`}>
+
+                    {slide.kind === 'cover' && (
+                      <div class="card-capture relative w-full h-full rounded-none overflow-hidden shadow-2xl shadow-black/50">
+                        <img src={pack.heroImage} alt={pack.heroImageAlt} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
+                        <div class="absolute inset-0 bg-linear-to-t from-black/95 via-black/55 to-black/25"></div>
+                        <div class="p-6 relative flex flex-col h-full">
+                          <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-2">
+                              <img src="/logo.svg" alt="" aria-hidden="true" class="w-7 h-7" crossorigin="anonymous" />
+                              <span class="text-white/70 text-[11px] font-bold uppercase tracking-widest">Nomad Magazine</span>
+                            </div>
+                            <div class="flex gap-1" aria-hidden="true">
+                              {pack.instagramSlides.map((s) => (
+                                <div class={`rounded-full ${s.index === slide.index ? 'bg-yellow-400 w-4 h-1.5' : 'bg-white/25 w-1.5 h-1.5'}`}></div>
+                              ))}
+                            </div>
+                          </div>
+                          <div class="flex-1 flex flex-col justify-end">
+                            <span class="inline-block self-start bg-yellow-400 text-black text-[11px] font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4">New at Nomad Directory</span>
+                            <div class="flex items-end gap-3 mb-3">
+                              <div class={directoryLogoBoxClass}>
+                                {listing.logo ? (
+                                  <img src={listing.logo} alt={listing.title} class={directoryLogoImageClassFor(listing.title)} crossorigin="anonymous" />
+                                ) : (
+                                  <span class={directoryLogoInitialClass}>{logoInitial}</span>
+                                )}
+                              </div>
+                              <div class="min-w-0">
+                                {listing.category && (
+                                  <span class="inline-block bg-yellow-400/20 text-yellow-400 border border-yellow-400/30 px-2 py-0.5 rounded-full text-[10px] font-medium mb-1">{listing.category}</span>
+                                )}
+                                <h3 class="text-white font-bold text-2xl leading-tight drop-shadow-lg">{listing.title}</h3>
+                              </div>
+                            </div>
+                            {listing.link && <p class="text-gray-300 text-xs">{displayLink(listing.link)}</p>}
+                          </div>
+                        </div>
+                        <div class="absolute bottom-2 right-3 text-white/25 text-[10px] font-mono">{slide.index}/{pack.instagramSlideCount}</div>
+                      </div>
+                    )}
+
+                    {slide.kind === 'about' && (
+                      <div class="card-capture relative w-full h-full rounded-none overflow-hidden bg-[#121111] shadow-2xl shadow-black/50">
+                        <div class="p-6 flex flex-col h-full">
+                          <div class="flex items-center justify-between mb-5">
+                            <span class="text-yellow-400 text-[11px] font-bold uppercase tracking-widest">
+                              About {listing.title}{slide.parts > 1 ? ` · ${slide.part}/${slide.parts}` : ''}
+                            </span>
+                            <img src="/logo.svg" alt="" aria-hidden="true" class="w-5 h-5 opacity-50" crossorigin="anonymous" />
+                          </div>
+                          <div class="bg-white/5 border border-white/10 rounded-2xl p-5 flex-1 flex flex-col justify-center">
+                            <div class="flex items-center gap-3 mb-4">
+                              <div class={directoryLogoBoxClass}>
+                                {listing.logo ? (
+                                  <img src={listing.logo} alt={listing.title} class={directoryLogoImageClassFor(listing.title)} crossorigin="anonymous" />
+                                ) : (
+                                  <span class={directoryLogoInitialClass}>{logoInitial}</span>
+                                )}
+                              </div>
+                              <h3 class="text-white font-bold text-base leading-tight">{listing.title}</h3>
+                            </div>
+                            <p class="text-gray-200 text-sm leading-relaxed">{slide.text}</p>
+                          </div>
+                        </div>
+                        <div class="absolute bottom-2 right-3 text-white/20 text-[10px] font-mono">{slide.index}/{pack.instagramSlideCount}</div>
+                      </div>
+                    )}
+
+                    {slide.kind === 'place' && (
+                      <div class="card-capture relative w-full h-full rounded-none overflow-hidden shadow-2xl shadow-black/50">
+                        <img src={slide.image} alt={slide.alt} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
+                        <div class="absolute bottom-2 right-3 text-white/25 text-[10px] font-mono">{slide.index}/{pack.instagramSlideCount}</div>
+                      </div>
+                    )}
+
+                    {slide.kind === 'offer' && (
+                      <div class="card-capture relative w-full h-full rounded-none overflow-hidden bg-[#121111] shadow-2xl shadow-black/50">
+                        <div class="p-6 flex flex-col h-full">
+                          <div class="flex items-center gap-3 mb-6">
+                            <div class={directoryLogoBoxClass}>
+                              {listing.logo ? (
+                                <img src={listing.logo} alt={listing.title} class={directoryLogoImageClassFor(listing.title)} crossorigin="anonymous" />
+                              ) : (
+                                <span class={directoryLogoInitialClass}>{logoInitial}</span>
+                              )}
+                            </div>
+                            <div class="min-w-0">
+                              <h3 class="text-white font-bold text-base leading-tight">{listing.title}</h3>
+                              {listing.category && (
+                                <span class="text-yellow-400/80 text-[10px]">{listing.category}</span>
+                              )}
+                            </div>
+                          </div>
+                          <div class="flex-1 flex flex-col justify-center">
+                            <p class="text-yellow-400 text-[11px] font-bold uppercase tracking-widest mb-3">Special offer</p>
+                            <p class={`text-white leading-relaxed ${formatOfferForCard(slide.text).length > 100 ? 'text-sm' : 'text-base'}`}>
+                              {formatOfferForCard(slide.text)}
+                            </p>
+                          </div>
+                          {listing.link && (
+                            <p class="text-yellow-400/70 text-xs mt-6">{displayLink(listing.link)} →</p>
+                          )}
+                        </div>
+                        <div class="absolute bottom-2 right-3 text-white/20 text-[10px] font-mono">{slide.index}/{pack.instagramSlideCount}</div>
+                      </div>
+                    )}
+
+                    {slide.kind === 'hero-quote' && (
+                      <div class="card-capture relative w-full h-full rounded-none overflow-hidden shadow-2xl shadow-black/50">
+                        <img src={pack.heroImage} alt={pack.heroImageAlt} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
+                        <div class="absolute inset-0 bg-black/65"></div>
+                        <div class="absolute inset-0 p-6 flex flex-col">
+                          <div class="flex items-center justify-between mb-2">
+                            <span class="text-yellow-400 text-[11px] font-bold uppercase tracking-widest">{listing.category || 'Nomad Directory'}</span>
+                            <img src="/logo.svg" alt="" aria-hidden="true" class="w-5 h-5 opacity-50" crossorigin="anonymous" />
+                          </div>
+                          <div class="text-yellow-400/30 text-8xl font-serif leading-none select-none" aria-hidden="true">"</div>
+                          <div class="flex-1 flex flex-col justify-center -mt-6">
+                            <p class="text-white text-sm font-semibold leading-relaxed drop-shadow-md">{slide.text}</p>
+                          </div>
+                          <div class="mt-4 pt-4 border-t border-white/20">
+                            <p class="text-white font-bold text-sm">{listing.title}</p>
+                            <p class="text-white/50 text-xs">nomad-magazine.com/nomad_directory/</p>
+                          </div>
+                        </div>
+                        <div class="absolute bottom-2 right-3 text-white/30 text-[10px] font-mono">{slide.index}/{pack.instagramSlideCount}</div>
+                      </div>
+                    )}
+
+                    {slide.kind === 'cta' && (
+                      <div class="card-capture relative w-full h-full rounded-none overflow-hidden shadow-2xl shadow-black/50">
+                        <img src={pack.heroImage} alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
+                        <div class="absolute inset-0 bg-black/80"></div>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
+                          <img src="/logo.svg" alt="" aria-hidden="true" class="w-10 h-10 mb-4" crossorigin="anonymous" />
+                          <p class="text-yellow-400 text-[11px] font-bold uppercase tracking-widest mb-3">Explore the Nomad Directory</p>
+                          <h3 class="text-white font-bold text-lg leading-snug mb-2">150+ vetted companies for nomads</h3>
+                          <p class="text-gray-400 text-xs leading-relaxed mb-5">Colivings, coworkings, apps, insurance, legal — because Google doesn't get our lifestyle.</p>
+                          <div class="bg-yellow-400 text-black text-xs font-bold px-5 py-2.5 rounded-full max-w-full break-all">nomad-magazine.com/nomad_directory/</div>
+                          <p class="text-white/40 text-xs mt-4">🔗 Link in bio</p>
+                        </div>
+                        <div class="absolute bottom-2 right-3 text-white/20 text-[10px] font-mono">{slide.index}/{pack.instagramSlideCount}</div>
+                      </div>
+                    )}
+
+                    <button class="download-btn" data-filename={slideFilename(listing.slug, slide)} data-width="1080" aria-label={`Download slide ${slide.index}`}>↓ PNG</button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div class="mb-10">
+              <div class="flex items-center gap-2 mb-4">
+                <div class="w-2 h-2 rounded-full bg-blue-400" aria-hidden="true"></div>
+                <h3 class="text-blue-300 text-xs font-bold uppercase tracking-widest">LinkedIn · 1200×627px</h3>
+              </div>
+              <div class="card-wrapper relative group" style="max-width:600px;padding-bottom:36px;">
+                <div class="card-capture relative rounded-none overflow-hidden shadow-2xl shadow-black/50" style="aspect-ratio:1.91/1;">
+                  <img src={pack.heroImage} alt={pack.heroImageAlt} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
+                  <div class="absolute inset-0 bg-linear-to-r from-black/92 via-black/70 to-black/35"></div>
+                  <div class="absolute inset-0 flex flex-col justify-between p-7">
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center gap-2">
+                        <img src="/logo.svg" alt="" aria-hidden="true" class="w-7 h-7" crossorigin="anonymous" />
+                        <span class="text-white/70 text-xs font-bold uppercase tracking-widest">Nomad Directory</span>
+                      </div>
+                      <span class="bg-yellow-400 text-black text-xs font-bold px-3 py-1 rounded-full">New listing</span>
+                    </div>
+                    <div class="flex items-end gap-5">
+                      <div class={directoryLogoBoxClass}>
+                        {listing.logo ? (
+                          <img src={listing.logo} alt={listing.title} class={directoryLogoImageClassFor(listing.title)} crossorigin="anonymous" />
+                        ) : (
+                          <span class={directoryLogoInitialClass}>{logoInitial}</span>
+                        )}
+                      </div>
+                      <div class="min-w-0">
+                        {listing.category && (
+                          <span class="inline-block bg-yellow-400/20 text-yellow-400 border border-yellow-400/30 px-2.5 py-0.5 rounded-full text-xs font-medium mb-2">{listing.category}</span>
+                        )}
+                        <h3 class="text-white font-bold text-2xl leading-tight mb-2">{listing.title}</h3>
+                        <p class="text-white/65 text-sm leading-relaxed" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">
+                          {pack.descriptionChunks[0] ?? listing.description}
+                        </p>
+                        <p class="text-yellow-400/70 text-xs mt-3 font-mono">nomad-magazine.com/nomad_directory/</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button class="download-btn" data-filename={`linkedin-${listing.slug}.png`} data-width="1200" aria-label="Download LinkedIn image">↓ PNG</button>
+              </div>
+
+              <div class="copy-block mt-4" style="max-width:600px;">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-gray-500 text-[11px] font-bold uppercase tracking-widest">Proposed LinkedIn post copy</span>
+                  <button class="copy-text-btn text-[11px] font-semibold text-blue-300 hover:text-white border border-blue-800/50 hover:border-blue-400 bg-blue-950/40 hover:bg-blue-900/50 px-3 py-1 rounded-lg transition-colors" aria-label="Copy LinkedIn post text">Copy text</button>
+                </div>
+                <textarea class="copy-textarea w-full bg-gray-900 border border-gray-800 text-gray-300 text-xs leading-relaxed rounded-xl p-4 resize-none font-mono focus-visible:ring-2 focus-visible:ring-blue-500 outline-none" rows="12" readonly>{pack.linkedInCopy}</textarea>
+                <p class="text-gray-600 text-[11px] mt-1">~{pack.linkedInCopy.length} chars</p>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <div class="flex items-center gap-2 mb-4">
+                <div class="w-2 h-2 rounded-full bg-sky-400" aria-hidden="true"></div>
+                <h3 class="text-sky-300 text-xs font-bold uppercase tracking-widest">Twitter / X · 1600×900px</h3>
+              </div>
+              <div class="card-wrapper relative group" style="max-width:600px;padding-bottom:36px;">
+                <div class="card-capture relative rounded-none overflow-hidden shadow-2xl shadow-black/50" style="aspect-ratio:16/9;">
+                  <img src={pack.heroImage} alt={pack.heroImageAlt} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
+                  <div class="absolute inset-0 bg-linear-to-t from-black/92 via-black/45 to-black/20"></div>
+                  <div class="absolute top-0 left-0 right-0 h-1 bg-yellow-400" aria-hidden="true"></div>
+                  <div class="absolute inset-0 flex flex-col justify-between p-6">
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center gap-2">
+                        <img src="/logo.svg" alt="" aria-hidden="true" class="w-6 h-6" crossorigin="anonymous" />
+                        <span class="text-white/60 text-xs font-bold uppercase tracking-wider">Nomad Directory</span>
+                      </div>
+                      <span class="bg-yellow-400 text-black text-xs font-bold px-2.5 py-0.5 rounded-full">New</span>
+                    </div>
+                    <div class="flex items-end gap-4">
+                      <div class={directoryLogoBoxClass}>
+                        {listing.logo ? (
+                          <img src={listing.logo} alt={listing.title} class={directoryLogoImageClassFor(listing.title)} crossorigin="anonymous" />
+                        ) : (
+                          <span class={directoryLogoInitialClass}>{logoInitial}</span>
+                        )}
+                      </div>
+                      <div class="min-w-0">
+                        <h3 class="text-white font-bold text-xl leading-tight mb-1 drop-shadow-lg">{listing.title}</h3>
+                        {listing.category && <span class="text-yellow-400 text-xs font-medium">{listing.category}</span>}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button class="download-btn" data-filename={`twitter-${listing.slug}.png`} data-width="1600" aria-label="Download Twitter image">↓ PNG</button>
+              </div>
+
+              <div class="copy-block mt-4" style="max-width:600px;">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-gray-500 text-[11px] font-bold uppercase tracking-widest">Proposed Twitter / X post copy</span>
+                  <div class="flex items-center gap-2">
+                    <span class="char-counter text-[11px] text-gray-600 font-mono">{pack.twitterCopy.length}/280</span>
+                    <button class="copy-text-btn text-[11px] font-semibold text-sky-300 hover:text-white border border-sky-800/50 hover:border-sky-400 bg-sky-950/40 hover:bg-sky-900/50 px-3 py-1 rounded-lg transition-colors" aria-label="Copy Twitter post text">Copy text</button>
+                  </div>
+                </div>
+                <textarea class="copy-textarea w-full bg-gray-900 border border-gray-800 text-gray-300 text-xs leading-relaxed rounded-xl p-4 resize-none font-mono focus-visible:ring-2 focus-visible:ring-sky-500 outline-none" rows="5" readonly>{pack.twitterCopy}</textarea>
+                <p class={`text-[11px] mt-1 ${pack.twitterCopy.length > 280 ? 'text-red-400' : 'text-gray-600'}`}>
+                  {pack.twitterCopy.length > 280 ? `⚠ ${pack.twitterCopy.length - 280} chars over limit` : `${pack.twitterCopy.length}/280 chars`}
+                </p>
+              </div>
+            </div>
+
+          </section>
+        )
+      })}
+    </div>
+
+    {listingPacks.length === 0 && (
+      <div class="text-center py-20 px-4">
+        <p class="text-gray-400">No listings found. Update <code class="text-yellow-400">src/const/newDirectoryListings.ts</code>.</p>
+      </div>
+    )}
+
+    <div class="text-center py-10 px-4">
+      <div class="inline-block bg-red-950/60 border border-red-800/50 rounded-xl px-8 py-5">
+        <p class="text-red-400 font-bold text-sm mb-1">INTERNAL USE ONLY</p>
+        <p class="text-gray-500 text-sm">Not indexed · Run <code class="text-gray-400">node scripts/fetch-directory-social-images.mjs</code> to refresh hero photos</p>
+      </div>
+    </div>
+
+  </div>
+</Layout>
+
+<script is:inline src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
+
+<script>
+  const select = document.getElementById('listing-filter') as HTMLSelectElement | null
+  const sections = document.querySelectorAll<HTMLElement>('.listing-section')
+
+  select?.addEventListener('change', () => {
+    const val = select.value
+    sections.forEach((section) => {
+      if (val === 'all') {
+        section.style.display = ''
+        return
+      }
+      if (val === 'batch') {
+        section.style.display = section.dataset.slug === 'batch' ? '' : 'none'
+        return
+      }
+      section.style.display = section.dataset.slug === val ? '' : 'none'
+    })
+    if (val === 'batch') {
+      document.getElementById('listing-batch')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    } else if (val !== 'all') {
+      document.getElementById(`listing-${CSS.escape(val)}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  })
+
+  document.addEventListener('click', async (e: MouseEvent) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.copy-text-btn')
+    if (btn) {
+      const block = btn.closest<HTMLElement>('.copy-block')
+      const textarea = block?.querySelector<HTMLTextAreaElement>('.copy-textarea')
+      if (!textarea) return
+      try {
+        await navigator.clipboard.writeText(textarea.value)
+        const orig = btn.textContent
+        btn.textContent = '✓ Copied!'
+        setTimeout(() => { btn.textContent = orig }, 2000)
+      } catch {
+        textarea.select()
+        document.execCommand('copy')
+      }
+      return
+    }
+
+    const dlBtn = (e.target as HTMLElement).closest<HTMLButtonElement>('.download-btn')
+    if (!dlBtn) return
+
+    const wrapper = dlBtn.closest<HTMLElement>('.card-wrapper')
+    const card = wrapper?.querySelector<HTMLElement>('.card-capture')
+    if (!card) return
+
+    const filename = dlBtn.dataset.filename ?? 'social-card.png'
+    const targetWidth = parseInt(dlBtn.dataset.width ?? '1080', 10)
+    const pixelRatio = targetWidth / card.offsetWidth
+    const originalText = dlBtn.textContent ?? '↓ PNG'
+
+    dlBtn.textContent = '⏳ Rendering…'
+    dlBtn.disabled = true
+
+    try {
+      // @ts-ignore
+      const dataUrl: string = await window.htmlToImage.toPng(card, {
+        pixelRatio,
+        cacheBust: true,
+        onclone: (_doc: Document, el: HTMLElement) => {
+          el.querySelectorAll('img').forEach((img: HTMLImageElement) => {
+            img.crossOrigin = 'anonymous'
+          })
+        },
+      })
+      const link = document.createElement('a')
+      link.download = filename
+      link.href = dataUrl
+      link.click()
+    } catch (err) {
+      console.error('Card capture failed:', err)
+      alert('Download failed.')
+    } finally {
+      dlBtn.textContent = originalText
+      dlBtn.disabled = false
+    }
+  })
+</script>
+
+<style>
+  .download-btn {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    background: #1f2937;
+    color: #facc15;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 20px;
+    border: 1px solid #374151;
+    cursor: pointer;
+    line-height: 1;
+    white-space: nowrap;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .card-wrapper[style*="max-width"] .download-btn {
+    left: 0;
+    transform: none;
+  }
+
+  .download-btn:hover {
+    background: #facc15;
+    color: #000;
+    border-color: #facc15;
+  }
+
+  .download-btn:disabled {
+    cursor: wait;
+    background: #111827;
+    color: #6b7280;
+    border-color: #374151;
+  }
+
+  .overflow-x-auto {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.15) transparent;
+  }
+  .overflow-x-auto::-webkit-scrollbar { height: 4px; }
+  .overflow-x-auto::-webkit-scrollbar-track { background: transparent; }
+  .overflow-x-auto::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.15);
+    border-radius: 2px;
+  }
+</style>

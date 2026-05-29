@@ -4,6 +4,7 @@ export const prerender = true;
 import { fetchReportRecords } from '~/utils/smartsuite'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
+import { directoryLogoBoxClass, directoryLogoImageClassFor, directoryLogoInitialClass, directoryLogoUrlFor } from '~/const/nomadDirectoryWhiteLogos'
 
 const COUNTRY_TO_CONTINENT: Record<string, string> = {
   Portugal: 'Europe', Spain: 'Europe', Italy: 'Europe', France: 'Europe',
@@ -128,16 +129,6 @@ export async function getStaticPaths() {
 }
 
 const { type, filterValue, records, navCategories } = Astro.props
-
-const darkLogoCompanies = [
-  'Fresh Global',
-  'Falmouth University',
-  'SUMA',
-  'Scaglia y Asociados',
-  'goldenweeks',
-  'Anytime Mailbox',
-  'WESPA Spaces',
-]
 
 const allActive = records.filter((r: any) => r.sf4ad525dd)
 
@@ -383,7 +374,6 @@ const seo: SEOProps = {
             <div id="directory-container" class="space-y-4">
               {pageRecords.map((record: any) => {
                 const link = record.link || record.sb788c266b?.[0]
-                const isDark = darkLogoCompanies.includes(record.title)
                 const catLabel = record.sb685ab800?.label || ''
                 const locText = (() => {
                   const loc = record.sed1a49986 || ''
@@ -401,11 +391,11 @@ const seo: SEOProps = {
                   >
                     <div class="flex items-start gap-4">
                       <div class="shrink-0">
-                        <div class={`w-16 h-16 rounded-xl flex items-center justify-center p-1 ${isDark ? 'bg-gray-800' : 'bg-white'}`}>
+                        <div class={directoryLogoBoxClass}>
                           {record.image && record.image !== '/logo.svg' ? (
-                            <img src={record.image} alt={record.title} class="w-full h-full rounded-xl object-contain" loading="lazy" />
+                            <img src={directoryLogoUrlFor(record.title, record.image)} alt={record.title} class={directoryLogoImageClassFor(record.title)} loading="lazy" />
                           ) : (
-                            <span class={`font-bold text-2xl ${isDark ? 'text-white' : 'text-black'}`}>
+                            <span class={directoryLogoInitialClass}>
                               {(record.title || 'C').charAt(0).toUpperCase()}
                             </span>
                           )}

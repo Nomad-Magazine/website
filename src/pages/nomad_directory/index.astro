@@ -4,18 +4,9 @@ export const prerender = true;
 import { fetchReportRecords } from '~/utils/smartsuite'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
+import { directoryLogoBoxClass, directoryLogoImageClass, directoryLogoInitialClass, directoryLogoUrlFor } from '~/const/nomadDirectoryWhiteLogos'
 
 const { records = [] } = await fetchReportRecords('6857167d82358a0f5e038c3f')
-
-const darkLogoCompanies = [
-  'Fresh Global',
-  'Falmouth University',
-  'SUMA',
-  'Scaglia y Asociados',
-  'goldenweeks',
-  'Anytime Mailbox',
-  'WESPA Spaces',
-]
 
 const activeRecords = records
   .filter((r: any) => r.sf4ad525dd)
@@ -27,8 +18,7 @@ const activeRecords = records
     description: r.scea90e502 || '',
     specialOffer: r.s5576966ee || '',
     link: r.link || r.sb788c266b?.[0] || '',
-    image: (r.image && r.image !== '/logo.svg') ? r.image : '',
-    isDark: darkLogoCompanies.includes(r.title),
+    image: directoryLogoUrlFor(r.title, (r.image && r.image !== '/logo.svg') ? r.image : ''),
   }))
 
 const total = activeRecords.length
@@ -288,7 +278,7 @@ const seo: SEOProps = {
     </section>
   </div>
 
-  <div id="directory-data" hidden data-items={JSON.stringify(activeRecords)}></div>
+  <div id="directory-data" hidden data-items={JSON.stringify(activeRecords)} data-logo-box={directoryLogoBoxClass} data-logo-img={directoryLogoImageClass} data-logo-initial={directoryLogoInitialClass}></div>
 </Layout>
 
 <style>
@@ -312,14 +302,22 @@ const seo: SEOProps = {
   let currentSearch = '';
   let currentSort = 'default';
 
+  const logoBoxClass = _dataEl?.getAttribute('data-logo-box') || '';
+  const logoImgClass = _dataEl?.getAttribute('data-logo-img') || '';
+  const logoInitialClass = _dataEl?.getAttribute('data-logo-initial') || '';
+
+  function logoImgClassFor(title) {
+    return title === 'Madeira Remote' ? 'w-full h-full object-contain' : logoImgClass;
+  }
+
   function esc(s) {
     return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
   }
 
   function renderCard(item) {
     const logoHtml = item.image
-      ? '<img src="' + esc(item.image) + '" alt="' + esc(item.title) + '" class="w-full h-full rounded-xl object-contain" loading="lazy" />'
-      : '<span class="font-bold text-3xl ' + (item.isDark ? 'text-white' : 'text-black') + '">' + esc((item.title || 'C').charAt(0).toUpperCase()) + '</span>';
+      ? '<img src="' + esc(item.image) + '" alt="' + esc(item.title) + '" class="' + logoImgClassFor(item.title) + '" loading="lazy" />'
+      : '<span class="' + logoInitialClass + '">' + esc((item.title || 'C').charAt(0).toUpperCase()) + '</span>';
 
     const offerHtml = item.specialOffer
       ? '<div class="mt-3 p-3 bg-yellow-400/10 border-l-4 border-yellow-400 rounded-r-lg"><p class="text-yellow-400 font-bold text-xs uppercase mb-1">Special Offer:</p><p class="text-gray-200 text-sm whitespace-pre-line">' + esc(item.specialOffer) + '</p></div>'
@@ -339,7 +337,7 @@ const seo: SEOProps = {
     return '<div class="bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/10 transition-all duration-300 group" ' + clickAttr + '>' +
       '<div class="flex items-start gap-4">' +
         '<div class="shrink-0">' +
-          '<div class="w-16 h-16 rounded-xl flex items-center justify-center p-1 ' + (item.isDark ? 'bg-gray-800' : 'bg-white') + '">' + logoHtml + '</div>' +
+          '<div class="' + logoBoxClass + '">' + logoHtml + '</div>' +
         '</div>' +
         '<div class="flex-1 min-w-0">' +
           '<div class="flex flex-wrap items-start justify-between gap-2 mb-2">' +
