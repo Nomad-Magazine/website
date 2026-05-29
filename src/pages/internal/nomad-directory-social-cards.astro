@@ -3,8 +3,8 @@ export const prerender = true
 
 import { fetchReportRecords } from '~/utils/smartsuite'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
-import { directoryLogoBoxClass, directoryLogoImageClassFor, directoryLogoInitialClass, directoryLogoUrlFor, needsDarkLogoBackground } from '~/const/nomadDirectoryWhiteLogos'
-import { newDirectoryListingTitles, nomadDirectoryUrl } from '~/const/newDirectoryListings'
+import { directoryLogoBoxClass, directoryLogoImageClassFor, directoryLogoInitialClass, directoryLogoIntroBorderClass, directoryLogoUrlFor, needsDarkLogoBackground } from '~/const/nomadDirectoryWhiteLogos'
+import { newDirectoryListingTitles, nomadDirectoryUrl, directoryListingOfferOverrides } from '~/const/newDirectoryListings'
 import {
   computeBatchSocialPack,
   computeListingSocialPack,
@@ -124,7 +124,7 @@ function batchSlideFilename(slide: BatchIgSlide): string {
 
     <div class="max-w-screen-2xl mx-auto px-6 pt-6 pb-2">
       <div class="flex flex-wrap gap-3 text-xs">
-        <span class="bg-pink-950/60 text-pink-300 border border-pink-800/50 px-3 py-1.5 rounded-full font-medium">Instagram · dynamic slides · 3:4 portrait (1080×1440)</span>
+        <span class="bg-pink-950/60 text-pink-300 border border-pink-800/50 px-3 py-1.5 rounded-full font-medium">Instagram · dynamic slides · 4:5 portrait (1080×1350)</span>
         <span class="bg-blue-950/60 text-blue-300 border border-blue-800/50 px-3 py-1.5 rounded-full font-medium">LinkedIn · 1 image · 1.91:1 landscape</span>
         <span class="bg-sky-950/60 text-sky-300 border border-sky-800/50 px-3 py-1.5 rounded-full font-medium">Twitter / X · 1 image · 16:9</span>
         <span class="ml-auto text-gray-600 py-1.5">Long text splits across slides · Hero photos from listing websites</span>
@@ -151,7 +151,7 @@ function batchSlideFilename(slide: BatchIgSlide): string {
         <div class="mb-10">
           <div class="flex items-center gap-2 mb-4">
             <div class="w-2 h-2 rounded-full bg-pink-400" aria-hidden="true"></div>
-            <h3 class="text-pink-300 text-xs font-bold uppercase tracking-widest">Instagram Batch Carousel · 1080×1440px · {batchPack.slideCount} slides</h3>
+            <h3 class="text-pink-300 text-xs font-bold uppercase tracking-widest">Instagram Batch Carousel · 1080×1350px · {batchPack.slideCount} slides</h3>
           </div>
 
           <div class="flex gap-4 overflow-x-auto snap-x snap-mandatory relative" style="padding-bottom:44px;" role="list">
@@ -160,31 +160,44 @@ function batchSlideFilename(slide: BatchIgSlide): string {
                 ? batchPack.listings.find((l) => l.slug === slide.listingSlug)
                 : undefined
               const listingNumber = listing
-                ? batchPack.listings.findIndex((l) => l.slug === slide.listingSlug) + 1
+                ? batchPack.listings.findIndex((l) => l.slug === listing.slug) + 1
                 : 0
               const logoInitial = listing ? (listing.title || 'C').charAt(0).toUpperCase() : ''
 
               return (
-                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Batch slide ${slide.index} of ${batchPack.slideCount}: ${batchSlideLabel(slide, listing?.title)}`}>
+                <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:340px;aspect-ratio:4/5;" role="listitem" aria-label={`Batch slide ${slide.index} of ${batchPack.slideCount}: ${batchSlideLabel(slide, listing?.title)}`}>
 
                   {slide.kind === 'batch-intro' && (
-                    <div class="card-capture relative w-full h-full rounded-none overflow-hidden bg-[#0f0f0f] shadow-2xl shadow-black/50">
-                      <div class="absolute inset-0 bg-linear-to-b from-yellow-400/8 via-transparent to-transparent"></div>
-                      <div class="p-6 relative flex flex-col h-full">
-                        <div class="flex items-center justify-between">
-                          <img src="/logo.svg" alt="" aria-hidden="true" class="w-6 h-6 opacity-80" crossorigin="anonymous" />
-                          <span class="text-yellow-400/90 text-[10px] font-bold uppercase tracking-[0.2em]">New listings</span>
+                    <div class="card-capture relative w-full h-full rounded-none overflow-hidden bg-[#0a0a0a] shadow-2xl shadow-black/50">
+                      <div class="absolute top-0 left-0 right-0 h-1 bg-yellow-400" aria-hidden="true"></div>
+                      <div class="absolute inset-0 bg-[radial-gradient(ellipse_120%_80%_at_50%_-20%,rgba(250,204,21,0.14),transparent_60%)]" aria-hidden="true"></div>
+
+                      <div class="p-7 relative flex flex-col h-full">
+                        <div class="flex items-center gap-2">
+                          <img src="/logo.svg" alt="" aria-hidden="true" class="w-7 h-7 opacity-90" crossorigin="anonymous" />
+                          <span class="text-white/55 text-[10px] font-bold uppercase tracking-[0.2em]">Nomad Magazine</span>
                         </div>
 
-                        <div class="flex-1 flex flex-col items-center justify-center text-center px-2">
-                          <h3 class="text-white font-bold text-[1.65rem] leading-[1.15] tracking-tight mb-2">New at<br />Nomad Directory</h3>
-                          <p class="text-white/45 text-[11px] mb-8">4 companies for digital nomads</p>
+                        <div class="flex-1 flex flex-col items-center justify-center text-center">
+                          <span class="inline-flex items-center gap-1.5 bg-yellow-400 text-black text-[10px] font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-full mb-6">
+                            <span class="w-1.5 h-1.5 rounded-full bg-black/40" aria-hidden="true"></span>
+                            4 new listings
+                          </span>
 
-                          <div class="grid grid-cols-2 gap-3 w-full max-w-[180px]">
+                          <h3 class="text-white font-bold text-[1.85rem] leading-[1.08] tracking-tight mb-2">
+                            New at<br /><span class="text-yellow-400">Nomad Directory</span>
+                          </h3>
+                          <p class="text-white/40 text-xs leading-relaxed mb-8 max-w-[240px]">4 companies for digital nomads</p>
+
+                          <div class="grid grid-cols-2 gap-x-8 gap-y-6 w-full max-w-[260px]">
                             {batchPack.listings.map((item) => (
-                              <div class="aspect-square rounded-2xl overflow-hidden bg-black flex items-center justify-center p-3">
-                                {item.logo ? (
-                                  <img src={item.logo} alt={item.title} class="max-w-full max-h-full w-auto h-auto object-contain" crossorigin="anonymous" />
+                              <div class="h-[76px] flex items-center justify-center">
+                                {item.title === 'Madeira Remote' && item.logo ? (
+                                  <div class="w-[76px] h-[76px] rounded-xl overflow-hidden bg-black flex items-center justify-center ring-1 ring-white/10">
+                                    <img src={directoryLogoUrlFor(item.title, item.logo)} alt={item.title} class="max-w-[92%] max-h-[92%] object-contain" crossorigin="anonymous" />
+                                  </div>
+                                ) : item.logo ? (
+                                  <img src={item.logo} alt={item.title} class={`max-h-[76px] max-w-[108px] w-auto h-auto object-contain rounded-xl ${directoryLogoIntroBorderClass(item.title)}`} crossorigin="anonymous" />
                                 ) : (
                                   <span class={directoryLogoInitialClass}>{(item.title || 'C').charAt(0).toUpperCase()}</span>
                                 )}
@@ -193,7 +206,10 @@ function batchSlideFilename(slide: BatchIgSlide): string {
                           </div>
                         </div>
 
-                        <p class="text-white/30 text-[10px] text-center tracking-wide">Swipe for details →</p>
+                        <div class="text-center space-y-1.5 pt-4">
+                          <p class="text-yellow-400/55 text-[10px] font-mono tracking-wide whitespace-nowrap">nomad-magazine.com/nomad_directory/</p>
+                          <p class="text-white/25 text-[10px] tracking-wide">Swipe for details →</p>
+                        </div>
                       </div>
                       <div class="absolute bottom-2 right-3 text-white/20 text-[10px] font-mono">{slide.index}/{batchPack.slideCount}</div>
                     </div>
@@ -237,8 +253,17 @@ function batchSlideFilename(slide: BatchIgSlide): string {
                   )}
 
                   {slide.kind === 'batch-detail' && listing && slide.focus === 'offer' && (
-                    <div class="card-capture relative w-full h-full rounded-none overflow-hidden bg-[#121111] shadow-2xl shadow-black/50">
-                      <div class="p-6 flex flex-col h-full">
+                    <div class="card-capture relative w-full h-full rounded-none overflow-hidden shadow-2xl shadow-black/50">
+                      {directoryListingOfferOverrides[listing.title] && (
+                        <>
+                          <img src={directoryListingOfferOverrides[listing.title]} alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
+                          <div class="absolute inset-0 bg-linear-to-t from-black/95 via-black/80 to-black/55"></div>
+                        </>
+                      )}
+                      {!directoryListingOfferOverrides[listing.title] && (
+                        <div class="absolute inset-0 bg-[#121111]"></div>
+                      )}
+                      <div class="p-6 relative flex flex-col h-full">
                         <div class="flex items-center gap-3 mb-6">
                           <div class={directoryLogoBoxClass}>
                             {listing.logo ? (
@@ -266,9 +291,13 @@ function batchSlideFilename(slide: BatchIgSlide): string {
                     </div>
                   )}
 
-                  {slide.kind === 'batch-detail' && listing && slide.focus === 'place' && slide.placeImage && (
+                  {slide.kind === 'batch-detail' && listing && slide.focus === 'place' && (slide.placeImage || listing.placeImage) && (
                     <div class="card-capture relative w-full h-full rounded-none overflow-hidden shadow-2xl shadow-black/50">
-                      <img src={slide.placeImage} alt={`${listing.title} coliving space`} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
+                      <img src={slide.placeImage || listing.placeImage} alt={`${listing.title} coliving space`} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
+                      <div class="absolute inset-0 bg-linear-to-t from-black/75 via-transparent to-transparent"></div>
+                      {listing.link && (
+                        <p class="absolute bottom-6 left-6 text-yellow-400 text-xs font-medium drop-shadow-md">{displayLink(listing.link)} →</p>
+                      )}
                       <div class="absolute bottom-2 right-3 text-white/25 text-[10px] font-mono">{slide.index}/{batchPack.slideCount}</div>
                     </div>
                   )}
@@ -281,7 +310,7 @@ function batchSlideFilename(slide: BatchIgSlide): string {
                         <p class="text-yellow-400 text-[11px] font-bold uppercase tracking-widest mb-3">Explore the Nomad Directory</p>
                         <h3 class="text-white font-bold text-lg leading-snug mb-2">150+ vetted companies for nomads</h3>
                         <p class="text-gray-400 text-xs leading-relaxed mb-5">Colivings, coworkings, apps, insurance, legal — because Google doesn't get our lifestyle.</p>
-                        <div class="bg-yellow-400 text-black text-xs font-bold px-5 py-2.5 rounded-full max-w-full break-all">nomad-magazine.com/nomad_directory/</div>
+                        <div class="bg-yellow-400 text-black text-[10px] font-bold px-5 py-2.5 rounded-full whitespace-nowrap">nomad-magazine.com/nomad_directory/</div>
                         <p class="text-white/40 text-xs mt-4">🔗 Link in bio</p>
                       </div>
                       <div class="absolute bottom-2 right-3 text-white/20 text-[10px] font-mono">{slide.index}/{batchPack.slideCount}</div>
@@ -394,12 +423,12 @@ function batchSlideFilename(slide: BatchIgSlide): string {
             <div class="mb-10">
               <div class="flex items-center gap-2 mb-4">
                 <div class="w-2 h-2 rounded-full bg-pink-400" aria-hidden="true"></div>
-                <h3 class="text-pink-300 text-xs font-bold uppercase tracking-widest">Instagram Carousel · 1080×1440px · {pack.instagramSlideCount} slides</h3>
+                <h3 class="text-pink-300 text-xs font-bold uppercase tracking-widest">Instagram Carousel · 1080×1350px · {pack.instagramSlideCount} slides</h3>
               </div>
 
               <div class="flex gap-4 overflow-x-auto snap-x snap-mandatory relative" style="padding-bottom:44px;" role="list">
                 {pack.instagramSlides.map((slide) => (
-                  <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:270px;aspect-ratio:3/4;" role="listitem" aria-label={`Slide ${slide.index} of ${pack.instagramSlideCount}: ${slideLabel(slide)}`}>
+                  <div class="card-wrapper relative group shrink-0 snap-start z-0" style="width:340px;aspect-ratio:4/5;" role="listitem" aria-label={`Slide ${slide.index} of ${pack.instagramSlideCount}: ${slideLabel(slide)}`}>
 
                     {slide.kind === 'cover' && (
                       <div class="card-capture relative w-full h-full rounded-none overflow-hidden shadow-2xl shadow-black/50">
@@ -471,13 +500,26 @@ function batchSlideFilename(slide: BatchIgSlide): string {
                     {slide.kind === 'place' && (
                       <div class="card-capture relative w-full h-full rounded-none overflow-hidden shadow-2xl shadow-black/50">
                         <img src={slide.image} alt={slide.alt} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
+                        <div class="absolute inset-0 bg-linear-to-t from-black/75 via-transparent to-transparent"></div>
+                        {listing.link && (
+                          <p class="absolute bottom-6 left-6 text-yellow-400 text-xs font-medium drop-shadow-md">{displayLink(listing.link)} →</p>
+                        )}
                         <div class="absolute bottom-2 right-3 text-white/25 text-[10px] font-mono">{slide.index}/{pack.instagramSlideCount}</div>
                       </div>
                     )}
 
                     {slide.kind === 'offer' && (
-                      <div class="card-capture relative w-full h-full rounded-none overflow-hidden bg-[#121111] shadow-2xl shadow-black/50">
-                        <div class="p-6 flex flex-col h-full">
+                      <div class="card-capture relative w-full h-full rounded-none overflow-hidden shadow-2xl shadow-black/50">
+                        {directoryListingOfferOverrides[listing.title] && (
+                          <>
+                            <img src={directoryListingOfferOverrides[listing.title]} alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
+                            <div class="absolute inset-0 bg-linear-to-t from-black/95 via-black/80 to-black/55"></div>
+                          </>
+                        )}
+                        {!directoryListingOfferOverrides[listing.title] && (
+                          <div class="absolute inset-0 bg-[#121111]"></div>
+                        )}
+                        <div class="p-6 relative flex flex-col h-full">
                           <div class="flex items-center gap-3 mb-6">
                             <div class={directoryLogoBoxClass}>
                               {listing.logo ? (
@@ -538,7 +580,7 @@ function batchSlideFilename(slide: BatchIgSlide): string {
                           <p class="text-yellow-400 text-[11px] font-bold uppercase tracking-widest mb-3">Explore the Nomad Directory</p>
                           <h3 class="text-white font-bold text-lg leading-snug mb-2">150+ vetted companies for nomads</h3>
                           <p class="text-gray-400 text-xs leading-relaxed mb-5">Colivings, coworkings, apps, insurance, legal — because Google doesn't get our lifestyle.</p>
-                          <div class="bg-yellow-400 text-black text-xs font-bold px-5 py-2.5 rounded-full max-w-full break-all">nomad-magazine.com/nomad_directory/</div>
+                          <div class="bg-yellow-400 text-black text-[10px] font-bold px-5 py-2.5 rounded-full whitespace-nowrap">nomad-magazine.com/nomad_directory/</div>
                           <p class="text-white/40 text-xs mt-4">🔗 Link in bio</p>
                         </div>
                         <div class="absolute bottom-2 right-3 text-white/20 text-[10px] font-mono">{slide.index}/{pack.instagramSlideCount}</div>

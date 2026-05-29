@@ -10,6 +10,13 @@ export const directoryListingHeroOverrides: Record<string, string> = {
 export const directoryListingPlaceOverrides: Record<string, string> = {
   'Madeira Remote': '/images/directory-place-madeira-remote.webp',
   'Arctic Coliving': '/images/directory-place-arctic-coliving.webp',
+  'Nomad Shophouse': '/images/directory-place-nomad-shophouse.webp',
+}
+
+/** Optional background photos for special-offer slides. */
+export const directoryListingOfferOverrides: Record<string, string> = {
+  'Madeira Remote': '/images/directory-offer-madeira-remote.webp',
+  'Nomad Shophouse': '/images/directory-offer-nomad-shophouse.webp',
 }
 
 /** Physical coliving operators (not coliving search platforms or services). */
@@ -23,9 +30,9 @@ export function isPhysicalColiving(category: string): boolean {
 /** Listings to generate social cards for — update when publishing new directory entries. */
 export const newDirectoryListingTitles = [
   'Madeira Remote',
-  'Find Your Coliving',
   'Arctic Coliving',
   'Nomad Shophouse',
+  'Find Your Coliving',
 ]
 
 export const nomadDirectoryUrl = 'https://nomad-magazine.com/nomad_directory/'

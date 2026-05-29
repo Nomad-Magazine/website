@@ -39,3 +39,10 @@ export function directoryLogoImageClassFor(title: string): string {
 export function directoryLogoUrlFor(title: string, fallback: string): string {
   return directoryLogoUrlOverrides[title] || fallback
 }
+
+/** Dark logo tiles that need a hairline edge on dark card backgrounds. */
+export const directoryLogoSubtleBorderTitles = ['Find Your Coliving'] as const
+
+export function directoryLogoIntroBorderClass(title: string): string {
+  return (directoryLogoSubtleBorderTitles as readonly string[]).includes(title) ? 'ring-1 ring-white/10' : ''
+}

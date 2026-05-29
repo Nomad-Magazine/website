@@ -78,7 +78,10 @@ export function normalizeLink(raw: string): string {
 }
 
 export function displayLink(link: string): string {
-  return link.replace(/^https?:\/\//i, '').replace(/\/$/, '')
+  return link
+    .replace(/^https?:\/\//i, '')
+    .replace(/^www\./i, '')
+    .replace(/\/$/, '')
 }
 
 /** Strip URLs and trailing "at domain..." clutter from offer text for card display. */
@@ -292,17 +295,18 @@ export async function resolvePlaceImage(
 ): Promise<string | null> {
   if (!isPhysicalColiving(listing.category)) return null
 
-  const candidates: string[] = []
-
-  if (directoryListingPlaceOverrides[listing.title]) {
-    candidates.push(directoryListingPlaceOverrides[listing.title])
+  const override = directoryListingPlaceOverrides[listing.title]
+  if (override && override !== heroImage) {
+    return override
   }
+
+  const candidates: string[] = []
 
   const siteUrl = directoryListingWebsiteUrls[listing.title] || listing.link
   if (siteUrl) {
-    const exclude = [heroImage, ...candidates].filter(Boolean) as string[]
+    const exclude = [heroImage, override].filter(Boolean) as string[]
     const best = await fetchBestPlaceImageUrl(siteUrl, exclude)
-    if (best) candidates.unshift(best)
+    if (best) candidates.push(best)
   }
 
   candidates.push(resolvePlaceImagePath(listing))
