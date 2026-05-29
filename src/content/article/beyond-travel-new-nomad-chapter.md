@@ -22,7 +22,7 @@ category: article
 author_bio: "Leonie is a freelance project manager and co-founder of <a href=\"https://nomadwise.io/\" rel=\"noopener noreferrer\">Nomadwise</a>. She began working and studying remotely during the Covid pandemic and transitioned into full-time nomad life in early 2023. Today, she splits her time between Portugal and trips around the world. For Leonie, the ideal perfect place to live is near the beach, surrounded by like-minded people, and within easy reach of a bakery serving excellent croissants."
 ---
 
-*Personal story by Leonie*
+*Personal story by [Leonie](/authors/leonie/)*
 
 If you're expecting a dramatic story as to how I became a digital nomad, mine is almost boring in how typical it is: a job I didn't love, a breakup that pulled the ground out from under me, grey weather in northern Europe, and one recurring thought: I just need to leave for a while. I told myself it would be temporary. A few months. A reset. Enjoying life somewhere warm, then returning to Germany and being a responsible adult again.
 

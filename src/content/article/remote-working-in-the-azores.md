@@ -22,7 +22,7 @@ next_blog: ''
 category: article
 ---
 
-*Personal story by Fran*
+*Personal story by [Fran](/authors/fran/)*
 
 <p class="text-sm text-neutral-500 not-prose mb-6">Photographs in this article were provided by the author.</p>
 

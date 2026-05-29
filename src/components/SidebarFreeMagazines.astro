@@ -1,0 +1,46 @@
+---
+interface Props {
+  variant?: 'light' | 'dark'
+}
+
+const { variant = 'light' } = Astro.props
+
+const isDark = variant === 'dark'
+---
+
+<div
+  class:list={[
+    'rounded-lg border p-4',
+    isDark
+      ? 'border-amber-500/30 bg-linear-to-br from-amber-950/80 to-stone-900 text-amber-50'
+      : 'border-amber-200 bg-linear-to-br from-amber-50 to-orange-50 text-gray-900',
+  ]}
+  aria-label="Free magazine downloads"
+>
+  <img
+    src="/images/edition-004-cover.webp"
+    alt="Nomad Magazine edition covers"
+    width="160"
+    height="120"
+    loading="lazy"
+    decoding="async"
+    class="mb-3 w-full rounded-md object-cover shadow-sm"
+  />
+  <p class="text-xs font-bold uppercase tracking-wider text-amber-600">
+    Free download
+  </p>
+  <p class="mt-1 text-sm leading-snug font-semibold">
+    All Nomad Magazine editions are available to download for free.
+  </p>
+  <a
+    href="/editions/"
+    class:list={[
+      'mt-3 inline-flex w-full items-center justify-center rounded-md px-3 py-2 text-xs font-bold transition-colors',
+      isDark
+        ? 'bg-amber-400 text-stone-900 hover:bg-amber-300'
+        : 'bg-stone-900 text-white hover:bg-stone-800',
+    ]}
+  >
+    Download free →
+  </a>
+</div>

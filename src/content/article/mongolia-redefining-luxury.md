@@ -20,7 +20,7 @@ next_blog: ''
 category: article
 ---
 
-*Essay by Gongor Bandi*
+*Essay by [Gongor Bandi](/authors/gongor-bandi/)*
 
 In much of the world, luxury is measured by density: more services, more choices, and more layers of convenience compressed into a single place. Comfort is engineered through abundance.
 

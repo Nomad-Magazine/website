@@ -20,7 +20,7 @@ next_blog: ''
 category: article
 ---
 
-*Essay by Priyanka Surio*
+*Essay by [Priyanka Surio](/authors/priyanka-surio/)*
 
 ## Mother of a Nation
 

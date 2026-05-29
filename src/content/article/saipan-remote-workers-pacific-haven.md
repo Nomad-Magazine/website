@@ -21,7 +21,7 @@ next_blog: ''
 category: article
 ---
 
-*Personal story by William Davis*
+*Personal story by [William Davis](/authors/william-davis/)*
 
 Remote workers spend a lot of time searching for the next place to live. Lisbon, Bali, and Mexico City tend to dominate the conversation.
 
