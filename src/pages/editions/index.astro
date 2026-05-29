@@ -2,9 +2,17 @@
 export const prerender = true
 
 import EditionsHero from '~/components/EditionsHero.astro'
+import InTheWildSection from '~/components/InTheWildSection.astro'
 import MagazineIssues from '~/components/MagazineIssues.astro'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import MagazinePreview from '~/components/MagazinePreview.astro'
+import PrintPartnersSection from '~/components/PrintPartnersSection.astro'
+import { fetchReportRecords } from '~/utils/smartsuite'
+import { getDistributionCountries, parseDistributionRecords } from '~/utils/distributionPlaces'
+
+const { records = [] } = await fetchReportRecords('68614a111208586bd05d3c3a')
+const distributionPlaces = parseDistributionRecords(records)
+const distroCountries = getDistributionCountries(distributionPlaces)
 
 const seo: SEOProps = {
   title: 'Nomad Magazine Editions - Digital Nomad Publications',
@@ -84,5 +92,8 @@ const seo: SEOProps = {
     
     <MagazineIssues />
     <MagazinePreview />
+
+    <PrintPartnersSection />
+    <InTheWildSection places={distributionPlaces} countries={distroCountries} instanceId="editions-distro" />
   </main>
 </Layout>

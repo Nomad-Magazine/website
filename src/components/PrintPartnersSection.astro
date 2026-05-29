@@ -1,0 +1,125 @@
+---
+import { latestEditionLabel, latestEditionPrintRetailers, type PrintRetailer } from '~/const/latestEditionPrintRetailers'
+
+interface Props {
+  editionLabel?: string
+  retailers?: PrintRetailer[]
+  findCopyHref?: string
+}
+
+const {
+  editionLabel = latestEditionLabel,
+  retailers = latestEditionPrintRetailers,
+  findCopyHref = '#find-a-copy-near-you',
+} = Astro.props
+---
+
+<section class="print-partners-section" aria-label={`Buy ${editionLabel} in print from partner bookshops`}>
+  <div class="print-partners-inner">
+    <h2 class="print-partners-title">Print</h2>
+    <p class="print-partners-text">
+      Order {editionLabel} for delivery from our partner shops by region. Or browse coworkings and colivings that keep copies on hand.
+    </p>
+    <ul class="print-partners-list">
+      {
+        retailers.map((retailer) => (
+          <li>
+            <a
+              href={retailer.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="print-partners-link"
+              aria-label={`Buy Nomad Magazine ${editionLabel} from ${retailer.name} ${retailer.region} (opens in new tab)`}
+            >
+              {retailer.region} — {retailer.name} ↗
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <a href={findCopyHref} class="print-partners-cta">Find a copy near you →</a>
+  </div>
+</section>
+
+<style>
+  .print-partners-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+  }
+
+  .print-partners-inner {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+  }
+
+  .print-partners-title {
+    margin: 0 0 1rem;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #4ecdc4;
+    letter-spacing: 0.02em;
+  }
+
+  .print-partners-text {
+    margin: 0 0 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 560px;
+  }
+
+  .print-partners-list {
+    list-style: none;
+    margin: 0 0 1.75rem;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .print-partners-link {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffffff;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    align-self: flex-start;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+
+  .print-partners-link:hover {
+    border-bottom-color: #4ecdc4;
+    color: #4ecdc4;
+  }
+
+  .print-partners-cta {
+    display: inline-block;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    padding: 0.65rem 1.15rem;
+    border-radius: 8px;
+    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+  }
+
+  .print-partners-cta:hover {
+    border-color: #ffffff;
+    background: rgba(255, 255, 255, 0.06);
+    color: #ffffff;
+  }
+
+  @media (max-width: 768px) {
+    .print-partners-section {
+      padding: 0 1rem 3rem;
+    }
+
+    .print-partners-inner {
+      padding: 2rem 1.5rem;
+    }
+  }
+</style>
