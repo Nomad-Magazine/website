@@ -13,10 +13,31 @@ export const directoryListingPlaceOverrides: Record<string, string> = {
   'Nomad Shophouse': '/images/directory-place-nomad-shophouse.webp',
 }
 
+/** Batch carousel about-slide overrides keyed by listing title, then part number (1-based). */
+export const directoryListingBatchAboutOverrides: Record<
+  string,
+  Record<number, { image: string; hideBranding?: boolean }>
+> = {
+  'Arctic Coliving': {
+    2: {
+      image: '/images/directory-about-arctic-coliving.webp',
+      hideBranding: true,
+    },
+  },
+}
+
 /** Optional background photos for special-offer slides. */
 export const directoryListingOfferOverrides: Record<string, string> = {
   'Madeira Remote': '/images/directory-offer-madeira-remote.webp',
   'Nomad Shophouse': '/images/directory-offer-nomad-shophouse.webp',
+}
+
+/** Short location lines for batch social captions. */
+export const directoryListingCaptionLocations: Record<string, string> = {
+  'Madeira Remote': 'Funchal, Madeira, Portugal',
+  'Arctic Coliving': 'Voss & Lofoten, Norway',
+  'Nomad Shophouse': 'Chinatown, Kuala Lumpur, Malaysia',
+  'Find Your Coliving': 'Worldwide',
 }
 
 /** Physical coliving operators (not coliving search platforms or services). */

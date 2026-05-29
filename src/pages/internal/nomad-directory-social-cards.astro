@@ -217,7 +217,7 @@ function batchSlideFilename(slide: BatchIgSlide): string {
 
                   {slide.kind === 'batch-detail' && listing && slide.focus === 'about' && (
                     <div class="card-capture relative w-full h-full rounded-none overflow-hidden shadow-2xl shadow-black/50">
-                      <img src={slide.heroImage} alt={listing.title} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
+                      <img src={slide.aboutImage || slide.heroImage} alt={slide.hideBranding ? '' : listing.title} aria-hidden={slide.hideBranding ? 'true' : undefined} class="absolute inset-0 w-full h-full object-cover" loading="lazy" crossorigin="anonymous" />
                       <div class="absolute inset-0 bg-linear-to-t from-black/95 via-black/70 to-black/35"></div>
                       <div class="p-6 relative flex flex-col h-full">
                         <div class="flex items-center justify-between mb-4">
@@ -227,21 +227,23 @@ function batchSlideFilename(slide: BatchIgSlide): string {
                           <img src="/logo.svg" alt="" aria-hidden="true" class="w-5 h-5 opacity-50" crossorigin="anonymous" />
                         </div>
                         <div class="flex-1 flex flex-col justify-end">
-                          <div class="flex items-center gap-3 mb-4">
-                            <div class={directoryLogoBoxClass}>
-                              {listing.logo ? (
-                                <img src={listing.logo} alt={listing.title} class={directoryLogoImageClassFor(listing.title)} crossorigin="anonymous" />
-                              ) : (
-                                <span class={directoryLogoInitialClass}>{logoInitial}</span>
-                              )}
+                          {!slide.hideBranding && (
+                            <div class="flex items-center gap-3 mb-4">
+                              <div class={directoryLogoBoxClass}>
+                                {listing.logo ? (
+                                  <img src={listing.logo} alt={listing.title} class={directoryLogoImageClassFor(listing.title)} crossorigin="anonymous" />
+                                ) : (
+                                  <span class={directoryLogoInitialClass}>{logoInitial}</span>
+                                )}
+                              </div>
+                              <div class="min-w-0">
+                                <h3 class="text-white font-bold text-lg leading-tight drop-shadow-lg">{listing.title}</h3>
+                                {listing.category && (
+                                  <span class="text-yellow-400 text-[10px] font-medium">{listing.category}</span>
+                                )}
+                              </div>
                             </div>
-                            <div class="min-w-0">
-                              <h3 class="text-white font-bold text-lg leading-tight drop-shadow-lg">{listing.title}</h3>
-                              {listing.category && (
-                                <span class="text-yellow-400 text-[10px] font-medium">{listing.category}</span>
-                              )}
-                            </div>
-                          </div>
+                          )}
                           <p class={`text-gray-200 leading-relaxed drop-shadow-md ${slide.text.length > 140 ? 'text-xs' : 'text-sm'}`}>{slide.text}</p>
                           {listing.link && (
                             <p class="text-blue-300 text-[11px] mt-3 underline">{displayLink(listing.link)} →</p>
@@ -321,6 +323,15 @@ function batchSlideFilename(slide: BatchIgSlide): string {
                 </div>
               )
             })}
+          </div>
+
+          <div class="copy-block mt-6" style="max-width:600px;">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-gray-500 text-[11px] font-bold uppercase tracking-widest">Instagram caption · paste in post description</span>
+              <button class="copy-text-btn text-[11px] font-semibold text-pink-300 hover:text-white border border-pink-800/50 hover:border-pink-400 bg-pink-950/40 hover:bg-pink-900/50 px-3 py-1 rounded-lg transition-colors" aria-label="Copy Instagram caption">Copy text</button>
+            </div>
+            <textarea class="copy-textarea w-full bg-gray-900 border border-gray-800 text-gray-300 text-xs leading-relaxed rounded-xl p-4 resize-y font-mono focus-visible:ring-2 focus-visible:ring-pink-500 outline-none" rows="14">{batchPack.instagramCaption}</textarea>
+            <p class="text-gray-600 text-[11px] mt-1">~{batchPack.instagramCaption.length} chars · edit before publishing if needed</p>
           </div>
         </div>
 

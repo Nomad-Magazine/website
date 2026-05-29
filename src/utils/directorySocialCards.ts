@@ -1,4 +1,6 @@
 import {
+  directoryListingBatchAboutOverrides,
+  directoryListingCaptionLocations,
   directoryListingHeroOverrides,
   directoryListingPlaceOverrides,
   directoryListingWebsiteUrls,
@@ -53,6 +55,8 @@ export type BatchIgSlide =
       heroImage: string
       placeImage?: string
       part?: number
+      aboutImage?: string
+      hideBranding?: boolean
     }
   | { kind: 'batch-cta'; index: number }
 
@@ -60,6 +64,7 @@ export type BatchSocialPack = {
   listings: BatchListingEntry[]
   slides: BatchIgSlide[]
   slideCount: number
+  instagramCaption: string
   linkedInCopy: string
   twitterCopy: string
 }
@@ -410,19 +415,68 @@ export function computeListingSocialPack(
   }
 }
 
-function buildBatchLinkedInCopy(listings: BatchListingEntry[]): string {
+function buildListingCaptionBlock(listing: BatchListingEntry, index: number): string[] {
+  const lines = [
+    `${index}. ${listing.title}${listing.category ? ` · ${listing.category}` : ''}`,
+  ]
+
+  const location = directoryListingCaptionLocations[listing.title]
+  if (location) lines.push(`📍 ${location}`)
+
+  const description = listing.description.trim()
+  if (description) lines.push(description)
+
+  const link = displayLink(listing.link)
+  if (link) lines.push(`🔗 ${link}`)
+
+  const offer = listing.specialOffer.trim()
+  if (offer) lines.push(`🎁 ${offer}`)
+
+  return lines
+}
+
+function buildBatchInstagramCopy(listings: BatchListingEntry[]): string {
+  const listingBlocks = listings.flatMap((listing, i) => [
+    ...buildListingCaptionBlock(listing, i + 1),
+    '',
+  ])
+
   const lines = [
     'New at Nomad Directory 🌍',
     '',
-    ...listings.map((l) => `• ${l.title}${l.category ? ` (${l.category})` : ''}`),
+    '4 new listings for digital nomads — swipe for details on each 👇',
     '',
-    'Colivings, coworkings, and nomad services — vetted for the location-independent lifestyle.',
+    ...listingBlocks,
+    '150+ companies for colivings, coworkings, apps, insurance, legal & more.',
+    '',
+    '🔗 Link in bio → nomad-magazine.com/nomad_directory/',
+    '',
+    '#DigitalNomad #RemoteWork #NomadDirectory #Coliving #DigitalNomadLife',
+  ]
+  return lines.join('\n').replace(/\n{3,}/g, '\n\n')
+}
+
+function buildBatchLinkedInCopy(listings: BatchListingEntry[]): string {
+  const listingBlocks = listings.flatMap((listing, i) => [
+    ...buildListingCaptionBlock(listing, i + 1).map((line) =>
+      line.replace(/^📍 /, 'Location: ').replace(/^🔗 /, 'Website: ').replace(/^🎁 /, 'Offer: '),
+    ),
+    '',
+  ])
+
+  const lines = [
+    'New at Nomad Directory 🌍',
+    '',
+    '4 new listings for digital nomads:',
+    '',
+    ...listingBlocks,
+    'Browse 150+ colivings, coworkings, apps, insurance, legal & more:',
     '',
     nomadDirectoryUrl,
     '',
     '#DigitalNomad #RemoteWork #NomadDirectory #Coliving',
   ]
-  return lines.join('\n')
+  return lines.join('\n').replace(/\n{3,}/g, '\n\n')
 }
 
 function buildBatchTwitterCopy(listings: BatchListingEntry[]): string {
@@ -436,6 +490,10 @@ export function computeBatchSocialPack(listings: BatchListingEntry[]): BatchSoci
   for (const listing of listings) {
     const descChunks = chunkText(listing.description, BATCH_DETAIL_MAX)
     const aboutText = descChunks[0] || listing.description
+    const aboutPart = descChunks.length > 1 ? 1 : undefined
+    const aboutOverride = aboutPart
+      ? directoryListingBatchAboutOverrides[listing.title]?.[aboutPart]
+      : undefined
 
     slides.push({
       kind: 'batch-detail',
@@ -444,7 +502,9 @@ export function computeBatchSocialPack(listings: BatchListingEntry[]): BatchSoci
       focus: 'about',
       text: aboutText,
       heroImage: listing.heroImage,
-      part: descChunks.length > 1 ? 1 : undefined,
+      part: aboutPart,
+      aboutImage: aboutOverride?.image,
+      hideBranding: aboutOverride?.hideBranding,
     })
 
     if (listing.placeImage) {
@@ -470,6 +530,9 @@ export function computeBatchSocialPack(listings: BatchListingEntry[]): BatchSoci
         heroImage: listing.heroImage,
       })
     } else if (descChunks.length > 1) {
+      const aboutPart = 2
+      const aboutOverride = directoryListingBatchAboutOverrides[listing.title]?.[aboutPart]
+
       slides.push({
         kind: 'batch-detail',
         index: slides.length + 1,
@@ -477,7 +540,9 @@ export function computeBatchSocialPack(listings: BatchListingEntry[]): BatchSoci
         focus: 'about',
         text: descChunks.slice(1).join(' '),
         heroImage: listing.heroImage,
-        part: 2,
+        part: aboutPart,
+        aboutImage: aboutOverride?.image,
+        hideBranding: aboutOverride?.hideBranding,
       })
     }
   }
@@ -490,6 +555,7 @@ export function computeBatchSocialPack(listings: BatchListingEntry[]): BatchSoci
     listings,
     slides: numbered,
     slideCount: numbered.length,
+    instagramCaption: buildBatchInstagramCopy(listings),
     linkedInCopy: buildBatchLinkedInCopy(listings),
     twitterCopy: buildBatchTwitterCopy(listings),
   }
