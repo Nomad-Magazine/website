@@ -5,6 +5,7 @@ import { getCollection } from 'astro:content'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import { Image } from 'astro:assets'
 import { AUTHOR_PAGE_BIOS } from '~/const/authorPageBios'
+import { AUTHOR_PROFILES } from '~/const/authorProfiles'
 import { normalizeContentEntries } from '~/utils/content'
 
 function pickAuthorBio(p: { data: Record<string, unknown> }): string | undefined {
@@ -50,16 +51,30 @@ const posts = allArticles
     return dateB.valueOf() - dateA.valueOf()
   })
 
-const authorUrl = posts.find((p) => p.data.authorUrl)?.data.authorUrl
-const authorImageUrl = posts.find((p) => p.data.authorImageUrl)?.data.authorImageUrl
-
 const authorPageSlug = Astro.params.author ?? ''
+const profileFallback = AUTHOR_PROFILES[authorPageSlug]
+
+const authorUrl = posts.find((p) => p.data.authorUrl)?.data.authorUrl ?? profileFallback?.website
+const authorImageUrl = posts.find((p) => p.data.authorImageUrl)?.data.authorImageUrl ?? profileFallback?.image
+const authorInstagramUrl = posts.find((p) => p.data.authorInstagramUrl)?.data.authorInstagramUrl ?? profileFallback?.instagram
+
+const authorInstagramLabel = authorInstagramUrl
+  ? (() => {
+      try {
+        const handle = new URL(authorInstagramUrl).pathname.replace(/\//g, '').split('?')[0]
+        return handle ? `@${handle} on Instagram` : 'Instagram'
+      } catch {
+        return 'Instagram'
+      }
+    })()
+  : null
+
 const authorBio = (() => {
   for (const p of posts) {
     const b = pickAuthorBio(p)
     if (b) return b
   }
-  return AUTHOR_PAGE_BIOS[authorPageSlug] ?? undefined
+  return profileFallback?.bio ?? AUTHOR_PAGE_BIOS[authorPageSlug] ?? undefined
 })()
 
 const authorUrlLabel = authorUrl
@@ -126,6 +141,19 @@ const seo: SEOProps = {
                   rel="noopener noreferrer"
                 >
                   {authorUrlLabel}
+                </a>
+              </p>
+            )}
+            {authorInstagramUrl && (
+              <p class="mb-2">
+                <a
+                  href={authorInstagramUrl}
+                  class="text-sm text-amber-400/90 hover:text-amber-300 transition-colors"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  aria-label={`Follow ${authorName} on Instagram (opens in new tab)`}
+                >
+                  {authorInstagramLabel}
                 </a>
               </p>
             )}

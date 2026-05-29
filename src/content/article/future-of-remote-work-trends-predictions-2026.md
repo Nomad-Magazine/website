@@ -5,6 +5,8 @@ description: "Remote work in 2026: hybrid models, async teams, digital nomad vis
 author: Nina Hoeberichts
 byline_type: Essay
 author_url: https://www.thingsnomadsdo.com/
+author_image_url: /images/author-nina-hoeberichts-profile.webp
+author_instagram_url: https://www.instagram.com/thingsnomadsdo
 created_at: 2026-05-29T12:00:00.000Z
 updated_at: 2026-05-29T12:00:00.000Z
 pubDate: 2026-05-29T12:00:00.000Z
@@ -18,7 +20,7 @@ published: true
 locale: en
 next_blog: ''
 category: article
-author_bio: "Nina Hoeberichts is the owner of <a href=\"https://www.thingsnomadsdo.com/\" rel=\"noopener noreferrer\">Things Nomads Do</a>, a travel and lifestyle blog for digital nomads and remote workers."
+author_bio: "Nina Hoeberichts is the owner of <a href=\"https://www.thingsnomadsdo.com/\" rel=\"noopener noreferrer\">Things Nomads Do</a>, a travel and lifestyle blog for digital nomads and remote workers. Follow her on <a href=\"https://www.instagram.com/thingsnomadsdo\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Follow Nina Hoeberichts on Instagram (opens in new tab)\">Instagram @thingsnomadsdo</a>."
 ---
 
 *Essay by [Nina Hoeberichts](/authors/nina-hoeberichts/)*
@@ -90,7 +92,3 @@ Remote work will likely evolve beyond the "work from anywhere" ideal into someth
 If done right, remote work has the potential to offer more flexibility, better work–life balance, and access to opportunities that were once limited by geography.
 
 <mark style="background-color: #fef08a; color: inherit;">The question is not if remote work will stay, but how intentionally we shape what comes next.</mark>
-
----
-
-**About the author:** Nina Hoeberichts is the owner of [Things Nomads Do](https://www.thingsnomadsdo.com/) — a travel and lifestyle blog for digital nomads and remote workers.

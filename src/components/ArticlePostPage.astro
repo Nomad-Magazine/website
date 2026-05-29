@@ -3,6 +3,7 @@ import { render } from 'astro:content'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import SidebarMagazineDirectory from '~/components/SidebarMagazineDirectory.astro'
 import SidebarFreeMagazines from '~/components/SidebarFreeMagazines.astro'
+import ArticleAuthorSection from '~/components/ArticleAuthorSection.astro'
 import { createBlogPostingSchema } from '~/utils/schema'
 
 const { post, allPosts } = Astro.props
@@ -32,6 +33,11 @@ if (relatedPosts.length < 3) {
 
 const finalRelatedPosts = relatedPosts.slice(0, 3)
 const { Content } = await render(post)
+
+const authorBioHtml = post.data.authorBio ?? post.data.author_bio
+const authorImageForSection = post.data.authorImageUrl
+const bodyHasAboutSection = (post.body ?? '').includes('## About the author')
+const showAuthorSection = Boolean(authorBioHtml && authorImageForSection && !bodyHasAboutSection)
 
 const socialImage = post.data.heroImage
   ? (post.data.heroImage.startsWith('http') ? post.data.heroImage : `${Astro.site}${post.data.heroImage.startsWith('/') ? post.data.heroImage.slice(1) : post.data.heroImage}`)
@@ -169,6 +175,15 @@ const seo: SEOProps = {
               <link itemprop="url" href="https://nomad-magazine.com/" />
             </div>
             <Content />
+            {
+              showAuthorSection && (
+                <ArticleAuthorSection
+                  authorName={post.data.author}
+                  authorBio={authorBioHtml}
+                  authorImageUrl={authorImageForSection}
+                />
+              )
+            }
           </article>
 
           {
