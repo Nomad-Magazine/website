@@ -7,6 +7,7 @@ import { defineConfig, envField } from 'astro/config'
 import { glob } from 'glob'
 import { readFileSync, statSync } from 'node:fs'
 import { basename } from 'node:path'
+import { unified } from '@astrojs/markdown-remark'
 import rehypeExternalLinks from 'rehype-external-links'
 
 const site = process.env.SITE_URL ?? 'https://nomad-magazine.com'
@@ -86,13 +87,13 @@ const pageLastModDates = getPageLastModDates()
 
 export default defineConfig({
   output: 'server',
-  experimental: {
-    rustCompiler: true,
-  },
+  compressHTML: true,
   markdown: {
-    rehypePlugins: [
-      [rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],
-    ],
+    processor: unified({
+      rehypePlugins: [
+        [rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],
+      ],
+    }),
   },
   server: {
     open: true,
