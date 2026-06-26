@@ -19,6 +19,7 @@ import BrandPlacement from '~/components/BrandPlacement.astro'
 import GrowingCommunity from '~/components/GrowingCommunity.astro'
 import MagazineStack from '~/components/MagazineStack.astro'
 import StickyAnnouncementBar from '~/components/StickyAnnouncementBar.astro'
+import FreePdfGiveawayBanner from '~/components/FreePdfGiveawayBanner.astro'
 import { fetchReportRecords } from '~/utils/smartsuite'
 import { getCollection } from 'astro:content'
 import { normalizeContentEntries } from '~/utils/content'
@@ -183,12 +184,12 @@ const seo: SEOProps = {
           <p class="font-justme text-4xl text-gray-800">independent digital nomad magazine</p>
           <h1 class="md:text-12xl xl:text-22xl text-7xl font-semibold text-gray-900 xl:leading-18">Remote Work, Nomad Lifestyle & Real Stories</h1>
           <p class="max-w-2xl text-lg text-gray-700">
-            The most distributed print and digital magazine for people who work remotely, travel freely, and live on their own terms.
+            The most distributed print and digital magazine for people who work remotely, explore new destinations, and live on their own terms.
           </p>
           <div class="space-y-3 text-lg text-gray-700">
             <p class="flex items-center">
               <CheckIcon class="mr-2 h-6 w-6 shrink-0 text-black" aria-hidden="true" />
-              <span>Digital nomad stories — real people, real places, real life</span>
+              <span>Destination guides and nomad stories — real people, real places</span>
             </p>
             <p class="flex items-center">
               <CheckIcon class="mr-2 h-6 w-6 shrink-0 text-black" aria-hidden="true" />
@@ -204,24 +205,24 @@ const seo: SEOProps = {
           <div class="mb-2 flex flex-col gap-4 sm:flex-row sm:items-end">
             <div class="flex flex-col items-center order-first sm:order-last">
               <span class="mb-1 inline-block rounded-full bg-yellow-400 px-3 py-1 text-xs font-bold text-black uppercase tracking-wide shadow">OUT NOW</span>
-            <a
-              href="/editions/fourth-edition/"
-              class="glow-animate w-full sm:w-auto inline-block rounded border-2 border-yellow-400 bg-black px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-yellow-400 transition-colors duration-200 hover:bg-yellow-400 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-300"
-              aria-label="View the new fourth edition of Nomad Magazine"
-            >
-              EDITION #4 >>
-            </a>
+              <a
+                href="/editions/fourth-edition/"
+                class="glow-animate w-full sm:w-auto inline-block rounded border-2 border-yellow-400 bg-black px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-yellow-400 transition-colors duration-200 hover:bg-yellow-400 hover:text-black focus-visible:ring-2 focus-visible:ring-yellow-300"
+                aria-label="View the new fourth edition of Nomad Magazine"
+              >
+                EDITION #4 >>
+              </a>
             </div>
             <a
               href="/editions/"
-              class="w-full sm:w-auto inline-block rounded bg-yellow-400 px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-black shadow-md transition-transform duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 order-last sm:order-first"
+              class="w-full sm:w-auto inline-block rounded bg-yellow-400 px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-black shadow-md transition-transform duration-200 hover:scale-105 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-yellow-300 order-last sm:order-first"
               aria-label="View all digital nomad magazine editions"
             >
               VIEW ALL EDITIONS
             </a>
           </div>
           <div class="mt-2 text-xs sm:text-sm text-gray-700">
-            P.S. It's nice to get away from screens once in a while! <a href="/blog/7-tips-for-balancing-work-and-travel/" class="text-gray-800 hover:text-gray-900">Read our remote work and travel balance guide</a>.
+            All 4 editions free as PDF — one email unlocks each. Explore destinations in <a href="/where-to-work/" class="font-medium text-gray-900 underline hover:text-black">Where to Work</a> or <a href="/articles/" class="font-medium text-gray-900 underline hover:text-black">read our articles</a>.
           </div>
         </div>
       </div>
@@ -230,6 +231,8 @@ const seo: SEOProps = {
       </div>
     </div>
   </div>
+
+  <FreePdfGiveawayBanner />
 
   <section class="border-t border-gray-200 bg-white px-4 py-16 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-7xl">
@@ -648,7 +651,7 @@ const seo: SEOProps = {
         />
         <div class="flex-1">
           <h3 class="text-white font-bold text-sm">Edition #4 Now Available</h3>
-          <p class="text-gray-300 text-xs mb-2">128 pages of nomad wisdom</p>
+          <p class="text-gray-300 text-xs mb-2">128 pages · all editions free as PDF</p>
           <a 
             href="/editions/fourth-edition/"
             class="inline-block bg-yellow-400 text-black text-xs font-bold px-3 py-1.5 rounded hover:bg-yellow-300 transition-colors"
