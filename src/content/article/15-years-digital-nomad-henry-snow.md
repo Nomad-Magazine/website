@@ -2,7 +2,7 @@
 slug: 15-years-digital-nomad-henry-snow
 title: "15 Years as a Digital Nomad: 100+ Ideas, One 7-Figure Business"
 description: "Henry Snow on freedom, failure, and building PeeSport. From 100 failed ideas to a successful seven-figure business while traveling the world."
-author: Nomad Magazine
+author: Henry Snow
 byline_type: Interview
 author_image_url: /images/henry-snow-1.webp
 author_url: https://www.instagram.com/heyhenrysnow/
@@ -21,7 +21,7 @@ next_blog: ''
 category: article
 ---
 
-*Interview by [Nomad Magazine](/authors/nomad-magazine/)*
+*Interview with [Henry Snow](/authors/henry-snow/)*
 
 ## Henry Snow on Freedom, Failure, and Finding What Works
 

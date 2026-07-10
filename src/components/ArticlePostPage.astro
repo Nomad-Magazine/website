@@ -89,7 +89,7 @@ const seo: SEOProps = {
               {post.data.author && (
                 <div class="text-lg flex flex-col items-center gap-1">
                   <span>
-                    {post.data.bylineType ? `${post.data.bylineType} ` : ''}by{' '}
+                    {post.data.bylineType === 'Interview' ? 'Interview with ' : post.data.bylineType ? `${post.data.bylineType} by ` : 'by '}
                     {authorPageHref ? (
                       <a href={authorPageHref} class="underline hover:text-yellow-400 transition-colors">{post.data.author}</a>
                     ) : (
