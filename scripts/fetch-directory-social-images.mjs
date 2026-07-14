@@ -18,6 +18,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const IMAGES_DIR = path.join(__dirname, '../public/images')
 
 const DEFAULT_LISTINGS = [
+  { title: 'Laguna Network', url: 'https://laguna.network/', category: 'App' },
   { title: 'Madeira Remote', url: 'https://madeiraremote.com/', category: 'Coliving' },
   { title: 'Find Your Coliving', url: 'https://findyourcoliving.com/', category: 'Coliving Service' },
   { title: 'Arctic Coliving', url: 'https://www.arcticcoliving.com/', category: 'Coliving' },

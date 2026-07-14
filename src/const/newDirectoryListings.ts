@@ -50,6 +50,7 @@ export function isPhysicalColiving(category: string): boolean {
 
 /** Listings to generate social cards for — update when publishing new directory entries. */
 export const newDirectoryListingTitles = [
+  'Laguna Network',
   'Madeira Remote',
   'Arctic Coliving',
   'Nomad Shophouse',
@@ -60,6 +61,7 @@ export const nomadDirectoryUrl = 'https://nomad-magazine.com/nomad_directory/'
 
 /** Website URLs used by scripts/fetch-directory-social-images.mjs when og:image fetch is needed. */
 export const directoryListingWebsiteUrls: Record<string, string> = {
+  'Laguna Network': 'https://laguna.network/',
   'Madeira Remote': 'https://madeiraremote.com/',
   'Find Your Coliving': 'https://findyourcoliving.com/',
   'Arctic Coliving': 'https://www.arcticcoliving.com/',
