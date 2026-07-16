@@ -24,21 +24,50 @@ const partners = [
   { name: 'Betahaus', url: 'https://www.betahaus.com/', logo: '/images/betahaus-logo.webp' },
   { name: 'InterNations', url: 'https://www.internations.org/', logo: '/images/Internations-horizontal-logo-white.png' },
   { name: 'Nomad Summit', url: 'https://nomadsummit.com/', logo: '/images/NS-Logo-txt-white.webp' },
-  { name: 'Genki', url: 'https://nomads.insure/', logo: '/images/nomads_insure_logo.webp' },
+  { name: 'Nomads Insure', url: 'https://nomads.insure/', logo: '/images/nomads_insure_logo.webp' },
+  { name: 'Tulsa Remote', url: 'https://www.tulsaremote.com/', logo: '/images/Tulsa_Remote_logo.webp' },
+  { name: 'Fresh Global', url: 'https://www.globaltaxmastery.com/', logo: '/images/fresh-global-logo.webp' },
+  { name: 'NoSolo', url: 'http://nosolo.co/', logo: '/images/nosolo-logo-1018.webp' },
+  { name: 'NomadNest', url: 'https://nomadnest.com/', logo: '/images/nomadnest-logo.webp' },
+  { name: 'Citta di Palermo', url: 'https://www.comune.palermo.it/', logo: '/images/logo-palermo-municipality.webp' },
+  { name: 'Beetcommunity', url: 'https://beetcommunity.com/en/', logo: '/images/logo-beetcommunity.webp' },
+  { name: 'Falmouth University', url: 'https://www.falmouth.ac.uk/study/online', logo: '/images/logo-Falmouth-University-Black.webp' },
+  { name: 'Nomad Fest', url: 'https://nomad-fest.com/', logo: '/images/nomad-fest_black.webp' },
+  { name: 'Max Browser', url: 'https://maxbrowser.com.au/', logo: '/images/logo-Max-Master-Logo-black.webp' },
+  { name: 'Colive Fukuoka', url: 'https://www.colivefukuoka.com/', logo: '/images/logo-colive-fukuoka.webp' },
+  { name: 'Roamless', url: 'https://roamless.com/', logo: '/images/logo-roamless_black.webp' },
+  { name: 'Nomad Tax Bulgaria', url: 'https://www.nomadtax.bg/', logo: '/images/NomadTax.webp' },
+  { name: 'Swaphouse', url: 'https://swaphouse.io/', logo: '/images/logo-swaphouse.webp' },
+  { name: 'The Better Neighbors', url: 'https://thebetterneighbors.com/', logo: '/images/Logo_BetterNeighbors.webp' },
+  { name: 'Coliving Frilingue', url: 'https://coliving.frilingue.ch/', logo: '/images/logo-coliving-frilingue.webp' },
+  { name: 'U Ciao', url: 'https://meetciao.com/', logo: '/images/Ciao-Logo-black.webp' },
 ]
+
+const invertedLogoNames = new Set([
+  'Tulsa Remote',
+  'Falmouth University',
+  'Nomad Fest',
+  'Max Browser',
+  'Colive Fukuoka',
+  'Roamless',
+  'Nomad Tax Bulgaria',
+  'Swaphouse',
+  'Coliving Frilingue',
+  'U Ciao',
+])
 ---
 
 <section class="py-64">
   <div class="container mx-auto px-4 text-center">
     <h2 animate-fade-in-up class="mb-16 text-5xl font-bold opacity-0">Our Partners</h2>
-    <div class="grid grid-cols-2 items-center justify-items-center gap-x-8 gap-y-12 md:grid-cols-3 lg:grid-cols-4">
+    <div class="grid grid-cols-2 items-center justify-items-center gap-x-8 gap-y-12 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       {
         partners.map((partner) => (
           <a animate-fade-in-up href={partner.url} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${partner.name} website`} class="flex items-center justify-center opacity-0">
             <img
               src={partner.logo}
               alt={`${partner.name} logo`}
-              class={`w-auto object-contain grayscale transition duration-300 hover:grayscale-0 ${
+              class={`w-auto object-contain grayscale transition duration-300 hover:grayscale-0 ${invertedLogoNames.has(partner.name) ? 'brightness-0 invert' : ''} ${
                 partner.name === 'InterNations'
                   ? 'h-16 min-h-[64px] max-w-[200px] min-w-[120px]'
                   : partner.name === 'Pangea'
