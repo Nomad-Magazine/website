@@ -48,6 +48,7 @@ jobs:
           sed -i 's/BENTO_SITE_UUID_PLACEHOLDER/${{ secrets.BENTO_SITE_UUID }}/g' dist/server/wrangler.json
           sed -i 's/BENTO_PUBLISHABLE_KEY_PLACEHOLDER/${{ secrets.BENTO_PUBLISHABLE_KEY }}/g' dist/server/wrangler.json
           sed -i 's/BENTO_SECRET_KEY_PLACEHOLDER/${{ secrets.BENTO_SECRET_KEY }}/g' dist/server/wrangler.json
+          node -e "const f='dist/server/wrangler.json';const c=JSON.parse(require('fs').readFileSync(f));delete c.legacy_env;require('fs').writeFileSync(f,JSON.stringify(c));"
           output=$(bunx wrangler@latest deploy)
           echo "$output"
           url=$(echo "$output" | grep -Eo 'https://[^[:space:]]*\.nomad-magazine\.com|https://[^[:space:]]*\.workers\.dev' | head -1)
