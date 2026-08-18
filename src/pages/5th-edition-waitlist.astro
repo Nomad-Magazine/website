@@ -1,0 +1,449 @@
+---
+export const prerender = true
+
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import { createWebPageSchema } from '~/utils/schema'
+
+const pageUrl = `${Astro.site}5th-edition-waitlist/`
+const title = 'Join the 5th Edition Waitlist 2027 | Nomad Magazine'
+const description =
+  'Nomad Magazine is building toward a 5th edition in 2027. Join the waiting list for updates as we gather readers, sponsors, and writers for the next issue.'
+
+const pastEditions = [
+  {
+    href: '/editions/first-edition/',
+    img: '/images/first-edition-cover-hd.webp',
+    alt: 'Nomad Magazine Edition One cover',
+    label: 'Edition 001',
+  },
+  {
+    href: '/editions/second-edition/',
+    img: '/images/edition-002-cover.webp',
+    alt: 'Nomad Magazine Edition Two cover',
+    label: 'Edition 002',
+  },
+  {
+    href: '/editions/third-edition/',
+    img: '/images/third-edition-cover-hd.webp',
+    alt: 'Nomad Magazine Edition Three cover',
+    label: 'Edition 003',
+  },
+  {
+    href: '/editions/fourth-edition/',
+    img: '/images/edition-004-cover.webp',
+    alt: 'Nomad Magazine Edition Four cover',
+    label: 'Edition 004',
+  },
+]
+
+const brandPlacements = [
+  { name: '1/3 Vertical', price: '€350' },
+  { name: '1/5 Horizontal', price: '€350' },
+  { name: 'Full Page', price: '€700' },
+  { name: 'Double Page Spread', price: '€1,100' },
+  { name: 'Sponsored Article: You Write', price: '€800' },
+  { name: 'Sponsored Article: We Write', price: '€1,100' },
+  { name: 'Major Sponsorship (cover + story + spread)', price: '€8,000' },
+]
+
+const directoryPlacements = [
+  { name: 'Small highlight', price: '€75', detail: '88×52mm · logo, 45 words, links' },
+  { name: 'Large highlight', price: '€100', detail: '116×108mm · larger logo, 80 words, premium position' },
+]
+
+const seo: SEOProps = {
+  title,
+  description,
+  image: `${Astro.site}images/edition-004-cover.webp`,
+  canonical: pageUrl,
+  keywords:
+    'nomad magazine 5th edition, fifth edition waitlist, digital nomad magazine 2027, nomad magazine waiting list, brand placement, writers',
+  ogType: 'website',
+  ldJSON: createWebPageSchema({
+    name: title,
+    url: pageUrl,
+    description,
+    image: `${Astro.site}images/edition-004-cover.webp`,
+  }),
+}
+---
+
+<Layout seo={seo}>
+  <section class="border-b border-stone-200 bg-stone-50 px-4 py-16 sm:px-6 sm:py-24 lg:px-8" aria-label="Nomad Magazine 5th edition waiting list">
+    <div class="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <div class="text-center lg:text-left">
+        <span class="mb-4 inline-block rounded-full bg-stone-900 px-4 py-1.5 text-xs font-extrabold tracking-[0.2em] text-stone-100 uppercase">
+          Next chapter
+        </span>
+        <h1 class="text-4xl font-extrabold tracking-tight text-stone-900 sm:text-5xl lg:text-6xl">
+          A 5th Edition in 2027
+        </h1>
+        <p class="mt-5 max-w-xl text-lg font-medium text-stone-700 lg:mx-0 mx-auto">
+          Four independent issues already in the world. We&apos;re gathering the readers, sponsors, and writers who make a fifth possible. Join the list and stay close as we move toward 2027.
+        </p>
+        <p class="mt-4 max-w-xl text-sm font-medium text-stone-500 lg:mx-0 mx-auto">
+          Launch updates only. Separate from the main newsletter.
+        </p>
+      </div>
+
+      <div class="mx-auto w-full max-w-md">
+        <form id="fifth-edition-waitlist-form" class="waitlist-form" aria-label="Join the Nomad Magazine 5th edition waiting list">
+          <div id="waitlist-form-fields">
+            <h2 class="waitlist-headline">Join the waiting list</h2>
+            <p class="waitlist-subheader">Get on the list for Edition Five. We&apos;ll be in touch as the issue takes shape.</p>
+
+            <input type="hidden" name="event_type" value="editionFIVEwaitlist" />
+            <input type="hidden" name="subscriber_tags" value="editionFIVEwaitlist" />
+
+            <div class="field-group">
+              <label for="first_name" class="field-label">Your name <span class="required">*</span></label>
+              <input
+                type="text"
+                id="first_name"
+                name="first_name"
+                class="waitlist-input"
+                placeholder="Your name"
+                required
+                autocomplete="given-name"
+              />
+            </div>
+
+            <div class="field-group">
+              <label for="email" class="field-label">Email address <span class="required">*</span></label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="waitlist-input"
+                placeholder="your@email.com"
+                required
+                autocomplete="email"
+              />
+            </div>
+
+            <div class="field-group">
+              <div class="cf-turnstile" data-sitekey="0x4AAAAAACXWfgpGaqB_A50e" data-theme="light"></div>
+            </div>
+
+            <div id="error-message" class="hidden rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-700"></div>
+
+            <button type="submit" id="submit-button" class="waitlist-button">
+              Join the 5th Edition Waitlist
+            </button>
+            <p class="waitlist-disclosure">
+              You&apos;ll receive updates about Edition Five. This list is tagged separately from the Nomad Magazine newsletter.
+            </p>
+          </div>
+
+          <div id="waitlist-success" class="hidden text-center" role="status">
+            <p class="waitlist-headline">You are on the list</p>
+            <p class="waitlist-subheader">You&apos;re on the list. We&apos;ll be in touch as Edition Five moves forward. Until then, the first four issues are out.</p>
+            <a
+              href="/editions/"
+              class="waitlist-button mt-2 inline-block text-center"
+              aria-label="Browse all Nomad Magazine editions"
+            >
+              View All Editions
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white px-4 py-16 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-6xl">
+      <div class="max-w-3xl">
+        <p class="text-xs font-extrabold tracking-[0.2em] text-stone-500 uppercase">Work with us</p>
+        <h2 class="mt-3 text-3xl font-bold text-stone-900">Sponsors and writers</h2>
+        <p class="mt-3 text-stone-600">
+          Edition Five is the next chapter. We&apos;re opening conversations now with brands and writers, the same independent print we&apos;ve been making since issue one.
+        </p>
+      </div>
+
+      <div class="mt-10 grid gap-6 lg:grid-cols-2">
+        <article class="rounded-2xl border border-stone-200 bg-stone-50 p-6 sm:p-8">
+          <h3 class="text-xl font-bold text-stone-900">For sponsors</h3>
+          <p class="mt-2 text-stone-600">
+            Print ads and Nomad Directory highlights, as in previous editions. Edition Four rates below, for reference. Let&apos;s talk about space in the fifth issue.
+          </p>
+          <a
+            href="mailto:lera@nomadgossip.com?subject=Edition%20Five%20brand%20placement"
+            class="mt-4 inline-block rounded-lg bg-stone-900 px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-black focus-visible:ring-2 focus-visible:ring-stone-400"
+          >
+            Talk to us about Edition Five
+          </a>
+        </article>
+
+        <article class="rounded-2xl border border-stone-200 bg-stone-50 p-6 sm:p-8">
+          <h3 class="text-xl font-bold text-stone-900">For writers</h3>
+          <p class="mt-2 text-stone-600">
+            We pay €40 per website article. Print contributors come from that same pool. No direct brand promotion in editorial stories.
+          </p>
+          <a
+            href="/writers/"
+            class="mt-4 inline-block rounded-lg border-2 border-stone-900 px-5 py-2.5 text-sm font-bold text-stone-900 transition-colors hover:bg-stone-900 hover:text-white focus-visible:ring-2 focus-visible:ring-stone-400"
+          >
+            Pitch a story
+          </a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-stone-200 bg-stone-50 px-4 py-16 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-6xl">
+      <p class="text-xs font-extrabold tracking-[0.2em] text-stone-500 uppercase">Edition Four · reference only</p>
+      <h2 class="mt-3 text-3xl font-bold text-stone-900">Brand placement and directory prices</h2>
+      <p class="mt-3 max-w-3xl text-stone-600">
+        Edition Four rates, for reference. A starting point for Edition Five conversations. Final terms when we open bookings.
+      </p>
+
+      <div class="mt-10 grid gap-10 lg:grid-cols-2">
+        <div>
+          <h3 class="text-lg font-bold text-stone-900">Print brand placement</h3>
+          <ul class="mt-4 divide-y divide-stone-200 rounded-xl border border-stone-200 bg-white">
+            {
+              brandPlacements.map((item) => (
+                <li class="flex items-baseline justify-between gap-4 px-4 py-3">
+                  <span class="text-stone-700">{item.name}</span>
+                  <span class="shrink-0 font-bold text-stone-900">{item.price}</span>
+                </li>
+              ))
+            }
+          </ul>
+          <a
+            href="/brand-placement-next-edition-847291/"
+            class="mt-4 inline-block text-sm font-semibold text-stone-900 underline underline-offset-4 hover:text-stone-600"
+          >
+            Full Edition Four brand placement page
+          </a>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-bold text-stone-900">Nomad Directory placements</h3>
+          <p class="mt-2 text-sm text-stone-600">Highlighted listings inside the print directory. Basic listings stay free.</p>
+          <ul class="mt-4 divide-y divide-stone-200 rounded-xl border border-stone-200 bg-white">
+            {
+              directoryPlacements.map((item) => (
+                <li class="px-4 py-3">
+                  <div class="flex items-baseline justify-between gap-4">
+                    <span class="font-medium text-stone-800">{item.name}</span>
+                    <span class="shrink-0 font-bold text-stone-900">{item.price}</span>
+                  </div>
+                  <p class="mt-1 text-sm text-stone-500">{item.detail}</p>
+                </li>
+              ))
+            }
+          </ul>
+          <img
+            src="/images/NGM-04_NomadDirectory_Proposal_Page_1.webp"
+            alt="Nomad Directory print spread from Edition Four, for reference"
+            class="mt-4 w-full rounded-xl border border-stone-200"
+            loading="lazy"
+          />
+          <a
+            href="/nomad-directory-highlight-options/"
+            class="mt-4 inline-block text-sm font-semibold text-stone-900 underline underline-offset-4 hover:text-stone-600"
+          >
+            Edition Four directory highlight options
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-stone-900 px-4 py-16 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-5xl text-center">
+      <h2 class="text-3xl font-bold text-white">Until then, explore past editions</h2>
+      <p class="mt-3 text-stone-400">Four issues of nomad stories, destination guides, and community reporting. Already out.</p>
+      <div class="mt-10 flex flex-wrap items-end justify-center gap-4">
+        {
+          pastEditions.map((edition) => (
+            <a
+              href={edition.href}
+              class="group w-28 sm:w-36 focus-visible:ring-2 focus-visible:ring-stone-300 focus-visible:outline-none"
+              aria-label={`View ${edition.label}`}
+            >
+              <img
+                src={edition.img}
+                alt={edition.alt}
+                width="144"
+                height="192"
+                class="w-full rounded-lg border border-white/10 object-cover shadow-2xl transition-transform group-hover:-translate-y-1"
+                loading="lazy"
+              />
+              <span class="mt-2 block text-sm font-semibold text-stone-200">{edition.label}</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .waitlist-form {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 2rem;
+    border-radius: 16px;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  .waitlist-headline {
+    margin-bottom: 0.75rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1c1917;
+    line-height: 1.2;
+  }
+
+  .waitlist-subheader {
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #57534e;
+  }
+
+  .field-group {
+    margin-bottom: 1.25rem;
+  }
+
+  .field-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1c1917;
+  }
+
+  .field-label .required {
+    color: #ef4444;
+  }
+
+  .waitlist-input {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d6d3d1;
+    border-radius: 10px;
+    background-color: #fff;
+    color: #1c1917;
+    box-sizing: border-box;
+    font-size: 1rem;
+  }
+
+  .waitlist-input:focus {
+    outline: none;
+    border-color: #44403c;
+    box-shadow: 0 0 0 3px rgba(68, 64, 60, 0.18);
+  }
+
+  .waitlist-button {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    padding: 0.9rem 1.25rem;
+    border: none;
+    border-radius: 10px;
+    background: #1c1917;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .waitlist-button:hover,
+  .waitlist-button:focus-visible {
+    background: #000;
+  }
+
+  .waitlist-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  .waitlist-disclosure {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: #78716c;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('fifth-edition-waitlist-form') as HTMLFormElement | null
+    const submitButton = document.getElementById('submit-button') as HTMLButtonElement | null
+    const errorMessage = document.getElementById('error-message') as HTMLDivElement | null
+    const formFields = document.getElementById('waitlist-form-fields')
+    const success = document.getElementById('waitlist-success')
+
+    if (!form || !submitButton || !errorMessage) return
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault()
+
+      submitButton.disabled = true
+      submitButton.textContent = 'Joining...'
+      errorMessage.classList.add('hidden')
+
+      const formData = new FormData(form)
+      const turnstileWidget = form.querySelector('.cf-turnstile') as HTMLElement | null
+      const turnstile = (
+        window as Window & {
+          turnstile?: {
+            getResponse: (container?: Element | null) => string
+            reset: (container?: Element | null) => void
+          }
+        }
+      ).turnstile
+
+      const turnstileResponse =
+        formData.get('cf-turnstile-response')?.toString().trim() || turnstile?.getResponse(turnstileWidget) || ''
+
+      if (!turnstileResponse) {
+        errorMessage.textContent = 'Please complete the captcha verification.'
+        errorMessage.classList.remove('hidden')
+        submitButton.disabled = false
+        submitButton.textContent = 'Join the 5th Edition Waitlist'
+        return
+      }
+
+      formData.set('cf-turnstile-response', turnstileResponse)
+
+      try {
+        const response = await fetch('/api/bento-event', {
+          method: 'POST',
+          body: formData,
+        })
+
+        const data = (await response.json()) as { success?: boolean; error?: string }
+
+        if (response.ok && data.success) {
+          formFields?.classList.add('hidden')
+          success?.classList.remove('hidden')
+        } else {
+          if (turnstile && turnstileWidget) turnstile.reset(turnstileWidget)
+          errorMessage.textContent = data.error || 'Failed to join the waitlist. Please try again.'
+          errorMessage.classList.remove('hidden')
+          submitButton.disabled = false
+          submitButton.textContent = 'Join the 5th Edition Waitlist'
+        }
+      } catch (_error) {
+        if (turnstile && turnstileWidget) turnstile.reset(turnstileWidget)
+        errorMessage.textContent = 'An error occurred. Please try again.'
+        errorMessage.classList.remove('hidden')
+        submitButton.disabled = false
+        submitButton.textContent = 'Join the 5th Edition Waitlist'
+      }
+    })
+  })
+</script>
+
+<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
