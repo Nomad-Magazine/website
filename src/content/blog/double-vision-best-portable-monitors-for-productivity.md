@@ -8,7 +8,7 @@ author_image_url: /images/jessica-holmes.webp
 author_url: https://www.instagram.com/hitchedhikingandhousesitting
 author_instagram_url: https://www.instagram.com/hitchedhikingandhousesitting
 created_at: 2026-08-18T12:00:00.000Z
-updated_at: 2026-08-18T12:00:00.000Z
+updated_at: 2026-08-18T11:14:04.000Z
 pubDate: 2026-08-18T12:00:00.000Z
 heroImage: /images/portable-monitor-dual-screen-workspace-hero.webp
 heroImageAlt: Digital nomad working at a stacked dual-screen portable monitor setup with a laptop and second display
