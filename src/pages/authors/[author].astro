@@ -1,12 +1,11 @@
 ---
 export const prerender = true;
 
-import { getCollection } from 'astro:content'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import { Image } from 'astro:assets'
 import { AUTHOR_PAGE_BIOS } from '~/const/authorPageBios'
 import { AUTHOR_PROFILES } from '~/const/authorProfiles'
-import { normalizeContentEntries } from '~/utils/content'
+import { authorSlugFromName, getAuthorPosts } from '~/utils/content'
 
 function pickAuthorBio(p: { data: Record<string, unknown> }): string | undefined {
   const d = p.data
@@ -17,16 +16,12 @@ function pickAuthorBio(p: { data: Record<string, unknown> }): string | undefined
 }
 
 export async function getStaticPaths() {
-  const allArticles = normalizeContentEntries(await getCollection('article'))
+  const allPosts = await getAuthorPosts()
   const authors = new Map<string, string>()
 
-  for (const post of allArticles) {
+  for (const post of allPosts) {
     if (post.data.author && post.data.published !== false) {
-      const slug = post.data.author
-        .toLowerCase()
-        .replace(/\s+/g, '-')
-        .replace(/[^a-z0-9-]/g, '')
-      authors.set(slug, post.data.author)
+      authors.set(authorSlugFromName(post.data.author), post.data.author)
     }
   }
 
@@ -38,8 +33,7 @@ export async function getStaticPaths() {
 
 const { authorName } = Astro.props
 
-const allArticles = normalizeContentEntries(await getCollection('article'))
-const posts = allArticles
+const posts = (await getAuthorPosts())
   .filter(
     (post) =>
       post.data.published !== false &&
@@ -212,7 +206,7 @@ const seo: SEOProps = {
                   )}
                 </div>
                 <h2 class="text-lg font-bold leading-tight text-white group-hover:text-yellow-400 transition-colors">
-                  <a href={`/articles/${post.slug}/`} class="after:absolute after:inset-0">
+                  <a href={post.href} class="after:absolute after:inset-0">
                     {post.data.title}
                   </a>
                 </h2>

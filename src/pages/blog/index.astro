@@ -12,7 +12,10 @@ const posts = allPosts
   .filter((post) => {
     // Filter for published posts
     if (post.data.published === false) return false
-    
+
+    // Editorial blog posts (category: blog) should appear on /blog/
+    if (post.data.category === 'blog') return true
+
     // Custom articles have heroImage in frontmatter - exclude them
     // Check the original data before schema transformation
     const hasHeroImage = post.data.heroImage && !post.data.heroImage.includes('seobotai.com')

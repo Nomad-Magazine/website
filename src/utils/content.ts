@@ -29,3 +29,27 @@ export function normalizeContentEntries<T extends ContentEntryLike>(
 ): Array<LegacyCollectionEntry<T>> {
   return entries.map((entry) => normalizeContentEntry(entry))
 }
+
+export function isSeoBotPost(post: { data: { author?: string; authorUrl?: string } }) {
+  return post.data.author === 'Martin Donadieu' && post.data.authorUrl === 'https://github.com/riderx'
+}
+
+export function authorSlugFromName(name: string) {
+  return name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+}
+
+export async function getAuthorPosts() {
+  const { getCollection } = await import('astro:content')
+  const articles = normalizeContentEntries(await getCollection('article')).map((post) => ({
+    ...post,
+    href: `/articles/${post.slug}/`,
+  }))
+  const blogs = normalizeContentEntries(await getCollection('blog'))
+    .filter((post) => !isSeoBotPost(post))
+    .map((post) => ({
+      ...post,
+      href: `/blog/${post.slug}/`,
+    }))
+
+  return [...articles, ...blogs]
+}
