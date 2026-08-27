@@ -8,7 +8,7 @@ author_image_url: /images/lera-pitiakova.webp
 author_url: https://www.instagram.com/nomadmagazinecom
 author_instagram_url: https://www.instagram.com/nomadmagazinecom
 created_at: 2026-08-26T12:00:00.000Z
-updated_at: 2026-08-26T16:12:01.000Z
+updated_at: 2026-08-27T15:00:00.000Z
 pubDate: 2026-08-26T12:00:00.000Z
 heroImage: /images/ai-app-side-hustle-nomad-laptop.webp
 heroImageAlt: Digital nomad working on a laptop at a bright desk, building an online app business while traveling
@@ -27,7 +27,7 @@ author_bio: "Lera Pitiakova is the founder of Nomad Magazine. She has lived as a
 
 The picture we keep returning to is almost embarrassingly ordinary: a Monday morning in a Lisbon cafe, a Thursday ferry that does not need anyone's permission, and rent that gets paid without a conversation about time off. For a long time, that picture was funded the usual way, by selling hours. Freelance writing, design, virtual assistance, a remote job whose meetings follow you from one time zone into the next. Those paths are still honest work, and plenty of us have built a life on them. They are also tied to the body in the chair. When you stop, the money stops, and the road starts to feel like something you have to earn all over again.
 
-There is another way that used to belong to people who could write code the way the rest of us write grocery lists: build a small thing, put it on someone's phone, and let it keep working while you sleep. That door is open now, not because you woke up an engineer, but because AI can help you make a first version you can actually click through, and because tools like <a href="https://capgo.app/" target="_blank" rel="noopener noreferrer" aria-label="Visit Capgo (opens in new tab)">Capgo</a> can keep that version alive from whatever wifi you happen to be sitting under.
+There is another way that used to belong to people who could write code the way the rest of us write grocery lists: build a small thing, put it on someone's phone, and let it keep working while you sleep. That door is open now, not because you woke up an engineer, but because AI can help you make a first version you can actually click through, and because tools like <a href="https://capgo.app/?atp=magazine" target="_blank" rel="nofollow noopener noreferrer" aria-label="Visit Capgo (opens in new tab)">Capgo</a> can keep that version alive from whatever wifi you happen to be sitting under.
 
 <mark style="background-color: #fff59d;">An app is not magic. It is a habit that lives next to <a href="https://www.whatsapp.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit WhatsApp (opens in new tab)">WhatsApp</a> and the camera, a small door people open on the bus without you sending another email.</mark> If it solves a problem they have felt in their own body, they will pay. If you can listen, fix, and improve it from anywhere, you have a business that travels with you instead of a job that has to be packed every time you change cities.
 
@@ -102,7 +102,7 @@ This is the one week that feels like office work: developer accounts, screenshot
 
 ### 4. Connect live updates before you fly
 
-This is the nomad piece, the one that makes the rest of it possible. Set up <a href="https://capgo.app/docs/live-updates/?atp=magazine" target="_blank" rel="nofollow noopener noreferrer" aria-label="Set up Capgo live updates (opens in new tab)">Capgo</a> so the next text change, layout fix, or new screen can go out without another store round. Then your office is any table with wifi, which is the closest this lifestyle has ever come to keeping a promise.
+This is the nomad piece, the one that makes the rest of it possible. Set up <a href="https://capgo.app/?atp=magazine" target="_blank" rel="nofollow noopener noreferrer" aria-label="Visit Capgo (opens in new tab)">Capgo</a> so the next text change, layout fix, or new screen can go out without another store round. Then your office is any table with wifi, which is the closest this lifestyle has ever come to keeping a promise.
 
 ### 5. Charge, listen, repeat
 
@@ -138,6 +138,6 @@ Do not build "the nomad app." That phrase has already drowned a thousand good in
 
 Write the one-sentence problem. Make the screens in <a href="https://lovable.dev/" target="_blank" rel="noopener noreferrer" aria-label="Open Lovable AI app builder (opens in new tab)">Lovable</a>. Show it to five people who live inside that problem, not five people who are nice to you. If three of them lean forward, keep going. If they smile politely, the idea is still a postcard, and postcards are for sending, not for building a life on.
 
-When you are ready to put it on phones and keep shipping from the road, <a href="https://capgo.app/register/?atp=magazine" target="_blank" rel="nofollow noopener noreferrer" aria-label="Start a Capgo free trial (opens in new tab)">Capgo</a> is the piece that makes the store wait optional for everyday updates, which is a small sentence with a large amount of air in it. That is the part that turns a weekend experiment into a side hustle you can take through airport security without explaining yourself to anyone.
+When you are ready to put it on phones and keep shipping from the road, <a href="https://capgo.app/?atp=magazine" target="_blank" rel="nofollow noopener noreferrer" aria-label="Visit Capgo (opens in new tab)">Capgo</a> is the piece that makes the store wait optional for everyday updates, which is a small sentence with a large amount of air in it. That is the part that turns a weekend experiment into a side hustle you can take through airport security without explaining yourself to anyone.
 
 The laptop was always the ticket out. The new part is quieter than the internet makes it sound: you no longer need a computer science degree to put something on the home screen. You need a problem, a first version, and a way to improve it without sitting in a review queue while the clock on your visa keeps walking.
