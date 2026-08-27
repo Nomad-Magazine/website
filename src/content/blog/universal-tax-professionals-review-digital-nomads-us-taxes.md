@@ -6,7 +6,7 @@ author: Universal Tax Professionals
 author_image_url: /images/josh-katz-cpa.webp
 author_url: https://universaltaxprofessionals.com/
 created_at: 2026-08-27T14:00:00.000Z
-updated_at: 2026-08-27T14:00:00.000Z
+updated_at: 2026-08-27T11:06:24.000Z
 pubDate: 2026-08-27T14:00:00.000Z
 heroImage: /images/universal-tax-professionals-nyc-skyline-hero.webp
 heroImageAlt: New York City skyline representing US tax obligations for Americans living and working abroad
