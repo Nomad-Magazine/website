@@ -8,7 +8,7 @@ author_image_url: /images/lera-pitiakova.webp
 author_url: https://www.instagram.com/nomadmagazinecom
 author_instagram_url: https://www.instagram.com/nomadmagazinecom
 created_at: 2026-08-26T12:00:00.000Z
-updated_at: 2026-08-27T15:00:00.000Z
+updated_at: 2026-08-27T15:07:42.000Z
 pubDate: 2026-08-26T12:00:00.000Z
 heroImage: /images/ai-app-side-hustle-nomad-laptop.webp
 heroImageAlt: Digital nomad working on a laptop at a bright desk, building an online app business while traveling
