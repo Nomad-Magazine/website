@@ -82,7 +82,7 @@ const seo: SEOProps = {
           Four independent issues already in the world. We&apos;re gathering the readers, sponsors, and writers who make a fifth possible. Join the list and stay close as we move toward 2027.
         </p>
         <p class="mt-4 max-w-xl text-sm font-medium text-stone-500 lg:mx-0 mx-auto">
-          Launch updates only. Separate from the main newsletter.
+          Edition Five updates by default. Newsletter is optional on the form.
         </p>
       </div>
 
@@ -125,13 +125,26 @@ const seo: SEOProps = {
               <div class="cf-turnstile" data-sitekey="0x4AAAAAACXWfgpGaqB_A50e" data-theme="light"></div>
             </div>
 
+            <div class="field-group checkbox-group">
+              <label for="newsletter_opt_in" class="checkbox-label">
+                <input
+                  type="checkbox"
+                  id="newsletter_opt_in"
+                  name="newsletter_opt_in"
+                  value="yes"
+                  class="waitlist-checkbox"
+                />
+                <span>Also subscribe me to the Nomad Magazine newsletter</span>
+              </label>
+            </div>
+
             <div id="error-message" class="hidden rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-700"></div>
 
             <button type="submit" id="submit-button" class="waitlist-button">
               Join the 5th Edition Waitlist
             </button>
             <p class="waitlist-disclosure">
-              You&apos;ll receive updates about Edition Five. This list is tagged separately from the Nomad Magazine newsletter.
+              You&apos;ll receive updates about Edition Five. Newsletter is optional — only added if you check the box above.
             </p>
           </div>
 
@@ -374,6 +387,30 @@ const seo: SEOProps = {
     line-height: 1.5;
     color: #78716c;
   }
+
+  .checkbox-group {
+    margin-bottom: 1.25rem;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #1c1917;
+    line-height: 1.4;
+    cursor: pointer;
+  }
+
+  .waitlist-checkbox {
+    width: 1.125rem;
+    height: 1.125rem;
+    margin-top: 0.15rem;
+    flex-shrink: 0;
+    accent-color: #1c1917;
+    cursor: pointer;
+  }
 </style>
 
 <script>
@@ -416,6 +453,16 @@ const seo: SEOProps = {
       }
 
       formData.set('cf-turnstile-response', turnstileResponse)
+
+      const newsletterOptIn = form.querySelector('#newsletter_opt_in') as HTMLInputElement | null
+      const baseTags = formData.get('subscriber_tags')?.toString().trim() || 'editionFIVEwaitlist'
+      if (newsletterOptIn?.checked) {
+        formData.set('subscriber_tags', `${baseTags},Newsletter_form`)
+        formData.set('newsletter_opt_in', 'yes')
+      } else {
+        formData.set('subscriber_tags', baseTags)
+        formData.set('newsletter_opt_in', 'no')
+      }
 
       try {
         const response = await fetch('/api/bento-event', {
