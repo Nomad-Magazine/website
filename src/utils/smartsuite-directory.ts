@@ -70,8 +70,12 @@ export type DirectoryListing = {
 
 type SmartSuiteRecord = Record<string, any>
 
+function asRecord(value: unknown): SmartSuiteRecord {
+  return value && typeof value === 'object' ? (value as SmartSuiteRecord) : {}
+}
+
 function readEnv(name: 'SMART_SUITE_APIKEY' | 'SMART_SUITE_ACCOUNT_ID' | 'SMART_SUITE_TABLE_ID_COMPANY'): string {
-  const fromCf = (env as Record<string, string | undefined>)[name]
+  const fromCf = (env as unknown as Record<string, string | undefined>)[name]
   const fromProcess = typeof process !== 'undefined' ? process.env[name] : undefined
   const value = String(fromCf || fromProcess || '').trim()
   if (!value || value.includes('PLACEHOLDER')) return ''
@@ -186,8 +190,9 @@ async function findRecordsByEmailApi(email: string): Promise<SmartSuiteRecord[] 
       continue
     }
     lastFailed = false
-    const data = await res.json()
-    const items: SmartSuiteRecord[] = data.items || data.records || []
+    const data = asRecord(await res.json())
+    const raw = data.items || data.records
+    const items: SmartSuiteRecord[] = Array.isArray(raw) ? raw : []
     const matched = items.filter((record) => recordHasEmail(record, normalized) && isDirectoryListing(record))
     if (matched.length) return matched
   }
@@ -212,7 +217,7 @@ async function fetchImageUrl(handle: string): Promise<string> {
     },
   })
   if (!res.ok) return ''
-  const data = await res.json().catch(() => ({}))
+  const data = asRecord(await res.json().catch(() => ({})))
   return String(data.url || '')
 }
 
@@ -273,7 +278,7 @@ export async function updateListingForEmail(
 
   const wasPublished = existing.published
   const recordRes = await smartSuiteFetch(`/records/${id}/`)
-  const current = recordRes?.ok ? await recordRes.json().catch(() => ({})) : {}
+  const current = asRecord(recordRes?.ok ? await recordRes.json().catch(() => ({})) : {})
   const prevNotes = String(current.s099981076 || '').trim()
   const stamp = wasPublished
     ? `Member edited published listing via console ${new Date().toISOString().slice(0, 16).replace('T', ' ')} UTC — set back to review`
@@ -311,7 +316,7 @@ export async function updateListingForEmail(
     return { ok: false, error: 'Could not save your listing. Try again.' }
   }
 
-  const saved = await res.json().catch(() => ({}))
+  const saved = asRecord(await res.json().catch(() => ({})))
   const nowPublished = wasPublished ? false : existing.published
   return {
     ok: true,
@@ -446,7 +451,7 @@ export async function createListing(
     return { ok: false, error: 'Could not submit your listing. Try again.' }
   }
 
-  const saved = await res.json()
+  const saved = asRecord(await res.json())
   const id = String(saved.id || '')
   if (!id) return { ok: false, error: 'Could not submit your listing. Try again.' }
 
@@ -458,7 +463,7 @@ export async function createListing(
   }
 
   const recordRes = await smartSuiteFetch(`/records/${id}/`)
-  const record = recordRes?.ok ? await recordRes.json() : saved
+  const record = asRecord(recordRes?.ok ? await recordRes.json() : saved)
   await hydrateRecordImage(record)
 
   return { ok: true, listing: mapDirectoryListing(record) }

@@ -1,7 +1,7 @@
 import { env } from 'cloudflare:workers'
 
 function readEnv(name: 'BENTO_SITE_UUID' | 'BENTO_PUBLISHABLE_KEY' | 'BENTO_SECRET_KEY'): string {
-  const fromCf = (env as Record<string, string | undefined>)[name]
+  const fromCf = (env as unknown as Record<string, string | undefined>)[name]
   const fromProcess = typeof process !== 'undefined' ? process.env[name] : undefined
   const value = String(fromCf || fromProcess || '').trim()
   if (!value || value.includes('PLACEHOLDER')) return ''
