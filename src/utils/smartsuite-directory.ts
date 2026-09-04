@@ -1,5 +1,4 @@
 import { env } from 'cloudflare:workers'
-import { fetchReportRecords } from '~/utils/smartsuite'
 
 export const DIRECTORY_SUBMIT_URL = '/nomad-directory-submit/'
 
@@ -200,13 +199,6 @@ async function findRecordsByEmailApi(email: string): Promise<SmartSuiteRecord[] 
   return lastFailed ? null : []
 }
 
-async function findRecordsByEmailCache(email: string): Promise<SmartSuiteRecord[]> {
-  const { records = [] } = await fetchReportRecords('6857167d82358a0f5e038c3f')
-  return (records as SmartSuiteRecord[]).filter(
-    (record) => recordHasEmail(record, email) && isDirectoryListing(record),
-  )
-}
-
 async function fetchImageUrl(handle: string): Promise<string> {
   const { apiKey, accountId } = getCreds()
   if (!apiKey || !accountId || !handle) return ''
@@ -233,7 +225,7 @@ async function hydrateRecordImage(record: SmartSuiteRecord): Promise<SmartSuiteR
 export async function findListingsByEmail(email: string): Promise<DirectoryListing[]> {
   if (!email) return []
   const fromApi = await findRecordsByEmailApi(email)
-  const records = fromApi ?? (await findRecordsByEmailCache(email))
+  const records = fromApi || []
   const hydrated = await Promise.all(records.map((record) => hydrateRecordImage(record)))
   return hydrated.map(mapDirectoryListing)
 }
