@@ -1,10 +1,13 @@
 ---
 import { createSupabaseServerClient } from '~/utils/supabase-server'
+import type { EmailOtpType } from '@supabase/supabase-js'
 
 const supabase = createSupabaseServerClient(Astro.request, Astro.cookies)
 
 const url = new URL(Astro.request.url)
 const code = url.searchParams.get('code')
+const tokenHash = url.searchParams.get('token_hash')
+const type = url.searchParams.get('type') as EmailOtpType | null
 const error = url.searchParams.get('error')
 
 if (error) {
@@ -15,6 +18,14 @@ if (code) {
   const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
   if (exchangeError) {
     return Astro.redirect(`/console/login/?error=${encodeURIComponent(exchangeError.message)}`)
+  }
+  return Astro.redirect('/console/')
+}
+
+if (tokenHash && type) {
+  const { error: otpError } = await supabase.auth.verifyOtp({ type, token_hash: tokenHash })
+  if (otpError) {
+    return Astro.redirect(`/console/login/?error=${encodeURIComponent(otpError.message)}`)
   }
   return Astro.redirect('/console/')
 }

@@ -1,10 +1,16 @@
 ---
 import { createSupabaseServerClient } from '~/utils/supabase-server'
 
+let next = '/console/login/'
 if (Astro.request.method === 'POST') {
   const supabase = createSupabaseServerClient(Astro.request, Astro.cookies)
   await supabase.auth.signOut()
+  const form = await Astro.request.formData()
+  const requested = String(form.get('next') ?? '').trim()
+  if (requested.startsWith('/') && !requested.startsWith('//')) {
+    next = requested
+  }
 }
 
-return Astro.redirect('/console/login/')
+return Astro.redirect(next)
 ---

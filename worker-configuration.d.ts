@@ -5,7 +5,7 @@ declare namespace Cloudflare {
 	interface Env {
 		ASSETS: Fetcher;
 		SMART_SUITE_APIKEY: "SMART_SUITE_APIKEY_PLACEHOLDER";
-		"SMART_SUITE_ACCOU[Capgo]: You have been invited to Capgo.appNT_ID": "SMART_SUITE_ACCOUNT_ID_PLACEHOLDER";
+		SMART_SUITE_ACCOUNT_ID: "SMART_SUITE_ACCOUNT_ID_PLACEHOLDER";
 		SMART_SUITE_TABLE_ID_COMPANY: "SMART_SUITE_TABLE_ID_COMPANY_PLACEHOLDER";
 		OPENAI_API_KEY: "OPENAI_API_KEY_PLACEHOLDER";
 		STRIPE_SECRET_KEY: "STRIPE_SECRET_KEY_PLACEHOLDER";
@@ -20,7 +20,7 @@ type StringifyValues<EnvType extends Record<string, unknown>> = {
 	[Binding in keyof EnvType]: EnvType[Binding] extends string ? EnvType[Binding] : string;
 };
 declare namespace NodeJS {
-	interface ProcessEnv extends StringifyValues<Pick<Cloudflare.Env, "SMART_SUITE_APIKEY" | "SMART_SUITE_ACCOU[Capgo]: You have been invited to Capgo.appNT_ID" | "SMART_SUITE_TABLE_ID_COMPANY" | "OPENAI_API_KEY" | "STRIPE_SECRET_KEY" | "STRIPE_WEBHOOK_SECRET" | "BENTO_SITE_UUID" | "BENTO_PUBLISHABLE_KEY" | "BENTO_SECRET_KEY">> {}
+	interface ProcessEnv extends StringifyValues<Pick<Cloudflare.Env, "SMART_SUITE_APIKEY" | "SMART_SUITE_ACCOUNT_ID" | "SMART_SUITE_TABLE_ID_COMPANY" | "OPENAI_API_KEY" | "STRIPE_SECRET_KEY" | "STRIPE_WEBHOOK_SECRET" | "BENTO_SITE_UUID" | "BENTO_PUBLISHABLE_KEY" | "BENTO_SECRET_KEY">> {}
 }
 
 // Begin runtime types

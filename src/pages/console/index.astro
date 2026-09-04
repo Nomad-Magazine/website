@@ -1,217 +1,124 @@
 ---
 import ConsoleLayout from '~/layouts/console/ConsoleLayout.astro'
+import DirectoryListingPreview from '~/components/DirectoryListingPreview.astro'
 import { createSupabaseServerClient } from '~/utils/supabase-server'
+import { deleteListingForEmail, findListingsByEmail } from '~/utils/smartsuite-directory'
 
 const supabase = createSupabaseServerClient(Astro.request, Astro.cookies)
 const { data: { user } } = await supabase.auth.getUser()
+const email = user?.email || ''
 
-const { data: submissionRaw } = await supabase
-  .from('directory_submissions')
-  .select('*')
-  .eq('user_id', user!.id)
-  .order('created_at', { ascending: false })
-  .limit(1)
-  .maybeSingle()
+let errorMessage = ''
+let successMessage = ''
 
-const submission = submissionRaw as {
-  id: string
-  company_name: string
-  website_url: string | null
-  category: string | null
-  short_description: string | null
-  full_description: string | null
-  logo_url: string | null
-  contact_email: string | null
-  twitter_url: string | null
-  linkedin_url: string | null
-  instagram_url: string | null
-  locations: string | null
-  status: string
-  admin_notes: string | null
-  updated_at: string
-} | null
-
-const statusColors: Record<string, string> = {
-  pending: 'bg-yellow-400/10 text-yellow-400 border-yellow-400/20',
-  approved: 'bg-green-400/10 text-green-400 border-green-400/20',
-  rejected: 'bg-red-400/10 text-red-400 border-red-400/20',
+if (Astro.request.method === 'POST' && email) {
+  const form = await Astro.request.formData()
+  if (String(form.get('action') ?? '') === 'delete') {
+    const id = String(form.get('id') ?? '').trim()
+    const result = await deleteListingForEmail(email, id)
+    if (!result.ok) {
+      errorMessage = result.error || 'Could not delete your listing.'
+    } else {
+      successMessage = 'Listing deleted.'
+    }
+  }
 }
 
-const statusLabels: Record<string, string> = {
-  pending: 'Under Review',
-  approved: 'Live',
-  rejected: 'Needs Changes',
-}
-
-const initial = submission?.company_name?.charAt(0).toUpperCase() ?? '?'
+const listings = email ? await findListingsByEmail(email) : []
 ---
 
-<ConsoleLayout title="Dashboard" currentPage="dashboard">
-  <div class="max-w-4xl">
-    <!-- Welcome -->
+<ConsoleLayout title="Your listing" currentPage="dashboard">
+  <div class="max-w-3xl">
     <div class="mb-8">
       <h2 class="text-2xl font-bold text-white mb-1">Welcome back</h2>
-      <p class="text-gray-400">{user?.email}</p>
+      <p class="text-gray-400">{email}</p>
     </div>
 
-    <!-- Top action row -->
-    <div class="flex items-center justify-between mb-6">
-      <h3 class="text-lg font-semibold text-white">Your Directory Listing</h3>
-      <div class="flex items-center gap-3">
-        {submission && (
-          <span class={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${statusColors[submission.status] ?? statusColors.pending}`}>
-            {statusLabels[submission.status] ?? 'Pending'}
-          </span>
-        )}
-        <a
-          href="/console/directory-submission/"
-          class="inline-flex items-center gap-2 px-4 py-2 bg-yellow-400 hover:bg-yellow-300 text-black font-semibold text-sm rounded-lg transition-colors"
-        >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-          </svg>
-          {submission ? 'Edit listing' : 'Create listing'}
-        </a>
+    {successMessage && (
+      <div class="mb-6 px-4 py-3 rounded-lg bg-green-400/10 border border-green-400/20 text-green-400 text-sm" role="status">
+        {successMessage}
       </div>
-    </div>
+    )}
+    {errorMessage && (
+      <div class="mb-6 px-4 py-3 rounded-lg bg-red-400/10 border border-red-400/20 text-red-400 text-sm" role="alert">
+        {errorMessage}
+      </div>
+    )}
 
-    {submission ? (
-      <>
-        <!-- Preview label -->
-        <p class="text-xs text-gray-500 uppercase tracking-widest mb-3 flex items-center gap-2">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-          </svg>
-          Preview — how your card looks in the directory
-        </p>
-
-        <!-- Directory card preview (mirrors nomad_directory.astro card) -->
-        <div class="bg-[#0f1117] rounded-2xl p-4 border border-white/10 mb-6">
-          <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 group">
-            <div class="flex flex-col md:flex-row items-start gap-6">
-              <!-- Logo -->
-              <div class="shrink-0">
-                <div class="w-32 h-32 rounded-xl flex items-center justify-center p-1 bg-white">
-                  {submission.logo_url ? (
-                    <img
-                      src={submission.logo_url}
-                      alt={`${submission.company_name} logo`}
-                      class="w-full h-full rounded-lg object-contain"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <span class="font-bold text-3xl text-black">{initial}</span>
-                  )}
-                </div>
-              </div>
-
-              <!-- Content -->
-              <div class="flex-1 min-w-0">
-                <div class="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
-                  <div class="mb-4 md:mb-0">
-                    <div class="flex items-center gap-3 mb-2 flex-wrap">
-                      <h3 class="text-2xl font-bold text-white">
-                        {submission.company_name}
-                      </h3>
-                    </div>
-                    <p class="text-gray-300 text-base leading-relaxed max-w-2xl">
-                      {submission.short_description || <span class="text-gray-500 italic">No description yet — add one in your listing.</span>}
-                    </p>
-                  </div>
-
-                  <!-- Category badge -->
-                  <div class="flex items-center gap-4 shrink-0">
-                    {submission.category && (
-                      <span class="bg-yellow-400/20 text-yellow-400 px-3 py-1 rounded-full text-sm font-medium border border-yellow-400/30">
-                        {submission.category}
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                <!-- Meta row -->
-                <div class="flex flex-wrap items-center gap-4 text-sm text-gray-400">
-                  {submission.website_url && (
-                    <span class="flex items-center gap-1.5">
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-                      </svg>
-                      {submission.website_url.replace(/^https?:\/\//, '')}
-                    </span>
-                  )}
-                  {submission.locations && (
-                    <span class="flex items-center gap-1.5">
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
-                      {submission.locations}
-                    </span>
-                  )}
-                  {(submission.twitter_url || submission.linkedin_url || submission.instagram_url) && (
-                    <span class="flex items-center gap-2">
-                      {submission.twitter_url && (
-                        <span class="flex items-center gap-1 text-gray-500">
-                          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                          </svg>
-                          x.com/{submission.twitter_url}
-                        </span>
-                      )}
-                      {submission.linkedin_url && (
-                        <span class="flex items-center gap-1 text-gray-500">
-                          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                          </svg>
-                          LinkedIn
-                        </span>
-                      )}
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Status note -->
-        {submission.status === 'pending' && (
-          <p class="text-xs text-gray-500 text-center">
-            Your listing is under review — it will go live in the directory once approved.
-          </p>
-        )}
-        {submission.status === 'rejected' && (
-          <div class="mt-2 p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">
-            <strong>Needs changes:</strong> {submission.admin_notes || 'Please review and resubmit your listing.'}
-          </div>
-        )}
-        {submission.status === 'approved' && (
-          <p class="text-xs text-center">
-            <a href="/nomad_directory/" target="_blank" rel="noopener noreferrer" class="text-yellow-400 hover:text-yellow-300 transition-colors" aria-label="View live listing on Nomad Directory (opens in new tab)">
-              View your live listing in the directory →
-            </a>
-          </p>
-        )}
-      </>
-    ) : (
+    {listings.length === 0 ? (
       <div class="bg-gray-900 border border-dashed border-gray-700 rounded-xl p-12 text-center">
-        <div class="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg class="w-8 h-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-          </svg>
-        </div>
-        <h3 class="font-semibold text-white mb-2">No listing yet</h3>
-        <p class="text-gray-400 text-sm mb-6 max-w-sm mx-auto">Fill in your company details to appear in the Nomad Directory and be discovered by thousands of digital nomads.</p>
+        <h3 class="font-semibold text-white mb-2">No listing found for this email</h3>
+        <p class="text-gray-400 text-sm mb-6 max-w-sm mx-auto">
+          Submit your listing here. It is saved immediately so you can preview it and see if it is in review.
+        </p>
         <a
-          href="/console/directory-submission/"
+          href="/nomad-directory-submit/"
           class="inline-flex items-center gap-2 px-6 py-3 bg-yellow-400 hover:bg-yellow-300 text-black font-semibold text-sm rounded-lg transition-colors"
         >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-          </svg>
-          Create listing
+          Submit a listing
         </a>
+      </div>
+    ) : (
+      <div class="space-y-8">
+        <a
+          href="/nomad-directory-submit/"
+          class="inline-flex items-center gap-2 px-4 py-2 bg-yellow-400 hover:bg-yellow-300 text-black font-semibold text-sm rounded-lg transition-colors"
+        >
+          Submit another listing
+        </a>
+        {listings.map((listing) => (
+          <section>
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+              <span class={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${
+                listing.published
+                  ? 'bg-green-400/10 text-green-400 border-green-400/20'
+                  : 'bg-yellow-400/10 text-yellow-400 border-yellow-400/20'
+              }`}>
+                {listing.published ? 'Published' : 'In review'}
+              </span>
+              <div class="flex flex-wrap items-center gap-2">
+                <a
+                  href={`/console/directory-submission/?id=${listing.id}`}
+                  class="inline-flex items-center gap-2 px-4 py-2 bg-yellow-400 hover:bg-yellow-300 text-black font-semibold text-sm rounded-lg transition-colors"
+                >
+                  Edit listing
+                </a>
+                <form method="POST" aria-label={`Delete ${listing.title}`}>
+                  <input type="hidden" name="action" value="delete" />
+                  <input type="hidden" name="id" value={listing.id} />
+                  <button
+                    type="submit"
+                    class="inline-flex items-center gap-2 px-4 py-2 border border-red-400/30 text-red-400 hover:bg-red-400/10 font-semibold text-sm rounded-lg transition-colors"
+                    onclick="return confirm('Delete this listing? This cannot be undone.')"
+                  >
+                    Delete
+                  </button>
+                </form>
+              </div>
+            </div>
+            <p class="text-xs text-gray-500 uppercase tracking-widest mb-3">Preview — how it looks in the directory</p>
+            <div class="bg-[#0f1117] rounded-2xl p-4 border border-white/10">
+              <DirectoryListingPreview
+                title={listing.title}
+                description={listing.description}
+                category={listing.category}
+                location={listing.location}
+                website={listing.website}
+                specialOffer={listing.specialOffer}
+                image={listing.image}
+              />
+            </div>
+            {listing.published ? (
+              <p class="text-xs text-center mt-3">
+                <a href="/nomad_directory/" target="_blank" rel="noopener noreferrer" class="text-yellow-400 hover:text-yellow-300" aria-label="View Nomad Directory (opens in new tab)">
+                  View the live directory →
+                </a>
+              </p>
+            ) : (
+              <p class="text-xs text-gray-500 text-center mt-3">Not public yet. You can still edit and preview it here.</p>
+            )}
+          </section>
+        ))}
       </div>
     )}
   </div>

@@ -37,6 +37,9 @@ jobs:
           BENTO_PUBLISHABLE_KEY: ${{ secrets.BENTO_PUBLISHABLE_KEY }}
           BENTO_SECRET_KEY: ${{ secrets.BENTO_SECRET_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          SMART_SUITE_APIKEY: ${{ secrets.SMART_SUITE_APIKEY }}
+          SMART_SUITE_ACCOUNT_ID: ${{ secrets.SMART_SUITE_ACCOUNT_ID }}
+          SMART_SUITE_TABLE_ID_COMPANY: ${{ secrets.SMART_SUITE_TABLE_ID_COMPANY }}
       - run: bun run seo:check
       - name: Deploy to Production
         id: prod_deploy
@@ -48,6 +51,9 @@ jobs:
           sed -i 's/BENTO_SITE_UUID_PLACEHOLDER/${{ secrets.BENTO_SITE_UUID }}/g' dist/server/wrangler.json
           sed -i 's/BENTO_PUBLISHABLE_KEY_PLACEHOLDER/${{ secrets.BENTO_PUBLISHABLE_KEY }}/g' dist/server/wrangler.json
           sed -i 's/BENTO_SECRET_KEY_PLACEHOLDER/${{ secrets.BENTO_SECRET_KEY }}/g' dist/server/wrangler.json
+          sed -i 's/SMART_SUITE_APIKEY_PLACEHOLDER/${{ secrets.SMART_SUITE_APIKEY }}/g' dist/server/wrangler.json
+          sed -i 's/SMART_SUITE_ACCOUNT_ID_PLACEHOLDER/${{ secrets.SMART_SUITE_ACCOUNT_ID }}/g' dist/server/wrangler.json
+          sed -i 's/SMART_SUITE_TABLE_ID_COMPANY_PLACEHOLDER/${{ secrets.SMART_SUITE_TABLE_ID_COMPANY }}/g' dist/server/wrangler.json
           node -e "const f='dist/server/wrangler.json';const c=JSON.parse(require('fs').readFileSync(f));delete c.legacy_env;require('fs').writeFileSync(f,JSON.stringify(c));"
           output=$(bunx wrangler@latest deploy)
           echo "$output"

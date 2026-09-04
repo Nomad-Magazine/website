@@ -135,12 +135,15 @@ export default defineConfig({
   site,
   env: {
     schema: {
-      OPENAI_API_KEY: envField.string({ context: 'server', access: 'secret' }),
-      STRIPE_SECRET_KEY: envField.string({ context: 'server', access: 'secret' }),
-      STRIPE_WEBHOOK_SECRET: envField.string({ context: 'server', access: 'secret' }),
-      BENTO_SITE_UUID: envField.string({ context: 'server', access: 'secret' }),
-      BENTO_PUBLISHABLE_KEY: envField.string({ context: 'server', access: 'secret' }),
-      BENTO_SECRET_KEY: envField.string({ context: 'server', access: 'secret' }),
+      OPENAI_API_KEY: envField.string({ context: 'server', access: 'secret', optional: true }),
+      STRIPE_SECRET_KEY: envField.string({ context: 'server', access: 'secret', optional: true }),
+      STRIPE_WEBHOOK_SECRET: envField.string({ context: 'server', access: 'secret', optional: true }),
+      BENTO_SITE_UUID: envField.string({ context: 'server', access: 'secret', optional: true }),
+      BENTO_PUBLISHABLE_KEY: envField.string({ context: 'server', access: 'secret', optional: true }),
+      BENTO_SECRET_KEY: envField.string({ context: 'server', access: 'secret', optional: true }),
+      SMART_SUITE_APIKEY: envField.string({ context: 'server', access: 'secret', optional: true }),
+      SMART_SUITE_ACCOUNT_ID: envField.string({ context: 'server', access: 'secret', optional: true }),
+      SMART_SUITE_TABLE_ID_COMPANY: envField.string({ context: 'server', access: 'secret', optional: true }),
     },
   },
 })

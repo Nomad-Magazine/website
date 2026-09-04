@@ -1,0 +1,284 @@
+---
+export const prerender = false
+
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import DirectoryListingPreview from '~/components/DirectoryListingPreview.astro'
+import { createSupabaseServerClient } from '~/utils/supabase-server'
+import {
+  DIRECTORY_CATEGORIES,
+  createListing,
+  type DirectoryListingInput,
+} from '~/utils/smartsuite-directory'
+import { subscribeToNewsletter } from '~/utils/bento'
+
+const supabase = createSupabaseServerClient(Astro.request, Astro.cookies)
+const { data: { user } } = await supabase.auth.getUser()
+const loggedInEmail = user?.email || ''
+
+let errorMessage = ''
+let vals: DirectoryListingInput = {
+  title: '',
+  description: '',
+  website: '',
+  specialOffer: '',
+  categoryValue: '',
+  contactName: '',
+  email: loggedInEmail,
+}
+
+function asFile(value: FormDataEntryValue | null): File | null {
+  return value instanceof File && value.size > 0 ? value : null
+}
+
+function asText(value: FormDataEntryValue | null): string {
+  return typeof value === 'string' ? value.trim() : ''
+}
+
+if (Astro.request.method === 'POST') {
+  const form = await Astro.request.formData()
+  vals = {
+    title: asText(form.get('title')),
+    website: asText(form.get('website')),
+    description: asText(form.get('description')),
+    categoryValue: asText(form.get('category')),
+    specialOffer: asText(form.get('special_offer')),
+    contactName: asText(form.get('contact_name')),
+    email: loggedInEmail || asText(form.get('email')).toLowerCase(),
+  }
+
+  const logo = asFile(form.get('logo'))
+  const extras = form.getAll('extra_files').filter((value): value is File => value instanceof File && value.size > 0)
+  const newsletterOptIn = form.get('newsletter') === 'yes'
+
+  if (!logo) {
+    errorMessage = 'Please upload your company logo.'
+  } else if (logo.size > 8 * 1024 * 1024) {
+    errorMessage = 'Logo must be under 8MB.'
+  } else {
+    const result = await createListing(vals, { logo, extras })
+    if (!result.ok) {
+      errorMessage = result.error || 'Could not submit your listing.'
+    } else {
+      if (newsletterOptIn) {
+        await subscribeToNewsletter({
+          email: vals.email,
+          firstName: vals.contactName.split(/\s+/)[0] || '',
+          tags: 'Nomad_directory_form',
+          eventType: '$subscribe_nomad_directory',
+          fields: {
+            company: vals.title,
+            website: vals.website,
+          },
+        })
+      }
+      if (loggedInEmail) {
+        return Astro.redirect('/console/')
+      }
+      const origin = new URL(Astro.request.url).origin
+      await supabase.auth.signInWithOtp({
+        email: vals.email,
+        options: {
+          emailRedirectTo: `${origin}/auth/callback/`,
+          shouldCreateUser: true,
+        },
+      })
+      return Astro.redirect('/nomad-directory-confirmation/')
+    }
+  }
+}
+
+const categoryLabel = DIRECTORY_CATEGORIES.find((c) => c.value === vals.categoryValue)?.label || ''
+
+const seo: SEOProps = {
+  title: 'Submit Your Company Listing to the Nomad Directory',
+  description: 'List your company in the Nomad Directory. Add a website, logo, and offer for nomads. We review listings before they appear on the site. Manage it anytime.',
+  image: 'https://nomad-magazine.com/images/Nomad-directory.webp',
+  keywords: 'nomad directory submission, list company digital nomads, submit nomad directory listing',
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Submit Your Company Listing to the Nomad Directory',
+    description: 'Submit your company to the Nomad Directory and manage it from your account.',
+    url: `${Astro.site}nomad-directory-submit/`,
+    publisher: { '@type': 'Organization', name: 'Nomad Magazine', url: 'https://nomad-magazine.com/' },
+  },
+}
+
+const fieldClass =
+  'w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus-visible:ring-2 focus-visible:ring-yellow-400/50'
+---
+
+<Layout seo={seo}>
+  <div class="bg-hoverw text-white min-h-screen">
+    <section class="pt-16 pb-20">
+      <div class="container mx-auto px-4 max-w-3xl">
+        <p class="text-sm text-gray-400 mb-4">
+          <a href="/nomad_directory/" class="hover:text-yellow-400 transition-colors">Nomad Directory</a>
+          <span class="mx-2 text-gray-600">/</span>
+          Submit listing
+        </p>
+        <h1 class="text-4xl md:text-5xl font-bold mb-3">About your company</h1>
+        <p class="text-gray-400 mb-6">Just a few questions. Your listing is saved to our directory database and you can manage it right away.</p>
+
+        {loggedInEmail && (
+          <div class="mb-8 px-4 py-3 rounded-lg bg-white/5 border border-white/10 flex flex-wrap items-center justify-between gap-3" role="status">
+            <p class="text-sm text-gray-300">
+              Logged in as <span class="text-white font-medium">{loggedInEmail}</span>
+            </p>
+            <div class="flex flex-wrap items-center gap-3 text-sm">
+              <a href="/console/" class="text-yellow-400 hover:text-yellow-300">Manage listings</a>
+              <form method="POST" action="/console/logout/">
+                <input type="hidden" name="next" value="/nomad-directory-submit/" />
+                <button type="submit" class="text-gray-400 hover:text-white underline underline-offset-2">
+                  Log out
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {errorMessage && (
+          <div class="mb-6 px-4 py-3 rounded-lg bg-red-400/10 border border-red-400/20 text-red-400 text-sm" role="alert">
+            {errorMessage}
+          </div>
+        )}
+
+        <p class="text-xs text-gray-500 uppercase tracking-widest mb-3">Preview</p>
+        <div class="bg-[#0f1117] rounded-2xl p-4 border border-white/10 mb-8" id="listing-preview">
+          <DirectoryListingPreview
+            title={vals.title}
+            description={vals.description}
+            category={categoryLabel}
+            website={vals.website}
+            specialOffer={vals.specialOffer}
+          />
+        </div>
+
+        <form method="POST" enctype="multipart/form-data" aria-label="Nomad Directory listing submission" class="space-y-6" id="listing-form">
+          <div>
+            <label for="title" class="block text-sm font-medium mb-2">
+              What's your company name? <span class="text-red-400 text-xs font-semibold">REQUIRED</span>
+            </label>
+            <input id="title" name="title" type="text" required value={vals.title} placeholder="Write here" class={fieldClass} />
+          </div>
+
+          <div>
+            <label for="website" class="block text-sm font-medium mb-2">
+              What's your company website? <span class="text-red-400 text-xs font-semibold">REQUIRED</span>
+            </label>
+            <input id="website" name="website" type="text" inputmode="url" required value={vals.website} placeholder="Enter web address" class={fieldClass} />
+          </div>
+
+          <div>
+            <label for="description" class="block text-sm font-medium mb-2">
+              What does your company do? <span class="text-red-400 text-xs font-semibold">REQUIRED</span>
+            </label>
+            <textarea id="description" name="description" required rows="4" placeholder="Write here..." class={`${fieldClass} resize-y`}>{vals.description}</textarea>
+          </div>
+
+          <div>
+            <label for="category" class="block text-sm font-medium mb-2">
+              Company Type <span class="text-red-400 text-xs font-semibold">REQUIRED</span>
+            </label>
+            <select id="category" name="category" required aria-label="Select company type" class={`${fieldClass} appearance-none`}>
+              <option value="">Select Option</option>
+              {DIRECTORY_CATEGORIES.map((cat) => (
+                <option value={cat.value} selected={vals.categoryValue === cat.value}>{cat.label}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label for="logo" class="block text-sm font-medium mb-2">
+              What's your company logo? <span class="text-red-400 text-xs font-semibold">REQUIRED</span>
+            </label>
+            <p class="text-sm text-gray-400 mb-2">The default background is white. If your logo has light colors, make sure the image you upload has the correct background and a 1:1 aspect ratio.</p>
+            <input id="logo" name="logo" type="file" accept="image/*" required aria-label="Upload company logo" class="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-yellow-400 file:text-black file:font-semibold" />
+          </div>
+
+          <div>
+            <label for="special_offer" class="block text-sm font-medium mb-2">Exclusive Discount or price offer for nomad magazine readers?</label>
+            <p class="text-sm text-gray-400 mb-2">Exclusive offer: something nomads won't want to say no to. It will help us promote your brand. It will be visible on the website, keep it short :)</p>
+            <textarea id="special_offer" name="special_offer" rows="4" placeholder="Write here..." class={`${fieldClass} resize-y`}>{vals.specialOffer}</textarea>
+          </div>
+
+          <div>
+            <label for="extra_files" class="block text-sm font-medium mb-2">Any Other Files you want to share with us?</label>
+            <p class="text-sm text-gray-400 mb-2">PDF with a program, press-release, supporting photos, graphic or videos.</p>
+            <input id="extra_files" name="extra_files" type="file" multiple aria-label="Upload supporting files" class="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-white/10 file:text-white file:font-semibold" />
+          </div>
+
+          <div>
+            <label for="contact_name" class="block text-sm font-medium mb-2">
+              What's your full name? <span class="text-red-400 text-xs font-semibold">REQUIRED</span>
+            </label>
+            <input id="contact_name" name="contact_name" type="text" required value={vals.contactName} placeholder="Write here..." autocomplete="name" class={fieldClass} />
+          </div>
+
+          <div>
+            <label for="email" class="block text-sm font-medium mb-2">
+              What's your contact email? <span class="text-red-400 text-xs font-semibold">REQUIRED</span>
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              value={vals.email}
+              placeholder="Enter email"
+              autocomplete="email"
+              readonly={Boolean(loggedInEmail)}
+              class={`${fieldClass}${loggedInEmail ? ' opacity-70 cursor-not-allowed' : ''}`}
+            />
+            <p class="text-xs text-gray-500 mt-2">
+              {loggedInEmail
+                ? 'This is your login email, so it can’t be changed here. Log out above to submit with a different email.'
+                : 'Use this email to log in and update your listing later.'}
+            </p>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <input id="newsletter" name="newsletter" type="checkbox" value="yes" class="mt-1 h-4 w-4 rounded border-white/20 bg-white/5 text-yellow-400 focus-visible:ring-yellow-400" />
+            <label for="newsletter" class="text-sm text-gray-300">
+              Yes, I'd like to sign up for the newsletter.
+              <span class="block text-gray-500 mt-1">We also include new Nomad Directory listings in the newsletter, and your company may appear there as well.</span>
+            </label>
+          </div>
+
+          <button type="submit" class="px-8 py-3 bg-yellow-400 hover:bg-yellow-300 text-black font-semibold rounded-lg transition-colors focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950">
+            Submit listing
+          </button>
+        </form>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<script is:inline>
+  (function () {
+    const form = document.getElementById('listing-form');
+    const preview = document.getElementById('listing-preview');
+    if (!form || !preview) return;
+    const titleEl = preview.querySelector('h3');
+    const descEl = preview.querySelector('p.text-gray-300');
+    const linkEl = preview.querySelector('span.text-blue-300');
+
+    function text(id) {
+      const el = document.getElementById(id);
+      return el ? el.value : '';
+    }
+
+    function sync() {
+      if (titleEl) titleEl.textContent = text('title') || 'Your company';
+      if (descEl) descEl.textContent = text('description') || 'Description not available';
+      const website = text('website').replace(/^https?:\/\//, '');
+      if (linkEl && linkEl.parentElement) {
+        linkEl.textContent = website;
+        linkEl.parentElement.style.display = website ? '' : 'none';
+      }
+    }
+
+    form.addEventListener('input', sync);
+  })();
+</script>
