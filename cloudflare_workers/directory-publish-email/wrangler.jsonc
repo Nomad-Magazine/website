@@ -14,7 +14,7 @@
   },
   "vars": {
     "GITHUB_TOKEN": "GITHUB_TOKEN_PLACEHOLDER",
-    "DELAY_MINUTES": "30"
+    "DELAY_MINUTES": "0"
   },
   "durable_objects": {
     "bindings": [

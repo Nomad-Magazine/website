@@ -152,38 +152,82 @@ export default {
           );
         }
 
-        // Schedule delayed webhook to Martin using Durable Object
+        // Prepare webhook payload for Martin
         const publishedAt = new Date().toISOString();
-        const delayMinutes = parseInt(env.DELAY_MINUTES || '30', 10);
+        const delayMinutes = parseInt(env.DELAY_MINUTES || '0', 10);
         const sendAfter = new Date(Date.now() + delayMinutes * 60 * 1000).toISOString();
+
+        // Parse email - SmartSuite can send as string or array
+        let email = contactEmail;
+        if (Array.isArray(contactEmail)) {
+          email = contactEmail[0];
+        } else if (contactEmail && typeof contactEmail === 'object') {
+          // Handle nested objects
+          email = contactEmail.email || contactEmail.value || String(contactEmail);
+        }
+        email = String(email || '').trim();
 
         const webhookPayload = {
           event: 'directory_published',
           record_id: recordId,
           company_name: companyName,
-          contact_email: Array.isArray(contactEmail) ? contactEmail[0] : contactEmail,
+          contact_email: email,
           contact_name: contactName,
           directory_url: 'https://nomad-magazine.com/nomad_directory/',
           published_at: publishedAt,
           send_after: sendAfter,
         };
 
-        // Use Durable Object to schedule delayed webhook
-        const doId = env.SCHEDULER.idFromName(`publish:${recordId}`);
-        const doStub = env.SCHEDULER.get(doId);
+        // If delay is 0, send immediately instead of using Durable Object
+        if (delayMinutes === 0) {
+          console.log('Sending webhook immediately (DELAY_MINUTES=0):', recordId);
+          ctx.waitUntil(
+            (async () => {
+              try {
+                const headers = {
+                  'Content-Type': 'application/json',
+                  'User-Agent': 'nomad-directory-publish-worker',
+                };
 
-        await doStub.fetch('https://fake/schedule', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            webhookUrl: env.MARTIN_WEBHOOK_URL,
-            webhookSecret: env.MARTIN_WEBHOOK_SECRET,
-            payload: webhookPayload,
-            delayMs: delayMinutes * 60 * 1000,
-          }),
-        });
+                if (env.MARTIN_WEBHOOK_SECRET) {
+                  headers['Authorization'] = `Bearer ${env.MARTIN_WEBHOOK_SECRET}`;
+                }
 
-        console.log('Scheduled webhook for:', recordId, 'at', sendAfter);
+                const response = await fetch(env.MARTIN_WEBHOOK_URL, {
+                  method: 'POST',
+                  headers,
+                  body: JSON.stringify(webhookPayload),
+                });
+
+                if (response.ok) {
+                  console.log('Webhook sent successfully to Martin (immediate)');
+                } else {
+                  const errorText = await response.text();
+                  console.error('Webhook failed (immediate):', response.status, errorText);
+                }
+              } catch (err) {
+                console.error('Immediate webhook error:', err);
+              }
+            })()
+          );
+        } else {
+          // Use Durable Object to schedule delayed webhook
+          const doId = env.SCHEDULER.idFromName(`publish:${recordId}`);
+          const doStub = env.SCHEDULER.get(doId);
+
+          await doStub.fetch('https://fake/schedule', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              webhookUrl: env.MARTIN_WEBHOOK_URL,
+              webhookSecret: env.MARTIN_WEBHOOK_SECRET,
+              payload: webhookPayload,
+              delayMs: delayMinutes * 60 * 1000,
+            }),
+          });
+
+          console.log('Scheduled webhook for:', recordId, 'at', sendAfter);
+        }
 
         return new Response(
           JSON.stringify({

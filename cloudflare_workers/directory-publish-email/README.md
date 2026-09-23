@@ -9,7 +9,7 @@ This worker uses **Cloudflare Durable Objects** with alarms to schedule the dela
 - **Webhook endpoint**: Receives POST from SmartSuite automation when `sf4ad525dd` (Published) field becomes `true`
 - **Idempotency**: Uses KV to prevent duplicate processing of the same record on the same day
 - **GitHub sync trigger**: Optionally triggers `repository_dispatch` event `sync-directory` with `client_payload.record_id` to update the single record in the repo
-- **Delayed webhook**: Uses Durable Object alarm to wait 30 minutes (configurable via `DELAY_MINUTES` env var), then POSTs to Martin's webhook URL
+- **Delayed webhook**: Uses Durable Object alarm to wait before sending to Martin (configurable via `DELAY_MINUTES` env var). **Currently set to 0 for testing (immediate send)**, will be set to 30 for production.
 
 ## Setup
 
