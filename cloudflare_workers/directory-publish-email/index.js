@@ -27,30 +27,35 @@ export default {
       );
     }
 
-    // Screenshot GET endpoint
+    // Screenshot GET/HEAD endpoint
     const screenshotMatch = url.pathname.match(/^\/screenshot\/([a-zA-Z0-9_-]+)$/);
-    if (request.method === 'GET' && screenshotMatch) {
+    if ((request.method === 'GET' || request.method === 'HEAD') && screenshotMatch) {
       const id = screenshotMatch[1];
       const kvKey = `screenshot:${id}`;
 
       if (!env.PUBLISH_KV) {
-        return new Response('KV not configured', { status: 500 });
-      }
-
-      const screenshot = await env.PUBLISH_KV.get(kvKey, 'arrayBuffer');
-      if (!screenshot) {
-        return new Response('Screenshot not found', { status: 404 });
+        return new Response('KV not configured', { status: 500, headers: cors });
       }
 
       const metadata = await env.PUBLISH_KV.getWithMetadata(kvKey, 'arrayBuffer');
-      const contentType = metadata?.metadata?.contentType || 'image/jpeg';
+      if (!metadata.value) {
+        return new Response('Screenshot not found', { status: 404, headers: cors });
+      }
 
-      return new Response(screenshot, {
+      const contentType = metadata?.metadata?.contentType || 'image/jpeg';
+      const responseHeaders = {
+        ...cors,
+        'Content-Type': contentType,
+        'Cache-Control': 'public, max-age=3600',
+      };
+
+      if (metadata.value && metadata.value.byteLength) {
+        responseHeaders['Content-Length'] = metadata.value.byteLength.toString();
+      }
+
+      return new Response(request.method === 'HEAD' ? null : metadata.value, {
         status: 200,
-        headers: {
-          'Content-Type': contentType,
-          'Cache-Control': 'public, max-age=3600',
-        },
+        headers: responseHeaders,
       });
     }
 
