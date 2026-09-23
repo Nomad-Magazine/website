@@ -157,7 +157,7 @@ export default {
           record.sfca9050a8 || // Alternative name field
           record.title || // Fallback to title
           '';
-        const published = record.sf4ad525dd; // Published field
+        const sendEmail = record.s8d891d4b4; // Send Confirmation Email trigger field
 
         // Validate required fields
         if (!recordId) {
@@ -168,10 +168,10 @@ export default {
           );
         }
 
-        if (!published) {
-          console.log('Record not published, skipping');
+        if (!sendEmail) {
+          console.log('Send email not triggered, skipping');
           return new Response(
-            JSON.stringify({ success: true, message: 'Record not published, skipped' }),
+            JSON.stringify({ success: true, message: 'Send email not triggered, skipped' }),
             { status: 200, headers: { ...cors, 'Content-Type': 'application/json' } }
           );
         }
@@ -185,7 +185,7 @@ export default {
         }
 
         // Check idempotency using KV (if available)
-        const idempotencyKey = `publish:${recordId}:${new Date().toISOString().split('T')[0]}`;
+        const idempotencyKey = `email:${recordId}:${new Date().toISOString().split('T')[0]}`;
         if (env.PUBLISH_KV) {
           const existing = await env.PUBLISH_KV.get(idempotencyKey);
           if (existing) {
@@ -199,45 +199,6 @@ export default {
           await env.PUBLISH_KV.put(idempotencyKey, new Date().toISOString(), {
             expirationTtl: 7 * 24 * 60 * 60,
           });
-        }
-
-        // Optional: Trigger GitHub Actions sync for this single record
-        if (env.GITHUB_TOKEN) {
-          console.log('Triggering GitHub sync for record:', recordId);
-          ctx.waitUntil(
-            (async () => {
-              try {
-                const ghRes = await fetch(
-                  'https://api.github.com/repos/Nomad-Magazine/website/dispatches',
-                  {
-                    method: 'POST',
-                    headers: {
-                      Authorization: `Bearer ${env.GITHUB_TOKEN}`,
-                      Accept: 'application/vnd.github+json',
-                      'X-GitHub-Api-Version': '2022-11-28',
-                      'User-Agent': 'directory-publish-email-worker',
-                      'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                      event_type: 'sync-directory',
-                      client_payload: {
-                        record_id: recordId,
-                      },
-                    }),
-                  }
-                );
-
-                if (!ghRes.ok) {
-                  const errorText = await ghRes.text();
-                  console.error('GitHub sync failed:', ghRes.status, errorText);
-                } else {
-                  console.log('GitHub sync triggered successfully');
-                }
-              } catch (err) {
-                console.error('GitHub sync error:', err);
-              }
-            })()
-          );
         }
 
         // Prepare webhook payload for Martin

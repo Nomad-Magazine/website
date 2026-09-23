@@ -8,11 +8,12 @@ This worker uses **Cloudflare Durable Objects** with alarms to schedule the dela
 
 **Note**: This worker uses `new_sqlite_classes` migration for Durable Objects, which is required for free-plan Cloudflare accounts.
 
-- **Webhook endpoint**: Receives POST from SmartSuite automation when `sf4ad525dd` (Published) field becomes `true`
+- **Webhook endpoint**: Receives POST from SmartSuite automation when `s8d891d4b4` (Send Confirmation Email) field becomes `true`
 - **Idempotency**: Uses KV to prevent duplicate processing of the same record on the same day
-- **GitHub sync trigger**: Optionally triggers `repository_dispatch` event `sync-directory` with `client_payload.record_id` to update the single record in the repo
-- **Delayed webhook**: Uses Durable Object alarm to wait before sending to Martin (configurable via `DELAY_MINUTES` env var). **Currently set to 0 for testing (immediate send)**, will be set to 30 for production.
+- **Delayed webhook**: Uses Durable Object alarm to wait before sending to Martin (configurable via `DELAY_MINUTES` env var). **Currently set to 0 for testing (immediate send)**.
 - **Screenshot hosting**: Temporary public hosting for email-embedded screenshots with 7-day TTL
+
+**Note**: This worker does NOT trigger GitHub sync. Publishing and sync are handled separately via the `sf4ad525dd` (Published) field automation.
 
 ## Screenshot Hosting
 
@@ -70,14 +71,7 @@ bunx wrangler secret put MARTIN_WEBHOOK_URL
 
 # Martin's webhook authentication secret (Bearer token)
 bunx wrangler secret put MARTIN_WEBHOOK_SECRET
-
-# GitHub Personal Access Token (optional, for triggering sync)
-# This is injected via wrangler.jsonc vars during deploy (see deploy workflow)
-# If you need to set it manually:
-# bunx wrangler secret put GITHUB_TOKEN
 ```
-
-**Note**: The `GITHUB_TOKEN` is replaced during deploy by the GitHub Actions workflow using `secrets.PERSONAL_ACCESS_TOKEN`, matching the pattern from `smartsuite-dashboard`.
 
 ### 3. Deploy
 
@@ -94,10 +88,10 @@ bunx wrangler deploy
 
 ### Webhook Configuration
 
-In SmartSuite, create an automation that triggers when the `sf4ad525dd` (Published) field becomes `true`:
+In SmartSuite, create an automation that triggers when the `s8d891d4b4` (Send Confirmation Email) field becomes `true`:
 
 1. **Trigger**: Record Updated
-2. **Condition**: `sf4ad525dd` = `true`
+2. **Condition**: `s8d891d4b4` = `true`
 3. **Action**: Send Webhook
 
 **Webhook Settings**:
@@ -121,7 +115,7 @@ The worker accepts flexible payload structures:
     "sd6842e687": "contact@company.com",
     "s16e7a9d78": "Contact Name",
     "sfca9050a8": "Alternative Name Field",
-    "sf4ad525dd": true
+    "s8d891d4b4": true
   }
 }
 ```
@@ -134,19 +128,21 @@ Or flat:
   "title": "Company Name",
   "sd6842e687": "contact@company.com",
   "s16e7a9d78": "Contact Name",
-  "sf4ad525dd": true
+  "s8d891d4b4": true
 }
 ```
 
 ### Field ID Reference
 
-From `src/utils/smartsuite-directory.ts`:
+From SmartSuite Nomad Directory table:
 
-- `sf4ad525dd`: Published (boolean)
+- `s8d891d4b4`: Send Confirmation Email (boolean) - triggers this worker
 - `sd6842e687`: Contact Email (string or array)
 - `s16e7a9d78`: Contact Name (first choice)
 - `sfca9050a8`: Alternative Name Field (fallback)
 - `title`: Company Name
+
+**Note**: The worker does NOT require `sf4ad525dd` (Published) field to be true for sending emails. The email trigger is independent of the published status.
 
 ## Testing
 
@@ -162,7 +158,7 @@ curl -X POST https://directory-publish.nomad-magazine.com/webhook \
       "title": "Test Company",
       "sd6842e687": "test@example.com",
       "s16e7a9d78": "John Doe",
-      "sf4ad525dd": true
+      "s8d891d4b4": true
     }
   }'
 ```
@@ -234,8 +230,7 @@ Martin should:
 | `SMARTSUITE_WEBHOOK_SECRET` | Secret | Shared secret for authenticating SmartSuite webhooks | (required) |
 | `MARTIN_WEBHOOK_URL` | Secret | Grok Bot webhook routine URL | (required) |
 | `MARTIN_WEBHOOK_SECRET` | Secret | Bearer token for Martin webhook authentication | (required) |
-| `GITHUB_TOKEN` | Var/Secret | GitHub PAT for triggering sync workflow | (optional) |
-| `DELAY_MINUTES` | Var | Minutes to wait before sending webhook to Martin | `30` |
+| `DELAY_MINUTES` | Var | Minutes to wait before sending webhook to Martin | `0` |
 
 ## Deployment Workflow
 
@@ -251,10 +246,10 @@ Both deployments use the same `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, a
 The worker uses KV to track processed webhooks with a key pattern:
 
 ```
-publish:{record_id}:{YYYY-MM-DD}
+email:{record_id}:{YYYY-MM-DD}
 ```
 
-If SmartSuite sends the same record twice in one day, the second webhook is skipped. Idempotency keys expire after 7 days.
+If SmartSuite sends the same record twice in one day, the second webhook is skipped. Idempotency keys expire after 7 days. The key prefix is `email:` to distinguish this email trigger from the separate publishing flow.
 
 ## Troubleshooting
 
@@ -274,20 +269,6 @@ Use Cloudflare dashboard → Workers & Pages → directory-publish-email → Dur
 bunx wrangler kv:key list --namespace-id=<your_kv_id>
 ```
 
-### Test GitHub Sync Manually
-
-```bash
-curl -X POST https://api.github.com/repos/Nomad-Magazine/website/dispatches \
-  -H "Authorization: Bearer $GITHUB_TOKEN" \
-  -H "Accept: application/vnd.github+json" \
-  -H "X-GitHub-Api-Version: 2022-11-28" \
-  -d '{
-    "event_type": "sync-directory",
-    "client_payload": {
-      "record_id": "test_record_123"
-    }
-  }'
-```
 
 ## License
 
