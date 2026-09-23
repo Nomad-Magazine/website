@@ -1,0 +1,40 @@
+{
+  "name": "directory-publish-email",
+  "main": "index.js",
+  "compatibility_date": "2025-06-17",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "observability": {
+    "enabled": true
+  },
+  "route": {
+    "pattern": "directory-publish.nomad-magazine.com",
+    "custom_domain": true
+  },
+  "vars": {
+    "GITHUB_TOKEN": "GITHUB_TOKEN_PLACEHOLDER",
+    "DELAY_MINUTES": "30"
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "SCHEDULER",
+        "class_name": "PublishScheduler",
+        "script_name": "directory-publish-email"
+      }
+    ]
+  },
+  "kv_namespaces": [
+    {
+      "binding": "PUBLISH_KV",
+      "id": "placeholder-replace-in-deploy"
+    }
+  ],
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_classes": ["PublishScheduler"]
+    }
+  ]
+}
