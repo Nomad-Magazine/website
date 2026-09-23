@@ -12,6 +12,40 @@ This worker uses **Cloudflare Durable Objects** with alarms to schedule the dela
 - **Idempotency**: Uses KV to prevent duplicate processing of the same record on the same day
 - **GitHub sync trigger**: Optionally triggers `repository_dispatch` event `sync-directory` with `client_payload.record_id` to update the single record in the repo
 - **Delayed webhook**: Uses Durable Object alarm to wait before sending to Martin (configurable via `DELAY_MINUTES` env var). **Currently set to 0 for testing (immediate send)**, will be set to 30 for production.
+- **Screenshot hosting**: Temporary public hosting for email-embedded screenshots with 7-day TTL
+
+## Screenshot Hosting
+
+### Upload Screenshot (Authenticated)
+
+```bash
+curl -X POST https://directory-publish.nomad-magazine.com/screenshot \
+  -H "X-Webhook-Secret: your_secret_here" \
+  -H "Content-Type: image/jpeg" \
+  --data-binary @screenshot.jpg
+```
+
+Response:
+
+```json
+{
+  "url": "https://directory-publish.nomad-magazine.com/screenshot/aBcDeF12"
+}
+```
+
+### Get Screenshot (Public)
+
+```bash
+curl https://directory-publish.nomad-magazine.com/screenshot/aBcDeF12
+```
+
+Returns raw image bytes with correct `Content-Type` header (`image/jpeg`, `image/png`, etc.) and `Cache-Control: public, max-age=3600`.
+
+**Authentication**: Upload requires the same `X-Webhook-Secret` or `Authorization: Bearer <secret>` used by the SmartSuite webhook endpoint.
+
+**Storage**: Images are stored in KV with key prefix `screenshot:` and expire after 7 days.
+
+**ID format**: 8-character alphanumeric random ID (e.g. `aBcDeF12`).
 
 ## Setup
 
