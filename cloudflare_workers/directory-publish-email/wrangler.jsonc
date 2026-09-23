@@ -20,8 +20,7 @@
     "bindings": [
       {
         "name": "SCHEDULER",
-        "class_name": "PublishScheduler",
-        "script_name": "directory-publish-email"
+        "class_name": "PublishScheduler"
       }
     ]
   },
@@ -34,7 +33,7 @@
   "migrations": [
     {
       "tag": "v1",
-      "new_classes": ["PublishScheduler"]
+      "new_sqlite_classes": ["PublishScheduler"]
     }
   ]
 }

@@ -6,6 +6,8 @@ Cloudflare Worker that handles SmartSuite webhook notifications when a company i
 
 This worker uses **Cloudflare Durable Objects** with alarms to schedule the delayed webhook delivery. This survives Worker request time limits and provides reliable scheduling.
 
+**Note**: This worker uses `new_sqlite_classes` migration for Durable Objects, which is required for free-plan Cloudflare accounts.
+
 - **Webhook endpoint**: Receives POST from SmartSuite automation when `sf4ad525dd` (Published) field becomes `true`
 - **Idempotency**: Uses KV to prevent duplicate processing of the same record on the same day
 - **GitHub sync trigger**: Optionally triggers `repository_dispatch` event `sync-directory` with `client_payload.record_id` to update the single record in the repo
