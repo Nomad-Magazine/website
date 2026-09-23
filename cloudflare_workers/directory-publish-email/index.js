@@ -27,6 +27,94 @@ export default {
       );
     }
 
+    // Screenshot GET endpoint
+    const screenshotMatch = url.pathname.match(/^\/screenshot\/([a-zA-Z0-9_-]+)$/);
+    if (request.method === 'GET' && screenshotMatch) {
+      const id = screenshotMatch[1];
+      const kvKey = `screenshot:${id}`;
+
+      if (!env.PUBLISH_KV) {
+        return new Response('KV not configured', { status: 500 });
+      }
+
+      const screenshot = await env.PUBLISH_KV.get(kvKey, 'arrayBuffer');
+      if (!screenshot) {
+        return new Response('Screenshot not found', { status: 404 });
+      }
+
+      const metadata = await env.PUBLISH_KV.getWithMetadata(kvKey, 'arrayBuffer');
+      const contentType = metadata?.metadata?.contentType || 'image/jpeg';
+
+      return new Response(screenshot, {
+        status: 200,
+        headers: {
+          'Content-Type': contentType,
+          'Cache-Control': 'public, max-age=3600',
+        },
+      });
+    }
+
+    // Screenshot upload endpoint
+    if (request.method === 'POST' && url.pathname === '/screenshot') {
+      try {
+        const authHeader = request.headers.get('Authorization');
+        const webhookSecret = request.headers.get('X-Webhook-Secret');
+        const expectedSecret = env.SMARTSUITE_WEBHOOK_SECRET;
+
+        if (!expectedSecret) {
+          return new Response(
+            JSON.stringify({ error: 'Webhook secret not configured' }),
+            { status: 500, headers: { ...cors, 'Content-Type': 'application/json' } }
+          );
+        }
+
+        const providedSecret = authHeader?.replace('Bearer ', '') || webhookSecret;
+        if (providedSecret !== expectedSecret) {
+          return new Response(
+            JSON.stringify({ error: 'Unauthorized' }),
+            { status: 401, headers: { ...cors, 'Content-Type': 'application/json' } }
+          );
+        }
+
+        if (!env.PUBLISH_KV) {
+          return new Response(
+            JSON.stringify({ error: 'KV not configured' }),
+            { status: 500, headers: { ...cors, 'Content-Type': 'application/json' } }
+          );
+        }
+
+        const imageBytes = await request.arrayBuffer();
+        if (imageBytes.byteLength === 0) {
+          return new Response(
+            JSON.stringify({ error: 'Empty image data' }),
+            { status: 400, headers: { ...cors, 'Content-Type': 'application/json' } }
+          );
+        }
+
+        const contentType = request.headers.get('Content-Type') || 'image/jpeg';
+        const id = generateShortId();
+        const kvKey = `screenshot:${id}`;
+
+        await env.PUBLISH_KV.put(kvKey, imageBytes, {
+          expirationTtl: 7 * 24 * 60 * 60,
+          metadata: { contentType, uploadedAt: new Date().toISOString() },
+        });
+
+        const screenshotUrl = `https://${url.hostname}/screenshot/${id}`;
+
+        return new Response(
+          JSON.stringify({ url: screenshotUrl }),
+          { status: 200, headers: { ...cors, 'Content-Type': 'application/json' } }
+        );
+      } catch (err) {
+        console.error('Screenshot upload error:', err);
+        return new Response(
+          JSON.stringify({ error: `Internal error: ${err.message}` }),
+          { status: 500, headers: { ...cors, 'Content-Type': 'application/json' } }
+        );
+      }
+    }
+
     // Webhook endpoint for SmartSuite
     if (request.method === 'POST' && url.pathname === '/webhook') {
       try {
@@ -250,6 +338,17 @@ export default {
     return new Response('Not Found', { status: 404, headers: cors });
   },
 };
+
+function generateShortId() {
+  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let result = '';
+  const randomValues = new Uint8Array(8);
+  crypto.getRandomValues(randomValues);
+  for (let i = 0; i < 8; i++) {
+    result += chars[randomValues[i] % chars.length];
+  }
+  return result;
+}
 
 // Durable Object for scheduling delayed webhooks
 export class PublishScheduler {
