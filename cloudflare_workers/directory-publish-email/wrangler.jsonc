@@ -13,7 +13,6 @@
     "custom_domain": true
   },
   "vars": {
-    "GITHUB_TOKEN": "GITHUB_TOKEN_PLACEHOLDER",
     "DELAY_MINUTES": "0"
   },
   "durable_objects": {
