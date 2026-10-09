@@ -22,6 +22,7 @@ import StickyAnnouncementBar from '~/components/StickyAnnouncementBar.astro'
 import { fetchReportRecords } from '~/utils/smartsuite'
 import { getCollection } from 'astro:content'
 import { normalizeContentEntries } from '~/utils/content'
+import SubstackFollow from '~/components/SubstackFollow.astro'
 
 // Fetch real nomad directory data
 const { records = [] } = await fetchReportRecords('6857167d82358a0f5e038c3f')
@@ -282,6 +283,9 @@ const seo: SEOProps = {
         <div class="mb-12">
           <h2 class="text-3xl font-bold text-white">Latest <span class="text-yellow-400">Digital Nomad</span> and Remote Work Articles</h2>
           <p class="mt-2 text-lg text-neutral-400">Essential reads on digital nomad life, remote work, and the modern nomad lifestyle</p>
+          <div class="mt-4">
+            <SubstackFollow />
+          </div>
         </div>
 
         <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">

@@ -2,6 +2,7 @@
 export const prerender = true;
 
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import SubstackFollow from '~/components/SubstackFollow.astro'
 
 const seo: SEOProps = {
   title: 'Thank You - Check Your Email | Nomad Magazine',
@@ -39,6 +40,9 @@ const seo: SEOProps = {
             <p class="text-sm text-gray-700">
               <a href="https://www.instagram.com/nomadmagazinecom?igsh=M3MyNWk4cmdjZWx5&utm_source=qr" target="_blank" rel="noopener noreferrer" class="text-gray-900 font-semibold hover:text-yellow-600 underline">Follow us on social media</a> to stay connected with the nomad community and get updates on new editions!
             </p>
+            <div class="mt-4">
+              <SubstackFollow />
+            </div>
           </div>
 
           <div class="flex flex-col sm:flex-row gap-4 justify-center">

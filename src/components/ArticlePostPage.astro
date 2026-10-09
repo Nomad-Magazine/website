@@ -4,6 +4,7 @@ import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import SidebarMagazineDirectory from '~/components/SidebarMagazineDirectory.astro'
 import SidebarFreeMagazines from '~/components/SidebarFreeMagazines.astro'
 import ArticleAuthorSection from '~/components/ArticleAuthorSection.astro'
+import SubstackFollow from '~/components/SubstackFollow.astro'
 import { createBlogPostingSchema } from '~/utils/schema'
 
 const { post, allPosts } = Astro.props
@@ -185,6 +186,10 @@ const seo: SEOProps = {
               )
             }
           </article>
+
+          <div class="mt-8">
+            <SubstackFollow />
+          </div>
 
           {
             finalRelatedPosts.length > 0 && (
