@@ -255,13 +255,7 @@ const seo: SEOProps = {
               <p class="text-gray-400">Try adjusting your search or filters.</p>
             </div>
 
-            <!-- Load more -->
-            <div id="load-more-container" class="hidden text-center mt-8">
-              <button id="load-more-btn"
-                class="px-10 py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-white font-medium transition-all duration-200">
-                Load More
-              </button>
-            </div>
+            <nav id="pagination" class="hidden mt-8" aria-label="Directory pages"></nav>
 
             <!-- Bottom CTA -->
             <div class="mt-16 bg-yellow-400/10 border border-yellow-400/20 rounded-2xl p-10 text-center">
@@ -305,7 +299,7 @@ const seo: SEOProps = {
   const _dataEl = document.getElementById('directory-data');
   const allItems = _dataEl ? JSON.parse(_dataEl.getAttribute('data-items')) : [];
   let filtered = [];
-  let displayed = ITEMS_PER_PAGE;
+  let currentPage = 1;
   let currentCat = 'all';
   let currentSearch = '';
   let currentSort = 'default';
@@ -362,22 +356,104 @@ const seo: SEOProps = {
     '</div>';
   }
 
+  function pageCount() {
+    return Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
+  }
+
+  function pageWindow(current, total) {
+    if (total <= 7) {
+      const pages = [];
+      for (let i = 1; i <= total; i++) pages.push(i);
+      return pages;
+    }
+    const keep = new Set([1, total, current - 1, current, current + 1]);
+    if (current <= 3) { keep.add(2); keep.add(3); }
+    if (current >= total - 2) { keep.add(total - 1); keep.add(total - 2); }
+    const sorted = Array.from(keep).filter(p => p >= 1 && p <= total).sort((a, b) => a - b);
+    const pages = [];
+    sorted.forEach((p, i) => {
+      if (i > 0 && p - sorted[i - 1] > 1) pages.push('…');
+      pages.push(p);
+    });
+    return pages;
+  }
+
+  function pageBtn(label, page, opts) {
+    const disabled = opts && opts.disabled;
+    const current = opts && opts.current;
+    const cls = current
+      ? 'min-w-10 px-3 py-2 rounded-xl bg-yellow-400 text-black font-bold text-sm'
+      : 'min-w-10 px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm font-medium transition-all duration-200 disabled:opacity-40 disabled:pointer-events-none';
+    const aria = current ? ' aria-current="page"' : '';
+    const labelAttr = opts && opts.aria ? ' aria-label="' + opts.aria + '"' : '';
+    return '<button type="button" class="' + cls + '" data-page="' + page + '"' + aria + labelAttr + (disabled ? ' disabled' : '') + '>' + label + '</button>';
+  }
+
+  function renderPagination() {
+    const nav = document.getElementById('pagination');
+    if (!nav) return;
+    const pages = pageCount();
+    if (filtered.length === 0 || pages <= 1) {
+      nav.classList.add('hidden');
+      nav.classList.remove('flex');
+      nav.innerHTML = '';
+      return;
+    }
+    nav.classList.remove('hidden');
+    nav.classList.add('flex', 'flex-wrap', 'items-center', 'justify-center', 'gap-2');
+    const parts = [pageBtn('Previous', currentPage - 1, { disabled: currentPage === 1, aria: 'Previous page' })];
+    pageWindow(currentPage, pages).forEach(function (p) {
+      if (p === '…') {
+        parts.push('<span class="px-1 text-gray-500" aria-hidden="true">…</span>');
+      } else {
+        parts.push(pageBtn(String(p), p, { current: p === currentPage, aria: 'Page ' + p }));
+      }
+    });
+    parts.push(pageBtn('Next', currentPage + 1, { disabled: currentPage === pages, aria: 'Next page' }));
+    nav.innerHTML = parts.join('');
+    nav.querySelectorAll('button[data-page]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const next = parseInt(btn.getAttribute('data-page'), 10);
+        if (!next || next === currentPage) return;
+        goToPage(next, true);
+      });
+    });
+  }
+
+  function syncPageUrl() {
+    const url = new URL(window.location.href);
+    if (currentPage <= 1) url.searchParams.delete('page');
+    else url.searchParams.set('page', String(currentPage));
+    history.replaceState(null, '', url);
+  }
+
+  function goToPage(page, scroll) {
+    const pages = pageCount();
+    currentPage = Math.min(Math.max(1, page), pages);
+    renderGrid();
+    syncPageUrl();
+    if (!scroll) return;
+    const container = document.getElementById('directory-container');
+    if (!container) return;
+    const top = container.getBoundingClientRect().top + window.scrollY - 88;
+    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+  }
+
   function renderGrid() {
     const container = document.getElementById('directory-container');
     const empty = document.getElementById('empty-state');
-    const lmc = document.getElementById('load-more-container');
-    const lmb = document.getElementById('load-more-btn');
     if (!container) return;
 
     if (filtered.length === 0) {
       container.innerHTML = '';
       empty && empty.classList.remove('hidden');
-      lmc && lmc.classList.add('hidden');
+      renderPagination();
       return;
     }
 
     empty && empty.classList.add('hidden');
-    const toShow = filtered.slice(0, displayed);
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    const toShow = filtered.slice(start, start + ITEMS_PER_PAGE);
     container.innerHTML = toShow.map(renderCard).join('');
 
     container.querySelectorAll('.inline-cat-btn').forEach(btn => {
@@ -398,15 +474,13 @@ const seo: SEOProps = {
       });
     });
 
-    const remaining = filtered.length - displayed;
-    lmc && lmc.classList.toggle('hidden', remaining <= 0);
-    if (lmb && remaining > 0) lmb.textContent = 'Load More (' + remaining + ' more)';
+    renderPagination();
 
     const stat = document.getElementById('stat-showing');
     if (stat) stat.textContent = filtered.length;
   }
 
-  function applyFilters() {
+  function applyFilters(resetPage) {
     filtered = allItems.filter(item => {
       if (currentCat !== 'all' && item.category !== currentCat) return false;
       if (currentSearch) {
@@ -417,8 +491,10 @@ const seo: SEOProps = {
     });
     if (currentSort === 'az') filtered.sort((a, b) => a.title.localeCompare(b.title));
     else if (currentSort === 'za') filtered.sort((a, b) => b.title.localeCompare(a.title));
-    displayed = ITEMS_PER_PAGE;
+    if (resetPage !== false) currentPage = 1;
+    if (currentPage > pageCount()) currentPage = pageCount();
     renderGrid();
+    syncPageUrl();
     updateActiveFilters();
   }
 
@@ -513,10 +589,9 @@ const seo: SEOProps = {
     const sortSel = document.getElementById('sort-select');
     if (sortSel) sortSel.addEventListener('change', e => { currentSort = e.target.value; applyFilters(); });
 
-    const lmb = document.getElementById('load-more-btn');
-    if (lmb) lmb.addEventListener('click', () => { displayed += ITEMS_PER_PAGE; renderGrid(); });
-
-    applyFilters();
+    const initial = parseInt(new URLSearchParams(window.location.search).get('page') || '1', 10);
+    if (initial > 1) currentPage = initial;
+    applyFilters(false);
   }
 
   if (document.readyState === 'loading') {
