@@ -21,7 +21,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   } = await supabase.auth.getUser()
 
   if (!user) {
-    return redirect('/console/login/')
+    return redirect('/nomad-directory-edit/')
   }
 
   // Protect /console/admin/* — only the admin email can access

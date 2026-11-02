@@ -1,0 +1,249 @@
+---
+export const prerender = false
+
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import { createSupabaseServerClient } from '~/utils/supabase-server'
+import { fetchReportRecords } from '~/utils/smartsuite'
+import { directoryLogoBoxClass, directoryLogoImageClass, directoryLogoImageClassFor, directoryLogoInitialClass, directoryLogoUrlFor } from '~/const/nomadDirectoryWhiteLogos'
+import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
+
+const supabase = createSupabaseServerClient(Astro.request, Astro.cookies)
+const { data: { user } } = await supabase.auth.getUser()
+if (user) {
+  return Astro.redirect('/console/')
+}
+
+const url = new URL(Astro.request.url)
+let error = url.searchParams.get('error') ?? ''
+let successMessage = ''
+
+if (Astro.request.method === 'POST') {
+  const form = await Astro.request.formData()
+  const email = String(form.get('email') ?? '').trim().toLowerCase()
+  if (!email) {
+    error = 'Enter the email you used on your directory listing.'
+  } else {
+    const { error: authError } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: `${url.origin}/auth/callback/`,
+        shouldCreateUser: true,
+      },
+    })
+    if (authError) {
+      error = authError.message
+    } else {
+      successMessage = `Check ${email} for a login link. It expires in a few minutes.`
+    }
+  }
+}
+
+const seo: SEOProps = {
+  title: 'Edit Your Nomad Directory Listing - Nomad Magazine',
+  description: 'Already in the Nomad Directory? Enter the email on your listing. We will email a login link so you can update your company name, offer, logo, and website.',
+  image: 'https://nomad-magazine.com/images/Nomad-directory.webp',
+  canonical: 'https://nomad-magazine.com/nomad-directory-edit/',
+  keywords: 'edit nomad directory listing, update nomad directory, manage company listing',
+  ogType: 'website',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Edit Your Nomad Directory Listing - Nomad Magazine',
+    description: 'Already in the Nomad Directory? Enter the email on your listing. We will email a login link so you can update your company name, offer, logo, and website.',
+    url: 'https://nomad-magazine.com/nomad-directory-edit/',
+    publisher: { '@type': 'Organization', name: 'Nomad Magazine', url: 'https://nomad-magazine.com/' },
+  },
+}
+
+const { records = [] } = await fetchReportRecords('6857167d82358a0f5e038c3f')
+const listings = records
+  .filter((r: { sf4ad525dd?: boolean }) => r.sf4ad525dd)
+  .map((r: any) => ({
+    title: r.title || '',
+    category: r.sb685ab800?.label || '',
+    description: r.scea90e502 || '',
+    specialOffer: r.s5576966ee || '',
+    link: r.link || r.sb788c266b?.[0] || '',
+    image: directoryLogoUrlFor(r.title, r.image && r.image !== '/logo.svg' ? r.image : ''),
+    updated: r.last_updated?.on || r.first_created?.on || '',
+  }))
+  .filter((r: { title: string }) => r.title)
+  .sort((a: { updated: string }, b: { updated: string }) => b.updated.localeCompare(a.updated))
+
+const latest = listings.slice(0, 4)
+
+const fieldClass =
+  'w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus-visible:ring-2 focus-visible:ring-yellow-400/50'
+---
+
+<Layout seo={seo}>
+  <div class="bg-hoverw text-white min-h-screen">
+    <section class="pt-16 pb-20">
+      <div class="container mx-auto px-4 max-w-3xl">
+        <p class="text-sm text-gray-400 mb-4">
+          <a href="/nomad_directory/" class="hover:text-yellow-400 transition-colors">Nomad Directory</a>
+          <span class="mx-2 text-gray-600">/</span>
+          Edit listing
+        </p>
+        <div class="flex items-center gap-3 mb-3">
+          <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-yellow-400 text-black" aria-hidden="true">
+            <MaterialSymbolsElectricBolt width="22" height="22" />
+          </span>
+          <h1 class="text-4xl md:text-5xl font-bold">Edit your listing</h1>
+        </div>
+        <p class="text-gray-400 mb-8">You can edit your listing yourself, so there's no need to contact us. Enter the email on your listing and we'll send you a login link. Save your changes, and we'll review them before the card goes live again.</p>
+
+        {error && (
+          <div class="mb-6 px-4 py-3 rounded-lg bg-red-400/10 border border-red-400/20 text-red-400 text-sm" role="alert">
+            {error}
+          </div>
+        )}
+        {successMessage && (
+          <div class="mb-6 px-4 py-3 rounded-lg bg-green-400/10 border border-green-400/20 text-green-400 text-sm" role="status">
+            {successMessage}
+          </div>
+        )}
+
+        <form method="POST" aria-label="Send a login link to edit your listing" class="space-y-5">
+          <div>
+            <label for="email" class="block text-sm font-medium mb-2">Email address</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              autocomplete="email"
+              placeholder="you@company.com"
+              class={fieldClass}
+            />
+          </div>
+          <button
+            type="submit"
+            class="px-8 py-3 bg-yellow-400 hover:bg-yellow-300 text-black font-semibold rounded-lg transition-colors focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950"
+          >
+            Send login link
+          </button>
+        </form>
+
+        <p class="text-sm text-gray-500 mt-6">
+          New listing? <a href="/nomad-directory-submit/" class="text-yellow-400 hover:text-yellow-300">Submit here</a>
+        </p>
+
+        <div class="mt-14 pt-10 border-t border-white/10">
+          <h2 class="text-2xl font-bold mb-4">Latest published</h2>
+          <ul class="space-y-3 mb-10">
+            {latest.map((item) => (
+              <li>
+                <a
+                  href="/nomad_directory/"
+                  class="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 transition-colors hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-yellow-400"
+                  aria-label={`${item.title} in the Nomad Directory`}
+                >
+                  <div class={directoryLogoBoxClass}>
+                    {item.image ? (
+                      <img src={item.image} alt="" aria-hidden="true" class={directoryLogoImageClassFor(item.title)} loading="lazy" />
+                    ) : (
+                      <span class={directoryLogoInitialClass} aria-hidden="true">{item.title.charAt(0).toUpperCase()}</span>
+                    )}
+                  </div>
+                  <div class="min-w-0">
+                    <p class="font-bold text-white truncate">{item.title}</p>
+                    {item.category && <p class="text-xs text-yellow-400">{item.category}</p>}
+                  </div>
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <h2 class="text-2xl font-bold mb-2">See how it looks now</h2>
+          <p class="text-gray-400 mb-5">Search your company name to see the live directory card.</p>
+          <label for="listing-search" class="block text-sm font-medium mb-2">Company name</label>
+          <input
+            id="listing-search"
+            type="search"
+            autocomplete="organization"
+            placeholder="Search your company"
+            class={fieldClass}
+          />
+          <div id="listing-results" class="mt-4 space-y-4"></div>
+          <p id="listing-empty" class="hidden mt-4 text-sm text-gray-500" role="status"></p>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div
+    id="listing-data"
+    hidden
+    data-items={JSON.stringify(listings)}
+    data-logo-box={directoryLogoBoxClass}
+    data-logo-img={directoryLogoImageClass}
+    data-logo-initial={directoryLogoInitialClass}
+  ></div>
+</Layout>
+
+<script is:inline>
+  (function () {
+    const dataEl = document.getElementById('listing-data')
+    const input = document.getElementById('listing-search')
+    const results = document.getElementById('listing-results')
+    const empty = document.getElementById('listing-empty')
+    if (!dataEl || !input || !results || !empty) return
+
+    const items = JSON.parse(dataEl.getAttribute('data-items') || '[]')
+    const logoBoxClass = dataEl.getAttribute('data-logo-box') || ''
+    const logoImgClass = dataEl.getAttribute('data-logo-img') || ''
+    const logoInitialClass = dataEl.getAttribute('data-logo-initial') || ''
+
+    function esc(s) {
+      return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+    }
+
+    function logoClass(title) {
+      return title === 'Madeira Remote' ? 'w-full h-full object-contain' : logoImgClass
+    }
+
+    function card(item) {
+      const logo = item.image
+        ? '<img src="' + esc(item.image) + '" alt="' + esc(item.title) + '" class="' + logoClass(item.title) + '" loading="lazy" />'
+        : '<span class="' + logoInitialClass + '">' + esc((item.title || 'C').charAt(0).toUpperCase()) + '</span>'
+      const offer = item.specialOffer
+        ? '<div class="mt-3 p-3 bg-yellow-400/10 border-l-4 border-yellow-400 rounded-r-lg"><p class="text-yellow-400 font-bold text-xs uppercase mb-1">Special Offer:</p><p class="text-gray-200 text-sm whitespace-pre-line">' + esc(item.specialOffer) + '</p></div>'
+        : ''
+      const cat = item.category
+        ? '<span class="bg-yellow-400/20 text-yellow-400 px-2.5 py-0.5 rounded-full text-xs font-medium border border-yellow-400/30">' + esc(item.category) + '</span>'
+        : ''
+      const link = item.link
+        ? '<div class="mt-2"><a href="' + esc(item.link) + '" target="_blank" rel="noopener noreferrer" class="text-blue-300 hover:text-blue-200 underline text-xs" aria-label="Learn more about ' + esc(item.title) + ' (opens in new tab)">Learn more →</a></div>'
+        : ''
+      return '<article class="bg-white/5 border border-white/10 rounded-2xl p-5">' +
+        '<div class="flex items-start gap-4"><div class="shrink-0"><div class="' + logoBoxClass + '">' + logo + '</div></div>' +
+        '<div class="flex-1 min-w-0"><div class="flex flex-wrap items-start justify-between gap-2 mb-2">' +
+        '<h3 class="text-base font-bold text-white leading-tight">' + esc(item.title) + '</h3>' + cat + '</div>' +
+        '<p class="text-gray-300 text-sm leading-relaxed">' + esc(item.description || 'Description not available') + '</p>' +
+        offer + link + '</div></div></article>'
+    }
+
+    function render() {
+      const q = input.value.trim().toLowerCase()
+      if (q.length < 2) {
+        results.innerHTML = ''
+        empty.classList.add('hidden')
+        empty.textContent = ''
+        return
+      }
+      const matches = items.filter(function (item) {
+        return item.title.toLowerCase().includes(q)
+      }).slice(0, 8)
+      results.innerHTML = matches.map(card).join('')
+      if (matches.length === 0) {
+        empty.textContent = 'No live listing under that name.'
+        empty.classList.remove('hidden')
+      } else {
+        empty.classList.add('hidden')
+        empty.textContent = ''
+      }
+    }
+
+    input.addEventListener('input', render)
+  })()
+</script>

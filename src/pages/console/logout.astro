@@ -1,7 +1,7 @@
 ---
 import { createSupabaseServerClient } from '~/utils/supabase-server'
 
-let next = '/console/login/'
+let next = '/nomad-directory-edit/'
 if (Astro.request.method === 'POST') {
   const supabase = createSupabaseServerClient(Astro.request, Astro.cookies)
   await supabase.auth.signOut()

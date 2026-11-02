@@ -11,13 +11,13 @@ const type = url.searchParams.get('type') as EmailOtpType | null
 const error = url.searchParams.get('error')
 
 if (error) {
-  return Astro.redirect(`/console/login/?error=${encodeURIComponent(url.searchParams.get('error_description') ?? error)}`)
+  return Astro.redirect(`/nomad-directory-edit/?error=${encodeURIComponent(url.searchParams.get('error_description') ?? error)}`)
 }
 
 if (code) {
   const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
   if (exchangeError) {
-    return Astro.redirect(`/console/login/?error=${encodeURIComponent(exchangeError.message)}`)
+    return Astro.redirect(`/nomad-directory-edit/?error=${encodeURIComponent(exchangeError.message)}`)
   }
   return Astro.redirect('/console/')
 }
@@ -25,10 +25,10 @@ if (code) {
 if (tokenHash && type) {
   const { error: otpError } = await supabase.auth.verifyOtp({ type, token_hash: tokenHash })
   if (otpError) {
-    return Astro.redirect(`/console/login/?error=${encodeURIComponent(otpError.message)}`)
+    return Astro.redirect(`/nomad-directory-edit/?error=${encodeURIComponent(otpError.message)}`)
   }
   return Astro.redirect('/console/')
 }
 
-return Astro.redirect('/console/login/')
+return Astro.redirect('/nomad-directory-edit/')
 ---
