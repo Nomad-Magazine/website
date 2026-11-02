@@ -288,6 +288,7 @@ export async function updateListingForEmail(
     s5576966ee: update.specialOffer.trim(),
     sed1a49986: update.location.trim(),
     s099981076: notes,
+    s76871758e: 'x6Plx',
   }
   // Member edits never stay published — requires staff re-approval.
   if (wasPublished) payload.sf4ad525dd = false
@@ -356,6 +357,7 @@ function listingPayload(input: DirectoryListingInput): Record<string, unknown> {
     s16e7a9d78: input.contactName.trim(),
     sd6842e687: [normalizeEmail(input.email)],
     sf4ad525dd: false,
+    s76871758e: 'x6Plx',
     s90e9b59f5: 'jq7Dr',
     s099981076: 'Submitted via nomad-directory-submit form',
   }
