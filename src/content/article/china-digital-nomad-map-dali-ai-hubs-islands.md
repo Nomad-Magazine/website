@@ -85,7 +85,7 @@ Chengdu's tea-house pace. Nanjing's modular "400 Box" community*. Anji's DNA net
 
 What strikes me, after years of watching this landscape take shape, is that China's nomad ecosystem isn't a copy of anything. It's not Lisbon with chopsticks or Bali with a VPN. <mark class="bg-yellow-200 px-1">It's a network woven from village governments and bamboo forests, AI hackers and Bai ethnic festivals, $110 courtyard rentals and century-old stone houses</mark>. It's fast-moving and almost entirely invisible to the world outside of China.
 
-This is the first in a series. In the pieces that follow, I'll take you inside each city: the people, the rhythms, the daily texture of building a life in places most nomads don't know exist.
+This is the first in a series. Next: [Dali, inside China's spiritual homeland for nomads](/articles/dali-chinas-spiritual-homeland-for-digital-nomads/). In the pieces that follow, I'll take you inside each city: the people, the rhythms, the daily texture of building a life in places most nomads don't know exist.
 
 The map is unfolding. Come see for yourself.
 
