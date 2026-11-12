@@ -1,0 +1,50 @@
+---
+export const prerender = false
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import AwardEmbed from '~/components/AwardEmbed.astro'
+import { getAward, awardNames, awardPeriodLabel, awardPath, type DirectoryAward } from '~/utils/directory-awards'
+import '~/styles/directory.css'
+let award: DirectoryAward | undefined, unavailable = false
+try { award = await getAward(Astro.params.id || '') } catch { unavailable = true }
+if (unavailable) { Astro.response.status = 503; Astro.response.headers.set('Retry-After','60') }
+else if (!award) Astro.response.status = 404
+Astro.response.headers.set('Cache-Control','public, max-age=0, must-revalidate')
+const heading = unavailable ? 'Award temporarily unavailable' : !award ? 'Award not found' : award.revoked_at ? 'This award has been withdrawn' : `${award.listing_title} is a ${awardNames[award.kind].toLowerCase()} ${award.tied_winners > 1 ? 'joint winner' : 'winner'}`
+const titlePrefix = award ? `${awardNames[award.kind]} Nomad Directory Award · ${award.starts_at.slice(0,10)} · ` : ''
+const titleName = award ? (award.listing_title.length + titlePrefix.length < 50 ? `${award.listing_title} — Winner` : award.listing_title).slice(0,60-titlePrefix.length) : ''
+const seo: SEOProps = {
+  title: award ? titlePrefix+titleName : 'Official Nomad Directory Award Not Found | Nomad Magazine',
+  description: 'Verify this Nomad Directory award, see the winning business and community vote total, and find the official badge and calendar period behind its recognition.',
+  canonical: award ? `${Astro.site}${awardPath(award).slice(1)}` : `${Astro.site}nomad_directory/awards/`,
+  image: `${Astro.site}images/Nomad-directory.webp`,
+  noIndex: !award || Boolean(award.revoked_at),
+  ldJSON: { '@context':'https://schema.org','@type':'WebPage',name:heading,description:'Verify an official Nomad Directory community award.',url:award ? `${Astro.site}${awardPath(award).slice(1)}` : `${Astro.site}nomad_directory/awards/`,publisher:{'@type':'Organization',name:'Nomad Magazine',url:`${Astro.site}`} },
+}
+---
+<Layout seo={seo}>
+  <div class="directory-theme min-h-screen">
+    <section class="directory-wrap py-14">
+      <a href="/nomad_directory/awards/" class="directory-text-link">← All directory winners</a>
+      <div class="max-w-3xl mt-10">
+        <p class="directory-eyebrow">Official Nomad Directory award</p>
+        <h1 class="mt-4 text-3xl font-bold leading-tight md:text-5xl">{heading}</h1>
+        {award && <>
+          <p class="directory-muted mt-5 text-lg">{awardPeriodLabel(award.kind,award.starts_at)} · {award.vote_count} verified community {Number(award.vote_count) === 1 ? 'vote' : 'votes'}.</p>
+          {award.revoked_at ? <p role="status" class="directory-card mt-8">This badge is no longer valid. Please remove it from your website. The original result remains visible here for transparency.</p> : <>
+            <p class="directory-muted mt-5">{award.tied_winners > 1 ? `${award.tied_winners} listings shared the highest eligible vote total for this period.` : 'This listing received the highest eligible vote total for the period.'} This is a community award, independent of paid placements and affiliate partnerships.</p>
+            <h2 class="mt-10 text-2xl font-bold">Share your recognition</h2>
+            <AwardEmbed award={award} />
+            <p class="directory-muted mt-5">The badge links here so visitors can verify the business, period and result. It uses a lightweight SVG image and needs no JavaScript.</p>
+          </>}
+          <dl class="mt-10 grid gap-4 sm:grid-cols-2">
+            <div><dt class="directory-muted">Period opens (UTC)</dt><dd class="mt-1">{new Date(award.starts_at).toLocaleString('en-GB',{timeZone:'UTC',dateStyle:'medium',timeStyle:'short'})}</dd></div>
+            <div><dt class="directory-muted">Period closes (UTC)</dt><dd class="mt-1">{new Date(award.ends_at).toLocaleString('en-GB',{timeZone:'UTC',dateStyle:'medium',timeStyle:'short'})}</dd></div>
+            <div><dt class="directory-muted">Finalized (UTC)</dt><dd class="mt-1">{new Date(award.finalized_at).toLocaleString('en-GB',{timeZone:'UTC',dateStyle:'medium',timeStyle:'short'})}</dd></div>
+            <div><dt class="directory-muted">Award ID</dt><dd class="mt-1 break-all font-mono text-sm">{award.id}</dd></div>
+          </dl>
+          <div class="directory-actions mt-10"><a href={`/nomad_directory/#listing-${award.listing_id}`} class="directory-button">View directory listing ↗</a><a href="/nomad_directory/awards/#rules" class="directory-text-link">Read the award rules</a></div>
+        </>}
+      </div>
+    </section>
+  </div>
+</Layout>

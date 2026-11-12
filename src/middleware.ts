@@ -23,6 +23,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   } = await supabase.auth.getUser()
 
   if (!user) {
+    if (pathname === '/console/badges/') return redirect(`/nomad-directory-edit/?${new URLSearchParams({ next: '/console/badges/' })}`)
     return redirect('/nomad-directory-edit/')
   }
 

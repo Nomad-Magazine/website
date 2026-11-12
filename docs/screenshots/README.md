@@ -49,3 +49,19 @@ Real local Supabase votes, not production popularity. The highlighted button is 
 | Login before voting | Mobile upvotes |
 | --- | --- |
 | ![Email login returns the visitor to confirm their vote](votes-login.webp) | ![Mobile listing vote controls](votes-mobile.webp) |
+
+## Community awards and website badges
+
+Real Chrome captures of the implemented pages and official SVG endpoints. **Local test accounts and simulated completed periods; these are not production winners.** The SQL finalizer calculates the fixture awards; no winners are included in production migrations.
+
+![The four official SVG badge types rendered from local award records](awards-badges.webp)
+
+![Daily winners and official Nomad Directory badges](awards-winners.webp)
+
+![Public award verification and copyable website embed](awards-result.webp)
+
+![Owner library with earned badges and embed code](awards-owner.webp)
+
+| Mobile winners | Mobile owner badge library |
+| --- | --- |
+| ![Mobile community winners](awards-winners-mobile.webp) | ![Mobile owned badges and embed code](awards-owner-mobile.webp) |

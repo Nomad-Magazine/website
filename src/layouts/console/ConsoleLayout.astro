@@ -14,6 +14,7 @@ const nav = [
   { href: '/console/directory-submission/?new=1', label: 'Add a listing', id: 'directory' },
   { href: '/console/updates/', label: 'Updates', id: 'updates' },
   { href: '/console/affiliates/', label: 'Affiliate programmes', id: 'affiliates' },
+  { href: '/console/badges/', label: 'Your badges', id: 'badges' },
 ]
 ---
 
@@ -39,9 +40,9 @@ const nav = [
             ))
           }{
             isAdmin && (
-              <a href="/console/admin/directory/" aria-current={currentPage === 'review' ? 'page' : undefined}>
+              <><a href="/console/admin/directory/" aria-current={currentPage === 'review' ? 'page' : undefined}>
                 Review queue
-              </a>
+              </a><a href="/console/admin/awards/" aria-current={currentPage === 'award-review' ? 'page' : undefined}>Award review</a></>
             )
           }
         </nav>

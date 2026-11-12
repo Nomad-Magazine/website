@@ -1,0 +1,31 @@
+---
+import ConsoleLayout from '~/layouts/console/ConsoleLayout.astro'
+import { createSupabaseServerClient } from '~/utils/supabase-server'
+import { readPublicDirectory } from '~/utils/directory-public'
+import { workspaceError } from '~/utils/directory-workspace'
+import { awardNames, awardPath, awardPeriodLabel, type DirectoryAward } from '~/utils/directory-awards'
+let error='', awards: DirectoryAward[]=[]
+if(Astro.request.method==='POST') {
+  const form=await Astro.request.formData()
+  const client=createSupabaseServerClient(Astro.request,Astro.cookies)
+  const result=await client.rpc('directory_revoke_award',{p_id:String(form.get('award_id')||''),p_reason:String(form.get('reason')||'')})
+  if(result.error) error=workspaceError(result.error)
+  else return Astro.redirect('/console/admin/awards/?withdrawn=1',303)
+}
+try { awards=await readPublicDirectory<DirectoryAward>('directory_public_awards',{p_include_revoked:true,p_limit:100}) } catch(err){error=workspaceError(err)}
+---
+<ConsoleLayout title="Award review" currentPage="award-review">
+  <h2>Keep community recognition trustworthy.</h2>
+  <p class="muted">Winners are generated automatically. Reviewers can withdraw an invalid award; they cannot change its score or assign a different winner. Recent 100 awards are shown.</p>
+  {error && <p role="alert" class="notice error">{error}</p>}
+  {Astro.url.searchParams.has('withdrawn') && <p role="status" class="notice">Award withdrawn. Its public verification page now shows the withdrawal.</p>}
+  {awards.map(award=><section class="panel">
+    <h3>{award.listing_title}</h3><p class="muted">{awardNames[award.kind]} · {awardPeriodLabel(award.kind,award.starts_at)} · {award.vote_count} {Number(award.vote_count) === 1 ? 'vote' : 'votes'}</p>
+    <a href={awardPath(award)} class="link">View public result ↗</a>
+    {award.revoked_at ? <p class="notice">Withdrawn</p> : <form method="POST" aria-label={`Withdraw award for ${award.listing_title}`} class="actions">
+      <input type="hidden" name="award_id" value={award.id} />
+      <div class="field"><label for={`reason-${award.id}`}>Private reason for withdrawal</label><input id={`reason-${award.id}`} name="reason" required minlength="5" maxlength="1000" /></div>
+      <button class="button secondary" type="submit">Withdraw this award</button>
+    </form>}
+  </section>)}
+</ConsoleLayout>

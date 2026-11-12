@@ -12,6 +12,7 @@ This PR includes the database and working owner/admin flows. It has only been ex
 - `/console/admin/directory/`: review pending listings, updates and affiliate proposals; compare the live version, publish/accept, or request changes with owner feedback.
 - Approved listings are server-rendered immediately at the existing directory and category/location URLs. Approved updates appear under the listing and at `/nomad_directory/updates/`. Drafts, private terms and account identifiers are never part of the public projections.
 - Public upvote totals on directory/category/location cards, with one removable vote per verified account and a **Most upvoted** sort. Existing email login returns visitors to confirm their vote, then back to the original listing. Voting also works without JavaScript.
+- Daily, weekly, monthly and yearly community awards, official SVG website badges, `/console/badges/` for owned listings and reviewer-only award withdrawal. See the [award rules, scheduled job and badge runbook](directory-awards.md).
 
 The homepage remains static, with its existing selected listing cards and a lower-bound listing count. Public directory results are live. The feed shows the latest 100 published updates, and each listing shows its latest two.
 
@@ -46,7 +47,7 @@ Verified email and one vote per account provide basic integrity, not protection 
 
 ## Deployment order
 
-1. Review and apply both new migrations, owner workspace followed by upvotes, to the intended Supabase project before deploying this branch. They are additive and do not change existing public page URLs. Public directory runtime reads return HTTP 503 with `Retry-After` if the publication/vote RPCs are unavailable.
+1. Review and apply all three new migrations, owner workspace followed by upvotes and awards, to the intended Supabase project before deploying this branch. They are additive and do not change existing public page URLs. The award migration creates the scheduled Supabase Cron job; verify it as described in its runbook. Public directory runtime reads return HTTP 503 with `Retry-After` if the publication/vote RPCs are unavailable.
 2. Import a trusted SmartSuite export into the private claims table. Validate its source and original contact field (`sd6842e687`); the importer selects the first valid contact email and skips entries without one. It never logs contacts and never overwrites an existing mapping.
 
    ```sh

@@ -22,6 +22,14 @@ Migration **20261112000002** and the directory controls implement public vote to
 
 Vote totals are server-rendered, while private account state is loaded separately without caching. Database uniqueness and idempotent mutations prevent repeated requests or concurrent clicks from adding duplicate votes. No voter identities are exposed publicly. Existing listing IDs, homepage and header design stay unchanged. Votes are separate from any future paid placements and affiliate commissions.
 
+## Earned awards and shareable badges
+
+Migration **20261112000003** adds automatic daily, weekly, monthly and yearly winners, using UTC calendar periods and first-received votes still active when a period closes. Removing and re-adding a vote does not reset its receipt time. The highest positive total wins; ties share first place and zero-vote periods issue nothing. The scheduled finalizer catches up missed periods and freezes the awarded title, score and tie status.
+
+Businesses get a **Your badges** library with branded SVG previews and copyable image/link HTML for their websites. Every badge identifies its business and period and links to a permanent public verification page. Reviewer withdrawal marks the result invalid and stops serving the badge. Public winner archives, live standings and a dynamic sitemap support discovery without changing any existing directory URL or the homepage/header design. There are no purchased awards or tracking scripts in the embed.
+
+See the [award implementation, rules, privacy, operations and tests](directory-awards.md). Production winners are not seeded; screenshots use local accounts and simulated completed periods.
+
 ## Proposed paid visibility
 
 Add a small sponsored area above organic results and optional sponsored positions inside relevant categories. Label every paid placement **Sponsored**, including homepage placements. Keep organic ordering independent of payment and affiliate commission; paid placement must not imply editorial endorsement.

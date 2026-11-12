@@ -30,7 +30,7 @@ if (Astro.request.method === 'POST') {
     const { error: authError } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: `${url.origin}/auth/callback/${isVoting ? `?${new URLSearchParams({ next })}` : ''}`,
+        emailRedirectTo: `${url.origin}/auth/callback/${next !== '/console/' ? `?${new URLSearchParams({ next })}` : ''}`,
         shouldCreateUser: true,
       },
     })
@@ -94,7 +94,7 @@ const fieldClass =
           <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-yellow-400 text-black" aria-hidden="true">
             <MaterialSymbolsElectricBolt width="22" height="22" />
           </span>
-          <h1 class="text-4xl md:text-5xl font-bold">{isVoting ? 'Sign in to upvote' : 'Your directory account'}</h1>
+          <h1 class="text-4xl md:text-5xl font-bold">{isVoting ? 'Sign in to upvote' : next === '/console/badges/' ? 'Sign in to view your badges' : 'Your directory account'}</h1>
         </div>
         <p class="text-gray-400 mb-8">{isVoting ? 'Support your favorite nomad businesses and tools. Sign in or create an account with an email link, then return to the listing to confirm your vote. One upvote per account, and you can remove it anytime.' : 'Sign in or create an account with an email link. Already listed? Use the email attached to your listing to manage it. New here? Create your account, then submit your business. Changes are reviewed before publication.'}</p>
 
