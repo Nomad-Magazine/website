@@ -1,0 +1,55 @@
+---
+import type { DirectoryEntry } from '~/utils/directory'
+interface Props {
+  entry: DirectoryEntry
+  preview?: boolean
+}
+const { entry, preview = false } = Astro.props
+---
+
+<article
+  id={preview ? undefined : `listing-${entry.id}`}
+  class="directory-card"
+  data-entry={preview ? undefined : ''}
+  data-category={entry.category}
+  data-title={entry.title.toLowerCase()}
+  data-search={`${entry.title} ${entry.description} ${entry.category} ${entry.offer}`.toLowerCase()}
+>
+  <div class="listing-top">
+    <div class="listing-logo">
+      {
+        entry.image ? (
+          <img src={entry.image} alt={`${entry.title} logo`} width="56" height="56" loading="lazy" decoding="async" />
+        ) : (
+          <span aria-hidden="true">{entry.title.charAt(0)}</span>
+        )
+      }
+    </div>
+    <span class="category-label">{entry.category}</span>
+  </div>
+  <h3>{preview ? <a href={`/nomad_directory/#listing-${entry.id}`}>{entry.title}</a> : entry.title}</h3>
+  <p class:list={['listing-description', { 'preview-description': preview }]}>{entry.description}</p>
+  {
+    !preview && entry.offer && (
+      <p class="listing-offer">
+        <strong>Member offer</strong><br />
+        {entry.offer}
+      </p>
+    )
+  }
+  <div class="listing-bottom">
+    {
+      preview ? (
+        <a href={`/nomad_directory/#listing-${entry.id}`}>
+          Explore listing <span aria-hidden="true">↗</span>
+        </a>
+      ) : (
+        entry.website && (
+          <a href={entry.website} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${entry.title} (opens in new tab)`}>
+            Visit website <span aria-hidden="true">↗</span>
+          </a>
+        )
+      )
+    }
+  </div>
+</article>

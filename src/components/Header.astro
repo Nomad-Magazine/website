@@ -1,274 +1,154 @@
 ---
-import IsIconDownOutline from '~icons/lsicon/down-outline'
-import CloseIcon from '~icons/material-symbols-light/close'
-import MenuIcon from '~icons/material-symbols-light/menu-rounded'
-import SearchIcon from '~icons/material-symbols-light/search'
-
-const navLinks = [
-  {
-    text: 'Newsletter',
-    url: '/newsletter/',
-    imageUrl: '/images/link_hover.svg',
-  },
-  {
-    text: 'Articles',
-    url: '/articles/',
-    imageUrl: '/underline.svg',
-  },
+const links = [
+  { text: 'Directory', url: '/nomad_directory/' },
+  { text: 'Articles', url: '/articles/' },
+  { text: 'Newsletter', url: '/newsletter/' },
+  { text: 'Magazine archive', url: '/editions/' },
 ]
 ---
 
-<header class="relative z-120 bg-white">
-  <div class="mx-auto max-w-7xl px-4">
-    <div class="flex items-center justify-between py-8">
-      <!-- Logo and Navigation -->
-      <div class="flex items-center space-x-10">
-        <a href="/" aria-label="Nomad Magazine Home" class="text-4xl font-black tracking-tighter text-gray-900">
-          <img decoding="async" loading="lazy" src="/logo.svg" alt="Nomad Magazine" class="h-6" />
-        </a>
-        <nav class="hidden space-x-10 lg:flex">
-          <div class="relative">
-            <button id="magazine-button" class="group flex cursor-pointer items-center text-lg font-bold text-gray-900 transition-colors hover:text-yellow-600" aria-label="Magazine menu" aria-haspopup="true" aria-expanded="false">
-              <span>Magazine</span>
-              <IsIconDownOutline class="ml-1 h-5 w-5 font-bold" aria-hidden="true" />
-            </button>
-            <div id="magazine-dropdown" class="absolute z-10 mt-2 hidden w-64 rounded-md border border-gray-200 bg-white py-1 shadow-xl">
-              <a href="/5th-edition-waitlist/" class="flex items-center px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-yellow-50 hover:text-yellow-600">
-                <span class="mr-3 inline-flex items-center rounded-full bg-black px-2.5 py-1 text-xs font-bold text-yellow-400 shadow-sm">2027</span>
-                Edition #5 Waitlist
-              </a>
-              <a href="/editions/fourth-edition/" class="block px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-yellow-50 hover:text-yellow-600">Edition #4 - Palermo, Fukuoka, Bansko, Madeira</a>
-              <a href="/editions/third-edition/" class="block px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-yellow-50 hover:text-yellow-600">Edition #3 - Mind. Body. Tech.</a>
-          <a href="/editions/second-edition/" class="block px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-yellow-50 hover:text-yellow-600">Edition #2 - Digital Nomad Communities</a>
-          <a href="/editions/first-edition/" class="block px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-yellow-50 hover:text-yellow-600">Edition #1 - Digital Nomadism</a>
-              <div class="border-t border-gray-200 my-1"></div>
-              <a href="/editions/" class="block px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-yellow-50 hover:text-yellow-600">View All Editions</a>
-            </div>
-          </div>
-          {
-            navLinks.map((link) => (
-              <a href={link.url} class="group relative inline-block text-lg font-bold text-gray-900 transition-colors hover:text-yellow-600">
-                <span>{link.text}</span>
-                <img src={link.imageUrl} alt="" aria-hidden="true" class="absolute left-0 hidden w-full group-hover:block" loading="lazy" />
-              </a>
-            ))
-          }
-          <div class="relative">
-            <button id="more-button" class="flex cursor-pointer items-center text-lg font-bold text-gray-900 transition-colors hover:text-yellow-600" aria-label="More menu" aria-haspopup="true" aria-expanded="false">
-              More
-              <IsIconDownOutline class="ml-1 h-5 w-5 font-bold" aria-hidden="true" />
-            </button>
-            <div id="more-dropdown" class="absolute z-10 mt-2 hidden w-56 rounded-md border border-gray-200 bg-white py-2 shadow-xl">
-              <!-- Content & Community -->
-              <div class="px-3 py-1">
-                <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Content</div>
-                <a href="/editions/" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 rounded-md">Magazine Editions</a>
-                <a href="/digital-nomad-wiki/" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 rounded-md">Digital Nomad Wiki</a>
-                <a href="/articles/" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 rounded-md">Articles</a>
-              </div>
-              
-              <div class="border-t border-gray-100 my-1"></div>
-              
-              <!-- Partners & Opportunities -->
-              <div class="px-3 py-1">
-                <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Partners</div>
-                <a href="/partners/" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 rounded-md">For Partners</a>
-                <a href="/writers/" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 rounded-md">For Writers</a>
-                <a href="/nomad_directory/" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 rounded-md">Nomad Directory</a>
-                <a href="/distribution-list/" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 rounded-md">Distribution List</a>
-              </div>
-              
-              <div class="border-t border-gray-100 my-1"></div>
-              
-              <!-- Support -->
-              <div class="px-3 py-1">
-                <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Support</div>
-                <a href="/our-story/" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 rounded-md">Our Story</a>
-                <a href="/support-the-magazine/" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 rounded-md">Support Magazine</a>
-                <a href="/add-testimonials/" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 rounded-md">Submit Review</a>
-              </div>
-            </div>
-          </div>
-        </nav>
-        <a
-          href="/search/"
-          class="hidden text-gray-900 transition-colors hover:text-yellow-600 lg:inline-flex lg:items-center"
-          aria-label="Search Nomad Magazine"
-        >
-          <SearchIcon class="h-7 w-7" aria-hidden="true" />
-        </a>
-      </div>
-      <!-- Buttons -->
-      <div class="hidden items-center space-x-4 lg:flex">
-        <a href="/nomad_directory/" class="rounded-lg border-2 border-gray-900 px-6 py-3 font-bold text-gray-900 transition-colors hover:bg-gray-900 hover:text-white">
-          Nomad Directory 👋
-        </a>
-        <a
-          target="_self"
-          href="/editions/fourth-edition/"
-          class="rounded-lg border-2 border-yellow-400 bg-yellow-400 px-6 py-3 font-black text-black shadow-lg transition-colors hover:border-yellow-500 hover:bg-yellow-500"
-        >
-          Get Latest Edition 🤓
-        </a>
-      </div>
-      <!-- Mobile menu button -->
-      <div class="lg:hidden">
-        <button id="mobile-menu-button" type="button" class="text-gray-900 hover:text-yellow-600" aria-label="Open mobile menu">
-          <MenuIcon class="h-8 w-8" aria-hidden="true" />
-        </button>
-      </div>
-    </div>
-  </div>
-  <!-- Mobile Menu Overlay -->
-  <div id="mobile-menu-overlay" class="fixed inset-0 z-50 hidden bg-black text-white overflow-y-auto">
-    <div class="flex items-center justify-between p-6 border-b border-gray-800">
-      <a href="/" aria-label="Nomad Magazine Home" class="text-4xl font-black tracking-tighter">
-        <img decoding="async" loading="lazy" src="/images/logo white png.png" alt="Nomad Magazine" class="h-8" width="430" height="110" />
-      </a>
-      <button id="close-menu-button" class="hover:text-yellow-400 transition-colors" aria-label="Close mobile menu">
-        <CloseIcon class="h-8 w-8" aria-hidden="true" />
-      </button>
-    </div>
-    <nav class="flex flex-col space-y-6 p-6 text-lg font-semibold min-h-0">
-      <div class="space-y-3">
-        <div class="text-yellow-400 text-xl font-bold">Magazine</div>
-        <div class="ml-4 space-y-3 text-base">
-          <a href="/5th-edition-waitlist/" class="flex items-center transition-colors hover:text-yellow-400">
-            <span class="mr-3 inline-flex items-center rounded-full bg-yellow-400 px-2 py-0.5 text-xs font-bold text-black shadow-sm">2027</span>
-            Edition #5 Waitlist
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/" aria-label="Nomad Magazine home" class="brand"><img src="/logo.svg" alt="Nomad Magazine" width="190" height="30" /></a>
+    <nav class="desktop-nav" aria-label="Main navigation">
+      {
+        links.map((link) => (
+          <a href={link.url} aria-current={Astro.url.pathname === link.url ? 'page' : undefined}>
+            {link.text}
           </a>
-          <a href="/editions/fourth-edition/" class="block transition-colors hover:text-yellow-400">Edition #4 - Palermo, Fukuoka, Bansko, Madeira</a>
-          <a href="/editions/third-edition/" class="block transition-colors hover:text-yellow-400">Edition #3 - Mind. Body. Tech.</a>
-          <a href="/editions/second-edition/" class="block transition-colors hover:text-yellow-400">Edition #2 - Digital Nomad Communities</a>
-          <a href="/editions/first-edition/" class="block transition-colors hover:text-yellow-400">Edition #1 - Digital Nomadism</a>
-          <div class="border-t border-gray-700 my-2 pt-2">
-            <a href="/editions/" class="block transition-colors hover:text-yellow-400">View All Editions</a>
-          </div>
-        </div>
-      </div>
-      <a href="/search/" class="flex items-center gap-2 transition-colors hover:text-yellow-400">
-        <SearchIcon class="h-6 w-6 shrink-0" aria-hidden="true" />
-        Search
-      </a>
-      <a href="/newsletter/" class="transition-colors hover:text-yellow-400">Newsletter</a>
-      <a href="/articles/" class="transition-colors hover:text-yellow-400">Articles</a>
-              <div class="space-y-4">
-        <div class="text-yellow-400 text-xl font-bold">More</div>
-        
-        <!-- Content Section -->
-        <div>
-          <div class="text-gray-400 text-sm font-bold uppercase tracking-wider mb-2">Content</div>
-          <div class="ml-3 space-y-2 text-base">
-            <a href="/editions/" class="block transition-colors hover:text-yellow-400">Magazine Editions</a>
-            <a href="/digital-nomad-wiki/" class="block transition-colors hover:text-yellow-400">Digital Nomad Wiki</a>
-            <a href="/articles/" class="block transition-colors hover:text-yellow-400">Articles</a>
-          </div>
-        </div>
-        
-        <!-- Partners Section -->
-        <div>
-          <div class="text-gray-400 text-sm font-bold uppercase tracking-wider mb-2">Partners</div>
-          <div class="ml-3 space-y-2 text-base">
-            <a href="/partners/" class="block transition-colors hover:text-yellow-400">For Partners</a>
-            <a href="/writers/" class="block transition-colors hover:text-yellow-400">For Writers</a>
-            <a href="/nomad_directory/" class="block transition-colors hover:text-yellow-400">Nomad Directory</a>
-            <a href="/distribution-list/" class="block transition-colors hover:text-yellow-400">Distribution List</a>
-          </div>
-        </div>
-        
-        <!-- Support Section -->
-        <div>
-          <div class="text-gray-400 text-sm font-bold uppercase tracking-wider mb-2">Support</div>
-          <div class="ml-3 space-y-2 text-base">
-            <a href="/our-story/" class="block transition-colors hover:text-yellow-400">Our Story</a>
-            <a href="/support-the-magazine/" class="block transition-colors hover:text-yellow-400">Support Magazine</a>
-            <a href="/add-testimonials/" class="block transition-colors hover:text-yellow-400">Submit Review</a>
-          </div>
-        </div>
-      </div>
+        ))
+      }
     </nav>
-    <div class="p-6 mt-auto border-t border-gray-800">
-      <a href="/editions/second-edition/" class="block w-full rounded-lg bg-yellow-400 py-4 text-center font-black text-black shadow-lg transition-colors hover:bg-yellow-500"
-        >Order Now</a
-      >
+    <div class="header-actions">
+      <a href="/nomad-directory-edit/" class="account-link">Sign in</a><a href="/nomad-directory-submit/" class="submit-link">Add a listing <span aria-hidden="true">↗</span></a>
     </div>
+    <details class="mobile-nav">
+      <summary aria-label="Open navigation menu">Menu <span aria-hidden="true">☰</span></summary><nav aria-label="Mobile navigation">
+        {
+          links.map((link) => (
+            <a href={link.url} aria-current={Astro.url.pathname === link.url ? 'page' : undefined}>
+              {link.text}
+            </a>
+          ))
+        }<a href="/nomad-directory-edit/">Sign in / create account</a><a href="/nomad-directory-submit/">Add your listing</a><a href="/search/">Search the website</a>
+      </nav>
+    </details>
   </div>
 </header>
-
+<style>
+  .site-header {
+    background: #fff;
+    color: #171817;
+    position: relative;
+    z-index: 120;
+    border-bottom: 1px solid #e5e7df;
+  }
+  .header-inner {
+    max-width: 1248px;
+    margin: auto;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+  }
+  .brand {
+    flex-shrink: 0;
+  }
+  .brand img {
+    width: 190px;
+    height: 30px;
+  }
+  .desktop-nav,
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .desktop-nav a[aria-current='page'] {
+    text-decoration: underline;
+    text-decoration-color: #b68c00;
+    text-decoration-thickness: 3px;
+    text-underline-offset: 8px;
+  }
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 5px;
+  }
+  .submit-link {
+    border-radius: 7px;
+    background: #facc15;
+    padding: 12px 16px;
+  }
+  .mobile-nav {
+    display: none;
+  }
+  :is(a, summary):focus-visible {
+    outline: 3px solid #876500;
+    outline-offset: 5px;
+  }
+  @media (max-width: 1050px) {
+    .desktop-nav {
+      gap: 16px;
+    }
+    .header-inner {
+      gap: 20px;
+    }
+    .header-actions {
+      gap: 16px;
+    }
+  }
+  @media (max-width: 900px) {
+    .desktop-nav,
+    .header-actions {
+      display: none;
+    }
+    .header-inner {
+      padding: 20px;
+    }
+    .brand img {
+      width: 168px;
+      height: 27px;
+    }
+    .mobile-nav {
+      display: block;
+    }
+    summary {
+      cursor: pointer;
+      padding: 8px 0 8px 12px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    summary span {
+      margin-left: 8px;
+    }
+    .mobile-nav nav {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      display: grid;
+      background: white;
+      padding: 12px 20px 24px;
+      border-bottom: 1px solid #cdd2c6;
+      box-shadow: 0 16px 25px #0002;
+    }
+    .mobile-nav nav a {
+      padding: 12px 0;
+    }
+  }
+</style>
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // Magazine dropdown functionality
-    const magazineButton = document.getElementById('magazine-button')
-    const magazineDropdown = document.getElementById('magazine-dropdown')
-    if (magazineButton && magazineDropdown) {
-      let closeTimeout: number | null = null
-      
-      // Open dropdown on hover
-      magazineButton.addEventListener('mouseenter', () => {
-        if (closeTimeout) {
-          clearTimeout(closeTimeout)
-          closeTimeout = null
-        }
-        magazineDropdown.classList.remove('hidden')
-      })
-      
-      // Close dropdown when mouse leaves the button
-      magazineButton.addEventListener('mouseleave', (event) => {
-        // Check if mouse is moving to dropdown
-        const relatedTarget = event.relatedTarget as Node
-        if (!magazineDropdown.contains(relatedTarget)) {
-          closeTimeout = window.setTimeout(() => {
-            magazineDropdown.classList.add('hidden')
-          }, 150) // 150ms delay
-        }
-      })
-      
-      // Keep dropdown open when hovering over it
-      magazineDropdown.addEventListener('mouseenter', () => {
-        if (closeTimeout) {
-          clearTimeout(closeTimeout)
-          closeTimeout = null
-        }
-      })
-      
-      // Close dropdown when mouse leaves dropdown
-      magazineDropdown.addEventListener('mouseleave', () => {
-        closeTimeout = window.setTimeout(() => {
-          magazineDropdown.classList.add('hidden')
-        }, 150) // 150ms delay
-      })
-      
-      // Navigate on click instead of toggling
-      magazineButton.addEventListener('click', (event) => {
-        event.preventDefault()
-        window.location.href = '/editions/'
-      })
+  const menu = document.querySelector<HTMLDetailsElement>('.mobile-nav')
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && menu?.open) {
+      menu.open = false
+      menu.querySelector('summary')?.focus()
     }
-    
-    // More dropdown functionality
-    const moreButton = document.getElementById('more-button')
-    const moreDropdown = document.getElementById('more-dropdown')
-    if (moreButton && moreDropdown) {
-      moreButton.addEventListener('click', (event) => {
-        event.stopPropagation()
-        moreDropdown.classList.toggle('hidden')
-      })
-      document.addEventListener('click', (event) => {
-        if (!moreDropdown.contains(event.target as Node) && !moreButton.contains(event.target as Node)) moreDropdown.classList.add('hidden')
-      })
-    }
-    
-    // Mobile menu functionality
-    const mobileMenuButton = document.getElementById('mobile-menu-button')
-    const mobileMenuOverlay = document.getElementById('mobile-menu-overlay')
-    const closeMenuButton = document.getElementById('close-menu-button')
-    if (mobileMenuButton && mobileMenuOverlay && closeMenuButton) {
-      mobileMenuButton.addEventListener('click', () => {
-        mobileMenuOverlay.classList.remove('hidden')
-      })
-      closeMenuButton.addEventListener('click', () => {
-        mobileMenuOverlay.classList.add('hidden')
-      })
-    }
+  })
+  document.addEventListener('click', (event) => {
+    if (menu?.open && !menu.contains(event.target as Node)) menu.open = false
   })
 </script>

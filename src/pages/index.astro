@@ -1,723 +1,295 @@
 ---
-export const prerender = true;
-
-import About from '~/components/About.astro'
-import Bridge from '~/components/Bridge.astro'
-import CheckIcon from '~icons/ic/baseline-check'
-import OurTeam from '~/components/OurTeam.astro'
-import Welcome from '~/components/Welcome.astro'
-import Mission from '~/components/Mission.astro'
-import Partners from '~/components/Partners.astro'
-import Subscribe from '~/components/Subscribe.astro'
-import GetInvolved from '~/components/GetInvolved.astro'
-import Testimonials from '~/components/Testimonials.astro'
-import ThirdEdition from '~/components/ThirdEdition.astro'
-import PastEditions from '~/components/PastEditions.astro'
+export const prerender = true
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
-import BrandPlacement from '~/components/BrandPlacement.astro'
-// import MagazinePreview from '~/components/MagazinePreview.astro' // restore when new photography is ready
-import GrowingCommunity from '~/components/GrowingCommunity.astro'
-import MagazineStack from '~/components/MagazineStack.astro'
-import StickyAnnouncementBar from '~/components/StickyAnnouncementBar.astro'
-import { fetchReportRecords } from '~/utils/smartsuite'
+import DirectoryEntryCard from '~/components/DirectoryEntryCard.astro'
+import { getDirectoryEntries, getDirectoryCategories, directoryCategoryUrl } from '~/utils/directory'
 import { getCollection } from 'astro:content'
 import { normalizeContentEntries } from '~/utils/content'
-import SubstackFollow from '~/components/SubstackFollow.astro'
+import '~/styles/directory.css'
 
-// Fetch real nomad directory data
-const { records = [] } = await fetchReportRecords('6857167d82358a0f5e038c3f')
-
-// Fetch latest articles (not blog posts)
-const allArticles = normalizeContentEntries(await getCollection('article'))
-const publishedArticles = allArticles.filter((article) => article.data.published !== false)
-
-// Sort by latest date
-const sortByDateDesc = (a: any, b: any) => {
-  const dateA = new Date(a.data.pubDate || a.data.updatedDate || '2024-01-01').getTime()
-  const dateB = new Date(b.data.pubDate || b.data.updatedDate || '2024-01-01').getTime()
-  return dateB - dateA
-}
-
-publishedArticles.sort(sortByDateDesc)
-
-// Get top 6 latest articles
-const latestPosts = publishedArticles.slice(0, 6)
-
-// Hardcoded Monthly Supporters list (same as nomad_directory.astro)
-const monthlySupporters = [
-  'DataBench',
-  'Max Browser',
-  'DataBench (Max Browser)', // in case it's stored with the full name
-  'Max',
-  'NomadTax Bulgaria Ltd.',
-  'Colive Fukuoka',
-  'The Center for Competitiveness and Innovation (Colombia)',
-  // Add more supporter company names here as needed
+const entries = await getDirectoryEntries()
+const categories = getDirectoryCategories(entries)
+const needs = [
+  { name: 'Find your people', category: 'Community', detail: 'Communities & connections', icon: '◎' },
+  { name: 'Find your next home', category: 'Coliving', detail: 'Coliving around the world', icon: '⌂' },
+  { name: 'Work from anywhere', category: 'Coworking', detail: 'Spaces to get things done', icon: '↗' },
+  { name: 'Make life simpler', category: 'App', detail: 'Tools for life on the move', icon: '✳' },
 ]
-
-const directoryDarkLogoTitles = [
-  'Fresh Global',
-  'Falmouth University',
-  'SUMA',
-  'Scaglia y Asociados',
-  'goldenweeks',
-  'Anytime Mailbox',
-  'WESPA Spaces',
-]
-
-// Helper function to check if a record is a supporter
-const isSupporter = (record: any) => {
-  return record.supporter || 
-         record.monthly_supporter || 
-         record.is_supporter || 
-         record.supporter_status === 'Monthly Supporter' ||
-         monthlySupporters.includes(record.title)
-}
-
-// Get all valid directory entries (source order)
-const allValidEntries = records
-  .filter((record: any) => record.sf4ad525dd && record.title && record.scea90e502)
-  .map((record: any) => ({
-    title: record.title,
-    description: record.scea90e502,
-    category: record.sb685ab800?.label || 'Service',
-    link: record.link || record.sb788c266b?.[0] || '/nomad_directory',
-    image: record.image,
-    isSupporter: isSupporter(record),
-  }))
-
-// Get first 12 entries for regular display
-const regularDirectoryEntries = allValidEntries.slice(0, 12)
-
-// Bottom ticker: latest articles only
-const stickyBarItems = publishedArticles.slice(0, 12).map((post) => ({
-  type: 'article' as const,
-  title: post.data.title,
-  link: `/articles/${post.slug}/`,
-  badge: 'ARTICLE',
-}))
-
-// YouTube channel videos
-const youtubeVideos = [
-  {
-    id: 'q1CvGeAI_Ro',
-    title: 'Why Should You Live in Palermo as a Digital Nomad?',
-    description: 'Real people, real stories from Palermo: locals and nomads on remote work, culture, food, and community.',
-    thumbnail: 'https://img.youtube.com/vi/q1CvGeAI_Ro/hqdefault.jpg',
-    duration: 'N/A',
-    views: 'New',
-    publishedAt: '2026-05-20'
-  },
-  {
-    id: 'mEP3aAA3t8k',
-    title: 'Have Digital Nomads Have Changed Bansko (Bulgaria)?',
-    description: 'In this documentary episode, we explore how digital nomads, coworking spaces, and events like Bansko Nomad Fest slowly transformed the town into a year-round hub for remote workers, founders, families, and creatives from around the world.',
-    thumbnail: 'https://img.youtube.com/vi/mEP3aAA3t8k/hqdefault.jpg',
-    duration: 'N/A',
-    views: 'New',
-    publishedAt: '2025-01-03'
-  },
-  {
-    id: 'pgTpfH7zNVs',
-    title: 'Why Digital Nomads Are Choosing Buenos Aires in 2025',
-    description: 'Discover what makes Buenos Aires a top destination for digital nomads in 2025.',
-    thumbnail: 'https://img.youtube.com/vi/pgTpfH7zNVs/hqdefault.jpg',
-    duration: '18:45',
-    views: '12.3K',
-    publishedAt: '2025-01-20'
-  },
-  {
-    id: 'NgG92Q8Uxgg',
-    title: 'Why Digital Nomads Are Choosing Madeira in 2024: Madeira Friends Founders and Community',
-    description: 'Meet the founders behind Madeira Friends and discover why digital nomads are flocking to this Portuguese island.',
-    thumbnail: 'https://img.youtube.com/vi/NgG92Q8Uxgg/hqdefault.jpg',
-    duration: '14:22',
-    views: '8.7K',
-    publishedAt: '2025-01-18'
-  },
-  {
-    id: '_sBXTskL0gA',
-    title: 'Why Digital Nomads Choose Chiang Mai?',
-    description: 'Exploring what makes Chiang Mai, Thailand one of the top destinations for digital nomads worldwide.',
-    thumbnail: 'https://img.youtube.com/vi/_sBXTskL0gA/hqdefault.jpg',
-    duration: '16:33',
-    views: '15.9K',
-    publishedAt: '2025-01-15'
-  },
-  {
-    id: 'hElNoT15fBE',
-    title: 'She Found a Hidden Gem in Guatemala — and Built a Co-Living There',
-    description: 'Bianca Bonilla left her comfort zone to build something extraordinary — a co-living villa on the Pacific coast of Guatemala, in a fishing village that didn\'t even have internet just a few years ago.',
-    thumbnail: 'https://img.youtube.com/vi/hElNoT15fBE/hqdefault.jpg',
-    duration: '13:44',
-    views: '32',
-    publishedAt: '2025-01-12'
-  },
-  {
-    id: 'lEtXdzH65Dk',
-    title: 'How to Fly Business Class for $6: Trevor Wright\'s Travel Hack That Changed Everything',
-    description: 'Trevor Wright is the founder of MileMethod.com, a business that helps Americans travel the world in luxury — without breaking the bank. In this interview, he shares how he turned a backpacker\'s obsession with saving money into a 10-year business, helping clients book $20,000 trips for under $1,000 by using U.S. credit card rewards.',
-    thumbnail: 'https://img.youtube.com/vi/lEtXdzH65Dk/hqdefault.jpg',
-    duration: '15:26',
-    views: '160',
-    publishedAt: '2024-10-10'
-  },
-  {
-    id: 'wnVgPO4pGU8',
-    title: 'Building Business on the Move: Ben Guez\'s Digital Nomad Story',
-    description: 'Join us in Madeira at Nomad Island Fest as we speak with Ben Guez — an entrepreneur, angel investor, and content creator with a truly global perspective. Originally from France and now based in the US, Ben shares his journey into the digital nomad lifestyle, his inspiration to build a tech platform for co-living on demand called Airmeet, and his vision for creating meaningful connections at nomad events.',
-    thumbnail: 'https://img.youtube.com/vi/wnVgPO4pGU8/hqdefault.jpg',
-    duration: '13:45',
-    views: '209',
-    publishedAt: '2024-08-01'
-  }
-]
-
-import { createWebSiteSchema } from '~/utils/schema'
-
+const articles = normalizeContentEntries(await getCollection('article'))
+  .filter((article) => article.data.published !== false)
+  .sort((a, b) => new Date(b.data.pubDate || b.data.updatedDate || '2024-01-01').getTime() - new Date(a.data.pubDate || a.data.updatedDate || '2024-01-01').getTime())
+  .slice(0, 3)
 const seo: SEOProps = {
-  title: 'Nomad Magazine | Digital Nomad, Remote Work & Nomad Lifestyle',
-  description: 'Nomad Magazine covers digital nomad life, remote work, and the modern nomad lifestyle through stories, destination guides, community insights, and independent journalism.',
-  image: `${Astro.site}images/magazine-hold-against-chest.webp`,
-  keywords: 'digital nomad, digital nomad magazine, remote work, nomad lifestyle, location independent work, digital nomad stories, remote work tips, nomad community',
+  title: 'Digital Nomad Resources & Community | Nomad Magazine',
+  description: 'Find your next coliving, coworking space, community or remote work tool. Explore the Nomad Directory, practical guides and stories for life as a digital nomad.',
   canonical: `${Astro.site}`,
-  ldJSON: createWebSiteSchema({ url: Astro.site?.toString() }),
+  image: `${Astro.site}images/Nomad-directory.webp`,
+  keywords: 'digital nomad resources, nomad directory, coliving, coworking, remote work tools, nomad communities',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Nomad Magazine',
+    description: 'Resources, communities and stories for digital nomads, home of the Nomad Directory.',
+    url: `${Astro.site}`,
+    publisher: { '@type': 'Organization', name: 'Nomad Magazine', url: `${Astro.site}` },
+  },
 }
 ---
 
 <Layout seo={seo}>
-  <div class="mx-auto max-w-7xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 items-center gap-8 sm:gap-16 lg:grid-cols-2">
-      <div class="space-y-6 sm:space-y-8">
-        <div class="space-y-4 sm:space-y-6">
-          <p class="font-justme text-4xl text-gray-800">independent digital nomad magazine</p>
-          <h1 class="md:text-12xl xl:text-22xl text-7xl font-semibold text-gray-900 xl:leading-18">Remote Work, Nomad Lifestyle & Travel Stories</h1>
-          <p class="max-w-2xl text-lg text-gray-700">
-            The most distributed print and digital magazine for people who work remotely, explore new destinations, and live on their own terms.
-          </p>
-          <div class="space-y-3 text-lg text-gray-700">
-            <p class="flex items-center">
-              <CheckIcon class="mr-2 h-6 w-6 shrink-0 text-black" aria-hidden="true" />
-              <span>Destination guides and nomad stories — real people, real places</span>
-            </p>
-            <p class="flex items-center">
-              <CheckIcon class="mr-2 h-6 w-6 shrink-0 text-black" aria-hidden="true" />
-              <span>Remote work ideas and guides built for life on the move</span>
-            </p>
-            <p class="flex items-center">
-              <CheckIcon class="mr-2 h-6 w-6 shrink-0 text-black" aria-hidden="true" />
-              <span>Nomad lifestyle — honest, human, and community-first</span>
-            </p>
-          </div>
-        </div>
-        <div class="space-y-4">
-          <div class="mb-2 flex flex-col gap-4 sm:flex-row sm:items-end">
-            <div class="flex flex-col items-center order-first sm:order-last">
-              <span class="mb-1 inline-block rounded-full bg-yellow-400 px-3 py-1 text-xs font-bold text-black uppercase tracking-wide shadow">2027</span>
-              <a
-                href="/5th-edition-waitlist/"
-                class="glow-animate w-full sm:w-auto inline-block rounded border-2 border-yellow-400 bg-black px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-yellow-400 transition-colors duration-200 hover:bg-yellow-400 hover:text-black focus-visible:ring-2 focus-visible:ring-yellow-300"
-                aria-label="Join the Nomad Magazine edition 5 waiting list"
-              >
-                EDITION 5 WAITING LIST
-              </a>
-            </div>
-            <a
-              href="/editions/"
-              class="w-full sm:w-auto inline-block rounded bg-yellow-400 px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-black shadow-md transition-transform duration-200 hover:scale-105 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-yellow-300 order-last sm:order-first"
-              aria-label="View all digital nomad magazine editions"
-            >
-              VIEW ALL EDITIONS
+  <div class="directory-theme">
+    <section class="home-hero directory-wrap">
+      <div>
+        <p class="directory-eyebrow">Less searching. More living.</p>
+        <h1>Digital nomad life.<br /><span>All in one place.</span></h1>
+        <p class="hero-description">The places, people and tools that make life as a digital nomad work. All in one directory.</p>
+        <form action="/nomad_directory/" method="GET" role="search" aria-label="Search the Nomad Directory" class="home-search">
+          <label for="home-search" class="sr-only">Search tools, spaces and communities</label>
+          <input id="home-search" name="q" type="search" placeholder="Try coliving, eSIM or community…" />
+          <button type="submit" class="directory-button">Explore <span aria-hidden="true">↗</span></button>
+        </form>
+        <p class="hero-meta">{entries.length} listings <span aria-hidden="true">/</span> {categories.length} categories <span aria-hidden="true">/</span> One nomad community</p>
+        <a class="directory-text-link" href="/nomad_directory/">Browse the Nomad Directory</a>
+      </div>
+      <div class="hero-discovery">
+        <div class="discovery-heading"><span class="directory-eyebrow">Where to next?</span><span aria-hidden="true">↗</span></div>
+        {
+          needs.map((need, index) => (
+            <a href={directoryCategoryUrl(need.category)} class="need-card">
+              <span class="need-icon" aria-hidden="true">
+                {need.icon}
+              </span>
+              <span>
+                <>
+                  <strong>{need.name}</strong>
+                  <small>{need.detail}</small>
+                </>
+              </span>
+              <span class="need-number" aria-hidden="true">
+                0{index + 1}
+              </span>
             </a>
-          </div>
-          <div class="mt-2 text-xs sm:text-sm text-gray-700">
-            All 4 editions free as PDF — one email unlocks each. Explore destinations in <a href="/where-to-work/" class="font-medium text-gray-900 underline hover:text-black">Where to Work</a> or <a href="/articles/" class="font-medium text-gray-900 underline hover:text-black">read our articles</a>.
-          </div>
-        </div>
-      </div>
-      <div class="flex justify-center lg:justify-end order-first lg:order-last">
-        <MagazineStack showLatestBadge={true} className="max-w-full" />
-      </div>
-    </div>
-  </div>
-
-  <section class="border-t border-gray-200 bg-white px-4 py-16 sm:px-6 lg:px-8">
-    <div class="mx-auto max-w-7xl">
-      <div class="mb-10 max-w-3xl">
-        <h2 class="text-3xl font-bold text-gray-900">What We Cover: Digital Nomad, Remote Work and Nomad Lifestyle</h2>
-        <p class="mt-3 text-lg text-gray-700">
-          Honest journalism for people who chose a different path.
-        </p>
-      </div>
-      <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-        <article class="rounded-2xl border border-gray-200 bg-gray-50 p-6">
-          <h3 class="text-xl font-bold text-gray-900">Digital Nomad Stories</h3>
-          <p class="mt-3 text-gray-700">
-            Destinations, visas, community, and the unfiltered reality of digital nomad life — told by the people living it.
-          </p>
-        </article>
-        <article class="rounded-2xl border border-gray-200 bg-gray-50 p-6">
-          <h3 class="text-xl font-bold text-gray-900">Remote Work Guides</h3>
-          <p class="mt-3 text-gray-700">
-            Tools, routines, and remote work ideas for people who need their laptop to go wherever they go.
-          </p>
-        </article>
-        <article class="rounded-2xl border border-gray-200 bg-gray-50 p-6">
-          <h3 class="text-xl font-bold text-gray-900">Nomad Lifestyle Insights</h3>
-          <p class="mt-3 text-gray-700">
-            Health, money, relationships, slow travel — the messy, beautiful side of building a nomad lifestyle from scratch.
-          </p>
-        </article>
-      </div>
-    </div>
-  </section>
-  
-  <div class="bg-hoverw text-white">
-    <ThirdEdition />
-    <PastEditions />
-    <!-- MagazinePreview hidden until new photography; restore import + <MagazinePreview /> -->
-
-    <!-- Digital Nomad Insights Section - Latest Articles -->
-    <section class="border-b border-neutral-800 bg-neutral-900/30 px-4 py-16 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-7xl">
-        <div class="mb-12">
-          <h2 class="text-3xl font-bold text-white">Latest <span class="text-yellow-400">Digital Nomad</span> and Remote Work Articles</h2>
-          <p class="mt-2 text-lg text-neutral-400">Essential reads on digital nomad life, remote work, and the modern nomad lifestyle</p>
-          <div class="mt-4">
-            <SubstackFollow />
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {latestPosts.map((post, index) => (
-            <article class={`group relative overflow-hidden rounded-2xl transition-all hover:scale-105 ${
-              index === 0
-                ? 'bg-linear-to-br from-yellow-500/20 to-orange-500/20 hover:from-yellow-500/30 hover:to-orange-500/30'
-                : 'bg-neutral-900/50 hover:bg-neutral-900/80'
-            }`}>
-              <div class="relative aspect-video">
-                <img
-                  src={post.data.heroImage || '/images/default-blog-hero.webp'}
-                  alt={post.data.title}
-                  class="h-full w-full object-cover"
-                  loading="lazy"
-                />
-                <div class="absolute inset-0 bg-linear-to-t from-black/60 to-transparent"></div>
-                {index === 0 && (
-                  <div class="absolute top-4 left-4">
-                    <span class="inline-block rounded-full bg-yellow-400 px-3 py-1 text-xs font-bold text-black uppercase">Latest</span>
-                  </div>
-                )}
-              </div>
-              <div class="p-6">
-                <h3 class={`mb-3 font-bold text-white group-hover:text-yellow-400 transition-colors ${
-                  index === 0 ? 'text-xl' : 'text-lg'
-                }`}>
-                  <a href={`/articles/${post.slug}/`} class="after:absolute after:inset-0">
-                    {post.data.title}
-                  </a>
-                </h3>
-                <p class="text-sm text-neutral-300 line-clamp-3">
-                  {post.data.description}
-                </p>
-                <div class="mt-4 flex items-center text-xs text-neutral-400">
-                  <span>{new Date(post.data.pubDate || post.data.updatedDate || '2024-01-01').toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric'
-                  })}</span>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-
-        <div class="mt-12 text-center">
-          <a
-            href="/articles/"
-            class="inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-6 py-3 text-sm font-bold text-black transition-all hover:bg-yellow-300 hover:scale-105"
-            aria-label="Read more digital nomad and remote work articles"
-          >
-            Read More Digital Nomad Articles
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-            </svg>
-          </a>
-        </div>
+          ))
+        }
+        <p class="directory-muted">Built by Nomad Magazine. Made for your everyday.</p>
       </div>
     </section>
-
-    <!-- Nomad Directory Section -->
-    <section class="border-b border-neutral-800 bg-neutral-900/30 px-4 py-16 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-7xl">
-        <div class="mb-12 flex items-center justify-between">
+    <section class="directory-section">
+      <div class="directory-wrap">
+        <div class="section-heading">
           <div>
-            <h2 class="text-3xl font-bold text-white">Digital Nomad Directory</h2>
-            <p class="mt-2 text-lg text-neutral-400">Remote work tools, services, and companies for digital nomads</p>
-          </div>
-          <a
-            href="/nomad_directory/"
-            class="inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-4 py-2 text-sm font-bold text-black transition-all hover:bg-yellow-300"
-            aria-label="View all digital nomad directory entries"
-          >
-            View All
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-            </svg>
-          </a>
+            <p class="directory-eyebrow">The Nomad Directory</p><h2>Good finds for life on the move.</h2><p class="directory-muted">
+              Discover businesses building for people like you.
+            </p>
+          </div><a href="/nomad_directory/" class="directory-text-link">Explore all {entries.length} listings ↗</a>
         </div>
-        
-        <!-- Regular Directory Entries -->
-        <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
-          {regularDirectoryEntries.map((entry: any) => (
-            <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-neutral-900/50 transition-all hover:border-yellow-400/50">
-              <div class="p-5">
-                <div class="flex gap-4">
-                  <!-- Logo -->
-                  <div class="shrink-0">
-                    <div class={`w-28 h-28 rounded-xl overflow-hidden flex items-center justify-center ${
-                      directoryDarkLogoTitles.includes(entry.title)
-                        ? 'bg-gray-800' 
-                        : 'bg-white'
-                    }`}>
-                      {entry.image && entry.image !== '/logo.svg' ? (
-                        <img 
-                          src={entry.image} 
-                          alt={entry.title} 
-                          class="w-full h-auto object-contain"
-                        />
-                      ) : (
-                        <span class={`font-bold text-3xl ${
-                          directoryDarkLogoTitles.includes(entry.title)
-                            ? 'text-white'
-                            : 'text-black'
-                        }`}>
-                          {entry.title.charAt(0).toUpperCase()}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  
-                  <!-- Content -->
-                  <div class="flex-1 min-w-0">
-                    <!-- Title and Badges -->
-                    <div class="mb-2">
-                      <h3 class="text-lg font-bold text-white mb-1.5">{entry.title}</h3>
-                      <div class="flex items-center gap-2 flex-wrap">
-                        <span class={`inline-block rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                          entry.category === 'Insurance' ? 'bg-blue-500/20 text-blue-300' :
-                          entry.category === 'Community' ? 'bg-green-500/20 text-green-300' :
-                          entry.category === 'Platform' ? 'bg-purple-500/20 text-purple-300' :
-                          entry.category === 'Events' ? 'bg-orange-500/20 text-orange-300' :
-                          entry.category === 'App' ? 'bg-indigo-500/20 text-indigo-300' :
-                          'bg-gray-500/20 text-gray-300'
-                        }`}>
-                          {entry.category}
-                        </span>
-                        {entry.isSupporter && (
-                          <a
-                            href="/support-the-magazine/"
-                            class="inline-flex items-center gap-1 bg-linear-to-r from-red-600 to-red-700 text-white px-2 py-0.5 rounded-full text-xs font-bold hover:from-red-700 hover:to-red-800 transition-all duration-200"
-                            title="Monthly Supporter"
-                            aria-label="Monthly Supporter - Learn how to support the magazine"
-                          >
-                            <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                            </svg>
-                            Supporter
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                    
-                    <!-- Description -->
-                    <p class="text-sm text-neutral-300 line-clamp-2 mb-3 leading-relaxed">
-                      {entry.description}
-                    </p>
-                    
-                    <!-- CTA -->
-                    <a 
-                      href={entry.link}
-                      target={entry.link.startsWith('http') ? '_blank' : '_self'}
-                      rel={entry.link.startsWith('http') ? 'noopener noreferrer' : undefined}
-                      class="inline-flex items-center text-yellow-400 text-sm font-medium hover:text-yellow-300 transition-colors"
-                    >
-                      View directory listing →
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-        
-        <div class="mt-12 text-center">
-          <a
-            href="/nomad_directory/"
-            class="inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-6 py-3 text-sm font-bold text-black transition-all hover:bg-yellow-300 hover:scale-105"
-            aria-label="Browse the full digital nomad directory"
-          >
-            Browse Full Digital Nomad Directory
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-            </svg>
-          </a>
+        <div class="directory-grid">{entries.slice(0, 3).map((entry) => <DirectoryEntryCard entry={entry} preview />)}</div>
+      </div>
+    </section>
+    <section class="directory-section">
+      <div class="directory-wrap owner-strip">
+        <div>
+          <p class="directory-eyebrow">For the people building it</p><h2>Your project belongs here.</h2><p class="directory-muted">
+            Run a space, community or service for nomads? Help the right people find you.
+          </p>
+        </div><div class="directory-actions">
+          <a href="/nomad-directory-submit/" class="directory-button">Add your listing ↗</a><a href="/nomad-directory-edit/" class="directory-text-link">Manage your listing</a>
         </div>
       </div>
     </section>
-
-
-    <!-- YouTube Section -->
-    <section class="border-b border-neutral-800 bg-neutral-900/30 px-4 py-16 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-7xl">
-        <div class="mb-12 flex items-center justify-between">
-          <div>
-            <h2 class="text-3xl font-bold text-white">Latest Videos</h2>
-            <p class="mt-2 text-lg text-neutral-400">Watch our latest content on YouTube</p>
-          </div>
-          <a
-            href="https://www.youtube.com/@Nomad-Magazine"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-bold text-white transition-all hover:bg-red-700"
-            aria-label="Subscribe to Nomad Magazine on YouTube"
-          >
-            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-            </svg>
-            Subscribe
-          </a>
+    <section class="directory-section">
+      <div class="directory-wrap">
+        <div class="section-heading">
+          <div><p class="directory-eyebrow">Beyond the directory</p><h2>Stories from the road.</h2></div><a href="/articles/" class="directory-text-link">All articles ↗</a>
         </div>
-        
-        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {youtubeVideos.map((video) => (
-            <div class="group relative overflow-hidden rounded-2xl bg-neutral-900/50 transition-all hover:bg-neutral-900/80 hover:scale-105">
-              <div class="relative">
-                <img
-                  src={video.thumbnail}
-                  alt={video.title}
-                  class="aspect-video w-full object-cover"
-                  loading="lazy"
-                />
-                <div class="absolute inset-0 bg-linear-to-t from-black/60 to-transparent"></div>
-                <div class="absolute bottom-2 right-2 rounded bg-black/80 px-2 py-1 text-xs text-white">
-                  {video.duration}
-                </div>
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <div class="rounded-full bg-red-600 p-4 transition-all group-hover:bg-red-700 group-hover:scale-110">
-                    <svg class="h-8 w-8 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M8 5v14l11-7z"/>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-              <div class="p-6">
-                <h3 class="mb-2 text-lg font-bold text-white group-hover:text-yellow-400 transition-colors">
-                  <a href={`https://www.youtube.com/watch?v=${video.id}`} target="_blank" rel="noopener noreferrer" class="after:absolute after:inset-0">
-                    {video.title}
+        <div class="directory-grid">
+          {
+            articles.map((article) => (
+              <article class="story-card">
+                <>
+                  <h3>
+                    <a href={`/articles/${article.slug}/`}>{article.data.title}</a>
+                  </h3>
+                  <a class="directory-text-link" href={`/articles/${article.slug}/`} aria-label={`Read ${article.data.title}`}>
+                    Read the story ↗
                   </a>
-                </h3>
-                <p class="text-sm text-neutral-300 line-clamp-2">
-                  {video.description}
-                </p>
-              </div>
-            </div>
-          ))}
+                </>
+              </article>
+            ))
+          }
         </div>
+        <aside class="magazine-archive" aria-label="Magazine archive">
+          <div>
+            <p class="directory-eyebrow">Where it all began</p><h2>The magazine collection.</h2><p class="directory-muted">
+              Four editions of places, people and perspectives. Explore the archive while we build the next chapter around the directory.
+            </p>
+          </div><a href="/editions/" class="directory-button secondary">Explore past editions ↗</a>
+        </aside>
       </div>
     </section>
-    
-    <!-- Distribution Network Section -->
-    <section class="border-b border-neutral-800 bg-neutral-900/30 px-4 py-16 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-7xl">
-        <div class="mb-12 text-center">
-          <h2 class="text-3xl font-bold text-white">Global <span class="text-yellow-400">Distribution</span> Network</h2>
-          <p class="mt-2 text-lg text-neutral-400">Find our magazine in coworking spaces, cafes, and nomad hubs worldwide</p>
-        </div>
-        
-        <!-- Photo Collage Grid -->
-        <div class="grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-6">
-          <div class="group relative overflow-hidden rounded-lg aspect-square">
-            <img src="/images/distribution-list-magculture.webp" alt="Nomad Magazine at MagCulture" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" loading="lazy" />
-            <div class="absolute inset-0 bg-linear-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
-              <span class="text-white text-xs font-bold">MagCulture</span>
-            </div>
-          </div>
-          <div class="group relative overflow-hidden rounded-lg aspect-square">
-            <img src="/images/distribution-list-wework.webp" alt="Nomad Magazine at WeWork" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" loading="lazy" />
-            <div class="absolute inset-0 bg-linear-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
-              <span class="text-white text-xs font-bold">WeWork</span>
-            </div>
-          </div>
-          <div class="group relative overflow-hidden rounded-lg aspect-square">
-            <img src="/images/distribution-list-sowo.webp" alt="Nomad Magazine at SoWo Coworking" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" loading="lazy" />
-            <div class="absolute inset-0 bg-linear-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
-              <span class="text-white text-xs font-bold">SoWo</span>
-            </div>
-          </div>
-          <div class="group relative overflow-hidden rounded-lg aspect-square">
-            <img src="/images/distribution-list-mob.webp" alt="Nomad Magazine at MOB Coworking" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" loading="lazy" />
-            <div class="absolute inset-0 bg-linear-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
-              <span class="text-white text-xs font-bold">MOB</span>
-            </div>
-          </div>
-          <div class="group relative overflow-hidden rounded-lg aspect-square">
-            <img src="/images/distribution-list-samesame.webp" alt="Nomad Magazine at SameSame Coworking" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" loading="lazy" />
-            <div class="absolute inset-0 bg-linear-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
-              <span class="text-white text-xs font-bold">SameSame</span>
-            </div>
-          </div>
-          <div class="group relative overflow-hidden rounded-lg aspect-square">
-            <img src="/images/distribution-list-madeirafriends.webp" alt="Nomad Magazine at Madeira Friends" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" loading="lazy" />
-            <div class="absolute inset-0 bg-linear-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
-              <span class="text-white text-xs font-bold">Madeira Friends</span>
-            </div>
-          </div>
-          <div class="group relative overflow-hidden rounded-lg aspect-square">
-            <img src="/images/distribution-list-typographia-cowork.webp" alt="Nomad Magazine at Typographia Cowork" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" loading="lazy" />
-            <div class="absolute inset-0 bg-linear-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
-              <span class="text-white text-xs font-bold">Typographia</span>
-            </div>
-          </div>
-          <div class="group relative overflow-hidden rounded-lg aspect-square">
-            <img src="/images/distribution-list-workhub.webp" alt="Nomad Magazine at WorkHub" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" loading="lazy" />
-            <div class="absolute inset-0 bg-linear-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
-              <span class="text-white text-xs font-bold">WorkHub</span>
-            </div>
-          </div>
-          <div class="group relative overflow-hidden rounded-lg aspect-square">
-            <img src="/images/distribution-list-workspace6.webp" alt="Nomad Magazine at Workspace6" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" loading="lazy" />
-            <div class="absolute inset-0 bg-linear-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
-              <span class="text-white text-xs font-bold">Workspace6</span>
-            </div>
-          </div>
-          <div class="group relative overflow-hidden rounded-lg aspect-square">
-            <img src="/images/distribution-list-hub-hoi-an.webp" alt="Nomad Magazine at Hub Hoi An" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" loading="lazy" />
-            <div class="absolute inset-0 bg-linear-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
-              <span class="text-white text-xs font-bold">Hub Hoi An</span>
-            </div>
-          </div>
-          <div class="group relative overflow-hidden rounded-lg aspect-square">
-            <img src="/images/distribution-list-second-home.webp" alt="Nomad Magazine at Second Home" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" loading="lazy" />
-            <div class="absolute inset-0 bg-linear-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
-              <span class="text-white text-xs font-bold">Second Home</span>
-            </div>
-          </div>
-          <div class="group relative overflow-hidden rounded-lg aspect-square">
-            <img src="/images/distribution-list-fosbury-sons.webp" alt="Nomad Magazine at Fosbury & Sons" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" loading="lazy" />
-            <div class="absolute inset-0 bg-linear-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
-              <span class="text-white text-xs font-bold">Fosbury & Sons</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="mt-12 text-center">
-          <a
-            href="/distribution-list/"
-            class="inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-6 py-3 text-sm font-bold text-black transition-all hover:bg-yellow-300 hover:scale-105"
-            aria-label="View full distribution list and locations"
-          >
-            View All Locations
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </section>
-    
-    <!-- Partners Section - Social proof -->
-    <Partners />
-    
-    <!-- Community & Social Proof -->
-    <Testimonials />
-    <GrowingCommunity />
-
-    <!-- About & Mission - Combine related sections -->
-    <About />
-    <Mission />
-    
-    <!-- Call to Action Sections -->
-    <Bridge />
-    <Welcome />
-  </div>
-  <OurTeam />
-  <div class="bg-hoverw text-white">
-    <BrandPlacement />
-    <Subscribe tag="home" />
-  </div>
-  <div class="bg-gray-50">
-    <GetInvolved />
-  </div>
-
-  <!-- Sticky Magazine CTA -->
-  <div id="sticky-cta" class="fixed bottom-4 right-4 z-50 hidden">
-    <div class="bg-black border-2 border-yellow-400 rounded-lg p-4 shadow-2xl max-w-sm">
-      <div class="flex items-center gap-3">
-        <img 
-          src="/images/edition-004-cover.webp" 
-          alt="Nomad Magazine Edition Four" 
-          class="w-16 h-20 object-cover rounded"
-        />
-        <div class="flex-1">
-          <h3 class="text-white font-bold text-sm">Edition #4 Now Available</h3>
-          <p class="text-gray-300 text-xs mb-2">128 pages · all editions free as PDF</p>
-          <a 
-            href="/editions/fourth-edition/"
-            class="inline-block bg-yellow-400 text-black text-xs font-bold px-3 py-1.5 rounded hover:bg-yellow-300 transition-colors"
-          >
-            View Edition
-          </a>
-        </div>
-        <button
-          onclick="document.getElementById('sticky-cta').style.display = 'none'"
-          class="text-gray-400 hover:text-white text-xl leading-none"
-          aria-label="Close sticky call-to-action"
-        >
-          ×
-        </button>
-      </div>
-    </div>
   </div>
 </Layout>
-
 <style>
-@keyframes glow {
-  0% { box-shadow: 0 0 0 0 #fde047; }
-  50% { box-shadow: 0 0 16px 4px #fde047; }
-  100% { box-shadow: 0 0 0 0 #fde047; }
-}
-.glow-animate {
-  animation: glow 1.5s infinite;
-}
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-</style>
-
-<script>
-  // Show sticky CTA after scrolling past hero section
-  window.addEventListener('scroll', function() {
-    const stickyCTA = document.getElementById('sticky-cta');
-    const scrollPosition = window.scrollY;
-    const windowHeight = window.innerHeight;
-    
-    if (scrollPosition > windowHeight * 0.8) {
-      stickyCTA?.classList.remove('hidden');
-    } else {
-      stickyCTA?.classList.add('hidden');
+  .home-hero {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    align-items: center;
+    gap: 88px;
+    padding-top: 76px;
+    padding-bottom: 76px;
+  }
+  h1 {
+    font-size: clamp(48px, 5.4vw, 76px);
+    line-height: 1.06;
+    font-weight: 650;
+    letter-spacing: -0.055em;
+    margin: 22px 0;
+  }
+  h1 span {
+    color: #facc15;
+  }
+  .hero-description {
+    color: #b9beb5;
+    font-size: 20px;
+    max-width: 500px;
+    line-height: 1.6;
+  }
+  .home-search {
+    display: flex;
+    background: #fff;
+    padding: 6px;
+    border-radius: 10px;
+    margin: 28px 0 16px;
+    gap: 8px;
+  }
+  .home-search input {
+    flex: 1;
+    min-width: 0;
+    padding: 10px;
+    color: #171817;
+    font-size: 16px;
+  }
+  .home-search input::placeholder {
+    color: #61675d;
+  }
+  .hero-meta {
+    color: #b9beb5;
+    font-size: 13px;
+    margin-bottom: 22px;
+  }
+  .hero-meta span {
+    color: #5c6654;
+    padding: 0 8px;
+  }
+  .hero-discovery {
+    border: 1px solid #394132;
+    border-radius: 20px;
+    background: #20261d;
+    padding: 24px;
+    transform: rotate(1deg);
+  }
+  .discovery-heading {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .need-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #2b3426;
+    border: 1px solid #45513c;
+    border-radius: 10px;
+    padding: 20px 16px;
+    margin: 10px 0;
+  }
+  .need-card:hover {
+    border-color: #facc15;
+  }
+  .need-icon {
+    color: #facc15;
+    font-size: 28px;
+    width: 30px;
+    text-align: center;
+  }
+  .need-card strong {
+    font-size: 17px;
+    font-weight: 600;
+  }
+  .need-card small {
+    display: block;
+    color: #bdc6b7;
+    margin-top: 3px;
+  }
+  .need-number {
+    margin-left: auto;
+    color: #b1bda8;
+    font-size: 12px;
+  }
+  .hero-discovery > p {
+    font-size: 12px;
+    text-align: center;
+    margin-top: 20px;
+  }
+  .owner-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+  }
+  .owner-strip p {
+    margin: 12px 0;
+  }
+  .story-card {
+    padding: 24px 0;
+    border-top: 1px solid #4c5445;
+  }
+  .story-card h3 {
+    font-size: 21px;
+    margin-bottom: 24px;
+  }
+  .magazine-archive {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    margin-top: 56px;
+    padding: 32px;
+    background: #20251d;
+    border-radius: 14px;
+  }
+  .magazine-archive p {
+    max-width: 640px;
+    margin: 12px 0;
+  }
+  .magazine-archive h2 {
+    font-size: 26px;
+  }
+  @media (max-width: 1000px) {
+    .home-hero {
+      gap: 32px;
     }
-  });
-
-</script>
-
-{stickyBarItems.length > 0 && <StickyAnnouncementBar items={stickyBarItems} />}
+    .owner-strip {
+      align-items: start;
+      flex-direction: column;
+    }
+  }
+  @media (max-width: 760px) {
+    .home-hero {
+      grid-template-columns: 1fr;
+      padding-top: 40px;
+      padding-bottom: 40px;
+    }
+    .hero-discovery {
+      transform: none;
+    }
+    .magazine-archive {
+      flex-direction: column;
+      align-items: start;
+      padding: 24px;
+    }
+    .home-search .directory-button {
+      padding: 12px;
+    }
+  }
+</style>

@@ -1,593 +1,516 @@
 ---
-export const prerender = true;
-
-import { fetchReportRecords } from '~/utils/smartsuite'
+export const prerender = true
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
-import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
-import { directoryLogoBoxClass, directoryLogoImageClass, directoryLogoInitialClass, directoryLogoUrlFor } from '~/const/nomadDirectoryWhiteLogos'
+import DirectoryEntryCard from '~/components/DirectoryEntryCard.astro'
+import { getDirectoryEntries, getDirectoryCategories, directoryCategoryUrl } from '~/utils/directory'
+import '~/styles/directory.css'
 
-const { records = [] } = await fetchReportRecords('6857167d82358a0f5e038c3f')
-
-const activeRecords = records
-  .filter((r: any) => r.sf4ad525dd)
-  .map((r: any, i: number) => ({
-    id: String(r.id || i),
-    index: i + 1,
-    title: r.title || '',
-    category: r.sb685ab800?.label || '',
-    description: r.scea90e502 || '',
-    specialOffer: r.s5576966ee || '',
-    link: r.link || r.sb788c266b?.[0] || '',
-    image: directoryLogoUrlFor(r.title, (r.image && r.image !== '/logo.svg') ? r.image : ''),
-  }))
-
-const total = activeRecords.length
-
-const categoryCounts: Record<string, number> = {}
-activeRecords.forEach((r: any) => {
-  if (r.category) categoryCounts[r.category] = (categoryCounts[r.category] || 0) + 1
-})
-const categories = Object.entries(categoryCounts).sort((a, b) => b[1] - a[1])
-
+const entries = await getDirectoryEntries()
+const categories = getDirectoryCategories(entries)
+const canonical = `${Astro.site}nomad_directory/`
+const description = 'Explore digital nomad tools, coliving, coworking spaces and communities. Search the Nomad Directory for services, member offers and resources for remote work.'
 const seo: SEOProps = {
-  title: 'The Nomad Directory - The Living Database of the Nomad Economy',
-  description: 'The definitive intelligence hub tracking trends, opportunities, and innovations in the digital nomad ecosystem. Discover emerging tools and services while contributing to nomad economy intelligence.',
-  image: 'https://nomad-magazine.com/images/Nomad-directory.webp',
-  keywords: 'nomad directory, digital nomad economy, nomad business intelligence, remote work trends, nomad startup database, digital nomad market data, location independent business',
-  ogType: 'website',
+  title: 'Digital Nomad Directory: Tools, Spaces & Communities',
+  description,
+  canonical,
+  image: `${Astro.site}images/Nomad-directory.webp`,
+  keywords: 'digital nomad directory, remote work tools, coliving, coworking spaces, nomad communities, eSIM, nomad services',
   ldJSON: {
     '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    name: 'The Nomad Directory',
-    description: 'The ultimate directory of tools, services, communities, and resources for digital nomads worldwide.',
-    url: `${Astro.site}nomad_directory/`,
-    publisher: { '@type': 'Organization', name: 'Nomad Magazine', logo: { '@type': 'ImageObject', url: `${Astro.site}logo.svg` } },
-    about: { '@type': 'Thing', name: 'Digital Nomad Resources', description: 'Comprehensive directory of services and tools for digital nomads' },
+    '@type': 'CollectionPage',
+    name: 'Digital Nomad Directory',
+    description,
+    url: canonical,
+    publisher: { '@type': 'Organization', name: 'Nomad Magazine', url: `${Astro.site}` },
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: `${Astro.site}` },
+        { '@type': 'ListItem', position: 2, name: 'Nomad Directory', item: canonical },
+      ],
+    },
+    mainEntity: {
+      '@type': 'ItemList',
+      name: 'Published Nomad Directory listings',
+      numberOfItems: entries.length,
+      itemListElement: entries.map((entry, index) => ({ '@type': 'ListItem', position: index + 1, name: entry.title, url: `${canonical}#listing-${entry.id}` })),
+    },
   },
 }
 ---
 
 <Layout seo={seo}>
-  <div class="bg-hoverw text-white min-h-screen">
-
-    <!-- Hero -->
-    <section class="pt-16 pb-10">
-      <div class="container mx-auto px-4 text-center">
-        <h1 class="mx-auto max-w-4xl text-4xl leading-tight font-bold md:text-6xl mb-3">
-          The <span class="text-yellow-400">Nomad Directory</span>
-        </h1>
-        <h2 class="mx-auto max-w-4xl text-xl font-bold md:text-3xl mb-2">
-          The Living Database of the Nomad Economy
-        </h2>
-        <p class="mx-auto max-w-3xl text-base text-gray-400 mb-5 italic">Because Google Doesn't Get Our Lifestyle</p>
-        <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-6 text-sm text-gray-400">
-          <span class="flex items-center gap-1.5"><span class="text-yellow-400 font-bold">{total}</span> vetted companies</span>
-          <span class="text-gray-700 hidden sm:inline">·</span>
-          <span class="flex items-center gap-1.5"><span class="text-yellow-400 font-bold">25+</span> categories</span>
-          <span class="text-gray-700 hidden sm:inline">·</span>
-          <span class="flex items-center gap-1.5"><span class="text-yellow-400 font-bold">↻</span> updated regularly</span>
-          <span class="text-gray-700 hidden sm:inline">·</span>
-          <span class="flex items-center gap-1.5">built by <span class="text-white font-medium">Nomad Magazine</span></span>
-        </div>
-        <div class="flex justify-center gap-4 flex-wrap mb-4">
-          <a target="_blank" rel="noopener noreferrer"
-            href="https://form.smartsuite.com/s4tmc086/8sFlvrVlDC?redirect=https%3A//nomad-magazine.com/nomad-directory-boost-options"
-            class="inline-flex items-center gap-2 bg-black hover:bg-gray-900 border-2 border-yellow-400 px-8 py-3 rounded-lg text-yellow-400 font-bold text-lg transition-all duration-200">
-            <MaterialSymbolsElectricBolt width="20" height="20" />
-            Join the Database
-          </a>
-        </div>
-        <p class="text-gray-500 text-sm">
-          <a href="/nomad-directory-rights/" class="text-gray-400 hover:text-yellow-400 underline transition-colors">Member rights & perks</a>
-        </p>
-      </div>
-    </section>
-
-    <!-- Browse by need -->
-    <section class="pb-8">
-      <div class="container mx-auto px-4 max-w-5xl">
-        <p class="text-center text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">Browse by need</p>
-        <div class="flex flex-wrap justify-center gap-2">
-          <button onclick="quickFilter('Events')" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>🗓</span> Events
-          </button>
-          <button onclick="quickFilter('Coliving')" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>🏠</span> Coliving
-          </button>
-          <button onclick="quickFilter('Platform')" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>🌐</span> Platforms
-          </button>
-          <button onclick="quickFilter('App')" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>📱</span> Apps
-          </button>
-          <button onclick="quickFilter('Legal & Taxes')" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>⚖️</span> Legal & Taxes
-          </button>
-          <button onclick="quickFilter('Insurance')" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>🛡</span> Insurance
-          </button>
-          <button onclick="quickFilter('Community Platform')" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>👥</span> Community
-          </button>
-          <button onclick="quickFilter('Blog')" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>✍️</span> Blogs
-          </button>
-          <button onclick="quickFilter('eSim')" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>📡</span> eSIM
-          </button>
-          <button onclick="quickFilter('Coworking')" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>💻</span> Coworking
-          </button>
+  <div class="directory-theme">
+    <section class="directory-wrap directory-hero">
+      <nav aria-label="Breadcrumb" class="breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">Nomad Directory</span></nav>
+      <div class="directory-intro">
+        <div>
+          <p class="directory-eyebrow">Your shortcut to nomad life</p><h1>The Nomad <span>Directory.</span></h1><p class="intro-description">
+            Find your next space, your people, and the tools to make it all work. A directory for digital nomads, built around real life.
+          </p>
+        </div><div class="directory-actions">
+          <a href="/nomad-directory-submit/" class="directory-button">Add your listing ↗</a><a href="/nomad-directory-edit/" class="directory-text-link">Manage your listing</a>
         </div>
       </div>
+      <div class="directory-facts">
+        <span><strong>{entries.length}</strong> published listings</span><span><strong>{categories.length}</strong> categories</span><span>By <strong>Nomad Magazine</strong></span>
+      </div>
     </section>
-
-    <!-- Main layout: left filters + right listings -->
-    <section class="pb-20">
-      <div class="container mx-auto px-4 max-w-7xl">
-        <!-- Stats + Sort bar (above both columns) -->
-        <div class="flex items-center justify-between mb-4">
-          <span class="text-sm text-gray-400"><span class="text-yellow-400 font-bold text-xl" id="stat-showing">{total}</span> results</span>
-          <div class="flex items-center gap-2">
-            <label for="sort-select" class="text-xs text-gray-500 uppercase tracking-wider">Sort</label>
-            <select id="sort-select" aria-label="Sort listings"
-              class="bg-white/10 border border-white/20 text-white text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:border-yellow-400 transition-all cursor-pointer">
-              <option value="default">Default</option>
-              <option value="az">A → Z</option>
-              <option value="za">Z → A</option>
-            </select>
+    <section class="directory-wrap browse-section" aria-labelledby="browse-heading">
+      <div class="browse-layout">
+        <aside aria-label="Directory navigation">
+          <div class="filter-panel" id="directory-controls" hidden>
+            <label for="category-select" class="filter-heading">Browse by category</label>
+            <select id="category-select" class="directory-field"
+              ><option value="">All categories ({entries.length})</option>{
+                categories.map(([category, count]) => (
+                  <option value={category}>
+                    {category} ({count})
+                  </option>
+                ))
+              }</select
+            >
+            <div class="category-shortcuts" role="group" aria-label="Popular categories">
+              <button type="button" data-category-filter="" aria-pressed="true">All categories <span>{entries.length}</span></button>
+              {
+                categories.slice(0, 8).map(([category, count]) => (
+                  <button type="button" data-category-filter={category} aria-pressed="false">
+                    {category}
+                    <span>{count}</span>
+                  </button>
+                ))
+              }
+            </div>
           </div>
+          <div class="owner-note">
+            <p class="directory-eyebrow">Is your business here?</p><h2>Keep your listing fresh.</h2><p>Sign in with the email on your listing to submit changes for review.</p><a
+              href="/nomad-directory-edit/"
+              class="directory-text-link">Sign in / create account ↗</a
+            >
+          </div>
+          <nav aria-label="More nomad resources" class="resource-links">
+            <a href="/coliving_directory/">Explore coliving spaces ↗</a><a href="/where-to-work/">Find places to work ↗</a><a href="/digital-nomad-wiki/">Digital nomad guides ↗</a>
+          </nav>
+        </aside>
+        <div>
+          <h2 id="browse-heading" class="sr-only">Explore digital nomad businesses and services</h2>
+          <form id="directory-search" role="search" aria-label="Search directory listings" hidden>
+            <label for="search-input" class="sr-only">Search directory listings</label><input
+              id="search-input"
+              type="search"
+              name="q"
+              placeholder="Search names, tools, spaces or communities…"
+              class="directory-field"
+            /><button class="directory-button" type="submit">Search</button>
+          </form>
+          <noscript><p class="directory-muted">All listings are shown below. Use your browser’s find feature to search this directory.</p></noscript>
+          <div class="results-toolbar">
+            <p id="result-count" role="status" aria-live="polite" aria-atomic="true">{entries.length} listings to explore</p><div id="sort-controls" hidden>
+              <label for="sort-select">Sort by</label><select id="sort-select" class="directory-field"
+                ><option value="default">Directory order</option><option value="az">Name: A–Z</option><option value="za">Name: Z–A</option></select
+              >
+            </div>
+          </div>
+          <div id="listing-grid" class="directory-grid">{entries.map((entry) => <DirectoryEntryCard entry={entry} />)}</div>
+          <div id="no-results" hidden class="empty-state"><h3>No listings found</h3><p>Try a broader search or choose another category.</p></div>
+          <button id="clear-filters" type="button" class="directory-button secondary" hidden>Clear search and filters</button>
+          <nav id="pagination" aria-label="Directory results pages" hidden>
+            <button id="previous-page" type="button">← Previous</button><span id="page-number"></span><button id="next-page" type="button">Next →</button>
+          </nav>
         </div>
-
-        <div class="flex flex-col lg:flex-row gap-8 items-start">
-
-          <!-- LEFT SIDEBAR: Filters -->
-          <aside class="w-full lg:w-72 shrink-0 lg:sticky lg:top-6" aria-label="Directory filters">
-            <div class="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-6">
-
-              <!-- Search -->
-              <div>
-                <label for="search-input" class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Search</label>
-                <div class="relative">
-                  <input type="text" id="search-input"
-                    placeholder="Name, description..."
-                    aria-label="Search the directory"
-                    class="w-full px-4 py-2.5 pl-10 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-yellow-400 transition-all text-sm" />
-                  <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                  </svg>
-                </div>
-              </div>
-
-              <!-- Category filters -->
-              <div>
-                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Category</p>
-                <div class="space-y-1 max-h-96 overflow-y-auto pr-1" style="scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.2) transparent;">
-                  <button class="cat-btn active w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-all bg-yellow-400 text-black" data-cat="all">
-                    <span>All Categories</span>
-                    <span class="text-xs opacity-70">{total}</span>
-                  </button>
-                  {categories.map(([cat, count]) => (
-                    <button class="cat-btn w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-all" data-cat={cat}>
-                      <span>{cat}</span>
-                      <span class="text-xs text-gray-500">{count}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <!-- Join CTA -->
-              <a target="_blank" rel="noopener noreferrer"
-                href="https://form.smartsuite.com/s4tmc086/8sFlvrVlDC?redirect=https%3A//nomad-magazine.com/nomad-directory-boost-options"
-                class="flex items-center justify-center gap-2 w-full py-2.5 bg-yellow-400/10 hover:bg-yellow-400/20 border border-yellow-400/30 hover:border-yellow-400/60 rounded-xl text-yellow-400 font-bold text-sm transition-all duration-200">
-                <MaterialSymbolsElectricBolt width="16" height="16" />
-                Join the Database
-              </a>
-              <!-- Clear filters -->
-              <button id="clear-filters" aria-label="Clear all filters"
-                class="hidden w-full py-2 text-sm text-gray-400 hover:text-white border border-white/10 hover:border-white/30 rounded-lg transition-all">
-                Clear all filters
-              </button>
-
-              <!-- Share -->
-              <div class="pt-2 border-t border-white/10">
-                <p class="text-xs text-gray-500 mb-2">Share this directory</p>
-                <div class="flex gap-2">
-                  <button onclick="shareOnTwitter()" aria-label="Share on Twitter" class="p-2 bg-white/10 hover:bg-blue-400/20 rounded-lg transition-all group">
-                    <svg class="w-4 h-4 text-gray-400 group-hover:text-blue-400" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
-                  </button>
-                  <button onclick="shareOnLinkedIn()" aria-label="Share on LinkedIn" class="p-2 bg-white/10 hover:bg-blue-600/20 rounded-lg transition-all group">
-                    <svg class="w-4 h-4 text-gray-400 group-hover:text-blue-600" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                  </button>
-                  <button onclick="copyDirectoryUrl(this)" aria-label="Copy URL" class="p-2 bg-white/10 hover:bg-green-500/20 rounded-lg transition-all group">
-                    <svg class="w-4 h-4 text-gray-400 group-hover:text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-                  </button>
-                </div>
-              </div>
-              <!-- Explore more -->
-              <div class="pt-2 border-t border-white/10">
-                <p class="text-xs text-gray-500 uppercase tracking-wider mb-2">Explore more</p>
-                <div class="space-y-1">
-                  <a href="/articles/" class="flex items-center gap-2 px-2 py-1.5 text-sm text-gray-400 hover:text-yellow-400 transition-colors rounded-lg hover:bg-white/5">
-                    <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                    Articles
-                  </a>
-                  <a href="/digital-nomad-wiki/" class="flex items-center gap-2 px-2 py-1.5 text-sm text-gray-400 hover:text-yellow-400 transition-colors rounded-lg hover:bg-white/5">
-                    <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-                    Nomad Wiki
-                  </a>
-                  <a href="/editions/" class="flex items-center gap-2 px-2 py-1.5 text-sm text-gray-400 hover:text-yellow-400 transition-colors rounded-lg hover:bg-white/5">
-                    <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
-                    Magazine
-                  </a>
-                  <a href="/newsletter/" class="flex items-center gap-2 px-2 py-1.5 text-sm text-gray-400 hover:text-yellow-400 transition-colors rounded-lg hover:bg-white/5">
-                    <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                    Newsletter
-                  </a>
-                </div>
-              </div>
-            </div>
-          </aside>
-
-          <!-- RIGHT: Listings -->
-          <main class="flex-1 min-w-0" id="main-content">
-
-            <!-- Active filters bar -->
-            <div id="active-filters" class="hidden flex-wrap gap-2 mb-4 items-center">
-              <span class="text-xs text-gray-500">Filters:</span>
-            </div>
-
-            <!-- Cards -->
-            <div id="directory-container" class="space-y-4"></div>
-
-            <!-- Empty state -->
-            <div id="empty-state" class="hidden text-center py-20">
-              <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <MaterialSymbolsElectricBolt width="28" height="28" class="text-gray-500" />
-              </div>
-              <h3 class="text-xl font-bold text-white mb-2">No results found</h3>
-              <p class="text-gray-400">Try adjusting your search or filters.</p>
-            </div>
-
-            <nav id="pagination" class="hidden mt-8" aria-label="Directory pages"></nav>
-
-            <!-- Bottom CTA -->
-            <div class="mt-16 bg-yellow-400/10 border border-yellow-400/20 rounded-2xl p-10 text-center">
-              <h2 class="text-2xl font-bold text-white mb-4">Building for nomads?</h2>
-              <p class="text-gray-300 mb-6 max-w-xl mx-auto">
-                Join our living database and become part of the definitive intelligence source on the nomad economy.
-              </p>
-              <a target="_blank" rel="noopener noreferrer"
-                href="https://form.smartsuite.com/s4tmc086/8sFlvrVlDC?redirect=https%3A//nomad-magazine.com/nomad-directory-boost-options"
-                class="inline-flex items-center gap-2 bg-black hover:bg-gray-900 border-2 border-yellow-400 px-8 py-3 rounded-lg text-yellow-400 font-bold text-lg transition-all duration-200">
-                <MaterialSymbolsElectricBolt width="20" height="20" />
-                Join the Database
-              </a>
-            </div>
-          </main>
-
+      </div>
+    </section>
+    <section class="directory-section" aria-labelledby="category-guides-heading">
+      <div class="directory-wrap">
+        <p class="directory-eyebrow">Explore a little deeper</p>
+        <h2 id="category-guides-heading">Find digital nomad resources by category.</h2>
+        <nav aria-label="Directory category pages" class="category-pages">
+          {categories.map(([category, count]) => <a href={directoryCategoryUrl(category)}>{category} <span>({count})</span></a>)}
+        </nav>
+      </div>
+    </section>
+    <section class="directory-section">
+      <div class="directory-wrap about-directory">
+        <div>
+          <p class="directory-eyebrow">A place to start</p><h2>Resources for your version of nomad life.</h2><p>
+            Compare coliving spaces and coworking communities, discover remote work apps, or find services for travel, connectivity and life abroad. Each listing includes a
+            description and a link to the business so you can check the details directly.
+          </p><p>
+            Looking for a place to settle in? Explore our <a href="/coliving_directory/" class="directory-text-link">coliving directory</a> or <a
+              href="/where-to-work/"
+              class="directory-text-link">where to work guides</a
+            >.
+          </p>
+        </div><div class="directory-faq">
+          <h2>Directory questions</h2><details>
+            <summary>How do I add my business?</summary><p>
+              <a href="/nomad-directory-submit/" class="directory-text-link">Submit your listing</a> with your business details, website and logo. Submissions are reviewed before publication.
+            </p>
+          </details><details>
+            <summary>Can I manage an existing listing?</summary><p>
+              Yes. <a href="/nomad-directory-edit/" class="directory-text-link">Create an account or sign in</a> with the email attached to your listing. Submit changes to your description,
+              website or offer. Approved changes appear after the next site sync.
+            </p>
+          </details><details>
+            <summary>How do I use a member offer?</summary><p>
+              Check the offer on the listing and visit the business’s website for current availability and terms. Offers are supplied by the listed businesses.
+            </p>
+          </details>
         </div>
       </div>
     </section>
   </div>
-
-  <div id="directory-data" hidden data-items={JSON.stringify(activeRecords)} data-logo-box={directoryLogoBoxClass} data-logo-img={directoryLogoImageClass} data-logo-initial={directoryLogoInitialClass}></div>
 </Layout>
-
-<style>
-  @keyframes slideIn {
-    from { transform: translateX(400px); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
+<script>
+  const grid = document.querySelector<HTMLElement>('#listing-grid')!
+  const cards = Array.from(grid.querySelectorAll<HTMLElement>('[data-entry]'))
+  const search = document.querySelector<HTMLInputElement>('#search-input')!
+  function getSelect(id: string): HTMLSelectElement {
+    const element = document.getElementById(id)
+    if (element instanceof HTMLSelectElement) return element
+    throw new Error(`Missing directory select: ${id}`)
   }
-  @keyframes slideOut {
-    from { transform: translateX(0); opacity: 1; }
-    to { transform: translateX(400px); opacity: 0; }
+  const category = getSelect('category-select')
+  const sort = getSelect('sort-select')
+  const count = document.querySelector<HTMLElement>('#result-count')!
+  const clear = document.querySelector<HTMLButtonElement>('#clear-filters')!
+  const pagination = document.querySelector<HTMLElement>('#pagination')!
+  const previous = document.querySelector<HTMLButtonElement>('#previous-page')!
+  const next = document.querySelector<HTMLButtonElement>('#next-page')!
+  const shortcuts = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-category-filter]'))
+  const pageSize = 24
+  let page = 1
+  const params = new URLSearchParams(location.search)
+  search.value = params.get('q') || ''
+  category.value = params.get('category') || ''
+  if (category.selectedIndex < 0) category.value = ''
+
+  function render(moveFocus = false) {
+    const query = search.value.trim().toLowerCase()
+    const matches = cards.filter((card) => (!category.value || card.dataset.category === category.value) && (!query || card.dataset.search!.includes(query)))
+    if (sort.value !== 'default') matches.sort((a, b) => (a.dataset.title || '').localeCompare(b.dataset.title || '') * (sort.value === 'za' ? -1 : 1))
+    const pages = Math.max(1, Math.ceil(matches.length / pageSize))
+    page = Math.min(page, pages)
+    cards.forEach((card) => {
+      card.hidden = true
+    })
+    const visible = matches.slice((page - 1) * pageSize, page * pageSize)
+    visible.forEach((card) => {
+      card.hidden = false
+      grid.appendChild(card)
+    })
+    count.textContent = matches.length ? `${matches.length} listings · showing ${(page - 1) * pageSize + 1}–${Math.min(page * pageSize, matches.length)}` : '0 listings'
+    document.getElementById('no-results')!.hidden = matches.length > 0
+    clear.hidden = !query && !category.value
+    pagination.hidden = pages < 2
+    previous.disabled = page === 1
+    next.disabled = page === pages
+    document.getElementById('page-number')!.textContent = `Page ${page} of ${pages}`
+    shortcuts.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.categoryFilter === category.value)))
+    if (moveFocus) {
+      document.getElementById('browse-heading')!.focus()
+      grid.scrollIntoView({ block: 'start' })
+    }
+  }
+  function filter() {
+    page = 1
+    render()
+  }
+  document.getElementById('browse-heading')!.setAttribute('tabindex', '-1')
+  document.getElementById('directory-controls')!.hidden = false
+  document.getElementById('directory-search')!.hidden = false
+  document.getElementById('sort-controls')!.hidden = false
+  search.addEventListener('input', filter)
+  category.addEventListener('change', filter)
+  sort.addEventListener('change', filter)
+  document.getElementById('directory-search')!.addEventListener('submit', (event) => {
+    event.preventDefault()
+    filter()
+  })
+  shortcuts.forEach((button) =>
+    button.addEventListener('click', () => {
+      category.value = button.dataset.categoryFilter || ''
+      filter()
+    }),
+  )
+  clear.addEventListener('click', () => {
+    search.value = ''
+    category.value = ''
+    filter()
+    search.focus()
+  })
+  previous.addEventListener('click', () => {
+    page--
+    render(true)
+  })
+  next.addEventListener('click', () => {
+    page++
+    render(true)
+  })
+  function revealLinkedListing() {
+    const index = cards.findIndex((card) => `#${card.id}` === location.hash)
+    if (index < 0) return
+    search.value = ''
+    category.value = ''
+    sort.value = 'default'
+    page = Math.floor(index / pageSize) + 1
+    render()
+    document.getElementById(cards[index].id)?.scrollIntoView({ block: 'start' })
+  }
+  render()
+  revealLinkedListing()
+  window.addEventListener('hashchange', revealLinkedListing)
+</script>
+<style>
+  .category-pages { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+  .category-pages a { padding: 10px 14px; border: 1px solid #535d4a; border-radius: 8px; }
+  .category-pages a:hover { border-color: #facc15; color: #facc15; }
+  .category-pages span { color: #bdc6b7; }
+  .directory-hero {
+    padding-top: 28px;
+    padding-bottom: 36px;
+  }
+  .breadcrumb {
+    display: flex;
+    gap: 12px;
+    color: #aeb2ac;
+    font-size: 13px;
+    margin-bottom: 32px;
+  }
+  .directory-intro {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+  }
+  h1 {
+    font-size: clamp(38px, 4.5vw, 62px);
+    font-weight: 650;
+    letter-spacing: -0.045em;
+    line-height: 1.12;
+    margin: 14px 0 18px;
+  }
+  h1 span {
+    color: #facc15;
+  }
+  .intro-description {
+    max-width: 640px;
+    color: #b9beb5;
+    font-size: 18px;
+  }
+  .directory-intro .directory-actions {
+    flex-direction: column;
+    flex-shrink: 0;
+    align-items: stretch;
+    text-align: center;
+  }
+  .directory-facts {
+    display: flex;
+    gap: 28px;
+    margin-top: 28px;
+    color: #aeb2ac;
+    font-size: 13px;
+  }
+  .directory-facts strong {
+    color: #f5f7f1;
+  }
+  .browse-section {
+    padding-bottom: 64px;
+  }
+  .browse-layout {
+    border-top: 1px solid #353c30;
+    padding-top: 32px;
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: 32px;
+  }
+  .filter-heading {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .directory-field {
+    background: #22271f;
+    border: 1px solid #535d4a;
+    border-radius: 8px;
+    padding: 12px;
+    color: #f8faf5;
+    min-width: 0;
+    font-size: 16px;
+  }
+  input::placeholder {
+    color: #b3bcac;
+  }
+  #category-select {
+    width: 100%;
+    font-size: 14px;
+  }
+  .category-shortcuts {
+    margin-top: 12px;
+  }
+  .category-shortcuts button {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    text-align: left;
+    padding: 11px 12px;
+    color: #c4cabb;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .category-shortcuts button[aria-pressed='true'] {
+    background: #facc15;
+    color: #131513;
+    font-weight: 650;
+  }
+  .owner-note {
+    padding: 22px;
+    margin-top: 24px;
+    background: #242c1e;
+    border: 1px solid #46513a;
+    border-radius: 10px;
+  }
+  .owner-note h2 {
+    font-size: 21px;
+    margin: 12px 0;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+  .owner-note p:not(.directory-eyebrow) {
+    color: #bbc5b2;
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  .owner-note a {
+    font-size: 14px;
+  }
+  .resource-links {
+    display: grid;
+    gap: 16px;
+    font-size: 14px;
+    color: #c4cabb;
+    margin-top: 24px;
+  }
+  #directory-search:not([hidden]) {
+    display: flex;
+    gap: 12px;
+  }
+  #search-input {
+    flex: 1;
+  }
+  .results-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 20px 0;
+    color: #b9c2b1;
+    font-size: 13px;
+  }
+  #sort-controls:not([hidden]) {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  #sort-select {
+    font-size: 13px;
+    padding: 8px;
+  }
+  .browse-layout .directory-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+  #pagination:not([hidden]) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    margin-top: 32px;
+  }
+  #pagination button {
+    padding: 12px;
+    border: 1px solid #535d4a;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  #pagination button:disabled {
+    opacity: 0.45;
+    cursor: default;
+  }
+  #clear-filters {
+    margin-top: 24px;
+  }
+  #clear-filters[hidden] {
+    display: none;
+  }
+  .empty-state {
+    padding: 48px 0;
+  }
+  .empty-state h3 {
+    font-size: 24px;
+    font-weight: 600;
+  }
+  .about-directory {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+  }
+  .about-directory p {
+    margin: 20px 0;
+    color: #bdc6b7;
+  }
+  .directory-faq h2 {
+    font-size: 26px;
+    margin-bottom: 24px;
+  }
+  details {
+    padding: 18px 0;
+    border-bottom: 1px solid #414a3a;
+  }
+  summary {
+    cursor: pointer;
+    font-weight: 600;
+  }
+  @media (max-width: 800px) {
+    .directory-intro {
+      align-items: start;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .directory-intro .directory-actions {
+      flex-direction: row;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .browse-layout {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .category-shortcuts,
+    .owner-note,
+    .resource-links {
+      display: none;
+    }
+    .directory-facts {
+      flex-wrap: wrap;
+      gap: 12px 24px;
+    }
+    .about-directory {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+  @media (max-width: 550px) {
+    .browse-layout .directory-grid {
+      grid-template-columns: 1fr;
+    }
+    .results-toolbar {
+      flex-wrap: wrap;
+    }
+    #directory-search .directory-button {
+      padding: 12px;
+    }
   }
 </style>
-
-<script is:inline>
-  const ITEMS_PER_PAGE = 20;
-  const _dataEl = document.getElementById('directory-data');
-  const allItems = _dataEl ? JSON.parse(_dataEl.getAttribute('data-items')) : [];
-  let filtered = [];
-  let currentPage = 1;
-  let currentCat = 'all';
-  let currentSearch = '';
-  let currentSort = 'default';
-
-  const logoBoxClass = _dataEl?.getAttribute('data-logo-box') || '';
-  const logoImgClass = _dataEl?.getAttribute('data-logo-img') || '';
-  const logoInitialClass = _dataEl?.getAttribute('data-logo-initial') || '';
-
-  function logoImgClassFor(title) {
-    return title === 'Madeira Remote' ? 'w-full h-full object-contain' : logoImgClass;
-  }
-
-  function esc(s) {
-    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-  }
-
-  function renderCard(item) {
-    const logoHtml = item.image
-      ? '<img src="' + esc(item.image) + '" alt="' + esc(item.title) + '" class="' + logoImgClassFor(item.title) + '" loading="lazy" />'
-      : '<span class="' + logoInitialClass + '">' + esc((item.title || 'C').charAt(0).toUpperCase()) + '</span>';
-
-    const offerHtml = item.specialOffer
-      ? '<div class="mt-3 p-3 bg-yellow-400/10 border-l-4 border-yellow-400 rounded-r-lg"><p class="text-yellow-400 font-bold text-xs uppercase mb-1">Special Offer:</p><p class="text-gray-200 text-sm whitespace-pre-line">' + esc(item.specialOffer) + '</p></div>'
-      : '';
-
-    const catHtml = item.category
-      ? '<button class="inline-cat-btn bg-yellow-400/20 text-yellow-400 px-2.5 py-0.5 rounded-full text-xs font-medium border border-yellow-400/30 hover:bg-yellow-400/30 transition-colors" data-cat="' + esc(item.category) + '">' + esc(item.category) + '</button>'
-      : '';
-
-    const descId = 'desc-' + item.id;
-    const desc = item.description || 'Description not available';
-    const descHtml = '<p id="' + descId + '" class="text-gray-300 text-sm leading-relaxed max-w-2xl" style="-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden">' + esc(desc) + '</p>' +
-      '<button class="expand-btn text-xs text-yellow-400 hover:text-yellow-300 transition-colors mt-0.5" data-id="' + descId + '" data-full="' + esc(desc) + '">Read more →</button>';
-
-    const clickAttr = item.link ? 'onclick="window.open(\'' + esc(item.link) + '\',\'_blank\')" style="cursor:pointer"' : '';
-
-    return '<div class="bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/10 transition-all duration-300 group" ' + clickAttr + '>' +
-      '<div class="flex items-start gap-4">' +
-        '<div class="shrink-0">' +
-          '<div class="' + logoBoxClass + '">' + logoHtml + '</div>' +
-        '</div>' +
-        '<div class="flex-1 min-w-0">' +
-          '<div class="flex flex-wrap items-start justify-between gap-2 mb-2">' +
-            '<div class="flex items-center gap-2 flex-wrap">' +
-              '<h3 class="text-base font-bold text-white group-hover:text-yellow-400 transition-colors leading-tight">' + esc(item.title) + '</h3>' +
-            '</div>' +
-            catHtml +
-          '</div>' +
-          descHtml +
-          offerHtml +
-          (item.link ? '<div class="mt-2"><a href="' + esc(item.link) + '" target="_blank" rel="noopener noreferrer" class="text-blue-300 hover:text-blue-200 underline text-xs" onclick="event.stopPropagation()">Learn more →</a></div>' : '') +
-        '</div>' +
-      '</div>' +
-    '</div>';
-  }
-
-  function pageCount() {
-    return Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
-  }
-
-  function pageWindow(current, total) {
-    if (total <= 7) {
-      const pages = [];
-      for (let i = 1; i <= total; i++) pages.push(i);
-      return pages;
-    }
-    const keep = new Set([1, total, current - 1, current, current + 1]);
-    if (current <= 3) { keep.add(2); keep.add(3); }
-    if (current >= total - 2) { keep.add(total - 1); keep.add(total - 2); }
-    const sorted = Array.from(keep).filter(p => p >= 1 && p <= total).sort((a, b) => a - b);
-    const pages = [];
-    sorted.forEach((p, i) => {
-      if (i > 0 && p - sorted[i - 1] > 1) pages.push('…');
-      pages.push(p);
-    });
-    return pages;
-  }
-
-  function pageBtn(label, page, opts) {
-    const disabled = opts && opts.disabled;
-    const current = opts && opts.current;
-    const cls = current
-      ? 'min-w-10 px-3 py-2 rounded-xl bg-yellow-400 text-black font-bold text-sm'
-      : 'min-w-10 px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm font-medium transition-all duration-200 disabled:opacity-40 disabled:pointer-events-none';
-    const aria = current ? ' aria-current="page"' : '';
-    const labelAttr = opts && opts.aria ? ' aria-label="' + opts.aria + '"' : '';
-    return '<button type="button" class="' + cls + '" data-page="' + page + '"' + aria + labelAttr + (disabled ? ' disabled' : '') + '>' + label + '</button>';
-  }
-
-  function renderPagination() {
-    const nav = document.getElementById('pagination');
-    if (!nav) return;
-    const pages = pageCount();
-    if (filtered.length === 0 || pages <= 1) {
-      nav.classList.add('hidden');
-      nav.classList.remove('flex');
-      nav.innerHTML = '';
-      return;
-    }
-    nav.classList.remove('hidden');
-    nav.classList.add('flex', 'flex-wrap', 'items-center', 'justify-center', 'gap-2');
-    const parts = [pageBtn('Previous', currentPage - 1, { disabled: currentPage === 1, aria: 'Previous page' })];
-    pageWindow(currentPage, pages).forEach(function (p) {
-      if (p === '…') {
-        parts.push('<span class="px-1 text-gray-500" aria-hidden="true">…</span>');
-      } else {
-        parts.push(pageBtn(String(p), p, { current: p === currentPage, aria: 'Page ' + p }));
-      }
-    });
-    parts.push(pageBtn('Next', currentPage + 1, { disabled: currentPage === pages, aria: 'Next page' }));
-    nav.innerHTML = parts.join('');
-    nav.querySelectorAll('button[data-page]').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        const next = parseInt(btn.getAttribute('data-page'), 10);
-        if (!next || next === currentPage) return;
-        goToPage(next, true);
-      });
-    });
-  }
-
-  function syncPageUrl() {
-    const url = new URL(window.location.href);
-    if (currentPage <= 1) url.searchParams.delete('page');
-    else url.searchParams.set('page', String(currentPage));
-    history.replaceState(null, '', url);
-  }
-
-  function goToPage(page, scroll) {
-    const pages = pageCount();
-    currentPage = Math.min(Math.max(1, page), pages);
-    renderGrid();
-    syncPageUrl();
-    if (!scroll) return;
-    const container = document.getElementById('directory-container');
-    if (!container) return;
-    const top = container.getBoundingClientRect().top + window.scrollY - 88;
-    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
-  }
-
-  function renderGrid() {
-    const container = document.getElementById('directory-container');
-    const empty = document.getElementById('empty-state');
-    if (!container) return;
-
-    if (filtered.length === 0) {
-      container.innerHTML = '';
-      empty && empty.classList.remove('hidden');
-      renderPagination();
-      return;
-    }
-
-    empty && empty.classList.add('hidden');
-    const start = (currentPage - 1) * ITEMS_PER_PAGE;
-    const toShow = filtered.slice(start, start + ITEMS_PER_PAGE);
-    container.innerHTML = toShow.map(renderCard).join('');
-
-    container.querySelectorAll('.inline-cat-btn').forEach(btn => {
-      btn.addEventListener('click', e => { e.stopPropagation(); selectCat(btn.dataset.cat); });
-    });
-
-    container.querySelectorAll('.expand-btn').forEach(btn => {
-      const p = document.getElementById(btn.dataset.id);
-      if (!p) return;
-      const isClipped = p.scrollHeight > p.clientHeight + 2;
-      if (!isClipped) { btn.style.display = 'none'; return; }
-      btn.addEventListener('click', e => {
-        e.stopPropagation();
-        const expanded = btn.textContent === 'Show less';
-        p.style.webkitLineClamp = expanded ? '2' : 'unset';
-        p.style.overflow = expanded ? 'hidden' : 'visible';
-        btn.textContent = expanded ? 'Read more →' : 'Show less';
-      });
-    });
-
-    renderPagination();
-
-    const stat = document.getElementById('stat-showing');
-    if (stat) stat.textContent = filtered.length;
-  }
-
-  function applyFilters(resetPage) {
-    filtered = allItems.filter(item => {
-      if (currentCat !== 'all' && item.category !== currentCat) return false;
-      if (currentSearch) {
-        const t = (item.title + ' ' + item.description + ' ' + item.category).toLowerCase();
-        if (!t.includes(currentSearch)) return false;
-      }
-      return true;
-    });
-    if (currentSort === 'az') filtered.sort((a, b) => a.title.localeCompare(b.title));
-    else if (currentSort === 'za') filtered.sort((a, b) => b.title.localeCompare(a.title));
-    if (resetPage !== false) currentPage = 1;
-    if (currentPage > pageCount()) currentPage = pageCount();
-    renderGrid();
-    syncPageUrl();
-    updateActiveFilters();
-  }
-
-  function toSlug(str) {
-    return str.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-  }
-
-  function selectCat(cat) {
-    if (cat && cat !== 'all') {
-      window.location.href = '/nomad_directory/' + toSlug(cat) + '/';
-      return;
-    }
-    currentCat = 'all';
-    document.querySelectorAll('.cat-btn').forEach(btn => {
-      const active = btn.dataset.cat === 'all';
-      btn.classList.toggle('active', active);
-      btn.classList.toggle('bg-yellow-400', active);
-      btn.classList.toggle('text-black', active);
-      btn.classList.toggle('font-semibold', active);
-      btn.classList.toggle('text-gray-300', !active);
-      btn.classList.toggle('hover:bg-white/10', !active);
-    });
-    applyFilters();
-  }
-
-  function updateActiveFilters() {
-    const div = document.getElementById('active-filters');
-    const clearBtn = document.getElementById('clear-filters');
-    if (!div) return;
-    const has = currentCat !== 'all' || currentSearch !== '';
-    div.classList.toggle('hidden', !has);
-    div.classList.toggle('flex', has);
-    if (clearBtn) clearBtn.classList.toggle('hidden', !has);
-
-    Array.from(div.querySelectorAll('.filter-tag')).forEach(t => t.remove());
-    if (currentSearch) {
-      const tag = document.createElement('span');
-      tag.className = 'filter-tag bg-yellow-400/20 text-yellow-400 px-2.5 py-1 rounded-full text-xs flex items-center gap-1';
-      tag.innerHTML = '"' + esc(currentSearch) + '" <button onclick="clearSearch()" aria-label="Remove">&times;</button>';
-      div.appendChild(tag);
-    }
-    if (currentCat !== 'all') {
-      const tag = document.createElement('span');
-      tag.className = 'filter-tag bg-blue-400/20 text-blue-400 px-2.5 py-1 rounded-full text-xs flex items-center gap-1';
-      tag.innerHTML = esc(currentCat) + ' <button onclick="clearCat()" aria-label="Remove">&times;</button>';
-      div.appendChild(tag);
-    }
-  }
-
-  function showNotification(msg, type) {
-    const n = document.createElement('div');
-    n.textContent = msg;
-    n.style.cssText = 'position:fixed;top:20px;right:20px;background:' + (type==='success'?'#10b981':'#ef4444') + ';color:white;padding:14px 20px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.3);z-index:9999;font-size:14px;font-weight:500;max-width:400px;animation:slideIn 0.3s ease-out';
-    document.body.appendChild(n);
-    setTimeout(() => { n.style.animation='slideOut 0.3s ease-out'; setTimeout(()=>document.body.removeChild(n),300); }, 3500);
-  }
-
-  window.quickFilter = function(cat) {
-    if (cat && cat !== 'all') {
-      window.location.href = '/nomad_directory/' + toSlug(cat) + '/';
-    }
-  };
-
-  window.clearSearch = function() { currentSearch=''; const si=document.getElementById('search-input'); if(si)si.value=''; applyFilters(); };
-  window.clearCat = function() { selectCat('all'); };
-  window.shareOnTwitter = function() { window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent("The Nomad Directory - Because Google Doesn't Get Our Lifestyle 🌍") + '&url=' + encodeURIComponent('https://nomad-magazine.com/nomad_directory') + '&via=NomadMagazine','_blank','width=550,height=420'); };
-  window.shareOnLinkedIn = function() { window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent('https://nomad-magazine.com/nomad_directory'),'_blank','width=550,height=550'); };
-  window.copyDirectoryUrl = function(btn) {
-    if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText('https://nomad-magazine.com/nomad_directory').then(() => {
-        showNotification('🔗 Link copied!', 'success');
-        if (btn) { const o=btn.innerHTML; btn.innerHTML='<svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>'; setTimeout(()=>{btn.innerHTML=o;},2000); }
-      });
-    }
-  };
-
-  function init() {
-    const si = document.getElementById('search-input');
-    if (si) si.addEventListener('input', e => { currentSearch = e.target.value.toLowerCase().trim(); applyFilters(); });
-
-    document.querySelectorAll('.cat-btn').forEach(btn => {
-      btn.addEventListener('click', () => selectCat(btn.dataset.cat));
-    });
-
-    const clearBtn = document.getElementById('clear-filters');
-    if (clearBtn) clearBtn.addEventListener('click', () => {
-      currentSearch=''; currentCat='all';
-      const si=document.getElementById('search-input'); if(si)si.value='';
-      selectCat('all');
-    });
-
-    const sortSel = document.getElementById('sort-select');
-    if (sortSel) sortSel.addEventListener('change', e => { currentSort = e.target.value; applyFilters(); });
-
-    const initial = parseInt(new URLSearchParams(window.location.search).get('page') || '1', 10);
-    if (initial > 1) currentPage = initial;
-    applyFilters(false);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-</script>

@@ -39,8 +39,8 @@ if (Astro.request.method === 'POST') {
 }
 
 const seo: SEOProps = {
-  title: 'Edit Your Nomad Directory Listing - Nomad Magazine',
-  description: 'Already in the Nomad Directory? Enter the email on your listing. We will email a login link so you can update your company name, offer, logo, and website.',
+  title: 'Your Nomad Directory Account & Listings | Nomad Magazine',
+  description: 'Create your Nomad Directory account or sign in by email. Manage your business listing, submit changes for review and keep your website and member offers current.',
   image: 'https://nomad-magazine.com/images/Nomad-directory.webp',
   canonical: 'https://nomad-magazine.com/nomad-directory-edit/',
   keywords: 'edit nomad directory listing, update nomad directory, manage company listing',
@@ -48,8 +48,8 @@ const seo: SEOProps = {
   ldJSON: {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
-    name: 'Edit Your Nomad Directory Listing - Nomad Magazine',
-    description: 'Already in the Nomad Directory? Enter the email on your listing. We will email a login link so you can update your company name, offer, logo, and website.',
+    name: 'Your Nomad Directory Account & Listings | Nomad Magazine',
+    description: 'Create your Nomad Directory account or sign in by email. Manage your business listing, submit changes for review and keep your website and member offers current.',
     url: 'https://nomad-magazine.com/nomad-directory-edit/',
     publisher: { '@type': 'Organization', name: 'Nomad Magazine', url: 'https://nomad-magazine.com/' },
   },
@@ -83,15 +83,15 @@ const fieldClass =
         <p class="text-sm text-gray-400 mb-4">
           <a href="/nomad_directory/" class="hover:text-yellow-400 transition-colors">Nomad Directory</a>
           <span class="mx-2 text-gray-600">/</span>
-          Edit listing
+          Directory account
         </p>
         <div class="flex items-center gap-3 mb-3">
           <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-yellow-400 text-black" aria-hidden="true">
             <MaterialSymbolsElectricBolt width="22" height="22" />
           </span>
-          <h1 class="text-4xl md:text-5xl font-bold">Edit your listing</h1>
+          <h1 class="text-4xl md:text-5xl font-bold">Your directory account</h1>
         </div>
-        <p class="text-gray-400 mb-8">You can edit your listing yourself, so there's no need to contact us. Enter the email on your listing and we'll send you a login link. Save your changes, and we'll review them before the card goes live again.</p>
+        <p class="text-gray-400 mb-8">Sign in or create an account with an email link. Already listed? Use the email attached to your listing to manage it. New here? Create your account, then submit your business. Changes are reviewed before publication.</p>
 
         {error && (
           <div class="mb-6 px-4 py-3 rounded-lg bg-red-400/10 border border-red-400/20 text-red-400 text-sm" role="alert">
@@ -104,7 +104,7 @@ const fieldClass =
           </div>
         )}
 
-        <form method="POST" aria-label="Send a login link to edit your listing" class="space-y-5">
+        <form method="POST" aria-label="Sign in or create a directory account" class="space-y-5">
           <div>
             <label for="email" class="block text-sm font-medium mb-2">Email address</label>
             <input
