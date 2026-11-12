@@ -218,32 +218,46 @@ const seo: SEOProps = {
             <p class="handwritten">The nomad directory</p>
           </div>
           
-          <!-- Using well-known recognizable brands from directory -->
+          <!-- Curated recognizable brands from directory -->
           <div class="sticker sticker-1">
             <div class="sticker-inner">
-              <img src={allValidEntries[0]?.image || '/logo.svg'} alt="" aria-hidden="true" loading="lazy" width="28" height="28" />
-              <span>{allValidEntries[0]?.title}</span>
+              <img src="/images/directory-logos/6a0ec0233bcead91869b2839.webp" alt="" aria-hidden="true" loading="lazy" width="28" height="28" />
+              <span>Arctic Coliving</span>
             </div>
           </div>
           
           <div class="sticker sticker-2">
             <div class="sticker-inner">
-              <img src={allValidEntries[1]?.image || '/logo.svg'} alt="" aria-hidden="true" loading="lazy" width="28" height="28" />
-              <span>{allValidEntries[1]?.title}</span>
+              <img src="/images/directory-logos/6a0f2e4f8698d89c76d070e5.webp" alt="" aria-hidden="true" loading="lazy" width="28" height="28" />
+              <span>Find Your Coliving</span>
             </div>
           </div>
           
           <div class="sticker sticker-3">
             <div class="sticker-inner">
-              <img src={allValidEntries[2]?.image || '/logo.svg'} alt="" aria-hidden="true" loading="lazy" width="28" height="28" />
-              <span>{allValidEntries[2]?.title}</span>
+              <img src="/images/directory-logos/6ada7d6809d436404f220898.webp" alt="" aria-hidden="true" loading="lazy" width="28" height="28" />
+              <span>Nomad Fly</span>
             </div>
           </div>
           
           <div class="sticker sticker-4">
             <div class="sticker-inner">
-              <img src={allValidEntries[3]?.image || '/logo.svg'} alt="" aria-hidden="true" loading="lazy" width="28" height="28" />
-              <span>{allValidEntries[3]?.title}</span>
+              <img src="/images/directory-logos/6a9901950ecce3589a35d5c2.webp" alt="" aria-hidden="true" loading="lazy" width="28" height="28" />
+              <span>Freaking Nomads</span>
+            </div>
+          </div>
+          
+          <div class="sticker sticker-5">
+            <div class="sticker-inner">
+              <img src="/images/directory-logos/6a0d768aed431283494822ec.webp" alt="" aria-hidden="true" loading="lazy" width="28" height="28" />
+              <span>Nomad Shophouse</span>
+            </div>
+          </div>
+          
+          <div class="sticker sticker-6">
+            <div class="sticker-inner">
+              <img src="/images/directory-logos/6ae487a4dd263b490b9c559c.webp" alt="" aria-hidden="true" loading="lazy" width="28" height="28" />
+              <span>eSIM Grab</span>
             </div>
           </div>
           
@@ -923,7 +937,7 @@ const seo: SEOProps = {
   
   .directory-collage {
     position: relative;
-    min-height: 420px;
+    min-height: 480px;
     padding: 0;
     max-width: 100%;
   }
@@ -1010,6 +1024,20 @@ const seo: SEOProps = {
     z-index: 15;
   }
   
+  .sticker-5 {
+    top: 230px;
+    left: 35px;
+    transform: rotate(6deg);
+    z-index: 15;
+  }
+  
+  .sticker-6 {
+    top: 245px;
+    right: 30px;
+    transform: rotate(-5deg);
+    z-index: 15;
+  }
+  
   .magazine-mini {
     position: absolute;
     border-radius: 5px;
@@ -1075,7 +1103,7 @@ const seo: SEOProps = {
       padding: 56px 20px;
     }
     .directory-collage {
-      min-height: 380px;
+      min-height: 420px;
     }
   }
   
@@ -1112,7 +1140,7 @@ const seo: SEOProps = {
       font-size: 12px;
     }
     .directory-collage {
-      min-height: 320px;
+      min-height: 360px;
       max-width: 100%;
       overflow: hidden;
     }
@@ -1155,6 +1183,14 @@ const seo: SEOProps = {
     .sticker-4 {
       top: 130px;
       right: 5px;
+    }
+    .sticker-5 {
+      top: 185px;
+      left: 20px;
+    }
+    .sticker-6 {
+      top: 200px;
+      right: 18px;
     }
     .magazine-1 {
       bottom: 50px;
