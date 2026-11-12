@@ -1,67 +1,113 @@
-# Directory priority and owner management
+# Directory priority, owner accounts, votes and awards
 
-Real Chrome captures. Website before: commit `5841f16`. Desktop website captures: 1440 × 1000; mobile: 390 × 844. Owner screenshots are full-page captures at 1440px or 390px wide, from authenticated sessions against **isolated local Supabase with fictional demo businesses**. No production accounts or commercial terms are shown. The Astro developer toolbar is hidden.
+Real Chrome captures of the implemented website. Before: base commit `5841f16`. After: this branch. **Accounts, votes, updates and awards use isolated local Supabase fixtures; businesses and completed contest periods are demonstrations, not production winners.** The embedded website example uses the actual copied badge HTML. Backend migrations and checks are linked above and below; paid placement/payment and affiliate activation remain proposals.
 
-## Homepage: new hero, original sections underneath
+### Homepage and header — before / after
 
-| Before | After |
+| Desktop before | Desktop after |
 | --- | --- |
-| ![Original homepage](home-before.webp) | ![Directory hero with original homepage sections](home-after.webp) |
+| ![Original homepage and header](home-before.webp) | ![Directory hero and original header with one Magazine menu](home-after.webp) |
+
+| Mobile before | Mobile after |
+| --- | --- |
 | ![Original mobile homepage](home-mobile-before.webp) | ![Mobile directory hero](home-mobile-after.webp) |
 
-The existing directory cards are moved up, and the original magazine presentation remains below the fold:
+The original magazine presentation remains active below the fold:
 
-![Original magazine cover presentation retained below the fold](home-magazine-after.webp)
+![Original magazine presentation retained below the fold](home-magazine-after.webp)
 
-## Directory: same URL and existing visual design
+### Directory — same URL, existing design
 
-The hero, sidebar and list cards retain their original design. Listings are now in the initial HTML, and approved owner changes are served immediately. The after screenshot includes local fixture listings used to verify publication.
-
-| Before | After |
+| Desktop before | Desktop after |
 | --- | --- |
-| ![Directory before](directory-before.webp) | ![Directory with server-rendered listings](directory-after.webp) |
-| ![Mobile directory before](directory-mobile-before.webp) | ![Mobile directory after](directory-mobile-after.webp) |
+| ![Original directory](directory-before.webp) | ![Server-rendered directory with winner link](directory-after.webp) |
 
-## Owner management — implemented
-
-![Owner dashboard with a live listing, pending edits and a draft](owner-dashboard.webp)
-
-![Edit business details and submit for review](owner-listing.webp)
-
-![Create and manage business updates](owner-updates.webp)
-
-![Submit private affiliate programme terms](owner-affiliates.webp)
-
-![Reviewer queue with the current published version and pending changes](owner-review.webp)
-
-| Mobile dashboard | Mobile affiliate form |
+| Mobile before | Mobile after |
 | --- | --- |
-| ![Mobile owner dashboard](owner-dashboard-mobile.webp) | ![Mobile affiliate programme](owner-affiliates-mobile.webp) |
+| ![Original mobile directory](directory-mobile-before.webp) | ![Mobile server-rendered directory](directory-mobile-after.webp) |
 
-Run the scripts in [the owner workspace runbook](../directory-owner-workspace.md) to reproduce the account, form, RLS, publication and browser checks. The migration has not been applied to production.
+### Account creation, ownership and listing management
 
-## Member upvotes
+![Email account creation and sign in](owner-login.webp)
 
-Real local Supabase votes, not production popularity. The highlighted button is the signed-in member's vote; totals are public. The original directory card styling is retained.
+![Owner dashboard, published listings, drafts and verified claim form](owner-dashboard.webp)
 
-![Directory sorted by most upvoted, with the member's vote highlighted](votes-directory.webp)
+![Edit business details, upload a logo, save a draft or submit changes](owner-listing.webp)
 
-| Login before voting | Mobile upvotes |
+### Business updates — owner and public views
+
+![Owner creates and manages business updates](owner-updates.webp)
+
+![Approved business updates displayed publicly](public-updates.webp)
+
+### Affiliate programme and reviewer workflow
+
+![Private affiliate programme submission and review status](owner-affiliates.webp)
+
+![Reviewer queue for listing changes, updates and affiliate terms](owner-review.webp)
+
+| Mobile owner dashboard | Mobile affiliate programme |
 | --- | --- |
-| ![Email login returns the visitor to confirm their vote](votes-login.webp) | ![Mobile listing vote controls](votes-mobile.webp) |
+| ![Mobile listing management and claim form](owner-dashboard-mobile.webp) | ![Mobile affiliate programme form](owner-affiliates-mobile.webp) |
 
-## Community awards and website badges
+### Upvotes — login, confirmation and voted state
 
-Real Chrome captures of the implemented pages and official SVG endpoints. **Local test accounts and simulated completed periods; these are not production winners.** The SQL finalizer calculates the fixture awards; no winners are included in production migrations.
-
-![The four official SVG badge types rendered from local award records](awards-badges.webp)
-
-![Daily winners and official Nomad Directory badges](awards-winners.webp)
-
-![Public award verification and copyable website embed](awards-result.webp)
-
-![Owner library with earned badges and embed code](awards-owner.webp)
-
-| Mobile winners | Mobile owner badge library |
+| Login before voting | Vote confirmation after login |
 | --- | --- |
-| ![Mobile community winners](awards-winners-mobile.webp) | ![Mobile owned badges and embed code](awards-owner-mobile.webp) |
+| ![Sign in or create an account to vote](votes-login.webp) | ![Confirm the selected listing upvote](votes-confirm.webp) |
+
+![Most upvoted sorting and signed-in highlighted vote](votes-directory.webp)
+
+![Mobile upvote controls](votes-mobile.webp)
+
+### Daily, weekly, monthly and yearly winners
+
+The four official SVG badge designs:
+
+![Daily, weekly, monthly and yearly Nomad Directory badges](awards-badges.webp)
+
+| Daily winners | Weekly winners |
+| --- | --- |
+| ![Daily winners with joint first place](awards-winners.webp) | ![Weekly winners](awards-week.webp) |
+
+| Monthly winners | Yearly winners |
+| --- | --- |
+| ![Monthly winners](awards-month.webp) | ![Yearly winners](awards-year.webp) |
+
+### Live standings and award rules
+
+![Current period standings and rules for earning a badge](awards-standings.webp)
+
+### Public verification, copyable code and badge on another website
+
+![Permanent award verification and copyable website embed code](awards-result.webp)
+
+**Example placement on a fictional business website:** the image is loaded from the real local SVG endpoint, and clicking it was verified to open the official award result. The surrounding sample website is only an embed demonstration.
+
+![Copied Nomad Directory badge displayed on a sample business website](awards-website-embed.webp)
+
+### Owner badge library
+
+![Owner library of earned badges and website embed codes](awards-owner.webp)
+
+| Mobile winners | Mobile badge library |
+| --- | --- |
+| ![Mobile community winners](awards-winners-mobile.webp) | ![Mobile owned badges and copyable embed code](awards-owner-mobile.webp) |
+
+### Award moderation and withdrawn result
+
+![Reviewer-only award withdrawal with private reasons](awards-review.webp)
+
+![Public withdrawn award with no active badge embed](awards-withdrawn.webp)
+
+## Reproducing the screenshots
+
+The unchanged before captures are from base commit `5841f16`. After captures are real Chrome browser screenshots of the current implementation at 1440 × 1000 desktop and 390 × 844 mobile, with full-page owner form captures. The original vote screenshots also show actual local authenticated votes.
+
+Prepare the isolated local fixtures using the [owner workspace runbook](../directory-owner-workspace.md) and [award runbook](../directory-awards.md), start the built preview on localhost, then run:
+
+```bash
+NODE_PATH=/tmp/nomad-browser/node_modules SUPABASE_TEST_CONFIG=/tmp/nomad-owner-secrets.json node scripts/capture-directory-review.cjs
+```
+
+The capture script only accepts loopback URLs and fictional `@example.test` accounts. It signs into existing fixtures and captures the pages without changing listing, vote or award records. Screenshots use WebP. No production migration or deployment was performed.
