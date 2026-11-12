@@ -8,7 +8,7 @@ The directory ships all published listings in its initial HTML, with complete de
 
 CollectionPage, ItemList and breadcrumb structured data describe the visible content. Title and description target digital nomad resources rather than business intelligence. Local 112px WebP logos replace externally hosted originals; missing logos fall back to initials. No new client framework or runtime dependency is added. After refreshing the source snapshot, run `node scripts/cache-directory-logos.mjs` to download missing local logos and refresh their manifest; use `--refresh` when existing logos have changed. New listings otherwise safely use initials.
 
-The navigation uses a native disclosure on mobile, supports Escape and keyboard focus, and exposes Directory before the magazine archive. Search has a visible result count announced to assistive technology, category selection exposes its state, pagination moves focus to results, and the directory has a single main landmark.
+The navigation preserves the original header layout, logo sizing, typography, spacing, dropdown styling, two-button layout and full-screen mobile menu. Directory takes the first dropdown and yellow primary button; Magazine archive takes the outlined secondary button. The existing menu supports keyboard focus, Escape and a mobile focus trap. Search has a visible result count announced to assistive technology, category selection exposes its state, pagination moves focus to results, and the directory has a single main landmark.
 
 ## Accounts: build on what exists
 
