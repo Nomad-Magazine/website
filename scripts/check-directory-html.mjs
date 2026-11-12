@@ -2,15 +2,18 @@ import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 
-const html = await readFile('dist/client/nomad_directory/index.html', 'utf8')
+const origin = process.env.DIRECTORY_TEST_URL || 'http://localhost:3000'
+const response = await fetch(`${origin}/nomad_directory/`)
+assert.equal(response.status, 200, 'Directory runtime is available')
+const html = await response.text()
 const home = await readFile('dist/client/index.html', 'utf8')
 const { records } = JSON.parse(await readFile('src/utils/nomad_cache_table_6857167d82358a0f5e038c3f.json', 'utf8'))
 const published = records.filter((record) => record.sf4ad525dd && record.title)
 const schemas = [...html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].map((match) => JSON.parse(match[1]))
 const collection = schemas.find((schema) => schema['@type'] === 'CollectionPage')
 assert.equal(collection.url, 'https://nomad-magazine.com/nomad_directory/')
-assert.equal(collection.mainEntity.numberOfItems, published.length)
-assert.equal(collection.mainEntity.itemListElement.length, published.length)
+assert(collection.mainEntity.numberOfItems >= published.length)
+assert.equal(collection.mainEntity.itemListElement.length, collection.mainEntity.numberOfItems)
 for (const record of published) assert(html.includes(`id="listing-${record.id}"`), `Missing rendered listing: ${record.title}`)
 for (const [name, page] of [
   ['home', home],
@@ -20,6 +23,7 @@ for (const [name, page] of [
   assert.equal((page.match(/<h1[\s>]/g) || []).length, 1, `${name}: one H1`)
   const decode = (value) =>
     value
+      .replace(/&#(\d+);/g, (_,code) => String.fromCodePoint(Number(code)))
       .replace(/&amp;/g, '&')
       .replace(/&#39;/g, "'")
       .replace(/&quot;/g, '"')
@@ -41,6 +45,20 @@ const sitemap = await readFile('dist/client/sitemap-0.xml', 'utf8')
 assert(sitemap.includes('<loc>https://nomad-magazine.com/nomad_directory/</loc>'), 'Preserve the directory sitemap URL')
 console.log(`PASS: ${published.length} rendered listings, collection schema, canonical, sitemap, headings, metadata, internal URLs and local WebP images.`)
 
-for (const link of html.matchAll(/href="(\/nomad_directory\/[^"?#]+\/)"/g)) {
-  assert(existsSync(`dist/client${link[1]}index.html`), `Broken category link: ${link[1]}`)
+const { directoryRoutes } = await import('../src/utils/directory-routes.mjs')
+for (const route of directoryRoutes(records)) {
+  const path = `/nomad_directory/${route.slug}/`
+  assert(sitemap.includes(`<loc>https://nomad-magazine.com${path}</loc>`), `Existing sitemap path preserved: ${path}`)
+  const response = await fetch(origin + path)
+  assert.equal(response.status, 200, path)
+  const page = await response.text()
+  assert.equal((page.match(/<main[\s>]/g) || []).length, 1, path)
+  assert.equal((page.match(/<h1[\s>]/g) || []).length, 1, path)
+  assert(page.includes(`href="https://nomad-magazine.com${path}"`), `Canonical: ${path}`)
+  const decode = (value) => value.replace(/&#(\d+);/g, (_,code) => String.fromCodePoint(Number(code))).replaceAll('&amp;', '&').replaceAll('&#39;', "'").replaceAll('&quot;', '"')
+  const title = decode(page.match(/<title>(.*?)<\/title>/s)[1])
+  const description = decode(page.match(/<meta name="description" content="([^"]+)"/)[1])
+  assert(title.length >= 50 && title.length <= 60, `${path}: title ${title.length}`)
+  assert(description.length >= 150 && description.length <= 160, `${path}: description ${description.length}`)
 }
+console.log('PASS: every existing category/location URL responds, stays in the sitemap, and has a canonical, one main/H1 and compliant metadata.')

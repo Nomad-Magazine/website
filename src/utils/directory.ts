@@ -1,3 +1,5 @@
+import { readPublicDirectory, directoryImageUrl } from './directory-public'
+import type { ListingPayload } from './directory-workspace'
 import { fetchReportRecords } from './smartsuite'
 import { directoryLogoUrlOverrides } from '../const/nomadDirectoryWhiteLogos'
 
@@ -24,8 +26,39 @@ function websiteUrl(value: string): string {
   }
 }
 
-export async function getDirectoryEntries(): Promise<DirectoryEntry[]> {
+export async function getPublishedDirectoryRecords() {
   const { records } = await fetchReportRecords('6857167d82358a0f5e038c3f')
+  const merged: Array<Record<string, any>> = records.map((record) => ({
+    ...record,
+    image: directoryLogoUrlOverrides[record.title] || (localLogos.has(`${record.id}.webp`) ? `/images/directory-logos/${record.id}.webp` : ''),
+  }))
+  const published = await readPublicDirectory<{ id: string; payload: ListingPayload }>('directory_public_listings')
+  for (const { id, payload } of published) {
+    const index = merged.findIndex((item) => item.id === id)
+    const record = {
+      ...(index >= 0 ? merged[index] : {}),
+      id,
+      title: payload.title,
+      sf4ad525dd: true,
+      scea90e502: payload.description,
+      sb685ab800: { label: payload.category },
+      link: payload.website,
+      s5576966ee: payload.special_offer,
+      sed1a49986: payload.location,
+      image: directoryImageUrl(payload.image),
+      managedImage: true,
+    }
+    if (index >= 0) merged[index] = record
+    else merged.unshift(record)
+  }
+  return merged
+}
+
+export async function getDirectoryEntries(includeManaged = false): Promise<DirectoryEntry[]> {
+  const records = includeManaged ? await getPublishedDirectoryRecords() : (await fetchReportRecords('6857167d82358a0f5e038c3f')).records
+  return getDirectoryEntriesFromRecords(records)
+}
+export function getDirectoryEntriesFromRecords(records: any[]): DirectoryEntry[] {
   return records
     .filter((record) => record.sf4ad525dd && record.title)
     .map((record) => {
@@ -37,7 +70,7 @@ export async function getDirectoryEntries(): Promise<DirectoryEntry[]> {
         description: String(record.scea90e502 || ''),
         offer: String(record.s5576966ee || ''),
         website: websiteUrl(record.link || record.sb788c266b?.[0] || ''),
-        image: directoryLogoUrlOverrides[record.title] || (localLogos.has(`${record.id}.webp`) ? localLogo : ''),
+        image: record.managedImage ? record.image : directoryLogoUrlOverrides[record.title] || (localLogos.has(`${record.id}.webp`) ? localLogo : ''),
       }
     })
 }
@@ -49,6 +82,10 @@ export function getDirectoryCategories(entries: DirectoryEntry[]) {
 }
 
 export function directoryCategoryUrl(category: string): string {
-  const slug = category.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+  const slug = category
+    .toLowerCase()
+    .replace(/&/g, 'and')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
   return `/nomad_directory/${slug}/`
 }

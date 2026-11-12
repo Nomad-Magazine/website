@@ -1,134 +1,21 @@
 ---
-export const prerender = true;
+export const prerender = false;
 
+import { COUNTRY_TO_CONTINENT, slugify, extractCountry, directoryRoutes } from '~/utils/directory-routes.mjs'
+import { getPublishedDirectoryRecords, getDirectoryEntriesFromRecords, getDirectoryCategories } from '~/utils/directory'
 import { fetchReportRecords } from '~/utils/smartsuite'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
 import { directoryLogoBoxClass, directoryLogoImageClassFor, directoryLogoInitialClass, directoryLogoUrlFor } from '~/const/nomadDirectoryWhiteLogos'
 
-const COUNTRY_TO_CONTINENT: Record<string, string> = {
-  Portugal: 'Europe', Spain: 'Europe', Italy: 'Europe', France: 'Europe',
-  Germany: 'Europe', 'United Kingdom': 'Europe', Netherlands: 'Europe',
-  Greece: 'Europe', Bulgaria: 'Europe', Hungary: 'Europe', Ireland: 'Europe',
-  Slovenia: 'Europe', Croatia: 'Europe', Slovakia: 'Europe', Austria: 'Europe',
-  Poland: 'Europe', Malta: 'Europe', Belgium: 'Europe', Switzerland: 'Europe',
-  Japan: 'Asia', Thailand: 'Asia', Vietnam: 'Asia', Indonesia: 'Asia',
-  India: 'Asia', Philippines: 'Asia', 'South Korea': 'Asia', Taiwan: 'Asia',
-  Argentina: 'South America', Colombia: 'South America', Brazil: 'South America',
-  'Costa Rica': 'Central America', Mexico: 'North America',
-  USA: 'North America', Canada: 'North America',
-  Morocco: 'Africa', 'South Africa': 'Africa',
-}
-
-const COUNTRY_ALIASES: Record<string, string> = {
-  NL: 'Netherlands', 'The Netherlands': 'Netherlands',
-  Slovenija: 'Slovenia', UK: 'United Kingdom', Bali: 'Indonesia',
-}
-
-function slugify(str: string): string {
-  return str.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
-}
-
-function normalizeCountry(raw: string): string { return COUNTRY_ALIASES[raw] || raw }
-
-function extractCountry(location: string): string {
-  if (!location) return ''
-  const parts = location.split(',')
-  if (parts.length >= 2) return normalizeCountry(parts[parts.length - 1].trim())
-  const words = location.trim().split(/\s+/)
-  const last = normalizeCountry(words[words.length - 1])
-  if (COUNTRY_TO_CONTINENT[last]) return last
-  const whole = normalizeCountry(location.trim())
-  if (COUNTRY_TO_CONTINENT[whole]) return whole
-  return ''
-}
-
-export async function getStaticPaths() {
-  const COUNTRY_TO_CONTINENT: Record<string, string> = {
-    Portugal: 'Europe', Spain: 'Europe', Italy: 'Europe', France: 'Europe',
-    Germany: 'Europe', 'United Kingdom': 'Europe', Netherlands: 'Europe',
-    Greece: 'Europe', Bulgaria: 'Europe', Hungary: 'Europe', Ireland: 'Europe',
-    Slovenia: 'Europe', Croatia: 'Europe', Slovakia: 'Europe', Austria: 'Europe',
-    Poland: 'Europe', Malta: 'Europe', Belgium: 'Europe', Switzerland: 'Europe',
-    Japan: 'Asia', Thailand: 'Asia', Vietnam: 'Asia', Indonesia: 'Asia',
-    India: 'Asia', Philippines: 'Asia', 'South Korea': 'Asia', Taiwan: 'Asia',
-    Argentina: 'South America', Colombia: 'South America', Brazil: 'South America',
-    'Costa Rica': 'Central America', Mexico: 'North America',
-    USA: 'North America', Canada: 'North America',
-    Morocco: 'Africa', 'South Africa': 'Africa',
-  }
-  const COUNTRY_ALIASES: Record<string, string> = {
-    NL: 'Netherlands', 'The Netherlands': 'Netherlands',
-    Slovenija: 'Slovenia', UK: 'United Kingdom', Bali: 'Indonesia',
-  }
-  function normalizeCountry(raw: string): string { return COUNTRY_ALIASES[raw] || raw }
-  function extractCountry(location: string): string {
-    if (!location) return ''
-    const parts = location.split(',')
-    if (parts.length >= 2) return normalizeCountry(parts[parts.length - 1].trim())
-    const words = location.trim().split(/\s+/)
-    const last = normalizeCountry(words[words.length - 1])
-    if (COUNTRY_TO_CONTINENT[last]) return last
-    const whole = normalizeCountry(location.trim())
-    if (COUNTRY_TO_CONTINENT[whole]) return whole
-    return ''
-  }
-  function slugify(str: string): string {
-    return str.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
-  }
-
-  const { records = [] } = await fetchReportRecords('6857167d82358a0f5e038c3f')
-  const active = records.filter((r: any) => r.sf4ad525dd && r.sb685ab800?.label)
-
-  // Build category counts
-  const categoryCounts: Record<string, number> = {}
-  active.forEach((r: any) => {
-    const cat = r.sb685ab800.label as string
-    categoryCounts[cat] = (categoryCounts[cat] || 0) + 1
-  })
-  const navCategories = Object.entries(categoryCounts).sort((a, b) => b[1] - a[1])
-
-  // Build location counts from active records that have a valid country
-  const countryCounts: Record<string, number> = {}
-  const continentCounts: Record<string, number> = {}
-  for (const r of active) {
-    const country = extractCountry(r.sed1a49986 || '')
-    if (!country) continue
-    const continent = COUNTRY_TO_CONTINENT[country]
-    if (!continent) continue
-    countryCounts[country] = (countryCounts[country] || 0) + 1
-    continentCounts[continent] = (continentCounts[continent] || 0) + 1
-  }
-  const paths: any[] = []
-
-  // Category pages
-  Object.keys(categoryCounts).forEach(cat => {
-    paths.push({
-      params: { slug: slugify(cat) },
-      props: { type: 'category', filterValue: cat, records, navCategories },
-    })
-  })
-
-  // Country pages
-  Object.keys(countryCounts).forEach(country => {
-    paths.push({
-      params: { slug: slugify(country) },
-      props: { type: 'country', filterValue: country, records, navCategories },
-    })
-  })
-
-  // Continent pages
-  Object.keys(continentCounts).forEach(continent => {
-    paths.push({
-      params: { slug: slugify(continent) },
-      props: { type: 'continent', filterValue: continent, records, navCategories },
-    })
-  })
-
-  return paths
-}
-
-const { type, filterValue, records, navCategories } = Astro.props
+let records = (await fetchReportRecords('6857167d82358a0f5e038c3f')).records
+const originalRecords = records
+try { records = await getPublishedDirectoryRecords() } catch { Astro.response.status = 503; Astro.response.headers.set('Retry-After','60') }
+Astro.response.headers.set('Cache-Control','public, max-age=0, must-revalidate')
+const route = directoryRoutes([...originalRecords,...records]).find(route => route.slug === Astro.params.slug)
+if (!route) return new Response('Directory page not found', {status:404})
+const { type, filterValue } = route
+const navCategories = getDirectoryCategories(getDirectoryEntriesFromRecords(records))
 
 const allActive = records.filter((r: any) => r.sf4ad525dd)
 
@@ -194,10 +81,30 @@ if (type === 'category') {
   breadcrumbLabel = filterValue
 }
 
+const titleCandidates = type === 'category' ? [
+  `${filterValue} Directory for Digital Nomads | Nomad Magazine`,
+  `${filterValue} for Digital Nomads | Nomad Magazine`,
+  `${filterValue} Directory & Resources | Nomad Magazine`,
+  `${filterValue} | Digital Nomad Resources & Nomad Magazine`,
+  `${filterValue} Directory for Digital Nomad Life | Nomad Magazine`,
+] : [
+  `Digital Nomad Resources in ${filterValue} | Nomad Magazine`,
+  `${filterValue} Resources for Digital Nomads | Nomad Magazine`,
+  `${filterValue} Nomad Directory & Resources | Nomad Magazine`,
+]
+metaTitle = titleCandidates.find(title => title.length >= 50 && title.length <= 60) || metaTitle
+const topic = type === 'category' ? filterValue.toLowerCase() : `nomad resources in ${filterValue}`
+const descriptions = ['digital nomads and remote workers','digital nomads','remote workers'].flatMap(people =>
+  ['Explore','Browse'].flatMap(verb => ['business details, member offers and direct website links','business descriptions and direct website links','business details and links'].flatMap(details =>
+    ['to help plan your next step.','to help you plan your next step.','to plan your next step.','to plan your trip.'].map(ending =>
+      `${verb} ${topic} in the Nomad Directory. Find resources for ${people}, with ${details} ${ending}`))))
+metaDescription = descriptions.find(description => description.length >= 150 && description.length <= 160) || metaDescription
+
 const pageSlug = slugify(filterValue)
 const canonicalUrl = `${Astro.site}nomad_directory/${pageSlug}/`
 
 const seo: SEOProps = {
+  canonical: canonicalUrl,
   title: metaTitle,
   description: metaDescription,
   image: 'https://nomad-magazine.com/images/Nomad-directory.webp',
@@ -255,7 +162,7 @@ const seo: SEOProps = {
         </p>
         <div class="flex justify-center mb-4">
           <a target="_blank" rel="noopener noreferrer"
-            href="https://form.smartsuite.com/s4tmc086/8sFlvrVlDC?redirect=https%3A//nomad-magazine.com/nomad-directory-boost-options"
+            href="/nomad-directory-submit/"
             class="inline-flex items-center gap-2 bg-black hover:bg-gray-900 border-2 border-yellow-400 px-6 py-2.5 rounded-lg text-yellow-400 font-bold transition-all duration-200">
             <MaterialSymbolsElectricBolt width="18" height="18" />
             {isLocation ? `Add Your Listing in ${filterValue}` : `Add Your ${filterValue}`}
@@ -290,12 +197,12 @@ const seo: SEOProps = {
                   <input type="text" id="search-input"
                     placeholder="Name, description..."
                     aria-label={`Search within ${filterValue}`}
-                    class="w-full px-4 py-2.5 pl-10 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-yellow-400 transition-all text-sm" />
+                    class="w-full px-4 py-2.5 pl-10 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-500 focus-visible:ring-2 focus-visible:ring-yellow-400 focus:border-yellow-400 transition-all text-sm" />
                   <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                   </svg>
                 </div>
-                <p class="text-xs text-gray-600 mt-1" id="search-count">{count} results</p>
+                <p class="text-xs text-gray-600 mt-1" id="search-count" aria-live="polite">{count} results</p>
               </div>
 
               <!-- Categories -->
@@ -369,7 +276,7 @@ const seo: SEOProps = {
           </aside>
 
           <!-- RIGHT: Listings -->
-          <main class="flex-1 min-w-0" id="main-content">
+          <div class="flex-1 min-w-0">
 
             <div id="directory-container" class="space-y-4">
               {pageRecords.map((record: any) => {
@@ -424,9 +331,9 @@ const seo: SEOProps = {
                         )}
                         {link && (
                           <div class="mt-3">
-                            <a href={link} target="_blank" rel="noopener noreferrer"
+                            <a href={link} target="_blank" rel="ugc noopener noreferrer" aria-label={`Visit ${record.title} (opens in new tab)`}
                               class="text-blue-300 hover:text-blue-200 underline text-sm transition-colors">
-                              Learn more &rarr;
+                              Visit {record.title} &rarr;
                             </a>
                           </div>
                         )}
@@ -449,14 +356,14 @@ const seo: SEOProps = {
               <p class="text-gray-300 mb-6 max-w-xl mx-auto">
                 Join the Nomad Directory and reach thousands of digital nomads looking for exactly what you offer.
               </p>
-              <a target="_blank" rel="noopener noreferrer"
-                href="https://form.smartsuite.com/s4tmc086/8sFlvrVlDC?redirect=https%3A//nomad-magazine.com/nomad-directory-boost-options"
+              <a
+                href="/nomad-directory-submit/"
                 class="inline-flex items-center gap-2 bg-black hover:bg-gray-900 border-2 border-yellow-400 px-8 py-3 rounded-lg text-yellow-400 font-bold text-lg transition-all duration-200">
-                <MaterialSymbolsElectricBolt width="20" height="20" />
+                <MaterialSymbolsElectricBolt width="20" height="20" aria-hidden="true" />
                 Join the Database
               </a>
             </div>
-          </main>
+          </div>
 
         </div>
       </div>

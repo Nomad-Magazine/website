@@ -1,292 +1,166 @@
 ---
+import { directoryImageUrl } from '~/utils/directory-public'
 import ConsoleLayout from '~/layouts/console/ConsoleLayout.astro'
-import DirectoryListingPreview from '~/components/DirectoryListingPreview.astro'
 import { createSupabaseServerClient } from '~/utils/supabase-server'
-import {
-  DIRECTORY_CATEGORIES,
-  deleteListingForEmail,
-  findListingForEmail,
-  findListingsByEmail,
-  updateListingForEmail,
-  type DirectoryListing,
-} from '~/utils/smartsuite-directory'
-
-const supabase = createSupabaseServerClient(Astro.request, Astro.cookies)
-const { data: { user } } = await supabase.auth.getUser()
-const email = user?.email || ''
-const url = new URL(Astro.request.url)
-const requestedId = url.searchParams.get('id') || ''
-
-let listings = email ? await findListingsByEmail(email) : []
-let listing: DirectoryListing | null = requestedId
-  ? listings.find((item) => item.id === requestedId) || null
-  : listings[0] || null
-
-let successMessage = ''
-let errorMessage = ''
-
-if (Astro.request.method === 'POST') {
+import { DIRECTORY_CATEGORIES } from '~/utils/smartsuite-directory'
+import { loadWorkspace, emptyListing, textField, uploadListingLogo, workspaceError, type ListingPayload, type WorkspaceListing } from '~/utils/directory-workspace'
+const client = createSupabaseServerClient(Astro.request, Astro.cookies)
+const {
+  data: { user },
+} = await client.auth.getUser()
+const requested = Astro.url.searchParams.get('id')
+let listing: WorkspaceListing | undefined,
+  error = '',
+  values: ListingPayload = { ...emptyListing }
+try {
+  const workspace = await loadWorkspace(client)
+  listing = requested ? workspace.listings.find((item) => item.id === requested) : undefined
+  if (requested && !listing) {
+    Astro.response.status = 404
+    error = 'Listing not found or not owned by this account.'
+  }
+  if (listing) values = listing.draft
+} catch (err) {
+  error = workspaceError(err)
+}
+if (Astro.request.method === 'POST' && !error) {
   const form = await Astro.request.formData()
-  const id = String(form.get('id') ?? '').trim()
-  const action = String(form.get('action') ?? '').trim()
-
-  if (action === 'delete') {
-    const result = await deleteListingForEmail(email, id)
-    if (!result.ok) {
-      errorMessage = result.error || 'Could not delete your listing.'
-      listing = (await findListingForEmail(email, id)) || listing
-    } else {
-      return Astro.redirect('/console/')
-    }
-  } else {
-    const payload = {
-      title: String(form.get('title') ?? '').trim(),
-      description: String(form.get('description') ?? '').trim(),
-      website: String(form.get('website') ?? '').trim(),
-      specialOffer: String(form.get('special_offer') ?? '').trim(),
-      location: String(form.get('location') ?? '').trim(),
-      categoryValue: String(form.get('category') ?? '').trim(),
-    }
-
-    if (!payload.title) {
-      errorMessage = 'Company name is required.'
-      listing = {
-        id,
-        title: payload.title,
-        description: payload.description,
-        website: payload.website,
-        specialOffer: payload.specialOffer,
-        location: payload.location,
-        categoryValue: payload.categoryValue,
-        category: DIRECTORY_CATEGORIES.find((c) => c.value === payload.categoryValue)?.label || '',
-        image: listing?.image || '',
-        published: listing?.published || false,
-        contactName: listing?.contactName || '',
-      }
-    } else {
-      const result = await updateListingForEmail(email, id, payload)
-      if (!result.ok) {
-        errorMessage = result.error || 'Could not save your listing.'
-        listing = (await findListingForEmail(email, id)) || listing
-      } else {
-        const wasPublished = listing?.published
-        listing = result.listing || listing
-        successMessage = wasPublished
-          ? 'Saved. Your listing is back in review until we approve the changes.'
-          : 'Saved. Your listing stays in review until it is published.'
-        listings = email ? await findListingsByEmail(email) : listings
-      }
-    }
+  values = Object.fromEntries(Object.keys(emptyListing).map((key) => [key, textField(form, key)])) as ListingPayload
+  try {
+    const uploaded = await uploadListingLogo(client, user.id, form.get('logo'))
+    values.image = uploaded || values.image
+    const { data, error: saveError } = await client.rpc('directory_save_listing', {
+      p_id: listing?.id || null,
+      p_payload: values,
+      p_submit: form.get('intent') === 'submit',
+      p_version: Number(form.get('version') || 0),
+    })
+    if (saveError) throw saveError
+    return Astro.redirect(`/console/directory-submission/?id=${data}&saved=1`, 303)
+  } catch (err) {
+    error = workspaceError(err)
   }
 }
-
-const vals = listing
-const categoryLabel = DIRECTORY_CATEGORIES.find((c) => c.value === vals?.categoryValue)?.label || vals?.category || ''
 ---
 
-<ConsoleLayout title="Edit listing" currentPage="directory">
-  <div class="max-w-3xl">
-    <div class="mb-8">
-      <h2 class="text-2xl font-bold text-white mb-2">{vals ? 'Update your listing' : 'No listing yet'}</h2>
-      <p class="text-gray-400">
-        {vals
-          ? 'Edits save to the directory database. Public pages update after the next site sync.'
-          : 'Submit a listing to preview it here and see if it is published or in review.'}
+<ConsoleLayout title={listing ? 'Edit listing' : 'Add a listing'} currentPage="directory">
+  <p class="eyebrow">Your business, your story</p><h2>{listing ? 'Keep your listing up to date.' : 'Introduce your business to nomads.'}</h2><p class="muted">
+    Save a draft or send it for review. Your current published listing stays visible while changes are reviewed.
+  </p>
+  {
+    error && (
+      <p class="notice error actions" role="alert">
+        {error}
       </p>
-    </div>
-
-    {!vals ? (
-      <div class="bg-gray-900 border border-dashed border-gray-700 rounded-xl p-12 text-center">
-        <a
-          href="/nomad-directory-submit/"
-          class="inline-flex items-center gap-2 px-6 py-3 bg-yellow-400 hover:bg-yellow-300 text-black font-semibold text-sm rounded-lg transition-colors"
-        >
-          Submit a listing
-        </a>
-      </div>
-    ) : (
-      <>
-        <div class={`mb-6 px-4 py-3 rounded-lg border text-sm ${
-          vals.published
-            ? 'bg-green-400/10 border-green-400/20 text-green-400'
-            : 'bg-yellow-400/10 border-yellow-400/20 text-yellow-400'
-        }`} role="status">
-          {vals.published ? 'Published in the Nomad Directory. Saving changes will send it back to review.' : 'In review — not public yet.'}
-        </div>
-
-        {listings.length > 1 && (
-          <div class="mb-6 flex flex-wrap gap-2">
-            {listings.map((item) => (
-              <a
-                href={`/console/directory-submission/?id=${item.id}`}
-                class={`px-3 py-1.5 rounded-lg text-sm border ${
-                  item.id === vals.id
-                    ? 'bg-yellow-400/10 border-yellow-400/30 text-yellow-400'
-                    : 'border-gray-800 text-gray-400 hover:text-white'
-                }`}
-              >
-                {item.title}
-              </a>
-            ))}
-          </div>
-        )}
-
-        {successMessage && (
-          <div class="mb-6 px-4 py-3 rounded-lg bg-green-400/10 border border-green-400/20 text-green-400 text-sm" role="alert">
-            {successMessage}
-          </div>
-        )}
-        {errorMessage && (
-          <div class="mb-6 px-4 py-3 rounded-lg bg-red-400/10 border border-red-400/20 text-red-400 text-sm" role="alert">
-            {errorMessage}
-          </div>
-        )}
-
-        <p class="text-xs text-gray-500 uppercase tracking-widest mb-3">Live preview</p>
-        <div class="bg-[#0f1117] rounded-2xl p-4 border border-white/10 mb-8" id="listing-preview">
-          <DirectoryListingPreview
-            title={vals.title}
-            description={vals.description}
-            category={categoryLabel}
-            location={vals.location}
-            website={vals.website}
-            specialOffer={vals.specialOffer}
-            image={vals.image}
-          />
-        </div>
-
-        <form method="POST" aria-label="Update directory listing" class="space-y-8" id="listing-form">
-          <input type="hidden" name="id" value={vals.id} />
-
-          <section class="bg-gray-900 border border-gray-800 rounded-xl p-6 space-y-5">
-            <h3 class="font-semibold text-white pb-4 border-b border-gray-800">Listing details</h3>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div>
-                <label for="title" class="block text-sm font-medium text-gray-300 mb-2">
-                  Company name <span class="text-red-400">*</span>
-                </label>
-                <input
-                  id="title"
-                  name="title"
-                  type="text"
-                  required
-                  value={vals.title}
-                  class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus-visible:ring-2 focus-visible:ring-yellow-400/50"
-                />
-              </div>
-              <div>
-                <label for="category" class="block text-sm font-medium text-gray-300 mb-2">Category</label>
-                <select
-                  id="category"
-                  name="category"
-                  aria-label="Select company category"
-                  class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus-visible:ring-2 focus-visible:ring-yellow-400/50 appearance-none"
-                >
-                  <option value="">Select a category…</option>
-                  {DIRECTORY_CATEGORIES.map((cat) => (
-                    <option value={cat.value} selected={vals.categoryValue === cat.value}>{cat.label}</option>
-                  ))}
-                </select>
-              </div>
+    )
+  }
+  {
+    Astro.url.searchParams.has('saved') && (
+      <p class="notice actions" role="status">
+        {listing?.status === 'pending' ? 'Submitted for review. We’ll review your changes before publishing.' : 'Draft saved. You can continue editing or submit it for review.'}
+      </p>
+    )
+  }
+  {
+    Astro.url.searchParams.has('claimed') && (
+      <p class="notice actions" role="status">
+        Ownership verified. You can now manage this listing.
+      </p>
+    )
+  }
+  {listing?.review_notes && <p class="notice actions">Reviewer: {listing.review_notes}</p>}
+  {
+    (!requested || listing) && (
+      <form method="POST" enctype="multipart/form-data" aria-label="Manage directory listing" class="actions" style="display:block">
+        <>
+          <input type="hidden" name="version" value={listing?.version || 0} />
+          <input type="hidden" name="image" value={values.image} />
+        </>
+        <>
+          <section class="panel">
+            <div class="row">
+              <h3>Listing details</h3>
+              {listing && <span class={`tag ${listing.status}`}>{listing.status}</span>}
             </div>
-
-            <div>
-              <label for="website" class="block text-sm font-medium text-gray-300 mb-2">Website URL</label>
-              <input
-                id="website"
-                name="website"
-                type="text"
-                inputmode="url"
-                value={vals.website}
-                placeholder="https://yourcompany.com"
-                class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus-visible:ring-2 focus-visible:ring-yellow-400/50"
-              />
+            <div class="grid">
+              <>
+                <div class="field">
+                  <>
+                    <label for="title">Business name</label>
+                    <input id="title" name="title" required minlength="2" maxlength="120" value={values.title} />
+                  </>
+                </div>
+                <div class="field">
+                  <>
+                    <label for="category">Category</label>
+                    <select id="category" name="category" required>
+                      <option value="">Choose a category</option>
+                      {DIRECTORY_CATEGORIES.map((category) => (
+                        <option value={category.label} selected={values.category === category.label}>
+                          {category.label}
+                        </option>
+                      ))}
+                    </select>
+                  </>
+                </div>
+              </>
             </div>
-
-            <div>
-              <label for="location" class="block text-sm font-medium text-gray-300 mb-2">Location</label>
-              <input
-                id="location"
-                name="location"
-                type="text"
-                value={vals.location}
-                placeholder="e.g. Lisbon, Portugal"
-                class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus-visible:ring-2 focus-visible:ring-yellow-400/50"
-              />
+            <div class="grid">
+              <>
+                <div class="field">
+                  <>
+                    <label for="website">Website (HTTPS)</label>
+                    <input id="website" name="website" type="url" required value={values.website} />
+                  </>
+                </div>
+                <div class="field">
+                  <>
+                    <label for="location">Location</label>
+                    <input id="location" name="location" maxlength="300" value={values.location} />
+                  </>
+                </div>
+              </>
             </div>
-
-            <div>
-              <label for="description" class="block text-sm font-medium text-gray-300 mb-2">Description</label>
-              <textarea
-                id="description"
-                name="description"
-                rows="5"
-                class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus-visible:ring-2 focus-visible:ring-yellow-400/50 resize-y"
-              >{vals.description}</textarea>
+            <div class="field">
+              <>
+                <label for="description">Description</label>
+                <textarea id="description" name="description" minlength="20" maxlength="4000" rows="5" required>
+                  {values.description}
+                </textarea>
+              </>
             </div>
-
-            <div>
-              <label for="special_offer" class="block text-sm font-medium text-gray-300 mb-2">Special offer</label>
-              <textarea
-                id="special_offer"
-                name="special_offer"
-                rows="3"
-                class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus-visible:ring-2 focus-visible:ring-yellow-400/50 resize-y"
-              >{vals.specialOffer}</textarea>
+            <div class="field">
+              <>
+                <label for="special-offer">Member offer (optional)</label>
+                <textarea id="special-offer" name="special_offer" maxlength="4000" rows="3">
+                  {values.special_offer}
+                </textarea>
+              </>
+            </div>
+            <div class="field">
+              <label for="logo">Business logo (optional)</label>
+              <input id="logo" name="logo" type="file" accept="image/webp" aria-describedby="logo-help" />
+              <p class="muted" id="logo-help">
+                WebP, up to 2 MB. Your existing logo stays in place unless you upload a replacement.
+              </p>
+              {values.image && <img src={directoryImageUrl(values.image)} alt="Current business logo" width="80" height="80" class="mt-4" />}
             </div>
           </section>
-
-          <div class="flex flex-wrap items-center gap-3">
-            <button
-              type="submit"
-              class="px-8 py-3 bg-yellow-400 hover:bg-yellow-300 text-black font-semibold rounded-lg transition-colors focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950"
-            >
-              Save changes
-            </button>
+          <div class="actions">
+            <>
+              <button class="button" type="submit" name="intent" value="submit">
+                Submit for review
+              </button>
+              <button class="button secondary" type="submit" name="intent" value="draft">
+                Save draft
+              </button>
+              <a href="/console/" class="link">
+                Back to my listings
+              </a>
+            </>
           </div>
-        </form>
-
-        <form method="POST" aria-label="Delete directory listing" class="mt-4">
-          <input type="hidden" name="id" value={vals.id} />
-          <input type="hidden" name="action" value="delete" />
-          <button
-            type="submit"
-            class="px-8 py-3 border border-red-400/30 text-red-400 hover:bg-red-400/10 font-semibold rounded-lg transition-colors"
-            onclick="return confirm('Delete this listing? This cannot be undone.')"
-          >
-            Delete listing
-          </button>
-        </form>
-
-        <script is:inline>
-          (function () {
-            const form = document.getElementById('listing-form');
-            const preview = document.getElementById('listing-preview');
-            if (!form || !preview) return;
-            const titleEl = preview.querySelector('h3');
-            const descEl = preview.querySelector('p.text-gray-300');
-            const linkEl = preview.querySelector('span.text-blue-300');
-
-            function text(id) {
-              const el = document.getElementById(id);
-              return el ? el.value : '';
-            }
-
-            function sync() {
-              if (titleEl) titleEl.textContent = text('title') || 'Your company';
-              if (descEl) descEl.textContent = text('description') || 'Description not available';
-              const website = text('website').replace(/^https?:\/\//, '');
-              if (linkEl && linkEl.parentElement) {
-                linkEl.textContent = website;
-                linkEl.parentElement.style.display = website ? '' : 'none';
-              }
-            }
-
-            form.addEventListener('input', sync);
-          })();
-        </script>
-      </>
-    )}
-  </div>
+        </>
+      </form>
+    )
+  }
 </ConsoleLayout>

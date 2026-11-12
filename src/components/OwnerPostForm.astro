@@ -1,0 +1,148 @@
+---
+import type { WorkspaceListing, WorkspacePost } from '~/utils/directory-workspace'
+interface Props {
+  kind: 'update' | 'affiliate'
+  listings: WorkspaceListing[]
+  posts: WorkspacePost[]
+  selected?: WorkspacePost
+  listingId: string
+  values: Record<string, string>
+  error: string
+  saved: boolean
+}
+const { kind, listings, posts, selected, listingId, values, error, saved } = Astro.props
+const affiliate = kind === 'affiliate'
+const route = affiliate ? '/console/affiliates/' : '/console/updates/'
+const fields = affiliate
+  ? ([
+      ['program_url', 'Affiliate programme URL (HTTPS)', 'url', true],
+      ['network', 'Network / platform', 'text', false],
+      ['commission', 'Commission model and amount', 'text', true],
+      ['cookie_window', 'Attribution window', 'text', false],
+      ['countries', 'Eligible countries', 'text', false],
+      ['contact_email', 'Partnership contact email', 'email', true],
+    ] as const)
+  : ([
+      ['title', 'Update title', 'text', true],
+      ['url', 'Related link (HTTPS, optional)', 'url', false],
+    ] as const)
+---
+
+<p class="eyebrow">{affiliate ? 'Partnerships that work both ways' : 'Keep your community in the loop'}</p>
+<h2>{affiliate ? 'Share your affiliate programme.' : 'What’s new with your business?'}</h2>
+<p class="muted">
+  {
+    affiliate
+      ? 'Tell us how your programme works. Terms stay private while our team reviews the partnership. Submitting does not activate affiliate links.'
+      : 'Share launches, new spaces, events and offers. Approved updates appear on your directory listing and the public updates page.'
+  }
+</p>
+{
+  error && (
+    <p class="notice error actions" role="alert">
+      {error}
+    </p>
+  )
+}
+{
+  saved && (
+    <p class="notice actions" role="status">
+      Saved. Check the status below to see whether your submission is a draft or in review.
+    </p>
+  )
+}
+{
+  listings.length ? (
+    <form method="POST" aria-label={affiliate ? 'Submit affiliate programme' : 'Write a directory update'} class="panel actions" style="display:block">
+      <>
+        <input type="hidden" name="id" value={selected?.id || ''} />
+        <input type="hidden" name="version" value={selected?.version || 0} />
+      </>
+      <div class="row">
+        <h3>{selected ? 'Edit submission' : affiliate ? 'Programme details' : 'New update'}</h3>
+        {selected && <span class={`tag ${selected.status}`}>{selected.status}</span>}
+      </div>
+      {selected?.review_notes && <p class="notice">Reviewer: {selected.review_notes}</p>}
+      <div class="field">
+        <>
+          <label for="listing">Listing</label>
+          <select id="listing" name="listing_id" required>
+            {listings.map((listing) => (
+              <option value={listing.id} selected={listing.id === listingId}>
+                {listing.draft.title}
+              </option>
+            ))}
+          </select>
+        </>
+      </div>
+      <div class="grid">
+        {fields.map(([name, label, type, required]) => (
+          <div class="field">
+            <label for={name}>{label}</label>
+            <input id={name} name={name} type={type} required={required} value={values[name] || ''} maxlength={name === 'title' ? 120 : 1000} />
+          </div>
+        ))}
+      </div>
+      <div class="field">
+        <>
+          <label for={affiliate ? 'terms' : 'body'}>{affiliate ? 'Programme terms, payout details and exclusions' : 'Your update'}</label>
+          <textarea id={affiliate ? 'terms' : 'body'} name={affiliate ? 'terms' : 'body'} rows="5" required minlength="20" maxlength="4000">
+            {values[affiliate ? 'terms' : 'body'] || ''}
+          </textarea>
+        </>
+      </div>
+      <div class="actions">
+        <button class="button" type="submit" name="intent" value="submit">Submit for review</button>
+        <button class="button secondary" type="submit" name="intent" value="draft">
+          Save draft
+        </button>
+        {selected && (
+          <a href={route} class="link">
+            Start a new {affiliate ? 'programme' : 'update'}
+          </a>
+        )}
+      </div>
+    </form>
+  ) : (
+    !error && (
+      <div class="panel actions">
+        <>
+          <h3>Add or claim a listing first.</h3>
+          <a href="/console/" class="button">
+            Go to my listings
+          </a>
+        </>
+      </div>
+    )
+  )
+}
+<section class="actions" style="display:block">
+  <h3>{affiliate ? 'Your programmes' : 'Your updates'}</h3>{
+    posts.length === 0 && <p class="muted">{affiliate ? 'No programmes submitted yet.' : 'Your saved updates will appear here.'}</p>
+  }{
+    posts.map((post) => (
+      <article class="panel">
+        <div class="row"><h3>{post.draft.title || listings.find(l => l.id === post.listing_id)?.draft.title || 'Affiliate programme'}</h3><span class={`tag ${post.status}`}>{affiliate && post.status === 'approved' ? 'Accepted' : post.status}</span></div>
+        <p class="muted">{post.draft.body || post.draft.commission}</p>
+        <p class="muted">
+          {new Date(post.updated_at).toLocaleDateString('en-GB', { dateStyle: 'medium' })}
+          {post.published ? ' · Published version remains live' : ''}
+        </p>
+        {post.review_notes && <p class="notice">Reviewer: {post.review_notes}</p>}
+        <div class="actions">
+          <a href={`${route}?id=${post.id}`} class="link">
+            Edit {affiliate ? 'programme' : 'update'}
+          </a>
+          {post.status !== 'withdrawn' && (
+            <form method="POST" aria-label={`Withdraw ${post.draft.title || 'affiliate programme'}`}>
+              <input type="hidden" name="id" value={post.id} />
+              <button class="button secondary" type="submit" name="intent" value="withdraw">
+                Withdraw
+              </button>
+            </form>
+          )}
+        </div>
+      </article>
+    ))
+  }
+</section>

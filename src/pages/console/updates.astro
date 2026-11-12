@@ -1,0 +1,10 @@
+---
+import ConsoleLayout from '~/layouts/console/ConsoleLayout.astro'
+import OwnerPostForm from '~/components/OwnerPostForm.astro'
+import { createSupabaseServerClient } from '~/utils/supabase-server'
+import { ownerPostPage } from '~/utils/owner-post-page'
+const state = await ownerPostPage(createSupabaseServerClient(Astro.request, Astro.cookies), Astro.request, 'update')
+if (state.redirect) return Astro.redirect(state.redirect, 303)
+---
+
+<ConsoleLayout title="Updates" currentPage="updates"><OwnerPostForm {...state} /></ConsoleLayout>

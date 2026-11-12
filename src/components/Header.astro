@@ -28,14 +28,21 @@ const navLinks = [
         </a>
         <nav class="hidden space-x-10 lg:flex">
           <div class="relative">
-            <button id="directory-button" class="group flex cursor-pointer items-center text-lg font-bold text-gray-900 transition-colors hover:text-yellow-600" aria-label="Directory menu" aria-controls="directory-dropdown" aria-haspopup="true" aria-expanded="false">
-              <span>Directory</span>
+            <button aria-controls="magazine-dropdown" id="magazine-button" class="group flex cursor-pointer items-center text-lg font-bold text-gray-900 transition-colors hover:text-yellow-600" aria-label="Magazine menu" aria-haspopup="true" aria-expanded="false">
+              <span>Magazine</span>
               <IsIconDownOutline class="ml-1 h-5 w-5 font-bold" aria-hidden="true" />
             </button>
-            <div id="directory-dropdown" class="absolute z-10 mt-2 hidden w-64 rounded-md border border-gray-200 bg-white py-1 shadow-xl">
-              <a href="/nomad_directory/" class="block px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-yellow-50 hover:text-yellow-600">Browse the Nomad Directory</a>
-              <a href="/nomad-directory-submit/" class="block px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-yellow-50 hover:text-yellow-600">Add your listing</a>
-              <a href="/nomad-directory-edit/" class="block px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-yellow-50 hover:text-yellow-600">Sign in / manage your listing</a>
+            <div id="magazine-dropdown" class="absolute z-10 mt-2 hidden w-64 rounded-md border border-gray-200 bg-white py-1 shadow-xl">
+              <a href="/5th-edition-waitlist/" class="flex items-center px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-yellow-50 hover:text-yellow-600">
+                <span class="mr-3 inline-flex items-center rounded-full bg-black px-2.5 py-1 text-xs font-bold text-yellow-400 shadow-sm">2027</span>
+                Edition #5 Waitlist
+              </a>
+              <a href="/editions/fourth-edition/" class="block px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-yellow-50 hover:text-yellow-600">Edition #4 - Palermo, Fukuoka, Bansko, Madeira</a>
+              <a href="/editions/third-edition/" class="block px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-yellow-50 hover:text-yellow-600">Edition #3 - Mind. Body. Tech.</a>
+          <a href="/editions/second-edition/" class="block px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-yellow-50 hover:text-yellow-600">Edition #2 - Digital Nomad Communities</a>
+          <a href="/editions/first-edition/" class="block px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-yellow-50 hover:text-yellow-600">Edition #1 - Digital Nomadism</a>
+              <div class="border-t border-gray-200 my-1"></div>
+              <a href="/editions/" class="block px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-yellow-50 hover:text-yellow-600">View All Editions</a>
             </div>
           </div>
           {
@@ -47,7 +54,7 @@ const navLinks = [
             ))
           }
           <div class="relative">
-            <button id="more-button" class="flex cursor-pointer items-center text-lg font-bold text-gray-900 transition-colors hover:text-yellow-600" aria-label="More menu" aria-controls="more-dropdown" aria-haspopup="true" aria-expanded="false">
+            <button aria-controls="more-dropdown" id="more-button" class="flex cursor-pointer items-center text-lg font-bold text-gray-900 transition-colors hover:text-yellow-600" aria-label="More menu" aria-haspopup="true" aria-expanded="false">
               More
               <IsIconDownOutline class="ml-1 h-5 w-5 font-bold" aria-hidden="true" />
             </button>
@@ -94,7 +101,7 @@ const navLinks = [
       <!-- Buttons -->
       <div class="hidden items-center space-x-4 lg:flex">
         <a href="/editions/" class="rounded-lg border-2 border-gray-900 px-6 py-3 font-bold text-gray-900 transition-colors hover:bg-gray-900 hover:text-white">
-          Magazine archive
+          Magazine
         </a>
         <a
           target="_self"
@@ -113,7 +120,7 @@ const navLinks = [
     </div>
   </div>
   <!-- Mobile Menu Overlay -->
-  <div id="mobile-menu-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu" class="fixed inset-0 z-50 hidden bg-black text-white overflow-y-auto">
+  <div role="dialog" aria-modal="true" aria-label="Navigation menu" id="mobile-menu-overlay" class="fixed inset-0 z-50 hidden bg-black text-white overflow-y-auto">
     <div class="flex items-center justify-between p-6 border-b border-gray-800">
       <a href="/" aria-label="Nomad Magazine Home" class="text-4xl font-black tracking-tighter">
         <img decoding="async" loading="lazy" src="/images/nomad-magazine-white-logo.webp" alt="Nomad Magazine" class="h-8" width="430" height="110" />
@@ -124,11 +131,19 @@ const navLinks = [
     </div>
     <nav class="flex flex-col space-y-6 p-6 text-lg font-semibold min-h-0">
       <div class="space-y-3">
-        <div class="text-yellow-400 text-xl font-bold">Nomad Directory</div>
+        <div class="text-yellow-400 text-xl font-bold">Magazine</div>
         <div class="ml-4 space-y-3 text-base">
-          <a href="/nomad_directory/" class="block transition-colors hover:text-yellow-400">Browse the directory</a>
-          <a href="/nomad-directory-submit/" class="block transition-colors hover:text-yellow-400">Add your listing</a>
-          <a href="/nomad-directory-edit/" class="block transition-colors hover:text-yellow-400">Sign in / manage your listing</a>
+          <a href="/5th-edition-waitlist/" class="flex items-center transition-colors hover:text-yellow-400">
+            <span class="mr-3 inline-flex items-center rounded-full bg-yellow-400 px-2 py-0.5 text-xs font-bold text-black shadow-sm">2027</span>
+            Edition #5 Waitlist
+          </a>
+          <a href="/editions/fourth-edition/" class="block transition-colors hover:text-yellow-400">Edition #4 - Palermo, Fukuoka, Bansko, Madeira</a>
+          <a href="/editions/third-edition/" class="block transition-colors hover:text-yellow-400">Edition #3 - Mind. Body. Tech.</a>
+          <a href="/editions/second-edition/" class="block transition-colors hover:text-yellow-400">Edition #2 - Digital Nomad Communities</a>
+          <a href="/editions/first-edition/" class="block transition-colors hover:text-yellow-400">Edition #1 - Digital Nomadism</a>
+          <div class="border-t border-gray-700 my-2 pt-2">
+            <a href="/editions/" class="block transition-colors hover:text-yellow-400">View All Editions</a>
+          </div>
         </div>
       </div>
       <a href="/search/" class="flex items-center gap-2 transition-colors hover:text-yellow-400">
@@ -173,19 +188,15 @@ const navLinks = [
       </div>
     </nav>
     <div class="p-6 mt-auto border-t border-gray-800">
-      <a href="/nomad_directory/" class="block w-full rounded-lg bg-yellow-400 py-4 text-center font-black text-black shadow-lg transition-colors hover:bg-yellow-500"
-        >Explore the Nomad Directory</a
+      <a href="/editions/second-edition/" class="block w-full rounded-lg bg-yellow-400 py-4 text-center font-black text-black shadow-lg transition-colors hover:bg-yellow-500"
+        >Order Now</a
       >
     </div>
   </div>
 </header>
 
-<style>
-  :is(a, button):focus-visible { outline: 3px solid #b58a00; outline-offset: 4px; }
-</style>
-
 <script>
-  for (const name of ['directory', 'more']) {
+  for (const name of ['magazine', 'more']) {
     const button = document.getElementById(`${name}-button`)
     const dropdown = document.getElementById(`${name}-dropdown`)
     if (!button || !dropdown) continue
@@ -197,7 +208,7 @@ const navLinks = [
       button.setAttribute('aria-expanded', String(open))
     }
     button.addEventListener('click', () => setOpen(button.getAttribute('aria-expanded') !== 'true'))
-    if (name === 'directory') {
+    if (name === 'magazine') {
       group.addEventListener('mouseenter', () => setOpen(true))
       group.addEventListener('mouseleave', () => {
         if (!group.contains(document.activeElement)) closeTimer = setTimeout(() => setOpen(false), 150)

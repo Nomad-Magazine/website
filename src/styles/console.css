@@ -1,0 +1,273 @@
+.owner-console {
+  background: #131513;
+  color: #f5f7f1;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+}
+.owner-console * {
+  box-sizing: border-box;
+}
+.owner-console :is(a, button, input, select, textarea, summary):focus-visible {
+  outline: 3px solid #facc15;
+  outline-offset: 4px;
+}
+.console-shell {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  min-height: 100vh;
+}
+.console-sidebar {
+  background: #1c2119;
+  border-right: 1px solid #3e4836;
+  padding: 28px 20px;
+}
+.console-brand {
+  display: block;
+  margin-bottom: 40px;
+}
+.console-brand img {
+  width: 150px;
+  height: 32px;
+  object-fit: contain;
+  filter: invert(1);
+}
+.console-brand span {
+  display: block;
+  color: #c4cdbb;
+  font-size: 13px;
+  margin-top: 8px;
+}
+.console-sidebar nav {
+  display: grid;
+  gap: 8px;
+}
+.console-sidebar nav a {
+  padding: 12px;
+  border-radius: 8px;
+  color: #c4cdbb;
+}
+.console-sidebar nav a[aria-current] {
+  background: #facc15;
+  color: #151713;
+  font-weight: bold;
+}
+.console-sidebar .signout {
+  margin-top: 36px;
+}
+.console-main {
+  min-width: 0;
+}
+.console-topbar {
+  border-bottom: 1px solid #3e4836;
+  padding: 22px 36px;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+.console-topbar h1 {
+  font-size: 20px;
+  font-weight: 600;
+}
+.console-content {
+  max-width: 1200px;
+  padding: 36px;
+  margin: auto;
+}
+.owner-console h2 {
+  font-size: 28px;
+  line-height: 1.2;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.owner-console h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.owner-console .muted {
+  color: #bdc6b4;
+}
+.owner-console .eyebrow {
+  color: #facc15;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.owner-console .panel {
+  background: #1d231a;
+  border: 1px solid #414c37;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+.owner-console .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.owner-console .actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-top: 20px;
+}
+.owner-console .button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #facc15;
+  border: 1px solid #facc15;
+  color: #121411;
+  padding: 12px 18px;
+  border-radius: 7px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.owner-console .button.secondary {
+  background: transparent;
+  color: #e9eee3;
+  border-color: #718060;
+}
+.owner-console .link {
+  color: #facc15;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.owner-console .tag {
+  display: inline-block;
+  border: 1px solid #6c795d;
+  border-radius: 6px;
+  color: #e0e8d7;
+  padding: 4px 9px;
+  font-size: 12px;
+}
+.owner-console .tag.pending {
+  color: #facc15;
+  border-color: #8e7b23;
+}
+.owner-console .tag.approved {
+  color: #b1ec9a;
+  border-color: #637e4e;
+}
+.owner-console .grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.owner-console .stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 28px 0;
+}
+.owner-console .stats strong {
+  display: block;
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.owner-console label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.owner-console input:not([type='hidden']),
+.owner-console textarea,
+.owner-console select {
+  display: block;
+  width: 100%;
+  background: #12170f;
+  border: 1px solid #6c795d;
+  border-radius: 7px;
+  color: #f5f7f1;
+  padding: 12px;
+  font-size: 16px;
+}
+.owner-console .field {
+  margin-bottom: 20px;
+}
+.owner-console textarea {
+  resize: vertical;
+}
+.owner-console .notice {
+  padding: 16px;
+  border: 1px solid #7d8c6e;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  background: #26311f;
+}
+.owner-console .error {
+  border-color: #ce7f78;
+  color: #ffc3be;
+  background: #37221e;
+}
+.owner-console .listing-preview {
+  display: flex;
+  gap: 20px;
+  align-items: start;
+  margin-top: 20px;
+}
+.owner-console .listing-preview img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #0c0e0b;
+}
+.owner-console .listing-preview p {
+  overflow-wrap: anywhere;
+}
+.owner-console .history {
+  border-top: 1px solid #414c37;
+  padding-top: 20px;
+  margin-top: 20px;
+}
+@media (max-width: 800px) {
+  .console-shell {
+    grid-template-columns: 1fr;
+  }
+  .console-sidebar {
+    border-right: 0;
+    padding: 20px;
+  }
+  .console-brand {
+    margin-bottom: 20px;
+  }
+  .console-sidebar nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .console-sidebar nav a {
+    padding: 8px;
+    font-size: 14px;
+  }
+  .console-sidebar .signout {
+    margin-top: 16px;
+  }
+  .console-topbar {
+    padding: 20px;
+  }
+  .console-content {
+    padding: 20px;
+  }
+  .owner-console .grid {
+    grid-template-columns: 1fr;
+  }
+  .owner-console .stats {
+    gap: 8px;
+  }
+  .owner-console .stats .panel {
+    padding: 12px;
+    font-size: 13px;
+  }
+  .owner-console h2 {
+    font-size: 26px;
+  }
+}

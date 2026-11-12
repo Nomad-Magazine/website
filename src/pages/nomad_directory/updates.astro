@@ -1,0 +1,68 @@
+---
+export const prerender = false
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import { readPublicDirectory, type PublicUpdate } from '~/utils/directory-public'
+import '~/styles/directory.css'
+let updates: PublicUpdate[] = [],
+  unavailable = false
+try {
+  updates = await readPublicDirectory<PublicUpdate>('directory_public_updates')
+} catch {
+  unavailable = true
+  Astro.response.status = 503
+  Astro.response.headers.set('Retry-After', '60')
+}
+const seo: SEOProps = {
+  title: 'Digital Nomad Business Updates & News | Nomad Magazine',
+  description: 'Discover the latest updates from businesses in the Nomad Directory. Explore new spaces, member offers, product launches and community news from verified owners.',
+  canonical: `${Astro.site}nomad_directory/updates/`,
+  image: `${Astro.site}images/Nomad-directory.webp`,
+  keywords: 'digital nomad business updates, nomad directory news, coliving updates, remote work services',
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Nomad Directory updates',
+    description: 'Reviewed updates from directory business owners.',
+    url: `${Astro.site}nomad_directory/updates/`,
+    publisher: { '@type': 'Organization', name: 'Nomad Magazine', url: `${Astro.site}` },
+  },
+}
+---
+
+<Layout seo={seo}
+  ><div class="directory-theme">
+    <section class="directory-wrap py-16">
+      <p class="directory-eyebrow">From the people building for nomads</p><h1 class="my-6 text-4xl font-bold">What’s new in the Nomad Directory</h1><p class="directory-muted mb-8">
+        Launches, new spaces and offers, shared by business owners and reviewed by our team.
+      </p><a class="directory-text-link" href="/nomad_directory/">Explore the directory ↗</a><div class="directory-grid mt-10">
+        {
+          updates.map((update) => (
+            <article class="directory-card">
+              <a href={`/nomad_directory/#listing-${update.listing_id}`} class="directory-text-link">{update.listing_title}</a>
+              <h2 class="text-xl font-bold my-4">{update.payload.title}</h2>
+              <p class="directory-muted whitespace-pre-line break-words">{update.payload.body}</p>
+              <time datetime={update.published_at} class="directory-muted mt-4">
+                {new Date(update.published_at).toLocaleDateString('en-GB', { dateStyle: 'medium' })}
+              </time>
+              {update.payload.url && (
+                <a
+                  href={update.payload.url}
+                  rel="ugc noopener noreferrer"
+                  target="_blank"
+                  aria-label={`Read ${update.payload.title} (opens in new tab)`}
+                  class="directory-text-link mt-4"
+                >
+                  View update ↗
+                </a>
+              )}
+            </article>
+          ))
+        }
+      </div>{
+        !updates.length && (
+          <p class="directory-muted mt-8">{unavailable ? 'Updates are temporarily unavailable. Please try again shortly.' : 'The first member updates are on their way.'}</p>
+        )
+      }
+    </section>
+  </div></Layout
+>

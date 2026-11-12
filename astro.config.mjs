@@ -1,3 +1,4 @@
+import {directoryRoutes} from './src/utils/directory-routes.mjs'
 import sitemap from '@astrojs/sitemap'
 import Icons from 'unplugin-icons/vite'
 import tailwindcss from '@tailwindcss/vite'
@@ -118,6 +119,7 @@ export default defineConfig({
     injectContentStaticRoutes(),
     pagefind(),
     sitemap({
+      customPages: [`${site}/nomad_directory/`, `${site}/nomad_directory/updates/`, ...directoryRoutes(JSON.parse(readFileSync('src/utils/nomad_cache_table_6857167d82358a0f5e038c3f.json','utf8')).records).map(route => `${site}/nomad_directory/${route.slug}/`)],
       changefreq: 'weekly',
       priority: 0.7,
       lastmod: new Date(),

@@ -1,125 +1,105 @@
 ---
+import { directoryImageUrl } from '~/utils/directory-public'
 import ConsoleLayout from '~/layouts/console/ConsoleLayout.astro'
-import DirectoryListingPreview from '~/components/DirectoryListingPreview.astro'
 import { createSupabaseServerClient } from '~/utils/supabase-server'
-import { deleteListingForEmail, findListingsByEmail } from '~/utils/smartsuite-directory'
-
+import { loadWorkspace, workspaceError, type WorkspaceListing, type WorkspacePost } from '~/utils/directory-workspace'
+import { getDirectoryEntries } from '~/utils/directory'
 const supabase = createSupabaseServerClient(Astro.request, Astro.cookies)
-const { data: { user } } = await supabase.auth.getUser()
-const email = user?.email || ''
-
-let errorMessage = ''
-let successMessage = ''
-
-if (Astro.request.method === 'POST' && email) {
+let listings: WorkspaceListing[] = [],
+  posts: WorkspacePost[] = [],
+  error = ''
+if (Astro.request.method === 'POST') {
   const form = await Astro.request.formData()
-  if (String(form.get('action') ?? '') === 'delete') {
-    const id = String(form.get('id') ?? '').trim()
-    const result = await deleteListingForEmail(email, id)
-    if (!result.ok) {
-      errorMessage = result.error || 'Could not delete your listing.'
-    } else {
-      successMessage = 'Listing deleted.'
-    }
-  }
+  const result = await supabase.rpc('directory_claim_listing', { p_legacy_id: String(form.get('legacy_id') || '') })
+  if (result.error) error = workspaceError(result.error)
+  else return Astro.redirect(`/console/directory-submission/?id=${result.data}&claimed=1`, 303)
 }
-
-const listings = email ? await findListingsByEmail(email) : []
+try {
+  ;({ listings, posts } = await loadWorkspace(supabase))
+} catch (err) {
+  error = workspaceError(err)
+}
+const directory = await getDirectoryEntries()
 ---
 
-<ConsoleLayout title="Your listing" currentPage="dashboard">
-  <div class="max-w-3xl">
-    <div class="mb-8">
-      <h2 class="text-2xl font-bold text-white mb-1">Welcome back</h2>
-      <p class="text-gray-400">{email}</p>
-    </div>
-
-    {successMessage && (
-      <div class="mb-6 px-4 py-3 rounded-lg bg-green-400/10 border border-green-400/20 text-green-400 text-sm" role="status">
-        {successMessage}
-      </div>
-    )}
-    {errorMessage && (
-      <div class="mb-6 px-4 py-3 rounded-lg bg-red-400/10 border border-red-400/20 text-red-400 text-sm" role="alert">
-        {errorMessage}
-      </div>
-    )}
-
-    {listings.length === 0 ? (
-      <div class="bg-gray-900 border border-dashed border-gray-700 rounded-xl p-12 text-center">
-        <h3 class="font-semibold text-white mb-2">No listing found for this email</h3>
-        <p class="text-gray-400 text-sm mb-6 max-w-sm mx-auto">
-          Submit your listing here. It is saved immediately so you can preview it and see if it is in review.
-        </p>
-        <a
-          href="/nomad-directory-submit/"
-          class="inline-flex items-center gap-2 px-6 py-3 bg-yellow-400 hover:bg-yellow-300 text-black font-semibold text-sm rounded-lg transition-colors"
-        >
-          Submit a listing
-        </a>
-      </div>
-    ) : (
-      <div class="space-y-8">
-        <a
-          href="/nomad-directory-submit/"
-          class="inline-flex items-center gap-2 px-4 py-2 bg-yellow-400 hover:bg-yellow-300 text-black font-semibold text-sm rounded-lg transition-colors"
-        >
-          Submit another listing
-        </a>
-        {listings.map((listing) => (
-          <section>
-            <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
-              <span class={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${
-                listing.published
-                  ? 'bg-green-400/10 text-green-400 border-green-400/20'
-                  : 'bg-yellow-400/10 text-yellow-400 border-yellow-400/20'
-              }`}>
-                {listing.published ? 'Published' : 'In review'}
-              </span>
-              <div class="flex flex-wrap items-center gap-2">
-                <a
-                  href={`/console/directory-submission/?id=${listing.id}`}
-                  class="inline-flex items-center gap-2 px-4 py-2 bg-yellow-400 hover:bg-yellow-300 text-black font-semibold text-sm rounded-lg transition-colors"
-                >
-                  Edit listing
-                </a>
-                <form method="POST" aria-label={`Delete ${listing.title}`}>
-                  <input type="hidden" name="action" value="delete" />
-                  <input type="hidden" name="id" value={listing.id} />
-                  <button
-                    type="submit"
-                    class="inline-flex items-center gap-2 px-4 py-2 border border-red-400/30 text-red-400 hover:bg-red-400/10 font-semibold text-sm rounded-lg transition-colors"
-                    onclick="return confirm('Delete this listing? This cannot be undone.')"
-                  >
-                    Delete
-                  </button>
-                </form>
-              </div>
-            </div>
-            <p class="text-xs text-gray-500 uppercase tracking-widest mb-3">Preview — how it looks in the directory</p>
-            <div class="bg-[#0f1117] rounded-2xl p-4 border border-white/10">
-              <DirectoryListingPreview
-                title={listing.title}
-                description={listing.description}
-                category={listing.category}
-                location={listing.location}
-                website={listing.website}
-                specialOffer={listing.specialOffer}
-                image={listing.image}
-              />
-            </div>
-            {listing.published ? (
-              <p class="text-xs text-center mt-3">
-                <a href="/nomad_directory/" target="_blank" rel="noopener noreferrer" class="text-yellow-400 hover:text-yellow-300" aria-label="View Nomad Directory (opens in new tab)">
-                  View the live directory →
-                </a>
-              </p>
-            ) : (
-              <p class="text-xs text-gray-500 text-center mt-3">Not public yet. You can still edit and preview it here.</p>
-            )}
-          </section>
-        ))}
-      </div>
-    )}
+<ConsoleLayout title="My listings" currentPage="dashboard">
+  <div class="row">
+    <div>
+      <p class="eyebrow">Your space in the nomad community</p><h2>Make your next connection.</h2><p class="muted">
+        Manage your listings, share what’s new and bring your offers to nomads.
+      </p>
+    </div><a href="/console/directory-submission/?new=1" class="button">Add a listing ↗</a>
   </div>
+  {
+    error && (
+      <p role="alert" class="notice error">
+        {error}
+      </p>
+    )
+  }
+  <div class="stats">
+    <div class="panel"><strong>{listings.length}</strong><span class="muted">Your listings</span></div><div class="panel">
+      <strong>{listings.filter((l) => l.published).length}</strong><span class="muted">Published</span>
+    </div><div class="panel">
+      <strong>{listings.filter((l) => l.status === 'pending').length + posts.filter((p) => p.status === 'pending').length}</strong><span class="muted">Awaiting review</span>
+    </div>
+  </div>
+  {
+    listings.length === 0 && !error && (
+      <section class="panel">
+        <>
+          <h3>Let’s get your business listed.</h3>
+          <p class="muted">Create a listing or claim one below using its original contact email.</p>
+          <a href="/console/directory-submission/?new=1" class="button actions">
+            Create your first listing
+          </a>
+        </>
+      </section>
+    )
+  }
+  {
+    listings.map((listing) => (
+      <section class="panel">
+        <div class="row">
+          <span class={`tag ${listing.status}`}>{listing.published ? 'Live listing' : 'Not published'} · {listing.status === 'pending' ? 'Changes in review' : listing.status}</span>
+          <a href={`/console/directory-submission/?id=${listing.id}`} class="link">Edit listing ↗</a>
+        </div>
+        <div class="listing-preview">
+          {listing.draft.image && <img src={directoryImageUrl(listing.draft.image)} alt={`${listing.draft.title} logo`} width="64" height="64" />}
+          <div>
+            <>
+              <h3>{listing.draft.title}</h3>
+              <p class="muted">
+                {listing.draft.category} {listing.draft.location && `· ${listing.draft.location}`}
+              </p>
+              <p class="muted">{listing.draft.description.slice(0, 200)}</p>
+            </>
+          </div>
+        </div>
+        {listing.review_notes && <p class="notice">Reviewer: {listing.review_notes}</p>}
+        <div class="actions">
+          <a href={`/console/updates/?listing=${listing.id}`} class="button">Post an update</a>
+          <a href={`/console/affiliates/?listing=${listing.id}`} class="button secondary">
+            Share an affiliate programme
+          </a>
+          {listing.published && (
+            <a class="link" href={`/nomad_directory/#listing-${listing.legacy_id || listing.id}`}>
+              View published listing ↗
+            </a>
+          )}
+        </div>
+      </section>
+    ))
+  }
+  <section class="panel">
+    <h3>Already in the directory?</h3><p class="muted">Claim your existing listing using its original contact email. We verify ownership before giving access.</p><form
+      method="POST"
+      aria-label="Claim an existing listing"
+    >
+      <div class="field actions">
+        <label for="legacy-id">Your business</label><select id="legacy-id" name="legacy_id" required
+          ><option value="">Choose your business</option>{directory.map((entry) => <option value={entry.id}>{entry.title}</option>)}</select>
+      </div><button type="submit" class="button secondary">Verify and claim listing</button>
+    </form><p class="muted actions">Different contact email? <a href="mailto:hey@nomadgossip.com" class="link">Contact us to verify ownership</a>.</p>
+  </section>
 </ConsoleLayout>
