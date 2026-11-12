@@ -199,43 +199,92 @@ const seo: SEOProps = {
 
 <Layout seo={seo}>
 <div class="homepage">
-<div class="directory-theme">    <section class="home-hero directory-wrap">
-      <div>
-        <p class="directory-eyebrow">Less searching. More living.</p>
+    <section class="editorial-hero">
+      <div class="hero-left">
+        <p class="hero-kicker">independent digital nomad magazine</p>
         <h1>Digital nomad life.<br /><span>All in one place.</span></h1>
         <p class="hero-description">The places, people and tools that make life as a digital nomad work. All in one directory.</p>
         <form action="/nomad_directory/" method="GET" role="search" aria-label="Search the Nomad Directory" class="home-search">
           <label for="home-search" class="sr-only">Search tools, spaces and communities</label>
           <input id="home-search" name="q" type="search" placeholder="Try coliving, eSIM or community…" />
-          <button type="submit" class="directory-button">Explore <span aria-hidden="true">↗</span></button>
+          <button type="submit" class="search-button">Explore <span aria-hidden="true">→</span></button>
         </form>
         <p class="hero-meta">{entries.length}+ listings <span aria-hidden="true">/</span> {categories.length} categories <span aria-hidden="true">/</span> One nomad community</p>
-        <a class="directory-text-link" href="/nomad_directory/">Browse the Nomad Directory</a>
+        <a class="hero-link" href="/nomad_directory/">Browse the Nomad Directory</a>
       </div>
-      <div class="hero-discovery">
-        <div class="discovery-heading"><span class="directory-eyebrow">Where to next?</span><span aria-hidden="true">↗</span></div>
-        {
-          needs.map((need, index) => (
-            <a href={directoryCategoryUrl(need.category)} class="need-card">
-              <span class="need-icon" aria-hidden="true">
-                {need.icon}
-              </span>
-              <span>
-                <>
-                  <strong>{need.name}</strong>
-                  <small>{need.detail}</small>
-                </>
-              </span>
-              <span class="need-number" aria-hidden="true">
-                0{index + 1}
-              </span>
-            </a>
-          ))
-        }
-        <p class="directory-muted">Built by Nomad Magazine. Made for your everyday.</p>
+      <div class="hero-right">
+        <div class="directory-collage">
+          <div class="collage-headline">
+            <p class="handwritten">The nomad directory</p>
+          </div>
+          
+          <!-- Original run #1 composition with real directory entries -->
+          <div class="sticker sticker-1">
+            <div class="sticker-inner">
+              <img src={allValidEntries.find(e => e.title === 'Zenvify')?.image || '/logo.svg'} alt="" aria-hidden="true" loading="lazy" width="32" height="32" />
+              <span>Zenvify</span>
+            </div>
+          </div>
+          
+          <div class="sticker sticker-2">
+            <div class="sticker-inner">
+              <img src={allValidEntries.find(e => e.title === 'Mubboo Flights')?.image || '/logo.svg'} alt="" aria-hidden="true" loading="lazy" width="32" height="32" />
+              <span>Mubboo Flights</span>
+            </div>
+          </div>
+          
+          <div class="sticker sticker-3">
+            <div class="sticker-inner">
+              <img src={allValidEntries.find(e => e.title === 'eSIM Grab')?.image || '/logo.svg'} alt="" aria-hidden="true" loading="lazy" width="32" height="32" />
+              <span>eSIM Grab</span>
+            </div>
+          </div>
+          
+          <div class="sticker sticker-4">
+            <div class="sticker-inner">
+              <img src={allValidEntries.find(e => e.title === 'Farhaven')?.image || '/logo.svg'} alt="" aria-hidden="true" loading="lazy" width="32" height="32" />
+              <span>Farhaven</span>
+            </div>
+          </div>
+          
+          <div class="sticker sticker-5">
+            <div class="sticker-inner">
+              <img src={allValidEntries.find(e => e.title === 'Remote First Jobs')?.image || '/logo.svg'} alt="" aria-hidden="true" loading="lazy" width="32" height="32" />
+              <span>Remote First Jobs</span>
+            </div>
+          </div>
+          
+          <div class="sticker sticker-6">
+            <div class="sticker-inner">
+              <img src={allValidEntries.find(e => e.title === 'Reemotee')?.image || '/logo.svg'} alt="" aria-hidden="true" loading="lazy" width="32" height="32" />
+              <span>Reemotee</span>
+            </div>
+          </div>
+          
+          <!-- Both magazine covers from run #1 -->
+          <div class="magazine-mini magazine-1">
+            <img src="/images/edition-004-cover.webp" alt="Palermo Edition" loading="lazy" width="100" height="125" />
+          </div>
+          
+          <div class="magazine-mini magazine-2">
+            <img src="/images/third-edition-cover-hd.webp" alt="Mind Body Tech Edition" loading="lazy" width="100" height="125" />
+          </div>
+          
+          <!-- Three badges from run #1 -->
+          <div class="category-badge badge-1">
+            <span>Coliving</span>
+          </div>
+          
+          <div class="category-badge badge-2">
+            <span>Community</span>
+          </div>
+          
+          <div class="category-badge badge-3">
+            <span>Coworking</span>
+          </div>
+        </div>
       </div>
     </section>
-</div>
 <div class="bg-hoverw text-white">
 <!-- Nomad Directory Section -->
     <section class="border-b border-neutral-800 bg-neutral-900/30 px-4 py-16 sm:px-6 lg:px-8">
@@ -763,110 +812,430 @@ const seo: SEOProps = {
 
 {stickyBarItems.length > 0 && <StickyAnnouncementBar items={stickyBarItems} />}
 <style>
-  .home-hero {
+  @font-face {
+    font-family: 'JustMeAgainDownHere';
+    src: url('/fonts/JustMeAgainDownHere-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  .editorial-hero {
+    max-width: 1248px;
+    margin: 0 auto;
+    padding: 76px 24px;
     display: grid;
-    grid-template-columns: 1.3fr 1fr;
+    grid-template-columns: 1fr 1fr;
     align-items: center;
-    gap: 88px;
-    padding-top: 76px;
-    padding-bottom: 76px;
+    gap: 60px;
+    background: #fafaf8;
   }
-  h1 {
-    font-size: clamp(48px, 5.4vw, 76px);
-    line-height: 1.06;
+  
+  .hero-left {
+    max-width: 540px;
+  }
+  
+  .hero-kicker {
+    font-family: 'JustMeAgainDownHere', cursive;
+    font-size: 34px;
+    color: #171817;
+    margin-bottom: 16px;
+  }
+  
+  .editorial-hero h1 {
+    font-size: clamp(40px, 4.5vw, 60px);
+    line-height: 1.1;
     font-weight: 650;
-    letter-spacing: -0.055em;
-    margin: 22px 0;
+    letter-spacing: -0.04em;
+    margin: 0 0 22px 0;
+    color: #171817;
   }
-  h1 span {
+  
+  .editorial-hero h1 span {
     color: #facc15;
   }
+  
   .hero-description {
-    color: #b9beb5;
-    font-size: 20px;
-    max-width: 500px;
+    color: #4b5563;
+    font-size: 17px;
     line-height: 1.6;
+    margin-bottom: 26px;
   }
+  
   .home-search {
     display: flex;
     background: #fff;
-    padding: 6px;
-    border-radius: 10px;
-    margin: 28px 0 16px;
-    gap: 8px;
+    border: 2px solid #e5e7eb;
+    padding: 4px;
+    border-radius: 11px;
+    margin-bottom: 16px;
+    gap: 5px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    max-width: 100%;
   }
+  
+  .home-search:focus-within {
+    border-color: #facc15;
+    box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.1);
+  }
+  
   .home-search input {
     flex: 1;
     min-width: 0;
-    padding: 10px;
+    padding: 10px 12px;
     color: #171817;
-    font-size: 16px;
+    font-size: 15px;
+    border: none;
+    background: transparent;
   }
+  
   .home-search input::placeholder {
-    color: #61675d;
+    color: #9ca3af;
   }
+  
+  .search-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    background: #facc15;
+    color: #171817;
+    font-weight: 700;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  
+  .search-button:hover {
+    background: #fde047;
+    transform: translateY(-1px);
+  }
+  
   .hero-meta {
-    color: #b9beb5;
+    color: #6b7280;
     font-size: 13px;
-    margin-bottom: 22px;
+    margin-bottom: 14px;
   }
+  
   .hero-meta span {
-    color: #5c6654;
-    padding: 0 8px;
+    color: #d1d5db;
+    padding: 0 7px;
   }
-  .hero-discovery {
-    border: 1px solid #394132;
-    border-radius: 20px;
-    background: #20261d;
-    padding: 24px;
-    transform: rotate(1deg);
+  
+  .hero-link {
+    color: #171817;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    font-weight: 600;
+    font-size: 15px;
   }
-  .discovery-heading {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
+  
+  .hero-link:hover {
+    color: #facc15;
   }
-  .need-card {
+  
+  .hero-right {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .directory-collage {
+    position: relative;
+    min-height: 480px;
+    padding: 0;
+    max-width: 100%;
+  }
+  
+  .collage-headline {
+    position: absolute;
+    top: 0;
+    left: 5px;
+    z-index: 10;
+  }
+  
+  .handwritten {
+    font-family: 'JustMeAgainDownHere', cursive;
+    font-size: 36px;
+    color: #171817;
+    margin: 0;
+    transform: rotate(-2deg);
+  }
+  
+  .sticker {
+    position: absolute;
+    background: white;
+    border: 2px solid #171817;
+    border-radius: 9px;
+    padding: 9px 11px;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+    max-width: 180px;
+  }
+  
+  .sticker:hover {
+    transform: rotate(0deg) scale(1.05) !important;
+    z-index: 25;
+  }
+  
+  .sticker-inner {
     display: flex;
     align-items: center;
-    gap: 16px;
-    background: #2b3426;
-    border: 1px solid #45513c;
-    border-radius: 10px;
-    padding: 20px 16px;
-    margin: 10px 0;
+    gap: 7px;
   }
-  .need-card:hover {
-    border-color: #facc15;
+  
+  .sticker-inner img {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+    border-radius: 4px;
+    flex-shrink: 0;
   }
-  .need-icon {
-    color: #facc15;
-    font-size: 28px;
-    width: 30px;
-    text-align: center;
-  }
-  .need-card strong {
-    font-size: 17px;
+  
+  .sticker-inner span {
     font-weight: 600;
+    font-size: 12px;
+    color: #171817;
+    white-space: nowrap;
   }
-  .need-card small {
+  
+  .sticker-1 {
+    top: 75px;
+    left: 20px;
+    transform: rotate(-4deg);
+    z-index: 15;
+  }
+  
+  .sticker-2 {
+    top: 150px;
+    left: 10px;
+    transform: rotate(3deg);
+    z-index: 15;
+  }
+  
+  .sticker-3 {
+    top: 225px;
+    left: 30px;
+    transform: rotate(-2deg);
+    z-index: 15;
+  }
+  
+  .sticker-4 {
+    top: 95px;
+    right: 30px;
+    transform: rotate(2deg);
+    z-index: 15;
+  }
+  
+  .sticker-5 {
+    top: 170px;
+    right: 15px;
+    transform: rotate(-2deg);
+    z-index: 15;
+  }
+  
+  .sticker-6 {
+    top: 300px;
+    right: 60px;
+    transform: rotate(4deg);
+    z-index: 15;
+  }
+  
+  .magazine-mini {
+    position: absolute;
+    border-radius: 5px;
+    box-shadow: 3px 3px 8px rgba(0,0,0,0.15);
+    transition: transform 0.2s;
+    z-index: 5;
+  }
+  
+  .magazine-mini:hover {
+    transform: rotate(0deg) scale(1.06) !important;
+    z-index: 20;
+  }
+  
+  .magazine-mini img {
     display: block;
-    color: #bdc6b7;
-    margin-top: 3px;
+    width: 85px;
+    height: auto;
+    border-radius: 4px;
   }
-  .need-number {
-    margin-left: auto;
-    color: #b1bda8;
-    font-size: 12px;
+  
+  .magazine-1 {
+    bottom: 50px;
+    left: 15px;
+    transform: rotate(-8deg);
   }
-  .hero-discovery > p {
-    font-size: 12px;
-    text-align: center;
-    margin-top: 20px;
+  
+  .magazine-2 {
+    bottom: 90px;
+    right: 20px;
+    transform: rotate(6deg);
   }
-
-@media(max-width:1000px){.home-hero{gap:32px}}
-@media(max-width:760px){.home-hero{grid-template-columns:1fr;padding-top:40px;padding-bottom:40px}.hero-discovery{transform:none}.home-search .directory-button{padding:12px}}
+  
+  .category-badge {
+    position: absolute;
+    background: #facc15;
+    border: 2px solid #171817;
+    border-radius: 16px;
+    padding: 5px 11px;
+    font-weight: 700;
+    font-size: 11px;
+    color: #171817;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+  }
+  
+  .category-badge:hover {
+    transform: scale(1.08) rotate(0deg) !important;
+  }
+  
+  .badge-1 {
+    top: 280px;
+    left: 140px;
+    transform: rotate(-6deg);
+    z-index: 16;
+  }
+  
+  .badge-2 {
+    top: 50px;
+    right: 105px;
+    transform: rotate(4deg);
+    z-index: 16;
+  }
+  
+  .badge-3 {
+    bottom: 30px;
+    right: 130px;
+    transform: rotate(-3deg);
+    z-index: 16;
+  }
+  
+  @media(max-width:1000px){
+    .editorial-hero{
+      gap: 40px;
+      padding: 56px 20px;
+    }
+    .directory-collage {
+      min-height: 420px;
+    }
+  }
+  
+  @media(max-width:768px){
+    .editorial-hero{
+      grid-template-columns: 1fr;
+      padding: 40px 16px;
+      gap: 36px;
+    }
+    .hero-left {
+      max-width: 100%;
+    }
+    .hero-kicker {
+      font-size: 26px;
+    }
+    .editorial-hero h1 {
+      font-size: 36px;
+    }
+    .hero-description {
+      font-size: 16px;
+    }
+    .home-search {
+      padding: 4px;
+    }
+    .home-search input {
+      font-size: 14px;
+      padding: 9px 10px;
+    }
+    .search-button {
+      font-size: 13px;
+      padding: 9px 14px;
+    }
+    .hero-meta {
+      font-size: 12px;
+    }
+    .directory-collage {
+      min-height: 360px;
+      max-width: 100%;
+      overflow: hidden;
+    }
+    .handwritten {
+      font-size: 28px;
+    }
+    .sticker {
+      padding: 7px 9px;
+      max-width: 140px;
+    }
+    .sticker-inner {
+      gap: 6px;
+    }
+    .sticker-inner img {
+      width: 22px;
+      height: 22px;
+    }
+    .sticker-inner span {
+      font-size: 10px;
+    }
+    .magazine-mini img {
+      width: 70px;
+    }
+    .category-badge {
+      font-size: 9px;
+      padding: 4px 9px;
+    }
+    .sticker-1 {
+      top: 65px;
+      left: 10px;
+    }
+    .sticker-2 {
+      top: 130px;
+      left: 5px;
+    }
+    .sticker-3 {
+      top: 195px;
+      left: 15px;
+    }
+    .sticker-4 {
+      top: 80px;
+      right: 15px;
+    }
+    .sticker-5 {
+      top: 145px;
+      right: 10px;
+    }
+    .sticker-6 {
+      top: 250px;
+      right: 35px;
+    }
+    .magazine-1 {
+      bottom: 45px;
+      left: 10px;
+      transform: rotate(-9deg);
+    }
+    .magazine-2 {
+      bottom: 75px;
+      right: 12px;
+      transform: rotate(7deg);
+    }
+    .badge-1 {
+      top: 230px;
+      left: 80px;
+    }
+    .badge-2 {
+      top: 42px;
+      right: 60px;
+    }
+    .badge-3 {
+      bottom: 25px;
+      right: 75px;
+    }
+  }
 </style>
 <style>
 .homepage { overflow-x:clip; }
