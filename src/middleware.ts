@@ -6,7 +6,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const url = new URL(request.url)
   const pathname = url.pathname
 
-  if (request.method === 'POST' && (pathname.startsWith('/console') || /^\/nomad-directory-edit\/?$/.test(pathname))) {
+  if (request.method === 'POST' && (pathname.startsWith('/console') || /^\/nomad-directory-edit\/?$/.test(pathname) || pathname === '/nomad_directory/vote/')) {
     if (request.headers.get('origin') !== url.origin) return new Response('Invalid request origin', { status: 403 })
   }
 

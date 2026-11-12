@@ -1,6 +1,7 @@
 ---
 export const prerender = false
 import { readPublicDirectory, type PublicUpdate } from '~/utils/directory-public'
+import type { VoteCount } from '~/utils/directory-votes'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import DirectoryEntryCard from '~/components/DirectoryEntryCard.astro'
 import { getDirectoryEntries, getDirectoryCategories, directoryCategoryUrl } from '~/utils/directory'
@@ -8,8 +9,9 @@ import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
 
 let entries = await getDirectoryEntries()
 let updates: PublicUpdate[] = []
+let votes: VoteCount[] = []
 try {
-  ;[entries, updates] = await Promise.all([getDirectoryEntries(true), readPublicDirectory<PublicUpdate>('directory_public_updates')])
+  ;[entries, updates, votes] = await Promise.all([getDirectoryEntries(true), readPublicDirectory<PublicUpdate>('directory_public_updates'), readPublicDirectory<VoteCount>('directory_vote_counts')])
 } catch {
   Astro.response.status = 503
   Astro.response.headers.set('Retry-After', '60')
@@ -17,6 +19,7 @@ try {
 Astro.response.headers.set('Cache-Control', 'public, max-age=0, must-revalidate')
 const total = entries.length
 const categories = getDirectoryCategories(entries)
+const voteCounts = new Map(votes.map(vote => [vote.listing_id, Number(vote.vote_count)]))
 const canonical = `${Astro.site}nomad_directory/`
 const description = 'Explore digital nomad tools, coliving, coworking spaces and communities. Search the Nomad Directory for services, member offers and resources for remote work.'
 const seo: SEOProps = {
@@ -135,6 +138,7 @@ const seo: SEOProps = {
             <select id="sort-select" aria-label="Sort listings"
               class="bg-white/10 border border-white/20 text-white text-sm rounded-lg px-3 py-1.5 focus-visible:ring-2 focus-visible:ring-yellow-400 focus:border-yellow-400 transition-all cursor-pointer">
               <option value="default">Default</option>
+              <option value="votes">Most upvoted</option>
               <option value="az">A → Z</option>
               <option value="za">Z → A</option>
             </select>
@@ -240,7 +244,7 @@ const seo: SEOProps = {
             </div>
 
             <!-- Cards -->
-            <div id="directory-container" class="space-y-4">{entries.map(entry => <DirectoryEntryCard entry={entry} updates={updates.filter(update => update.listing_id === entry.id)} />)}</div>
+            <div id="directory-container" class="space-y-4">{entries.map(entry => <DirectoryEntryCard entry={entry} votes={voteCounts.get(entry.id) || 0} updates={updates.filter(update => update.listing_id === entry.id)} />)}</div>
 
             <!-- Empty state -->
             <div id="empty-state" class="hidden text-center py-20">
@@ -447,9 +451,11 @@ const seo: SEOProps = {
     });
     if (currentSort === 'az') filtered.sort((a, b) => a.title.localeCompare(b.title));
     else if (currentSort === 'za') filtered.sort((a, b) => b.title.localeCompare(a.title));
+    else if (currentSort === 'votes') filtered.sort((a, b) => Number(cardById.get(b.id).dataset.votes) - Number(cardById.get(a.id).dataset.votes));
     if (resetPage !== false) currentPage = 1;
     if (currentPage > pageCount()) currentPage = pageCount();
     renderGrid();
+    document.dispatchEvent(new Event('directory:render'));
     syncPageUrl();
     updateActiveFilters();
   }
@@ -528,6 +534,15 @@ const seo: SEOProps = {
   };
 
   function init() {
+    document.addEventListener('directory:vote', event => {
+      const card = cardById.get('listing-' + event.detail.listing_id);
+      if (card) card.dataset.votes = event.detail.vote_count;
+      if (currentSort === 'votes') {
+        const focused = document.activeElement;
+        applyFilters(false);
+        if (focused?.isConnected) focused.focus({preventScroll:true});
+      }
+    });
     const si = document.getElementById('search-input');
     if (si) si.addEventListener('input', e => { currentSearch = e.target.value.toLowerCase().trim(); applyFilters(); });
 

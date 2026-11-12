@@ -5,12 +5,17 @@ import { COUNTRY_TO_CONTINENT, slugify, extractCountry, directoryRoutes } from '
 import { getPublishedDirectoryRecords, getDirectoryEntriesFromRecords, getDirectoryCategories } from '~/utils/directory'
 import { fetchReportRecords } from '~/utils/smartsuite'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import DirectoryVote from '~/components/DirectoryVote.astro'
+import { readPublicDirectory } from '~/utils/directory-public'
+import type { VoteCount } from '~/utils/directory-votes'
 import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
 import { directoryLogoBoxClass, directoryLogoImageClassFor, directoryLogoInitialClass, directoryLogoUrlFor } from '~/const/nomadDirectoryWhiteLogos'
 
 let records = (await fetchReportRecords('6857167d82358a0f5e038c3f')).records
 const originalRecords = records
-try { records = await getPublishedDirectoryRecords() } catch { Astro.response.status = 503; Astro.response.headers.set('Retry-After','60') }
+let votes: VoteCount[] = []
+try { [records, votes] = await Promise.all([getPublishedDirectoryRecords(), readPublicDirectory<VoteCount>('directory_vote_counts')]) } catch { Astro.response.status = 503; Astro.response.headers.set('Retry-After','60') }
+const voteCounts = new Map(votes.map(vote => [vote.listing_id, Number(vote.vote_count)]))
 Astro.response.headers.set('Cache-Control','public, max-age=0, must-revalidate')
 const route = directoryRoutes([...originalRecords,...records]).find(route => route.slug === Astro.params.slug)
 if (!route) return new Response('Directory page not found', {status:404})
@@ -289,6 +294,8 @@ const seo: SEOProps = {
                 })()
                 return (
                   <div
+                    id={`listing-${record.id}`}
+                    data-vote-listing={record.id}
                     class="directory-card bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/10 transition-all duration-300 group"
                     style={link ? 'cursor:pointer' : ''}
                     data-link={link || undefined}
@@ -338,6 +345,7 @@ const seo: SEOProps = {
                           </div>
                         )}
                       </div>
+                      <DirectoryVote id={record.id} title={record.title} count={voteCounts.get(record.id) || 0} />
                     </div>
                   </div>
                 )
@@ -394,8 +402,9 @@ const seo: SEOProps = {
     const detailLink = card.querySelector('a[href]');
 
     if (cardLink) {
-      card.addEventListener('click', () => {
-        window.open(cardLink, '_blank');
+      card.addEventListener('click', (event) => {
+        if (event.target.closest('a,button,input,select,textarea')) return;
+        window.open(cardLink, '_blank', 'noopener,noreferrer');
       });
     }
 

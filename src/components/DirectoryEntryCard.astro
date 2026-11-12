@@ -1,17 +1,21 @@
 ---
 import type { PublicUpdate } from '~/utils/directory-public'
 import type { DirectoryEntry } from '~/utils/directory'
+import DirectoryVote from './DirectoryVote.astro'
 import { directoryLogoBoxClass, directoryLogoImageClassFor, directoryLogoInitialClass } from '~/const/nomadDirectoryWhiteLogos'
 interface Props {
   entry: DirectoryEntry
   updates?: PublicUpdate[]
+  votes?: number
 }
-const { entry, updates = [] } = Astro.props
+const { entry, updates = [], votes = 0 } = Astro.props
 ---
 
 <article
   id={`listing-${entry.id}`}
   data-entry
+  data-vote-listing={entry.id}
+  data-votes={votes}
   data-category={entry.category}
   data-title={entry.title.toLowerCase()}
   data-search={`${entry.title} ${entry.description} ${entry.category} ${entry.offer}`.toLowerCase()}
@@ -93,5 +97,6 @@ const { entry, updates = [] } = Astro.props
         )
       }
     </div>
+    <DirectoryVote id={entry.id} title={entry.title} count={votes} />
   </div>
 </article>

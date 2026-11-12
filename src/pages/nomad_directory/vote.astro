@@ -1,0 +1,63 @@
+---
+export const prerender = false
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import { createSupabaseServerClient } from '~/utils/supabase-server'
+import { getDirectoryEntries } from '~/utils/directory'
+import { directoryReturnTo, votePageUrl } from '~/utils/directory-votes'
+
+Astro.response.headers.set('Cache-Control', 'private, no-store')
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow')
+const id = Astro.url.searchParams.get('listing') || ''
+let returnTo = directoryReturnTo(Astro.url.searchParams.get('return_to'), '/nomad_directory/')
+if (new URL(returnTo, Astro.url).pathname === '/nomad_directory/vote/') returnTo = '/nomad_directory/'
+if (!/^[a-zA-Z0-9-]{1,100}$/.test(id)) return Astro.redirect('/nomad_directory/')
+const supabase = createSupabaseServerClient(Astro.request, Astro.cookies)
+const { data: { user } } = await supabase.auth.getUser()
+if (!user) return Astro.redirect(`/nomad-directory-edit/?${new URLSearchParams({ next: votePageUrl(id, returnTo) })}`)
+let error = ''
+if (Astro.request.method === 'POST') {
+  const form = await Astro.request.formData()
+  const vote = form.get('voted')
+  if (vote !== 'true' && vote !== 'false') error = 'Invalid vote. Please try again.'
+  else {
+    const { error: voteError } = await supabase.rpc('directory_set_vote', { p_listing_id: id, p_voted: vote === 'true' })
+    if (!voteError) return Astro.redirect(returnTo, 303)
+    error = 'Your vote could not be saved. Please try again.'
+  }
+}
+let entry
+let voted = false
+let unavailable = false
+try {
+  const [entries, votes] = await Promise.all([getDirectoryEntries(true), supabase.rpc('directory_my_votes')])
+  if (votes.error) throw votes.error
+  entry = entries.find(listing => listing.id === id)
+  voted = votes.data.some((vote: { listing_id: string }) => vote.listing_id === id)
+} catch {
+  unavailable = true
+  Astro.response.status = 503
+}
+if (!entry && !unavailable) Astro.response.status = 404
+const seo: SEOProps = {
+  noIndex: true,
+  title: 'Upvote Your Favorite Nomad Businesses | Nomad Magazine',
+  description: 'Support your favorite businesses in the Nomad Directory. Sign in to add or remove your upvote and help other digital nomads discover useful services and tools.',
+  canonical: 'https://nomad-magazine.com/nomad_directory/vote/',
+}
+---
+<Layout seo={seo}>
+  <section class="min-h-96 bg-hoverw px-4 py-16 text-white">
+    <div class="mx-auto max-w-xl">
+      <h1 class="mb-4 text-3xl font-bold">{unavailable ? 'Voting is temporarily unavailable' : !entry ? 'Listing not found' : voted ? `You upvoted ${entry.title}` : `Upvote ${entry.title}`}</h1>
+      {entry && <>
+        <p class="mb-6 text-gray-300">{voted ? 'You can remove your vote below.' : 'Help other nomads discover this listing. Each account gets one vote per listing, and you can change your mind anytime.'}</p>
+        {error && <p role="alert" class="mb-4 text-yellow-300">{error}</p>}
+        <form method="POST" aria-label={`Vote for ${entry.title}`}>
+          <input type="hidden" name="voted" value={String(!voted)} />
+          <button type="submit" class="rounded-xl bg-yellow-400 px-6 py-3 font-bold text-black hover:bg-yellow-300 focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950">{voted ? 'Remove my upvote' : 'Confirm upvote'}</button>
+        </form>
+      </>}
+      <a href={returnTo} class="mt-6 inline-block text-yellow-400 underline focus-visible:ring-2 focus-visible:ring-yellow-400">Back to the directory</a>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,103 @@
+---
+import { votePageUrl } from '~/utils/directory-votes'
+interface Props { id: string; title: string; count: number }
+const { id, title, count } = Astro.props
+const returnTo = `${Astro.url.pathname}#listing-${id}`
+---
+
+<a href={votePageUrl(id, returnTo)} data-upvote={id} data-vote-title={title}
+  aria-label={`Upvote ${title}, ${count} ${count === 1 ? 'vote' : 'votes'}`}
+  class="directory-upvote flex min-h-14 min-w-12 shrink-0 flex-col items-center justify-center gap-0.5 rounded-xl border border-white/20 px-2 py-2 text-sm font-bold text-gray-200 transition-colors hover:border-yellow-400 hover:text-yellow-400 focus-visible:ring-2 focus-visible:ring-yellow-400">
+  <svg aria-hidden="true" viewBox="0 0 20 20" width="18" height="18" fill="currentColor"><path d="m10 4 7 10H3z" /></svg>
+  <span data-vote-count>{count}</span>
+</a>
+
+<style>
+  .directory-upvote[aria-pressed='true'] { background: #facc15; color: #000; border-color: #facc15; }
+  .directory-upvote[aria-busy='true'] { opacity: .6; cursor: wait; }
+</style>
+
+<script>
+  import { votePageUrl, type VoteResult } from '~/utils/directory-votes'
+
+  const ownVotes = new Set<string>()
+  let authenticated = false
+  let ready = false
+  const pending = new Set<string>()
+  const status = document.createElement('p')
+  status.className = 'sr-only'
+  status.setAttribute('role', 'status')
+  status.setAttribute('aria-live', 'polite')
+  document.body.appendChild(status)
+
+  function enhance() {
+    document.querySelectorAll<HTMLAnchorElement>('[data-upvote]').forEach(link => {
+      if (!ready) return
+      const voted = ownVotes.has(link.dataset.upvote!)
+      const count = link.querySelector('[data-vote-count]')?.textContent || '0'
+      link.setAttribute('role', 'button')
+      link.setAttribute('aria-pressed', String(voted))
+      link.setAttribute('aria-label', `${voted ? 'Remove upvote for' : 'Upvote'} ${link.dataset.voteTitle}, ${count} ${count === '1' ? 'vote' : 'votes'}`)
+    })
+  }
+  async function loadVotes() {
+    try {
+      const response = await fetch('/api/directory-votes/', { cache: 'no-store' })
+      if (!response.ok) return
+      const data = await response.json() as { authenticated: boolean; votes: string[] }
+      authenticated = data.authenticated
+      ownVotes.clear()
+      data.votes.forEach((id: string) => ownVotes.add(id))
+      ready = true
+      enhance()
+    } catch { /* Keep the functional server-rendered vote links available. */ }
+  }
+  document.addEventListener('directory:render', enhance)
+  window.addEventListener('pageshow', event => { if (event.persisted) void loadVotes() })
+  void loadVotes()
+
+  document.addEventListener('click', async event => {
+    const link = (event.target as Element).closest<HTMLAnchorElement>('[data-upvote]')
+    if (!link || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return
+    const id = link.dataset.upvote!
+    const returnTo = `${location.pathname}${location.search}#listing-${id}`
+    link.href = votePageUrl(id, returnTo)
+    if (!ready || !authenticated) return
+    event.preventDefault()
+    if (pending.has(id)) return
+    pending.add(id)
+    link.setAttribute('aria-busy', 'true')
+    link.closest('[data-vote-listing]')?.querySelector('[data-vote-error]')?.remove()
+    try {
+      const response = await fetch('/api/directory-votes/', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ listing_id: id, voted: !ownVotes.has(id) }),
+        signal: AbortSignal.timeout(10000),
+      })
+      if (response.status === 401) { location.assign(link.href); return }
+      const data = await response.json() as VoteResult & { error?: string }
+      if (!response.ok) throw new Error(data.error || 'Your vote could not be saved. Please try again.')
+      const vote = data as VoteResult
+      if (vote.voted) ownVotes.add(id)
+      else ownVotes.delete(id)
+      link.querySelector('[data-vote-count]')!.textContent = String(vote.vote_count)
+      document.dispatchEvent(new CustomEvent('directory:vote', { detail: vote }))
+      enhance()
+      status.textContent = `${vote.voted ? 'Upvoted' : 'Removed upvote for'} ${link.dataset.voteTitle}. ${vote.vote_count} ${vote.vote_count === 1 ? 'vote' : 'votes'}.`
+    } catch (error) {
+      const message = document.createElement('p')
+      message.dataset.voteError = ''
+      message.className = 'mt-2 text-sm text-yellow-300'
+      message.setAttribute('role', 'alert')
+      message.textContent = error instanceof Error ? error.message : 'Your vote could not be saved. Please try again.'
+      link.closest<HTMLElement>('[data-vote-listing]')?.appendChild(message)
+    } finally {
+      pending.delete(id)
+      link.removeAttribute('aria-busy')
+    }
+  })
+  document.addEventListener('keydown', event => {
+    const link = (event.target as Element).closest<HTMLAnchorElement>('[data-upvote][role="button"]')
+    if (link && event.key === ' ') { event.preventDefault(); link.click() }
+  })
+</script>

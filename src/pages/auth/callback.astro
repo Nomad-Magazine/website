@@ -1,34 +1,38 @@
 ---
 import { createSupabaseServerClient } from '~/utils/supabase-server'
 import type { EmailOtpType } from '@supabase/supabase-js'
+import { directoryReturnTo } from '~/utils/directory-votes'
 
 const supabase = createSupabaseServerClient(Astro.request, Astro.cookies)
 
 const url = new URL(Astro.request.url)
+const next = directoryReturnTo(url.searchParams.get('next'))
+const loginUrl = (message = '') => `/nomad-directory-edit/?${new URLSearchParams({ ...(next !== '/console/' ? { next } : {}), ...(message ? { error: message } : {}) })}`
+Astro.response.headers.set('Cache-Control', 'private, no-store')
 const code = url.searchParams.get('code')
 const tokenHash = url.searchParams.get('token_hash')
 const type = url.searchParams.get('type') as EmailOtpType | null
 const error = url.searchParams.get('error')
 
 if (error) {
-  return Astro.redirect(`/nomad-directory-edit/?error=${encodeURIComponent(url.searchParams.get('error_description') ?? error)}`)
+  return Astro.redirect(loginUrl(url.searchParams.get('error_description') ?? error))
 }
 
 if (code) {
   const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
   if (exchangeError) {
-    return Astro.redirect(`/nomad-directory-edit/?error=${encodeURIComponent(exchangeError.message)}`)
+    return Astro.redirect(loginUrl(exchangeError.message))
   }
-  return Astro.redirect('/console/')
+  return Astro.redirect(next)
 }
 
 if (tokenHash && type) {
   const { error: otpError } = await supabase.auth.verifyOtp({ type, token_hash: tokenHash })
   if (otpError) {
-    return Astro.redirect(`/nomad-directory-edit/?error=${encodeURIComponent(otpError.message)}`)
+    return Astro.redirect(loginUrl(otpError.message))
   }
-  return Astro.redirect('/console/')
+  return Astro.redirect(next)
 }
 
-return Astro.redirect('/nomad-directory-edit/')
+return Astro.redirect(loginUrl())
 ---

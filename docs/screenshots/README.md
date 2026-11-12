@@ -39,3 +39,13 @@ The hero, sidebar and list cards retain their original design. Listings are now 
 | ![Mobile owner dashboard](owner-dashboard-mobile.webp) | ![Mobile affiliate programme](owner-affiliates-mobile.webp) |
 
 Run the scripts in [the owner workspace runbook](../directory-owner-workspace.md) to reproduce the account, form, RLS, publication and browser checks. The migration has not been applied to production.
+
+## Member upvotes
+
+Real local Supabase votes, not production popularity. The highlighted button is the signed-in member's vote; totals are public. The original directory card styling is retained.
+
+![Directory sorted by most upvoted, with the member's vote highlighted](votes-directory.webp)
+
+| Login before voting | Mobile upvotes |
+| --- | --- |
+| ![Email login returns the visitor to confirm their vote](votes-login.webp) | ![Mobile listing vote controls](votes-mobile.webp) |

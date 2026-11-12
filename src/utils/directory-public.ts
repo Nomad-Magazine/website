@@ -3,7 +3,7 @@ export function directoryImageUrl(value: string): string {
   if (!value.startsWith('storage://')) return value
   return `${getSupabaseConfig().url}/storage/v1/object/public/directory-owner-logos/${value.slice(10)}`
 }
-export async function readPublicDirectory<T>(name: 'directory_public_listings' | 'directory_public_updates'): Promise<T[]> {
+export async function readPublicDirectory<T>(name: 'directory_public_listings' | 'directory_public_updates' | 'directory_vote_counts'): Promise<T[]> {
   const { url, anonKey } = getSupabaseConfig()
   const response = await fetch(`${url}/rest/v1/rpc/${name}`, {
     method: 'POST',

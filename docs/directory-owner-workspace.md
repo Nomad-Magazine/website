@@ -11,6 +11,7 @@ This PR includes the database and working owner/admin flows. It has only been ex
 - `/console/affiliates/`: private programme URL, network, commission, attribution window, eligible countries, contact and payout/exclusion terms; save, submit, edit and withdraw.
 - `/console/admin/directory/`: review pending listings, updates and affiliate proposals; compare the live version, publish/accept, or request changes with owner feedback.
 - Approved listings are server-rendered immediately at the existing directory and category/location URLs. Approved updates appear under the listing and at `/nomad_directory/updates/`. Drafts, private terms and account identifiers are never part of the public projections.
+- Public upvote totals on directory/category/location cards, with one removable vote per verified account and a **Most upvoted** sort. Existing email login returns visitors to confirm their vote, then back to the original listing. Voting also works without JavaScript.
 
 The homepage remains static, with its existing selected listing cards and a lower-bound listing count. Public directory results are live. The feed shows the latest 100 published updates, and each listing shows its latest two.
 
@@ -33,9 +34,19 @@ Claims require a verified Supabase email matching a privately imported trusted c
 
 The `directory-owner-logos` bucket accepts WebP up to 2 MB. Upload paths belong to the authenticated user; objects are immutable through the user API, so a published logo cannot be replaced without review. Logos are public assets. The application validates the upload header as well as MIME/size. Orphaned draft uploads can be removed later with a privileged maintenance job after checking both draft and published references.
 
+## Upvotes
+
+`supabase/migrations/20261112000002_directory_upvotes.sql` adds `directory_votes` and the private `directory_legacy_vote_targets` registry. The migration registers all 234 published legacy listing IDs; newly approved managed listings qualify automatically. When adding published records to the legacy snapshot, register their IDs in a migration too. The security test checks this coverage. Claims keep the legacy ID, so claiming a listing preserves its votes.
+
+The `(listing_id, user_id)` primary key prevents duplicate votes. `directory_set_vote` requires a verified email and a published listing, derives the account from `auth.uid()`, and sets the requested state idempotently. It serializes writes per listing; retries cannot add another vote. Direct writes are denied, and RLS only permits reading one's own vote rows. Account deletion cascades to its votes. Unpublished listings are excluded from public counts and cannot receive new votes.
+
+`directory_vote_counts` exposes totals only, with no voter names, emails or IDs. Public HTML contains these totals; personal vote state comes from the uncached `/api/directory-votes/` endpoint. Mutations require a matching request origin. Authentication redirects accept only local directory paths. Private account/voting pages are noindex. A failed write retains the original count and shows a retry message.
+
+Verified email and one vote per account provide basic integrity, not protection against someone creating multiple email accounts. Keep Supabase Auth email/verification limits enabled; assess CAPTCHA or moderation against observed abuse. No fake starting votes or purchased votes are included. Paid placements proposed later must remain separate from community vote totals.
+
 ## Deployment order
 
-1. Review and apply the new migration to the intended Supabase project before deploying this branch. It is additive and does not change existing public page URLs. Public directory runtime reads return HTTP 503 with `Retry-After` if the publication RPCs are unavailable.
+1. Review and apply both new migrations, owner workspace followed by upvotes, to the intended Supabase project before deploying this branch. They are additive and do not change existing public page URLs. Public directory runtime reads return HTTP 503 with `Retry-After` if the publication/vote RPCs are unavailable.
 2. Import a trusted SmartSuite export into the private claims table. Validate its source and original contact field (`sd6842e687`); the importer selects the first valid contact email and skips entries without one. It never logs contacts and never overwrites an existing mapping.
 
    ```sh
@@ -53,7 +64,7 @@ The `directory-owner-logos` bucket accepts WebP up to 2 MB. Upload paths belong 
    on conflict do nothing;
    ```
 
-4. Configure `SUPABASE_URL` and `SUPABASE_ANON_KEY` as Worker bindings when using a staging project. The existing production project/public anon key remain the default. The website never receives a service-role key. Confirm the Auth site URL and redirect allowlist include `https://nomad-magazine.com/auth/callback/`, and verify SMTP delivery in staging.
+4. Configure `SUPABASE_URL` and `SUPABASE_ANON_KEY` as Worker bindings when using a staging project. The existing production project/public anon key remain the default. The website never receives a service-role key. Confirm the Auth site URL and redirect allowlist permit `https://nomad-magazine.com/auth/callback/` including its `next` query parameter (a callback-scoped wildcard such as `https://nomad-magazine.com/auth/callback/**`), and verify SMTP delivery and the vote return flow in staging.
 5. Deploy and exercise signup → claim/new listing → submit → review → publication, plus private affiliate review. Test normal and reviewer accounts separately. The committed screenshots use fictional businesses in local Supabase; they are not production accounts.
 
 For rollback, roll the application back first. Keep the additive tables/data so owner submissions are retained. A rollback to the old application resumes the previous SmartSuite editing workflow; do not drop the new tables while owners have saved data.
@@ -75,9 +86,13 @@ NODE_PATH=/tmp/nomad-browser/node_modules node scripts/check-directory-workspace
 DIRECTORY_TEST_MAIL_URL=http://127.0.0.1:54324 NODE_PATH=/tmp/nomad-browser/node_modules node scripts/check-directory-signup.cjs
 NODE_PATH=/tmp/nomad-browser/node_modules node scripts/check-directory-browser.cjs
 node scripts/check-directory-html.mjs
+SUPABASE_TEST_CONFIG=/tmp/local-keys.json node scripts/check-directory-votes.mjs
+DIRECTORY_TEST_MAIL_URL=http://127.0.0.1:54324 NODE_PATH=/tmp/nomad-browser/node_modules node scripts/check-directory-votes-browser.cjs
 ```
 
 The security script rejects non-loopback Supabase URLs. It recreates only its `directory-owner`, `directory-other` and `directory-reviewer` fixture accounts and their data, then creates short-lived login links in `/tmp/nomad-owner-fixtures.json`. The browser script consumes those links; rerun the security script before rerunning that browser script. Signup tests send mail only to local Mailpit and use an `example.test` address. Override `DIRECTORY_TEST_URL` if the app uses another local origin.
+
+The vote scripts separately recreate their three `directory-voter-*` fixture accounts and write a short-lived login token to `/tmp/nomad-vote-fixtures.json`. Run the vote security script before its browser script. Browser verification creates a local signup account, checks delivered email/PKCE and return-to-listing, vote/removal persistence, concurrency, isolation, write failures, keyboard input, sorting, category cards, expired sessions and the no-JavaScript fallback. Screenshot counts are local test votes, not production popularity.
 
 Checks cover account creation through delivered email/PKCE, authenticated form persistence, cross-account access, verified claims, direct-write denial, reviewer-only approval, stale versions, rejection feedback, preservation of published versions, immediate directory/category publication, update withdrawal, affiliate privacy, upload ownership, CSRF rejection and signout. Browser checks include keyboard behavior, mobile overflow and automated WCAG A/AA audits; they are not a full manual accessibility audit.
 

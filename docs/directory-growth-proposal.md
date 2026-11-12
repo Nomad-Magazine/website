@@ -16,6 +16,12 @@ Approved changes appear immediately on the public directory and its category/loc
 
 See [database, security, deployment and test details](directory-owner-workspace.md). The migration and flows have been tested locally. No production database changes or deployment have been made.
 
+## Community upvotes
+
+Migration **20261112000002** and the directory controls implement public vote totals and one removable upvote per verified account. Visitors use the existing email signup/login, return to the selected listing, and confirm their vote. Signed-in visitors vote directly on the card. The same totals and personal state appear on category/location pages. **Most upvoted** is an additional sort option; the default ordering stays intact.
+
+Vote totals are server-rendered, while private account state is loaded separately without caching. Database uniqueness and idempotent mutations prevent repeated requests or concurrent clicks from adding duplicate votes. No voter identities are exposed publicly. Existing listing IDs, homepage and header design stay unchanged. Votes are separate from any future paid placements and affiliate commissions.
+
 ## Proposed paid visibility
 
 Add a small sponsored area above organic results and optional sponsored positions inside relevant categories. Label every paid placement **Sponsored**, including homepage placements. Keep organic ordering independent of payment and affiliate commission; paid placement must not imply editorial endorsement.
@@ -48,11 +54,12 @@ Google's [JavaScript SEO guidance](https://developers.google.com/search/docs/cra
 
 ## Validation results
 
-- Build: zero TypeScript errors and warnings (eight informational hints).
+- Build: zero TypeScript errors and warnings.
 - SEO CLI: 363 prerendered pages, zero errors and five existing warnings on the unchanged Instagram, search and author pages. Runtime directory pages are checked separately rather than omitted from validation.
 - Runtime HTML: all 234 original records plus approved local fixtures rendered in HTML; canonical, sitemap entries, metadata lengths, heading/main landmarks, trailing slashes and WebP assets checked. Every existing category/location route responds at its original URL.
 - Headless Chrome: search, sorting, pagination and keyboard focus, category links, direct listing anchors, no-JavaScript rendering, mobile menu, homepage search and magazine below the fold. No horizontal overflow at 390, 768 or 1440px. Axe WCAG A/AA reports zero violations on home, directory, updates and the tested owner screens.
 - Supabase: verified claims, account isolation, mutation/approval permissions, optimistic versions, preserved publication during edits, reviewer feedback, update publication/withdrawal, affiliate privacy, owner-only immutable WebP uploads, legacy submission backfill and JSON-LD escaping.
 - Real forms: email signup through local delivery and PKCE, saved/reloaded drafts, logo upload, listing/update/affiliate submissions, reviewer approval, immediate public/category rendering, CSRF rejection and signout.
+- Upvotes: real email signup and return-to-listing, add/remove/reload, keyboard interaction, concurrent/idempotent writes, private account state, published-only eligibility, stable legacy claims, error/retry, expired sessions, vote sorting, category navigation and voting without JavaScript. All displayed vote counts in screenshots are local fixtures.
 
 Production email delivery, production Core Web Vitals, search rankings, payments and live affiliate tracking have not been verified or enabled.

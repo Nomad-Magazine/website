@@ -3,17 +3,21 @@ export const prerender = false
 
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import { createSupabaseServerClient } from '~/utils/supabase-server'
+import { directoryReturnTo } from '~/utils/directory-votes'
 import { fetchReportRecords } from '~/utils/smartsuite'
 import { directoryLogoBoxClass, directoryLogoImageClass, directoryLogoImageClassFor, directoryLogoInitialClass, directoryLogoUrlFor } from '~/const/nomadDirectoryWhiteLogos'
 import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
 
+const url = new URL(Astro.request.url)
+const next = directoryReturnTo(url.searchParams.get('next'))
+const isVoting = next.startsWith('/nomad_directory/')
+Astro.response.headers.set('Cache-Control', 'private, no-store')
 const supabase = createSupabaseServerClient(Astro.request, Astro.cookies)
 const { data: { user } } = await supabase.auth.getUser()
 if (user) {
-  return Astro.redirect('/console/')
+  return Astro.redirect(next)
 }
 
-const url = new URL(Astro.request.url)
 let error = url.searchParams.get('error') ?? ''
 let successMessage = ''
 
@@ -21,12 +25,12 @@ if (Astro.request.method === 'POST') {
   const form = await Astro.request.formData()
   const email = String(form.get('email') ?? '').trim().toLowerCase()
   if (!email) {
-    error = 'Enter the email you used on your directory listing.'
+    error = 'Enter your email address.'
   } else {
     const { error: authError } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: `${url.origin}/auth/callback/`,
+        emailRedirectTo: `${url.origin}/auth/callback/${isVoting ? `?${new URLSearchParams({ next })}` : ''}`,
         shouldCreateUser: true,
       },
     })
@@ -39,6 +43,7 @@ if (Astro.request.method === 'POST') {
 }
 
 const seo: SEOProps = {
+  noIndex: true,
   title: 'Your Nomad Directory Account & Listings | Nomad Magazine',
   description: 'Create your Nomad Directory account or sign in by email. Manage your business listing, submit changes for review and keep your website and member offers current.',
   image: 'https://nomad-magazine.com/images/Nomad-directory.webp',
@@ -89,9 +94,9 @@ const fieldClass =
           <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-yellow-400 text-black" aria-hidden="true">
             <MaterialSymbolsElectricBolt width="22" height="22" />
           </span>
-          <h1 class="text-4xl md:text-5xl font-bold">Your directory account</h1>
+          <h1 class="text-4xl md:text-5xl font-bold">{isVoting ? 'Sign in to upvote' : 'Your directory account'}</h1>
         </div>
-        <p class="text-gray-400 mb-8">Sign in or create an account with an email link. Already listed? Use the email attached to your listing to manage it. New here? Create your account, then submit your business. Changes are reviewed before publication.</p>
+        <p class="text-gray-400 mb-8">{isVoting ? 'Support your favorite nomad businesses and tools. Sign in or create an account with an email link, then return to the listing to confirm your vote. One upvote per account, and you can remove it anytime.' : 'Sign in or create an account with an email link. Already listed? Use the email attached to your listing to manage it. New here? Create your account, then submit your business. Changes are reviewed before publication.'}</p>
 
         {error && (
           <div class="mb-6 px-4 py-3 rounded-lg bg-red-400/10 border border-red-400/20 text-red-400 text-sm" role="alert">
@@ -125,8 +130,8 @@ const fieldClass =
           </button>
         </form>
 
-        <p class="text-sm text-gray-500 mt-6">
-          New listing? <a href="/nomad-directory-submit/" class="text-yellow-400 hover:text-yellow-300">Submit here</a>
+        <p class="text-sm text-gray-400 mt-6">
+          New listing? <a href="/nomad-directory-submit/" class="text-yellow-400 underline hover:text-yellow-300">Submit here</a>
         </p>
 
         <div class="mt-14 pt-10 border-t border-white/10">
