@@ -10,7 +10,6 @@
     "start": "wrangler types && astro dev",
     "build": "wrangler types && astro check && astro build",
     "preview": "wrangler types && astro preview",
-    "blogs:sync_seobot": "tsx scripts/blogs/sync_seobot.js",
     "format": "prettier --write '**/*' --ignore-unknown"
   },
   "dependencies": {
@@ -30,7 +29,6 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.7",
     "@capgo/seo-checker": "^0.0.13",
-    "@dotenvx/dotenvx": "^1.54.1",
     "@iconify/json": "^2.2.449",
     "@tailwindcss/typography": "^0.5.19",
     "astro-pagefind": "^1.8.6",
@@ -38,8 +36,6 @@
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
-    "seobot": "^1.4.0",
-    "tsx": "^4.21.0",
     "unplugin-icons": "^23.0.1",
     "wrangler": "^4.73.0"
   }
