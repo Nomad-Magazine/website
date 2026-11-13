@@ -17,9 +17,9 @@ const REQUIRED_FIELDS = [
 ]
 
 function shouldKeepRecord(record, reportId) {
-  // Directory table: keep only published records
+  // Directory table: keep published OR records with testimonials
   if (reportId === '6857167d82358a0f5e038c3f') {
-    return record.sf4ad525dd === true
+    return record.sf4ad525dd === true || !!record.s5716bab58
   }
   
   // Distribution table: keep if ANY page would show it
@@ -27,9 +27,10 @@ function shouldKeepRecord(record, reportId) {
     const hasTitle = !!record.title
     const hasDistributionFlag = record.s43a4b2808 === true
     const isColiving = record.sb685ab800?.label?.toLowerCase() === 'coliving'
+    const isCoworkingContest = record.sb685ab800?.label === 'Coworking' && record.styrldtq === true
     
-    // Keep if: (title AND distribution flag) OR (title AND coliving)
-    return hasTitle && (hasDistributionFlag || isColiving)
+    // Keep if: (title AND distribution flag) OR (title AND coliving) OR coworking contest
+    return hasTitle && (hasDistributionFlag || isColiving) || isCoworkingContest
   }
   
   // Default: keep all
