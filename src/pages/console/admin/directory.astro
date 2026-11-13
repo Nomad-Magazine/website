@@ -1,0 +1,105 @@
+---
+import ConsoleLayout from '~/layouts/console/ConsoleLayout.astro'
+import { createSupabaseServerClient } from '~/utils/supabase-server'
+import { loadWorkspace, workspaceError, type WorkspaceListing, type WorkspacePost } from '~/utils/directory-workspace'
+const client = createSupabaseServerClient(Astro.request, Astro.cookies)
+const { data: isAdmin } = await client.rpc('directory_is_admin')
+if (!isAdmin) return Astro.redirect('/console/')
+let error = '',
+  listings: WorkspaceListing[] = [],
+  posts: WorkspacePost[] = []
+if (Astro.request.method === 'POST') {
+  const form = await Astro.request.formData()
+  const { error: reviewError } = await client.rpc('directory_review', {
+    p_kind: String(form.get('kind')),
+    p_id: String(form.get('id')),
+    p_approve: form.get('decision') === 'approve',
+    p_notes: String(form.get('notes') || '').trim(),
+    p_version: Number(form.get('version')),
+  })
+  if (reviewError) error = workspaceError(reviewError)
+  else return Astro.redirect('/console/admin/directory/?saved=1', 303)
+}
+try {
+  ;({ listings, posts } = await loadWorkspace(client, true))
+} catch (err) {
+  error = workspaceError(err)
+}
+const queue = [...listings.filter((l) => l.status === 'pending').map((l) => ({ ...l, kind: 'listing' })), ...posts.filter((p) => p.status === 'pending')]
+---
+
+<ConsoleLayout title="Review queue" currentPage="review">
+  <p class="eyebrow">Directory moderation</p><h2>Review before it goes live.</h2><p class="muted">
+    Approve listing changes and public updates. Affiliate submissions remain private, including after acceptance.
+  </p>
+  {
+    error && (
+      <p class="notice error actions" role="alert">
+        {error}
+      </p>
+    )
+  }{
+    Astro.url.searchParams.has('saved') && (
+      <p class="notice actions" role="status">
+        Review saved.
+      </p>
+    )
+  }
+  <p class="muted actions">{queue.length} submissions awaiting review</p>
+  {
+    queue.map((item) => (
+      <section class="panel">
+        <div class="row"><h3>{item.draft.title || ('listing_id' in item && listings.find(l => l.id === item.listing_id)?.draft.title) || 'Affiliate programme'}</h3><span class="tag pending">{item.kind}</span></div>
+        <dl>
+          {Object.entries(item.draft)
+            .filter(([, value]) => value)
+            .map(([key, value]) => (
+              <div class="field">
+                <dt class="muted">{key.replaceAll('_', ' ')}</dt>
+                <dd class="break-words whitespace-pre-wrap">{String(value)}</dd>
+              </div>
+            ))}
+        </dl>
+        {item.published && (
+          <details class="history">
+            <summary>Current published version</summary>
+            <dl>
+              {Object.entries(item.published)
+                .filter(([, value]) => value)
+                .map(([key, value]) => (
+                  <div class="field">
+                    <dt class="muted">{key.replaceAll('_', ' ')}</dt>
+                    <dd class="break-words">{String(value)}</dd>
+                  </div>
+                ))}
+            </dl>
+          </details>
+        )}
+        <form method="POST" aria-label={`Review ${item.draft.title || item.kind}`}>
+          <>
+            <input type="hidden" name="id" value={item.id} />
+            <input type="hidden" name="kind" value={item.kind} />
+            <input type="hidden" name="version" value={item.version} />
+            <div class="field">
+              <>
+                <label for={`notes-${item.id}`}>Feedback for the owner</label>
+                <textarea id={`notes-${item.id}`} name="notes" maxlength="2000" rows="2" />
+              </>
+            </div>
+            <div class="actions">
+              <>
+                <button name="decision" value="approve" class="button">
+                  {item.kind === 'affiliate' ? 'Accept programme' : 'Approve and publish'}
+                </button>
+                <button name="decision" value="reject" class="button secondary">
+                  Request changes
+                </button>
+              </>
+            </div>
+          </>
+        </form>
+      </section>
+    ))
+  }
+  {queue.length === 0 && !error && <p class="panel">You’re all caught up.</p>}
+</ConsoleLayout>

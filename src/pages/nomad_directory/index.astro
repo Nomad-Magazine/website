@@ -1,48 +1,53 @@
 ---
-export const prerender = true;
-
-import { fetchReportRecords } from '~/utils/smartsuite'
+export const prerender = false
+import { readPublicDirectory, type PublicUpdate } from '~/utils/directory-public'
+import type { VoteCount } from '~/utils/directory-votes'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import DirectoryEntryCard from '~/components/DirectoryEntryCard.astro'
+import { getDirectoryEntries, getDirectoryCategories, directoryCategoryUrl } from '~/utils/directory'
 import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
-import { directoryLogoBoxClass, directoryLogoImageClass, directoryLogoInitialClass, directoryLogoUrlFor } from '~/const/nomadDirectoryWhiteLogos'
 
-const { records = [] } = await fetchReportRecords('6857167d82358a0f5e038c3f')
-
-const activeRecords = records
-  .filter((r: any) => r.sf4ad525dd)
-  .map((r: any, i: number) => ({
-    id: String(r.id || i),
-    index: i + 1,
-    title: r.title || '',
-    category: r.sb685ab800?.label || '',
-    description: r.scea90e502 || '',
-    specialOffer: r.s5576966ee || '',
-    link: r.link || r.sb788c266b?.[0] || '',
-    image: directoryLogoUrlFor(r.title, (r.image && r.image !== '/logo.svg') ? r.image : ''),
-  }))
-
-const total = activeRecords.length
-
-const categoryCounts: Record<string, number> = {}
-activeRecords.forEach((r: any) => {
-  if (r.category) categoryCounts[r.category] = (categoryCounts[r.category] || 0) + 1
-})
-const categories = Object.entries(categoryCounts).sort((a, b) => b[1] - a[1])
-
+let entries = await getDirectoryEntries()
+let updates: PublicUpdate[] = []
+let votes: VoteCount[] = []
+try {
+  ;[entries, updates, votes] = await Promise.all([getDirectoryEntries(true), readPublicDirectory<PublicUpdate>('directory_public_updates'), readPublicDirectory<VoteCount>('directory_vote_counts')])
+} catch {
+  Astro.response.status = 503
+  Astro.response.headers.set('Retry-After', '60')
+}
+Astro.response.headers.set('Cache-Control', 'public, max-age=0, must-revalidate')
+const total = entries.length
+const categories = getDirectoryCategories(entries)
+const voteCounts = new Map(votes.map(vote => [vote.listing_id, Number(vote.vote_count)]))
+const canonical = `${Astro.site}nomad_directory/`
+const description = 'Explore digital nomad tools, coliving, coworking spaces and communities. Search the Nomad Directory for services, member offers and resources for remote work.'
 const seo: SEOProps = {
-  title: 'The Nomad Directory - The Living Database of the Nomad Economy',
-  description: 'The definitive intelligence hub tracking trends, opportunities, and innovations in the digital nomad ecosystem. Discover emerging tools and services while contributing to nomad economy intelligence.',
-  image: 'https://nomad-magazine.com/images/Nomad-directory.webp',
-  keywords: 'nomad directory, digital nomad economy, nomad business intelligence, remote work trends, nomad startup database, digital nomad market data, location independent business',
-  ogType: 'website',
+  title: 'Digital Nomad Directory: Tools, Spaces & Communities',
+  description,
+  canonical,
+  image: `${Astro.site}images/Nomad-directory.webp`,
+  keywords: 'digital nomad directory, remote work tools, coliving, coworking spaces, nomad communities, eSIM, nomad services',
   ldJSON: {
     '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    name: 'The Nomad Directory',
-    description: 'The ultimate directory of tools, services, communities, and resources for digital nomads worldwide.',
-    url: `${Astro.site}nomad_directory/`,
-    publisher: { '@type': 'Organization', name: 'Nomad Magazine', logo: { '@type': 'ImageObject', url: `${Astro.site}logo.svg` } },
-    about: { '@type': 'Thing', name: 'Digital Nomad Resources', description: 'Comprehensive directory of services and tools for digital nomads' },
+    '@type': 'CollectionPage',
+    name: 'Digital Nomad Directory',
+    description,
+    url: canonical,
+    publisher: { '@type': 'Organization', name: 'Nomad Magazine', url: `${Astro.site}` },
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: `${Astro.site}` },
+        { '@type': 'ListItem', position: 2, name: 'Nomad Directory', item: canonical },
+      ],
+    },
+    mainEntity: {
+      '@type': 'ItemList',
+      name: 'Published Nomad Directory listings',
+      numberOfItems: entries.length,
+      itemListElement: entries.map((entry, index) => ({ '@type': 'ListItem', position: index + 1, name: entry.title, url: `${canonical}#listing-${entry.id}` })),
+    },
   },
 }
 ---
@@ -63,22 +68,22 @@ const seo: SEOProps = {
         <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-6 text-sm text-gray-400">
           <span class="flex items-center gap-1.5"><span class="text-yellow-400 font-bold">{total}</span> vetted companies</span>
           <span class="text-gray-700 hidden sm:inline">·</span>
-          <span class="flex items-center gap-1.5"><span class="text-yellow-400 font-bold">25+</span> categories</span>
+          <span class="flex items-center gap-1.5"><span class="text-yellow-400 font-bold">{categories.length}</span> categories</span>
           <span class="text-gray-700 hidden sm:inline">·</span>
           <span class="flex items-center gap-1.5"><span class="text-yellow-400 font-bold">↻</span> updated regularly</span>
           <span class="text-gray-700 hidden sm:inline">·</span>
           <span class="flex items-center gap-1.5">built by <span class="text-white font-medium">Nomad Magazine</span></span>
         </div>
         <div class="flex justify-center gap-4 flex-wrap mb-4">
-          <a target="_blank" rel="noopener noreferrer"
-            href="https://form.smartsuite.com/s4tmc086/8sFlvrVlDC?redirect=https%3A//nomad-magazine.com/nomad-directory-boost-options"
+          <a
+            href="/nomad-directory-submit/"
             class="inline-flex items-center gap-2 bg-black hover:bg-gray-900 border-2 border-yellow-400 px-8 py-3 rounded-lg text-yellow-400 font-bold text-lg transition-all duration-200">
-            <MaterialSymbolsElectricBolt width="20" height="20" />
+            <MaterialSymbolsElectricBolt aria-hidden="true" width="20" height="20" />
             Join the Database
           </a>
         </div>
-        <p class="text-gray-500 text-sm">
-          <a href="/nomad-directory-rights/" class="text-gray-400 hover:text-yellow-400 underline transition-colors">Member rights & perks</a>
+        <p class="text-gray-400 text-sm">
+          <a href="/nomad-directory-rights/" class="text-gray-400 hover:text-yellow-400 underline transition-colors">Member rights & perks</a> · <a href="/nomad-directory-edit/" class="text-gray-400 hover:text-yellow-400 underline">Manage your listing</a> · <a href="/nomad_directory/updates/" class="text-gray-400 hover:text-yellow-400 underline">Latest updates</a> · <a href="/nomad_directory/awards/" class="text-gray-400 hover:text-yellow-400 underline">Winners & badges</a>
         </p>
       </div>
     </section>
@@ -86,38 +91,38 @@ const seo: SEOProps = {
     <!-- Browse by need -->
     <section class="pb-8">
       <div class="container mx-auto px-4 max-w-5xl">
-        <p class="text-center text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">Browse by need</p>
+        <p class="text-center text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Browse by need</p>
         <div class="flex flex-wrap justify-center gap-2">
-          <button onclick="quickFilter('Events')" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+          <a href={directoryCategoryUrl('Events')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
             <span>🗓</span> Events
-          </button>
-          <button onclick="quickFilter('Coliving')" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+          </a>
+          <a href={directoryCategoryUrl('Coliving')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
             <span>🏠</span> Coliving
-          </button>
-          <button onclick="quickFilter('Platform')" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+          </a>
+          <a href={directoryCategoryUrl('Platform')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
             <span>🌐</span> Platforms
-          </button>
-          <button onclick="quickFilter('App')" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+          </a>
+          <a href={directoryCategoryUrl('App')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
             <span>📱</span> Apps
-          </button>
-          <button onclick="quickFilter('Legal & Taxes')" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+          </a>
+          <a href={directoryCategoryUrl('Legal & Taxes')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
             <span>⚖️</span> Legal & Taxes
-          </button>
-          <button onclick="quickFilter('Insurance')" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+          </a>
+          <a href={directoryCategoryUrl('Insurance')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
             <span>🛡</span> Insurance
-          </button>
-          <button onclick="quickFilter('Community Platform')" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+          </a>
+          <a href={directoryCategoryUrl('Community Platform')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
             <span>👥</span> Community
-          </button>
-          <button onclick="quickFilter('Blog')" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+          </a>
+          <a href={directoryCategoryUrl('Blog')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
             <span>✍️</span> Blogs
-          </button>
-          <button onclick="quickFilter('eSim')" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+          </a>
+          <a href={directoryCategoryUrl('eSim')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
             <span>📡</span> eSIM
-          </button>
-          <button onclick="quickFilter('Coworking')" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+          </a>
+          <a href={directoryCategoryUrl('Coworking')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
             <span>💻</span> Coworking
-          </button>
+          </a>
         </div>
       </div>
     </section>
@@ -127,12 +132,13 @@ const seo: SEOProps = {
       <div class="container mx-auto px-4 max-w-7xl">
         <!-- Stats + Sort bar (above both columns) -->
         <div class="flex items-center justify-between mb-4">
-          <span class="text-sm text-gray-400"><span class="text-yellow-400 font-bold text-xl" id="stat-showing">{total}</span> results</span>
+          <span class="text-sm text-gray-400" role="status" aria-live="polite"><span class="text-yellow-400 font-bold text-xl" id="stat-showing">{total}</span> results</span>
           <div class="flex items-center gap-2">
-            <label for="sort-select" class="text-xs text-gray-500 uppercase tracking-wider">Sort</label>
+            <label for="sort-select" class="text-xs text-gray-400 uppercase tracking-wider">Sort</label>
             <select id="sort-select" aria-label="Sort listings"
-              class="bg-white/10 border border-white/20 text-white text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:border-yellow-400 transition-all cursor-pointer">
+              class="bg-white/10 border border-white/20 text-white text-sm rounded-lg px-3 py-1.5 focus-visible:ring-2 focus-visible:ring-yellow-400 focus:border-yellow-400 transition-all cursor-pointer">
               <option value="default">Default</option>
+              <option value="votes">Most upvoted</option>
               <option value="az">A → Z</option>
               <option value="za">Z → A</option>
             </select>
@@ -152,8 +158,8 @@ const seo: SEOProps = {
                   <input type="text" id="search-input"
                     placeholder="Name, description..."
                     aria-label="Search the directory"
-                    class="w-full px-4 py-2.5 pl-10 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-yellow-400 transition-all text-sm" />
-                  <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    class="w-full px-4 py-2.5 pl-10 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-500 focus-visible:ring-2 focus-visible:ring-yellow-400 focus:border-yellow-400 transition-all text-sm" />
+                  <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                   </svg>
                 </div>
@@ -168,19 +174,19 @@ const seo: SEOProps = {
                     <span class="text-xs opacity-70">{total}</span>
                   </button>
                   {categories.map(([cat, count]) => (
-                    <button class="cat-btn w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-all" data-cat={cat}>
+                    <a href={directoryCategoryUrl(cat)} class="cat-btn w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-all" data-cat={cat}>
                       <span>{cat}</span>
-                      <span class="text-xs text-gray-500">{count}</span>
-                    </button>
+                      <span class="text-xs text-gray-400">{count}</span>
+                    </a>
                   ))}
                 </div>
               </div>
 
               <!-- Join CTA -->
-              <a target="_blank" rel="noopener noreferrer"
-                href="https://form.smartsuite.com/s4tmc086/8sFlvrVlDC?redirect=https%3A//nomad-magazine.com/nomad-directory-boost-options"
+              <a
+                href="/nomad-directory-submit/"
                 class="flex items-center justify-center gap-2 w-full py-2.5 bg-yellow-400/10 hover:bg-yellow-400/20 border border-yellow-400/30 hover:border-yellow-400/60 rounded-xl text-yellow-400 font-bold text-sm transition-all duration-200">
-                <MaterialSymbolsElectricBolt width="16" height="16" />
+                <MaterialSymbolsElectricBolt aria-hidden="true" width="16" height="16" />
                 Join the Database
               </a>
               <!-- Clear filters -->
@@ -191,7 +197,7 @@ const seo: SEOProps = {
 
               <!-- Share -->
               <div class="pt-2 border-t border-white/10">
-                <p class="text-xs text-gray-500 mb-2">Share this directory</p>
+                <p class="text-xs text-gray-400 mb-2">Share this directory</p>
                 <div class="flex gap-2">
                   <button onclick="shareOnTwitter()" aria-label="Share on Twitter" class="p-2 bg-white/10 hover:bg-blue-400/20 rounded-lg transition-all group">
                     <svg class="w-4 h-4 text-gray-400 group-hover:text-blue-400" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
@@ -206,7 +212,7 @@ const seo: SEOProps = {
               </div>
               <!-- Explore more -->
               <div class="pt-2 border-t border-white/10">
-                <p class="text-xs text-gray-500 uppercase tracking-wider mb-2">Explore more</p>
+                <p class="text-xs text-gray-400 uppercase tracking-wider mb-2">Explore more</p>
                 <div class="space-y-1">
                   <a href="/articles/" class="flex items-center gap-2 px-2 py-1.5 text-sm text-gray-400 hover:text-yellow-400 transition-colors rounded-lg hover:bg-white/5">
                     <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
@@ -230,20 +236,20 @@ const seo: SEOProps = {
           </aside>
 
           <!-- RIGHT: Listings -->
-          <main class="flex-1 min-w-0" id="main-content">
+          <div class="flex-1 min-w-0">
 
             <!-- Active filters bar -->
             <div id="active-filters" class="hidden flex-wrap gap-2 mb-4 items-center">
-              <span class="text-xs text-gray-500">Filters:</span>
+              <span class="text-xs text-gray-400">Filters:</span>
             </div>
 
             <!-- Cards -->
-            <div id="directory-container" class="space-y-4"></div>
+            <div id="directory-container" class="space-y-4">{entries.map(entry => <DirectoryEntryCard entry={entry} votes={voteCounts.get(entry.id) || 0} updates={updates.filter(update => update.listing_id === entry.id)} />)}</div>
 
             <!-- Empty state -->
             <div id="empty-state" class="hidden text-center py-20">
               <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <MaterialSymbolsElectricBolt width="28" height="28" class="text-gray-500" />
+                <MaterialSymbolsElectricBolt aria-hidden="true" width="28" height="28" class="text-gray-400" />
               </div>
               <h3 class="text-xl font-bold text-white mb-2">No results found</h3>
               <p class="text-gray-400">Try adjusting your search or filters.</p>
@@ -257,21 +263,21 @@ const seo: SEOProps = {
               <p class="text-gray-300 mb-6 max-w-xl mx-auto">
                 Join our living database and become part of the definitive intelligence source on the nomad economy.
               </p>
-              <a target="_blank" rel="noopener noreferrer"
-                href="https://form.smartsuite.com/s4tmc086/8sFlvrVlDC?redirect=https%3A//nomad-magazine.com/nomad-directory-boost-options"
+              <a
+                href="/nomad-directory-submit/"
                 class="inline-flex items-center gap-2 bg-black hover:bg-gray-900 border-2 border-yellow-400 px-8 py-3 rounded-lg text-yellow-400 font-bold text-lg transition-all duration-200">
-                <MaterialSymbolsElectricBolt width="20" height="20" />
+                <MaterialSymbolsElectricBolt aria-hidden="true" width="20" height="20" />
                 Join the Database
               </a>
             </div>
-          </main>
+          </div>
 
         </div>
       </div>
     </section>
   </div>
 
-  <div id="directory-data" hidden data-items={JSON.stringify(activeRecords)} data-logo-box={directoryLogoBoxClass} data-logo-img={directoryLogoImageClass} data-logo-initial={directoryLogoInitialClass}></div>
+
 </Layout>
 
 <style>
@@ -287,65 +293,16 @@ const seo: SEOProps = {
 
 <script is:inline>
   const ITEMS_PER_PAGE = 20;
-  const _dataEl = document.getElementById('directory-data');
-  const allItems = _dataEl ? JSON.parse(_dataEl.getAttribute('data-items')) : [];
+  const originalCards = Array.from(document.querySelectorAll('[data-entry]'));
+  const allItems = originalCards.map(card => ({id:card.id,title:card.dataset.title,category:card.dataset.category,description:card.dataset.search}));
+  const cardById = new Map(originalCards.map(card => [card.id,card]));
   let filtered = [];
   let currentPage = 1;
   let currentCat = 'all';
   let currentSearch = '';
   let currentSort = 'default';
 
-  const logoBoxClass = _dataEl?.getAttribute('data-logo-box') || '';
-  const logoImgClass = _dataEl?.getAttribute('data-logo-img') || '';
-  const logoInitialClass = _dataEl?.getAttribute('data-logo-initial') || '';
-
-  function logoImgClassFor(title) {
-    return title === 'Madeira Remote' ? 'w-full h-full object-contain' : logoImgClass;
-  }
-
-  function esc(s) {
-    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-  }
-
-  function renderCard(item) {
-    const logoHtml = item.image
-      ? '<img src="' + esc(item.image) + '" alt="' + esc(item.title) + '" class="' + logoImgClassFor(item.title) + '" loading="lazy" />'
-      : '<span class="' + logoInitialClass + '">' + esc((item.title || 'C').charAt(0).toUpperCase()) + '</span>';
-
-    const offerHtml = item.specialOffer
-      ? '<div class="mt-3 p-3 bg-yellow-400/10 border-l-4 border-yellow-400 rounded-r-lg"><p class="text-yellow-400 font-bold text-xs uppercase mb-1">Special Offer:</p><p class="text-gray-200 text-sm whitespace-pre-line">' + esc(item.specialOffer) + '</p></div>'
-      : '';
-
-    const catHtml = item.category
-      ? '<button class="inline-cat-btn bg-yellow-400/20 text-yellow-400 px-2.5 py-0.5 rounded-full text-xs font-medium border border-yellow-400/30 hover:bg-yellow-400/30 transition-colors" data-cat="' + esc(item.category) + '">' + esc(item.category) + '</button>'
-      : '';
-
-    const descId = 'desc-' + item.id;
-    const desc = item.description || 'Description not available';
-    const descHtml = '<p id="' + descId + '" class="text-gray-300 text-sm leading-relaxed max-w-2xl" style="-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden">' + esc(desc) + '</p>' +
-      '<button class="expand-btn text-xs text-yellow-400 hover:text-yellow-300 transition-colors mt-0.5" data-id="' + descId + '" data-full="' + esc(desc) + '">Read more →</button>';
-
-    const clickAttr = item.link ? 'onclick="window.open(\'' + esc(item.link) + '\',\'_blank\')" style="cursor:pointer"' : '';
-
-    return '<div class="bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/10 transition-all duration-300 group" ' + clickAttr + '>' +
-      '<div class="flex items-start gap-4">' +
-        '<div class="shrink-0">' +
-          '<div class="' + logoBoxClass + '">' + logoHtml + '</div>' +
-        '</div>' +
-        '<div class="flex-1 min-w-0">' +
-          '<div class="flex flex-wrap items-start justify-between gap-2 mb-2">' +
-            '<div class="flex items-center gap-2 flex-wrap">' +
-              '<h3 class="text-base font-bold text-white group-hover:text-yellow-400 transition-colors leading-tight">' + esc(item.title) + '</h3>' +
-            '</div>' +
-            catHtml +
-          '</div>' +
-          descHtml +
-          offerHtml +
-          (item.link ? '<div class="mt-2"><a href="' + esc(item.link) + '" target="_blank" rel="noopener noreferrer" class="text-blue-300 hover:text-blue-200 underline text-xs" onclick="event.stopPropagation()">Learn more →</a></div>' : '') +
-        '</div>' +
-      '</div>' +
-    '</div>';
-  }
+  function esc(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
   function pageCount() {
     return Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
@@ -395,7 +352,7 @@ const seo: SEOProps = {
     const parts = [pageBtn('Previous', currentPage - 1, { disabled: currentPage === 1, aria: 'Previous page' })];
     pageWindow(currentPage, pages).forEach(function (p) {
       if (p === '…') {
-        parts.push('<span class="px-1 text-gray-500" aria-hidden="true">…</span>');
+        parts.push('<span class="px-1 text-gray-400" aria-hidden="true">…</span>');
       } else {
         parts.push(pageBtn(String(p), p, { current: p === currentPage, aria: 'Page ' + p }));
       }
@@ -407,6 +364,7 @@ const seo: SEOProps = {
         const next = parseInt(btn.getAttribute('data-page'), 10);
         if (!next || next === currentPage) return;
         goToPage(next, true);
+        document.querySelector('#pagination [aria-current=page]')?.focus({preventScroll:true});
       });
     });
   }
@@ -436,8 +394,9 @@ const seo: SEOProps = {
     if (!container) return;
 
     if (filtered.length === 0) {
-      container.innerHTML = '';
+      originalCards.forEach(card => card.hidden = true);
       empty && empty.classList.remove('hidden');
+      document.getElementById('stat-showing').textContent='0';
       renderPagination();
       return;
     }
@@ -445,23 +404,33 @@ const seo: SEOProps = {
     empty && empty.classList.add('hidden');
     const start = (currentPage - 1) * ITEMS_PER_PAGE;
     const toShow = filtered.slice(start, start + ITEMS_PER_PAGE);
-    container.innerHTML = toShow.map(renderCard).join('');
+    originalCards.forEach(card => card.hidden = true);
+    toShow.forEach(item => {const card=cardById.get(item.id);card.hidden=false;container.appendChild(card)});
 
     container.querySelectorAll('.inline-cat-btn').forEach(btn => {
+      if (btn.dataset.bound) return;
+      btn.dataset.bound = 'true';
       btn.addEventListener('click', e => { e.stopPropagation(); selectCat(btn.dataset.cat); });
     });
 
     container.querySelectorAll('.expand-btn').forEach(btn => {
       const p = document.getElementById(btn.dataset.id);
-      if (!p) return;
+      if (!p || btn.dataset.bound) return;
+      p.style.cssText='-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden';
+      btn.hidden = false;
       const isClipped = p.scrollHeight > p.clientHeight + 2;
       if (!isClipped) { btn.style.display = 'none'; return; }
+      if (btn.dataset.bound) return;
+      btn.dataset.bound = 'true';
       btn.addEventListener('click', e => {
         e.stopPropagation();
         const expanded = btn.textContent === 'Show less';
         p.style.webkitLineClamp = expanded ? '2' : 'unset';
         p.style.overflow = expanded ? 'hidden' : 'visible';
         btn.textContent = expanded ? 'Read more →' : 'Show less';
+        btn.setAttribute('aria-expanded',String(!expanded));
+        const title = btn.closest('article').querySelector('h3').textContent;
+        btn.setAttribute('aria-label', (expanded ? 'Show full' : 'Collapse') + ' description of ' + title);
       });
     });
 
@@ -482,9 +451,11 @@ const seo: SEOProps = {
     });
     if (currentSort === 'az') filtered.sort((a, b) => a.title.localeCompare(b.title));
     else if (currentSort === 'za') filtered.sort((a, b) => b.title.localeCompare(a.title));
+    else if (currentSort === 'votes') filtered.sort((a, b) => Number(cardById.get(b.id).dataset.votes) - Number(cardById.get(a.id).dataset.votes));
     if (resetPage !== false) currentPage = 1;
     if (currentPage > pageCount()) currentPage = pageCount();
     renderGrid();
+    document.dispatchEvent(new Event('directory:render'));
     syncPageUrl();
     updateActiveFilters();
   }
@@ -551,11 +522,11 @@ const seo: SEOProps = {
 
   window.clearSearch = function() { currentSearch=''; const si=document.getElementById('search-input'); if(si)si.value=''; applyFilters(); };
   window.clearCat = function() { selectCat('all'); };
-  window.shareOnTwitter = function() { window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent("The Nomad Directory - Because Google Doesn't Get Our Lifestyle 🌍") + '&url=' + encodeURIComponent('https://nomad-magazine.com/nomad_directory') + '&via=NomadMagazine','_blank','width=550,height=420'); };
-  window.shareOnLinkedIn = function() { window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent('https://nomad-magazine.com/nomad_directory'),'_blank','width=550,height=550'); };
+  window.shareOnTwitter = function() { window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent("The Nomad Directory - Because Google Doesn't Get Our Lifestyle 🌍") + '&url=' + encodeURIComponent('https://nomad-magazine.com/nomad_directory/') + '&via=NomadMagazine','_blank','width=550,height=420'); };
+  window.shareOnLinkedIn = function() { window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent('https://nomad-magazine.com/nomad_directory/'),'_blank','width=550,height=550'); };
   window.copyDirectoryUrl = function(btn) {
     if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText('https://nomad-magazine.com/nomad_directory').then(() => {
+      navigator.clipboard.writeText('https://nomad-magazine.com/nomad_directory/').then(() => {
         showNotification('🔗 Link copied!', 'success');
         if (btn) { const o=btn.innerHTML; btn.innerHTML='<svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>'; setTimeout(()=>{btn.innerHTML=o;},2000); }
       });
@@ -563,6 +534,15 @@ const seo: SEOProps = {
   };
 
   function init() {
+    document.addEventListener('directory:vote', event => {
+      const card = cardById.get('listing-' + event.detail.listing_id);
+      if (card) card.dataset.votes = event.detail.vote_count;
+      if (currentSort === 'votes') {
+        const focused = document.activeElement;
+        applyFilters(false);
+        if (focused?.isConnected) focused.focus({preventScroll:true});
+      }
+    });
     const si = document.getElementById('search-input');
     if (si) si.addEventListener('input', e => { currentSearch = e.target.value.toLowerCase().trim(); applyFilters(); });
 
@@ -580,9 +560,20 @@ const seo: SEOProps = {
     const sortSel = document.getElementById('sort-select');
     if (sortSel) sortSel.addEventListener('change', e => { currentSort = e.target.value; applyFilters(); });
 
+    const query = new URLSearchParams(location.search).get('q') || '';
+    currentSearch = query.toLowerCase().trim();
+    if (si) si.value = query;
     const initial = parseInt(new URLSearchParams(window.location.search).get('page') || '1', 10);
     if (initial > 1) currentPage = initial;
     applyFilters(false);
+    function revealListing() {
+      const index=allItems.findIndex(item => '#'+item.id === location.hash);
+      if (index < 0) return;
+      currentSearch='';currentCat='all';currentSort='default';if(si)si.value='';
+      currentPage=Math.floor(index/ITEMS_PER_PAGE)+1;applyFilters(false);
+      cardById.get(allItems[index].id).scrollIntoView({block:'start'});
+    }
+    revealListing();window.addEventListener('hashchange',revealListing);
   }
 
   if (document.readyState === 'loading') {

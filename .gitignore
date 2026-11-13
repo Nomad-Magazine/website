@@ -19,3 +19,5 @@ pnpm-debug.log*
 # cloudflare
 .wrangler
 nomad-magazine_24-dec-2025_all-issues_2025-12-31_03-11-42
+# Local worker bindings
+.dev.vars

@@ -1,0 +1,34 @@
+---
+import ConsoleLayout from '~/layouts/console/ConsoleLayout.astro'
+import AwardEmbed from '~/components/AwardEmbed.astro'
+import { createSupabaseServerClient } from '~/utils/supabase-server'
+import { loadWorkspace, workspaceError } from '~/utils/directory-workspace'
+import { readPublicDirectory } from '~/utils/directory-public'
+import { awardNames, awardPeriodLabel, awardPath, type DirectoryAward } from '~/utils/directory-awards'
+const supabase = createSupabaseServerClient(Astro.request,Astro.cookies)
+let awards: DirectoryAward[] = [], error = ''
+try {
+  const { listings } = await loadWorkspace(supabase)
+  for (const listing of listings) {
+    // Page through each owned listing so older earned badges remain available.
+    for (let offset=0; ; offset+=1000) {
+      const batch = await readPublicDirectory<DirectoryAward>('directory_public_awards',{p_listing_id:listing.legacy_id || listing.id,p_include_revoked:true,p_limit:1000,p_offset:offset})
+      awards.push(...batch)
+      if (batch.length<1000) break
+    }
+  }
+  awards.sort((a,b)=>b.ends_at.localeCompare(a.ends_at))
+} catch (err) { error=workspaceError(err) }
+---
+<ConsoleLayout title="Your badges" currentPage="badges">
+  <p class="eyebrow">Recognition you can share</p>
+  <h2>Earned by your community.</h2>
+  <p class="muted">Your daily, weekly, monthly and yearly wins live here. Copy a badge onto your website to share the result, with a link visitors can verify.</p>
+  {error && <p role="alert" class="notice error">{error}</p>}
+  {!error && !awards.length && <section class="panel"><h3>Your first badge is still ahead.</h3><p class="muted">Badges appear after a completed period when one of your published listings has the highest eligible vote total. Ties share first place.</p><a href="/nomad_directory/awards/" class="link">Explore winners and the voting rules ↗</a></section>}
+  {awards.map(award=><section class="panel">
+    <div class="row"><span class="tag">{award.revoked_at ? 'Withdrawn' : `${awardNames[award.kind]} ${award.tied_winners>1 ? 'joint winner' : 'winner'}`}</span><a href={awardPath(award)} class="link">Verify result ↗</a></div>
+    <h3>{award.listing_title}</h3><p class="muted">{awardPeriodLabel(award.kind,award.starts_at)} · {award.vote_count} community {Number(award.vote_count) === 1 ? 'vote' : 'votes'}</p>
+    {award.revoked_at ? <p class="notice">This award was withdrawn. Please remove its badge from your website.</p> : <AwardEmbed award={award} />}
+  </section>)}
+</ConsoleLayout>

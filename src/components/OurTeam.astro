@@ -2,7 +2,7 @@
 const team = [
   {
     name: 'Lera Pitakova',
-    img: '/team/lera.png',
+    img: '/team/lera.webp',
     bio: `Lera has been living the digital nomad lifestyle since 2015 and recently found a haven in Madeira, Portugal. 10 years ago, she took a leap, bidding farewell to her glamorous job at Nike in Ukraine to adventure into a new chapter as a community manager in a coworking space in Thailand, initially for just a winter break. But destiny had other plans, and there was no turning back to her previous life. Now she's publishing Nomad Magazine to support the growing community (and industry).`,
     expertise: '18 years',
     countries: 56,
@@ -37,7 +37,7 @@ const team = [
   },
   {
     name: 'Estúdio Drama',
-    img: '/team/estudiodrama.png',
+    img: '/team/estudiodrama.webp',
     bio: `Estúdio Drama is a multidisciplinary graphic design studio formed by four passionate designers who love to explore new perspectives and possibilities within design. They integrate multiple expertises to develop creative solutions in graphic design, editorial, illustration, collage, data visualization, and visual identity. Estúdio Drama is the creative force behind the visual identity and editorial design of this magazine. Discover more at estudiodrama.com.br.`,
     expertise: '10+ years',
     countries: 'Brazil',
@@ -48,12 +48,12 @@ const team = [
 <section id="team" class="bg-[#e6e96a] py-16">
   <div class="container mx-auto px-4">
     <h2 class="font-justme text-5xl text-center mb-32">Our Team</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-y-32 gap-x-24">
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-y-32 gap-x-24">
       {team.map((member) => (
         <div class="bg-white rounded-xl shadow-lg p-6 pt-0 md:pt-6 flex flex-col md:flex-row items-center md:items-start gap-6 relative overflow-visible">
-          <img 
-            src={member.img} 
-            alt={member.name} 
+          <img
+            src={member.img}
+            alt={member.name} loading="lazy" width="352" height="352"
             class={`object-cover z-10 -mt-32 mx-auto mb-0 md:mb-0 md:mx-0 w-88 h-88 md:-ml-32 md:-mr-4`}
           />
           <div class="w-full">

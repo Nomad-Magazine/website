@@ -1,0 +1,39 @@
+---
+import { badgeEmbed, awardBadgePath, awardAlt, type DirectoryAward } from '~/utils/directory-awards'
+interface Props { award: DirectoryAward }
+const { award } = Astro.props
+const fieldId = `embed-${award.id}`
+---
+<div class="award-embed">
+  <img src={awardBadgePath(award)} alt={awardAlt(award)} width="360" height="112" loading="lazy" class="award-image" />
+  <label for={fieldId}>Embed this badge on your website</label>
+  <textarea id={fieldId} readonly rows="5" spellcheck="false" class="badge-code">{badgeEmbed(award)}</textarea>
+  <button type="button" hidden class="badge-copy" data-copy-badge={fieldId}>Copy embed code</button>
+  <noscript><p>Select and copy the HTML above to embed your badge.</p></noscript>
+  <p role="status" class="badge-copy-status" aria-live="polite"></p>
+</div>
+<style>
+  .award-embed { margin-top: 24px; min-width: 0; }
+  .award-image { max-width: 100%; height: auto; margin-bottom: 24px; }
+  label { display: block; margin-bottom: 10px; font-weight: 600; }
+  .badge-code { display: block; width: 100%; max-width: 100%; padding: 12px; border: 1px solid #727a6b; border-radius: 8px; background: #141714; color: #edf0e8; font: 13px/1.6 monospace; overflow-wrap: anywhere; }
+  .badge-copy { margin-top: 12px; padding: 12px 20px; border-radius: 8px; font-weight: 700; background: #facc15; color: #131513; cursor: pointer; }
+  :is(.badge-copy,.badge-code):focus-visible { outline: 3px solid #facc15; outline-offset: 4px; }
+  .badge-copy-status { margin-top: 8px; font-size: 14px; }
+</style>
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy-badge]').forEach(button => {
+    button.hidden = false
+    button.addEventListener('click', async () => {
+      const field = document.getElementById(button.dataset.copyBadge!) as HTMLTextAreaElement
+      const status = button.parentElement!.querySelector('[role="status"]')!
+      try {
+        await navigator.clipboard.writeText(field.value)
+        status.textContent = 'Embed code copied. Paste it into your website’s HTML.'
+      } catch {
+        field.focus(); field.select()
+        status.textContent = 'Code selected. Press Ctrl+C or Command+C to copy it.'
+      }
+    })
+  })
+</script>

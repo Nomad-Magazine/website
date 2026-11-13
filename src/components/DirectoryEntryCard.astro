@@ -1,0 +1,102 @@
+---
+import type { PublicUpdate } from '~/utils/directory-public'
+import type { DirectoryEntry } from '~/utils/directory'
+import DirectoryVote from './DirectoryVote.astro'
+import { directoryLogoBoxClass, directoryLogoImageClassFor, directoryLogoInitialClass } from '~/const/nomadDirectoryWhiteLogos'
+interface Props {
+  entry: DirectoryEntry
+  updates?: PublicUpdate[]
+  votes?: number
+}
+const { entry, updates = [], votes = 0 } = Astro.props
+---
+
+<article
+  id={`listing-${entry.id}`}
+  data-entry
+  data-vote-listing={entry.id}
+  data-votes={votes}
+  data-category={entry.category}
+  data-title={entry.title.toLowerCase()}
+  data-search={`${entry.title} ${entry.description} ${entry.category} ${entry.offer}`.toLowerCase()}
+  class="group rounded-2xl border border-white/10 bg-white/5 p-5 transition-all duration-300 hover:bg-white/10"
+>
+  <div class="flex items-start gap-4">
+    <div class="shrink-0">
+      <div class={directoryLogoBoxClass}>
+        {
+          entry.image ? (
+            <img src={entry.image} alt={`${entry.title} logo`} class={directoryLogoImageClassFor(entry.title)} width="56" height="56" loading="lazy" decoding="async" />
+          ) : (
+            <span class={directoryLogoInitialClass} aria-hidden="true">
+              {entry.title.charAt(0)}
+            </span>
+          )
+        }
+      </div>
+    </div>
+    <div class="min-w-0 flex-1">
+      <div class="mb-2 flex flex-wrap items-start justify-between gap-2">
+        <h3 class="text-base leading-tight font-bold text-white transition-colors group-hover:text-yellow-400">{entry.title}</h3><span
+          class="rounded-full border border-yellow-400/30 bg-yellow-400/20 px-2.5 py-0.5 text-xs font-medium text-yellow-400">{entry.category}</span>
+      </div>
+      <p id={`desc-${entry.id}`} class="max-w-2xl text-sm leading-relaxed text-gray-300">{entry.description}</p><button
+        type="button"
+        hidden
+        class="expand-btn mt-0.5 text-xs text-yellow-400 transition-colors hover:text-yellow-300"
+        data-id={`desc-${entry.id}`}
+        aria-controls={`desc-${entry.id}`}
+        aria-expanded="false"
+        aria-label={`Show full description of ${entry.title}`}>Read more →</button
+      >
+      {
+        entry.offer && (
+          <div class="mt-3 rounded-r-lg border-l-4 border-yellow-400 bg-yellow-400/10 p-3">
+            <>
+              <p class="mb-1 text-xs font-bold text-yellow-400 uppercase">Special Offer:</p>
+              <p class="text-sm whitespace-pre-line text-gray-200">{entry.offer}</p>
+            </>
+          </div>
+        )
+      }
+      {
+        updates.slice(0, 2).map((update) => (
+          <div class="mt-3 border-t border-white/10 pt-3 text-sm text-gray-300">
+            <h4 class="font-bold text-white">{update.payload.title}</h4>
+            <p>{update.payload.body}</p>
+            <time datetime={update.published_at}>{new Date(update.published_at).toLocaleDateString('en-GB', { dateStyle: 'medium' })}</time>
+            {update.payload.url && (
+              <p>
+                <a
+                  href={update.payload.url}
+                  target="_blank"
+                  rel="ugc noopener noreferrer"
+                  aria-label={`Read ${update.payload.title} (opens in new tab)`}
+                  class="text-blue-300 underline"
+                >
+                  View update →
+                </a>
+              </p>
+            )}
+          </div>
+        ))
+      }
+      {
+        entry.website && (
+          <div class="mt-2">
+            <a
+              href={entry.website}
+              target="_blank"
+              rel="ugc noopener noreferrer"
+              aria-label={`Visit ${entry.title} (opens in new tab)`}
+              class="text-xs text-blue-300 underline hover:text-blue-200"
+            >
+              Visit {entry.title} →
+            </a>
+          </div>
+        )
+      }
+    </div>
+    <DirectoryVote id={entry.id} title={entry.title} count={votes} />
+  </div>
+</article>

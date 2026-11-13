@@ -278,3 +278,6 @@ export type {
   WebSite,
   WithContext,
 }
+
+// JSON-LD is embedded in an HTML script element; owner text must not close that element.
+export const serializeJsonLd = (schema: JsonLdSchema): string => JSON.stringify(schema).replace(/</g, '\\u003c')

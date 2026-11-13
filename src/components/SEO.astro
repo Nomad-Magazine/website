@@ -1,7 +1,7 @@
 ---
 import { AstroFont } from 'astro-font'
 import { join } from 'node:path'
-import { createWebSiteSchema, ensureTrailingSlash, type JsonLdSchema } from '~/utils/schema'
+import { createWebSiteSchema, ensureTrailingSlash, serializeJsonLd, type JsonLdSchema } from '~/utils/schema'
 
 interface Props {
   title?: string
@@ -116,7 +116,7 @@ const makeFontPath = (name: string) => join(process.cwd(), 'public', 'fonts', na
 <link rel="icon" href="/favicon.png" sizes="any" />
 
 <!-- Primary Meta Tags -->
-<title set:html={title} />
+<title>{title}</title>
 <meta name="title" content={title} />
 <meta name="author" content={author} />
 <meta name="description" content={displayDescription} />
@@ -167,4 +167,4 @@ const makeFontPath = (name: string) => join(process.cwd(), 'public', 'fonts', na
 <meta name="twitter:description" content={displayDescription} />
 
 <!-- Structured Data -->
-<script is:inline type="application/ld+json" set:html={JSON.stringify(ldJSON)} />
+<script is:inline type="application/ld+json" set:html={serializeJsonLd(ldJSON)} />

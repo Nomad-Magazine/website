@@ -1,6 +1,9 @@
 ---
 export const prerender = true;
 
+import '~/styles/directory.css'
+import { fetchReportRecords } from '~/utils/smartsuite'
+import { getDirectoryEntries, getDirectoryCategories, directoryCategoryUrl } from '~/utils/directory'
 import About from '~/components/About.astro'
 import Bridge from '~/components/Bridge.astro'
 import CheckIcon from '~icons/ic/baseline-check'
@@ -19,13 +22,22 @@ import BrandPlacement from '~/components/BrandPlacement.astro'
 import GrowingCommunity from '~/components/GrowingCommunity.astro'
 import MagazineStack from '~/components/MagazineStack.astro'
 import StickyAnnouncementBar from '~/components/StickyAnnouncementBar.astro'
-import { fetchReportRecords } from '~/utils/smartsuite'
 import { getCollection } from 'astro:content'
 import { normalizeContentEntries } from '~/utils/content'
 import SubstackFollow from '~/components/SubstackFollow.astro'
 
 // Fetch real nomad directory data
-const { records = [] } = await fetchReportRecords('6857167d82358a0f5e038c3f')
+const {records} = await fetchReportRecords('6857167d82358a0f5e038c3f')
+const directoryEntries = await getDirectoryEntries()
+const entries=directoryEntries
+const categories=getDirectoryCategories(entries)
+const needs = [
+  { name: 'Find your people', category: 'Community', detail: 'Communities & connections', icon: '◎' },
+  { name: 'Find your next home', category: 'Coliving', detail: 'Coliving around the world', icon: '⌂' },
+  { name: 'Work from anywhere', category: 'Coworking', detail: 'Spaces to get things done', icon: '↗' },
+  { name: 'Make life simpler', category: 'App', detail: 'Tools for life on the move', icon: '✳' },
+]
+
 
 // Fetch latest articles (not blog posts)
 const allArticles = normalizeContentEntries(await getCollection('article'))
@@ -67,9 +79,9 @@ const directoryDarkLogoTitles = [
 
 // Helper function to check if a record is a supporter
 const isSupporter = (record: any) => {
-  return record.supporter || 
-         record.monthly_supporter || 
-         record.is_supporter || 
+  return record.supporter ||
+         record.monthly_supporter ||
+         record.is_supporter ||
          record.supporter_status === 'Monthly Supporter' ||
          monthlySupporters.includes(record.title)
 }
@@ -81,8 +93,8 @@ const allValidEntries = records
     title: record.title,
     description: record.scea90e502,
     category: record.sb685ab800?.label || 'Service',
-    link: record.link || record.sb788c266b?.[0] || '/nomad_directory',
-    image: record.image,
+    link: `/nomad_directory/#listing-${record.id}`,
+    image: directoryEntries.find(entry => entry.id === String(record.id))?.image,
     isSupporter: isSupporter(record),
   }))
 
@@ -103,7 +115,7 @@ const youtubeVideos = [
     id: 'q1CvGeAI_Ro',
     title: 'Why Should You Live in Palermo as a Digital Nomad?',
     description: 'Real people, real stories from Palermo: locals and nomads on remote work, culture, food, and community.',
-    thumbnail: 'https://img.youtube.com/vi/q1CvGeAI_Ro/hqdefault.jpg',
+    thumbnail: '/images/youtube/q1CvGeAI_Ro.webp',
     duration: 'N/A',
     views: 'New',
     publishedAt: '2026-05-20'
@@ -112,7 +124,7 @@ const youtubeVideos = [
     id: 'mEP3aAA3t8k',
     title: 'Have Digital Nomads Have Changed Bansko (Bulgaria)?',
     description: 'In this documentary episode, we explore how digital nomads, coworking spaces, and events like Bansko Nomad Fest slowly transformed the town into a year-round hub for remote workers, founders, families, and creatives from around the world.',
-    thumbnail: 'https://img.youtube.com/vi/mEP3aAA3t8k/hqdefault.jpg',
+    thumbnail: '/images/youtube/mEP3aAA3t8k.webp',
     duration: 'N/A',
     views: 'New',
     publishedAt: '2025-01-03'
@@ -121,7 +133,7 @@ const youtubeVideos = [
     id: 'pgTpfH7zNVs',
     title: 'Why Digital Nomads Are Choosing Buenos Aires in 2025',
     description: 'Discover what makes Buenos Aires a top destination for digital nomads in 2025.',
-    thumbnail: 'https://img.youtube.com/vi/pgTpfH7zNVs/hqdefault.jpg',
+    thumbnail: '/images/youtube/pgTpfH7zNVs.webp',
     duration: '18:45',
     views: '12.3K',
     publishedAt: '2025-01-20'
@@ -130,7 +142,7 @@ const youtubeVideos = [
     id: 'NgG92Q8Uxgg',
     title: 'Why Digital Nomads Are Choosing Madeira in 2024: Madeira Friends Founders and Community',
     description: 'Meet the founders behind Madeira Friends and discover why digital nomads are flocking to this Portuguese island.',
-    thumbnail: 'https://img.youtube.com/vi/NgG92Q8Uxgg/hqdefault.jpg',
+    thumbnail: '/images/youtube/NgG92Q8Uxgg.webp',
     duration: '14:22',
     views: '8.7K',
     publishedAt: '2025-01-18'
@@ -139,7 +151,7 @@ const youtubeVideos = [
     id: '_sBXTskL0gA',
     title: 'Why Digital Nomads Choose Chiang Mai?',
     description: 'Exploring what makes Chiang Mai, Thailand one of the top destinations for digital nomads worldwide.',
-    thumbnail: 'https://img.youtube.com/vi/_sBXTskL0gA/hqdefault.jpg',
+    thumbnail: '/images/youtube/_sBXTskL0gA.webp',
     duration: '16:33',
     views: '15.9K',
     publishedAt: '2025-01-15'
@@ -148,7 +160,7 @@ const youtubeVideos = [
     id: 'hElNoT15fBE',
     title: 'She Found a Hidden Gem in Guatemala — and Built a Co-Living There',
     description: 'Bianca Bonilla left her comfort zone to build something extraordinary — a co-living villa on the Pacific coast of Guatemala, in a fishing village that didn\'t even have internet just a few years ago.',
-    thumbnail: 'https://img.youtube.com/vi/hElNoT15fBE/hqdefault.jpg',
+    thumbnail: '/images/youtube/hElNoT15fBE.webp',
     duration: '13:44',
     views: '32',
     publishedAt: '2025-01-12'
@@ -157,7 +169,7 @@ const youtubeVideos = [
     id: 'lEtXdzH65Dk',
     title: 'How to Fly Business Class for $6: Trevor Wright\'s Travel Hack That Changed Everything',
     description: 'Trevor Wright is the founder of MileMethod.com, a business that helps Americans travel the world in luxury — without breaking the bank. In this interview, he shares how he turned a backpacker\'s obsession with saving money into a 10-year business, helping clients book $20,000 trips for under $1,000 by using U.S. credit card rewards.',
-    thumbnail: 'https://img.youtube.com/vi/lEtXdzH65Dk/hqdefault.jpg',
+    thumbnail: '/images/youtube/lEtXdzH65Dk.webp',
     duration: '15:26',
     views: '160',
     publishedAt: '2024-10-10'
@@ -166,7 +178,7 @@ const youtubeVideos = [
     id: 'wnVgPO4pGU8',
     title: 'Building Business on the Move: Ben Guez\'s Digital Nomad Story',
     description: 'Join us in Madeira at Nomad Island Fest as we speak with Ben Guez — an entrepreneur, angel investor, and content creator with a truly global perspective. Originally from France and now based in the US, Ben shares his journey into the digital nomad lifestyle, his inspiration to build a tech platform for co-living on demand called Airmeet, and his vision for creating meaningful connections at nomad events.',
-    thumbnail: 'https://img.youtube.com/vi/wnVgPO4pGU8/hqdefault.jpg',
+    thumbnail: '/images/youtube/wnVgPO4pGU8.webp',
     duration: '13:45',
     views: '209',
     publishedAt: '2024-08-01'
@@ -176,22 +188,261 @@ const youtubeVideos = [
 import { createWebSiteSchema } from '~/utils/schema'
 
 const seo: SEOProps = {
-  title: 'Nomad Magazine | Digital Nomad, Remote Work & Nomad Lifestyle',
-  description: 'Nomad Magazine covers digital nomad life, remote work, and the modern nomad lifestyle through stories, destination guides, community insights, and independent journalism.',
+  title: 'Digital Nomad Directory & Resources | Nomad Magazine',
+  description: 'Explore the Nomad Directory for coliving, coworking, communities and remote work tools. Discover resources, destination guides and Nomad Magazine stories.',
   image: `${Astro.site}images/magazine-hold-against-chest.webp`,
-  keywords: 'digital nomad, digital nomad magazine, remote work, nomad lifestyle, location independent work, digital nomad stories, remote work tips, nomad community',
+  keywords: 'nomad directory, digital nomad resources, coliving, coworking, remote work tools, nomad magazine',
   canonical: `${Astro.site}`,
   ldJSON: createWebSiteSchema({ url: Astro.site?.toString() }),
 }
 ---
 
 <Layout seo={seo}>
-  <div class="mx-auto max-w-7xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
+<div class="homepage">
+    <section class="editorial-hero">
+      <div class="hero-left">
+        <p class="hero-kicker">independent digital nomad magazine</p>
+        <h1>Digital nomad life.<br /><span>Told by those living it.</span></h1>
+        <p class="hero-description">The places, people and tools that make life as a digital nomad work. All in one directory.</p>
+        <form action="/nomad_directory/" method="GET" role="search" aria-label="Search the Nomad Directory" class="home-search">
+          <label for="home-search" class="sr-only">Search tools, spaces and communities</label>
+          <input id="home-search" name="q" type="search" placeholder="Try coliving, eSIM or community…" />
+          <button type="submit" class="search-button">Explore <span aria-hidden="true">→</span></button>
+        </form>
+        <p class="hero-meta">{entries.length}+ listings <span aria-hidden="true">/</span> {categories.length} categories <span aria-hidden="true">/</span> One nomad community</p>
+        <a class="hero-link" href="/nomad_directory/">Browse the Nomad Directory</a>
+      </div>
+      <div class="hero-right">
+        <div class="directory-collage">
+          <div class="collage-headline">
+            <p class="handwritten">The nomad directory</p>
+          </div>
+          
+          <div class="collage-items">
+          <!-- Original run #1 composition with real directory entries -->
+          <div class="sticker sticker-1">
+            <div class="sticker-inner">
+              <img src={allValidEntries.find(e => e.title === 'Zenvify')?.image || '/logo.svg'} alt="" aria-hidden="true" loading="lazy" width="32" height="32" />
+              <span>Zenvify</span>
+            </div>
+          </div>
+          
+          <div class="sticker sticker-2">
+            <div class="sticker-inner">
+              <img src={allValidEntries.find(e => e.title === 'Mubboo Flights')?.image || '/logo.svg'} alt="" aria-hidden="true" loading="lazy" width="32" height="32" />
+              <span>Mubboo Flights</span>
+            </div>
+          </div>
+          
+          <div class="sticker sticker-3">
+            <div class="sticker-inner">
+              <img src={allValidEntries.find(e => e.title === 'eSIM Grab')?.image || '/logo.svg'} alt="" aria-hidden="true" loading="lazy" width="32" height="32" />
+              <span>eSIM Grab</span>
+            </div>
+          </div>
+          
+          <div class="sticker sticker-4">
+            <div class="sticker-inner">
+              <img src={allValidEntries.find(e => e.title === 'Farhaven')?.image || '/logo.svg'} alt="" aria-hidden="true" loading="lazy" width="32" height="32" />
+              <span>Farhaven</span>
+            </div>
+          </div>
+          
+          <div class="sticker sticker-5">
+            <div class="sticker-inner">
+              <img src={allValidEntries.find(e => e.title === 'Remote First Jobs')?.image || '/logo.svg'} alt="" aria-hidden="true" loading="lazy" width="32" height="32" />
+              <span>Remote First Jobs</span>
+            </div>
+          </div>
+          
+          <div class="sticker sticker-6">
+            <div class="sticker-inner">
+              <img src={allValidEntries.find(e => e.title === 'Reemotee')?.image || '/logo.svg'} alt="" aria-hidden="true" loading="lazy" width="32" height="32" />
+              <span>Reemotee</span>
+            </div>
+          </div>
+          
+          <!-- Middle column stickers to fill the gap -->
+          <div class="sticker sticker-7">
+            <div class="sticker-inner">
+              <img src={allValidEntries.find(e => e.title === 'Kilobat')?.image || '/logo.svg'} alt="" aria-hidden="true" loading="lazy" width="32" height="32" />
+              <span>Kilobat</span>
+            </div>
+          </div>
+          
+          <div class="sticker sticker-8">
+            <div class="sticker-inner">
+              <img src={allValidEntries.find(e => e.title === 'Brijjo')?.image || '/logo.svg'} alt="" aria-hidden="true" loading="lazy" width="32" height="32" />
+              <span>Brijjo</span>
+            </div>
+          </div>
+          
+          <div class="sticker sticker-9">
+            <div class="sticker-inner">
+              <img src={allValidEntries.find(e => e.title === 'Nomadr')?.image || '/logo.svg'} alt="" aria-hidden="true" loading="lazy" width="32" height="32" />
+              <span>Nomadr</span>
+            </div>
+          </div>
+          
+          <div class="sticker sticker-10">
+            <div class="sticker-inner">
+              <img src={allValidEntries.find(e => e.title === 'Nomad Fly')?.image || '/logo.svg'} alt="" aria-hidden="true" loading="lazy" width="32" height="32" />
+              <span>Nomad Fly</span>
+            </div>
+          </div>
+          
+          <!-- Three badges from run #1 -->
+          <div class="category-badge badge-1">
+            <span>Coliving</span>
+          </div>
+          
+          <div class="category-badge badge-2">
+            <span>Community</span>
+          </div>
+          
+          <div class="category-badge badge-3">
+            <span>Coworking</span>
+          </div>
+          </div>
+          
+          <div class="magazine-row">
+          <div class="magazine-mini magazine-1">
+            <img src="/images/edition-004-cover.webp" alt="Palermo Edition" loading="lazy" width="100" height="125" />
+          </div>
+          
+          <div class="magazine-mini magazine-2">
+            <img src="/images/third-edition-cover-hd.webp" alt="Mind Body Tech Edition" loading="lazy" width="100" height="125" />
+          </div>
+          </div>
+        </div>
+      </div>
+    </section>
+<div class="bg-hoverw text-white">
+<!-- Nomad Directory Section -->
+    <section class="border-b border-neutral-800 bg-neutral-900/30 px-4 py-16 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-12 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h2 class="text-3xl font-bold text-white">Digital Nomad Directory</h2>
+            <p class="mt-2 text-lg text-neutral-400">Remote work tools, services, and companies for digital nomads</p>
+          </div>
+          <a
+            href="/nomad_directory/"
+            class="inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-4 py-2 text-sm font-bold text-black transition-all hover:bg-yellow-300"
+            aria-label="View all digital nomad directory entries"
+          >
+            View All
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Regular Directory Entries -->
+        <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+          {regularDirectoryEntries.map((entry: any) => (
+            <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-neutral-900/50 transition-all hover:border-yellow-400/50">
+              <div class="p-5">
+                <div class="flex gap-4">
+                  <!-- Logo -->
+                  <div class="shrink-0">
+                    <div class={`w-28 h-28 rounded-xl overflow-hidden flex items-center justify-center ${
+                      directoryDarkLogoTitles.includes(entry.title)
+                        ? 'bg-gray-800'
+                        : 'bg-white'
+                    }`}>
+                      {entry.image && entry.image !== '/logo.svg' ? (
+                        <img
+                          src={entry.image} loading="lazy" width="112" height="112"
+                          alt={`${entry.title} logo`}
+                          class="w-full h-auto object-contain"
+                        />
+                      ) : (
+                        <span class={`font-bold text-3xl ${
+                          directoryDarkLogoTitles.includes(entry.title)
+                            ? 'text-white'
+                            : 'text-black'
+                        }`}>
+                          {entry.title.charAt(0).toUpperCase()}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  <!-- Content -->
+                  <div class="flex-1 min-w-0">
+                    <!-- Title and Badges -->
+                    <div class="mb-2">
+                      <h3 class="text-lg font-bold text-white mb-1.5">{entry.title}</h3>
+                      <div class="flex items-center gap-2 flex-wrap">
+                        <span class={`inline-block rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                          entry.category === 'Insurance' ? 'bg-blue-500/20 text-blue-300' :
+                          entry.category === 'Community' ? 'bg-green-500/20 text-green-300' :
+                          entry.category === 'Platform' ? 'bg-purple-500/20 text-purple-300' :
+                          entry.category === 'Events' ? 'bg-orange-500/20 text-orange-300' :
+                          entry.category === 'App' ? 'bg-indigo-500/20 text-indigo-300' :
+                          'bg-gray-500/20 text-gray-300'
+                        }`}>
+                          {entry.category}
+                        </span>
+                        {entry.isSupporter && (
+                          <a
+                            href="/support-the-magazine/"
+                            class="inline-flex items-center gap-1 bg-linear-to-r from-red-600 to-red-700 text-white px-2 py-0.5 rounded-full text-xs font-bold hover:from-red-700 hover:to-red-800 transition-all duration-200"
+                            title="Monthly Supporter"
+                            aria-label="Monthly Supporter - Learn how to support the magazine"
+                          >
+                            <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
+                            Supporter
+                          </a>
+                        )}
+                      </div>
+                    </div>
+
+                    <!-- Description -->
+                    <p class="text-sm text-neutral-300 line-clamp-2 mb-3 leading-relaxed">
+                      {entry.description}
+                    </p>
+
+                    <!-- CTA -->
+                    <a
+                      href={entry.link}
+                      target={entry.link.startsWith('http') ? '_blank' : '_self'}
+                      rel={entry.link.startsWith('http') ? 'noopener noreferrer' : undefined}
+                      class="inline-flex items-center text-yellow-400 text-sm font-medium hover:text-yellow-300 transition-colors"
+                    >
+                      View directory listing →
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="mt-12 text-center">
+          <a
+            href="/nomad_directory/"
+            class="inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-6 py-3 text-sm font-bold text-black transition-all hover:bg-yellow-300 hover:scale-105"
+            aria-label="Browse the full digital nomad directory"
+          >
+            Browse Full Digital Nomad Directory
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+</div>
+  <section id="magazine" aria-labelledby="magazine-heading" class="mx-auto max-w-7xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 items-center gap-8 sm:gap-16 lg:grid-cols-2">
       <div class="space-y-6 sm:space-y-8">
         <div class="space-y-4 sm:space-y-6">
           <p class="font-justme text-4xl text-gray-800">independent digital nomad magazine</p>
-          <h1 class="md:text-12xl xl:text-22xl text-7xl font-semibold text-gray-900 xl:leading-18">Remote Work, Nomad Lifestyle & Travel Stories</h1>
+          <h2 id="magazine-heading" class="md:text-12xl xl:text-22xl text-7xl font-semibold text-gray-900 xl:leading-18">Remote Work, Nomad Lifestyle & Travel Stories</h2>
           <p class="max-w-2xl text-lg text-gray-700">
             The most distributed print and digital magazine for people who work remotely, explore new destinations, and live on their own terms.
           </p>
@@ -212,16 +463,6 @@ const seo: SEOProps = {
         </div>
         <div class="space-y-4">
           <div class="mb-2 flex flex-col gap-4 sm:flex-row sm:items-end">
-            <div class="flex flex-col items-center order-first sm:order-last">
-              <span class="mb-1 inline-block rounded-full bg-yellow-400 px-3 py-1 text-xs font-bold text-black uppercase tracking-wide shadow">2027</span>
-              <a
-                href="/5th-edition-waitlist/"
-                class="glow-animate w-full sm:w-auto inline-block rounded border-2 border-yellow-400 bg-black px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-yellow-400 transition-colors duration-200 hover:bg-yellow-400 hover:text-black focus-visible:ring-2 focus-visible:ring-yellow-300"
-                aria-label="Join the Nomad Magazine edition 5 waiting list"
-              >
-                EDITION 5 WAITING LIST
-              </a>
-            </div>
             <a
               href="/editions/"
               class="w-full sm:w-auto inline-block rounded bg-yellow-400 px-6 sm:px-8 py-3 text-center text-base sm:text-lg font-extrabold text-black shadow-md transition-transform duration-200 hover:scale-105 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-yellow-300 order-last sm:order-first"
@@ -239,7 +480,7 @@ const seo: SEOProps = {
         <MagazineStack showLatestBadge={true} className="max-w-full" />
       </div>
     </div>
-  </div>
+  </section>
 
   <section class="border-t border-gray-200 bg-white px-4 py-16 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-7xl">
@@ -271,7 +512,7 @@ const seo: SEOProps = {
       </div>
     </div>
   </section>
-  
+
   <div class="bg-hoverw text-white">
     <ThirdEdition />
     <PastEditions />
@@ -347,130 +588,10 @@ const seo: SEOProps = {
       </div>
     </section>
 
-    <!-- Nomad Directory Section -->
-    <section class="border-b border-neutral-800 bg-neutral-900/30 px-4 py-16 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-7xl">
-        <div class="mb-12 flex items-center justify-between">
-          <div>
-            <h2 class="text-3xl font-bold text-white">Digital Nomad Directory</h2>
-            <p class="mt-2 text-lg text-neutral-400">Remote work tools, services, and companies for digital nomads</p>
-          </div>
-          <a
-            href="/nomad_directory/"
-            class="inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-4 py-2 text-sm font-bold text-black transition-all hover:bg-yellow-300"
-            aria-label="View all digital nomad directory entries"
-          >
-            View All
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-            </svg>
-          </a>
-        </div>
-        
-        <!-- Regular Directory Entries -->
-        <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
-          {regularDirectoryEntries.map((entry: any) => (
-            <div class="group relative overflow-hidden rounded-xl border border-white/10 bg-neutral-900/50 transition-all hover:border-yellow-400/50">
-              <div class="p-5">
-                <div class="flex gap-4">
-                  <!-- Logo -->
-                  <div class="shrink-0">
-                    <div class={`w-28 h-28 rounded-xl overflow-hidden flex items-center justify-center ${
-                      directoryDarkLogoTitles.includes(entry.title)
-                        ? 'bg-gray-800' 
-                        : 'bg-white'
-                    }`}>
-                      {entry.image && entry.image !== '/logo.svg' ? (
-                        <img 
-                          src={entry.image} 
-                          alt={entry.title} 
-                          class="w-full h-auto object-contain"
-                        />
-                      ) : (
-                        <span class={`font-bold text-3xl ${
-                          directoryDarkLogoTitles.includes(entry.title)
-                            ? 'text-white'
-                            : 'text-black'
-                        }`}>
-                          {entry.title.charAt(0).toUpperCase()}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  
-                  <!-- Content -->
-                  <div class="flex-1 min-w-0">
-                    <!-- Title and Badges -->
-                    <div class="mb-2">
-                      <h3 class="text-lg font-bold text-white mb-1.5">{entry.title}</h3>
-                      <div class="flex items-center gap-2 flex-wrap">
-                        <span class={`inline-block rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                          entry.category === 'Insurance' ? 'bg-blue-500/20 text-blue-300' :
-                          entry.category === 'Community' ? 'bg-green-500/20 text-green-300' :
-                          entry.category === 'Platform' ? 'bg-purple-500/20 text-purple-300' :
-                          entry.category === 'Events' ? 'bg-orange-500/20 text-orange-300' :
-                          entry.category === 'App' ? 'bg-indigo-500/20 text-indigo-300' :
-                          'bg-gray-500/20 text-gray-300'
-                        }`}>
-                          {entry.category}
-                        </span>
-                        {entry.isSupporter && (
-                          <a
-                            href="/support-the-magazine/"
-                            class="inline-flex items-center gap-1 bg-linear-to-r from-red-600 to-red-700 text-white px-2 py-0.5 rounded-full text-xs font-bold hover:from-red-700 hover:to-red-800 transition-all duration-200"
-                            title="Monthly Supporter"
-                            aria-label="Monthly Supporter - Learn how to support the magazine"
-                          >
-                            <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                            </svg>
-                            Supporter
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                    
-                    <!-- Description -->
-                    <p class="text-sm text-neutral-300 line-clamp-2 mb-3 leading-relaxed">
-                      {entry.description}
-                    </p>
-                    
-                    <!-- CTA -->
-                    <a 
-                      href={entry.link}
-                      target={entry.link.startsWith('http') ? '_blank' : '_self'}
-                      rel={entry.link.startsWith('http') ? 'noopener noreferrer' : undefined}
-                      class="inline-flex items-center text-yellow-400 text-sm font-medium hover:text-yellow-300 transition-colors"
-                    >
-                      View directory listing →
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-        
-        <div class="mt-12 text-center">
-          <a
-            href="/nomad_directory/"
-            class="inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-6 py-3 text-sm font-bold text-black transition-all hover:bg-yellow-300 hover:scale-105"
-            aria-label="Browse the full digital nomad directory"
-          >
-            Browse Full Digital Nomad Directory
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </section>
-
-
     <!-- YouTube Section -->
     <section class="border-b border-neutral-800 bg-neutral-900/30 px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
-        <div class="mb-12 flex items-center justify-between">
+        <div class="mb-12 flex flex-wrap items-center justify-between gap-4">
           <div>
             <h2 class="text-3xl font-bold text-white">Latest Videos</h2>
             <p class="mt-2 text-lg text-neutral-400">Watch our latest content on YouTube</p>
@@ -480,7 +601,7 @@ const seo: SEOProps = {
             target="_blank"
             rel="noopener noreferrer"
             class="inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-bold text-white transition-all hover:bg-red-700"
-            aria-label="Subscribe to Nomad Magazine on YouTube"
+            aria-label="Subscribe to Nomad Magazine on YouTube (opens in new tab)"
           >
             <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
@@ -488,7 +609,7 @@ const seo: SEOProps = {
             Subscribe
           </a>
         </div>
-        
+
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {youtubeVideos.map((video) => (
             <div class="group relative overflow-hidden rounded-2xl bg-neutral-900/50 transition-all hover:bg-neutral-900/80 hover:scale-105">
@@ -513,7 +634,7 @@ const seo: SEOProps = {
               </div>
               <div class="p-6">
                 <h3 class="mb-2 text-lg font-bold text-white group-hover:text-yellow-400 transition-colors">
-                  <a href={`https://www.youtube.com/watch?v=${video.id}`} target="_blank" rel="noopener noreferrer" class="after:absolute after:inset-0">
+                  <a href={`https://www.youtube.com/watch?v=${video.id}`} aria-label={`Watch ${video.title} (opens in new tab)`} target="_blank" rel="noopener noreferrer" class="after:absolute after:inset-0">
                     {video.title}
                   </a>
                 </h3>
@@ -526,7 +647,7 @@ const seo: SEOProps = {
         </div>
       </div>
     </section>
-    
+
     <!-- Distribution Network Section -->
     <section class="border-b border-neutral-800 bg-neutral-900/30 px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
@@ -534,7 +655,7 @@ const seo: SEOProps = {
           <h2 class="text-3xl font-bold text-white">Global <span class="text-yellow-400">Distribution</span> Network</h2>
           <p class="mt-2 text-lg text-neutral-400">Find our magazine in coworking spaces, cafes, and nomad hubs worldwide</p>
         </div>
-        
+
         <!-- Photo Collage Grid -->
         <div class="grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-6">
           <div class="group relative overflow-hidden rounded-lg aspect-square">
@@ -610,7 +731,7 @@ const seo: SEOProps = {
             </div>
           </div>
         </div>
-        
+
         <div class="mt-12 text-center">
           <a
             href="/distribution-list/"
@@ -625,10 +746,10 @@ const seo: SEOProps = {
         </div>
       </div>
     </section>
-    
+
     <!-- Partners Section - Social proof -->
     <Partners />
-    
+
     <!-- Community & Social Proof -->
     <Testimonials />
     <GrowingCommunity />
@@ -636,7 +757,7 @@ const seo: SEOProps = {
     <!-- About & Mission - Combine related sections -->
     <About />
     <Mission />
-    
+
     <!-- Call to Action Sections -->
     <Bridge />
     <Welcome />
@@ -654,15 +775,15 @@ const seo: SEOProps = {
   <div id="sticky-cta" class="fixed bottom-4 right-4 z-50 hidden">
     <div class="bg-black border-2 border-yellow-400 rounded-lg p-4 shadow-2xl max-w-sm">
       <div class="flex items-center gap-3">
-        <img 
-          src="/images/edition-004-cover.webp" 
-          alt="Nomad Magazine Edition Four" 
+        <img
+          src="/images/edition-004-cover.webp"
+          alt="Nomad Magazine Edition Four"
           class="w-16 h-20 object-cover rounded"
         />
         <div class="flex-1">
           <h3 class="text-white font-bold text-sm">Edition #4 Now Available</h3>
           <p class="text-gray-300 text-xs mb-2">128 pages · all editions free as PDF</p>
-          <a 
+          <a
             href="/editions/fourth-edition/"
             class="inline-block bg-yellow-400 text-black text-xs font-bold px-3 py-1.5 rounded hover:bg-yellow-300 transition-colors"
           >
@@ -679,6 +800,7 @@ const seo: SEOProps = {
       </div>
     </div>
   </div>
+</div>
 </Layout>
 
 <style>
@@ -710,7 +832,7 @@ const seo: SEOProps = {
     const stickyCTA = document.getElementById('sticky-cta');
     const scrollPosition = window.scrollY;
     const windowHeight = window.innerHeight;
-    
+
     if (scrollPosition > windowHeight * 0.8) {
       stickyCTA?.classList.remove('hidden');
     } else {
@@ -721,3 +843,538 @@ const seo: SEOProps = {
 </script>
 
 {stickyBarItems.length > 0 && <StickyAnnouncementBar items={stickyBarItems} />}
+<style>
+  @font-face {
+    font-family: 'JustMeAgainDownHere';
+    src: url('/fonts/JustMeAgainDownHere-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  .editorial-hero {
+    max-width: 1248px;
+    margin: 0 auto;
+    padding: 76px 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 60px;
+    background: #fafaf8;
+  }
+  
+  .hero-left {
+    max-width: 540px;
+  }
+  
+  .hero-kicker {
+    font-family: 'JustMeAgainDownHere', cursive;
+    font-size: 34px;
+    color: #171817;
+    margin-bottom: 16px;
+  }
+  
+  .editorial-hero h1 {
+    font-size: clamp(40px, 4.5vw, 60px);
+    line-height: 1.1;
+    font-weight: 650;
+    letter-spacing: -0.04em;
+    margin: 0 0 22px 0;
+    color: #171817;
+  }
+  
+  .editorial-hero h1 span {
+    color: #facc15;
+  }
+  
+  .hero-description {
+    color: #4b5563;
+    font-size: 17px;
+    line-height: 1.6;
+    margin-bottom: 26px;
+  }
+  
+  .home-search {
+    display: flex;
+    background: #fff;
+    border: 2px solid #e5e7eb;
+    padding: 4px;
+    border-radius: 11px;
+    margin-bottom: 16px;
+    gap: 5px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    max-width: 100%;
+  }
+  
+  .home-search:focus-within {
+    border-color: #facc15;
+    box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.1);
+  }
+  
+  .home-search input {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 12px;
+    color: #171817;
+    font-size: 15px;
+    border: none;
+    background: transparent;
+  }
+  
+  .home-search input::placeholder {
+    color: #9ca3af;
+  }
+  
+  .search-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    background: #facc15;
+    color: #171817;
+    font-weight: 700;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  
+  .search-button:hover {
+    background: #fde047;
+    transform: translateY(-1px);
+  }
+  
+  .hero-meta {
+    color: #6b7280;
+    font-size: 13px;
+    margin-bottom: 14px;
+  }
+  
+  .hero-meta span {
+    color: #d1d5db;
+    padding: 0 7px;
+  }
+  
+  .hero-link {
+    color: #171817;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    font-weight: 600;
+    font-size: 15px;
+  }
+  
+  .hero-link:hover {
+    color: #facc15;
+  }
+  
+  .hero-right {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .directory-collage {
+    position: relative;
+    min-height: 480px;
+    padding: 0;
+    max-width: 100%;
+  }
+  
+  .collage-items,
+  .magazine-row {
+    display: none;
+  }
+  
+  @media(min-width: 1200px) {
+    .collage-items,
+    .magazine-row {
+      display: contents !important;
+    }
+  }
+  
+  .collage-headline {
+    position: absolute;
+    top: 0;
+    left: 5px;
+    z-index: 10;
+  }
+  
+  .handwritten {
+    font-family: 'JustMeAgainDownHere', cursive;
+    font-size: 36px;
+    color: #171817;
+    margin: 0;
+    transform: rotate(-2deg);
+  }
+  
+  .sticker {
+    position: absolute;
+    background: white;
+    border: 2px solid #171817;
+    border-radius: 9px;
+    padding: 9px 11px;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+    max-width: 180px;
+  }
+  
+  .sticker:hover {
+    transform: rotate(0deg) scale(1.05) !important;
+    z-index: 25;
+  }
+  
+  .sticker-inner {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  
+  .sticker-inner img {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  
+  .sticker-inner span {
+    font-weight: 600;
+    font-size: 12px;
+    color: #171817;
+    white-space: nowrap;
+  }
+  
+  .sticker-1 {
+    top: 70px;
+    left: 30px;
+    transform: rotate(-6deg);
+    z-index: 15;
+  }
+  
+  .sticker-2 {
+    top: 140px;
+    left: 20px;
+    transform: rotate(4deg);
+    z-index: 15;
+  }
+  
+  .sticker-3 {
+    display: none;
+  }
+  
+  .sticker-4 {
+    top: 60px;
+    right: 25px;
+    transform: rotate(5deg);
+    z-index: 15;
+  }
+  
+  .sticker-5 {
+    top: 140px;
+    right: 20px;
+    transform: rotate(-4deg);
+    z-index: 15;
+  }
+  
+  .sticker-6 {
+    top: 220px;
+    right: 80px;
+    transform: rotate(3deg);
+    z-index: 15;
+  }
+  
+  .sticker-7 {
+    top: 70px;
+    left: 48%;
+    transform: translateX(-50%) rotate(-7deg);
+    z-index: 15;
+  }
+  
+  .sticker-8 {
+    top: 140px;
+    left: 52%;
+    transform: translateX(-50%) rotate(6deg);
+    z-index: 15;
+  }
+  
+  .sticker-9 {
+    top: 220px;
+    left: 46%;
+    transform: translateX(-50%) rotate(-5deg);
+    z-index: 15;
+  }
+  
+  .sticker-10 {
+    top: 300px;
+    left: 54%;
+    transform: translateX(-50%) rotate(4deg);
+    z-index: 15;
+  }
+  
+  .magazine-mini {
+    position: absolute;
+    border-radius: 5px;
+    box-shadow: 3px 3px 8px rgba(0,0,0,0.15);
+    transition: transform 0.2s;
+    z-index: 5;
+  }
+  
+  .magazine-mini:hover {
+    transform: rotate(0deg) scale(1.06) !important;
+    z-index: 20;
+  }
+  
+  .magazine-mini img {
+    display: block;
+    width: 140px;
+    height: auto;
+    border-radius: 4px;
+  }
+  
+  .magazine-1 {
+    bottom: 40px;
+    left: 10px;
+    transform: rotate(-8deg);
+  }
+  
+  .magazine-2 {
+    bottom: 30px;
+    right: 15px;
+    transform: rotate(6deg);
+  }
+  
+  .category-badge {
+    position: absolute;
+    background: #facc15;
+    border: 2px solid #171817;
+    border-radius: 16px;
+    padding: 5px 11px;
+    font-weight: 700;
+    font-size: 11px;
+    color: #171817;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+    white-space: nowrap;
+    width: max-content;
+  }
+  
+  .category-badge:hover {
+    transform: scale(1.08) rotate(0deg) !important;
+  }
+  
+  .badge-1 {
+    bottom: 80px;
+    left: 170px;
+    transform: rotate(-6deg);
+    z-index: 16;
+  }
+  
+  .badge-2 {
+    top: 25px;
+    right: 170px;
+    transform: rotate(4deg);
+    z-index: 16;
+  }
+  
+  .badge-3 {
+    bottom: 85px;
+    right: 170px;
+    transform: rotate(-3deg);
+    z-index: 16;
+  }
+  
+  @media(max-width:1000px){
+    .editorial-hero{
+      gap: 40px;
+      padding: 56px 20px;
+    }
+    .directory-collage {
+      min-height: 420px;
+    }
+  }
+  
+  @media(max-width:1199px){
+    .directory-collage {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: 20px;
+      min-height: auto;
+      height: auto;
+      overflow: visible;
+    }
+    
+    .collage-headline {
+      position: static;
+      text-align: center;
+      margin-bottom: 10px;
+      top: auto;
+      left: auto;
+      right: auto;
+      bottom: auto;
+    }
+    
+    .directory-collage > .sticker,
+    .directory-collage > .category-badge,
+    .directory-collage > .magazine-mini {
+      display: none !important;
+    }
+    
+    .collage-items,
+    .magazine-row {
+      display: flex;
+    }
+    
+    .collage-items {
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      max-width: 100%;
+    }
+    
+    .collage-items .sticker,
+    .collage-items .category-badge {
+      position: static !important;
+      top: auto !important;
+      left: auto !important;
+      right: auto !important;
+      bottom: auto !important;
+      margin: 0 !important;
+      display: inline-flex !important;
+    }
+    
+    .magazine-row {
+      position: static !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+      top: auto !important;
+      left: auto !important;
+      right: auto !important;
+      bottom: auto !important;
+    }
+    
+    .magazine-row .magazine-mini {
+      position: static !important;
+      top: auto !important;
+      left: auto !important;
+      right: auto !important;
+      bottom: auto !important;
+      margin: 0 !important;
+    }
+    
+    .sticker-1 { transform: rotate(-3deg) translateY(-2px); }
+    .sticker-2 { transform: rotate(2deg) translateY(1px); }
+    .sticker-3 { transform: rotate(-1deg) translateY(-1px); }
+    .sticker-4 { transform: rotate(3deg) translateY(2px); }
+    .sticker-5 { transform: rotate(-2deg) translateY(-1px); }
+    .sticker-6 { transform: rotate(1deg) translateY(1px); }
+    .sticker-7 { transform: rotate(-3deg) translateY(2px); }
+    .sticker-8 { transform: rotate(2deg) translateY(-2px); }
+    .sticker-9 { transform: rotate(-1deg) translateY(1px); }
+    .sticker-10 { transform: rotate(3deg) translateY(-1px); }
+    
+    .badge-1 { transform: rotate(-2deg); }
+    .badge-2 { transform: rotate(2deg); }
+    .badge-3 { transform: rotate(-3deg); }
+    
+    .magazine-1 {
+      transform: rotate(-5deg);
+    }
+    
+    .magazine-2 {
+      transform: rotate(5deg);
+    }
+    
+    .magazine-mini img {
+      width: 120px;
+      height: auto;
+    }
+  }
+
+  @media(max-width:767px){
+    .editorial-hero{
+      grid-template-columns: 1fr;
+      padding: 40px 16px;
+      gap: 36px;
+    }
+    .hero-left {
+      max-width: 100%;
+    }
+    .hero-kicker {
+      font-size: 26px;
+    }
+    .editorial-hero h1 {
+      font-size: 36px;
+    }
+    .collage-items {
+      gap: 24px;
+    }
+    .hero-description {
+      font-size: 16px;
+    }
+    .home-search {
+      padding: 4px;
+    }
+    .home-search input {
+      font-size: 14px;
+      padding: 9px 10px;
+    }
+    .search-button {
+      font-size: 13px;
+      padding: 9px 14px;
+    }
+    .hero-meta {
+      font-size: 12px;
+    }
+    .handwritten {
+      font-size: 24px;
+    }
+    .sticker {
+      padding: 6px 8px;
+      max-width: 130px;
+    }
+    .sticker-inner {
+      gap: 5px;
+    }
+    .sticker-inner img {
+      width: 20px;
+      height: 20px;
+    }
+    .sticker-inner span {
+      font-size: 9px;
+    }
+    .category-badge {
+      font-size: 8px;
+      padding: 4px 8px;
+    }
+    .collage-items {
+      gap: 10px;
+    }
+    .magazine-mini img {
+      width: 100px;
+    }
+    .sticker-9, .sticker-10 {
+      display: none;
+    }
+  }
+</style>
+<style>
+.homepage { overflow-x:clip; }
+.homepage :global(p a.text-neutral-300) { text-decoration:underline; text-underline-offset:3px; }
+.homepage :global(p.font-semibold.text-gray-600) { color:#d1d5db; }
+#magazine :global(.hover-hint) { opacity:1; }
+#magazine :global(.hover-hint > div) { color:#4b5563; }
+</style>

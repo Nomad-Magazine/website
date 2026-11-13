@@ -28,7 +28,7 @@ const navLinks = [
         </a>
         <nav class="hidden space-x-10 lg:flex">
           <div class="relative">
-            <button id="magazine-button" class="group flex cursor-pointer items-center text-lg font-bold text-gray-900 transition-colors hover:text-yellow-600" aria-label="Magazine menu" aria-haspopup="true" aria-expanded="false">
+            <button aria-controls="magazine-dropdown" id="magazine-button" class="group flex cursor-pointer items-center text-lg font-bold text-gray-900 transition-colors hover:text-yellow-600" aria-label="Magazine menu" aria-haspopup="true" aria-expanded="false">
               <span>Magazine</span>
               <IsIconDownOutline class="ml-1 h-5 w-5 font-bold" aria-hidden="true" />
             </button>
@@ -54,7 +54,7 @@ const navLinks = [
             ))
           }
           <div class="relative">
-            <button id="more-button" class="flex cursor-pointer items-center text-lg font-bold text-gray-900 transition-colors hover:text-yellow-600" aria-label="More menu" aria-haspopup="true" aria-expanded="false">
+            <button aria-controls="more-dropdown" id="more-button" class="flex cursor-pointer items-center text-lg font-bold text-gray-900 transition-colors hover:text-yellow-600" aria-label="More menu" aria-haspopup="true" aria-expanded="false">
               More
               <IsIconDownOutline class="ml-1 h-5 w-5 font-bold" aria-hidden="true" />
             </button>
@@ -66,9 +66,9 @@ const navLinks = [
                 <a href="/digital-nomad-wiki/" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 rounded-md">Digital Nomad Wiki</a>
                 <a href="/articles/" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 rounded-md">Articles</a>
               </div>
-              
+
               <div class="border-t border-gray-100 my-1"></div>
-              
+
               <!-- Partners & Opportunities -->
               <div class="px-3 py-1">
                 <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Partners</div>
@@ -77,9 +77,9 @@ const navLinks = [
                 <a href="/nomad_directory/" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 rounded-md">Nomad Directory</a>
                 <a href="/distribution-list/" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-yellow-50 hover:text-yellow-600 rounded-md">Distribution List</a>
               </div>
-              
+
               <div class="border-t border-gray-100 my-1"></div>
-              
+
               <!-- Support -->
               <div class="px-3 py-1">
                 <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Support</div>
@@ -100,30 +100,27 @@ const navLinks = [
       </div>
       <!-- Buttons -->
       <div class="hidden items-center space-x-4 lg:flex">
-        <a href="/nomad_directory/" class="rounded-lg border-2 border-gray-900 px-6 py-3 font-bold text-gray-900 transition-colors hover:bg-gray-900 hover:text-white">
-          Nomad Directory 👋
-        </a>
         <a
           target="_self"
-          href="/editions/fourth-edition/"
+          href="/nomad_directory/"
           class="rounded-lg border-2 border-yellow-400 bg-yellow-400 px-6 py-3 font-black text-black shadow-lg transition-colors hover:border-yellow-500 hover:bg-yellow-500"
         >
-          Get Latest Edition 🤓
+          Nomad Directory 👋
         </a>
       </div>
       <!-- Mobile menu button -->
       <div class="lg:hidden">
-        <button id="mobile-menu-button" type="button" class="text-gray-900 hover:text-yellow-600" aria-label="Open mobile menu">
+        <button id="mobile-menu-button" type="button" class="text-gray-900 hover:text-yellow-600" aria-label="Open mobile menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="mobile-menu-overlay">
           <MenuIcon class="h-8 w-8" aria-hidden="true" />
         </button>
       </div>
     </div>
   </div>
   <!-- Mobile Menu Overlay -->
-  <div id="mobile-menu-overlay" class="fixed inset-0 z-50 hidden bg-black text-white overflow-y-auto">
+  <div role="dialog" aria-modal="true" aria-label="Navigation menu" id="mobile-menu-overlay" class="fixed inset-0 z-50 hidden bg-black text-white overflow-y-auto">
     <div class="flex items-center justify-between p-6 border-b border-gray-800">
       <a href="/" aria-label="Nomad Magazine Home" class="text-4xl font-black tracking-tighter">
-        <img decoding="async" loading="lazy" src="/images/logo white png.png" alt="Nomad Magazine" class="h-8" width="430" height="110" />
+        <img decoding="async" loading="lazy" src="/images/nomad-magazine-white-logo.webp" alt="Nomad Magazine" class="h-8" width="430" height="110" />
       </a>
       <button id="close-menu-button" class="hover:text-yellow-400 transition-colors" aria-label="Close mobile menu">
         <CloseIcon class="h-8 w-8" aria-hidden="true" />
@@ -154,7 +151,7 @@ const navLinks = [
       <a href="/articles/" class="transition-colors hover:text-yellow-400">Articles</a>
               <div class="space-y-4">
         <div class="text-yellow-400 text-xl font-bold">More</div>
-        
+
         <!-- Content Section -->
         <div>
           <div class="text-gray-400 text-sm font-bold uppercase tracking-wider mb-2">Content</div>
@@ -164,7 +161,7 @@ const navLinks = [
             <a href="/articles/" class="block transition-colors hover:text-yellow-400">Articles</a>
           </div>
         </div>
-        
+
         <!-- Partners Section -->
         <div>
           <div class="text-gray-400 text-sm font-bold uppercase tracking-wider mb-2">Partners</div>
@@ -175,7 +172,7 @@ const navLinks = [
             <a href="/distribution-list/" class="block transition-colors hover:text-yellow-400">Distribution List</a>
           </div>
         </div>
-        
+
         <!-- Support Section -->
         <div>
           <div class="text-gray-400 text-sm font-bold uppercase tracking-wider mb-2">Support</div>
@@ -196,79 +193,60 @@ const navLinks = [
 </header>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // Magazine dropdown functionality
-    const magazineButton = document.getElementById('magazine-button')
-    const magazineDropdown = document.getElementById('magazine-dropdown')
-    if (magazineButton && magazineDropdown) {
-      let closeTimeout: number | null = null
-      
-      // Open dropdown on hover
-      magazineButton.addEventListener('mouseenter', () => {
-        if (closeTimeout) {
-          clearTimeout(closeTimeout)
-          closeTimeout = null
-        }
-        magazineDropdown.classList.remove('hidden')
-      })
-      
-      // Close dropdown when mouse leaves the button
-      magazineButton.addEventListener('mouseleave', (event) => {
-        // Check if mouse is moving to dropdown
-        const relatedTarget = event.relatedTarget as Node
-        if (!magazineDropdown.contains(relatedTarget)) {
-          closeTimeout = window.setTimeout(() => {
-            magazineDropdown.classList.add('hidden')
-          }, 150) // 150ms delay
-        }
-      })
-      
-      // Keep dropdown open when hovering over it
-      magazineDropdown.addEventListener('mouseenter', () => {
-        if (closeTimeout) {
-          clearTimeout(closeTimeout)
-          closeTimeout = null
-        }
-      })
-      
-      // Close dropdown when mouse leaves dropdown
-      magazineDropdown.addEventListener('mouseleave', () => {
-        closeTimeout = window.setTimeout(() => {
-          magazineDropdown.classList.add('hidden')
-        }, 150) // 150ms delay
-      })
-      
-      // Navigate on click instead of toggling
-      magazineButton.addEventListener('click', (event) => {
-        event.preventDefault()
-        window.location.href = '/editions/'
+  for (const name of ['magazine', 'more']) {
+    const button = document.getElementById(`${name}-button`)
+    const dropdown = document.getElementById(`${name}-dropdown`)
+    if (!button || !dropdown) continue
+    const group = button.parentElement!
+    let closeTimer: ReturnType<typeof setTimeout> | undefined
+    const setOpen = (open: boolean) => {
+      clearTimeout(closeTimer)
+      dropdown.classList.toggle('hidden', !open)
+      button.setAttribute('aria-expanded', String(open))
+    }
+    button.addEventListener('click', () => setOpen(button.getAttribute('aria-expanded') !== 'true'))
+    if (name === 'magazine') {
+      group.addEventListener('mouseenter', () => setOpen(true))
+      group.addEventListener('mouseleave', () => {
+        if (!group.contains(document.activeElement)) closeTimer = setTimeout(() => setOpen(false), 150)
       })
     }
-    
-    // More dropdown functionality
-    const moreButton = document.getElementById('more-button')
-    const moreDropdown = document.getElementById('more-dropdown')
-    if (moreButton && moreDropdown) {
-      moreButton.addEventListener('click', (event) => {
-        event.stopPropagation()
-        moreDropdown.classList.toggle('hidden')
-      })
-      document.addEventListener('click', (event) => {
-        if (!moreDropdown.contains(event.target as Node) && !moreButton.contains(event.target as Node)) moreDropdown.classList.add('hidden')
-      })
-    }
-    
-    // Mobile menu functionality
-    const mobileMenuButton = document.getElementById('mobile-menu-button')
-    const mobileMenuOverlay = document.getElementById('mobile-menu-overlay')
-    const closeMenuButton = document.getElementById('close-menu-button')
-    if (mobileMenuButton && mobileMenuOverlay && closeMenuButton) {
-      mobileMenuButton.addEventListener('click', () => {
-        mobileMenuOverlay.classList.remove('hidden')
-      })
-      closeMenuButton.addEventListener('click', () => {
-        mobileMenuOverlay.classList.add('hidden')
-      })
-    }
+    group.addEventListener('focusout', event => {
+      if (!group.contains(event.relatedTarget as Node)) setOpen(false)
+    })
+    group.addEventListener('keydown', event => {
+      if (event.key === 'Escape') { setOpen(false); button.focus() }
+    })
+    document.addEventListener('click', event => {
+      if (!group.contains(event.target as Node)) setOpen(false)
+    })
+  }
+
+  const mobileButton = document.getElementById('mobile-menu-button')!
+  const overlay = document.getElementById('mobile-menu-overlay')!
+  const closeButton = document.getElementById('close-menu-button')!
+  let previousOverflow = ''
+  function closeMenu() {
+    overlay.classList.add('hidden')
+    mobileButton.setAttribute('aria-expanded', 'false')
+    document.body.style.overflow = previousOverflow
+    mobileButton.focus()
+  }
+  mobileButton.addEventListener('click', () => {
+    previousOverflow = document.body.style.overflow
+    overlay.classList.remove('hidden')
+    mobileButton.setAttribute('aria-expanded', 'true')
+    document.body.style.overflow = 'hidden'
+    closeButton.focus()
+  })
+  closeButton.addEventListener('click', closeMenu)
+  overlay.addEventListener('keydown', event => {
+    if (event.key === 'Escape') { event.preventDefault(); closeMenu() }
+    if (event.key !== 'Tab') return
+    const controls = Array.from(overlay.querySelectorAll<HTMLElement>('a[href], button'))
+    const first = controls[0]
+    const last = controls[controls.length - 1]
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus() }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus() }
   })
 </script>
