@@ -2,48 +2,6 @@
 export const prerender = true;
 
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
-import { fetchReportRecords } from '~/utils/smartsuite'
-
-// Fetch coworking spaces for contest section with error handling
-let contestCoworkingSpaces: any[] = [];
-
-try {
-  const { records: distributionRecords = [] } = await fetchReportRecords('68614a111208586bd05d3c3a')
-  
-  // Filter and get a few coworking spaces with images for display
-  contestCoworkingSpaces = distributionRecords
-    .filter((record: any) => 
-      record.sb685ab800?.label === 'Coworking' && 
-      record.title &&
-      record.styrldtq === true
-    )
-    .slice(0, 8) // Get first 8 spaces (increased to have more options)
-    .map((record: any) => {
-      // Get the first image from multiple possible fields
-      let imageUrl = '';
-      const imageFields = [
-        record.image,
-        record.images,
-        record.sf4ad525dd,
-        record.s4ad525dd
-      ].filter(Boolean);
-      
-      if (imageFields.length > 0) {
-        const allImages = imageFields.flat().filter(Boolean);
-        imageUrl = allImages[0] || '';
-      }
-      
-      return {
-        name: record.title,
-        image: imageUrl,
-        location: record.sed1a49986 || 'Location not specified'
-      };
-    })
-    .filter((space: any) => space.image) // Only include spaces with valid images
-} catch (error) {
-  // Fallback: use empty array if SmartSuite fetch fails during build
-  contestCoworkingSpaces = [];
-}
 
 const seo: SEOProps = {
   title: '📱 Better Digital Reading Experience - Nomad Magazine on ZINIO',
@@ -285,80 +243,6 @@ const seo: SEOProps = {
       <!-- Divider -->
       <hr class="border-gray-900 my-8" />
 
-      <!-- Coworking Contest Section -->
-      <section class="mb-12">
-        <div class="text-center mb-6">
-          <h2 class="text-3xl font-black text-gray-900 mb-2">
-            🏆 Best Coworking Design Contest
-          </h2>
-          <p class="text-base text-gray-600 font-medium">Vote for the most beautifully designed spaces</p>
-        </div>
-
-        <div class="bg-linear-to-r from-yellow-50 to-orange-50 rounded-2xl p-8 border-2 border-orange-200 mb-6">
-          <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-8">
-            <div class="flex-1">
-              <p class="text-xl text-gray-800 mb-4 leading-relaxed">
-                Help us find the most beautifully designed coworking spaces worldwide! Vote for stunning interiors, dreamy views, and ergonomic brilliance.
-              </p>
-              <div class="flex items-center gap-2 text-orange-600 font-bold mb-4">
-                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                <span id="contest-countdown" class="text-2xl">Loading...</span>
-              </div>
-              <div class="grid grid-cols-2 gap-4 text-center">
-                <div class="bg-white/50 rounded-lg p-3">
-                  <div class="text-2xl font-bold text-orange-600" id="newsletter-total-spaces">52</div>
-                  <div class="text-xs text-gray-600">Contest Entries</div>
-                </div>
-                <div class="bg-white/50 rounded-lg p-3">
-                  <div class="text-2xl font-bold text-orange-600" id="newsletter-total-votes">577</div>
-                  <div class="text-xs text-gray-600">Public Votes</div>
-                </div>
-              </div>
-            </div>
-            <div class="shrink-0">
-              <a 
-                href="https://nomad-magazine.com/coworking-contest" 
-                class="inline-block font-bold py-4 px-8 rounded-xl shadow-lg transition-all duration-200"
-                style="background-color: #ea580c !important; color: white !important; text-decoration: none !important; border: 2px solid #ea580c !important;"
-              >
-                🗳️ Vote Now
-              </a>
-            </div>
-          </div>
-
-          <div>
-            <p class="text-sm text-gray-600 font-semibold mb-4 text-center">Featured Contest Entries:</p>
-            {contestCoworkingSpaces.length > 0 ? (
-              <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {contestCoworkingSpaces.map((space: any) => (
-                  <div class="group relative overflow-hidden rounded-lg aspect-square">
-                    <img 
-                      src={space.image} 
-                      alt={space.name}
-                      class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                      data-fallback-src="/images/coworking-placeholder.jpg"
-                    />
-                    <div class="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
-                      <p class="text-white text-sm font-bold line-clamp-2 drop-shadow-lg">{space.name}</p>
-                      <p class="text-white/90 text-xs line-clamp-1 drop-shadow-md">{space.location}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div class="text-center py-8">
-                <p class="text-gray-500">Contest entries loading...</p>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      <!-- Divider -->
-      <hr class="border-gray-900 my-8" />
-
       <!-- Feedback Section -->
       <section class="mb-12">
         <div class="bg-gray-50 border-2 border-gray-200 rounded-2xl p-8 text-center">
@@ -401,57 +285,6 @@ const seo: SEOProps = {
       </a>
     </div>
   </div>
-
-  <!-- Countdown Timer Script -->
-  <script is:inline>
-    function updateCountdown() {
-      const countdownElement = document.getElementById('contest-countdown');
-      if (!countdownElement) return;
-      
-      const endDate = new Date('2025-10-31T23:59:59');
-      const now = new Date();
-      const diff = endDate.getTime() - now.getTime();
-      
-      if (diff <= 0) {
-        countdownElement.textContent = 'Contest Ended';
-        return;
-      }
-      
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      
-      if (days > 0) {
-        countdownElement.textContent = days + ' day' + (days !== 1 ? 's' : '') + ' left to vote';
-      } else {
-        countdownElement.textContent = hours + ' hour' + (hours !== 1 ? 's' : '') + ' left to vote';
-      }
-    }
-
-    function initializeFallbackImages() {
-      const fallbackImages = document.querySelectorAll('[data-fallback-src]');
-      fallbackImages.forEach((node) => {
-        if (!(node instanceof HTMLImageElement)) return;
-        const fallbackSrc = node.getAttribute('data-fallback-src');
-        if (!fallbackSrc) return;
-        node.addEventListener('error', () => {
-          if (node.src === fallbackSrc) return;
-          node.src = fallbackSrc;
-        }, { once: true });
-      });
-    }
-    
-    // Update immediately and then every hour
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => {
-        updateCountdown();
-        initializeFallbackImages();
-      });
-    } else {
-      updateCountdown();
-      initializeFallbackImages();
-    }
-    setInterval(updateCountdown, 3600000);
-  </script>
 
   <style>
     .line-clamp-1 {
