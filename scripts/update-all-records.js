@@ -7,6 +7,15 @@ const SMART_SUITE_ACCOUNT_ID = process.env.SMART_SUITE_ACCOUNT_ID ?? ''
 const SMART_SUITE_TABLE_ID_COMPANY = process.env.SMART_SUITE_TABLE_ID_COMPANY ?? ''
 const REPORT_ID = process.env.REPORT_ID ?? ''
 
+// Fields actually used by pages and scripts
+const REQUIRED_FIELDS = [
+  'id', 'title', 'link', 'image', 'images', 'sf4ad525dd', 'sb685ab800',
+  'scea90e502', 'description_markdown', 's5576966ee', 'sb788c266b',
+  'sed1a49986', 's2d652f699', 's43a4b2808', 's9744d6c51', 's9c0ff01ed',
+  's4ad525dd', 'sc584fdf36', 'first_created', 'last_updated',
+  'sd6842e687', 's16e7a9d78', 'sfca9050a8',
+]
+
 // Dynamic rate limiting based on API headers
 let rateLimitInfo = {
   limit: null,
@@ -155,74 +164,29 @@ async function fetchImageUrlFromHandle(handle) {
   return data.url
 }
 
-async function fetchGlobalCache() {
-  console.log('Fetching global cache...')
-
-  const response = await fetchWithRetry(async () => {
-    const res = await fetch(`https://app.smartsuite.com/api/v1/applications/${SMART_SUITE_TABLE_ID_COMPANY}/records/list/?all=true`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'ACCOUNT-ID': SMART_SUITE_ACCOUNT_ID,
-        Authorization: `Token ${SMART_SUITE_APIKEY}`,
-      },
-      body: JSON.stringify({
-        sort: [],
-        filter: {},
-        hydrated: true,
-      }),
-    })
-
-    if (!res.ok) {
-      if (res.status === 429) {
-        const error = new Error(`Rate limited: ${res.statusText}`)
-        error.status = 429
-        error.headers = res.headers
-        throw error
-      }
-      throw new Error(`SmartSuite API error: ${res.status} ${res.statusText}`)
-    }
-
-    return res
-  })
-
-  const responseJSON = await response.json()
-  
-  // Convert SmartDoc fields to Markdown for all records
-  if (responseJSON.items && Array.isArray(responseJSON.items)) {
-    console.log('Converting SmartDoc fields to Markdown...')
-    let totalConverted = 0
-    responseJSON.items.forEach((record) => {
-      try {
-        const convertedFields = convertAllSmartDocFields(record)
-        Object.assign(record, convertedFields)
-        totalConverted += Object.keys(convertedFields).length
-      } catch (error) {
-        console.error(`Error converting SmartDoc fields to Markdown for record ${record.id}:`, error)
-        // Keep original fields as fallback
-      }
-    })
-    if (totalConverted > 0) {
-      console.log(`Converted ${totalConverted} SmartDoc fields to Markdown across all records`)
+function stripUnusedFields(record) {
+  const stripped = {}
+  for (const field of REQUIRED_FIELDS) {
+    if (field in record) {
+      stripped[field] = record[field]
     }
   }
-  
-  writeFileSync(CACHE_PATH('global'), JSON.stringify(responseJSON, null, 0), 'utf-8')
-  console.log('Updated global cache')
-
-  return responseJSON
+  return stripped
 }
 
-async function fetchReportRecords(globalCacheJSON, reportId) {
-  console.log(`Fetching report records for ${reportId}...`)
+async function fetchReportRecords(reportId) {
+  console.log(`Fetching published records for report ${reportId}...`)
 
   const response = await fetchWithRetry(async () => {
-    const res = await fetch(`https://app.smartsuite.com/api/v1/applications/${SMART_SUITE_TABLE_ID_COMPANY}/records-for-report/?report=${reportId}&with_empty_values=false`, {
-      headers: {
-        'ACCOUNT-ID': SMART_SUITE_ACCOUNT_ID,
-        Authorization: `Token ${SMART_SUITE_APIKEY}`,
-      },
-    })
+    const res = await fetch(
+      `https://app.smartsuite.com/api/v1/applications/${SMART_SUITE_TABLE_ID_COMPANY}/records-for-report/?report=${reportId}&with_empty_values=false`,
+      {
+        headers: {
+          'ACCOUNT-ID': SMART_SUITE_ACCOUNT_ID,
+          Authorization: `Token ${SMART_SUITE_APIKEY}`,
+        },
+      }
+    )
 
     if (!res.ok) {
       if (res.status === 429) {
@@ -239,72 +203,97 @@ async function fetchReportRecords(globalCacheJSON, reportId) {
 
   const responseJSON = await response.json()
 
-  // Merge with global cache data
-  responseJSON.records.forEach((record, idx) => {
-    if (record.id) {
-      const recordFromGlobalCache = globalCacheJSON.items.find((item) => item.id === record.id)
-      if (recordFromGlobalCache) {
-        responseJSON.records[idx] = recordFromGlobalCache
-      } else {
-        // Convert SmartDoc fields for records not in global cache
-        try {
-          const convertedFields = convertAllSmartDocFields(record)
-          Object.assign(record, convertedFields)
-        } catch (error) {
-          console.error(`Error converting SmartDoc fields to Markdown for record ${record.id}:`, error)
-          // Keep original fields as fallback
+  // Filter to published records only
+  const publishedRecords = responseJSON.records.filter((record) => record.sf4ad525dd)
+  console.log(`Filtered ${publishedRecords.length} published records from ${responseJSON.records.length} total`)
+
+  // Convert SmartDoc fields and strip unused fields
+  publishedRecords.forEach((record) => {
+    try {
+      const convertedFields = convertAllSmartDocFields(record)
+      Object.assign(record, convertedFields)
+    } catch (error) {
+      console.error(`Error converting SmartDoc fields for record ${record.id}:`, error)
+    }
+  })
+
+  const strippedRecords = publishedRecords.map(stripUnusedFields)
+
+  // Fetch images using smart rate limiting
+  console.log('Fetching images for records...')
+  await processBatch(strippedRecords, async (record) => {
+    const imageHandles = record.sc584fdf36 || []
+    if (imageHandles.length > 0) {
+      const imageUrls = []
+      for (const imageObj of imageHandles) {
+        if (imageObj?.handle) {
+          try {
+            const imageUrl = await fetchImageUrlFromHandle(imageObj.handle)
+            if (imageUrl) {
+              imageUrls.push(imageUrl)
+            }
+          } catch (error) {
+            console.error(`Error fetching image with handle ${imageObj.handle} for record ${record.id}:`, error)
+          }
         }
+      }
+
+      if (imageUrls.length > 0) {
+        record.image = imageUrls[0]
+        record.images = imageUrls
       }
     }
   })
 
-  // Fetch images using smart rate limiting
-  if (responseJSON.records) {
-    console.log('Fetching images for records...')
-    await processBatch(responseJSON.records, async (record) => {
-      const imageHandles = record.sc584fdf36 || []
-      if (imageHandles.length > 0) {
-        // Fetch all images, handling individual failures gracefully
-        const imageUrls = []
-        for (const imageObj of imageHandles) {
-          if (imageObj?.handle) {
-            try {
-              const imageUrl = await fetchImageUrlFromHandle(imageObj.handle)
-              if (imageUrl) {
-                imageUrls.push(imageUrl)
-              }
-            } catch (error) {
-              console.error(`Error fetching image with handle ${imageObj.handle} for record ${record.id}:`, error)
-              // Continue processing other images
-            }
-          }
-        }
-        
-        // Set the first image as the main image and all images in the images array
-        if (imageUrls.length > 0) {
-          record.image = imageUrls[0] // Keep first image in main image field
-          record.images = imageUrls   // Store all images in images array
-        }
-      }
+  const output = { records: strippedRecords }
+  writeFileSync(CACHE_PATH(reportId), JSON.stringify(output, null, 0), 'utf-8')
+  console.log(`Updated cache: ${strippedRecords.length} published records with ${REQUIRED_FIELDS.length} fields each`)
+
+  return output
+}
+
+function directoryLogoUrlFor(title, imageUrl) {
+  const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+  const localPath = `/nomad-directory-logos/${slug}.svg`
+  return imageUrl || localPath
+}
+
+async function regenerateLatestListings(reportId) {
+  if (reportId !== '6857167d82358a0f5e038c3f') return
+
+  console.log('Regenerating latest_directory_listings.json...')
+  const cachePath = CACHE_PATH(reportId)
+  const cache = JSON.parse(require('fs').readFileSync(cachePath, 'utf-8'))
+  
+  const latest = cache.records
+    .sort((a, b) => {
+      const aTime = a.last_updated?.on || a.first_created?.on || ''
+      const bTime = b.last_updated?.on || b.first_created?.on || ''
+      return bTime.localeCompare(aTime)
     })
-  }
+    .slice(0, 4)
+    .map((r) => ({
+      title: r.title,
+      category: r.sb685ab800?.label || '',
+      image: directoryLogoUrlFor(r.title, r.image && r.image !== '/logo.svg' ? r.image : ''),
+    }))
 
-  writeFileSync(CACHE_PATH(reportId), JSON.stringify(responseJSON, null, 0), 'utf-8')
-  console.log('Updated report cache')
-
-  return responseJSON
+  writeFileSync(
+    path.resolve(process.cwd(), 'src/utils/latest_directory_listings.json'),
+    JSON.stringify(latest, null, 2),
+    'utf-8'
+  )
+  console.log('Updated latest_directory_listings.json')
 }
 
 async function updateAllRecords(reportId) {
-  console.log(`Starting full cache update for report ${reportId}...`)
+  console.log(`Starting optimized cache update for report ${reportId}...`)
+  console.log(`Fetching only published records with ${REQUIRED_FIELDS.length} required fields`)
 
-  // Fetch global cache first
-  const globalCacheJSON = await fetchGlobalCache()
+  await fetchReportRecords(reportId)
+  await regenerateLatestListings(reportId)
 
-  // Fetch and update report records
-  await fetchReportRecords(globalCacheJSON, reportId)
-
-  console.log('Successfully updated all records in cache')
+  console.log('Successfully updated cache with optimized data')
 }
 
 if (!SMART_SUITE_APIKEY || !SMART_SUITE_ACCOUNT_ID || !SMART_SUITE_TABLE_ID_COMPANY || !REPORT_ID) {
