@@ -3,7 +3,7 @@ export const prerender = false
 
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import { createSupabaseServerClient } from '~/utils/supabase-server'
-import { fetchReportRecords } from '~/utils/smartsuite'
+// Removed fetchReportRecords import - no longer fetching full directory at runtime
 import { directoryLogoBoxClass, directoryLogoImageClass, directoryLogoImageClassFor, directoryLogoInitialClass, directoryLogoUrlFor } from '~/const/nomadDirectoryWhiteLogos'
 import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
 
@@ -55,22 +55,13 @@ const seo: SEOProps = {
   },
 }
 
-const { records = [] } = await fetchReportRecords('6857167d82358a0f5e038c3f')
-const listings = records
-  .filter((r: { sf4ad525dd?: boolean }) => r.sf4ad525dd)
-  .map((r: any) => ({
-    title: r.title || '',
-    category: r.sb685ab800?.label || '',
-    description: r.scea90e502 || '',
-    specialOffer: r.s5576966ee || '',
-    link: r.link || r.sb788c266b?.[0] || '',
-    image: directoryLogoUrlFor(r.title, r.image && r.image !== '/logo.svg' ? r.image : ''),
-    updated: r.last_updated?.on || r.first_created?.on || '',
-  }))
-  .filter((r: { title: string }) => r.title)
-  .sort((a: { updated: string }, b: { updated: string }) => b.updated.localeCompare(a.updated))
-
-const latest = listings.slice(0, 4)
+// Static examples of directory listings (no runtime fetch needed for this server-rendered page)
+const latest = [
+  { title: 'SafetyWing', category: 'Insurance', image: '/nomad-directory-logos/safetywing.svg' },
+  { title: 'Nomad List', category: 'Platform', image: '/nomad-directory-logos/nomad-list.svg' },
+  { title: 'Remote Year', category: 'Community Platform', image: '/nomad-directory-logos/remote-year.svg' },
+  { title: 'Airalo', category: 'eSim', image: '/nomad-directory-logos/airalo.svg' },
+]
 
 const fieldClass =
   'w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus-visible:ring-2 focus-visible:ring-yellow-400/50'
