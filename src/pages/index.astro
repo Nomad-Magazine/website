@@ -1048,10 +1048,7 @@ const seo: SEOProps = {
   }
   
   .sticker-3 {
-    position: absolute;
-    left: -9999px;
-    opacity: 0;
-    pointer-events: none;
+    display: none;
   }
   
   .sticker-4 {
@@ -1148,6 +1145,8 @@ const seo: SEOProps = {
     letter-spacing: 0.03em;
     box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
     transition: transform 0.2s;
+    white-space: nowrap;
+    width: max-content;
   }
   
   .category-badge:hover {
@@ -1155,8 +1154,8 @@ const seo: SEOProps = {
   }
   
   .badge-1 {
-    top: 25px;
-    left: 120px;
+    bottom: 80px;
+    left: 170px;
     transform: rotate(-6deg);
     z-index: 16;
   }
@@ -1185,7 +1184,42 @@ const seo: SEOProps = {
     }
   }
   
-  @media(max-width:768px){
+  @media(max-width:1024px){
+    .sticker-2 {
+      top: 140px;
+      left: 10px;
+    }
+    .sticker-5 {
+      top: 140px;
+      right: 120px;
+    }
+    .sticker-6 {
+      top: 220px;
+      right: 160px;
+    }
+    .sticker-8 {
+      top: 140px;
+      left: 40%;
+    }
+    .sticker-9 {
+      top: 220px;
+      left: 60%;
+    }
+    .sticker-10 {
+      bottom: 155px;
+      left: 100px;
+    }
+    .badge-1 {
+      bottom: 75px;
+      left: 180px;
+    }
+    .badge-2 {
+      top: 65px;
+      right: 180px;
+    }
+  }
+
+  @media(max-width:769px){
     .editorial-hero{
       grid-template-columns: 1fr;
       padding: 40px 16px;
@@ -1218,7 +1252,7 @@ const seo: SEOProps = {
       font-size: 12px;
     }
     .directory-collage {
-      min-height: 520px;
+      min-height: 580px;
       max-width: 100%;
       overflow: hidden;
     }
@@ -1244,7 +1278,7 @@ const seo: SEOProps = {
       padding: 4px 9px;
     }
     .sticker-1 {
-      top: 50px;
+      top: 65px;
       left: 15px;
       transform: rotate(-5deg);
     }
@@ -1254,12 +1288,7 @@ const seo: SEOProps = {
       transform: rotate(3deg);
     }
     .sticker-3 {
-      top: 310px;
-      left: 15px;
-      transform: rotate(-4deg);
-      position: absolute;
-      opacity: 1;
-      pointer-events: auto;
+      display: none;
     }
     .sticker-4 {
       top: 50px;
@@ -1288,10 +1317,7 @@ const seo: SEOProps = {
       transform: rotate(4deg);
     }
     .sticker-9, .sticker-10 {
-      position: absolute;
-      left: -9999px;
-      opacity: 0;
-      pointer-events: none;
+      display: none;
     }
     .magazine-mini img {
       width: 100px;
@@ -1307,17 +1333,17 @@ const seo: SEOProps = {
       transform: rotate(7deg);
     }
     .badge-1 {
-      top: 245px;
+      top: 380px;
       left: 50%;
       transform: translateX(-50%) rotate(-4deg);
     }
     .badge-2 {
-      top: 25px;
+      top: 55px;
       left: 50%;
       transform: translateX(-50%) rotate(3deg);
     }
     .badge-3 {
-      top: 375px;
+      bottom: 150px;
       left: 50%;
       transform: translateX(-50%) rotate(-5deg);
     }
