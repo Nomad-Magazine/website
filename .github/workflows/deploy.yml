@@ -55,7 +55,7 @@ jobs:
           sed -i 's/SMART_SUITE_ACCOUNT_ID_PLACEHOLDER/${{ secrets.SMART_SUITE_ACCOUNT_ID }}/g' dist/server/wrangler.json
           sed -i 's/SMART_SUITE_TABLE_ID_COMPANY_PLACEHOLDER/${{ secrets.SMART_SUITE_TABLE_ID_COMPANY }}/g' dist/server/wrangler.json
           node -e "const f='dist/server/wrangler.json';const c=JSON.parse(require('fs').readFileSync(f));delete c.legacy_env;require('fs').writeFileSync(f,JSON.stringify(c));"
-          output=$(bunx wrangler@latest deploy)
+          output=$(bunx wrangler@4.160.1 deploy)
           echo "$output"
           url=$(echo "$output" | grep -Eo 'https://[^[:space:]]*\.nomad-magazine\.com|https://[^[:space:]]*\.workers\.dev' | head -1)
           if [ -z "$url" ]; then
