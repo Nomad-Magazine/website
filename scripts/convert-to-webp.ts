@@ -33,8 +33,8 @@ async function convertToWebP() {
     </html>
   `)
   
-  await page.waitForFunction(() => window.webpData !== undefined)
-  const webpDataUrl = await page.evaluate(() => window.webpData)
+  await page.waitForFunction(() => (window as Window & { webpData?: string }).webpData !== undefined)
+  const webpDataUrl = await page.evaluate(() => (window as Window & { webpData?: string }).webpData ?? '')
   
   const webpBase64 = webpDataUrl.split(',')[1]
   const webpBuffer = Buffer.from(webpBase64, 'base64')
