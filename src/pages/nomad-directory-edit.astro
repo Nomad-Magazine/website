@@ -4,7 +4,8 @@ export const prerender = false
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import { createSupabaseServerClient } from '~/utils/supabase-server'
 import { directoryReturnTo } from '~/utils/directory-votes'
-import { fetchReportRecords } from '~/utils/smartsuite'
+// Trimmed cache (published listings only, ~0.6 MB) imported statically; this page renders on demand
+import directoryCache from '~/utils/nomad_cache_table_6857167d82358a0f5e038c3f.json'
 import { directoryLogoBoxClass, directoryLogoImageClass, directoryLogoImageClassFor, directoryLogoInitialClass, directoryLogoUrlFor } from '~/const/nomadDirectoryWhiteLogos'
 import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
 
@@ -60,7 +61,7 @@ const seo: SEOProps = {
   },
 }
 
-const { records = [] } = await fetchReportRecords('6857167d82358a0f5e038c3f')
+const records: any[] = (directoryCache as { records?: any[] }).records || []
 const listings = records
   .filter((r: { sf4ad525dd?: boolean }) => r.sf4ad525dd)
   .map((r: any) => ({

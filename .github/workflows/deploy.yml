@@ -29,6 +29,23 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - uses: oven-sh/setup-bun@v2
       - run: bun install
+      - name: Check cache file sizes
+        run: |
+          echo "Checking SmartSuite cache file sizes..."
+          for file in src/utils/nomad_cache_table_*.json; do
+            if [ -f "$file" ]; then
+              size=$(wc -c < "$file")
+              size_mb=$((size / 1024 / 1024))
+              echo "$file: $size_mb MB"
+              if [ $size -gt 3145728 ]; then
+                echo "ERROR: $file is over 3 MB ($size_mb MB)"
+                echo "Cache files must be optimized (published-only + minimal fields)"
+                echo "Run: node scripts/update-all-records.js with appropriate REPORT_ID"
+                exit 1
+              fi
+            fi
+          done
+          echo "✓ All cache files are under 3 MB limit"
       - run: bun run build
         env:
           STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
@@ -55,7 +72,7 @@ jobs:
           sed -i 's/SMART_SUITE_ACCOUNT_ID_PLACEHOLDER/${{ secrets.SMART_SUITE_ACCOUNT_ID }}/g' dist/server/wrangler.json
           sed -i 's/SMART_SUITE_TABLE_ID_COMPANY_PLACEHOLDER/${{ secrets.SMART_SUITE_TABLE_ID_COMPANY }}/g' dist/server/wrangler.json
           node -e "const f='dist/server/wrangler.json';const c=JSON.parse(require('fs').readFileSync(f));delete c.legacy_env;require('fs').writeFileSync(f,JSON.stringify(c));"
-          output=$(bunx wrangler@latest deploy)
+          output=$(bunx wrangler@4.160.1 deploy)
           echo "$output"
           url=$(echo "$output" | grep -Eo 'https://[^[:space:]]*\.nomad-magazine\.com|https://[^[:space:]]*\.workers\.dev' | head -1)
           if [ -z "$url" ]; then

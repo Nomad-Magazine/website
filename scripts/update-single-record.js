@@ -8,7 +8,52 @@ const SMART_SUITE_TABLE_ID_COMPANY = process.env.SMART_SUITE_TABLE_ID_COMPANY
 const RECORD_ID = process.env.RECORD_ID
 const REPORT_ID = process.env.REPORT_ID
 
+// Fields actually used by pages and scripts
+const REQUIRED_FIELDS = [
+  'id', 'title', 'link', 'image', 'images', 'sf4ad525dd', 'sb685ab800',
+  'scea90e502', 'description_markdown', 's5576966ee', 'sb788c266b',
+  'sed1a49986', 's2d652f699', 's43a4b2808', 's9744d6c51', 's9c0ff01ed',
+  's4ad525dd', 'sc584fdf36', 'first_created', 'last_updated',
+  'sd6842e687', 's16e7a9d78', 'sfca9050a8', 'sd07d77f5e', 'styrldtq', 's5716bab58',
+]
+
 const CACHE_PATH = (suffix = '') => path.resolve(process.cwd(), `src/utils/nomad_cache_table_${suffix}.json`)
+
+function shouldKeepRecord(record, reportId) {
+  // Directory table: keep only published records
+  if (reportId === '6857167d82358a0f5e038c3f') {
+    return record.sf4ad525dd === true
+  }
+  
+  // Distribution table: keep if ANY page would show it
+  if (reportId === '68614a111208586bd05d3c3a') {
+    const hasTitle = !!record.title
+    const hasDistributionFlag = record.s43a4b2808 === true
+    const isColiving = record.sb685ab800?.label?.toLowerCase() === 'coliving'
+    
+    // Keep if: (title AND distribution flag) OR (title AND coliving)
+    return hasTitle && (hasDistributionFlag || isColiving)
+  }
+  
+  // Default: keep all
+  return true
+}
+
+function stripUnusedFields(record) {
+  const stripped = {}
+  for (const field of REQUIRED_FIELDS) {
+    if (field in record) {
+      stripped[field] = record[field]
+    }
+  }
+  return stripped
+}
+
+function directoryLogoUrlFor(title, imageUrl) {
+  const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+  const localPath = `/nomad-directory-logos/${slug}.svg`
+  return imageUrl || localPath
+}
 
 async function fetchSingleRecord(recordId) {
   const response = await fetch(`https://app.smartsuite.com/api/v1/applications/${SMART_SUITE_TABLE_ID_COMPANY}/records/${recordId}/`, {
@@ -44,13 +89,46 @@ async function fetchImageUrlFromHandle(handle) {
   return data.url
 }
 
+async function regenerateLatestListings(reportId) {
+  if (reportId !== '6857167d82358a0f5e038c3f') return
+
+  console.log('Regenerating latest_directory_listings.json...')
+  const cachePath = CACHE_PATH(reportId)
+  if (!existsSync(cachePath)) return
+
+  const cache = JSON.parse(readFileSync(cachePath, 'utf-8'))
+  
+  const latest = cache.records
+    .sort((a, b) => {
+      const aTime = a.last_updated?.on || a.first_created?.on || ''
+      const bTime = b.last_updated?.on || b.first_created?.on || ''
+      return bTime.localeCompare(aTime)
+    })
+    .slice(0, 4)
+    .map((r) => ({
+      title: r.title,
+      category: r.sb685ab800?.label || '',
+      image: directoryLogoUrlFor(r.title, r.image && r.image !== '/logo.svg' ? r.image : ''),
+    }))
+
+  writeFileSync(
+    path.resolve(process.cwd(), 'src/utils/latest_directory_listings.json'),
+    JSON.stringify(latest, null, 2),
+    'utf-8'
+  )
+  console.log('Updated latest_directory_listings.json')
+}
+
 async function updateSingleRecord(recordId, reportId) {
   console.log(`Updating record: ${recordId} for report: ${reportId}`)
 
   // Fetch the single record
   const record = await fetchSingleRecord(recordId)
 
-  // Convert all SmartDoc fields to Markdown
+  // Check if record should be kept based on report-specific rules
+  const shouldKeep = shouldKeepRecord(record, reportId)
+
+  // Convert SmartDoc fields
   try {
     const convertedFields = convertAllSmartDocFields(record)
     Object.assign(record, convertedFields)
@@ -60,13 +138,11 @@ async function updateSingleRecord(recordId, reportId) {
     }
   } catch (error) {
     console.error(`Error converting SmartDoc fields to Markdown for record ${recordId}:`, error)
-    // Keep original fields as fallback
   }
 
   // Fetch images if available
   const imageHandles = record.sc584fdf36 || []
   if (imageHandles.length > 0) {
-    // Fetch all images, handling individual failures gracefully
     const imageUrls = []
     for (const imageObj of imageHandles) {
       if (imageObj?.handle) {
@@ -77,37 +153,18 @@ async function updateSingleRecord(recordId, reportId) {
           }
         } catch (error) {
           console.error(`Error fetching image with handle ${imageObj.handle} for record ${recordId}:`, error)
-          // Continue processing other images
         }
       }
     }
     
-    // Set the first image as the main image and all images in the images array
     if (imageUrls.length > 0) {
-      record.image = imageUrls[0] // Keep first image in main image field
-      record.images = imageUrls   // Store all images in images array
+      record.image = imageUrls[0]
+      record.images = imageUrls
     }
   }
 
-  // Update global cache
-  const globalCachePath = CACHE_PATH('global')
-  let globalCache = { items: [] }
-
-  if (existsSync(globalCachePath)) {
-    const existingGlobalCache = readFileSync(globalCachePath, 'utf-8')
-    globalCache = JSON.parse(existingGlobalCache)
-  }
-
-  // Update or add record in global cache
-  const existingIndex = globalCache.items.findIndex((item) => item.id === recordId)
-  if (existingIndex !== -1) {
-    globalCache.items[existingIndex] = record
-  } else {
-    globalCache.items.push(record)
-  }
-
-  writeFileSync(globalCachePath, JSON.stringify(globalCache, null, 0), 'utf-8')
-  console.log('Updated global cache')
+  // Strip to required fields
+  const strippedRecord = stripUnusedFields(record)
 
   // Update report cache
   const reportCachePath = CACHE_PATH(reportId)
@@ -118,16 +175,32 @@ async function updateSingleRecord(recordId, reportId) {
     reportCache = JSON.parse(existingReportCache)
   }
 
-  // Update or add record in report cache
   const existingReportIndex = reportCache.records.findIndex((item) => item.id === recordId)
-  if (existingReportIndex !== -1) {
-    reportCache.records[existingReportIndex] = record
+
+  if (shouldKeep) {
+    // Add or update record that should be kept
+    if (existingReportIndex !== -1) {
+      reportCache.records[existingReportIndex] = strippedRecord
+      console.log(`Updated record ${recordId} in cache`)
+    } else {
+      reportCache.records.push(strippedRecord)
+      console.log(`Added new record ${recordId} to cache`)
+    }
   } else {
-    reportCache.records.push(record)
+    // Remove record that no page would show
+    if (existingReportIndex !== -1) {
+      reportCache.records.splice(existingReportIndex, 1)
+      console.log(`Removed filtered-out record ${recordId} from cache`)
+    } else {
+      console.log(`Record ${recordId} filtered out and not in cache (no action needed)`)
+    }
   }
 
   writeFileSync(reportCachePath, JSON.stringify(reportCache, null, 0), 'utf-8')
-  console.log('Updated report cache')
+  console.log(`Updated report cache: ${reportCache.records.length} published records`)
+
+  // Regenerate latest listings if this is directory cache
+  await regenerateLatestListings(reportId)
 }
 
 if (!SMART_SUITE_APIKEY || !SMART_SUITE_ACCOUNT_ID || !SMART_SUITE_TABLE_ID_COMPANY || !RECORD_ID || !REPORT_ID) {

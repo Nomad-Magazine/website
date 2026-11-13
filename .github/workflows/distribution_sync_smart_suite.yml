@@ -53,7 +53,6 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add src/utils/nomad_cache_table_68614a111208586bd05d3c3a.json
-          git add src/utils/nomad_cache_table_global.json
           if [ "${{ github.event.client_payload.record_id }}" ]; then
             git diff --cached --quiet || git commit -m "chore: update nomad distribution record ${{ github.event.client_payload.record_id }} [ci skip]"
           else
