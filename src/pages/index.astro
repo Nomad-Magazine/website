@@ -1208,12 +1208,18 @@ const seo: SEOProps = {
       gap: 20px;
       padding: 20px;
       min-height: auto;
+      height: auto;
+      overflow: visible;
     }
     
     .collage-headline {
       position: static;
       text-align: center;
       margin-bottom: 10px;
+      top: auto;
+      left: auto;
+      right: auto;
+      bottom: auto;
     }
     
     .directory-collage > .sticker,
@@ -1231,40 +1237,58 @@ const seo: SEOProps = {
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
       max-width: 100%;
     }
     
     .collage-items .sticker,
     .collage-items .category-badge {
       position: static !important;
+      top: auto !important;
+      left: auto !important;
+      right: auto !important;
+      bottom: auto !important;
       margin: 0 !important;
       display: inline-flex !important;
     }
     
-    .sticker-1 { transform: rotate(-3deg) translateY(-5px); }
-    .sticker-2 { transform: rotate(2deg) translateY(3px); }
-    .sticker-3 { transform: rotate(-1deg) translateY(-2px); }
-    .sticker-4 { transform: rotate(3deg) translateY(4px); }
-    .sticker-5 { transform: rotate(-2deg) translateY(-3px); }
-    .sticker-6 { transform: rotate(1deg) translateY(2px); }
-    .sticker-7 { transform: rotate(-3deg) translateY(5px); }
-    .sticker-8 { transform: rotate(2deg) translateY(-4px); }
-    .sticker-9 { transform: rotate(-1deg) translateY(3px); }
-    .sticker-10 { transform: rotate(3deg) translateY(-2px); }
-    
-    .badge-1 { transform: rotate(-2deg); }
-    .badge-2 { transform: rotate(2deg); }
-    .badge-3 { transform: rotate(-3deg); }
-    
     .magazine-row {
+      position: static !important;
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 20px;
-      margin-top: 10px;
+      margin-top: 24px;
       flex-wrap: wrap;
+      top: auto !important;
+      left: auto !important;
+      right: auto !important;
+      bottom: auto !important;
     }
+    
+    .magazine-row .magazine-mini {
+      position: static !important;
+      top: auto !important;
+      left: auto !important;
+      right: auto !important;
+      bottom: auto !important;
+      margin: 0 !important;
+    }
+    
+    .sticker-1 { transform: rotate(-3deg) translateY(-2px); }
+    .sticker-2 { transform: rotate(2deg) translateY(1px); }
+    .sticker-3 { transform: rotate(-1deg) translateY(-1px); }
+    .sticker-4 { transform: rotate(3deg) translateY(2px); }
+    .sticker-5 { transform: rotate(-2deg) translateY(-1px); }
+    .sticker-6 { transform: rotate(1deg) translateY(1px); }
+    .sticker-7 { transform: rotate(-3deg) translateY(2px); }
+    .sticker-8 { transform: rotate(2deg) translateY(-2px); }
+    .sticker-9 { transform: rotate(-1deg) translateY(1px); }
+    .sticker-10 { transform: rotate(3deg) translateY(-1px); }
+    
+    .badge-1 { transform: rotate(-2deg); }
+    .badge-2 { transform: rotate(2deg); }
+    .badge-3 { transform: rotate(-3deg); }
     
     .magazine-1 {
       transform: rotate(-5deg);
@@ -1294,6 +1318,9 @@ const seo: SEOProps = {
     }
     .editorial-hero h1 {
       font-size: 36px;
+    }
+    .collage-items {
+      gap: 24px;
     }
     .hero-description {
       font-size: 16px;
