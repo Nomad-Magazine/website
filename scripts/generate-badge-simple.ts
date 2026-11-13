@@ -1,5 +1,5 @@
 import { chromium } from 'playwright'
-import { renderBadgeSvg, type BadgeData } from '../src/utils/directory-awards-render'
+import { renderAwardBadgeSvg, type AwardBadgeInput } from '../src/utils/award-badge/directory-award-badge'
 
 type AwardKind = 'week' | 'month' | 'year'
 
@@ -82,28 +82,28 @@ const fixtureAwardsLongName: DirectoryAward = {
 async function generateScreenshots() {
   console.log('Generating badge SVGs...')
   const svgs = fixtureAwards.map(award => {
-    const badgeData: BadgeData = {
+    const badgeInput: AwardBadgeInput = {
+      period: award.kind,
       businessName: award.listing_title,
-      period: award.kind === 'week' ? 'weekly' : award.kind === 'month' ? 'monthly' : 'yearly',
       dateLabel: awardPeriodLabel(award.kind, award.starts_at)
     }
-    return renderBadgeSvg(badgeData)
+    return renderAwardBadgeSvg(badgeInput)
   })
   
-  const badgeDataLongName: BadgeData = {
+  const badgeInputLongName: AwardBadgeInput = {
+    period: fixtureAwardsLongName.kind,
     businessName: fixtureAwardsLongName.listing_title,
-    period: fixtureAwardsLongName.kind === 'week' ? 'weekly' : fixtureAwardsLongName.kind === 'month' ? 'monthly' : 'yearly',
     dateLabel: awardPeriodLabel(fixtureAwardsLongName.kind, fixtureAwardsLongName.starts_at)
   }
-  const svgLongName = renderBadgeSvg(badgeDataLongName)
+  const svgLongName = renderAwardBadgeSvg(badgeInputLongName)
   
   console.log('Launching browser...')
   const browser = await chromium.launch()
   const context = await browser.newContext({ deviceScaleFactor: 2 })
   const page = await context.newPage()
   
-  // Light background v3
-  console.log('Rendering badges on light background (v3)...')
+  // Light background v4
+  console.log('Rendering badges on light background (v4)...')
   await page.setContent(`
     <!DOCTYPE html>
     <html>
@@ -115,10 +115,10 @@ async function generateScreenshots() {
     </body>
     </html>
   `)
-  await page.screenshot({ path: '/opt/cursor/artifacts/badges-light-v3.png', fullPage: true })
+  await page.screenshot({ path: '/opt/cursor/artifacts/badges-light-v4.png', fullPage: true })
   
-  // Dark background v3
-  console.log('Rendering badges on dark background (v3)...')
+  // Dark background v4
+  console.log('Rendering badges on dark background (v4)...')
   await page.setContent(`
     <!DOCTYPE html>
     <html>
@@ -130,10 +130,10 @@ async function generateScreenshots() {
     </body>
     </html>
   `)
-  await page.screenshot({ path: '/opt/cursor/artifacts/badges-dark-v3.png', fullPage: true })
+  await page.screenshot({ path: '/opt/cursor/artifacts/badges-dark-v4.png', fullPage: true })
   
-  // Long name test v3
-  console.log('Rendering long name badge (v3)...')
+  // Long name test v4
+  console.log('Rendering long name badge (v4)...')
   await page.setContent(`
     <!DOCTYPE html>
     <html>
@@ -145,13 +145,13 @@ async function generateScreenshots() {
     </body>
     </html>
   `)
-  await page.screenshot({ path: '/opt/cursor/artifacts/badges-longname-v3.png' })
+  await page.screenshot({ path: '/opt/cursor/artifacts/badges-longname-v4.png' })
   
   await browser.close()
   console.log('Screenshots saved to /opt/cursor/artifacts/')
-  console.log('- badges-light-v3.png')
-  console.log('- badges-dark-v3.png')
-  console.log('- badges-longname-v3.png')
+  console.log('- badges-light-v4.png')
+  console.log('- badges-dark-v4.png')
+  console.log('- badges-longname-v4.png')
 }
 
 generateScreenshots().catch(console.error)
