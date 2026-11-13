@@ -6,16 +6,15 @@ This is implemented in `20261112000003_directory_awards.sql`, public winner/resu
 
 | Award | UTC calendar period |
 | --- | --- |
-| Daily | Midnight to the next midnight |
 | Weekly | Monday midnight to the following Monday |
 | Monthly | First day of a month to the first day of the next month |
 | Yearly | January 1 to the following January 1 |
 
-The highest positive eligible vote total wins. All tied leaders share first place and receive **joint winner** badges. A period without eligible votes issues no badges. The public rules are at `/nomad_directory/awards/#rules`.
+The highest positive eligible vote total wins. All tied leaders share first place. A period without eligible votes issues no badges. The public rules are at `/nomad_directory/awards/#rules`.
 
-Each verified account's **first** upvote for a listing must have been received during the period, and that vote must be active at the closing instant. Removing and re-adding a vote preserves the first receipt timestamp, so it cannot manufacture a new daily/weekly/monthly/yearly vote. A vote exactly at midnight belongs to the new period; a withdrawal exactly at that boundary does not invalidate the preceding period. The listing must still be published when the award is finalized.
+Each verified account's **first** upvote for a listing must have been received during the period, and that vote must be active at the closing instant. Removing and re-adding a vote preserves the first receipt timestamp, so it cannot manufacture a new weekly/monthly/yearly vote. A vote exactly at midnight belongs to the new period; a withdrawal exactly at that boundary does not invalidate the preceding period. The listing must still be published when the award is finalized.
 
-The migration records the award launch timestamp. Earlier votes do not become retroactive awards, even if re-added. The inaugural periods count only votes received from launch onward; the calendar period labels remain the full day/week/month/year. Existing all-time directory totals and the one-vote-per-account model remain unchanged.
+The migration records the award launch timestamp. Earlier votes do not become retroactive awards, even if re-added. The inaugural periods count only votes received from launch onward; the calendar period labels remain the full week/month/year. Existing all-time directory totals and the one-vote-per-account model remain unchanged.
 
 ## Database and scheduled processing
 
@@ -24,16 +23,16 @@ The migration records the award launch timestamp. Earlier votes do not become re
 - Account deletion closes active intervals and removes the account ID from history before FK cascades. Anonymous history older than the previous UTC year is pruned after catch-up finalization. Live-account first-receipt history is retained to prevent repeated voting from resetting eligibility.
 - `directory_award_periods` records every finalized period, including empty periods. `directory_awards` freezes the winning listing ID, title, vote count and tie count. Later votes, withdrawals and listing renames do not rewrite these records.
 - `directory_finalize_awards()` is available only to `service_role`/database administration. It catches up all completed periods since launch and is idempotent under concurrent execution.
-- Supabase `pg_cron` job **`nomad-directory-awards`** runs `select public.directory_finalize_awards();` at **00:05 daily**, using Supabase's UTC/GMT cron timezone. Each run also settles any weekly, monthly and yearly periods that closed. No service-role key is added to the website.
+- Supabase `pg_cron` job **`nomad-directory-awards`** runs `select public.directory_finalize_awards();` at **00:05 daily**, using Supabase's UTC/GMT cron timezone. Each run settles any weekly, monthly and yearly periods that closed. No service-role key is added to the website.
 - Clients cannot mint awards, alter scores, backdate vote history or access private moderation reasons. Public RPCs expose only award/result metadata and current top-ten standings.
 
 Verified email and one vote per account do not prevent someone creating multiple email accounts. Existing Auth limits still apply. Reviewers can withdraw invalid awards; stronger fraud controls can be added based on observed abuse. Payments and affiliate commissions never influence these results.
 
 ## Public pages, embeds and management
 
-- `/nomad_directory/awards/`: daily/weekly/monthly/yearly results, paginated history, live standings and published rules. The existing homepage/header design is unchanged; the directory gets a small **Winners & badges** link.
+- `/nomad_directory/awards/`: weekly/monthly/yearly results, paginated history, live standings and published rules. The existing homepage/header design is unchanged; the directory gets a small **Winners & badges** link.
 - `/nomad_directory/awards/<award-id>/`: permanent verification page showing the awarded business, period, score, finalization time and badge. It preserves historical identity even if a business later renames itself.
-- `/nomad_directory/awards/<award-id>/badge.svg/`: a real 360 × 112 branded SVG with the business, award type and calendar period. Only an issued, active award receives an image. Unknown IDs return 404; withdrawn awards return 410. SVG text is escaped and the endpoint uses a restrictive CSP with no external resources.
+- `/nomad_directory/awards/<award-id>/badge.svg/`: a real 328 × 116 branded SVG with the business, award type and calendar period. Only an issued, active award receives an image. Unknown IDs return 404; withdrawn awards return 410. SVG text is escaped and the endpoint uses a restrictive CSP with no external resources.
 - `/console/badges/`: badges for the signed-in owner's listings, including verified legacy claims. Copyable HTML contains an image and a link back to the official verification page, accessible alt text, dimensions and safe new-tab attributes. There is no tracking script, pixel, installation step or required JavaScript on the business's website. Manual copying remains available without JavaScript.
 - `/console/admin/awards/`: reviewer-only withdrawal with a private reason. Withdrawal does not rewrite history or automatically award a runner-up. Verification pages show the withdrawal immediately; cached badge images may remain visible for up to five minutes.
 

@@ -6,7 +6,7 @@ begin
   if (select starts_at from public.directory_award_bounds('week','2026-01-01T14:00:00Z')) <> '2025-12-29T00:00:00Z' then raise exception 'ISO week boundary'; end if;
   if (select ends_at from public.directory_award_bounds('month','2024-02-29T23:59:59Z')) <> '2024-03-01T00:00:00Z' then raise exception 'Leap month boundary'; end if;
   if (select ends_at from public.directory_award_bounds('year','2025-12-31T23:59:59Z')) <> '2026-01-01T00:00:00Z' then raise exception 'Year boundary'; end if;
-  if (select ends_at from public.directory_award_bounds('day','2026-03-29T12:00:00Z')) <> '2026-03-30T00:00:00Z' then raise exception 'UTC/DST boundary'; end if;
+  if (select ends_at from public.directory_award_bounds('week','2026-03-29T12:00:00Z')) <> '2026-04-05T00:00:00Z' then raise exception 'UTC/DST boundary'; end if;
 end;
 $$;
 -- Isolate scoring fixtures from other test accounts inside this transaction.
@@ -30,13 +30,13 @@ select public.directory_finalize_awards();
 do $$
 declare before_count integer; after_count integer;
 begin
-  if (select count(*) from public.directory_public_awards(p_kind=>'day',p_limit=>1000) where starts_at='2025-02-28T00:00:00Z' and vote_count=1 and tied_winners=2) <> 2 then raise exception 'Day tie/exact-close withdrawal'; end if;
-  if exists(select 1 from public.directory_public_awards(p_kind=>'day',p_limit=>1000) where listing_id='award-sql-c') then raise exception 'Re-vote must not earn another daily vote'; end if;
-  if not exists(select 1 from public.directory_public_awards(p_kind=>'day',p_limit=>1000) where starts_at='2025-03-01T00:00:00Z' and listing_id='award-sql-a' and vote_count=1 and tied_winners=1) then raise exception 'Vote at midnight belongs to next day'; end if;
+  if (select count(*) from public.directory_public_awards(p_kind=>'week',p_limit=>1000) where starts_at='2025-02-24T00:00:00Z' and vote_count=1 and tied_winners=2) <> 2 then raise exception 'Week tie/exact-close withdrawal'; end if;
+  if exists(select 1 from public.directory_public_awards(p_kind=>'week',p_limit=>1000) where listing_id='award-sql-c') then raise exception 'Re-vote must not earn another weekly vote'; end if;
+  if not exists(select 1 from public.directory_public_awards(p_kind=>'week',p_limit=>1000) where starts_at='2025-03-03T00:00:00Z' and listing_id='award-sql-a' and vote_count=1 and tied_winners=1) then raise exception 'Vote at week boundary belongs to next week'; end if;
   if (select count(*) from public.directory_public_awards(p_kind=>'month',p_limit=>1000) where starts_at='2025-02-01T00:00:00Z' and tied_winners=2) <> 2 then raise exception 'Monthly tie'; end if;
   if not exists(select 1 from public.directory_public_awards(p_kind=>'year',p_limit=>1000) where starts_at='2025-01-01T00:00:00Z' and listing_id='award-sql-a' and vote_count=1) then raise exception 'Year-end active vote'; end if;
   if exists(select 1 from public.directory_award_periods where ends_at>now()) then raise exception 'Open period finalized'; end if;
-  if exists(select 1 from public.directory_award_periods p join public.directory_awards a on p.id=a.period_id where p.starts_at='2025-01-02T00:00:00Z' and p.kind='day') then raise exception 'Empty period issued a badge'; end if;
+  if exists(select 1 from public.directory_award_periods p join public.directory_awards a on p.id=a.period_id where p.starts_at='2025-01-06T00:00:00Z' and p.kind='week') then raise exception 'Empty period issued a badge'; end if;
   select count(*) into before_count from public.directory_awards;
   update public.directory_legacy_vote_targets set title='Renamed later' where listing_id='award-sql-a';
   update public.directory_vote_intervals set ended_at='2025-03-01T00:00:00Z' where history_id='11111111-0000-0000-0000-000000000004';

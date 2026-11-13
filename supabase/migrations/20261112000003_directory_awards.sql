@@ -321,7 +321,7 @@ revoke all on function public.directory_lock_vote_history(),public.directory_tra
 
 create table public.directory_award_periods (
   id uuid primary key default gen_random_uuid(),
-  kind text not null check(kind in ('day','week','month','year')),
+  kind text not null check(kind in ('week','month','year')),
   starts_at timestamptz not null,
   ends_at timestamptz not null check(ends_at > starts_at),
   finalized_at timestamptz not null default clock_timestamp(),
@@ -349,9 +349,9 @@ returns table(starts_at timestamptz,ends_at timestamptz)
 language plpgsql stable set search_path = '' set timezone = 'UTC' as $$
 declare beginning timestamptz;
 begin
-  if p_kind is null or p_kind not in ('day','week','month','year') then raise exception 'Invalid award period' using errcode='22023'; end if;
+  if p_kind is null or p_kind not in ('week','month','year') then raise exception 'Invalid award period' using errcode='22023'; end if;
   beginning := date_trunc(p_kind,p_at at time zone 'UTC') at time zone 'UTC';
-  return query select beginning,beginning + case p_kind when 'day' then interval '1 day' when 'week' then interval '1 week' when 'month' then interval '1 month' else interval '1 year' end;
+  return query select beginning,beginning + case p_kind when 'week' then interval '1 week' when 'month' then interval '1 month' else interval '1 year' end;
 end;
 $$;
 create function public.directory_award_listing_title(p_id text) returns text
@@ -372,7 +372,7 @@ begin
   perform pg_advisory_xact_lock(hashtextextended('directory-awards-ledger',0));
   cutoff := clock_timestamp();
   select starts_at into launch_at from public.directory_award_settings where singleton;
-  foreach period_kind in array array['day','week','month','year'] loop
+  foreach period_kind in array array['week','month','year'] loop
     select b.starts_at,b.ends_at into beginning,ending from public.directory_award_bounds(period_kind,launch_at) b;
     while ending <= cutoff loop
       period_key := null;
@@ -403,7 +403,7 @@ $$;
 revoke all on function public.directory_finalize_awards() from public,anon,authenticated;
 grant execute on function public.directory_finalize_awards() to service_role;
 
-create function public.directory_award_leaderboard(p_kind text default 'day')
+create function public.directory_award_leaderboard(p_kind text default 'week')
 returns table(listing_id text,listing_title text,vote_count bigint,starts_at timestamptz,ends_at timestamptz,awards_started_at timestamptz)
 language sql stable security definer set search_path = '' as $$
   with bounds as (select * from public.directory_award_bounds(p_kind,now())), scores as materialized (
