@@ -14,10 +14,30 @@ const REQUIRED_FIELDS = [
   'scea90e502', 'description_markdown', 's5576966ee', 'sb788c266b',
   'sed1a49986', 's2d652f699', 's43a4b2808', 's9744d6c51', 's9c0ff01ed',
   's4ad525dd', 'sc584fdf36', 'first_created', 'last_updated',
-  'sd6842e687', 's16e7a9d78', 'sfca9050a8',
+  'sd6842e687', 's16e7a9d78', 'sfca9050a8', 'sd07d77f5e', 'styrldtq', 's5716bab58',
 ]
 
 const CACHE_PATH = (suffix = '') => path.resolve(process.cwd(), `src/utils/nomad_cache_table_${suffix}.json`)
+
+function shouldKeepRecord(record, reportId) {
+  // Directory table: keep only published records
+  if (reportId === '6857167d82358a0f5e038c3f') {
+    return record.sf4ad525dd === true
+  }
+  
+  // Distribution table: keep if ANY page would show it
+  if (reportId === '68614a111208586bd05d3c3a') {
+    const hasTitle = !!record.title
+    const hasDistributionFlag = record.s43a4b2808 === true
+    const isColiving = record.sb685ab800?.label?.toLowerCase() === 'coliving'
+    
+    // Keep if: (title AND distribution flag) OR (title AND coliving)
+    return hasTitle && (hasDistributionFlag || isColiving)
+  }
+  
+  // Default: keep all
+  return true
+}
 
 function stripUnusedFields(record) {
   const stripped = {}
@@ -105,8 +125,8 @@ async function updateSingleRecord(recordId, reportId) {
   // Fetch the single record
   const record = await fetchSingleRecord(recordId)
 
-  // Check if record is published
-  const isPublished = record.sf4ad525dd
+  // Check if record should be kept based on report-specific rules
+  const shouldKeep = shouldKeepRecord(record, reportId)
 
   // Convert SmartDoc fields
   try {
@@ -157,22 +177,22 @@ async function updateSingleRecord(recordId, reportId) {
 
   const existingReportIndex = reportCache.records.findIndex((item) => item.id === recordId)
 
-  if (isPublished) {
-    // Add or update published record
+  if (shouldKeep) {
+    // Add or update record that should be kept
     if (existingReportIndex !== -1) {
       reportCache.records[existingReportIndex] = strippedRecord
-      console.log(`Updated published record ${recordId} in cache`)
+      console.log(`Updated record ${recordId} in cache`)
     } else {
       reportCache.records.push(strippedRecord)
-      console.log(`Added new published record ${recordId} to cache`)
+      console.log(`Added new record ${recordId} to cache`)
     }
   } else {
-    // Remove unpublished record from cache
+    // Remove record that no page would show
     if (existingReportIndex !== -1) {
       reportCache.records.splice(existingReportIndex, 1)
-      console.log(`Removed unpublished record ${recordId} from cache`)
+      console.log(`Removed filtered-out record ${recordId} from cache`)
     } else {
-      console.log(`Record ${recordId} is unpublished and not in cache (no action needed)`)
+      console.log(`Record ${recordId} filtered out and not in cache (no action needed)`)
     }
   }
 

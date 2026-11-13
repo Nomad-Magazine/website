@@ -13,8 +13,28 @@ const REQUIRED_FIELDS = [
   'scea90e502', 'description_markdown', 's5576966ee', 'sb788c266b',
   'sed1a49986', 's2d652f699', 's43a4b2808', 's9744d6c51', 's9c0ff01ed',
   's4ad525dd', 'sc584fdf36', 'first_created', 'last_updated',
-  'sd6842e687', 's16e7a9d78', 'sfca9050a8',
+  'sd6842e687', 's16e7a9d78', 'sfca9050a8', 'sd07d77f5e', 'styrldtq', 's5716bab58',
 ]
+
+function shouldKeepRecord(record, reportId) {
+  // Directory table: keep only published records
+  if (reportId === '6857167d82358a0f5e038c3f') {
+    return record.sf4ad525dd === true
+  }
+  
+  // Distribution table: keep if ANY page would show it
+  if (reportId === '68614a111208586bd05d3c3a') {
+    const hasTitle = !!record.title
+    const hasDistributionFlag = record.s43a4b2808 === true
+    const isColiving = record.sb685ab800?.label?.toLowerCase() === 'coliving'
+    
+    // Keep if: (title AND distribution flag) OR (title AND coliving)
+    return hasTitle && (hasDistributionFlag || isColiving)
+  }
+  
+  // Default: keep all
+  return true
+}
 
 // Dynamic rate limiting based on API headers
 let rateLimitInfo = {
@@ -175,7 +195,7 @@ function stripUnusedFields(record) {
 }
 
 async function fetchReportRecords(reportId) {
-  console.log(`Fetching published records for report ${reportId}...`)
+  console.log(`Fetching records for report ${reportId}...`)
 
   const response = await fetchWithRetry(async () => {
     const res = await fetch(
@@ -203,12 +223,20 @@ async function fetchReportRecords(reportId) {
 
   const responseJSON = await response.json()
 
-  // Filter to published records only
-  const publishedRecords = responseJSON.records.filter((record) => record.sf4ad525dd)
-  console.log(`Filtered ${publishedRecords.length} published records from ${responseJSON.records.length} total`)
+  // Filter based on report-specific rules
+  const filteredRecords = responseJSON.records.filter((record) => shouldKeepRecord(record, reportId))
+  console.log(`Filtered ${filteredRecords.length} records from ${responseJSON.records.length} total`)
+  
+  if (reportId === '6857167d82358a0f5e038c3f') {
+    console.log(`  → Directory: kept published records only (sf4ad525dd = true)`)
+  } else if (reportId === '68614a111208586bd05d3c3a') {
+    const distCount = filteredRecords.filter(r => r.s43a4b2808).length
+    const colivingCount = filteredRecords.filter(r => r.sb685ab800?.label?.toLowerCase() === 'coliving').length
+    console.log(`  → Distribution: kept ${distCount} with distribution flag + ${colivingCount} coliving`)
+  }
 
   // Convert SmartDoc fields and strip unused fields
-  publishedRecords.forEach((record) => {
+  filteredRecords.forEach((record) => {
     try {
       const convertedFields = convertAllSmartDocFields(record)
       Object.assign(record, convertedFields)
@@ -217,7 +245,7 @@ async function fetchReportRecords(reportId) {
     }
   })
 
-  const strippedRecords = publishedRecords.map(stripUnusedFields)
+  const strippedRecords = filteredRecords.map(stripUnusedFields)
 
   // Fetch images using smart rate limiting
   console.log('Fetching images for records...')
