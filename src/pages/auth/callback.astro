@@ -1,12 +1,12 @@
 ---
 import { createSupabaseServerClient } from '~/utils/supabase-server'
 import type { EmailOtpType } from '@supabase/supabase-js'
-import { directoryReturnTo } from '~/utils/directory-votes'
+import { consumeDirectoryReturn } from '~/utils/directory-auth'
 
 const supabase = createSupabaseServerClient(Astro.request, Astro.cookies)
 
 const url = new URL(Astro.request.url)
-const next = directoryReturnTo(url.searchParams.get('next'))
+const next = consumeDirectoryReturn(Astro.cookies, url)
 const loginUrl = (message = '') => `/nomad-directory-edit/?${new URLSearchParams({ ...(next !== '/console/' ? { next } : {}), ...(message ? { error: message } : {}) })}`
 Astro.response.headers.set('Cache-Control', 'private, no-store')
 const code = url.searchParams.get('code')

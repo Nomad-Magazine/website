@@ -4,6 +4,7 @@ export const prerender = false
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import { createSupabaseServerClient } from '~/utils/supabase-server'
 import { directoryReturnTo } from '~/utils/directory-votes'
+import { sendDirectoryLogin } from '~/utils/directory-auth'
 // Trimmed cache (published listings only, ~0.6 MB) imported statically; this page renders on demand
 import directoryCache from '~/utils/nomad_cache_table_6857167d82358a0f5e038c3f.json'
 import { directoryLogoBoxClass, directoryLogoImageClass, directoryLogoImageClassFor, directoryLogoInitialClass, directoryLogoUrlFor } from '~/const/nomadDirectoryWhiteLogos'
@@ -28,13 +29,7 @@ if (Astro.request.method === 'POST') {
   if (!email) {
     error = 'Enter your email address.'
   } else {
-    const { error: authError } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        emailRedirectTo: `${url.origin}/auth/callback/${next !== '/console/' ? `?${new URLSearchParams({ next })}` : ''}`,
-        shouldCreateUser: true,
-      },
-    })
+    const { error: authError } = await sendDirectoryLogin(supabase, Astro.cookies, url, email)
     if (authError) {
       error = authError.message
     } else {

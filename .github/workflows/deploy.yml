@@ -29,6 +29,8 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - uses: oven-sh/setup-bun@v2
       - run: bun install
+      - name: Check directory login return flow
+        run: bun test scripts/directory-auth.test.mjs
       - name: Check cache file sizes
         run: |
           echo "Checking SmartSuite cache file sizes..."
@@ -58,6 +60,8 @@ jobs:
           SMART_SUITE_ACCOUNT_ID: ${{ secrets.SMART_SUITE_ACCOUNT_ID }}
           SMART_SUITE_TABLE_ID_COMPANY: ${{ secrets.SMART_SUITE_TABLE_ID_COMPANY }}
       - run: bun run seo:check
+      - name: Verify hosted Auth accepts the production callback
+        run: node scripts/check-directory-auth-redirect.mjs
       - name: Deploy to Production
         id: prod_deploy
         run: |
