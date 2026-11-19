@@ -6,7 +6,7 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-03-01T09:09:46.584Z
-updated_at: 2025-03-01T18:03:48.175Z
+updated_at: 2026-11-19T14:31:39.000Z
 head_image: https://assets.seobotai.com/nomadgossip.com/67c27cd3d8e4215290f234a2-1740820407781.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: digital nomad cities, remote work, affordable living, coworking spaces, travel destinations, digital nomad visa

@@ -6,7 +6,7 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-02-28T02:55:34.028Z
-updated_at: 2025-03-01T18:02:27.584Z
+updated_at: 2026-11-19T14:31:39.000Z
 head_image: https://assets.seobotai.com/nomadgossip.com/67c10b709568c7c100a854de-1740711405547.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: digital nomad visa, remote work, travel, visa requirements, expatriate, relocation
