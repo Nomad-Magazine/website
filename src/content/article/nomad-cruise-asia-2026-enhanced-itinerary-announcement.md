@@ -20,7 +20,7 @@ next_blog: ''
 category: article
 ---
 
-# Next [Nomad Cruise](https://www.nomadcruise.com/?ref=7432&utm_source=aff) Sails Across Asia: A Bigger Adventure Awaits
+## Next [Nomad Cruise](https://www.nomadcruise.com/?ref=7432&utm_source=aff) Sails Across Asia: A Bigger Adventure Awaits
 
 [Nomad Cruise](https://www.nomadcruise.com/?ref=7432&utm_source=aff) just dropped the kind of update that makes every remote worker reach for their passport. The upcoming Asia voyage has been stretched into a **12-day playground at sea (February 14-25, 2026)**, which means more sunsets, more masterminds, and more chances to build your crew while hopping between four countries.
 

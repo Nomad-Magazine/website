@@ -15,7 +15,7 @@ published: true
 locale: en
 next_blog: ''
 ---
-# **Overview of Available Digital Nomad Visas**
+## **Overview of Available Digital Nomad Visas**
 
 [Digital nomad visas](https://www.nomadgossip.com/blog/remote-work-visas-top-10-countries-for-digital-nomads) let remote workers live in another country while working for employers or clients outside that country. These visas are different from tourist visas because they allow longer stays (90+ days), legal work, and often require proof of income. Over 40 countries now offer these visas, each with unique requirements and benefits. Here's what you need to know:
 

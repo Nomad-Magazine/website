@@ -7,19 +7,20 @@ import DirectoryEntryCard from '~/components/DirectoryEntryCard.astro'
 import { getDirectoryEntries, getDirectoryCategories, directoryCategoryUrl } from '~/utils/directory'
 import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
 
-let entries = await getDirectoryEntries()
-let updates: PublicUpdate[] = []
-let votes: VoteCount[] = []
-try {
-  ;[entries, updates, votes] = await Promise.all([getDirectoryEntries(true), readPublicDirectory<PublicUpdate>('directory_public_updates'), readPublicDirectory<VoteCount>('directory_vote_counts')])
-} catch {
+const [managedEntries, updates, votes] = await Promise.all([
+  getDirectoryEntries(true).catch(() => null),
+  readPublicDirectory<PublicUpdate>('directory_public_updates').catch(() => []),
+  readPublicDirectory<VoteCount>('directory_vote_counts').catch(() => null),
+])
+const entries = managedEntries ?? await getDirectoryEntries()
+if (managedEntries === null && !entries.length) {
   Astro.response.status = 503
   Astro.response.headers.set('Retry-After', '60')
 }
 Astro.response.headers.set('Cache-Control', 'public, max-age=0, must-revalidate')
 const total = entries.length
 const categories = getDirectoryCategories(entries)
-const voteCounts = new Map(votes.map(vote => [vote.listing_id, Number(vote.vote_count)]))
+const voteCounts = new Map(votes?.map(vote => [vote.listing_id, Number(vote.vote_count)]))
 const canonical = `${Astro.site}nomad_directory/`
 const description = 'Explore digital nomad tools, coliving, coworking spaces and communities. Search the Nomad Directory for services, member offers and resources for remote work.'
 const seo: SEOProps = {
@@ -138,7 +139,7 @@ const seo: SEOProps = {
             <select id="sort-select" aria-label="Sort listings"
               class="bg-white/10 border border-white/20 text-white text-sm rounded-lg px-3 py-1.5 focus-visible:ring-2 focus-visible:ring-yellow-400 focus:border-yellow-400 transition-all cursor-pointer">
               <option value="default">Default</option>
-              <option value="votes">Most upvoted</option>
+              {votes && <option value="votes">Most upvoted</option>}
               <option value="az">A → Z</option>
               <option value="za">Z → A</option>
             </select>
@@ -244,7 +245,7 @@ const seo: SEOProps = {
             </div>
 
             <!-- Cards -->
-            <div id="directory-container" class="space-y-4">{entries.map(entry => <DirectoryEntryCard entry={entry} votes={voteCounts.get(entry.id) || 0} updates={updates.filter(update => update.listing_id === entry.id)} />)}</div>
+            <div id="directory-container" class="space-y-4">{entries.map(entry => <DirectoryEntryCard entry={entry} votes={votes ? voteCounts.get(entry.id) ?? 0 : undefined} updates={updates.filter(update => update.listing_id === entry.id)} />)}</div>
 
             <!-- Empty state -->
             <div id="empty-state" class="hidden text-center py-20">

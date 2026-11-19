@@ -20,7 +20,7 @@ next_blog: ''
 category: article
 ---
 
-# The Rise of the Smart Nomad: How Tier 2 Cities Are Reshaping the Cost of Living in 2026
+## The Rise of the Smart Nomad: How Tier 2 Cities Are Reshaping the Cost of Living in 2026
 
 For the past decade, the digital nomad equation was simple: earn in a strong currency (USD, GBP, or EUR) and spend in a weak one. If you moved to Bali, Lisbon, or Mexico City, you could essentially hack your way to a luxury lifestyle for under $1,500 (€1,400) a month.
 

@@ -20,7 +20,7 @@ next_blog: ''
 category: article
 ---
 
-# Bucket-list Destinations: Powered by Pangea
+## Bucket-list Destinations: Powered by Pangea
 
 **Where digital nomads are dreaming of, and actually going, in 2025.**
 

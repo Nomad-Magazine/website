@@ -47,7 +47,7 @@ A few reasons this way of traveling works so well:
 
 ---
 
-# 📅 Your 2026 Digital Nomad Event Calendar
+## 📅 Your 2026 Digital Nomad Event Calendar
 
 *Below you'll find a complete month-by-month guide to the most exciting digital nomad events happening in the first half of 2026.*
 

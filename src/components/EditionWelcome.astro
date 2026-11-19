@@ -8,6 +8,6 @@ const { heading, bodyHtml }: Props = Astro.props
 ---
 
 <div class="mx-auto max-w-3xl px-4 py-16">
-  <h1 class="font-justme mb-6 text-center text-3xl md:text-4xl">{heading}</h1>
+  <h2 class="font-justme mb-6 text-center text-3xl md:text-4xl">{heading}</h2>
   <div class="prose prose-lg mx-auto mb-10 text-gray-800" set:html={bodyHtml} />
 </div>

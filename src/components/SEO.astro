@@ -1,12 +1,10 @@
 ---
-import { AstroFont } from 'astro-font'
-import { join } from 'node:path'
-import { createWebSiteSchema, ensureTrailingSlash, serializeJsonLd, type JsonLdSchema } from '~/utils/schema'
+import { isSearchLandingPage } from '~/utils/search-index.mjs'
+import { createWebPageSchema, ensureTrailingSlash, serializeJsonLd, type JsonLdSchema } from '~/utils/schema'
 
 interface Props {
   title?: string
   description?: string
-  url?: string
   image?: string
   canonical?: string
   author?: string
@@ -24,13 +22,12 @@ interface Props {
 const {
   title = 'Nomad Magazine - The First Global Digital Nomad Magazine',
   description = 'Remote Work, Nomadic Trends, Events, Industry Updates and More. Join the Nomad Newsletter for exclusive articles and inspiring stories.',
-  url = Astro.url,
   image = `${Astro.site}images/magazine-hold-against-chest.webp`,
-  canonical = Astro.url,
+  canonical = Astro.url.pathname,
   author = 'Martin Donadieu',
   keywords = 'digital nomad, remote work, travel, nomad lifestyle, coworking, nomad magazine, nomad community',
   audio = null,
-  ldJSON = createWebSiteSchema({ url: Astro.site?.toString() }),
+  ldJSON,
   ogType = 'website',
   publishedTime,
   modifiedTime,
@@ -40,63 +37,19 @@ const {
 } = Astro.props
 
 // Truncate description for meta tags
-const descSize = 170
+const descSize = 160
 let displayDescription = description
 if (description.length > descSize) {
-  displayDescription = `${description.substring(0, descSize - 3)}...`
+  displayDescription = `${description.slice(0, descSize - 3).replace(/\s+\S*$/, '').trimEnd()}...`
 }
 
 const titleFix = title || (image.split('/').pop() || '.').split('.')[0]
 
 // Ensure canonical URL has trailing slash
-const canonicalUrl = ensureTrailingSlash(canonical)
-const pageUrl = ensureTrailingSlash(url)
-
-const makeFontPath = (name: string) => join(process.cwd(), 'public', 'fonts', name)
+const canonicalUrl = ensureTrailingSlash(new URL(canonical, Astro.site))
+const socialImage = new URL(image, Astro.site).href
+const pageSchema = ldJSON ?? createWebPageSchema({ name: title, description, url: canonicalUrl, image: socialImage })
 ---
-
-<AstroFont
-  config={[
-    {
-      src: [
-        {
-          style: 'normal',
-          weight: '400',
-          path: makeFontPath('JustMeAgainDownHere-Regular.ttf'),
-        },
-      ],
-      name: 'JustMeAgainDownHere',
-      preload: false,
-      display: 'swap',
-      fallback: 'sans-serif',
-      selector: '.font-justme',
-    },
-    {
-      src: [
-        {
-          style: 'variable',
-          weight: '100 900',
-          path: makeFontPath('inter-display/InterVariable.ttf'),
-        },
-      ],
-      name: 'Inter',
-      preload: false,
-      display: 'swap',
-      fallback: 'sans-serif',
-      selector: '.font-inter',
-    },
-    {
-      src: [],
-      fetch: true,
-      name: 'Caveat',
-      preload: false,
-      display: 'swap',
-      fallback: 'sans-serif',
-      selector: '.font-caveat',
-      googleFontsURL: 'https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap',
-    },
-  ]}
-/>
 
 <link rel="sitemap" href="/sitemap-index.xml" />
 
@@ -122,19 +75,17 @@ const makeFontPath = (name: string) => join(process.cwd(), 'public', 'fonts', na
 <meta name="description" content={displayDescription} />
 
 <!-- Open Graph / Facebook -->
-<meta property="og:url" content={pageUrl} />
+<meta property="og:url" content={canonicalUrl} />
 <meta property="og:title" content={title} />
 <meta property="og:type" content={ogType} />
 <meta property="og:locale" content="en_US" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="627" />
 <meta property="og:image:alt" content={titleFix} />
-<meta property="og:image:secure_url" content={image} />
-<meta property="og:image:url" content={image} />
-<meta property="og:image" content={image} />
+<meta property="og:image:secure_url" content={socialImage} />
+<meta property="og:image:url" content={socialImage} />
+<meta property="og:image" content={socialImage} />
 <meta property="og:image:type" content="image/webp" />
 <meta property="article:author" content={author} />
-<meta name="robots" content={noIndex ? "noindex, nofollow" : "index, follow"} />
+<meta name="robots" content={noIndex || !isSearchLandingPage(Astro.url.pathname) ? "noindex, nofollow" : "index, follow"} />
 
 {
   audio && (
@@ -157,14 +108,14 @@ const makeFontPath = (name: string) => join(process.cwd(), 'public', 'fonts', na
 <meta property="og:description" content={displayDescription} />
 
 <!-- Twitter -->
-<meta name="twitter:url" content={pageUrl} />
+<meta name="twitter:url" content={canonicalUrl} />
 <meta name="twitter:site" content="@nomadgossipmag" />
 <meta name="twitter:title" content={title} />
-<meta name="twitter:image" content={image} />
+<meta name="twitter:image" content={socialImage} />
 <meta name="twitter:image:alt" content={titleFix} />
 <meta name="twitter:creator" content="@martindonadieu" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:description" content={displayDescription} />
 
 <!-- Structured Data -->
-<script is:inline type="application/ld+json" set:html={serializeJsonLd(ldJSON)} />
+<script is:inline type="application/ld+json" set:html={serializeJsonLd(pageSchema)} />

@@ -9,7 +9,7 @@ export const GET: APIRoute = async () => {
     // At most 50,000 URLs per sitemap. History pages keep older awards crawlable.
     for (let offset = 0; offset < 50000; offset += 1000) {
       const batch = await readPublicDirectory<DirectoryAward>('directory_public_awards', { p_limit: 1000, p_offset: offset })
-      awards.push(...batch)
+      awards.push(...batch.filter(award => !award.revoked_at))
       if (batch.length < 1000) break
     }
     const xml = `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${awards.map(award => `<url><loc>${escapeMarkup(awardSite+awardPath(award))}</loc><lastmod>${new Date(award.finalized_at).toISOString()}</lastmod></url>`).join('')}</urlset>`

@@ -8,7 +8,7 @@ interface Props {
   updates?: PublicUpdate[]
   votes?: number
 }
-const { entry, updates = [], votes = 0 } = Astro.props
+const { entry, updates = [], votes } = Astro.props
 ---
 
 <article
@@ -97,6 +97,6 @@ const { entry, updates = [], votes = 0 } = Astro.props
         )
       }
     </div>
-    <DirectoryVote id={entry.id} title={entry.title} count={votes} />
+    {votes !== undefined && <DirectoryVote id={entry.id} title={entry.title} count={votes} />}
   </div>
 </article>

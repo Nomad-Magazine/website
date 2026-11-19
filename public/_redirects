@@ -1,19 +1,28 @@
-/feature-request /get-featured
-/nomad-directory /nomad_directory
-/directory /nomad_directory/
-/directory/ /nomad_directory/
-/about /our-story
-/sitemap.xml /sitemap-index.xml
+/feature-request /submit-project/ 301
+/feature-request/ /submit-project/ 301
+/get-featured /submit-project/ 301
+/get-featured/ /submit-project/ 301
+/nomad-directory /nomad_directory/ 301
+/nomad-directory/ /nomad_directory/ 301
+/directory /nomad_directory/ 301
+/directory/ /nomad_directory/ 301
+/about /our-story/ 301
+/about/ /our-story/ 301
+/sitemap.xml /sitemap-index.xml 301
 
-/coworking-spaces /coworking-contest
-/coworking-spaces/ /coworking-contest/
-/coworking-design-contest /coworking-contest
+/coworking-spaces /coworking-contest/ 301
+/coworking-spaces/ /coworking-contest/ 301
+/coworking-design-contest /coworking-contest/ 301
 
-/products/issue-001 /editions/first-edition
-/products/issue-002 /editions/second-edition
-/third-edition /editions/third-edition
-/nomad-magazine-edition-3 /flipbooks/5759f7b1-53e4-4eab-8cbb-c92e45ba00a5
-/coworking-design-contest/ /coworking-contest/
+/products/issue-001 /editions/first-edition/ 301
+/products/issue-001/ /editions/first-edition/ 301
+/products/issue-002 /editions/second-edition/ 301
+/products/issue-002/ /editions/second-edition/ 301
+/third-edition /editions/third-edition/ 301
+/third-edition/ /editions/third-edition/ 301
+/nomad-magazine-edition-3 /flipbooks/5759f7b1-53e4-4eab-8cbb-c92e45ba00a5/ 301
+/nomad-magazine-edition-3/ /flipbooks/5759f7b1-53e4-4eab-8cbb-c92e45ba00a5/ 301
+/coworking-design-contest/ /coworking-contest/ 301
 
 # Archived pages redirect to home
 /flat-plan /
@@ -48,26 +57,27 @@
 /nomad-weekly/ /
 
 # Blog to Articles redirects (moved content)
-/blog/travel-as-activism-deeper-than-travel /articles/travel-as-activism-deeper-than-travel/
-/blog/travel-as-activism-deeper-than-travel/ /articles/travel-as-activism-deeper-than-travel/
-/blog/nomad-cruise-asia-2026-enhanced-itinerary-announcement /articles/nomad-cruise-asia-2026-enhanced-itinerary-announcement/
-/blog/nomad-cruise-asia-2026-enhanced-itinerary-announcement/ /articles/nomad-cruise-asia-2026-enhanced-itinerary-announcement/
-/blog/thriving-in-e-commerce-engaging-customers-leveraging-technology-and-future-trends /articles/thriving-in-e-commerce-engaging-customers-leveraging-technology-and-future-trends/
-/blog/thriving-in-e-commerce-engaging-customers-leveraging-technology-and-future-trends/ /articles/thriving-in-e-commerce-engaging-customers-leveraging-technology-and-future-trends/
-/blog/italia-nomad-fest-2026-palermo-sicily-where-nomads-and-locals-reimagine-italy /articles/italia-nomad-fest-2026-palermo-sicily-where-nomads-and-locals-reimagine-italy/
-/blog/italia-nomad-fest-2026-palermo-sicily-where-nomads-and-locals-reimagine-italy/ /articles/italia-nomad-fest-2026-palermo-sicily-where-nomads-and-locals-reimagine-italy/
-/blog/bucket-list-destinations-powered-by-pangea-2025 /articles/bucket-list-destinations-powered-by-pangea-2025/
-/blog/bucket-list-destinations-powered-by-pangea-2025/ /articles/bucket-list-destinations-powered-by-pangea-2025/
-/blog/traveling-world-digital-nomad-events-2026 /articles/traveling-world-digital-nomad-events-2026/
-/blog/traveling-world-digital-nomad-events-2026/ /articles/traveling-world-digital-nomad-events-2026/
-/blog/unforgettable-lessons-traveling-across-asia-with-cat /articles/unforgettable-lessons-traveling-across-asia-with-cat/
-/blog/unforgettable-lessons-traveling-across-asia-with-cat/ /articles/unforgettable-lessons-traveling-across-asia-with-cat/
-/blog/tadaima-shimoda-2025-coliving-program-japan-digital-nomads-locals /articles/tadaima-2025-coliving-program-japan-digital-nomads-locals/
-/blog/tadaima-shimoda-2025-coliving-program-japan-digital-nomads-locals/ /articles/tadaima-2025-coliving-program-japan-digital-nomads-locals/
-/blog/tadaima-2025-coliving-program-japan-digital-nomads-locals /articles/tadaima-2025-coliving-program-japan-digital-nomads-locals/
-/blog/tadaima-2025-coliving-program-japan-digital-nomads-locals/ /articles/tadaima-2025-coliving-program-japan-digital-nomads-locals/
-/blog/insights-from-the-offsite-why-coliving-is-the-future-of-remote-work /articles/insights-from-the-offsite-why-coliving-is-the-future-of-remote-work/
-/blog/insights-from-the-offsite-why-coliving-is-the-future-of-remote-work/ /articles/insights-from-the-offsite-why-coliving-is-the-future-of-remote-work/
-/blog/colive-fukuoka-2025-nomad-fest-asia-japan /articles/colive-fukuoka-2025-nomad-fest-asia-japan/
-/blog/colive-fukuoka-2025-nomad-fest-asia-japan/ /articles/colive-fukuoka-2025-nomad-fest-asia-japan/
+/blog/travel-as-activism-deeper-than-travel /articles/travel-as-activism-deeper-than-travel/ 301
+/blog/travel-as-activism-deeper-than-travel/ /articles/travel-as-activism-deeper-than-travel/ 301
+/blog/nomad-cruise-asia-2026-enhanced-itinerary-announcement /articles/nomad-cruise-asia-2026-enhanced-itinerary-announcement/ 301
+/blog/nomad-cruise-asia-2026-enhanced-itinerary-announcement/ /articles/nomad-cruise-asia-2026-enhanced-itinerary-announcement/ 301
+/blog/thriving-in-e-commerce-engaging-customers-leveraging-technology-and-future-trends /articles/thriving-in-e-commerce-engaging-customers-leveraging-technology-and-future-trends/ 301
+/blog/thriving-in-e-commerce-engaging-customers-leveraging-technology-and-future-trends/ /articles/thriving-in-e-commerce-engaging-customers-leveraging-technology-and-future-trends/ 301
+/blog/italia-nomad-fest-2026-palermo-sicily-where-nomads-and-locals-reimagine-italy /articles/italia-nomad-fest-2026-palermo-sicily-where-nomads-and-locals-reimagine-italy/ 301
+/blog/italia-nomad-fest-2026-palermo-sicily-where-nomads-and-locals-reimagine-italy/ /articles/italia-nomad-fest-2026-palermo-sicily-where-nomads-and-locals-reimagine-italy/ 301
+/blog/bucket-list-destinations-powered-by-pangea-2025 /articles/bucket-list-destinations-powered-by-pangea-2025/ 301
+/blog/bucket-list-destinations-powered-by-pangea-2025/ /articles/bucket-list-destinations-powered-by-pangea-2025/ 301
+/blog/traveling-world-digital-nomad-events-2026 /articles/traveling-world-digital-nomad-events-2026/ 301
+/blog/traveling-world-digital-nomad-events-2026/ /articles/traveling-world-digital-nomad-events-2026/ 301
+/blog/unforgettable-lessons-traveling-across-asia-with-cat /articles/unforgettable-lessons-traveling-across-asia-with-cat/ 301
+/blog/unforgettable-lessons-traveling-across-asia-with-cat/ /articles/unforgettable-lessons-traveling-across-asia-with-cat/ 301
+/blog/tadaima-shimoda-2025-coliving-program-japan-digital-nomads-locals /articles/tadaima-2025-coliving-program-japan-digital-nomads-locals/ 301
+/blog/tadaima-shimoda-2025-coliving-program-japan-digital-nomads-locals/ /articles/tadaima-2025-coliving-program-japan-digital-nomads-locals/ 301
+/blog/tadaima-2025-coliving-program-japan-digital-nomads-locals /articles/tadaima-2025-coliving-program-japan-digital-nomads-locals/ 301
+/blog/tadaima-2025-coliving-program-japan-digital-nomads-locals/ /articles/tadaima-2025-coliving-program-japan-digital-nomads-locals/ 301
+/blog/insights-from-the-offsite-why-coliving-is-the-future-of-remote-work /articles/insights-from-the-offsite-why-coliving-is-the-future-of-remote-work/ 301
+/blog/insights-from-the-offsite-why-coliving-is-the-future-of-remote-work/ /articles/insights-from-the-offsite-why-coliving-is-the-future-of-remote-work/ 301
+/blog/colive-fukuoka-2025-nomad-fest-asia-japan /articles/colive-fukuoka-2025-nomad-fest-asia-japan/ 301
+/blog/colive-fukuoka-2025-nomad-fest-asia-japan/ /articles/colive-fukuoka-2025-nomad-fest-asia-japan/ 301
 /nomad-events/ /nomad_directory/ 301
+/nomad-events /nomad_directory/ 301
