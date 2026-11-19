@@ -11,13 +11,18 @@ import type { VoteCount } from '~/utils/directory-votes'
 import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
 import { directoryLogoBoxClass, directoryLogoImageClassFor, directoryLogoInitialClass, directoryLogoUrlFor } from '~/const/nomadDirectoryWhiteLogos'
 
-let records = (await fetchReportRecords('6857167d82358a0f5e038c3f')).records
-const originalRecords = records
-let votes: VoteCount[] = []
-try { [records, votes] = await Promise.all([getPublishedDirectoryRecords(), readPublicDirectory<VoteCount>('directory_vote_counts')]) } catch { Astro.response.status = 503; Astro.response.headers.set('Retry-After','60') }
-const voteCounts = new Map(votes.map(vote => [vote.listing_id, Number(vote.vote_count)]))
+const { records: originalRecords } = await fetchReportRecords('6857167d82358a0f5e038c3f')
+const [managedRecords, votes] = await Promise.all([
+  getPublishedDirectoryRecords().catch(() => null),
+  readPublicDirectory<VoteCount>('directory_vote_counts').catch(() => null),
+])
+const records = managedRecords ?? originalRecords
+const voteCounts = new Map(votes?.map(vote => [vote.listing_id, Number(vote.vote_count)]))
 Astro.response.headers.set('Cache-Control','public, max-age=0, must-revalidate')
 const route = directoryRoutes([...originalRecords,...records]).find(route => route.slug === Astro.params.slug)
+if (!route && managedRecords === null) {
+  return new Response('Directory temporarily unavailable', { status: 503, headers: { 'Retry-After': '60' } })
+}
 if (!route) return new Response('Directory page not found', {status:404})
 const { type, filterValue } = route
 const navCategories = getDirectoryCategories(getDirectoryEntriesFromRecords(records))
@@ -345,7 +350,7 @@ const seo: SEOProps = {
                           </div>
                         )}
                       </div>
-                      <DirectoryVote id={record.id} title={record.title} count={voteCounts.get(record.id) || 0} />
+                      {votes && <DirectoryVote id={record.id} title={record.title} count={voteCounts.get(record.id) ?? 0} />}
                     </div>
                   </div>
                 )

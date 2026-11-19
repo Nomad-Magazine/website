@@ -1,3 +1,4 @@
+import { isSearchLandingPage } from './src/utils/search-index.mjs'
 import {directoryRoutes} from './src/utils/directory-routes.mjs'
 import sitemap from '@astrojs/sitemap'
 import Icons from 'unplugin-icons/vite'
@@ -6,7 +7,7 @@ import cloudflare from '@astrojs/cloudflare'
 import pagefind from 'astro-pagefind'
 import { defineConfig, envField } from 'astro/config'
 import { glob } from 'glob'
-import { readFileSync, statSync } from 'node:fs'
+import { readFileSync } from 'node:fs'
 import { basename } from 'node:path'
 import rehypeExternalLinks from 'rehype-external-links'
 
@@ -17,7 +18,6 @@ const normalizeRouteSlug = (value) => value.trim().replace(/^['"]|['"]$/g, '').r
 function getContentRouteEntries(collection) {
   const files = glob.sync(`src/content/${collection}/*.md`)
   return files.map((file) => {
-    const stat = statSync(file)
     const content = readFileSync(file, 'utf-8')
     const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/)
     const frontmatter = frontmatterMatch?.[1] ?? ''
@@ -26,7 +26,7 @@ function getContentRouteEntries(collection) {
 
     return {
       slug: normalizeRouteSlug(slugMatch?.[1] ?? basename(file, '.md')),
-      lastmod: updatedAtMatch ? new Date(normalizeRouteSlug(updatedAtMatch[1])) : stat.mtime,
+      lastmod: updatedAtMatch ? new Date(normalizeRouteSlug(updatedAtMatch[1])) : undefined,
     }
   })
 }
@@ -65,23 +65,13 @@ function getPageLastModDates() {
     }
   }
 
-  // Get static page dates from file modification time
-  const pageFiles = glob.sync('src/pages/**/*.astro')
-  for (const file of pageFiles) {
-    const stat = statSync(file)
-    // Convert file path to URL path
-    let urlPath = file
-      .replace('src/pages', '')
-      .replace('/index.astro', '/')
-      .replace('.astro', '/')
-    if (!urlPath.endsWith('/')) urlPath += '/'
-    if (!lastModMap.has(urlPath)) {
-      lastModMap.set(urlPath, stat.mtime)
-    }
-  }
-
   return lastModMap
 }
+
+const redirectPaths = new Set(readFileSync('public/_redirects', 'utf8')
+  .split('\n')
+  .filter(line => line.startsWith('/'))
+  .map(line => line.split(/\s+/)[0]))
 
 const pageLastModDates = getPageLastModDates()
 
@@ -121,9 +111,7 @@ export default defineConfig({
     sitemap({
       customPages: [`${site}/nomad_directory/`, `${site}/nomad_directory/updates/`, `${site}/nomad_directory/awards/`, ...directoryRoutes(JSON.parse(readFileSync('src/utils/nomad_cache_table_6857167d82358a0f5e038c3f.json','utf8')).records).map(route => `${site}/nomad_directory/${route.slug}/`)],
       customSitemaps: [`${site}/nomad_directory/awards/sitemap/`],
-      changefreq: 'weekly',
-      priority: 0.7,
-      lastmod: new Date(),
+      filter: url => isSearchLandingPage(new URL(url).pathname) && !redirectPaths.has(new URL(url).pathname),
       serialize(item) {
         // Check if this URL matches a page with a known lastmod date
         const urlPath = new URL(item.url).pathname

@@ -1,4 +1,5 @@
 ---
+import NotFound from '../404.astro'
 import { getCollection } from 'astro:content'
 import ArticlePostPage from '~/components/ArticlePostPage.astro'
 import { normalizeContentEntries } from '~/utils/content'
@@ -7,9 +8,7 @@ const slug = Astro.params.slug
 const allPosts = normalizeContentEntries(await getCollection('article'))
 const post = allPosts.find((entry) => entry.slug === slug)
 
-if (!post) {
-  throw new Error(`Article post not found for slug: ${slug}`)
-}
+if (!post) Astro.response.status = 404
 ---
 
-<ArticlePostPage post={post} allPosts={allPosts} />
+{post ? <ArticlePostPage post={post} allPosts={allPosts} /> : <NotFound />}

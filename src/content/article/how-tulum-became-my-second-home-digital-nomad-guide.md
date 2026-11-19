@@ -19,7 +19,7 @@ next_blog: ''
 category: article
 ---
 
-# Learning to Live, Work, and Wander in Tulum
+## Learning to Live, Work, and Wander in Tulum
 
 I didn't expect a moment of distraction on a Zoom call to change my life, but on my second day in Tulum, it did. I was working from the tiny desk of a swim-up condo in Aldea Zama, half listening to a meeting, when I glanced outside and saw my friend and partner floating in the pool, glistening in the early afternoon sun. They were laughing about something I couldn't hear. My next meeting was in an hour. I slammed my laptop shut, rolled straight into the water for forty-five stolen minutes, and returned to work with wet hair and a startling thought: *Why don't we live like this more often?*
 

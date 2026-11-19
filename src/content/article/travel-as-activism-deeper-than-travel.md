@@ -20,7 +20,7 @@ next_blog: ''
 category: article
 ---
 
-# Travel as Activism
+## Travel as Activism
 
 *By Ms. Priyanka Surio*
 

@@ -15,7 +15,7 @@ published: true
 locale: en
 next_blog: ''
 ---
-# **Trending Digital Nomad Cities: Where to Go Now**
+## **Trending Digital Nomad Cities: Where to Go Now**
 
 Digital nomadism is booming, with millions of remote workers seeking cities that offer fast internet, affordable living, coworking spaces, and [digital nomad visas](https://www.nomadgossip.com/blog/remote-work-visas-top-10-countries-for-digital-nomads). Here are six top destinations for digital nomads in 2025, each offering unique benefits:
 

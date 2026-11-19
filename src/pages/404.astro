@@ -5,6 +5,7 @@ import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import MagazineStack from '~/components/MagazineStack.astro'
 
 const seoProps: SEOProps = {
+  noIndex: true,
   title: '404 - Page Not Found | Nomad Magazine',
   description: 'The page you were looking for could not be found. Explore our digital nomad magazine editions, articles about remote work, and inspiring nomad stories instead.',
   image: `${Astro.site}images/magazine-hold-against-chest.webp`,

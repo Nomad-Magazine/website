@@ -82,7 +82,7 @@ const seo: SEOProps = {
     {
       post.data.heroImage ? (
         <section class="relative h-[560px]">
-          <img src={post.data.heroImage} alt={post.data.heroImageAlt || post.data.title} class="absolute inset-0 h-full w-full object-cover" />
+          <img fetchpriority="high" src={post.data.heroImage} alt={post.data.heroImageAlt || post.data.title} class="absolute inset-0 h-full w-full object-cover" />
           <div class="absolute inset-0 bg-black/50" />
           <div class="relative mx-auto flex h-full max-w-4xl flex-col items-center justify-center px-8 text-center text-white">
             <h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">{post.data.title}</h1>
