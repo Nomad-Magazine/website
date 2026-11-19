@@ -1,5 +1,6 @@
 ---
 import { directoryImageUrl } from '~/utils/directory-public'
+import BusinessPicker from '~/components/console/BusinessPicker.astro'
 import ConsoleLayout from '~/layouts/console/ConsoleLayout.astro'
 import { createSupabaseServerClient } from '~/utils/supabase-server'
 import { loadWorkspace, workspaceError, type WorkspaceListing, type WorkspacePost } from '~/utils/directory-workspace'
@@ -96,10 +97,7 @@ const directory = await getDirectoryEntries()
       method="POST"
       aria-label="Claim an existing listing"
     >
-      <div class="field actions">
-        <label for="legacy-id">Your business</label><select id="legacy-id" name="legacy_id" required
-          ><option value="">Choose your business</option>{directory.map((entry) => <option value={entry.id}>{entry.title}</option>)}</select>
-      </div><button type="submit" class="button secondary">Verify and claim listing</button>
+      <BusinessPicker entries={directory} name="legacy_id" /><button type="submit" class="button secondary">Verify and claim listing</button>
     </form><p class="muted actions">Different contact email? <a href="mailto:hey@nomadgossip.com" class="link">Contact us to verify ownership</a>.</p>
   </section>
 </ConsoleLayout>
