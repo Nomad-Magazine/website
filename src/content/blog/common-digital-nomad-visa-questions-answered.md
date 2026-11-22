@@ -122,7 +122,7 @@ Make sure you meet the eligibility criteria and start gathering the necessary do
 | Online Submission | Upload required documents digitally. |
 | Embassy Appointment | Includes biometric data collection. |
 
-3\. **[Post-Submission Steps](https://www.nomadgossip.com/submit-project)**
+3\. **[Post-Submission Steps](https://form.smartsuite.com/s4tmc086/8sFlvrVlDC?redirect=https%3A//nomad-magazine.com/nomad-directory-boost-options)**
 
 Once approved, additional steps are often required within a set timeframe. For instance, Estonia and Germany require you to register locally within 7-14 days of arrival [\[2\]](https://www.globalpassport.ai/blog/the-ultimate-guide-to-digital-nomad-visas)[\[6\]](https://visaguide.world/digital-nomad-visa/). These final steps wrap up the process, but choosing the right destination involves understanding specific country programs, which we’ll cover next.
 
