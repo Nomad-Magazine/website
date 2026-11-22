@@ -6,13 +6,17 @@ import { awardKind, awardKinds, awardNames, awardPath, awardBadgePath, awardAlt,
 import '~/styles/directory.css'
 const kind = awardKind(Astro.url.searchParams.get('period'))
 const page = Math.min(10000, Math.max(1, Number.parseInt(Astro.url.searchParams.get('page') || '1', 10) || 1))
-let awards: DirectoryAward[] = [], leaders: AwardLeader[] = [], unavailable = false
+let awards: DirectoryAward[] = [], leaders: AwardLeader[] = []
 try {
-  ;[awards, leaders] = await Promise.all([
-    readPublicDirectory<DirectoryAward>('directory_public_awards', { p_kind: kind, p_limit: 25, p_offset: (page - 1) * 24 }),
-    readPublicDirectory<AwardLeader>('directory_award_leaderboard', { p_kind: kind }),
-  ])
-} catch { unavailable = true; Astro.response.status = 503; Astro.response.headers.set('Retry-After', '60') }
+  awards = await readPublicDirectory<DirectoryAward>('directory_public_awards', { p_kind: kind, p_limit: 25, p_offset: (page - 1) * 24 })
+} catch (error) {
+  console.error('Failed to load directory awards', error)
+}
+try {
+  leaders = await readPublicDirectory<AwardLeader>('directory_award_leaderboard', { p_kind: kind })
+} catch (error) {
+  console.error('Failed to load directory award leaderboard', error)
+}
 Astro.response.headers.set('Cache-Control', 'public, max-age=0, must-revalidate')
 const seo: SEOProps = {
   title: 'Nomad Directory Awards & Community Winners | Nomad Magazine',
@@ -34,29 +38,27 @@ const archiveLink = (p: number) => `/nomad_directory/awards/?period=${kind}&page
       <nav aria-label="Award periods" class="directory-actions my-8">
         {awardKinds.map(value => <a href={`/nomad_directory/awards/?period=${value}`} aria-current={value === kind ? 'page' : undefined} class={`directory-button ${value === kind ? '' : 'secondary'}`}>{awardNames[value]}</a>)}
       </nav>
-      {unavailable ? <p role="alert" class="directory-muted">Awards are temporarily unavailable. Please try again shortly.</p> : <>
-        <div class="section-heading"><div><h2>{awardNames[kind]} winners</h2><p class="directory-muted">Final results from completed periods. Tied leaders share first place.</p></div><a href="/console/badges/" class="directory-text-link">Your badges ↗</a></div>
-        {awards.length ? <div class="directory-grid">
-          {awards.slice(0,24).map(award => <article class="directory-card">
-            <p class="directory-eyebrow">{award.tied_winners > 1 ? 'Joint winner' : 'Winner'} · {awardPeriodLabel(award.kind,award.starts_at)}</p>
-            <h3 class="mt-4">{award.listing_title}</h3>
-            <p class="directory-muted">{award.vote_count} verified community {Number(award.vote_count) === 1 ? 'vote' : 'votes'}</p>
-            <a href={awardPath(award)} class="mt-6"><img src={awardBadgePath(award)} alt={awardAlt(award)} width="360" height="112" loading="lazy" class="h-auto w-full" /></a>
-            <a href={awardPath(award)} class="directory-text-link mt-5">View result & badge →</a>
-          </article>)}
-        </div> : <div class="directory-card"><h3>No {awardNames[kind].toLowerCase()} winners yet</h3><p class="directory-muted">Badges are issued after a period closes and only when it has eligible votes. The first winners will appear here.</p></div>}
-        <nav aria-label="Winner history pages" class="directory-actions mt-6">
-          {page > 1 && <a href={archiveLink(page-1)} class="directory-text-link">← Newer winners</a>}
-          {awards.length > 24 && <a href={archiveLink(page+1)} class="directory-text-link">Older winners →</a>}
-        </nav>
-        <section class="directory-section mt-12">
-          <h2>In the running</h2><p class="directory-muted mt-3">New votes in the current {kind}. These standings are live; a badge is earned only after the period closes.</p>
-          {leaders.length ? <>
-            <p class="directory-muted mt-3">Closes {new Date(leaders[0].ends_at).toLocaleString('en-GB',{timeZone:'UTC',dateStyle:'medium',timeStyle:'short'})} UTC.</p>
-            <ol class="mt-6 space-y-3">{leaders.map(leader => <li class="directory-card flex-row items-center justify-between gap-4"><a href={`/nomad_directory/#listing-${leader.listing_id}`} class="directory-text-link">{leader.listing_title}</a><span class="shrink-0 font-bold">▲ {leader.vote_count}</span></li>)}</ol>
-          </> : <p class="directory-muted mt-6">No eligible new votes in this period yet. <a href="/nomad_directory/" class="directory-text-link">Explore the directory and support a favorite.</a></p>}
-        </section>
-      </>}
+      <div class="section-heading"><div><h2>{awardNames[kind]} winners</h2><p class="directory-muted">Final results from completed periods. Tied leaders share first place.</p></div><a href="/console/badges/" class="directory-text-link">Your badges ↗</a></div>
+      {awards.length ? <div class="directory-grid">
+        {awards.slice(0,24).map(award => <article class="directory-card">
+          <p class="directory-eyebrow">{award.tied_winners > 1 ? 'Joint winner' : 'Winner'} · {awardPeriodLabel(award.kind,award.starts_at)}</p>
+          <h3 class="mt-4">{award.listing_title}</h3>
+          <p class="directory-muted">{award.vote_count} verified community {Number(award.vote_count) === 1 ? 'vote' : 'votes'}</p>
+          <a href={awardPath(award)} class="mt-6"><img src={awardBadgePath(award)} alt={awardAlt(award)} width="360" height="112" loading="lazy" class="h-auto w-full" /></a>
+          <a href={awardPath(award)} class="directory-text-link mt-5">View result & badge →</a>
+        </article>)}
+      </div> : <div class="directory-card"><h3>No {awardNames[kind].toLowerCase()} winners yet</h3><p class="directory-muted">Badges are issued after a period closes and only when it has eligible votes. The first winners will appear here.</p></div>}
+      <nav aria-label="Winner history pages" class="directory-actions mt-6">
+        {page > 1 && <a href={archiveLink(page-1)} class="directory-text-link">← Newer winners</a>}
+        {awards.length > 24 && <a href={archiveLink(page+1)} class="directory-text-link">Older winners →</a>}
+      </nav>
+      <section class="directory-section mt-12">
+        <h2>In the running</h2><p class="directory-muted mt-3">New votes in the current {kind}. These standings are live; a badge is earned only after the period closes.</p>
+        {leaders.length ? <>
+          <p class="directory-muted mt-3">Closes {new Date(leaders[0].ends_at).toLocaleString('en-GB',{timeZone:'UTC',dateStyle:'medium',timeStyle:'short'})} UTC.</p>
+          <ol class="mt-6 space-y-3">{leaders.map(leader => <li class="directory-card flex-row items-center justify-between gap-4"><a href={`/nomad_directory/#listing-${leader.listing_id}`} class="directory-text-link">{leader.listing_title}</a><span class="shrink-0 font-bold">▲ {leader.vote_count}</span></li>)}</ol>
+        </> : <p class="directory-muted mt-6">No eligible new votes in this period yet. <a href="/nomad_directory/" class="directory-text-link">Explore the directory and support a favorite.</a></p>}
+      </section>
       <section id="rules" class="directory-section">
         <h2>How a badge is earned</h2>
         <ul class="directory-muted mt-5 list-disc space-y-3 pl-5 max-w-4xl">
