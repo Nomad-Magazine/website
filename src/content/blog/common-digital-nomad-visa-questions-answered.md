@@ -6,7 +6,7 @@ author: Martin Donadieu
 author_image_url: https://avatars.githubusercontent.com/u/4084527?v=4
 author_url: https://github.com/riderx
 created_at: 2025-02-11T00:25:19.322Z
-updated_at: 2025-02-11T00:25:34.204Z
+updated_at: 2026-11-22T22:10:40.000Z
 head_image: https://assets.seobotai.com/nomadgossip.com/67a9585a762bb46adb4491b7-1739233534204.jpg
 head_image_alt: Digital Nomad Lifestyle
 keywords: Digital Nomad Visa, Remote Work, Visa Requirements, Expat Life, Income Requirements
