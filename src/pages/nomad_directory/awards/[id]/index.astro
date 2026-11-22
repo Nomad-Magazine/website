@@ -5,9 +5,13 @@ import AwardEmbed from '~/components/AwardEmbed.astro'
 import { getAward, awardNames, awardPeriodLabel, awardPath, type DirectoryAward } from '~/utils/directory-awards'
 import '~/styles/directory.css'
 let award: DirectoryAward | undefined, unavailable = false
-try { award = await getAward(Astro.params.id || '') } catch { unavailable = true }
-if (unavailable) { Astro.response.status = 503; Astro.response.headers.set('Retry-After','60') }
-else if (!award) Astro.response.status = 404
+try {
+  award = await getAward(Astro.params.id || '')
+} catch (error) {
+  unavailable = true
+  console.error('Failed to load directory award', error)
+}
+if (!unavailable && !award) Astro.response.status = 404
 Astro.response.headers.set('Cache-Control','public, max-age=0, must-revalidate')
 const heading = unavailable ? 'Award temporarily unavailable' : !award ? 'Award not found' : award.revoked_at ? 'This award has been withdrawn' : `${award.listing_title} is a ${awardNames[award.kind].toLowerCase()} ${award.tied_winners > 1 ? 'joint winner' : 'winner'}`
 const titlePrefix = award ? `${awardNames[award.kind]} Nomad Directory Award · ${award.starts_at.slice(0,10)} · ` : ''

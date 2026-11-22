@@ -12,7 +12,8 @@ export const GET: APIRoute = async ({ params }) => {
       'Content-Security-Policy': "default-src 'none'; style-src 'unsafe-inline'; sandbox",
       'X-Content-Type-Options': 'nosniff',
     } })
-  } catch {
-    return new Response('Badge temporarily unavailable', { status: 503, headers: { 'Retry-After': '60', 'Cache-Control': 'no-store' } })
+  } catch (error) {
+    console.error('Failed to load directory award badge', error)
+    return new Response('Badge not available', { status: 200, headers: { 'Cache-Control': 'no-store' } })
   }
 }
