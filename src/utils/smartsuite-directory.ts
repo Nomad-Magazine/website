@@ -1,5 +1,3 @@
-import { env } from 'cloudflare:workers'
-
 export const DIRECTORY_SUBMIT_URL = '/nomad-directory-submit/'
 
 export const DIRECTORY_CATEGORIES: { label: string; value: string }[] = [
@@ -74,9 +72,11 @@ function asRecord(value: unknown): SmartSuiteRecord {
 }
 
 function readEnv(name: 'SMART_SUITE_APIKEY' | 'SMART_SUITE_ACCOUNT_ID' | 'SMART_SUITE_TABLE_ID_COMPANY'): string {
-  const fromCf = (env as unknown as Record<string, string | undefined>)[name]
+  // Access from process.env at build time, or from import.meta.env at runtime.
+  // Cloudflare Workers 'env' binding is not accessible in Astro utility modules.
   const fromProcess = typeof process !== 'undefined' ? process.env[name] : undefined
-  const value = String(fromCf || fromProcess || '').trim()
+  const fromImportMeta = (import.meta as any).env?.[name]
+  const value = String(fromProcess || fromImportMeta || '').trim()
   if (!value || value.includes('PLACEHOLDER')) return ''
   return value
 }
