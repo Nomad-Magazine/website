@@ -8,7 +8,7 @@
     "seo:check:local": "seo-checker",
     "dev": "wrangler types && astro dev",
     "start": "wrangler types && astro dev",
-    "build": "wrangler types && astro check && astro build",
+    "build": "wrangler types && node scripts/cache-directory-logos.mjs && astro check && astro build",
     "preview": "wrangler types && astro preview",
     "format": "prettier --write '**/*' --ignore-unknown"
   },

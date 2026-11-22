@@ -29,8 +29,6 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - uses: oven-sh/setup-bun@v2
       - run: bun install
-      - name: Cache directory logos
-        run: node scripts/cache-directory-logos.mjs
       - name: Check directory login return flow
         run: bun test scripts/directory-auth.test.mjs
       - name: Check cache file sizes
