@@ -63,6 +63,7 @@ export function getDirectoryEntriesFromRecords(records: any[]): DirectoryEntry[]
     .filter((record) => record.sf4ad525dd && record.title)
     .map((record) => {
       const localLogo = `/images/directory-logos/${record.id}.webp`
+      const remoteImage = record.image?.startsWith('https://') ? record.image : ''
       return {
         id: String(record.id),
         title: String(record.title),
@@ -70,7 +71,7 @@ export function getDirectoryEntriesFromRecords(records: any[]): DirectoryEntry[]
         description: String(record.scea90e502 || ''),
         offer: String(record.s5576966ee || ''),
         website: websiteUrl(record.link || record.sb788c266b?.[0] || ''),
-        image: record.managedImage ? record.image : directoryLogoUrlOverrides[record.title] || (localLogos.has(`${record.id}.webp`) ? localLogo : ''),
+        image: record.managedImage ? record.image : directoryLogoUrlOverrides[record.title] || (localLogos.has(`${record.id}.webp`) ? localLogo : remoteImage),
       }
     })
 }
