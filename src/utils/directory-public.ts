@@ -11,7 +11,11 @@ export async function readPublicDirectory<T>(name: 'directory_public_listings' |
     body: JSON.stringify(args),
     signal: AbortSignal.timeout(5000),
   })
-  if (!response.ok) throw new Error('Directory publication data is unavailable')
+  if (!response.ok) {
+    const detail = await response.text().catch(() => '')
+    console.error(`Directory RPC ${name} failed`, response.status, detail)
+    throw new Error('Directory publication data is unavailable')
+  }
   return (await response.json()) as T[]
 }
 export type PublicUpdate = { id: string; listing_id: string; listing_title: string; payload: { title: string; body: string; url: string }; published_at: string }
