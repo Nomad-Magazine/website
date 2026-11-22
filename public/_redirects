@@ -10,9 +10,9 @@
 /about/ /our-story/ 301
 /sitemap.xml /sitemap-index.xml 301
 
-/coworking-spaces /coworking-contest/ 301
-/coworking-spaces/ /coworking-contest/ 301
-/coworking-design-contest /coworking-contest/ 301
+/coworking-spaces /editions/fourth-edition/ 301
+/coworking-spaces/ /editions/fourth-edition/ 301
+/coworking-design-contest /editions/fourth-edition/ 301
 
 /products/issue-001 /editions/first-edition/ 301
 /products/issue-001/ /editions/first-edition/ 301
@@ -22,7 +22,11 @@
 /third-edition/ /editions/third-edition/ 301
 /nomad-magazine-edition-3 /flipbooks/5759f7b1-53e4-4eab-8cbb-c92e45ba00a5/ 301
 /nomad-magazine-edition-3/ /flipbooks/5759f7b1-53e4-4eab-8cbb-c92e45ba00a5/ 301
-/coworking-design-contest/ /coworking-contest/ 301
+/coworking-design-contest/ /editions/fourth-edition/ 301
+/coworking-contest /editions/fourth-edition/ 301
+/coworking-contest/ /editions/fourth-edition/ 301
+/coworking-submission-confirmation /editions/fourth-edition/ 301
+/coworking-submission-confirmation/ /editions/fourth-edition/ 301
 
 # Archived pages redirect to home
 /flat-plan /
