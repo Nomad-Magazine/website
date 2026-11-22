@@ -1,0 +1,211 @@
+---
+import type { DirectoryEntry } from '~/utils/directory'
+interface Props {
+  entries: DirectoryEntry[]
+  name: string
+}
+const { entries, name } = Astro.props
+const sorted = [...entries].sort((a, b) => a.title.localeCompare(b.title))
+---
+
+<div class="business-picker" data-business-picker>
+  <label for="business-search">Your business</label>
+  <div class="business-picker-box">
+    <input
+      id="business-search"
+      type="text"
+      role="combobox"
+      aria-expanded="false"
+      aria-controls="business-options"
+      aria-autocomplete="list"
+      autocomplete="off"
+      placeholder={`Search ${sorted.length} businesses by name or category…`}
+      data-search
+    />
+    <input type="hidden" name={name} required data-value />
+    <ul id="business-options" role="listbox" class="business-options" hidden data-list>
+      {
+        sorted.map((entry) => (
+          <li
+            role="option"
+            id={`business-${entry.id}`}
+            data-id={entry.id}
+            data-title={entry.title}
+            data-search-text={`${entry.title} ${entry.category}`.toLowerCase()}
+            aria-selected="false"
+          >
+            {entry.image ? (
+              <img src={entry.image} alt="" width="32" height="32" loading="lazy" decoding="async" />
+            ) : (
+              <span class="business-initial" aria-hidden="true">
+                {entry.title.charAt(0).toUpperCase()}
+              </span>
+            )}
+            <span class="business-text">
+              <span class="business-title">{entry.title}</span>
+              {entry.category && <span class="business-category">{entry.category}</span>}
+            </span>
+          </li>
+        ))
+      }
+      <li class="business-empty" hidden data-empty>No business matches. Try another name.</li>
+    </ul>
+  </div>
+  <p class="business-selected muted" hidden data-selected></p>
+</div>
+
+<style>
+  .business-picker {
+    margin-bottom: 20px;
+  }
+  .business-picker-box {
+    position: relative;
+  }
+  .business-options {
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    max-height: 320px;
+    overflow-y: auto;
+    margin: 0;
+    padding: 6px;
+    list-style: none;
+    background: #1c2119;
+    border: 1px solid #6c795d;
+    border-radius: 10px;
+    box-shadow: 0 16px 40px rgb(0 0 0 / 45%);
+  }
+  .business-options [role='option'] {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 10px;
+    border-radius: 7px;
+    cursor: pointer;
+  }
+  .business-options [role='option'][data-active='true'],
+  .business-options [role='option']:hover {
+    background: #2b3324;
+  }
+  .business-options [role='option'][aria-selected='true'] .business-title {
+    color: #facc15;
+  }
+  .business-options img,
+  .business-initial {
+    flex: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 7px;
+    object-fit: cover;
+    background: #12170f;
+  }
+  .business-initial {
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    color: #facc15;
+    border: 1px solid #3e4836;
+  }
+  .business-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .business-title {
+    font-weight: 600;
+  }
+  .business-category {
+    font-size: 13px;
+    color: #aeb2ac;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .business-empty {
+    padding: 12px 10px;
+    color: #aeb2ac;
+  }
+  .business-selected {
+    margin: 8px 0 0;
+    font-size: 14px;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-business-picker]').forEach((root) => {
+    const search = root.querySelector<HTMLInputElement>('[data-search]')!
+    const value = root.querySelector<HTMLInputElement>('[data-value]')!
+    const list = root.querySelector<HTMLUListElement>('[data-list]')!
+    const empty = root.querySelector<HTMLLIElement>('[data-empty]')!
+    const selected = root.querySelector<HTMLParagraphElement>('[data-selected]')!
+    const options = Array.from(list.querySelectorAll<HTMLLIElement>('[role="option"]'))
+    let active = -1
+    const visible = () => options.filter((o) => !o.hidden)
+    const setOpen = (open: boolean) => {
+      list.hidden = !open
+      search.setAttribute('aria-expanded', String(open))
+    }
+    const setActive = (index: number) => {
+      const items = visible()
+      options.forEach((o) => o.removeAttribute('data-active'))
+      active = items.length ? (index + items.length) % items.length : -1
+      const item = items[active]
+      if (!item) return search.removeAttribute('aria-activedescendant')
+      item.dataset.active = 'true'
+      search.setAttribute('aria-activedescendant', item.id)
+      item.scrollIntoView({ block: 'nearest' })
+    }
+    const filter = () => {
+      const q = search.value.trim().toLowerCase()
+      options.forEach((o) => (o.hidden = !!q && !o.dataset.searchText!.includes(q)))
+      empty.hidden = visible().length > 0
+      setActive(0)
+    }
+    const choose = (option: HTMLLIElement) => {
+      options.forEach((o) => o.setAttribute('aria-selected', String(o === option)))
+      value.value = option.dataset.id!
+      search.value = option.dataset.title!
+      search.setCustomValidity('')
+      selected.hidden = false
+      selected.textContent = `Selected: ${option.dataset.title}`
+      setOpen(false)
+    }
+    search.addEventListener('focus', () => {
+      filter()
+      setOpen(true)
+    })
+    search.addEventListener('input', () => {
+      value.value = ''
+      selected.hidden = true
+      filter()
+      setOpen(true)
+    })
+    search.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault()
+        if (list.hidden) setOpen(true)
+        setActive(active + (event.key === 'ArrowDown' ? 1 : -1))
+      } else if (event.key === 'Enter' && !list.hidden) {
+        const item = visible()[active]
+        if (item) {
+          event.preventDefault()
+          choose(item)
+        }
+      } else if (event.key === 'Escape') setOpen(false)
+    })
+    list.addEventListener('mousedown', (event) => event.preventDefault())
+    list.addEventListener('click', (event) => {
+      const option = (event.target as HTMLElement).closest<HTMLLIElement>('[role="option"]')
+      if (option) choose(option)
+    })
+    search.addEventListener('blur', () => setOpen(false))
+    root.closest('form')?.addEventListener('submit', (event) => {
+      if (value.value) return
+      event.preventDefault()
+      search.setCustomValidity('Pick your business from the list.')
+      search.reportValidity()
+    })
+  })
+</script>
