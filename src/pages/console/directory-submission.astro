@@ -124,17 +124,15 @@ if (Astro.request.method === 'POST' && !error) {
             <div class="field">
               <>
                 <label for="description">Description</label>
-                <textarea id="description" name="description" minlength="20" maxlength="4000" rows="5" required>
-                  {values.description}
-                </textarea>
+                {/* prettier-ignore */}
+                <textarea id="description" name="description" minlength="20" maxlength="4000" rows="5" required>{values.description}</textarea>
               </>
             </div>
             <div class="field">
               <>
                 <label for="special-offer">Member offer (optional)</label>
-                <textarea id="special-offer" name="special_offer" maxlength="4000" rows="3">
-                  {values.special_offer}
-                </textarea>
+                {/* prettier-ignore */}
+                <textarea id="special-offer" name="special_offer" maxlength="4000" rows="3">{values.special_offer}</textarea>
               </>
             </div>
             <div class="field">
