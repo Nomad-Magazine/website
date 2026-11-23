@@ -1,4 +1,4 @@
-import { writeFileSync } from 'node:fs'
+import { readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { convertAllSmartDocFields } from './smartdoc-converter.js'
 
@@ -291,7 +291,7 @@ async function regenerateLatestListings(reportId) {
 
   console.log('Regenerating latest_directory_listings.json...')
   const cachePath = CACHE_PATH(reportId)
-  const cache = JSON.parse(require('fs').readFileSync(cachePath, 'utf-8'))
+  const cache = JSON.parse(readFileSync(cachePath, 'utf-8'))
   
   const latest = cache.records
     .sort((a, b) => {
