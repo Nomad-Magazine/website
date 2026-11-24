@@ -1,40 +1,18 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { convertAllSmartDocFields } from './smartdoc-converter.js'
+import { normalizeRecordCategoryField } from './directory-category-field.js'
+import { REQUIRED_FIELDS, shouldKeepRecord, stripUnusedFields } from './smartsuite-cache-fields.js'
+import {
+  fetchHydratedRecordsMap,
+  fetchRecordsForReport,
+  mergeReportWithHydratedRecords,
+} from './smartsuite-hydrated-fetch.js'
 
 const SMART_SUITE_APIKEY = process.env.SMART_SUITE_APIKEY ?? ''
 const SMART_SUITE_ACCOUNT_ID = process.env.SMART_SUITE_ACCOUNT_ID ?? ''
 const SMART_SUITE_TABLE_ID_COMPANY = process.env.SMART_SUITE_TABLE_ID_COMPANY ?? ''
 const REPORT_ID = process.env.REPORT_ID ?? ''
-
-// Fields actually used by pages and scripts
-const REQUIRED_FIELDS = [
-  'id', 'title', 'link', 'image', 'images', 'sf4ad525dd', 'sb685ab800',
-  'scea90e502', 'description_markdown', 's5576966ee', 'sb788c266b',
-  'sed1a49986', 's2d652f699', 's43a4b2808', 's9744d6c51', 's9c0ff01ed',
-  's4ad525dd', 'sc584fdf36', 'first_created', 'last_updated',
-  'sd6842e687', 's16e7a9d78', 'sfca9050a8', 'sd07d77f5e', 'styrldtq', 's5716bab58',
-]
-
-function shouldKeepRecord(record, reportId) {
-  // Directory table: keep only published records
-  if (reportId === '6857167d82358a0f5e038c3f') {
-    return record.sf4ad525dd === true
-  }
-  
-  // Distribution table: keep if ANY page would show it
-  if (reportId === '68614a111208586bd05d3c3a') {
-    const hasTitle = !!record.title
-    const hasDistributionFlag = record.s43a4b2808 === true
-    const isColiving = record.sb685ab800?.label?.toLowerCase() === 'coliving'
-    
-    // Keep if: (title AND distribution flag) OR (title AND coliving)
-    return hasTitle && (hasDistributionFlag || isColiving)
-  }
-  
-  // Default: keep all
-  return true
-}
 
 // Dynamic rate limiting based on API headers
 let rateLimitInfo = {
@@ -184,48 +162,24 @@ async function fetchImageUrlFromHandle(handle) {
   return data.url
 }
 
-function stripUnusedFields(record) {
-  const stripped = {}
-  for (const field of REQUIRED_FIELDS) {
-    if (field in record) {
-      stripped[field] = record[field]
-    }
-  }
-  return stripped
-}
-
 async function fetchReportRecords(reportId) {
   console.log(`Fetching records for report ${reportId}...`)
 
-  const response = await fetchWithRetry(async () => {
-    const res = await fetch(
-      `https://app.smartsuite.com/api/v1/applications/${SMART_SUITE_TABLE_ID_COMPANY}/records-for-report/?report=${reportId}&with_empty_values=false`,
-      {
-        headers: {
-          'ACCOUNT-ID': SMART_SUITE_ACCOUNT_ID,
-          Authorization: `Token ${SMART_SUITE_APIKEY}`,
-        },
-      }
-    )
+  const fetchCtx = {
+    accountId: SMART_SUITE_ACCOUNT_ID,
+    apiKey: SMART_SUITE_APIKEY,
+    tableId: SMART_SUITE_TABLE_ID_COMPANY,
+    reportId,
+    fetchWithRetry,
+  }
 
-    if (!res.ok) {
-      if (res.status === 429) {
-        const error = new Error(`Rate limited: ${res.statusText}`)
-        error.status = 429
-        error.headers = res.headers
-        throw error
-      }
-      throw new Error(`SmartSuite API error: ${res.status} ${res.statusText}`)
-    }
-
-    return res
-  })
-
-  const responseJSON = await response.json()
+  const responseJSON = await fetchRecordsForReport(fetchCtx)
+  const hydratedById = await fetchHydratedRecordsMap(fetchCtx)
+  const mergedRecords = mergeReportWithHydratedRecords(responseJSON.records, hydratedById)
 
   // Filter based on report-specific rules
-  const filteredRecords = responseJSON.records.filter((record) => shouldKeepRecord(record, reportId))
-  console.log(`Filtered ${filteredRecords.length} records from ${responseJSON.records.length} total`)
+  const filteredRecords = mergedRecords.filter((record) => shouldKeepRecord(record, reportId))
+  console.log(`Filtered ${filteredRecords.length} records from ${mergedRecords.length} hydrated report rows (${responseJSON.records.length} in view)`)
   
   if (reportId === '6857167d82358a0f5e038c3f') {
     console.log(`  → Directory: kept published records only (sf4ad525dd = true)`)
@@ -234,6 +188,8 @@ async function fetchReportRecords(reportId) {
     const colivingCount = filteredRecords.filter(r => r.sb685ab800?.label?.toLowerCase() === 'coliving').length
     console.log(`  → Distribution: kept ${distCount} with distribution flag + ${colivingCount} coliving`)
   }
+
+  filteredRecords.forEach(normalizeRecordCategoryField)
 
   // Convert SmartDoc fields and strip unused fields
   filteredRecords.forEach((record) => {

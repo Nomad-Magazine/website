@@ -1,6 +1,9 @@
 import { writeFileSync, readFileSync, existsSync } from 'node:fs'
 import path from 'node:path'
 import { convertAllSmartDocFields } from './smartdoc-converter.js'
+import { normalizeRecordCategoryField } from './directory-category-field.js'
+import { shouldKeepRecord, stripUnusedFields } from './smartsuite-cache-fields.js'
+import { fetchSingleHydratedRecord } from './smartsuite-hydrated-fetch.js'
 
 const SMART_SUITE_APIKEY = process.env.SMART_SUITE_APIKEY
 const SMART_SUITE_ACCOUNT_ID = process.env.SMART_SUITE_ACCOUNT_ID
@@ -8,66 +11,12 @@ const SMART_SUITE_TABLE_ID_COMPANY = process.env.SMART_SUITE_TABLE_ID_COMPANY
 const RECORD_ID = process.env.RECORD_ID
 const REPORT_ID = process.env.REPORT_ID
 
-// Fields actually used by pages and scripts
-const REQUIRED_FIELDS = [
-  'id', 'title', 'link', 'image', 'images', 'sf4ad525dd', 'sb685ab800',
-  'scea90e502', 'description_markdown', 's5576966ee', 'sb788c266b',
-  'sed1a49986', 's2d652f699', 's43a4b2808', 's9744d6c51', 's9c0ff01ed',
-  's4ad525dd', 'sc584fdf36', 'first_created', 'last_updated',
-  'sd6842e687', 's16e7a9d78', 'sfca9050a8', 'sd07d77f5e', 'styrldtq', 's5716bab58',
-]
-
 const CACHE_PATH = (suffix = '') => path.resolve(process.cwd(), `src/utils/nomad_cache_table_${suffix}.json`)
-
-function shouldKeepRecord(record, reportId) {
-  // Directory table: keep only published records
-  if (reportId === '6857167d82358a0f5e038c3f') {
-    return record.sf4ad525dd === true
-  }
-  
-  // Distribution table: keep if ANY page would show it
-  if (reportId === '68614a111208586bd05d3c3a') {
-    const hasTitle = !!record.title
-    const hasDistributionFlag = record.s43a4b2808 === true
-    const isColiving = record.sb685ab800?.label?.toLowerCase() === 'coliving'
-    
-    // Keep if: (title AND distribution flag) OR (title AND coliving)
-    return hasTitle && (hasDistributionFlag || isColiving)
-  }
-  
-  // Default: keep all
-  return true
-}
-
-function stripUnusedFields(record) {
-  const stripped = {}
-  for (const field of REQUIRED_FIELDS) {
-    if (field in record) {
-      stripped[field] = record[field]
-    }
-  }
-  return stripped
-}
 
 function directoryLogoUrlFor(title, imageUrl) {
   const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
   const localPath = `/nomad-directory-logos/${slug}.svg`
   return imageUrl || localPath
-}
-
-async function fetchSingleRecord(recordId) {
-  const response = await fetch(`https://app.smartsuite.com/api/v1/applications/${SMART_SUITE_TABLE_ID_COMPANY}/records/${recordId}/`, {
-    headers: {
-      'ACCOUNT-ID': SMART_SUITE_ACCOUNT_ID,
-      Authorization: `Token ${SMART_SUITE_APIKEY}`,
-    },
-  })
-
-  if (!response.ok) {
-    throw new Error(`SmartSuite API error: ${response.status} ${response.statusText}`)
-  }
-
-  return response.json()
 }
 
 async function fetchImageUrlFromHandle(handle) {
@@ -122,8 +71,13 @@ async function regenerateLatestListings(reportId) {
 async function updateSingleRecord(recordId, reportId) {
   console.log(`Updating record: ${recordId} for report: ${reportId}`)
 
-  // Fetch the single record
-  const record = await fetchSingleRecord(recordId)
+  const record = await fetchSingleHydratedRecord({
+    accountId: SMART_SUITE_ACCOUNT_ID,
+    apiKey: SMART_SUITE_APIKEY,
+    tableId: SMART_SUITE_TABLE_ID_COMPANY,
+    recordId,
+  })
+  normalizeRecordCategoryField(record)
 
   // Check if record should be kept based on report-specific rules
   const shouldKeep = shouldKeepRecord(record, reportId)
