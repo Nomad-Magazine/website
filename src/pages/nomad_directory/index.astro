@@ -67,9 +67,9 @@ const seo: SEOProps = {
         </h2>
         <p class="mx-auto max-w-3xl text-base text-gray-400 mb-5 italic">Because Google Doesn't Get Our Lifestyle</p>
         <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-6 text-sm text-gray-400">
-          <span class="flex items-center gap-1.5"><span class="text-yellow-400 font-bold">{total}</span> vetted companies</span>
+          <span class="flex items-center gap-1.5"><span class="text-yellow-400 font-bold">{total}</span> vetted {total === 1 ? 'company' : 'companies'}</span>
           <span class="text-gray-700 hidden sm:inline">·</span>
-          <span class="flex items-center gap-1.5"><span class="text-yellow-400 font-bold">{categories.length}</span> categories</span>
+          <span class="flex items-center gap-1.5"><span class="text-yellow-400 font-bold">{categories.length}</span> {categories.length === 1 ? 'category' : 'categories'}</span>
           <span class="text-gray-700 hidden sm:inline">·</span>
           <span class="flex items-center gap-1.5"><span class="text-yellow-400 font-bold">↻</span> updated regularly</span>
           <span class="text-gray-700 hidden sm:inline">·</span>
@@ -83,6 +83,13 @@ const seo: SEOProps = {
             class="inline-flex items-center gap-2 bg-black hover:bg-gray-900 border-2 border-yellow-400 px-8 py-3 rounded-lg text-yellow-400 font-bold text-lg transition-all duration-200">
             <MaterialSymbolsElectricBolt aria-hidden="true" width="20" height="20" />
             Join the Database
+          </a>
+          <a
+            href="/nomad-directory-edit/"
+            class="inline-flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/20 px-8 py-3 rounded-lg text-white font-semibold text-lg transition-all duration-200"
+            aria-label="Manage your Nomad Directory listing"
+          >
+            Manage your listing
           </a>
         </div>
         <p class="text-gray-400 text-sm">
@@ -135,7 +142,7 @@ const seo: SEOProps = {
       <div class="container mx-auto px-4 max-w-7xl">
         <!-- Stats + Sort bar (above both columns) -->
         <div class="flex items-center justify-between mb-4">
-          <span class="text-sm text-gray-400" role="status" aria-live="polite"><span class="text-yellow-400 font-bold text-xl" id="stat-showing">{total}</span> results</span>
+          <span class="text-sm text-gray-400" role="status" aria-live="polite"><span class="text-yellow-400 font-bold text-xl" id="stat-showing">{total}</span> <span id="stat-label">{total === 1 ? 'result' : 'results'}</span></span>
           <div class="flex items-center gap-2">
             <label for="sort-select" class="text-xs text-gray-400 uppercase tracking-wider">Sort</label>
             <select id="sort-select" aria-label="Sort listings"
@@ -404,6 +411,8 @@ const seo: SEOProps = {
       originalCards.forEach(card => card.hidden = true);
       empty && empty.classList.remove('hidden');
       document.getElementById('stat-showing').textContent='0';
+      const statLabel = document.getElementById('stat-label');
+      if (statLabel) statLabel.textContent = 'results';
       renderPagination();
       return;
     }
@@ -445,6 +454,8 @@ const seo: SEOProps = {
 
     const stat = document.getElementById('stat-showing');
     if (stat) stat.textContent = filtered.length;
+    const statLabel = document.getElementById('stat-label');
+    if (statLabel) statLabel.textContent = filtered.length === 1 ? 'result' : 'results';
   }
 
   function applyFilters(resetPage) {

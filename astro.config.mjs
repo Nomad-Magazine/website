@@ -77,6 +77,16 @@ const pageLastModDates = getPageLastModDates()
 
 export default defineConfig({
   output: 'server',
+  redirects: {
+    '/login': '/nomad-directory-edit/',
+    '/login/': '/nomad-directory-edit/',
+    '/signin': '/nomad-directory-edit/',
+    '/signin/': '/nomad-directory-edit/',
+    '/account': '/nomad-directory-edit/',
+    '/account/': '/nomad-directory-edit/',
+    '/claim': '/nomad-directory-edit/',
+    '/claim/': '/nomad-directory-edit/',
+  },
   experimental: {
     rustCompiler: true,
   },
