@@ -1,4 +1,5 @@
 ---
+import { latestEditionPath } from '~/const/latestEdition'
 import IsIconDownOutline from '~icons/lsicon/down-outline'
 import CloseIcon from '~icons/material-symbols-light/close'
 import MenuIcon from '~icons/material-symbols-light/menu-rounded'
@@ -185,7 +186,7 @@ const navLinks = [
       </div>
     </nav>
     <div class="p-6 mt-auto border-t border-gray-800">
-      <a href="/editions/second-edition/" class="block w-full rounded-lg bg-yellow-400 py-4 text-center font-black text-black shadow-lg transition-colors hover:bg-yellow-500"
+      <a href={latestEditionPath} class="block w-full rounded-lg bg-yellow-400 py-4 text-center font-black text-black shadow-lg transition-colors hover:bg-yellow-500"
         >Order Now</a
       >
     </div>

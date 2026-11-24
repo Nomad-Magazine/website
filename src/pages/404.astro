@@ -3,6 +3,7 @@ export const prerender = true;
 
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import MagazineStack from '~/components/MagazineStack.astro'
+import { latestEditionPath } from '~/const/latestEdition'
 
 const seoProps: SEOProps = {
   noIndex: true,
@@ -73,7 +74,7 @@ const seoProps: SEOProps = {
                   Return Home
                 </a>
                 <a
-                  href="/editions/third-edition/"
+                  href={latestEditionPath}
                   class="inline-block rounded-lg border border-white px-8 py-3 font-bold transition-all hover:bg-white hover:text-black hover:scale-105"
                   aria-label="View the latest magazine edition"
                 >
