@@ -59,8 +59,6 @@ const partnershipTiers = [
       'Website listing as distribution partner',
       'Listing as distribution partner in print edition'
     ],
-    cta: 'Apply for Distribution',
-    ctaUrl: 'https://calendly.com/nomadgossip',
     popular: false,
     bgColor: 'bg-linear-to-br from-yellow-500/20 to-orange-500/20',
     borderColor: 'border-yellow-400'
@@ -254,34 +252,27 @@ const whyPartnerReasons = [
                 </ul>
               </div>
 
-              <a
-                href={tier.ctaUrl}
-                target={tier.ctaUrl.startsWith('http') ? '_blank' : '_self'}
-                rel={tier.ctaUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
-                class={`block w-full rounded-lg py-4 text-center font-bold transition-all mt-auto ${
-                  tier.popular 
-                    ? 'bg-yellow-400 text-black hover:bg-yellow-300' 
-                    : 'border-2 border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-black'
-                }`}
-              >
-                {tier.cta}
-              </a>
+              {tier.ctaUrl ? (
+                <a
+                  href={tier.ctaUrl}
+                  target={tier.ctaUrl.startsWith('http') ? '_blank' : '_self'}
+                  rel={tier.ctaUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  class={`block w-full rounded-lg py-4 text-center font-bold transition-all mt-auto ${
+                    tier.popular 
+                      ? 'bg-yellow-400 text-black hover:bg-yellow-300' 
+                      : 'border-2 border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-black'
+                  }`}
+                >
+                  {tier.cta}
+                </a>
+              ) : null}
             </div>
           ))}
         </div>
 
         <div class="mt-12 text-center">
           <div class="flex flex-col gap-4 sm:flex-row sm:justify-center">
-            <a
-              href="https://calendly.com/nomadgossip"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Schedule a partnership call on Calendly"
-              class="inline-flex items-center gap-2 rounded-lg bg-neutral-800 border border-neutral-700 px-6 py-3 text-white transition-all hover:bg-neutral-700"
-            >
-              Schedule Partnership Call
-              <ArrowRightIcon class="h-4 w-4" />
-            </a>
+            
             <a
               href="/nomad-directory-boost-options/"
               class="inline-flex items-center gap-2 rounded-lg border border-yellow-400 px-6 py-3 text-yellow-400 transition-all hover:bg-yellow-400 hover:text-black"
