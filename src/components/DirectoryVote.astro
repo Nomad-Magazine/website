@@ -23,13 +23,14 @@ const returnTo = `${Astro.url.pathname}${Astro.url.search}#listing-${id}`
     </div>
     <div hidden data-vote-email-step class="space-y-2">
       <p class="text-xs text-gray-300">You've used your 5 free votes. Confirm your email to keep voting — your votes stay.</p>
-      <div hidden data-vote-email-turnstile-wrap class="rounded-lg border border-white/10 bg-gray-900 p-2">
+      <div hidden data-vote-email-turnstile-wrap class="min-h-[65px]">
         <div data-turnstile-mount-email data-turnstile-sitekey={DIRECTORY_TURNSTILE_SITE_KEY} class="min-h-[65px]"></div>
       </div>
       <form data-vote-email-form class="space-y-2" aria-label="Confirm email to continue voting">
         <input name="email" type="email" inputmode="email" autocomplete="email" required
           class="w-full rounded-lg border border-white/20 bg-gray-900 px-3 py-2 text-sm text-white focus-visible:ring-2 focus-visible:ring-yellow-400"
           aria-label="Email address" placeholder="you@example.com" />
+        <p class="text-xs text-gray-400">We only use this to verify your votes. No newsletters.</p>
         <button type="submit" class="w-full rounded-lg bg-yellow-400 px-3 py-2 text-sm font-semibold text-black hover:bg-yellow-300 focus-visible:ring-2 focus-visible:ring-yellow-400">
           Send confirmation link
         </button>
@@ -263,7 +264,7 @@ const returnTo = `${Astro.url.pathname}${Astro.url.search}#listing-${id}`
         const widget = turnstile.render(mount, {
           sitekey: siteKey,
           theme: 'light',
-          size: 'normal',
+          size: emailInline ? 'compact' : 'normal',
           callback: (value: string) => {
             if (settled) return
             settled = true
