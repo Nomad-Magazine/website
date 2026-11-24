@@ -114,6 +114,7 @@ export default defineConfig({
       filter: url => {
         const pathname = new URL(url).pathname
         if (pathname === '/horoscope/' || pathname === '/horoscope') return false
+        if (pathname === '/newsletter-may-2026-content/' || pathname === '/newsletter-may-2026-content') return false
         return isSearchLandingPage(pathname) && !redirectPaths.has(pathname)
       },
       serialize(item) {
