@@ -217,7 +217,7 @@ const seo: SEOProps = {
         <div class="flex flex-col lg:flex-row gap-8 items-start">
 
           <!-- LEFT SIDEBAR -->
-          <aside class="w-full lg:w-72 shrink-0 lg:sticky lg:top-6 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto" style="scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.15) transparent;" aria-label="Directory filters">
+          <aside class="order-1 w-full lg:w-72 shrink-0 lg:sticky lg:top-6 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto" style="scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.15) transparent;" aria-label="Directory filters">
             <div class="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-6">
 
               <a href="/nomad_directory/"
@@ -244,6 +244,8 @@ const seo: SEOProps = {
                 </div>
                 <p class="text-xs text-gray-600 mt-1" id="search-count" aria-live="polite">{count} results</p>
               </div>
+
+              <div id="directory-filters-collapsible" class="hidden lg:block space-y-6">
 
               <!-- Categories -->
               <div>
@@ -296,6 +298,8 @@ const seo: SEOProps = {
                 </div>
               )}
 
+              </div>
+
               <!-- Share -->
               <div class="pt-2 border-t border-white/10">
                 <p class="text-xs text-gray-500 mb-2">Share this directory</p>
@@ -339,7 +343,19 @@ const seo: SEOProps = {
           </aside>
 
           <!-- RIGHT: Listings -->
-          <div class="flex-1 min-w-0">
+          <div class="flex-1 min-w-0 order-2 lg:order-none">
+
+            <button
+              type="button"
+              id="mobile-filters-toggle"
+              class="lg:hidden w-full flex items-center justify-center gap-2 px-4 py-3 mb-4 bg-white/10 hover:bg-white/15 border border-white/20 rounded-xl text-white text-sm font-semibold transition-all focus-visible:ring-2 focus-visible:ring-yellow-400"
+              aria-expanded="false"
+              aria-controls="directory-filters-collapsible">
+              <svg class="w-4 h-4 shrink-0 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
+              </svg>
+              <span id="mobile-filters-toggle-label">Filters</span>
+            </button>
 
             <div id="directory-container" class="space-y-4">
               {pageEntries.map(entry => {
@@ -428,6 +444,36 @@ const seo: SEOProps = {
   });
   let activeCountry = '';
 
+  function activeFilterCount() {
+    return activeCountry ? 1 : 0;
+  }
+
+  function updateMobileFiltersToggleLabel() {
+    const label = document.getElementById('mobile-filters-toggle-label');
+    if (!label) return;
+    const n = activeFilterCount();
+    label.textContent = n > 0 ? 'Filters (' + n + ')' : 'Filters';
+  }
+
+  function isDesktopFiltersLayout() {
+    return window.matchMedia('(min-width: 1024px)').matches;
+  }
+
+  function setMobileFiltersExpanded(expanded) {
+    const panel = document.getElementById('directory-filters-collapsible');
+    const toggle = document.getElementById('mobile-filters-toggle');
+    if (!panel || !toggle) return;
+    if (isDesktopFiltersLayout()) {
+      panel.classList.remove('hidden');
+      panel.classList.add('lg:block');
+      toggle.setAttribute('aria-expanded', 'false');
+      return;
+    }
+    panel.classList.toggle('hidden', !expanded);
+    panel.classList.toggle('block', expanded);
+    toggle.setAttribute('aria-expanded', String(expanded));
+  }
+
   window.clearSearch = function() {
     const si = document.getElementById('search-input');
     if (si) { si.value = ''; renderCountryFilterList(); applyFilters('', activeCountry); }
@@ -505,7 +551,12 @@ const seo: SEOProps = {
     });
   }
 
-  renderCountryFilterList();
+  function renderCountryFilterListAndToggle() {
+    renderCountryFilterList();
+    updateMobileFiltersToggleLabel();
+  }
+
+  renderCountryFilterListAndToggle();
 
   function currentQuery() {
     const si = document.getElementById('search-input');
@@ -514,9 +565,23 @@ const seo: SEOProps = {
 
   const si = document.getElementById('search-input');
   if (si) si.addEventListener('input', e => {
-    renderCountryFilterList();
+    renderCountryFilterListAndToggle();
     applyFilters(e.target.value.toLowerCase().trim(), activeCountry);
   });
+
+  const mobileFiltersToggle = document.getElementById('mobile-filters-toggle');
+  if (mobileFiltersToggle) {
+    mobileFiltersToggle.addEventListener('click', function () {
+      const panel = document.getElementById('directory-filters-collapsible');
+      if (!panel || isDesktopFiltersLayout()) return;
+      const expanded = mobileFiltersToggle.getAttribute('aria-expanded') !== 'true';
+      setMobileFiltersExpanded(expanded);
+    });
+  }
+  window.matchMedia('(min-width: 1024px)').addEventListener('change', function () {
+    setMobileFiltersExpanded(false);
+  });
+  setMobileFiltersExpanded(false);
 
   (function initCategoryNavToggle() {
     const toggle = document.getElementById('category-nav-toggle');
