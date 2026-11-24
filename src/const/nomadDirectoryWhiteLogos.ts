@@ -14,9 +14,17 @@ export function needsDarkLogoBackground(title: string): boolean {
   return nomadDirectoryWhiteLogos.includes(title)
 }
 
+const directoryLogoBoxBaseClass =
+  'w-14 h-14 rounded-xl shrink-0 overflow-hidden flex items-center justify-center'
+
 /** Shared logo container — same size and background everywhere. */
-export const directoryLogoBoxClass =
-  'w-14 h-14 rounded-xl shrink-0 overflow-hidden bg-black flex items-center justify-center'
+export const directoryLogoBoxClass = `${directoryLogoBoxBaseClass} bg-black`
+
+/** Logo tile background matched to parent surface; dark only when the mark needs contrast. */
+export function directoryLogoBoxClassFor(title: string): string {
+  const background = needsDarkLogoBackground(title) ? 'bg-black' : 'bg-white/10'
+  return `${directoryLogoBoxBaseClass} ${background}`
+}
 
 export const directoryLogoImageClass = 'w-full h-full object-cover'
 
