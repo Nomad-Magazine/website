@@ -111,7 +111,11 @@ export default defineConfig({
     sitemap({
       customPages: [`${site}/nomad_directory/`, `${site}/nomad_directory/updates/`, `${site}/nomad_directory/awards/`, ...directoryRoutes(JSON.parse(readFileSync('src/utils/nomad_cache_table_6857167d82358a0f5e038c3f.json','utf8')).records).map(route => `${site}/nomad_directory/${route.slug}/`)],
       customSitemaps: [`${site}/nomad_directory/awards/sitemap/`],
-      filter: url => isSearchLandingPage(new URL(url).pathname) && !redirectPaths.has(new URL(url).pathname),
+      filter: url => {
+        const pathname = new URL(url).pathname
+        if (pathname === '/horoscope/' || pathname === '/horoscope') return false
+        return isSearchLandingPage(pathname) && !redirectPaths.has(pathname)
+      },
       serialize(item) {
         // Check if this URL matches a page with a known lastmod date
         const urlPath = new URL(item.url).pathname
