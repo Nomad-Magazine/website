@@ -362,7 +362,7 @@ const seo: SEOProps = {
 
     if (cardLink) {
       card.addEventListener('click', (event) => {
-        if (event.target.closest('a,button,input,select,textarea')) return;
+        if (event.target.closest('a,button,input,select,textarea,[data-turnstile-panel],[data-turnstile-close],[data-upvote]')) return;
         window.open(cardLink, '_blank', 'noopener,noreferrer');
       });
     }

@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro'
 import { createSupabaseServerClient } from '~/utils/supabase-server'
 import { castDirectoryVote, verifyHumanVote } from '~/utils/directory-vote-cast'
+import { markDirectoryVoteVerified, isDirectoryVoteVerified, needsDirectoryTurnstile } from '~/utils/directory-vote-session'
 import { requireWorkerSecret, workerVoteLimiter } from '~/utils/directory-vote-secrets'
 
 export const prerender = false
@@ -13,10 +14,14 @@ const json = (data: unknown, status = 200) => Response.json(data, {
 export const GET: APIRoute = async ({ request, cookies }) => {
   const supabase = createSupabaseServerClient(request, cookies)
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return json({ authenticated: false, votes: [] })
+  if (!user) return json({ authenticated: false, vote_verified: false, votes: [] })
   const { data, error } = await supabase.rpc('directory_my_votes')
   if (error) return json({ error: 'Your votes are temporarily unavailable. Please try again.' }, 503)
-  return json({ authenticated: true, votes: data.map((vote: { listing_id: string }) => vote.listing_id) })
+  return json({
+    authenticated: true,
+    vote_verified: isDirectoryVoteVerified(user),
+    votes: data.map((vote: { listing_id: string }) => vote.listing_id),
+  })
 }
 
 export const POST: APIRoute = async ({ request, cookies }) => {
@@ -51,25 +56,32 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 
   const supabase = createSupabaseServerClient(request, cookies)
   let { data: { user } } = await supabase.auth.getUser()
+  const token = typeof payload.turnstile_token === 'string' ? payload.turnstile_token.trim() : ''
 
-  if (!user) {
-    const token = typeof payload.turnstile_token === 'string' ? payload.turnstile_token.trim() : ''
+  if (needsDirectoryTurnstile(user)) {
     if (!token) return json({ error: 'Human verification failed. Please try again.' }, 401)
     try {
       await verifyHumanVote(request, token)
     } catch {
       return json({ error: 'Human verification failed. Please try again.' }, 401)
     }
-    const { error: anonError } = await supabase.auth.signInAnonymously()
-    if (anonError) return json({ error: 'Your vote could not be saved. Please try again.' }, 503)
+    if (!user) {
+      const { error: anonError } = await supabase.auth.signInAnonymously()
+      if (anonError) return json({ error: 'Your vote could not be saved. Please try again.' }, 503)
+      ;({ data: { user } } = await supabase.auth.getUser())
+      if (!user) return json({ error: 'Your vote could not be saved. Please try again.' }, 503)
+    }
+    await markDirectoryVoteVerified(user!.id)
+    await supabase.auth.refreshSession()
     ;({ data: { user } } = await supabase.auth.getUser())
-    if (!user) return json({ error: 'Your vote could not be saved. Please try again.' }, 503)
   }
+
+  if (!user) return json({ error: 'Human verification failed. Please try again.' }, 401)
 
   try {
     const vote = await castDirectoryVote({
       request,
-      userId: user!.id,
+      userId: user.id,
       listingId: payload.listing_id,
       voted: payload.voted,
     })

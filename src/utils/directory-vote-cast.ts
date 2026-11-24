@@ -5,7 +5,7 @@ import { hashClientNetwork, verifyTurnstileToken } from './directory-vote-networ
 
 export type VoteResult = { listing_id: string; vote_count: number; voted: boolean }
 
-function serviceClient() {
+export function serviceClient() {
   const { url } = getSupabaseConfig()
   return createClient(url, requireWorkerSecret('SUPABASE_SERVICE_ROLE_KEY'), {
     auth: { persistSession: false, autoRefreshToken: false },

@@ -115,8 +115,26 @@ for (const url of [base, mail]) assert(['localhost', '127.0.0.1'].includes(new U
     await context.clearCookies()
     await button().click()
     await page.waitForURL('**/nomad-directory-edit/**')
+    const noSecrets = process.env.DIRECTORY_VOTE_SECRETS_UNSET === '1'
     const anonymous = await page.request.post(base + '/api/directory-votes/', { headers: { Origin: base }, data: { listing_id: f.target, voted: true } })
-    assert.equal(anonymous.status(), 401)
+    if (noSecrets) assert.equal(anonymous.status(), 503)
+    else {
+      assert.equal(anonymous.status(), 401)
+      if (process.env.SUPABASE_TEST_CONFIG) {
+        const keys = JSON.parse(await fs.readFile(process.env.SUPABASE_TEST_CONFIG, 'utf8'))
+        const { createClient } = require('@supabase/supabase-js')
+        const ref = new URL(keys.API_URL).hostname.split('.')[0]
+        const jar = createClient(keys.API_URL, keys.ANON_KEY, { auth: { persistSession: false, autoRefreshToken: false } })
+        const { data: { session } } = await jar.auth.signInAnonymously()
+        assert(session?.access_token, 'Anonymous session fixture')
+        const cookie = encodeURIComponent(JSON.stringify({ access_token: session.access_token, refresh_token: session.refresh_token, expires_at: session.expires_at, expires_in: session.expires_in, token_type: session.token_type, user: session.user }))
+        const preAnon = await page.request.post(base + '/api/directory-votes/', {
+          headers: { Origin: base, Cookie: `sb-${ref}-auth-token=${cookie}` },
+          data: { listing_id: f.target, voted: true },
+        })
+        assert.equal(preAnon.status(), 401, 'Pre-created unverified anonymous session must not vote without Turnstile')
+      }
+    }
     assert.deepEqual(errors, [])
     console.log('PASS: real signup/email/PKCE return, confirm/add/remove/reload, keyboard input, account isolation, failed-write retry, CSRF, expired session, vote ranking, category clicks, no-JavaScript voting, mobile layout and WCAG AA. Screenshots captured using local test votes.')
   } finally { await browser.close() }

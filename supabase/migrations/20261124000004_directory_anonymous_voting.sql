@@ -60,7 +60,7 @@ begin
     raise exception 'Invalid vote network' using errcode = '22023';
   end if;
 
-  perform pg_advisory_xact_lock(hashtextextended('directory-vote:' || p_listing_id, 0));
+  perform pg_advisory_xact_lock(hashtextextended('directory-vote-user:' || p_user_id::text, 0));
 
   select count(*)::integer into changes_last_hour
   from public.directory_vote_change_log
@@ -68,6 +68,8 @@ begin
   if changes_last_hour >= 30 then
     raise exception 'Vote rate limit exceeded' using errcode = '53200';
   end if;
+
+  perform pg_advisory_xact_lock(hashtextextended('directory-vote:' || p_listing_id, 0));
 
   if not public.directory_vote_target_exists(p_listing_id) then
     raise exception 'This listing is not published' using errcode = '22023';
@@ -192,11 +194,35 @@ returns integer
 language plpgsql security definer set search_path = '' as $$
 declare removed integer := 0;
 begin
+  if p_older_than_days is null or p_older_than_days < 1 or p_older_than_days > 365 then
+    raise exception 'Invalid cleanup window' using errcode = '22023';
+  end if;
   delete from public.directory_vote_change_log where changed_at < clock_timestamp() - make_interval(days => p_older_than_days);
   get diagnostics removed = row_count;
   return removed;
 end;
 $$;
+
+create function public.directory_cleanup_vote_network(p_keep_days integer default 30)
+returns integer
+language plpgsql security definer set search_path = '' as $$
+declare removed integer := 0;
+declare n_removed integer := 0;
+begin
+  if p_keep_days is null or p_keep_days < 1 or p_keep_days > 365 then
+    raise exception 'Invalid cleanup window' using errcode = '22023';
+  end if;
+  delete from public.directory_vote_network_daily
+  where vote_day < (clock_timestamp() at time zone 'UTC')::date - p_keep_days;
+  get diagnostics removed = row_count;
+  delete from public.directory_vote_network_slots
+  where vote_day < (clock_timestamp() at time zone 'UTC')::date - p_keep_days;
+  get diagnostics n_removed = row_count;
+  return removed + n_removed;
+end;
+$$;
+revoke all on function public.directory_cleanup_vote_network(integer) from public, anon, authenticated;
+grant execute on function public.directory_cleanup_vote_network(integer) to service_role;
 revoke all on function public.directory_cleanup_vote_change_log(integer) from public, anon, authenticated;
 grant execute on function public.directory_cleanup_vote_change_log(integer) to service_role;
 
@@ -227,7 +253,7 @@ select cron.unschedule(jobid) from cron.job where jobname = 'nomad-directory-ano
 select cron.schedule(
   'nomad-directory-anon-cleanup',
   '15 1 * * *',
-  $$select public.directory_cleanup_anonymous_voters(14), public.directory_cleanup_vote_change_log(14);$$
+  $$select public.directory_cleanup_anonymous_voters(14), public.directory_cleanup_vote_change_log(14), public.directory_cleanup_vote_network(30);$$
 );
 
 comment on table public.directory_award_settings is

@@ -35,7 +35,9 @@ const counts = async () => ok(await anon.rpc('directory_vote_counts'))
 const count = async id => Number((await counts()).find(r => r.listing_id === id)?.vote_count || 0)
 denied(await a.client.rpc('directory_set_vote', { p_listing_id: target, p_voted: true, p_network_hash: net(1) }))
 const anonymous = make()
-const anonId = ok(await anonymous.auth.signInAnonymously()).user.id
+const anonUser = ok(await anonymous.auth.signInAnonymously()).user
+const anonId = anonUser.id
+assert.notEqual(anonUser.app_metadata?.vote_verified, true, 'Fresh anonymous users are unverified until Turnstile')
 ok(await vote(anonId, secondTarget, true, 5))
 ok(await vote(anonId, secondTarget, false, 5))
 ok(await vote(anonId, secondTarget, true, 5))
@@ -54,6 +56,9 @@ denied(await a.client.from('directory_legacy_vote_targets').insert({ listing_id:
 denied(await a.client.from('directory_votes').insert({ listing_id: target, user_id: a.user.id }))
 denied(await a.client.from('directory_votes').update({ user_id: b.user.id }).eq('user_id', a.user.id))
 denied(await a.client.from('directory_votes').delete().eq('user_id', b.user.id))
+denied(await service.rpc('directory_cleanup_vote_change_log', { p_older_than_days: -1 }))
+denied(await service.rpc('directory_cleanup_vote_network', { p_keep_days: 0 }))
+ok(await service.rpc('directory_cleanup_vote_network', { p_keep_days: 30 }))
 denied(await vote(a.user.id, 'not-a-published-listing', true))
 denied(await vote(a.user.id, target, null))
 const baseline = await count(target)

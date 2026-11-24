@@ -6,6 +6,7 @@ import { getDirectoryEntries } from '~/utils/directory'
 import { directoryReturnTo } from '~/utils/directory-votes'
 import { DIRECTORY_TURNSTILE_SITE_KEY } from '~/const/directoryVoting'
 import { castDirectoryVote, verifyHumanVote } from '~/utils/directory-vote-cast'
+import { markDirectoryVoteVerified, needsDirectoryTurnstile } from '~/utils/directory-vote-session'
 import { requireWorkerSecret } from '~/utils/directory-vote-secrets'
 
 Astro.response.headers.set('Cache-Control', 'private, no-store')
@@ -21,17 +22,23 @@ if (Astro.request.method === 'POST') {
   const vote = form.get('voted')
   const token = String(form.get('cf-turnstile-response') ?? '').trim()
   if (vote !== 'true' && vote !== 'false') error = 'Invalid vote. Please try again.'
-  else if (!token) error = 'Human verification failed. Please try again.'
   else {
     try {
       requireWorkerSecret('SUPABASE_SERVICE_ROLE_KEY')
       requireWorkerSecret('DIRECTORY_IP_HASH_SALT')
       requireWorkerSecret('TURNSTILE_SECRET_KEY')
-      await verifyHumanVote(Astro.request, token)
       let { data: { user } } = await supabase.auth.getUser()
-      if (!user) {
-        const { error: anonError } = await supabase.auth.signInAnonymously()
-        if (anonError) throw anonError
+      if (needsDirectoryTurnstile(user)) {
+        if (!token) throw Object.assign(new Error('Human verification failed. Please try again.'), { code: 'turnstile' })
+        await verifyHumanVote(Astro.request, token)
+        if (!user) {
+          const { error: anonError } = await supabase.auth.signInAnonymously()
+          if (anonError) throw anonError
+          ;({ data: { user } } = await supabase.auth.getUser())
+        }
+        if (!user) throw new Error('Session missing')
+        await markDirectoryVoteVerified(user.id)
+        await supabase.auth.refreshSession()
         ;({ data: { user } } = await supabase.auth.getUser())
       }
       if (!user) throw new Error('Session missing')
