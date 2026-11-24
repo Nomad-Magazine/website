@@ -3,7 +3,7 @@ const excludedSections = ['/auth/', '/console/', '/internal/', '/flipbooks/']
 const excludedPages = new Set([
   '/404/', '/test/', '/test-api/', '/thank-you/', '/print-order-success/',
   '/coworking-submission-confirmation/', '/magazine-shipment-confirmation/',
-  '/nomad-directory-confirmation/', '/nomad-directory-submit/',
+  '/nomad-directory-confirmation/', '/nomad-directory-edit/', '/nomad-directory-submit/',
   '/nomad-directory-ig/', '/nomad_directory/vote/', '/search/',
   '/armenia-premium-sponsorship/', '/turkey-premium-sponsorship/',
   '/brand-placement-falmouth-847291/', '/brand-placement-databench-847291/',
