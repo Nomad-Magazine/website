@@ -8,8 +8,9 @@ type VoteUser = {
 }
 
 export function isDirectoryVoteVerified(user: VoteUser): boolean {
-  if (!user.is_anonymous) return true
-  return user.app_metadata?.vote_verified === true
+  if (user.is_anonymous === false) return true
+  if (user.is_anonymous === true) return user.app_metadata?.vote_verified === true
+  return false
 }
 
 export function needsDirectoryTurnstile(user: VoteUser | null | undefined): boolean {

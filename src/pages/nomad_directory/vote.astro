@@ -37,9 +37,13 @@ if (Astro.request.method === 'POST') {
           ;({ data: { user } } = await supabase.auth.getUser())
         }
         if (!user) throw new Error('Session missing')
-        await markDirectoryVoteVerified(user.id)
-        await supabase.auth.refreshSession()
-        ;({ data: { user } } = await supabase.auth.getUser())
+        try {
+          await markDirectoryVoteVerified(user.id)
+          await supabase.auth.refreshSession()
+          ;({ data: { user } } = await supabase.auth.getUser())
+        } catch {
+          throw Object.assign(new Error('Your vote could not be saved. Please try again.'), { code: 'unavailable' })
+        }
       }
       if (!user) throw new Error('Session missing')
       await castDirectoryVote({
@@ -53,7 +57,10 @@ if (Astro.request.method === 'POST') {
       const code = typeof err === 'object' && err && 'code' in err ? String((err as { code?: string }).code) : ''
       if (code === '53200') error = (err as { message?: string }).message || 'Vote limit reached.'
       else if (code === 'turnstile') error = 'Human verification failed. Please try again.'
-      else error = 'Your vote could not be saved. Please try again.'
+      else if (code === 'unavailable') {
+        error = 'Your vote could not be saved. Please try again.'
+        Astro.response.status = 503
+      } else error = 'Your vote could not be saved. Please try again.'
     }
   }
 }

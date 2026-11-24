@@ -71,9 +71,13 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       ;({ data: { user } } = await supabase.auth.getUser())
       if (!user) return json({ error: 'Your vote could not be saved. Please try again.' }, 503)
     }
-    await markDirectoryVoteVerified(user!.id)
-    await supabase.auth.refreshSession()
-    ;({ data: { user } } = await supabase.auth.getUser())
+    try {
+      await markDirectoryVoteVerified(user!.id)
+      await supabase.auth.refreshSession()
+      ;({ data: { user } } = await supabase.auth.getUser())
+    } catch {
+      return json({ error: 'Your vote could not be saved. Please try again.' }, 503)
+    }
   }
 
   if (!user) return json({ error: 'Human verification failed. Please try again.' }, 401)
