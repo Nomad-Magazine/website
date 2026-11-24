@@ -33,7 +33,7 @@ const seo: SEOProps = {
         <p class="directory-eyebrow">Official Nomad Directory award</p>
         <h1 class="mt-4 text-3xl font-bold leading-tight md:text-5xl">{heading}</h1>
         {award && <>
-          <p class="directory-muted mt-5 text-lg">{awardPeriodLabel(award.kind,award.starts_at)} · {award.vote_count} verified community {Number(award.vote_count) === 1 ? 'vote' : 'votes'}.</p>
+          <p class="directory-muted mt-5 text-lg">{awardPeriodLabel(award.kind,award.starts_at)} · {award.vote_count} community {Number(award.vote_count) === 1 ? 'vote' : 'votes'}.</p>
           {award.revoked_at ? <p role="status" class="directory-card mt-8">This badge is no longer valid. Please remove it from your website. The original result remains visible here for transparency.</p> : <>
             <p class="directory-muted mt-5">{award.tied_winners > 1 ? `${award.tied_winners} listings shared the highest eligible vote total for this period.` : 'This listing received the highest eligible vote total for the period.'} This is a community award, independent of paid placements and affiliate partnerships.</p>
             <h2 class="mt-10 text-2xl font-bold">Share your recognition</h2>

@@ -24,17 +24,26 @@ for (let n = 1; n <= 3; n++) {
   accounts.push({ user, client })
 }
 const [a, b, c] = accounts
-const vote = (client, id, voted) => client.rpc('directory_set_vote', { p_listing_id: id, p_voted: voted })
+const net = (n) => `${String(n).padStart(2, '0').repeat(32).slice(0, 64)}`
+const vote = (client, id, voted, network = 1) => client.rpc('directory_set_vote', {
+  p_listing_id: id,
+  p_voted: voted,
+  p_network_hash: voted ? net(network) : null,
+})
 const counts = async () => ok(await anon.rpc('directory_vote_counts'))
 const count = async id => Number((await counts()).find(r => r.listing_id === id)?.vote_count || 0)
-const unverifiedPassword = `Local-${crypto.randomUUID()}`
-const unverified = ok(await service.auth.admin.createUser({ email: `unverified-${crypto.randomUUID()}@example.test`, password: unverifiedPassword, email_confirm: false })).user
-assert.equal(unverified.email_confirmed_at, undefined)
-const unverifiedClient = make()
-const unverifiedSession = await unverifiedClient.auth.signInWithPassword({ email: unverified.email, password: unverifiedPassword })
-if (!unverifiedSession.error) denied(await vote(unverifiedClient, target, true))
-else assert.match(unverifiedSession.error.message, /confirm/i)
-ok(await service.auth.admin.deleteUser(unverified.id))
+const anonymousClient = make()
+ok(await anonymousClient.auth.signInAnonymously())
+ok(await vote(anonymousClient, secondTarget, true))
+ok(await vote(anonymousClient, secondTarget, false))
+for (let i = 0; i < 3; i++) {
+  const c = make()
+  ok(await c.auth.signInAnonymously())
+  ok(await vote(c, target, true, 99))
+}
+const capped = make()
+ok(await capped.auth.signInAnonymously())
+denied(await vote(capped, target, true, 99))
 denied(await anon.rpc('directory_my_votes'))
 denied(await vote(anon, target, true))
 for (const table of ['directory_votes', 'directory_legacy_vote_targets']) denied(await anon.from(table).select('*'))
@@ -81,4 +90,4 @@ ok(await service.from('directory_legacy_vote_targets').delete().eq('listing_id',
 ok(await vote(a.client, target, true)); ok(await vote(b.client, secondTarget, true))
 const login = ok(await service.auth.admin.generateLink({ type: 'magiclink', email: a.user.email }))
 await writeFile('/tmp/nomad-vote-fixtures.json', JSON.stringify({ target, secondTarget, title: snapshot[0].title, category: snapshot[0].sb685ab800.label, tokenHash: login.properties.hashed_token, email: a.user.email }), { mode: 0o600 })
-console.log('PASS: all legacy IDs, verified-account RPC grants, RLS isolation, public privacy, concurrent/idempotent upvotes, removal, account deletion, publication checks and stable votes after claims.')
+console.log('PASS: legacy IDs, verified and anonymous RPC grants, RLS, public privacy, concurrent/idempotent upvotes, network caps, removal, account deletion, publication checks and stable votes after claims.')

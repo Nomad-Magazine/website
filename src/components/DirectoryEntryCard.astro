@@ -7,8 +7,10 @@ interface Props {
   entry: DirectoryEntry
   updates?: PublicUpdate[]
   votes?: number
+  country?: string
+  openWebsiteOnCardClick?: boolean
 }
-const { entry, updates = [], votes } = Astro.props
+const { entry, updates = [], votes, country = '', openWebsiteOnCardClick = false } = Astro.props
 ---
 
 <article
@@ -19,7 +21,10 @@ const { entry, updates = [], votes } = Astro.props
   data-category={entry.category}
   data-title={entry.title.toLowerCase()}
   data-search={`${entry.title} ${entry.description} ${entry.category} ${entry.offer}`.toLowerCase()}
+  data-country={country || undefined}
+  data-link={openWebsiteOnCardClick && entry.website ? entry.website : undefined}
   class="group rounded-2xl border border-white/10 bg-white/5 p-5 transition-all duration-300 hover:bg-white/10"
+  style={openWebsiteOnCardClick && entry.website ? 'cursor:pointer' : undefined}
 >
   <div class="flex items-start gap-4">
     <div class="shrink-0">

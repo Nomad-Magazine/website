@@ -20,11 +20,11 @@ try {
 Astro.response.headers.set('Cache-Control', 'public, max-age=0, must-revalidate')
 const seo: SEOProps = {
   title: 'Nomad Directory Awards & Community Winners | Nomad Magazine',
-  description: 'Discover daily, weekly, monthly and yearly Nomad Directory winners. Explore community favorites, verify their awards and find official badges for websites.',
+  description: 'Discover weekly, monthly and yearly Nomad Directory winners. Explore community favorites, verify their awards and find official badges for websites.',
   canonical: `${Astro.site}nomad_directory/awards/`,
   image: `${Astro.site}images/Nomad-directory.webp`,
   keywords: 'nomad directory awards, digital nomad winners, community upvotes, business award badges',
-  ldJSON: { '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Nomad Directory Awards', description: 'Daily, weekly, monthly and yearly winners chosen by verified community votes.', url: `${Astro.site}nomad_directory/awards/`, publisher: { '@type': 'Organization', name: 'Nomad Magazine', url: `${Astro.site}` }, mainEntity: { '@type': 'ItemList', itemListElement: awards.slice(0,24).map((award,index) => ({ '@type': 'ListItem', position: index+1, name: awardAlt(award), url: `${Astro.site}${awardPath(award).slice(1)}` })) } },
+  ldJSON: { '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Nomad Directory Awards', description: 'Weekly, monthly and yearly winners chosen by community votes.', url: `${Astro.site}nomad_directory/awards/`, publisher: { '@type': 'Organization', name: 'Nomad Magazine', url: `${Astro.site}` }, mainEntity: { '@type': 'ItemList', itemListElement: awards.slice(0,24).map((award,index) => ({ '@type': 'ListItem', position: index+1, name: awardAlt(award), url: `${Astro.site}${awardPath(award).slice(1)}` })) } },
 }
 const archiveLink = (p: number) => `/nomad_directory/awards/?period=${kind}&page=${p}`
 ---
@@ -34,7 +34,8 @@ const archiveLink = (p: number) => `/nomad_directory/awards/?period=${kind}&page
       <a href="/nomad_directory/" class="directory-text-link">← Nomad Directory</a>
       <p class="directory-eyebrow mt-10">Chosen by the nomad community</p>
       <h1 class="mt-4 text-4xl font-bold md:text-5xl">Meet the Nomad Directory winners.</h1>
-      <p class="directory-muted mt-5 max-w-3xl text-lg">Daily, weekly, monthly and yearly winners, decided by verified community votes. An earned badge, with a result anyone can verify.</p>
+      <p class="directory-muted mt-5 max-w-3xl text-lg">Weekly, monthly and yearly winners, decided by community votes. An earned badge, with a result anyone can verify.</p>
+      <p class="directory-muted mt-3 max-w-3xl text-sm">Fair play matters: one vote per person per listing, with abuse limits and manual review when patterns look unusual.</p>
       <nav aria-label="Award periods" class="directory-actions my-8">
         {awardKinds.map(value => <a href={`/nomad_directory/awards/?period=${value}`} aria-current={value === kind ? 'page' : undefined} class={`directory-button ${value === kind ? '' : 'secondary'}`}>{awardNames[value]}</a>)}
       </nav>
@@ -43,7 +44,7 @@ const archiveLink = (p: number) => `/nomad_directory/awards/?period=${kind}&page
         {awards.slice(0,24).map(award => <article class="directory-card">
           <p class="directory-eyebrow">{award.tied_winners > 1 ? 'Joint winner' : 'Winner'} · {awardPeriodLabel(award.kind,award.starts_at)}</p>
           <h3 class="mt-4">{award.listing_title}</h3>
-          <p class="directory-muted">{award.vote_count} verified community {Number(award.vote_count) === 1 ? 'vote' : 'votes'}</p>
+          <p class="directory-muted">{award.vote_count} community {Number(award.vote_count) === 1 ? 'vote' : 'votes'}</p>
           <a href={awardPath(award)} class="mt-6"><img src={awardBadgePath(award)} alt={awardAlt(award)} width="360" height="112" loading="lazy" class="h-auto w-full" /></a>
           <a href={awardPath(award)} class="directory-text-link mt-5">View result & badge →</a>
         </article>)}
