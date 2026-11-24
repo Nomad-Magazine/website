@@ -7,7 +7,14 @@ import { directoryReturnTo } from '~/utils/directory-votes'
 import { sendDirectoryLogin } from '~/utils/directory-auth'
 // Trimmed cache (published listings only, ~0.6 MB) imported statically; this page renders on demand
 import directoryCache from '~/utils/nomad_cache_table_6857167d82358a0f5e038c3f.json'
-import { directoryLogoBoxClass, directoryLogoImageClass, directoryLogoImageClassFor, directoryLogoInitialClass, directoryLogoUrlFor } from '~/const/nomadDirectoryWhiteLogos'
+import {
+  directoryLogoBoxClassFor,
+  directoryLogoImageClass,
+  directoryLogoImageClassFor,
+  directoryLogoInitialClass,
+  directoryLogoUrlFor,
+  nomadDirectoryWhiteLogos,
+} from '~/const/nomadDirectoryWhiteLogos'
 import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
 
 const url = new URL(Astro.request.url)
@@ -78,6 +85,12 @@ const fieldClass =
 ---
 
 <Layout seo={seo}>
+  <style is:inline>
+    html,
+    body {
+      background-color: #121111;
+    }
+  </style>
   <div class="bg-hoverw text-white min-h-screen">
     <section class="pt-16 pb-20">
       <div class="container mx-auto px-4 max-w-3xl">
@@ -140,9 +153,18 @@ const fieldClass =
                   class="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 transition-colors hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-yellow-400"
                   aria-label={`${item.title} in the Nomad Directory`}
                 >
-                  <div class={directoryLogoBoxClass}>
+                  <div class={directoryLogoBoxClassFor(item.title)}>
                     {item.image ? (
-                      <img src={item.image} alt="" aria-hidden="true" class={directoryLogoImageClassFor(item.title)} loading="lazy" />
+                      <img
+                        src={item.image}
+                        alt=""
+                        aria-hidden="true"
+                        class={directoryLogoImageClassFor(item.title)}
+                        width="56"
+                        height="56"
+                        loading="eager"
+                        decoding="async"
+                      />
                     ) : (
                       <span class={directoryLogoInitialClass} aria-hidden="true">{item.title.charAt(0).toUpperCase()}</span>
                     )}
@@ -176,7 +198,7 @@ const fieldClass =
     id="listing-data"
     hidden
     data-items={JSON.stringify(listings)}
-    data-logo-box={directoryLogoBoxClass}
+    data-dark-logos={JSON.stringify(nomadDirectoryWhiteLogos)}
     data-logo-img={directoryLogoImageClass}
     data-logo-initial={directoryLogoInitialClass}
   ></div>
@@ -191,9 +213,14 @@ const fieldClass =
     if (!dataEl || !input || !results || !empty) return
 
     const items = JSON.parse(dataEl.getAttribute('data-items') || '[]')
-    const logoBoxClass = dataEl.getAttribute('data-logo-box') || ''
+    const darkLogos = new Set(JSON.parse(dataEl.getAttribute('data-dark-logos') || '[]'))
+    const logoBoxBase = 'w-14 h-14 rounded-xl shrink-0 overflow-hidden flex items-center justify-center '
     const logoImgClass = dataEl.getAttribute('data-logo-img') || ''
     const logoInitialClass = dataEl.getAttribute('data-logo-initial') || ''
+
+    function logoBoxClass(title) {
+      return logoBoxBase + (darkLogos.has(title) ? 'bg-black' : 'bg-white/10')
+    }
 
     function esc(s) {
       return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
@@ -205,7 +232,7 @@ const fieldClass =
 
     function card(item) {
       const logo = item.image
-        ? '<img src="' + esc(item.image) + '" alt="' + esc(item.title) + '" class="' + logoClass(item.title) + '" loading="lazy" />'
+        ? '<img src="' + esc(item.image) + '" alt="' + esc(item.title) + '" class="' + logoClass(item.title) + '" width="56" height="56" loading="lazy" decoding="async" />'
         : '<span class="' + logoInitialClass + '">' + esc((item.title || 'C').charAt(0).toUpperCase()) + '</span>'
       const offer = item.specialOffer
         ? '<div class="mt-3 p-3 bg-yellow-400/10 border-l-4 border-yellow-400 rounded-r-lg"><p class="text-yellow-400 font-bold text-xs uppercase mb-1">Special Offer:</p><p class="text-gray-200 text-sm whitespace-pre-line">' + esc(item.specialOffer) + '</p></div>'
@@ -217,7 +244,7 @@ const fieldClass =
         ? '<div class="mt-2"><a href="' + esc(item.link) + '" target="_blank" rel="noopener noreferrer" class="text-blue-300 hover:text-blue-200 underline text-xs" aria-label="Learn more about ' + esc(item.title) + ' (opens in new tab)">Learn more →</a></div>'
         : ''
       return '<article class="bg-white/5 border border-white/10 rounded-2xl p-5">' +
-        '<div class="flex items-start gap-4"><div class="shrink-0"><div class="' + logoBoxClass + '">' + logo + '</div></div>' +
+        '<div class="flex items-start gap-4"><div class="shrink-0"><div class="' + logoBoxClass(item.title) + '">' + logo + '</div></div>' +
         '<div class="flex-1 min-w-0"><div class="flex flex-wrap items-start justify-between gap-2 mb-2">' +
         '<h3 class="text-base font-bold text-white leading-tight">' + esc(item.title) + '</h3>' + cat + '</div>' +
         '<p class="text-gray-300 text-sm leading-relaxed">' + esc(item.description || 'Description not available') + '</p>' +
