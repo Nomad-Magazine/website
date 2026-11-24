@@ -95,6 +95,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     if (code === '22023') return json({ error: 'This listing is no longer available for voting.' }, 404)
     if (code === '42501') return json({ error: 'Sign in to upvote this listing.' }, 401)
     if (code === '53200') return json({ error: (error as { message?: string }).message || 'Vote limit reached. Try again later.' }, 429)
+    const message = typeof error === 'object' && error && 'message' in error ? String((error as { message?: string }).message) : ''
+    if (code === '45003' || message === 'email_required') return json({ error: 'email_required' }, 403)
     return json({ error: 'Your vote could not be saved. Please try again.' }, 503)
   }
 }

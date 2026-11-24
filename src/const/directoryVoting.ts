@@ -8,3 +8,4 @@ export const DIRECTORY_VOTING_PAGES: Record<DirectoryVotingSurface, boolean> = {
 }
 
 export const DIRECTORY_TURNSTILE_SITE_KEY = '0x4AAAAAACXWfgpGaqB_A50e'
+export { DIRECTORY_ANON_VOTE_LIMIT } from '~/utils/directory-vote-email-link'

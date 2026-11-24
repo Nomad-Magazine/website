@@ -55,7 +55,9 @@ if (Astro.request.method === 'POST') {
       return Astro.redirect(returnTo, 303)
     } catch (err: unknown) {
       const code = typeof err === 'object' && err && 'code' in err ? String((err as { code?: string }).code) : ''
+      const message = typeof err === 'object' && err && 'message' in err ? String((err as { message?: string }).message) : ''
       if (code === '53200') error = (err as { message?: string }).message || 'Vote limit reached.'
+      else if (code === '45003' || message === 'email_required') error = 'You have used five free votes. Confirm your email on the directory page to keep voting.'
       else if (code === 'turnstile') error = 'Human verification failed. Please try again.'
       else if (code === 'unavailable') {
         error = 'Your vote could not be saved. Please try again.'

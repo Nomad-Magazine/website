@@ -15,10 +15,27 @@ const returnTo = `${Astro.url.pathname}${Astro.url.search}#listing-${id}`
   </a>
   <div class="directory-turnstile-popover pointer-events-none invisible fixed z-50 w-[min(300px,calc(100vw-1.5rem))] rounded-xl border border-white/15 bg-gray-950 p-3 text-left opacity-0 shadow-2xl" data-turnstile-panel={id} role="dialog" aria-label="Confirm you are human" aria-modal="true">
     <div class="mb-2 flex items-start justify-between gap-2">
-      <p class="text-xs text-gray-300">Complete the check below to save your vote.</p>
-      <button type="button" class="directory-turnstile-close shrink-0 rounded px-1 text-sm text-gray-400 hover:text-white focus-visible:ring-2 focus-visible:ring-yellow-400" data-turnstile-close={id} aria-label="Close human verification">×</button>
+      <p class="text-xs text-gray-300" data-vote-panel-title>Complete the check below to save your vote.</p>
+      <button type="button" class="directory-turnstile-close shrink-0 rounded px-1 text-sm text-gray-400 hover:text-white focus-visible:ring-2 focus-visible:ring-yellow-400" data-turnstile-close={id} aria-label="Close panel">×</button>
     </div>
-    <div data-turnstile-widget data-turnstile-sitekey={DIRECTORY_TURNSTILE_SITE_KEY} class="min-h-[65px]"></div>
+    <div data-vote-turnstile-step>
+      <div data-turnstile-mount data-turnstile-sitekey={DIRECTORY_TURNSTILE_SITE_KEY} class="min-h-[65px]"></div>
+    </div>
+    <div hidden data-vote-email-step class="space-y-2">
+      <p class="text-xs text-gray-300">You've used your 5 free votes. Confirm your email to keep voting — your votes stay.</p>
+      <form data-vote-email-form class="space-y-2" aria-label="Confirm email to continue voting">
+        <input name="email" type="email" inputmode="email" autocomplete="email" required
+          class="w-full rounded-lg border border-white/20 bg-gray-900 px-3 py-2 text-sm text-white focus-visible:ring-2 focus-visible:ring-yellow-400"
+          aria-label="Email address" placeholder="you@example.com" />
+        <button type="submit" class="w-full rounded-lg bg-yellow-400 px-3 py-2 text-sm font-semibold text-black hover:bg-yellow-300 focus-visible:ring-2 focus-visible:ring-yellow-400">
+          Send confirmation link
+        </button>
+      </form>
+      <p data-vote-email-error class="hidden text-xs text-yellow-300" role="alert"></p>
+    </div>
+    <div hidden data-vote-email-sent-step>
+      <p class="text-xs text-gray-300">Check your inbox for a confirmation link.</p>
+    </div>
   </div>
 </div>
 
@@ -30,13 +47,16 @@ const returnTo = `${Astro.url.pathname}${Astro.url.search}#listing-${id}`
 
 <script>
   import { votePageUrl, type VoteResult } from '~/utils/directory-votes'
+  import { mapVoteEmailClientError } from '~/utils/directory-vote-email-link'
 
   const ownVotes = new Set<string>()
   let voteVerified = false
   let ready = false
   const pending = new Set<string>()
   const turnstileWaits = new Map<string, { reject: (error: Error) => void }>()
+  const turnstileWidgetIds = new Map<string, string>()
   const focusTraps = new Map<string, (event: KeyboardEvent) => void>()
+  const panelTriggers = new Map<string, HTMLElement>()
   const status = document.createElement('p')
   status.className = 'sr-only'
   status.setAttribute('role', 'status')
@@ -49,7 +69,6 @@ const returnTo = `${Astro.url.pathname}${Astro.url.search}#listing-${id}`
     return (window as Window & { turnstile?: {
       render: (el: HTMLElement, opts: Record<string, unknown>) => string
       remove: (id: string) => void
-      reset: (id?: string) => void
     } }).turnstile
   }
 
@@ -65,89 +84,122 @@ const returnTo = `${Astro.url.pathname}${Astro.url.search}#listing-${id}`
     })
   }
 
-  function cleanupTurnstileWidget(listingId: string) {
+  function panelParts(listingId: string) {
     const panel = document.querySelector(`[data-turnstile-panel="${listingId}"]`) as HTMLElement | null
-    const host = panel?.querySelector('[data-turnstile-widget]') as HTMLElement | null
+    return {
+      panel,
+      mount: panel?.querySelector('[data-turnstile-mount]') as HTMLElement | null,
+      turnstileStep: panel?.querySelector('[data-vote-turnstile-step]') as HTMLElement | null,
+      emailStep: panel?.querySelector('[data-vote-email-step]') as HTMLElement | null,
+      emailSent: panel?.querySelector('[data-vote-email-sent-step]') as HTMLElement | null,
+      title: panel?.querySelector('[data-vote-panel-title]') as HTMLElement | null,
+      emailError: panel?.querySelector('[data-vote-email-error]') as HTMLElement | null,
+    }
+  }
+
+  function cleanupTurnstileWidget(listingId: string) {
+    const { mount } = panelParts(listingId)
+    const widgetId = turnstileWidgetIds.get(listingId)
     const turnstile = turnstileApi()
-    if (turnstile && host?.dataset.turnstileWidget) turnstile.remove(host.dataset.turnstileWidget)
-    if (host) delete host.dataset.turnstileWidget
+    if (turnstile && widgetId) turnstile.remove(widgetId)
+    turnstileWidgetIds.delete(listingId)
+    if (mount) mount.replaceChildren()
+  }
+
+  function setPanelMode(listingId: string, mode: 'turnstile' | 'email' | 'email-sent') {
+    const { panel, turnstileStep, emailStep, emailSent, title } = panelParts(listingId)
+    if (!panel) return
+  if (mode === 'turnstile') {
+      turnstileStep?.removeAttribute('hidden')
+      emailStep?.setAttribute('hidden', '')
+      emailSent?.setAttribute('hidden', '')
+      panel.setAttribute('aria-label', 'Confirm you are human')
+      if (title) title.textContent = 'Complete the check below to save your vote.'
+    } else if (mode === 'email') {
+      turnstileStep?.setAttribute('hidden', '')
+      emailStep?.removeAttribute('hidden')
+      emailSent?.setAttribute('hidden', '')
+      panel.setAttribute('aria-label', 'Confirm your email to keep voting')
+      if (title) title.textContent = 'Confirm your email to keep voting.'
+    } else {
+      turnstileStep?.setAttribute('hidden', '')
+      emailStep?.setAttribute('hidden', '')
+      emailSent?.removeAttribute('hidden')
+      panel.setAttribute('aria-label', 'Confirmation email sent')
+      if (title) title.textContent = 'Check your inbox'
+    }
+  }
+
+  function focusables(panel: HTMLElement) {
+    return [...panel.querySelectorAll<HTMLElement>(
+      'button:not([disabled]):not([hidden]), input:not([disabled]):not([hidden]), select:not([disabled]), textarea:not([disabled]), iframe, [tabindex]:not([tabindex="-1"])',
+    )].filter(el => !el.closest('[hidden]'))
   }
 
   function releaseFocusTrap(listingId: string) {
-    const panel = document.querySelector(`[data-turnstile-panel="${listingId}"]`) as HTMLElement | null
+    const { panel } = panelParts(listingId)
     const trap = focusTraps.get(listingId)
     if (panel && trap) panel.removeEventListener('keydown', trap)
     focusTraps.delete(listingId)
   }
 
-  function dismissTurnstilePanel(listingId: string) {
+  function closeVotePanel(listingId: string, options: { reject?: boolean; returnFocus?: boolean } = {}) {
     const pendingWait = turnstileWaits.get(listingId)
-    if (pendingWait) {
+    if (options.reject && pendingWait) {
       pendingWait.reject(new Error(CANCELLED))
+      turnstileWaits.delete(listingId)
+    } else {
       turnstileWaits.delete(listingId)
     }
     cleanupTurnstileWidget(listingId)
     releaseFocusTrap(listingId)
-    document.querySelector(`[data-turnstile-panel="${listingId}"]`)?.classList.remove('is-open')
-  }
-
-  function finishTurnstilePanel(listingId: string) {
-    turnstileWaits.delete(listingId)
-    cleanupTurnstileWidget(listingId)
-    releaseFocusTrap(listingId)
-    document.querySelector(`[data-turnstile-panel="${listingId}"]`)?.classList.remove('is-open')
-  }
-
-  function focusables(panel: HTMLElement) {
-    return [...panel.querySelectorAll<HTMLElement>(
-      'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), iframe, [tabindex]:not([tabindex="-1"])',
-    )].filter(el => el.offsetParent !== null || el.tagName === 'IFRAME')
+    panelParts(listingId).panel?.classList.remove('is-open')
+    if (options.returnFocus !== false) panelTriggers.get(listingId)?.focus()
+    panelTriggers.delete(listingId)
   }
 
   function bindFocusTrap(listingId: string, panel: HTMLElement) {
     releaseFocusTrap(listingId)
-    const nodes = focusables(panel)
-    const first = nodes[0]
-    const last = nodes[nodes.length - 1]
-    first?.focus()
     const trap = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         event.preventDefault()
         event.stopPropagation()
-        dismissTurnstilePanel(listingId)
+        closeVotePanel(listingId, { reject: true, returnFocus: true })
         return
       }
-      if (event.key !== 'Tab' || !nodes.length) return
+      if (event.key !== 'Tab') return
+      const nodes = focusables(panel)
+      if (!nodes.length) return
       const active = document.activeElement as HTMLElement | null
+      const first = nodes[0]
+      const last = nodes[nodes.length - 1]
       if (event.shiftKey) {
-        if (active === first || !panel.contains(active)) {
+        if (active === first || (active && !panel.contains(active))) {
           event.preventDefault()
-          last?.focus()
+          last.focus()
         }
-      } else if (active === last || !panel.contains(active)) {
+      } else if (active === last) {
         event.preventDefault()
-        first?.focus()
+        first.focus()
       }
     }
     panel.addEventListener('keydown', trap)
     focusTraps.set(listingId, trap)
+    focusables(panel)[0]?.focus()
   }
 
-  function openTurnstilePanel(anchor: HTMLElement, listingId: string) {
-    const panel = document.querySelector(`[data-turnstile-panel="${listingId}"]`) as HTMLElement | null
+  function openVotePanel(anchor: HTMLElement, listingId: string) {
+    const { panel } = panelParts(listingId)
     if (!panel) return
+    panelTriggers.set(listingId, anchor)
     const margin = 8
     const anchorRect = anchor.getBoundingClientRect()
     const width = Math.min(300, window.innerWidth - margin * 2)
-    let left
-    if (window.innerWidth <= 420) left = (window.innerWidth - width) / 2
-    else {
-      left = anchorRect.right - width
-      left = Math.max(margin, Math.min(left, window.innerWidth - width - margin))
-    }
+    let left = window.innerWidth <= 420 ? (window.innerWidth - width) / 2 : Math.max(margin, anchorRect.right - width)
+    left = Math.max(margin, Math.min(left, window.innerWidth - width - margin))
     let top = anchorRect.bottom + margin
-    const maxTop = window.innerHeight - 220
-    if (top > maxTop) top = Math.max(margin, anchorRect.top - 220)
+    const maxTop = window.innerHeight - 260
+    if (top > maxTop) top = Math.max(margin, anchorRect.top - 260)
     panel.style.width = `${width}px`
     panel.style.left = `${left}px`
     panel.style.top = `${top}px`
@@ -160,38 +212,36 @@ const returnTo = `${Astro.url.pathname}${Astro.url.search}#listing-${id}`
     if (close) {
       event.preventDefault()
       event.stopPropagation()
-      dismissTurnstilePanel(close.getAttribute('data-turnstile-close')!)
+      closeVotePanel(close.getAttribute('data-turnstile-close')!, { reject: true, returnFocus: true })
     }
   })
 
   async function obtainTurnstileToken(anchor: HTMLAnchorElement, listingId: string): Promise<string> {
-    const panel = document.querySelector(`[data-turnstile-panel="${listingId}"]`) as HTMLElement | null
-    const host = panel?.querySelector('[data-turnstile-widget]') as HTMLElement | null
-    const siteKey = host?.dataset.turnstileSitekey
-    if (!panel || !host || !siteKey) throw new Error('Human verification is unavailable. Please try again.')
-    openTurnstilePanel(anchor, listingId)
+    const { panel, mount } = panelParts(listingId)
+    const siteKey = mount?.dataset.turnstileSitekey
+    if (!panel || !mount || !siteKey) throw new Error('Human verification is unavailable. Please try again.')
+    setPanelMode(listingId, 'turnstile')
+    openVotePanel(anchor, listingId)
     let settled = false
     try {
       await loadTurnstile()
       const turnstile = turnstileApi()
       if (!turnstile) throw new Error('Human verification is unavailable. Please try again.')
-      if (host.dataset.turnstileWidget) turnstile.remove(host.dataset.turnstileWidget)
+      const existing = turnstileWidgetIds.get(listingId)
+      if (existing) turnstile.remove(existing)
+      mount.replaceChildren()
       return await new Promise<string>((resolve, reject) => {
         turnstileWaits.set(listingId, { reject })
-        const widget = turnstile.render(host, {
+        const widget = turnstile.render(mount, {
           sitekey: siteKey,
           theme: 'light',
           size: 'normal',
           callback: (value: string) => {
             if (settled) return
-            if (!value) {
-              settled = true
-              reject(new Error('Human verification failed. Please try again.'))
-              return
-            }
             settled = true
             turnstileWaits.delete(listingId)
-            resolve(value)
+            if (!value) reject(new Error('Human verification failed. Please try again.'))
+            else resolve(value)
           },
           'error-callback': () => {
             if (settled) return
@@ -206,12 +256,45 @@ const returnTo = `${Astro.url.pathname}${Astro.url.search}#listing-${id}`
             reject(new Error('Human verification timed out. Please try again.'))
           },
         })
-        host.dataset.turnstileWidget = widget
+        turnstileWidgetIds.set(listingId, widget)
       })
     } finally {
       if (!settled) turnstileWaits.delete(listingId)
-      finishTurnstilePanel(listingId)
+      closeVotePanel(listingId, { reject: false, returnFocus: false })
     }
+  }
+
+  function openEmailRequiredPanel(anchor: HTMLAnchorElement, listingId: string) {
+    setPanelMode(listingId, 'email')
+    panelParts(listingId).emailError?.classList.add('hidden')
+    openVotePanel(anchor, listingId)
+  }
+
+  async function submitVoteEmail(anchor: HTMLAnchorElement, listingId: string, email: string) {
+    const { emailError } = panelParts(listingId)
+    const body: Record<string, unknown> = {
+      email,
+      return_to: `${location.pathname}${location.search}#listing-${listingId}`,
+    }
+    if (!voteVerified) body.turnstile_token = await obtainTurnstileToken(anchor, listingId)
+    const response = await fetch('/api/directory-vote-email/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(20000),
+    })
+    const data = await response.json() as { error?: string; ok?: boolean }
+    if (!response.ok) {
+      const message = mapVoteEmailClientError(data.error ?? 'unavailable')
+      if (emailError) {
+        emailError.textContent = message
+        emailError.classList.remove('hidden')
+      }
+      throw new Error(message)
+    }
+    setPanelMode(listingId, 'email-sent')
+    releaseFocusTrap(listingId)
+    bindFocusTrap(listingId, panelParts(listingId).panel!)
   }
 
   function enhance() {
@@ -240,6 +323,21 @@ const returnTo = `${Astro.url.pathname}${Astro.url.search}#listing-${id}`
   window.addEventListener('pageshow', event => { if (event.persisted) void loadVotes() })
   void loadVotes()
 
+  document.addEventListener('submit', event => {
+    const form = (event.target as Element).closest('[data-vote-email-form]')
+    if (!form) return
+    event.preventDefault()
+    const panel = form.closest('[data-turnstile-panel]') as HTMLElement | null
+    const listingId = panel?.getAttribute('data-turnstile-panel')
+    const anchor = listingId ? panelTriggers.get(listingId) ?? document.querySelector<HTMLAnchorElement>(`[data-upvote="${listingId}"]`) : null
+    if (!listingId || !(anchor instanceof HTMLAnchorElement)) return
+    const emailInput = form.querySelector('input[name="email"]') as HTMLInputElement
+    const email = emailInput?.value.trim() ?? ''
+    if (pending.has(listingId)) return
+    pending.add(listingId)
+    void submitVoteEmail(anchor, listingId, email).catch(() => {}).finally(() => pending.delete(listingId))
+  })
+
   async function castVote(link: HTMLAnchorElement) {
     const id = link.dataset.upvote!
     if (pending.has(id)) return
@@ -256,6 +354,10 @@ const returnTo = `${Astro.url.pathname}${Astro.url.search}#listing-${id}`
         signal: AbortSignal.timeout(20000),
       })
       const data = await response.json() as VoteResult & { error?: string }
+      if (response.status === 403 && data.error === 'email_required') {
+        openEmailRequiredPanel(link, id)
+        return
+      }
       if (!response.ok) throw new Error(data.error || 'Your vote could not be saved. Please try again.')
       const vote = data as VoteResult
       voteVerified = true
@@ -266,7 +368,7 @@ const returnTo = `${Astro.url.pathname}${Astro.url.search}#listing-${id}`
       enhance()
       status.textContent = `${vote.voted ? 'Upvoted' : 'Removed upvote for'} ${link.dataset.voteTitle}. ${vote.vote_count} ${vote.vote_count === 1 ? 'vote' : 'votes'}.`
     } catch (error) {
-      finishTurnstilePanel(id)
+      closeVotePanel(id, { reject: false, returnFocus: true })
       if (error instanceof Error && error.message === CANCELLED) return
       const message = document.createElement('p')
       message.dataset.voteError = ''

@@ -46,6 +46,9 @@ declare
   network_events integer;
   utc_vote_day date := (clock_timestamp() at time zone 'UTC')::date;
   consumed_slot boolean := false;
+  voter_email_confirmed timestamptz;
+  active_vote_count integer;
+  already_voted_listing boolean;
 begin
   if p_user_id is null then
     raise exception 'Sign in required to vote' using errcode = '42501';
@@ -73,6 +76,20 @@ begin
 
   if not public.directory_vote_target_exists(p_listing_id) then
     raise exception 'This listing is not published' using errcode = '22023';
+  end if;
+
+  select u.email_confirmed_at into voter_email_confirmed from auth.users u where u.id = p_user_id;
+
+  if p_voted and voter_email_confirmed is null then
+    select exists (
+      select 1 from public.directory_votes v where v.user_id = p_user_id and v.listing_id = p_listing_id
+    ) into already_voted_listing;
+    if not already_voted_listing then
+      select count(*)::integer into active_vote_count from public.directory_votes v where v.user_id = p_user_id;
+      if active_vote_count >= 5 then
+        raise exception 'email_required' using errcode = '45003';
+      end if;
+    end if;
   end if;
 
   if p_voted then
@@ -129,7 +146,7 @@ revoke all on function public.directory_set_vote(uuid, text, boolean, text) from
 grant execute on function public.directory_set_vote(uuid, text, boolean, text) to service_role;
 
 comment on function public.directory_set_vote(uuid, text, boolean, text) is
-  'Server-only vote mutation. Enforces 30 changes/hour per user and 3 new adds/listing/network/day.';
+  'Server-only vote mutation. Enforces 30 changes/hour per user, 3 new adds/listing/network/day, and 5 active votes until email is confirmed.';
 
 create or replace view public.directory_award_vote_spike_flags as
 with recent as (
