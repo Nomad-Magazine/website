@@ -41,6 +41,8 @@ export function normalizeDirectoryCategoryField(field) {
 
 /** @param {Record<string, unknown>} record */
 export function normalizeRecordCategoryField(record) {
-  const normalized = normalizeDirectoryCategoryField(record.sb685ab800)
+  const field = record.sb685ab800
+  if (field && typeof field === 'object' && field.label && field.value) return
+  const normalized = normalizeDirectoryCategoryField(field)
   if (normalized) record.sb685ab800 = normalized
 }
