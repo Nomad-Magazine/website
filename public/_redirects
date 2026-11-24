@@ -12,6 +12,16 @@
 /about/ /our-story/ 301
 /sitemap.xml /sitemap-index.xml 301
 
+# Directory account shortcuts
+/login /nomad-directory-edit/ 301
+/login/ /nomad-directory-edit/ 301
+/signin /nomad-directory-edit/ 301
+/signin/ /nomad-directory-edit/ 301
+/account /nomad-directory-edit/ 301
+/account/ /nomad-directory-edit/ 301
+/claim /nomad-directory-edit/ 301
+/claim/ /nomad-directory-edit/ 301
+
 /coworking-spaces /editions/fourth-edition/ 301
 /coworking-spaces/ /editions/fourth-edition/ 301
 /coworking-design-contest /editions/fourth-edition/ 301
