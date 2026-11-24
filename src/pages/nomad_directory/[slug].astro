@@ -43,6 +43,7 @@ const count = pageRecords.length
 const isLocation = type === 'country' || type === 'continent'
 const pageEntries = getDirectoryEntriesFromRecords(pageRecords)
 const showVotes = DIRECTORY_VOTING_PAGES[type as DirectoryVotingSurface] && voteRows !== null
+const voteEmailCrossDeviceNotice = showVotes && Astro.url.searchParams.get('vote_email_notice') === 'cross_device'
 
 // SEO copy
 const categoryDescriptions: Record<string, string> = {
@@ -161,6 +162,11 @@ const seo: SEOProps = {
           <span class="text-gray-300">{breadcrumbLabel}</span>
         </nav>
 
+        {voteEmailCrossDeviceNotice && (
+          <p id="vote-email-cross-device-notice" class="mx-auto mb-6 max-w-2xl rounded-xl border border-yellow-400/30 bg-gray-950 px-4 py-3 text-left text-sm text-yellow-100" role="status">
+            Your email is confirmed. Open this link in the browser where you voted to keep voting, or just vote again here.
+          </p>
+        )}
         <h1 class="mx-auto max-w-4xl text-4xl leading-tight font-bold md:text-6xl mb-3">
           {isLocation ? (
             <>Digital Nomad Resources in <span class="text-yellow-400">{filterValue}</span></>
@@ -436,4 +442,10 @@ const seo: SEOProps = {
 
   const si = document.getElementById('search-input');
   if (si) si.addEventListener('input', e => applyFilters(e.target.value.toLowerCase().trim(), activeCountry));
+
+  const voteNoticeUrl = new URL(location.href);
+  if (voteNoticeUrl.searchParams.get('vote_email_notice') === 'cross_device') {
+    voteNoticeUrl.searchParams.delete('vote_email_notice');
+    history.replaceState(null, '', voteNoticeUrl.pathname + voteNoticeUrl.search + voteNoticeUrl.hash);
+  }
 </script>

@@ -1,7 +1,12 @@
 ---
 import { createSupabaseServerClient } from '~/utils/supabase-server'
 import type { EmailOtpType } from '@supabase/supabase-js'
-import { consumeDirectoryReturn } from '~/utils/directory-auth'
+import {
+  consumeDirectoryReturn,
+  directoryVoteCrossDeviceNoticeUrl,
+  isDirectoryVoteEmailReturn,
+  isVoteEmailPkceError,
+} from '~/utils/directory-auth'
 
 const supabase = createSupabaseServerClient(Astro.request, Astro.cookies)
 
@@ -14,6 +19,13 @@ const tokenHash = url.searchParams.get('token_hash')
 const type = url.searchParams.get('type') as EmailOtpType | null
 const error = url.searchParams.get('error')
 
+function authFailureRedirect(message: string) {
+  if (isDirectoryVoteEmailReturn(next) && isVoteEmailPkceError(message)) {
+    return Astro.redirect(directoryVoteCrossDeviceNoticeUrl(next, url.origin))
+  }
+  return Astro.redirect(loginUrl(message))
+}
+
 if (error) {
   return Astro.redirect(loginUrl(url.searchParams.get('error_description') ?? error))
 }
@@ -21,7 +33,7 @@ if (error) {
 if (code) {
   const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
   if (exchangeError) {
-    return Astro.redirect(loginUrl(exchangeError.message))
+    return authFailureRedirect(exchangeError.message)
   }
   return Astro.redirect(next)
 }
@@ -29,7 +41,7 @@ if (code) {
 if (tokenHash && type) {
   const { error: otpError } = await supabase.auth.verifyOtp({ type, token_hash: tokenHash })
   if (otpError) {
-    return Astro.redirect(loginUrl(otpError.message))
+    return authFailureRedirect(otpError.message)
   }
   return Astro.redirect(next)
 }
