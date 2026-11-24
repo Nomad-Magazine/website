@@ -1,6 +1,7 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { convertAllSmartDocFields } from './smartdoc-converter.js'
+import { normalizeRecordCategoryField } from './directory-category-field.js'
 
 const SMART_SUITE_APIKEY = process.env.SMART_SUITE_APIKEY ?? ''
 const SMART_SUITE_ACCOUNT_ID = process.env.SMART_SUITE_ACCOUNT_ID ?? ''
@@ -234,6 +235,8 @@ async function fetchReportRecords(reportId) {
     const colivingCount = filteredRecords.filter(r => r.sb685ab800?.label?.toLowerCase() === 'coliving').length
     console.log(`  → Distribution: kept ${distCount} with distribution flag + ${colivingCount} coliving`)
   }
+
+  filteredRecords.forEach(normalizeRecordCategoryField)
 
   // Convert SmartDoc fields and strip unused fields
   filteredRecords.forEach((record) => {

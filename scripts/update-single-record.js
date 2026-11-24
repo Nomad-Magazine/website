@@ -1,6 +1,7 @@
 import { writeFileSync, readFileSync, existsSync } from 'node:fs'
 import path from 'node:path'
 import { convertAllSmartDocFields } from './smartdoc-converter.js'
+import { normalizeRecordCategoryField } from './directory-category-field.js'
 
 const SMART_SUITE_APIKEY = process.env.SMART_SUITE_APIKEY
 const SMART_SUITE_ACCOUNT_ID = process.env.SMART_SUITE_ACCOUNT_ID
@@ -124,6 +125,7 @@ async function updateSingleRecord(recordId, reportId) {
 
   // Fetch the single record
   const record = await fetchSingleRecord(recordId)
+  normalizeRecordCategoryField(record)
 
   // Check if record should be kept based on report-specific rules
   const shouldKeep = shouldKeepRecord(record, reportId)
