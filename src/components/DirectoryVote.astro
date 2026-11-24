@@ -6,13 +6,18 @@ const { id, title, count } = Astro.props
 const returnTo = `${Astro.url.pathname}${Astro.url.search}#listing-${id}`
 ---
 
-<a href={votePageUrl(id, returnTo)} data-upvote={id} data-vote-title={title}
-  aria-label={`Upvote ${title}, ${count} ${count === 1 ? 'vote' : 'votes'}`}
-  class="directory-upvote flex min-h-14 min-w-12 shrink-0 flex-col items-center justify-center gap-0.5 rounded-xl border border-white/20 px-2 py-2 text-sm font-bold text-gray-200 transition-colors hover:border-yellow-400 hover:text-yellow-400 focus-visible:ring-2 focus-visible:ring-yellow-400">
-  <svg aria-hidden="true" viewBox="0 0 20 20" width="18" height="18" fill="currentColor"><path d="m10 4 7 10H3z" /></svg>
-  <span data-vote-count>{count}</span>
-</a>
-<div class="hidden" data-turnstile-host={id} data-turnstile-sitekey={DIRECTORY_TURNSTILE_SITE_KEY}></div>
+<div class="directory-vote-stack relative flex shrink-0 flex-col items-end gap-2">
+  <a href={votePageUrl(id, returnTo)} data-upvote={id} data-vote-title={title}
+    aria-label={`Upvote ${title}, ${count} ${count === 1 ? 'vote' : 'votes'}`}
+    class="directory-upvote flex min-h-14 min-w-12 flex-col items-center justify-center gap-0.5 rounded-xl border border-white/20 px-2 py-2 text-sm font-bold text-gray-200 transition-colors hover:border-yellow-400 hover:text-yellow-400 focus-visible:ring-2 focus-visible:ring-yellow-400">
+    <svg aria-hidden="true" viewBox="0 0 20 20" width="18" height="18" fill="currentColor"><path d="m10 4 7 10H3z" /></svg>
+    <span data-vote-count>{count}</span>
+  </a>
+  <div class="hidden w-[min(18rem,70vw)] rounded-xl border border-white/15 bg-gray-950/95 p-3 text-left shadow-lg" data-turnstile-panel={id} role="dialog" aria-label="Confirm you are human">
+    <p class="mb-2 text-xs text-gray-300">Complete the check below to save your vote.</p>
+    <div data-turnstile-widget data-turnstile-sitekey={DIRECTORY_TURNSTILE_SITE_KEY}></div>
+  </div>
+</div>
 
 <style>
   .directory-upvote[aria-pressed='true'] { background: #facc15; color: #000; border-color: #facc15; }
@@ -26,7 +31,6 @@ const returnTo = `${Astro.url.pathname}${Astro.url.search}#listing-${id}`
   let authenticated = false
   let ready = false
   const pending = new Set<string>()
-  let turnstileReady: Promise<string> | null = null
   const status = document.createElement('p')
   status.className = 'sr-only'
   status.setAttribute('role', 'status')
@@ -36,46 +40,47 @@ const returnTo = `${Astro.url.pathname}${Astro.url.search}#listing-${id}`
   function turnstileApi() {
     return (window as Window & { turnstile?: {
       render: (el: HTMLElement, opts: Record<string, unknown>) => string
-      execute: (id: string) => void
       getResponse: (id?: string) => string
       remove: (id: string) => void
+      reset: (id?: string) => void
     } }).turnstile
   }
 
-  async function ensureTurnstileToken(listingId: string) {
-    if (turnstileReady) return turnstileReady
-    const host = document.querySelector(`[data-turnstile-host="${listingId}"]`) as HTMLElement | null
-    const siteKey = host?.dataset.turnstileSitekey
-    if (!siteKey) throw new Error('Human verification is unavailable. Please try again.')
-
-    const challenge = new Promise<string>((resolve, reject) => {
-      const finish = (token: string) => { if (token) resolve(token); else reject(new Error('Human verification failed. Please try again.')) }
-      const boot = () => {
-        const turnstile = turnstileApi()
-        if (!turnstile || !host) return reject(new Error('Human verification is unavailable. Please try again.'))
-        const widget = turnstile.render(host, {
-          sitekey: siteKey,
-          size: 'invisible',
-          callback: finish,
-          'error-callback': () => reject(new Error('Human verification failed. Please try again.')),
-          'timeout-callback': () => reject(new Error('Human verification timed out. Please try again.')),
-        })
-        host.dataset.turnstileWidget = widget
-        turnstile.execute(widget)
-      }
-      if (turnstileApi()) boot()
-      else {
-        const script = document.createElement('script')
-        script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'
-        script.async = true
-        script.onload = () => boot()
-        script.onerror = () => reject(new Error('Human verification is unavailable. Please try again.'))
-        document.head.appendChild(script)
-      }
+  function loadTurnstile() {
+    return new Promise<void>((resolve, reject) => {
+      if (turnstileApi()) { resolve(); return }
+      const script = document.createElement('script')
+      script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'
+      script.async = true
+      script.onload = () => resolve()
+      script.onerror = () => reject(new Error('Human verification is unavailable. Please try again.'))
+      document.head.appendChild(script)
     })
-    turnstileReady = challenge
-    void challenge.finally(() => { turnstileReady = null })
-    return challenge
+  }
+
+  async function obtainTurnstileToken(listingId: string): Promise<string> {
+    const panel = document.querySelector(`[data-turnstile-panel="${listingId}"]`) as HTMLElement | null
+    const host = panel?.querySelector('[data-turnstile-widget]') as HTMLElement | null
+    const siteKey = host?.dataset.turnstileSitekey
+    if (!panel || !host || !siteKey) throw new Error('Human verification is unavailable. Please try again.')
+    panel.classList.remove('hidden')
+    await loadTurnstile()
+    const turnstile = turnstileApi()
+    if (!turnstile) throw new Error('Human verification is unavailable. Please try again.')
+    if (host.dataset.turnstileWidget) turnstile.remove(host.dataset.turnstileWidget)
+    const token = await new Promise<string>((resolve, reject) => {
+      const widget = turnstile.render(host, {
+        sitekey: siteKey,
+        theme: 'light',
+        size: 'normal',
+        callback: (value: string) => { if (value) resolve(value); else reject(new Error('Human verification failed. Please try again.')) },
+        'error-callback': () => reject(new Error('Human verification failed. Please try again.')),
+        'timeout-callback': () => reject(new Error('Human verification timed out. Please try again.')),
+      })
+      host.dataset.turnstileWidget = widget
+    })
+    panel.classList.add('hidden')
+    return token
   }
 
   function enhance() {
@@ -110,23 +115,15 @@ const returnTo = `${Astro.url.pathname}${Astro.url.search}#listing-${id}`
     pending.add(id)
     link.setAttribute('aria-busy', 'true')
     link.closest('[data-vote-listing]')?.querySelector('[data-vote-error]')?.remove()
-    const nextVoted = !ownVotes.has(id)
-    const previousVoted = ownVotes.has(id)
-    const previousCount = Number(link.querySelector('[data-vote-count]')?.textContent || '0')
-    link.setAttribute('aria-pressed', String(nextVoted))
-    link.querySelector('[data-vote-count]')!.textContent = String(Math.max(0, previousCount + (nextVoted ? 1 : -1)))
+  const nextVoted = !ownVotes.has(id)
     try {
       const body: Record<string, unknown> = { listing_id: id, voted: nextVoted }
-      if (!authenticated) body.turnstile_token = await ensureTurnstileToken(id)
+      if (!authenticated) body.turnstile_token = await obtainTurnstileToken(id)
       const response = await fetch('/api/directory-votes/', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
-        signal: AbortSignal.timeout(15000),
+        signal: AbortSignal.timeout(20000),
       })
-      if (response.status === 401 && !authenticated) {
-        location.assign(link.href)
-        return
-      }
       const data = await response.json() as VoteResult & { error?: string }
       if (!response.ok) throw new Error(data.error || 'Your vote could not be saved. Please try again.')
       const vote = data as VoteResult
@@ -138,9 +135,6 @@ const returnTo = `${Astro.url.pathname}${Astro.url.search}#listing-${id}`
       enhance()
       status.textContent = `${vote.voted ? 'Upvoted' : 'Removed upvote for'} ${link.dataset.voteTitle}. ${vote.vote_count} ${vote.vote_count === 1 ? 'vote' : 'votes'}.`
     } catch (error) {
-      if (nextVoted) ownVotes.delete(id); else ownVotes.add(id)
-      link.querySelector('[data-vote-count]')!.textContent = String(previousCount)
-      link.setAttribute('aria-pressed', String(previousVoted))
       const message = document.createElement('p')
       message.dataset.voteError = ''
       message.className = 'mt-2 text-sm text-yellow-300'
@@ -156,10 +150,10 @@ const returnTo = `${Astro.url.pathname}${Astro.url.search}#listing-${id}`
   document.addEventListener('click', event => {
     const link = (event.target as Element).closest<HTMLAnchorElement>('[data-upvote]')
     if (!link || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return
+    if ((event.target as Element).closest('[data-turnstile-panel]')) return
     event.preventDefault()
     const id = link.dataset.upvote!
-    const returnTo = `${location.pathname}${location.search}#listing-${id}`
-    link.href = votePageUrl(id, returnTo)
+    link.href = votePageUrl(id, `${location.pathname}${location.search}#listing-${id}`)
     void castVote(link)
   })
   document.addEventListener('keydown', event => {

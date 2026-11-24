@@ -140,8 +140,6 @@ export default defineConfig({
       SMART_SUITE_APIKEY: envField.string({ context: 'server', access: 'secret', optional: true }),
       SMART_SUITE_ACCOUNT_ID: envField.string({ context: 'server', access: 'secret', optional: true }),
       SMART_SUITE_TABLE_ID_COMPANY: envField.string({ context: 'server', access: 'secret', optional: true }),
-      TURNSTILE_SECRET_KEY: envField.string({ context: 'server', access: 'secret', optional: true }),
-      DIRECTORY_IP_HASH_SALT: envField.string({ context: 'server', access: 'secret', optional: true }),
     },
   },
 })

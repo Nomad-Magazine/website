@@ -10,7 +10,7 @@ type SpikeFlag = {
   listing_title: string
   votes_24h: number
   burst_flag: string | null
-  new_session_flag: string | null
+  burst_vs_baseline_flag: string | null
   network_flag: string | null
 }
 
@@ -42,7 +42,7 @@ try {
     <p class="muted">{flag.votes_24h} votes in the last 24 hours</p>
     <ul class="muted">
       {flag.burst_flag && <li>Burst volume in 24h</li>}
-      {flag.new_session_flag && <li>Mostly brand-new sessions</li>}
+      {flag.burst_vs_baseline_flag && <li>Spike vs recent baseline</li>}
       {flag.network_flag && <li>Concentrated networks today</li>}
     </ul>
   </article>)}

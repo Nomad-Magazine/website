@@ -4,9 +4,9 @@ import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import { createSupabaseServerClient } from '~/utils/supabase-server'
 import { getDirectoryEntries } from '~/utils/directory'
 import { directoryReturnTo } from '~/utils/directory-votes'
-import { getSecret } from 'astro:env/server'
 import { DIRECTORY_TURNSTILE_SITE_KEY } from '~/const/directoryVoting'
-import { hashClientNetwork, verifyTurnstileToken } from '~/utils/directory-vote-network'
+import { castDirectoryVote, verifyHumanVote } from '~/utils/directory-vote-cast'
+import { requireWorkerSecret } from '~/utils/directory-vote-secrets'
 
 Astro.response.headers.set('Cache-Control', 'private, no-store')
 Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow')
@@ -23,27 +23,30 @@ if (Astro.request.method === 'POST') {
   if (vote !== 'true' && vote !== 'false') error = 'Invalid vote. Please try again.'
   else if (!token) error = 'Human verification failed. Please try again.'
   else {
-    const secret = getSecret('TURNSTILE_SECRET_KEY') || ''
-    const ip = Astro.request.headers.get('cf-connecting-ip')
-    if (!await verifyTurnstileToken(secret, token, ip)) error = 'Human verification failed. Please try again.'
-    else {
-      const { data: { user } } = await supabase.auth.getUser()
+    try {
+      requireWorkerSecret('SUPABASE_SERVICE_ROLE_KEY')
+      requireWorkerSecret('DIRECTORY_IP_HASH_SALT')
+      requireWorkerSecret('TURNSTILE_SECRET_KEY')
+      await verifyHumanVote(Astro.request, token)
+      let { data: { user } } = await supabase.auth.getUser()
       if (!user) {
-        const { error: anonError } = await supabase.auth.signInAnonymously({ options: { captchaToken: token } })
-        if (anonError) error = 'Your vote could not be saved. Please try again.'
+        const { error: anonError } = await supabase.auth.signInAnonymously()
+        if (anonError) throw anonError
+        ;({ data: { user } } = await supabase.auth.getUser())
       }
-      const salt = getSecret('DIRECTORY_IP_HASH_SALT') || ''
-      const networkHash = vote === 'true' ? await hashClientNetwork(Astro.request, salt) : null
-      if (vote === 'true' && !networkHash) error = 'Your vote could not be saved. Please try again.'
-      else {
-        const { error: voteError } = await supabase.rpc('directory_set_vote', {
-          p_listing_id: id,
-          p_voted: vote === 'true',
-          p_network_hash: networkHash,
-        })
-        if (!error && !voteError) return Astro.redirect(returnTo, 303)
-        if (!error) error = voteError?.code === '53200' ? voteError.message : 'Your vote could not be saved. Please try again.'
-      }
+      if (!user) throw new Error('Session missing')
+      await castDirectoryVote({
+        request: Astro.request,
+        userId: user.id,
+        listingId: id,
+        voted: vote === 'true',
+      })
+      return Astro.redirect(returnTo, 303)
+    } catch (err: unknown) {
+      const code = typeof err === 'object' && err && 'code' in err ? String((err as { code?: string }).code) : ''
+      if (code === '53200') error = (err as { message?: string }).message || 'Vote limit reached.'
+      else if (code === 'turnstile') error = 'Human verification failed. Please try again.'
+      else error = 'Your vote could not be saved. Please try again.'
     }
   }
 }
@@ -80,7 +83,7 @@ const seo: SEOProps = {
         {error && <p role="alert" class="mb-4 text-yellow-300">{error}</p>}
         <form method="POST" aria-label={`Vote for ${entry.title}`}>
           <input type="hidden" name="voted" value={String(!voted)} />
-          <div class="cf-turnstile mb-4" data-sitekey={DIRECTORY_TURNSTILE_SITE_KEY} data-theme="light"></div>
+          <div class="cf-turnstile mb-4" data-sitekey={DIRECTORY_TURNSTILE_SITE_KEY} data-theme="light" data-size="normal"></div>
           <button type="submit" class="rounded-xl bg-yellow-400 px-6 py-3 font-bold text-black hover:bg-yellow-300 focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950">{voted ? 'Remove my upvote' : 'Confirm upvote'}</button>
         </form>
       </>}

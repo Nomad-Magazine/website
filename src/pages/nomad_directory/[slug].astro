@@ -291,14 +291,22 @@ const seo: SEOProps = {
           <div class="flex-1 min-w-0">
 
             <div id="directory-container" class="space-y-4">
-              {pageEntries.map(entry => (
-                <DirectoryEntryCard
-                  entry={entry}
-                  votes={showVotes ? voteCounts.get(entry.id) ?? 0 : undefined}
-                  country={extractCountry(String(pageRecords.find(record => String(record.id) === entry.id)?.sed1a49986 || ''))}
-                  openWebsiteOnCardClick
-                />
-              ))}
+              {pageEntries.map(entry => {
+                const record = pageRecords.find(r => String(r.id) === entry.id)
+                const loc = String(record?.sed1a49986 || '')
+                const locParts = loc.split(',')
+                const locationLabel = locParts.length >= 2 ? locParts.at(-1)?.trim() || '' : ''
+                return (
+                  <DirectoryEntryCard
+                    entry={entry}
+                    browseCard
+                    votes={showVotes ? voteCounts.get(entry.id) ?? 0 : undefined}
+                    country={extractCountry(loc)}
+                    locationLabel={locationLabel}
+                    openWebsiteOnCardClick
+                  />
+                )
+              })}
             </div>
 
             <div id="empty-state" class="hidden text-center py-16">
