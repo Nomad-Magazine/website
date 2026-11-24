@@ -19,7 +19,7 @@ next_blog: ''
 Remote work connects teams worldwide, but managing time zones can be tricky. From missed meetings to disrupted work-life balance, poor time zone management impacts productivity. Here's how you can master it:
 
 -   **Use UTC for Clarity**: Schedule meetings using Coordinated Universal Time (UTC) to avoid confusion.
--   **Leverage Tools**: Apps like [World Time Buddy](https://www.worldtimebuddy.com/), [Google Calendar](https://calendar.google.com/), and scheduling apps simplify scheduling across zones.
+-   **Leverage Tools**: Apps like [World Time Buddy](https://www.worldtimebuddy.com/), [Google Calendar](https://calendar.google.com/), and [Calendly](https://calendly.com/) simplify scheduling across zones.
 -   **Rotate Meeting Times**: Share the burden of inconvenient hours by rotating schedules.
 -   **Embrace Asynchronous Work**: Use tools like [Slack](https://slack.com/) or email for updates when live collaboration isn’t possible.
 -   **Set Clear Deadlines**: Always include time zones and build buffer periods for global teams.
@@ -101,7 +101,7 @@ Time zone conversion tools are lifesavers when you're juggling meetings with tea
 
 When it comes to scheduling, these apps do the heavy lifting by automatically accounting for time zones.
 
--   **scheduling tools**: This tool detects an invitee’s time zone and shows available time slots in their local time, reducing confusion from the start.
+-   **Calendly**: This tool detects an invitee’s time zone and shows available time slots in their local time, reducing confusion from the start.
 -   **Google Calendar**: A favorite for its seamless integration with other calendars. You can even add a second time zone to your view, so meetings always display in the correct local time. Plans start at $6 per user per month with Google Workspace Business Starter.
 -   **[Microsoft Outlook Calendar](https://www.microsoft.com/en-us/microsoft-365/outlook/email-and-calendar-software-microsoft-outlook)**: A solid option with cross-platform functionality. Basic features are available for free, with Microsoft 365 Business Basic priced at $6 per user per month.
 -   **[Doodle](https://doodle.com/en/)**: Perfect for group scheduling, Doodle lets you propose multiple meeting times and automatically adjusts for participants' local time zones.

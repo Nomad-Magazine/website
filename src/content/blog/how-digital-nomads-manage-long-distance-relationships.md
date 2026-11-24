@@ -19,7 +19,7 @@ next_blog: ''
 **Maintaining a long-distance relationship as a [digital nomad](https://www.nomadgossip.com/nomad-events) is tough but doable.** Here's how nomads make it work:
 
 -   **Communication is key**: Use tools like [Between](https://between.us/?lang=en), [Cupla](https://cupla.app/), or FaceTime for quality conversations.
--   **Manage time zones**: Apps like Google Calendar or scheduling apps help schedule calls.
+-   **Manage time zones**: Apps like Google Calendar or [Calendly](https://calendly.com/) help schedule calls.
 -   **Build trust**: Be transparent about travel plans and emotions.
 -   **Stay connected**: Virtual date ideas include watch parties, shared playlists, or cooking the same meal.
 -   **Balance independence and connection**: Focus on personal growth while nurturing the relationship.
@@ -63,7 +63,7 @@ Time zone differences can be tricky, but with the right strategies, they’re ma
 Here are some practical ways to handle time zone challenges:
 
 -   Use Google Calendar to display multiple time zones for easy scheduling.
--   Try scheduling tools to simplify setting up meetings or calls.
+-   Try Calendly to simplify setting up meetings or calls.
 -   Communicate in advance about travel plans and time zone shifts.
 -   Rely on asynchronous tools like email or messaging when live conversations aren’t possible.
 
