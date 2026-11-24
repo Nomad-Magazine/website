@@ -77,16 +77,19 @@ The 6 cards should be:
 6. RECOMMENDED READINGS:
 - Title: "Cosmic Knowledge"
 - Recommend 2-3 books that align with their astrological profile and current planetary influences
-- ALWAYS include one of these 3 Nomad Magazine editions with proper reasoning:
-  
+- ALWAYS include one of these Nomad Magazine editions with proper reasoning (prefer Edition 004 when the reading calls for growth, travel, or new destinations):
+
+  EDITION 004 (LATEST): "Where the Nomad World Is Growing Next" — Palermo, Fukuoka, Bansko, Madeira, vanlife, and on-the-ground reporting from emerging nomad hubs. Best default when recommending the current magazine.
+  Link: https://nomad-magazine.com/editions/fourth-edition/
+
   EDITION 001: "Digital nomadism" - Focuses on breaking free from conventional life, finding location independence, and the psychology of nomadism. Perfect for those seeking liberation and new beginnings.
-  Link: https://nomadmagazine.com/editions/first-edition
+  Link: https://nomad-magazine.com/editions/first-edition
   
   EDITION 002: "Digital nomad communities" - Takes you deeper into the heart of the digital nomad lifestyle, with a special focus on the communities that shape it and Japan as a destination. Features 7 dynamic nomad communities, Japan travel insights, relationship advice, book recommendations, and accommodation platforms.
-  Link: https://nomadmagazine.com/editions/second-edition
+  Link: https://nomad-magazine.com/editions/second-edition
   
   EDITION 003: "Wellness, Therapy & Digital Health" - Explores wellness, therapy, building meaningful connections, and the endless pursuit of finding the perfect balance between work and life. Features Asian destinations, cultural adaptation tips, work-life balance strategies, digital nomad workspaces, and affordable travel planning.
-  Link: https://nomadmagazine.com/editions/third-edition
+  Link: https://nomad-magazine.com/editions/third-edition
 
 - Choose the most relevant magazine Edition based on their astrological reading and current life themes
 - Explain WHY each recommendation aligns with their horoscope and planetary influences

@@ -14,6 +14,7 @@ import EditionHero from '~/components/EditionHero.astro'
 import EditionWelcome from '~/components/EditionWelcome.astro'
 import WhatsComingCarousel from '~/components/WhatsComingCarousel.astro'
 import type { FAQItem } from '~/components/FAQ.astro'
+import { latestEditionPath } from '~/const/latestEdition'
 
 const editionTwoFreePdfFaq: FAQItem[] = [
   {
@@ -33,7 +34,7 @@ const editionTwoFreePdfFaq: FAQItem[] = [
   {
     question: 'Do you sell print or paid digital downloads on this page?',
     answer:
-      'No. Here you get the <strong>free PDF</strong> (email signup) and links to read on <strong>Zinio</strong>. For our newest issues, see the latest edition pages for print and other options.',
+      `No. Here you get the <strong>free PDF</strong> (email signup) and links to read on <strong>Zinio</strong>. For our newest issues, see <a href="${latestEditionPath}">Edition Four</a> for print and other options.`,
   },
   {
     question: 'How can I spread the word?',

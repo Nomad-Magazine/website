@@ -2,6 +2,7 @@
 export const prerender = true;
 
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import { latestEditionPath } from '~/const/latestEdition'
 
 const seo: SEOProps = {
   title: 'Free Weekly Articles - Mindvalley Book Club | Nomad Mag',
@@ -236,8 +237,8 @@ const seo: SEOProps = {
           </p>
 
           <div class="space-y-4">
-            <a href="/editions/second-edition/" class="inline-block rounded-lg bg-black px-8 py-3 font-semibold text-white transition-all duration-200 hover:bg-gray-800">
-              Order Full Edition 002 Edition
+            <a href={latestEditionPath} class="inline-block rounded-lg bg-black px-8 py-3 font-semibold text-white transition-all duration-200 hover:bg-gray-800">
+              Order Latest Edition
             </a>
             <p class="text-sm text-gray-600">Get access and ENJOY the world's first magazine for digital nomads!</p>
           </div>
