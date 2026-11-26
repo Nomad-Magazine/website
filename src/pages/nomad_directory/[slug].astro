@@ -213,7 +213,7 @@ const seo: SEOProps = {
                 </label>
                 <div class="relative">
                   <input type="text" id="search-input"
-                    placeholder="Name, description..."
+                    placeholder="Name, location, category..."
                     aria-label={`Search within ${filterValue}`}
                     class="w-full px-4 py-2.5 pl-10 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-500 focus-visible:ring-2 focus-visible:ring-yellow-400 focus:border-yellow-400 transition-all text-sm" />
                   <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -387,6 +387,14 @@ const seo: SEOProps = {
   };
 
   function applyFilters(query, country) {
+    if (country && !cards.some(card => {
+      const cardCountry = card.getAttribute('data-country') || '';
+      const search = card.getAttribute('data-search') || '';
+      return cardCountry === country && (!query || search.includes(query));
+    })) {
+      country = '';
+      activeCountry = '';
+    }
     let visible = 0;
     cards.forEach(card => {
       const search = card.getAttribute('data-search') || '';
@@ -401,39 +409,46 @@ const seo: SEOProps = {
     if (emptyEl) emptyEl.classList.toggle('hidden', visible > 0);
   }
 
-  // Build country filter list from cards
-  (function buildCountryFilter() {
+  function renderCountryFilterList() {
+    const query = currentQuery();
+    const list = document.getElementById('country-list');
+    const section = document.getElementById('country-filter-section');
+    if (!list) return;
+    const base = cards.filter(card => !query || (card.getAttribute('data-search') || '').includes(query));
     const countryCounts = {};
-    cards.forEach(card => {
+    base.forEach(card => {
       const c = card.getAttribute('data-country');
       if (c) countryCounts[c] = (countryCounts[c] || 0) + 1;
     });
-    const sorted = Object.entries(countryCounts).sort((a, b) => b[1] - a[1]);
-    const list = document.getElementById('country-list');
-    const section = document.getElementById('country-filter-section');
-    if (!list || sorted.length === 0) { if (section) section.style.display = 'none'; return; }
-
-    function renderList() {
-      list.innerHTML = '';
-      // All countries button
-      const allBtn = document.createElement('button');
-      allBtn.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all ' +
-        (!activeCountry ? 'bg-blue-500 text-white font-semibold' : 'text-gray-300 hover:text-white hover:bg-white/10');
-      allBtn.innerHTML = '<span>All Countries</span><span class="text-xs opacity-60">' + cards.length + '</span>';
-      allBtn.addEventListener('click', () => { activeCountry = ''; renderList(); applyFilters(currentQuery(), ''); });
-      list.appendChild(allBtn);
-
-      sorted.forEach(([country, cnt]) => {
-        const btn = document.createElement('button');
-        btn.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all ' +
-          (activeCountry === country ? 'bg-blue-500 text-white font-semibold' : 'text-gray-300 hover:text-white hover:bg-white/10');
-        btn.innerHTML = '<span>' + country + '</span><span class="text-xs opacity-60">' + cnt + '</span>';
-        btn.addEventListener('click', () => { activeCountry = country; renderList(); applyFilters(currentQuery(), country); });
-        list.appendChild(btn);
-      });
+    const sorted = Object.entries(countryCounts).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+    if (sorted.length === 0) {
+      if (section) section.style.display = 'none';
+      activeCountry = '';
+      return;
     }
-    renderList();
-  })();
+    if (section) section.style.display = '';
+    if (activeCountry && !countryCounts[activeCountry]) activeCountry = '';
+    list.innerHTML = '';
+    const allBtn = document.createElement('button');
+    allBtn.type = 'button';
+    allBtn.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all ' +
+      (!activeCountry ? 'bg-blue-500 text-white font-semibold' : 'text-gray-300 hover:text-white hover:bg-white/10');
+    allBtn.innerHTML = '<span>All countries</span><span class="text-xs opacity-60">' + base.length + '</span>';
+    allBtn.addEventListener('click', () => { activeCountry = ''; renderCountryFilterList(); applyFilters(currentQuery(), ''); });
+    list.appendChild(allBtn);
+    sorted.forEach(([country, cnt]) => {
+      if (!cnt) return;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all ' +
+        (activeCountry === country ? 'bg-blue-500 text-white font-semibold' : 'text-gray-300 hover:text-white hover:bg-white/10');
+      btn.innerHTML = '<span>' + country + '</span><span class="text-xs opacity-60">' + cnt + '</span>';
+      btn.addEventListener('click', () => { activeCountry = country; renderCountryFilterList(); applyFilters(currentQuery(), country); });
+      list.appendChild(btn);
+    });
+  }
+
+  renderCountryFilterList();
 
   function currentQuery() {
     const si = document.getElementById('search-input');
@@ -441,7 +456,10 @@ const seo: SEOProps = {
   }
 
   const si = document.getElementById('search-input');
-  if (si) si.addEventListener('input', e => applyFilters(e.target.value.toLowerCase().trim(), activeCountry));
+  if (si) si.addEventListener('input', e => {
+    renderCountryFilterList();
+    applyFilters(e.target.value.toLowerCase().trim(), activeCountry);
+  });
 
   const voteNoticeUrl = new URL(location.href);
   if (voteNoticeUrl.searchParams.get('vote_email_notice') === 'cross_device') {

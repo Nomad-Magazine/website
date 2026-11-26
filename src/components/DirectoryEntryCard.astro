@@ -14,6 +14,8 @@ interface Props {
 }
 const { entry, updates = [], votes, country = '', locationLabel = '', browseCard = false, openWebsiteOnCardClick = false } = Astro.props
 const description = entry.description?.trim() || (browseCard ? 'Description not available' : entry.description)
+const resolvedCountry = country || entry.country
+const searchBlob = `${entry.title} ${entry.description} ${entry.category} ${entry.offer} ${entry.location} ${resolvedCountry} ${locationLabel}`.toLowerCase()
 ---
 
 <article
@@ -23,8 +25,9 @@ const description = entry.description?.trim() || (browseCard ? 'Description not 
   data-votes={votes}
   data-category={entry.category}
   data-title={entry.title.toLowerCase()}
-  data-search={`${entry.title} ${entry.description} ${entry.category} ${entry.offer}`.toLowerCase()}
-  data-country={country || undefined}
+  data-search={searchBlob}
+  data-country={resolvedCountry || undefined}
+  data-location={entry.location.toLowerCase()}
   data-link={openWebsiteOnCardClick && entry.website ? entry.website : undefined}
   class="group rounded-2xl border border-white/10 bg-white/5 p-5 transition-all duration-300 hover:bg-white/10"
   style={openWebsiteOnCardClick && entry.website ? 'cursor:pointer' : undefined}
