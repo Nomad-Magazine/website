@@ -7,6 +7,11 @@ import {
   isDirectoryVoteEmailReturn,
   isVoteEmailPkceError,
 } from '~/utils/directory-auth'
+import {
+  consumeVoteNewEmailConfirm,
+  directoryVoteMergedNoticeUrl,
+  tryMergeAnonymousVotes,
+} from '~/utils/directory-vote-merge'
 
 const supabase = createSupabaseServerClient(Astro.request, Astro.cookies)
 
@@ -26,6 +31,24 @@ function authFailureRedirect(message: string) {
   return Astro.redirect(loginUrl(message))
 }
 
+async function finishAuthRedirect() {
+  const { data: { user } } = await supabase.auth.getUser()
+  if (user?.email && user.email_confirmed_at && isDirectoryVoteEmailReturn(next)) {
+    try {
+      const mergeResult = await tryMergeAnonymousVotes(Astro.request, Astro.cookies, user.id, user.email)
+      if (typeof mergeResult === 'number') {
+        return Astro.redirect(directoryVoteMergedNoticeUrl(next, url.origin, mergeResult))
+      }
+      if (mergeResult === 'no_cookie' && !consumeVoteNewEmailConfirm(Astro.cookies)) {
+        return Astro.redirect(directoryVoteCrossDeviceNoticeUrl(next, url.origin))
+      }
+    } catch {
+      /* Merge is best-effort; never block sign-in. */
+    }
+  }
+  return Astro.redirect(next)
+}
+
 if (error) {
   return Astro.redirect(loginUrl(url.searchParams.get('error_description') ?? error))
 }
@@ -35,7 +58,7 @@ if (code) {
   if (exchangeError) {
     return authFailureRedirect(exchangeError.message)
   }
-  return Astro.redirect(next)
+  return finishAuthRedirect()
 }
 
 if (tokenHash && type) {
@@ -43,7 +66,7 @@ if (tokenHash && type) {
   if (otpError) {
     return authFailureRedirect(otpError.message)
   }
-  return Astro.redirect(next)
+  return finishAuthRedirect()
 }
 
 return Astro.redirect(loginUrl())
