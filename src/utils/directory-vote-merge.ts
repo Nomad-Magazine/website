@@ -36,17 +36,11 @@ export async function existingVerifiedUserForEmail(email: string): Promise<strin
   return typeof data === 'string' ? data : null
 }
 
-async function ensureVoteEmailHashSaltConfigured() {
-  const salt = requireWorkerSecret('DIRECTORY_IP_HASH_SALT')
-  const { error } = await serviceClient().rpc('directory_vote_configure_hash_salt', { p_salt: salt })
-  if (error) throw error
-}
-
 export async function createVotePendingMerge(anonUserId: string, email: string): Promise<string> {
-  await ensureVoteEmailHashSaltConfigured()
+  const targetEmailHash = await hashVoteEmail(normalizeVoteEmail(email) ?? email)
   const { data, error } = await serviceClient().rpc('directory_vote_pending_merge_create', {
     p_anon_user_id: anonUserId,
-    p_target_email: email,
+    p_target_email_hash: targetEmailHash,
   })
   if (error) throw error
   if (typeof data !== 'string') throw new Error('Pending merge missing')
@@ -157,10 +151,12 @@ export async function tryMergeAnonymousVotes(
     clearVoteMergeCookie(cookies)
     return 'failed'
   }
-  await ensureVoteEmailHashSaltConfigured()
+  const targetEmailHash = await hashVoteEmail(normalized)
   const { data, error } = await serviceClient().rpc('directory_merge_anonymous_votes', {
     p_merge_id: mergeId,
     p_target_user_id: targetUserId,
+    p_target_email_hash: targetEmailHash,
+    p_target_email: normalized,
   })
   clearVoteMergeCookie(cookies)
   if (error) return 'failed'

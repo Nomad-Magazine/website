@@ -1,5 +1,6 @@
 // SUPABASE_TEST_CONFIG=/tmp/local-keys.json node scripts/check-directory-votes.mjs
 import assert from 'node:assert/strict'
+import { createHash } from 'node:crypto'
 import { readFile, writeFile } from 'node:fs/promises'
 import { createClient } from '@supabase/supabase-js'
 const keys = JSON.parse(await readFile(process.env.SUPABASE_TEST_CONFIG, 'utf8'))
@@ -108,19 +109,22 @@ const login = ok(await service.auth.admin.generateLink({ type: 'magiclink', emai
 await writeFile('/tmp/nomad-vote-fixtures.json', JSON.stringify({ target, secondTarget, title: snapshot[0].title, category: snapshot[0].sb685ab800.label, tokenHash: login.properties.hashed_token, email: a.user.email }), { mode: 0o600 })
 
 const voteHashSalt = process.env.DIRECTORY_IP_HASH_SALT || 'local-directory-vote-salt'
-ok(await service.rpc('directory_vote_configure_hash_salt', { p_salt: voteHashSalt }))
+const hashVoteEmail = email => createHash('sha256').update(`${voteHashSalt}:${String(email).trim().toLowerCase()}`).digest('hex')
 const mergeAnon = ok(await make().auth.signInAnonymously()).user.id
 ok(await vote(mergeAnon, secondTarget, true, 41))
 ok(await vote(mergeAnon, target, true, 42))
 ok(await vote(a.user.id, target, true, 43))
+const mergeEmailHash = hashVoteEmail(a.user.email)
 const mergeId = ok(await service.rpc('directory_vote_pending_merge_create', {
   p_anon_user_id: mergeAnon,
-  p_target_email: a.user.email,
+  p_target_email_hash: mergeEmailHash,
 }))
 assert.equal(
   ok(await service.rpc('directory_merge_anonymous_votes', {
     p_merge_id: mergeId,
     p_target_user_id: a.user.id,
+    p_target_email_hash: mergeEmailHash,
+    p_target_email: a.user.email,
   })),
   1,
   'Merge moves only votes the target account does not already hold',
@@ -132,31 +136,39 @@ assert.deepEqual(
 denied(await service.rpc('directory_merge_anonymous_votes', {
   p_merge_id: mergeId,
   p_target_user_id: a.user.id,
+  p_target_email_hash: mergeEmailHash,
+  p_target_email: a.user.email,
 }))
 const wrongAnon = ok(await make().auth.signInAnonymously()).user.id
 ok(await vote(wrongAnon, secondTarget, true, 45))
 const wrongMergeId = ok(await service.rpc('directory_vote_pending_merge_create', {
   p_anon_user_id: wrongAnon,
-  p_target_email: a.user.email,
+  p_target_email_hash: mergeEmailHash,
 }))
 denied(await service.rpc('directory_merge_anonymous_votes', {
   p_merge_id: wrongMergeId,
   p_target_user_id: b.user.id,
+  p_target_email_hash: mergeEmailHash,
+  p_target_email: b.user.email,
 }))
 const expireAnon = ok(await make().auth.signInAnonymously()).user.id
 ok(await vote(expireAnon, secondTarget, true, 44))
 const expireId = ok(await service.rpc('directory_vote_pending_merge_create', {
   p_anon_user_id: expireAnon,
-  p_target_email: a.user.email,
+  p_target_email_hash: mergeEmailHash,
 }))
 ok(await service.from('directory_vote_pending_merge').update({ expires_at: '2000-01-01T00:00:00Z' }).eq('merge_id', expireId))
 denied(await service.rpc('directory_merge_anonymous_votes', {
   p_merge_id: expireId,
   p_target_user_id: a.user.id,
+  p_target_email_hash: mergeEmailHash,
+  p_target_email: a.user.email,
 }))
 denied(await anon.rpc('directory_merge_anonymous_votes', {
   p_merge_id: mergeId,
   p_target_user_id: a.user.id,
+  p_target_email_hash: mergeEmailHash,
+  p_target_email: a.user.email,
 }))
 const capAnon = ok(await make().auth.signInAnonymously()).user.id
 ok(await vote(capAnon, snapshot[2].id, true, 46))
@@ -165,11 +177,13 @@ for (let i = 0; i < 30; i++) {
 }
 const capMergeId = ok(await service.rpc('directory_vote_pending_merge_create', {
   p_anon_user_id: capAnon,
-  p_target_email: a.user.email,
+  p_target_email_hash: mergeEmailHash,
 }))
 assert.equal(ok(await service.rpc('directory_merge_anonymous_votes', {
   p_merge_id: capMergeId,
   p_target_user_id: a.user.id,
+  p_target_email_hash: mergeEmailHash,
+  p_target_email: a.user.email,
 })), 1, 'Merge is not blocked by hourly vote change cap')
 ok(await service.from('directory_vote_change_log').delete().eq('user_id', a.user.id))
 ok(await service.from('directory_votes').delete().eq('user_id', mergeAnon))

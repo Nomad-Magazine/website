@@ -1,7 +1,5 @@
 begin;
 
-create extension if not exists pgcrypto with schema extensions;
-
 create table public.directory_vote_pending_merge (
   merge_id uuid primary key default gen_random_uuid(),
   anon_user_id uuid not null references auth.users(id) on delete cascade,
@@ -14,45 +12,6 @@ create index directory_vote_pending_merge_anon on public.directory_vote_pending_
 create index directory_vote_pending_merge_expires on public.directory_vote_pending_merge(expires_at) where used_at is null;
 alter table public.directory_vote_pending_merge enable row level security;
 revoke all on public.directory_vote_pending_merge from anon, authenticated;
-
-create function public.directory_vote_configure_hash_salt(p_salt text)
-returns void
-language plpgsql
-security definer
-set search_path = ''
-as $$
-begin
-  if p_salt is null or length(p_salt) < 8 then
-    raise exception 'Invalid hash salt' using errcode = '22023';
-  end if;
-  perform set_config('app.directory_ip_hash_salt', p_salt, false);
-end;
-$$;
-revoke all on function public.directory_vote_configure_hash_salt(text) from public, anon, authenticated;
-grant execute on function public.directory_vote_configure_hash_salt(text) to service_role;
-
-create function public.directory_vote_email_hash(p_email text)
-returns text
-language plpgsql
-stable
-security definer
-set search_path = ''
-as $$
-declare
-  salt text;
-begin
-  if p_email is null or length(trim(p_email)) = 0 then
-    raise exception 'Invalid email' using errcode = '22023';
-  end if;
-  salt := nullif(trim(coalesce(current_setting('app.directory_ip_hash_salt', true), '')), '');
-  if salt is null then
-    raise exception 'Vote email hash salt not configured' using errcode = '22023';
-  end if;
-  return encode(extensions.digest(convert_to(salt || ':' || lower(trim(p_email)), 'UTF8'), 'sha256'), 'hex');
-end;
-$$;
-revoke all on function public.directory_vote_email_hash(text) from public, anon, authenticated;
-grant execute on function public.directory_vote_email_hash(text) to service_role;
 
 create function public.directory_vote_target_user_for_email(p_email text)
 returns uuid
@@ -73,7 +32,7 @@ grant execute on function public.directory_vote_target_user_for_email(text) to s
 
 create function public.directory_vote_pending_merge_create(
   p_anon_user_id uuid,
-  p_target_email text
+  p_target_email_hash text
 ) returns uuid
 language plpgsql
 security definer
@@ -81,9 +40,9 @@ set search_path = ''
 as $$
 declare
   new_merge_id uuid;
-  target_hash text;
 begin
-  if p_anon_user_id is null or p_target_email is null or length(trim(p_target_email)) = 0 then
+  if p_anon_user_id is null or p_target_email_hash is null
+    or p_target_email_hash !~ '^[a-f0-9]{64}$' then
     raise exception 'Invalid pending merge' using errcode = '22023';
   end if;
   if not exists (
@@ -93,8 +52,6 @@ begin
     raise exception 'Invalid anonymous voter' using errcode = '42501';
   end if;
 
-  target_hash := public.directory_vote_email_hash(p_target_email);
-
   update public.directory_vote_pending_merge
   set used_at = clock_timestamp()
   where anon_user_id = p_anon_user_id
@@ -102,7 +59,7 @@ begin
     and expires_at > clock_timestamp();
 
   insert into public.directory_vote_pending_merge(anon_user_id, target_email_hash, expires_at)
-  values (p_anon_user_id, target_hash, clock_timestamp() + interval '1 hour')
+  values (p_anon_user_id, p_target_email_hash, clock_timestamp() + interval '1 hour')
   returning merge_id into new_merge_id;
 
   return new_merge_id;
@@ -131,7 +88,9 @@ grant execute on function public.directory_vote_pending_merge_abandon(uuid) to s
 
 create function public.directory_merge_anonymous_votes(
   p_merge_id uuid,
-  p_target_user_id uuid
+  p_target_user_id uuid,
+  p_target_email_hash text,
+  p_target_email text
 ) returns integer
 language plpgsql
 security definer
@@ -139,12 +98,13 @@ set search_path = ''
 as $$
 declare
   pending_row public.directory_vote_pending_merge%rowtype;
-  target_email text;
-  target_hash text;
+  account_email text;
   moved integer := 0;
   vote_row record;
 begin
-  if p_merge_id is null or p_target_user_id is null then
+  if p_merge_id is null or p_target_user_id is null
+    or p_target_email_hash is null or p_target_email_hash !~ '^[a-f0-9]{64}$'
+    or p_target_email is null or length(trim(p_target_email)) = 0 then
     raise exception 'Invalid merge request' using errcode = '22023';
   end if;
 
@@ -177,14 +137,16 @@ begin
   if p_target_user_id = pending_row.anon_user_id then
     raise exception 'Invalid merge target' using errcode = '42501';
   end if;
+  if p_target_email_hash is distinct from pending_row.target_email_hash then
+    raise exception 'Merge email mismatch' using errcode = '42501';
+  end if;
 
-  select lower(trim(u.email)) into target_email
+  select lower(trim(u.email)) into account_email
   from auth.users u
   where u.id = p_target_user_id;
 
-  target_hash := public.directory_vote_email_hash(target_email);
-  if target_hash is distinct from pending_row.target_email_hash then
-    raise exception 'Merge email mismatch' using errcode = '42501';
+  if account_email is distinct from lower(trim(p_target_email)) then
+    raise exception 'Merge account mismatch' using errcode = '42501';
   end if;
 
   perform pg_advisory_xact_lock(hashtextextended('directory-vote-user:' || p_target_user_id::text, 0));
@@ -225,10 +187,10 @@ begin
   return moved;
 end;
 $$;
-revoke all on function public.directory_merge_anonymous_votes(uuid, uuid) from public, anon, authenticated;
-grant execute on function public.directory_merge_anonymous_votes(uuid, uuid) to service_role;
+revoke all on function public.directory_merge_anonymous_votes(uuid, uuid, text, text) from public, anon, authenticated;
+grant execute on function public.directory_merge_anonymous_votes(uuid, uuid, text, text) to service_role;
 
-comment on function public.directory_merge_anonymous_votes(uuid, uuid) is
+comment on function public.directory_merge_anonymous_votes(uuid, uuid, text, text) is
   'One-time move of anonymous directory votes onto a verified account after email confirmation in the same browser. Does not consume vote change-log rate limits.';
 
 commit;

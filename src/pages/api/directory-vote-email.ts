@@ -44,8 +44,9 @@ async function sendExistingVoteEmail(options: {
   const mergeId = await createVotePendingMerge(options.anonUserId, options.email)
   try {
     await sendExistingAccountVoteOtp(options.supabase, options.email, options.returnTo, options.url.origin)
-  } catch {
+  } catch (error) {
     await abandonVotePendingMerge(mergeId)
+    if (error instanceof Error && (error as Error & { code?: string }).code === 'rate_limited') throw error
     throw new Error('send_failed')
   }
   const mergeValue = await signMergeCookieValue(mergeId)
