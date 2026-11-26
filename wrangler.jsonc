@@ -21,6 +21,13 @@
     "BENTO_PUBLISHABLE_KEY": "BENTO_PUBLISHABLE_KEY_PLACEHOLDER",
     "BENTO_SECRET_KEY": "BENTO_SECRET_KEY_PLACEHOLDER"
   },
+  "ratelimits": [
+    {
+      "name": "DIRECTORY_VOTE_LIMITER",
+      "namespace_id": "6101",
+      "simple": { "limit": 20, "period": 60 }
+    }
+  ],
   // Production deploy uses custom domain; no workers.dev fallback
   "workers_dev": false,
   "routes": [

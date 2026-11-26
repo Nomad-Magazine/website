@@ -26,15 +26,17 @@ const listing=async(account,title)=>{
  ok(await reviewer.client.rpc('directory_review',{p_kind:'listing',p_id:id,p_approve:true,p_notes:'',p_version:1}));return id
 }
 const grove=await listing(owner,'Nomad Grove'),atlas=await listing(other,'Atlas House')
-for(let i=0;i<6;i++) ok(await voters[i].client.rpc('directory_set_vote',{p_listing_id:i===4?atlas:grove,p_voted:true}))
+const net = n => `${String(n).padStart(2,'0').repeat(32).slice(0,64)}`
+const vote = (userId, id, voted, n) => service.rpc('directory_set_vote',{p_user_id:userId,p_listing_id:id,p_voted:voted,p_network_hash:voted?net(n):null})
+for(let i=0;i<6;i++) ok(await vote(voters[i].user.id,i===4?atlas:grove,true,i+1))
 // Re-voting preserves first receipt and creates a separate active interval.
 const original=ok(await service.from('directory_vote_history').select('*').eq('user_id',voters[0].user.id).eq('listing_id',grove).single())
-ok(await voters[0].client.rpc('directory_set_vote',{p_listing_id:grove,p_voted:false}));ok(await voters[0].client.rpc('directory_set_vote',{p_listing_id:grove,p_voted:true}))
+ok(await vote(voters[0].user.id,grove,false,1));ok(await vote(voters[0].user.id,grove,true,1))
 const readded=ok(await service.from('directory_vote_history').select('*').eq('user_id',voters[0].user.id).eq('listing_id',grove).single())
 assert.equal(readded.first_voted_at,original.first_voted_at)
 assert.equal(ok(await service.from('directory_vote_intervals').select('*').eq('history_id',original.id)).length,2)
 // Account deletion closes and anonymizes history without retaining its auth identity.
-ok(await voters[6].client.rpc('directory_set_vote',{p_listing_id:atlas,p_voted:true}))
+ok(await vote(voters[6].user.id,atlas,true,7))
 const removedHistory=ok(await service.from('directory_vote_history').select('*').eq('user_id',voters[6].user.id).single())
 ok(await service.auth.admin.deleteUser(voters[6].user.id))
 assert.equal(ok(await service.from('directory_vote_history').select('*').eq('id',removedHistory.id).single()).user_id,null)
@@ -60,12 +62,12 @@ const all=ok(await anon.rpc('directory_public_awards',{p_limit:1000})),own=all.f
 for(const kind of ['day','week','month','year'])assert(own.some(a=>a.kind===kind),`Missing ${kind} winner`)
 const latestDay=own.find(a=>a.kind==='day');assert.equal(latestDay.tied_winners,2)
 const countBefore=all.length
-for(const result of await Promise.all([service.rpc('directory_finalize_awards'),service.rpc('directory_finalize_awards'),voters[5].client.rpc('directory_set_vote',{p_listing_id:grove,p_voted:true})]))ok(result)
+for(const result of await Promise.all([service.rpc('directory_finalize_awards'),service.rpc('directory_finalize_awards'),vote(voters[5].user.id,grove,true,6)]))ok(result)
 assert.equal(ok(await anon.rpc('directory_public_awards',{p_limit:1000})).length,countBefore)
 const before=ok(await anon.rpc('directory_public_awards',{p_award_id:latestDay.id}))[0]
-ok(await voters[3].client.rpc('directory_set_vote',{p_listing_id:grove,p_voted:false}))
+ok(await vote(voters[3].user.id,grove,false,4))
 assert.deepEqual(ok(await anon.rpc('directory_public_awards',{p_award_id:latestDay.id}))[0],before)
-ok(await voters[3].client.rpc('directory_set_vote',{p_listing_id:grove,p_voted:true}))
+ok(await vote(voters[3].user.id,grove,true,4))
 assert.equal(ok(await anon.rpc('directory_award_leaderboard',{p_kind:'day'})).find(l=>l.listing_id===grove).vote_count,1)
 const revoked=own.filter(a=>a.kind==='day').at(-1)
 denied(await owner.client.rpc('directory_revoke_award',{p_id:revoked.id,p_reason:'Unauthorized withdrawal'}))

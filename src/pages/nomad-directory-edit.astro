@@ -19,7 +19,7 @@ import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
 
 const url = new URL(Astro.request.url)
 const next = directoryReturnTo(url.searchParams.get('next'))
-const isVoting = next.startsWith('/nomad_directory/')
+const isVoting = false
 Astro.response.headers.set('Cache-Control', 'private, no-store')
 const supabase = createSupabaseServerClient(Astro.request, Astro.cookies)
 const { data: { user } } = await supabase.auth.getUser()

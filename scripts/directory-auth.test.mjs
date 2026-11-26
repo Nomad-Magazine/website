@@ -1,6 +1,12 @@
 import { describe, expect, test } from 'bun:test'
 import { createClient } from '@supabase/supabase-js'
-import { consumeDirectoryReturn, sendDirectoryLogin } from '../src/utils/directory-auth'
+import {
+  consumeDirectoryReturn,
+  directoryVoteCrossDeviceNoticeUrl,
+  isDirectoryVoteEmailReturn,
+  isVoteEmailPkceError,
+  sendDirectoryLogin,
+} from '../src/utils/directory-auth'
 import { checkDirectoryAuthRedirect } from './check-directory-auth-redirect.mjs'
 function cookieJar(initial = {}) {
   const values = new Map(Object.entries(initial))
@@ -94,6 +100,23 @@ describe('directory email login', () => {
     await sendDirectoryLogin(client, jar.cookies, new URL('http://localhost:3000/nomad-directory-edit/?next=/console/badges/'), 'owner@example.test')
     expect(requests[0].searchParams.get('redirect_to')).toBe('http://localhost:3000/auth/callback/')
     expect(jar.writes[0].options.secure).toBe(false)
+  })
+})
+describe('vote-email callback routing', () => {
+  test('detects slug-page vote returns', () => {
+    expect(isDirectoryVoteEmailReturn('/nomad_directory/coliving/#listing-x')).toBe(true)
+    expect(isDirectoryVoteEmailReturn('/nomad_directory/coliving/?foo=1#listing-x')).toBe(true)
+    expect(isDirectoryVoteEmailReturn('/nomad_directory/vote/?listing=x')).toBe(false)
+    expect(isDirectoryVoteEmailReturn('/console/')).toBe(false)
+  })
+  test('maps PKCE verifier errors', () => {
+    expect(isVoteEmailPkceError('PKCE code verifier not found in storage.')).toBe(true)
+    expect(isVoteEmailPkceError('Invalid token')).toBe(false)
+  })
+  test('builds directory notice redirect without raw auth errors', () => {
+    expect(directoryVoteCrossDeviceNoticeUrl('/nomad_directory/coliving/#listing-x', 'http://localhost:4321')).toBe(
+      '/nomad_directory/coliving/?vote_email_notice=cross_device#listing-x',
+    )
   })
 })
 describe('hosted redirect deployment preflight', () => {

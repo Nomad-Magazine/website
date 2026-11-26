@@ -3,7 +3,11 @@ export const prerender = false
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import { createSupabaseServerClient } from '~/utils/supabase-server'
 import { getDirectoryEntries } from '~/utils/directory'
-import { directoryReturnTo, votePageUrl } from '~/utils/directory-votes'
+import { directoryReturnTo } from '~/utils/directory-votes'
+import { DIRECTORY_TURNSTILE_SITE_KEY } from '~/const/directoryVoting'
+import { castDirectoryVote, verifyHumanVote } from '~/utils/directory-vote-cast'
+import { markDirectoryVoteVerified, needsDirectoryTurnstile } from '~/utils/directory-vote-session'
+import { requireWorkerSecret } from '~/utils/directory-vote-secrets'
 
 Astro.response.headers.set('Cache-Control', 'private, no-store')
 Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow')
@@ -12,27 +16,68 @@ let returnTo = directoryReturnTo(Astro.url.searchParams.get('return_to'), '/noma
 if (new URL(returnTo, Astro.url).pathname === '/nomad_directory/vote/') returnTo = '/nomad_directory/'
 if (!/^[a-zA-Z0-9-]{1,100}$/.test(id)) return Astro.redirect('/nomad_directory/')
 const supabase = createSupabaseServerClient(Astro.request, Astro.cookies)
-const { data: { user } } = await supabase.auth.getUser()
-if (!user) return Astro.redirect(`/nomad-directory-edit/?${new URLSearchParams({ next: votePageUrl(id, returnTo) })}`)
 let error = ''
 if (Astro.request.method === 'POST') {
   const form = await Astro.request.formData()
   const vote = form.get('voted')
+  const token = String(form.get('cf-turnstile-response') ?? '').trim()
   if (vote !== 'true' && vote !== 'false') error = 'Invalid vote. Please try again.'
   else {
-    const { error: voteError } = await supabase.rpc('directory_set_vote', { p_listing_id: id, p_voted: vote === 'true' })
-    if (!voteError) return Astro.redirect(returnTo, 303)
-    error = 'Your vote could not be saved. Please try again.'
+    try {
+      requireWorkerSecret('SUPABASE_SERVICE_ROLE_KEY')
+      requireWorkerSecret('DIRECTORY_IP_HASH_SALT')
+      requireWorkerSecret('TURNSTILE_SECRET_KEY')
+      let { data: { user } } = await supabase.auth.getUser()
+      if (needsDirectoryTurnstile(user)) {
+        if (!token) throw Object.assign(new Error('Human verification failed. Please try again.'), { code: 'turnstile' })
+        await verifyHumanVote(Astro.request, token)
+        if (!user) {
+          const { error: anonError } = await supabase.auth.signInAnonymously()
+          if (anonError) throw anonError
+          ;({ data: { user } } = await supabase.auth.getUser())
+        }
+        if (!user) throw new Error('Session missing')
+        try {
+          await markDirectoryVoteVerified(user.id)
+          await supabase.auth.refreshSession()
+          ;({ data: { user } } = await supabase.auth.getUser())
+        } catch {
+          throw Object.assign(new Error('Your vote could not be saved. Please try again.'), { code: 'unavailable' })
+        }
+      }
+      if (!user) throw new Error('Session missing')
+      await castDirectoryVote({
+        request: Astro.request,
+        userId: user.id,
+        listingId: id,
+        voted: vote === 'true',
+      })
+      return Astro.redirect(returnTo, 303)
+    } catch (err: unknown) {
+      const code = typeof err === 'object' && err && 'code' in err ? String((err as { code?: string }).code) : ''
+      const message = typeof err === 'object' && err && 'message' in err ? String((err as { message?: string }).message) : ''
+      if (code === '53200') error = (err as { message?: string }).message || 'Vote limit reached.'
+      else if (code === '45003' || message === 'email_required') error = 'You have used five free votes. Confirm your email on the directory page to keep voting.'
+      else if (code === 'turnstile') error = 'Human verification failed. Please try again.'
+      else if (code === 'unavailable') {
+        error = 'Your vote could not be saved. Please try again.'
+        Astro.response.status = 503
+      } else error = 'Your vote could not be saved. Please try again.'
+    }
   }
 }
 let entry
 let voted = false
 let unavailable = false
 try {
-  const [entries, votes] = await Promise.all([getDirectoryEntries(true), supabase.rpc('directory_my_votes')])
+  const { data: { user } } = await supabase.auth.getUser()
+  const [entries, votes] = await Promise.all([
+    getDirectoryEntries(true),
+    user ? supabase.rpc('directory_my_votes') : Promise.resolve({ data: [], error: null }),
+  ])
   if (votes.error) throw votes.error
   entry = entries.find(listing => listing.id === id)
-  voted = votes.data.some((vote: { listing_id: string }) => vote.listing_id === id)
+  voted = votes.data?.some((vote: { listing_id: string }) => vote.listing_id === id) ?? false
 } catch {
   unavailable = true
   Astro.response.status = 503
@@ -41,7 +86,7 @@ if (!entry && !unavailable) Astro.response.status = 404
 const seo: SEOProps = {
   noIndex: true,
   title: 'Upvote Your Favorite Nomad Businesses | Nomad Magazine',
-  description: 'Support your favorite businesses in the Nomad Directory. Sign in to add or remove your upvote and help other digital nomads discover useful services and tools.',
+  description: 'Support your favorite businesses in the Nomad Directory. Confirm or remove your upvote and help other digital nomads discover useful services and tools.',
   canonical: 'https://nomad-magazine.com/nomad_directory/vote/',
 }
 ---
@@ -50,14 +95,16 @@ const seo: SEOProps = {
     <div class="mx-auto max-w-xl">
       <h1 class="mb-4 text-3xl font-bold">{unavailable ? 'Voting is temporarily unavailable' : !entry ? 'Listing not found' : voted ? `You upvoted ${entry.title}` : `Upvote ${entry.title}`}</h1>
       {entry && <>
-        <p class="mb-6 text-gray-300">{voted ? 'You can remove your vote below.' : 'Help other nomads discover this listing. Each account gets one vote per listing, and you can change your mind anytime.'}</p>
+        <p class="mb-6 text-gray-300">{voted ? 'You can remove your vote below.' : 'Help other nomads discover this listing. Each browser session gets one vote per listing, and you can change your mind anytime.'}</p>
         {error && <p role="alert" class="mb-4 text-yellow-300">{error}</p>}
         <form method="POST" aria-label={`Vote for ${entry.title}`}>
           <input type="hidden" name="voted" value={String(!voted)} />
+          <div class="cf-turnstile mb-4" data-sitekey={DIRECTORY_TURNSTILE_SITE_KEY} data-theme="light" data-size="normal"></div>
           <button type="submit" class="rounded-xl bg-yellow-400 px-6 py-3 font-bold text-black hover:bg-yellow-300 focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950">{voted ? 'Remove my upvote' : 'Confirm upvote'}</button>
         </form>
       </>}
       <a href={returnTo} class="mt-6 inline-block text-yellow-400 underline focus-visible:ring-2 focus-visible:ring-yellow-400">Back to the directory</a>
     </div>
   </section>
+  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </Layout>

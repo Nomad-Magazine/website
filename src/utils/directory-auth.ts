@@ -30,3 +30,25 @@ export function consumeDirectoryReturn(cookies: AstroCookies, url: URL) {
   cookies.delete(returnCookie, { path: callbackPath })
   return next
 }
+
+/** Vote-email confirm returns to a category/country/continent slug, not owner console or main index vote page. */
+export function isDirectoryVoteEmailReturn(next: string): boolean {
+  try {
+    const path = new URL(next, 'https://nomad-magazine.com').pathname
+    if (!path.startsWith('/nomad_directory/')) return false
+    if (path === '/nomad_directory/' || path.startsWith('/nomad_directory/vote')) return false
+    return path.split('/').filter(Boolean).length >= 2
+  } catch {
+    return false
+  }
+}
+
+export function isVoteEmailPkceError(message: string): boolean {
+  return /pkce|code verifier/i.test(message)
+}
+
+export function directoryVoteCrossDeviceNoticeUrl(next: string, origin: string): string {
+  const url = new URL(next, origin)
+  url.searchParams.set('vote_email_notice', 'cross_device')
+  return url.pathname + url.search + url.hash
+}

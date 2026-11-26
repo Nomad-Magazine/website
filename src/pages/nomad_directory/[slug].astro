@@ -5,19 +5,19 @@ import { COUNTRY_TO_CONTINENT, slugify, extractCountry, directoryRoutes } from '
 import { getPublishedDirectoryRecords, getDirectoryEntriesFromRecords, getDirectoryCategories } from '~/utils/directory'
 import { fetchReportRecords } from '~/utils/smartsuite'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
-import DirectoryVote from '~/components/DirectoryVote.astro'
+import DirectoryEntryCard from '~/components/DirectoryEntryCard.astro'
+import { DIRECTORY_VOTING_PAGES, type DirectoryVotingSurface } from '~/const/directoryVoting'
 import { readPublicDirectory } from '~/utils/directory-public'
 import type { VoteCount } from '~/utils/directory-votes'
 import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
-import { directoryLogoBoxClass, directoryLogoImageClassFor, directoryLogoInitialClass, directoryLogoUrlFor } from '~/const/nomadDirectoryWhiteLogos'
 
 const { records: originalRecords } = await fetchReportRecords('6857167d82358a0f5e038c3f')
-const [managedRecords, votes] = await Promise.all([
+const [managedRecords, voteRows] = await Promise.all([
   getPublishedDirectoryRecords().catch(() => null),
   readPublicDirectory<VoteCount>('directory_vote_counts').catch(() => null),
 ])
 const records = managedRecords ?? originalRecords
-const voteCounts = new Map(votes?.map(vote => [vote.listing_id, Number(vote.vote_count)]))
+const voteCounts = new Map(voteRows?.map(vote => [vote.listing_id, Number(vote.vote_count)]))
 Astro.response.headers.set('Cache-Control','public, max-age=0, must-revalidate')
 const route = directoryRoutes([...originalRecords,...records]).find(route => route.slug === Astro.params.slug)
 if (!route && managedRecords === null) {
@@ -41,6 +41,9 @@ const pageRecords = allActive.filter((r: any) => {
 })
 const count = pageRecords.length
 const isLocation = type === 'country' || type === 'continent'
+const pageEntries = getDirectoryEntriesFromRecords(pageRecords)
+const showVotes = DIRECTORY_VOTING_PAGES[type as DirectoryVotingSurface] && voteRows !== null
+const voteEmailCrossDeviceNotice = showVotes && Astro.url.searchParams.get('vote_email_notice') === 'cross_device'
 
 // SEO copy
 const categoryDescriptions: Record<string, string> = {
@@ -159,6 +162,11 @@ const seo: SEOProps = {
           <span class="text-gray-300">{breadcrumbLabel}</span>
         </nav>
 
+        {voteEmailCrossDeviceNotice && (
+          <p id="vote-email-cross-device-notice" class="mx-auto mb-6 max-w-2xl rounded-xl border border-yellow-400/30 bg-gray-950 px-4 py-3 text-left text-sm text-yellow-100" role="status">
+            Your email is confirmed. Open this link in the browser where you voted to keep voting, or just vote again here.
+          </p>
+        )}
         <h1 class="mx-auto max-w-4xl text-4xl leading-tight font-bold md:text-6xl mb-3">
           {isLocation ? (
             <>Digital Nomad Resources in <span class="text-yellow-400">{filterValue}</span></>
@@ -289,70 +297,20 @@ const seo: SEOProps = {
           <div class="flex-1 min-w-0">
 
             <div id="directory-container" class="space-y-4">
-              {pageRecords.map((record: any) => {
-                const link = record.link || record.sb788c266b?.[0]
-                const catLabel = record.sb685ab800?.label || ''
-                const locText = (() => {
-                  const loc = record.sed1a49986 || ''
-                  const parts = loc.split(',')
-                  return parts.length >= 2 ? loc : ''
-                })()
+              {pageEntries.map(entry => {
+                const record = pageRecords.find(r => String(r.id) === entry.id)
+                const loc = String(record?.sed1a49986 || '')
+                const locParts = loc.split(',')
+                const locationLabel = locParts.length >= 2 ? locParts.at(-1)?.trim() || '' : ''
                 return (
-                  <div
-                    id={`listing-${record.id}`}
-                    data-vote-listing={record.id}
-                    class="directory-card bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/10 transition-all duration-300 group"
-                    style={link ? 'cursor:pointer' : ''}
-                    data-link={link || undefined}
-                    data-title={(record.title || '').toLowerCase()}
-                    data-desc={(record.scea90e502 || '').toLowerCase()}
-                    data-country={extractCountry(record.sed1a49986 || '')}
-                  >
-                    <div class="flex items-start gap-4">
-                      <div class="shrink-0">
-                        <div class={directoryLogoBoxClass}>
-                          {record.image && record.image !== '/logo.svg' ? (
-                            <img src={directoryLogoUrlFor(record.title, record.image)} alt={record.title} class={directoryLogoImageClassFor(record.title)} loading="lazy" />
-                          ) : (
-                            <span class={directoryLogoInitialClass}>
-                              {(record.title || 'C').charAt(0).toUpperCase()}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <div class="flex-1 min-w-0">
-                        <div class="flex flex-wrap items-start justify-between gap-2 mb-1.5">
-                          <div class="flex items-center gap-2 flex-wrap">
-                            <h3 class="text-base font-bold text-white group-hover:text-yellow-400 transition-colors leading-tight">{record.title}</h3>
-                          </div>
-                          <div class="flex items-center gap-1.5 shrink-0">
-                            {catLabel && (
-                              <span class="bg-yellow-400/20 text-yellow-400 px-2.5 py-0.5 rounded-full text-xs font-medium border border-yellow-400/30">{catLabel}</span>
-                            )}
-                            {locText && (
-                              <span class="bg-blue-600/20 text-blue-400 px-2.5 py-0.5 rounded-full text-xs font-medium border border-blue-600/30">{locText.split(',').slice(-1)[0].trim()}</span>
-                            )}
-                          </div>
-                        </div>
-                        <p class="text-gray-300 text-sm leading-relaxed line-clamp-2">{record.scea90e502 || 'Description not available'}</p>
-                        {record.s5576966ee && (
-                          <div class="mt-3 p-3 bg-yellow-400/10 border-l-4 border-yellow-400 rounded-r-lg">
-                            <p class="text-yellow-400 font-bold text-xs uppercase mb-1">Special Offer:</p>
-                            <p class="text-gray-200 text-sm whitespace-pre-line">{record.s5576966ee}</p>
-                          </div>
-                        )}
-                        {link && (
-                          <div class="mt-3">
-                            <a href={link} target="_blank" rel="ugc noopener noreferrer" aria-label={`Visit ${record.title} (opens in new tab)`}
-                              class="text-blue-300 hover:text-blue-200 underline text-sm transition-colors">
-                              Visit {record.title} &rarr;
-                            </a>
-                          </div>
-                        )}
-                      </div>
-                      {votes && <DirectoryVote id={record.id} title={record.title} count={voteCounts.get(record.id) ?? 0} />}
-                    </div>
-                  </div>
+                  <DirectoryEntryCard
+                    entry={entry}
+                    browseCard
+                    votes={showVotes ? voteCounts.get(entry.id) ?? 0 : undefined}
+                    country={extractCountry(loc)}
+                    locationLabel={locationLabel}
+                    openWebsiteOnCardClick
+                  />
                 )
               })}
             </div>
@@ -400,7 +358,7 @@ const seo: SEOProps = {
     });
   };
 
-  const cards = Array.from(document.querySelectorAll('.directory-card'));
+  const cards = Array.from(document.querySelectorAll('[data-entry]'));
   const countEl = document.getElementById('search-count');
   const emptyEl = document.getElementById('empty-state');
 
@@ -410,7 +368,7 @@ const seo: SEOProps = {
 
     if (cardLink) {
       card.addEventListener('click', (event) => {
-        if (event.target.closest('a,button,input,select,textarea')) return;
+        if (event.target.closest('a,button,input,select,textarea,[data-turnstile-panel],[data-turnstile-close],[data-upvote]')) return;
         window.open(cardLink, '_blank', 'noopener,noreferrer');
       });
     }
@@ -431,10 +389,9 @@ const seo: SEOProps = {
   function applyFilters(query, country) {
     let visible = 0;
     cards.forEach(card => {
-      const title = card.getAttribute('data-title') || '';
-      const desc = card.getAttribute('data-desc') || '';
+      const search = card.getAttribute('data-search') || '';
       const cardCountry = card.getAttribute('data-country') || '';
-      const matchQuery = !query || title.includes(query) || desc.includes(query);
+      const matchQuery = !query || search.includes(query);
       const matchCountry = !country || cardCountry === country;
       const match = matchQuery && matchCountry;
       card.style.display = match ? '' : 'none';
@@ -485,4 +442,10 @@ const seo: SEOProps = {
 
   const si = document.getElementById('search-input');
   if (si) si.addEventListener('input', e => applyFilters(e.target.value.toLowerCase().trim(), activeCountry));
+
+  const voteNoticeUrl = new URL(location.href);
+  if (voteNoticeUrl.searchParams.get('vote_email_notice') === 'cross_device') {
+    voteNoticeUrl.searchParams.delete('vote_email_notice');
+    history.replaceState(null, '', voteNoticeUrl.pathname + voteNoticeUrl.search + voteNoticeUrl.hash);
+  }
 </script>

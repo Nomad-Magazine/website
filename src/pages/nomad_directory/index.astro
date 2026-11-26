@@ -3,6 +3,7 @@ export const prerender = false
 import { readPublicDirectory, type PublicUpdate } from '~/utils/directory-public'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import DirectoryEntryCard from '~/components/DirectoryEntryCard.astro'
+import { DIRECTORY_VOTING_PAGES } from '~/const/directoryVoting'
 import { getDirectoryEntries, getDirectoryCategories, directoryCategoryUrl } from '~/utils/directory'
 import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
 
@@ -11,6 +12,7 @@ const [managedEntries, updates] = await Promise.all([
   readPublicDirectory<PublicUpdate>('directory_public_updates').catch(() => []),
 ])
 const entries = managedEntries ?? await getDirectoryEntries()
+const showVotesOnMain = DIRECTORY_VOTING_PAGES.main
 if (managedEntries === null && !entries.length) {
   Astro.response.status = 503
   Astro.response.headers.set('Retry-After', '60')
@@ -245,7 +247,7 @@ const seo: SEOProps = {
             </div>
 
             <!-- Cards -->
-            <div id="directory-container" class="space-y-4">{entries.map(entry => <DirectoryEntryCard entry={entry} updates={updates.filter(update => update.listing_id === entry.id)} />)}</div>
+            <div id="directory-container" class="space-y-4">{entries.map(entry => <DirectoryEntryCard entry={entry} updates={updates.filter(update => update.listing_id === entry.id)} {...(showVotesOnMain ? { votes: 0 } : {})} />)}</div>
 
             <!-- Empty state -->
             <div id="empty-state" class="hidden text-center py-20">
