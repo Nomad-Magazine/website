@@ -6,6 +6,7 @@ import { requireWorkerSecret, workerVoteLimiter } from '~/utils/directory-vote-s
 import { directoryReturnTo } from '~/utils/directory-votes'
 import { mapVoteEmailError, normalizeVoteEmail } from '~/utils/directory-vote-email-link'
 import {
+  abandonVotePendingMerge,
   createVotePendingMerge,
   existingVerifiedUserForEmail,
   sendExistingAccountVoteOtp,
@@ -23,6 +24,7 @@ const json = (data: unknown, status = 200) => Response.json(data, {
 })
 
 const confirmationSent = () => json({ ok: true })
+const sendFailed = () => json({ error: 'unavailable' }, 503)
 
 function isEmailTakenError(error: { message?: string; code?: string }) {
   const message = (error.message ?? '').toLowerCase()
@@ -40,11 +42,16 @@ async function sendExistingVoteEmail(options: {
 }) {
   requireWorkerSecret('DIRECTORY_IP_HASH_SALT')
   const mergeId = await createVotePendingMerge(options.anonUserId, options.email)
+  try {
+    await sendExistingAccountVoteOtp(options.supabase, options.email, options.returnTo, options.url.origin)
+  } catch {
+    await abandonVotePendingMerge(mergeId)
+    throw new Error('send_failed')
+  }
   const mergeValue = await signMergeCookieValue(mergeId)
   const secure = options.url.protocol === 'https:'
   setVoteMergeCookie(options.cookies, mergeValue, secure)
   setVoteEmailReturnCookie(options.cookies, options.returnTo, secure)
-  await sendExistingAccountVoteOtp(options.supabase, options.email, options.returnTo, options.url.origin)
 }
 
 export const POST: APIRoute = async ({ request, cookies, url }) => {
@@ -99,19 +106,21 @@ export const POST: APIRoute = async ({ request, cookies, url }) => {
   redirectTo.searchParams.set('next', returnTo)
 
   try {
-  let existingUserId: string | null = null
+    let existingUserId: string | null = null
     try {
       existingUserId = await existingVerifiedUserForEmail(email)
     } catch {
-      return json({ error: 'unavailable' }, 503)
+      return sendFailed()
     }
 
     if (existingUserId) {
       try {
         await sendExistingVoteEmail({ supabase, cookies, url, anonUserId: user.id, email, returnTo })
       } catch (error) {
-        if (error instanceof Error && (error as Error & { code?: string }).code === 'rate_limited') return json({ error: 'rate_limited' }, 429)
-        return json({ error: 'unavailable' }, 503)
+        if (error instanceof Error && (error as Error & { code?: string }).code === 'rate_limited') {
+          return json({ error: 'rate_limited' }, 429)
+        }
+        return sendFailed()
       }
       return confirmationSent()
     }
@@ -121,18 +130,23 @@ export const POST: APIRoute = async ({ request, cookies, url }) => {
       try {
         await sendExistingVoteEmail({ supabase, cookies, url, anonUserId: user.id, email, returnTo })
       } catch (sendError) {
-        if (sendError instanceof Error && (sendError as Error & { code?: string }).code === 'rate_limited') return json({ error: 'rate_limited' }, 429)
-        return json({ error: 'unavailable' }, 503)
+        if (sendError instanceof Error && (sendError as Error & { code?: string }).code === 'rate_limited') {
+          return json({ error: 'rate_limited' }, 429)
+        }
+        return sendFailed()
       }
       return confirmationSent()
     }
     if (error) {
       const mapped = mapVoteEmailError(error)
+      if (mapped.error === 'unavailable' || mapped.error === 'rate_limited') {
+        return json({ error: mapped.error }, mapped.status)
+      }
       return json({ error: mapped.error }, mapped.status)
     }
     markVoteNewEmailConfirm(cookies, url.protocol === 'https:')
     return confirmationSent()
   } catch {
-    return json({ error: 'unavailable' }, 503)
+    return sendFailed()
   }
 }

@@ -36,20 +36,38 @@ export async function existingVerifiedUserForEmail(email: string): Promise<strin
   return typeof data === 'string' ? data : null
 }
 
+async function ensureVoteEmailHashSaltConfigured() {
+  const salt = requireWorkerSecret('DIRECTORY_IP_HASH_SALT')
+  const { error } = await serviceClient().rpc('directory_vote_configure_hash_salt', { p_salt: salt })
+  if (error) throw error
+}
+
 export async function createVotePendingMerge(anonUserId: string, email: string): Promise<string> {
-  const targetEmailHash = await hashVoteEmail(email)
+  await ensureVoteEmailHashSaltConfigured()
   const { data, error } = await serviceClient().rpc('directory_vote_pending_merge_create', {
     p_anon_user_id: anonUserId,
-    p_target_email_hash: targetEmailHash,
+    p_target_email: email,
   })
   if (error) throw error
   if (typeof data !== 'string') throw new Error('Pending merge missing')
   return data
 }
 
+export async function abandonVotePendingMerge(mergeId: string): Promise<void> {
+  const { error } = await serviceClient().rpc('directory_vote_pending_merge_abandon', { p_merge_id: mergeId })
+  if (error) throw error
+}
+
 export async function signMergeCookieValue(mergeId: string): Promise<string> {
   const signature = await hmacHex(`merge:${mergeId}`)
   return `v1.${mergeId}.${signature}`
+}
+
+function timingSafeEqualHex(a: string, b: string): boolean {
+  if (a.length !== b.length) return false
+  let mismatch = 0
+  for (let i = 0; i < a.length; i++) mismatch |= a.charCodeAt(i) ^ b.charCodeAt(i)
+  return mismatch === 0
 }
 
 export async function verifyMergeCookieValue(raw: string | undefined | null): Promise<string | null> {
@@ -59,7 +77,7 @@ export async function verifyMergeCookieValue(raw: string | undefined | null): Pr
   const mergeId = parts[1]
   if (!/^[0-9a-f-]{36}$/i.test(mergeId)) return null
   const expected = await hmacHex(`merge:${mergeId}`)
-  if (expected !== parts[2]) return null
+  if (!timingSafeEqualHex(expected, parts[2] ?? '')) return null
   return mergeId
 }
 
@@ -139,11 +157,10 @@ export async function tryMergeAnonymousVotes(
     clearVoteMergeCookie(cookies)
     return 'failed'
   }
-  const targetEmailHash = await hashVoteEmail(normalized)
+  await ensureVoteEmailHashSaltConfigured()
   const { data, error } = await serviceClient().rpc('directory_merge_anonymous_votes', {
     p_merge_id: mergeId,
     p_target_user_id: targetUserId,
-    p_target_email_hash: targetEmailHash,
   })
   clearVoteMergeCookie(cookies)
   if (error) return 'failed'
