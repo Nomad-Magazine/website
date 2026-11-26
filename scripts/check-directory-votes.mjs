@@ -145,12 +145,14 @@ const wrongMergeId = ok(await service.rpc('directory_vote_pending_merge_create',
   p_anon_user_id: wrongAnon,
   p_target_email_hash: mergeEmailHash,
 }))
-denied(await service.rpc('directory_merge_anonymous_votes', {
+const wrongMerge = await service.rpc('directory_merge_anonymous_votes', {
   p_merge_id: wrongMergeId,
   p_target_user_id: b.user.id,
-  p_target_email_hash: mergeEmailHash,
+  p_target_email_hash: hashVoteEmail(b.user.email),
   p_target_email: b.user.email,
-}))
+})
+assert(wrongMerge.error, 'Wrong user merge must be denied')
+assert.match(String(wrongMerge.error.message ?? ''), /Merge email mismatch/i)
 const expireAnon = ok(await make().auth.signInAnonymously()).user.id
 ok(await vote(expireAnon, secondTarget, true, 44))
 const expireId = ok(await service.rpc('directory_vote_pending_merge_create', {

@@ -86,6 +86,7 @@ $$;
 revoke all on function public.directory_vote_pending_merge_abandon(uuid) from public, anon, authenticated;
 grant execute on function public.directory_vote_pending_merge_abandon(uuid) to service_role;
 
+-- Service-role only. The Worker always supplies p_target_email_hash and p_target_email from the verified session; Postgres does not hash emails here.
 create function public.directory_merge_anonymous_votes(
   p_merge_id uuid,
   p_target_user_id uuid,
