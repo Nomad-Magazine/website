@@ -106,4 +106,61 @@ ok(await service.from('directory_votes').delete().eq('user_id', capUser))
 for (const id of capListings.slice(0, 6)) ok(await service.from('directory_votes').delete().eq('user_id', a.user.id).eq('listing_id', id))
 const login = ok(await service.auth.admin.generateLink({ type: 'magiclink', email: a.user.email }))
 await writeFile('/tmp/nomad-vote-fixtures.json', JSON.stringify({ target, secondTarget, title: snapshot[0].title, category: snapshot[0].sb685ab800.label, tokenHash: login.properties.hashed_token, email: a.user.email }), { mode: 0o600 })
-console.log('PASS: service-only vote RPC, client bypass denied, network caps, revote fairness, RLS, idempotent votes, publication checks.')
+
+const mergeHash = 'abcd'.repeat(16)
+const mergeAnon = ok(await make().auth.signInAnonymously()).user.id
+ok(await vote(mergeAnon, secondTarget, true, 41))
+ok(await vote(mergeAnon, target, true, 42))
+ok(await vote(a.user.id, target, true, 43))
+const mergeId = ok(await service.rpc('directory_vote_pending_merge_create', {
+  p_anon_user_id: mergeAnon,
+  p_target_email_hash: mergeHash,
+}))
+assert.equal(
+  ok(await service.rpc('directory_merge_anonymous_votes', {
+    p_merge_id: mergeId,
+    p_target_user_id: a.user.id,
+    p_target_email_hash: mergeHash,
+  })),
+  1,
+  'Merge moves only votes the target account does not already hold',
+)
+assert.deepEqual(
+  ok(await a.client.rpc('directory_my_votes')).map(r => r.listing_id).sort(),
+  [secondTarget, target].sort(),
+)
+denied(await service.rpc('directory_merge_anonymous_votes', {
+  p_merge_id: mergeId,
+  p_target_user_id: a.user.id,
+  p_target_email_hash: mergeHash,
+}))
+const wrongUser = ok(await service.rpc('directory_vote_pending_merge_create', {
+  p_anon_user_id: ok(await make().auth.signInAnonymously()).user.id,
+  p_target_email_hash: mergeHash,
+}))
+denied(await service.rpc('directory_merge_anonymous_votes', {
+  p_merge_id: wrongUser,
+  p_target_user_id: b.user.id,
+  p_target_email_hash: mergeHash,
+}))
+const expireAnon = ok(await make().auth.signInAnonymously()).user.id
+ok(await vote(expireAnon, secondTarget, true, 44))
+const expireId = ok(await service.rpc('directory_vote_pending_merge_create', {
+  p_anon_user_id: expireAnon,
+  p_target_email_hash: mergeHash,
+}))
+ok(await service.from('directory_vote_pending_merge').update({ expires_at: '2000-01-01T00:00:00Z' }).eq('merge_id', expireId))
+denied(await service.rpc('directory_merge_anonymous_votes', {
+  p_merge_id: expireId,
+  p_target_user_id: a.user.id,
+  p_target_email_hash: mergeHash,
+}))
+denied(await anon.rpc('directory_merge_anonymous_votes', {
+  p_merge_id: mergeId,
+  p_target_user_id: a.user.id,
+  p_target_email_hash: mergeHash,
+}))
+ok(await service.from('directory_votes').delete().eq('user_id', mergeAnon))
+ok(await service.from('directory_votes').delete().eq('user_id', expireAnon))
+
+console.log('PASS: service-only vote RPC, client bypass denied, network caps, revote fairness, RLS, idempotent votes, publication checks, anonymous vote merge.')

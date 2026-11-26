@@ -43,7 +43,12 @@ const count = pageRecords.length
 const isLocation = type === 'country' || type === 'continent'
 const pageEntries = getDirectoryEntriesFromRecords(pageRecords)
 const showVotes = DIRECTORY_VOTING_PAGES[type as DirectoryVotingSurface] && voteRows !== null
-const voteEmailCrossDeviceNotice = showVotes && Astro.url.searchParams.get('vote_email_notice') === 'cross_device'
+const voteEmailNotice = showVotes ? Astro.url.searchParams.get('vote_email_notice') : null
+const voteEmailCrossDeviceNotice = voteEmailNotice === 'cross_device'
+const voteEmailMergedNotice = voteEmailNotice === 'merged'
+const voteMergeCount = voteEmailMergedNotice
+  ? Math.max(0, Number.parseInt(Astro.url.searchParams.get('vote_merge_count') ?? '0', 10) || 0)
+  : 0
 
 // SEO copy
 const categoryDescriptions: Record<string, string> = {
@@ -162,6 +167,13 @@ const seo: SEOProps = {
           <span class="text-gray-300">{breadcrumbLabel}</span>
         </nav>
 
+        {voteEmailMergedNotice && (
+          <p id="vote-email-merged-notice" class="mx-auto mb-6 max-w-2xl rounded-xl border border-yellow-400/30 bg-gray-950 px-4 py-3 text-left text-sm text-yellow-100" role="status">
+            {voteMergeCount > 0
+              ? `Your earlier votes from this browser are now on your account (${voteMergeCount} ${voteMergeCount === 1 ? 'vote' : 'votes'} moved). You can keep voting.`
+              : 'You are signed in. Your votes on this page are ready — you can keep voting.'}
+          </p>
+        )}
         {voteEmailCrossDeviceNotice && (
           <p id="vote-email-cross-device-notice" class="mx-auto mb-6 max-w-2xl rounded-xl border border-yellow-400/30 bg-gray-950 px-4 py-3 text-left text-sm text-yellow-100" role="status">
             Your email is confirmed. Open this link in the browser where you voted to keep voting, or just vote again here.
@@ -444,8 +456,9 @@ const seo: SEOProps = {
   if (si) si.addEventListener('input', e => applyFilters(e.target.value.toLowerCase().trim(), activeCountry));
 
   const voteNoticeUrl = new URL(location.href);
-  if (voteNoticeUrl.searchParams.get('vote_email_notice') === 'cross_device') {
+  if (voteNoticeUrl.searchParams.has('vote_email_notice')) {
     voteNoticeUrl.searchParams.delete('vote_email_notice');
+    voteNoticeUrl.searchParams.delete('vote_merge_count');
     history.replaceState(null, '', voteNoticeUrl.pathname + voteNoticeUrl.search + voteNoticeUrl.hash);
   }
 </script>
