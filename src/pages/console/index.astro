@@ -21,6 +21,20 @@ try {
   error = workspaceError(err)
 }
 const directory = await getDirectoryEntries()
+
+function listingStatusChip(listing: WorkspaceListing) {
+  if (listing.review_notes?.trim() && listing.status === 'pending') {
+    return { label: 'Changes requested', tone: 'changes' }
+  }
+  if (listing.status === 'pending') return { label: 'In review', tone: 'pending' }
+  if (listing.published && listing.status === 'approved') return { label: 'Live', tone: 'live' }
+  return { label: 'Draft', tone: 'draft' }
+}
+
+const publishedCount = listings.filter((l) => l.published).length
+const awaitingReview = listings.filter((l) => l.status === 'pending').length + posts.filter((p) => p.status === 'pending').length
+const showStats = !(listings.length === 1 && publishedCount === 1 && awaitingReview === 0)
+const hasListings = listings.length > 0
 ---
 
 <ConsoleLayout title="My listings" currentPage="dashboard">
@@ -29,7 +43,17 @@ const directory = await getDirectoryEntries()
       <p class="eyebrow">Your space in the nomad community</p><h2>Make your next connection.</h2><p class="muted">
         Manage your listings, share what’s new and bring your offers to nomads.
       </p>
-    </div><a href="/console/directory-submission/?new=1" class="button">Add a listing</a>
+    </div>{
+      hasListings ? (
+        <a href="/console/directory-submission/?new=1" class="button secondary">
+          Add a listing
+        </a>
+      ) : (
+        <a href="/console/directory-submission/?new=1" class="button">
+          Add a listing
+        </a>
+      )
+    }
   </div>
   {
     error && (
@@ -38,13 +62,21 @@ const directory = await getDirectoryEntries()
       </p>
     )
   }
-  <div class="stats">
-    <div class="panel"><strong>{listings.length}</strong><span class="muted">Your listings</span></div><div class="panel">
-      <strong>{listings.filter((l) => l.published).length}</strong><span class="muted">Published</span>
-    </div><div class="panel">
-      <strong>{listings.filter((l) => l.status === 'pending').length + posts.filter((p) => p.status === 'pending').length}</strong><span class="muted">Awaiting review</span>
-    </div>
-  </div>
+  {
+    showStats && (
+      <div class="stats">
+        <div class="panel">
+          <strong>{listings.length}</strong><span class="muted">Your listings</span>
+        </div>
+        <div class="panel">
+          <strong>{publishedCount}</strong><span class="muted">Published</span>
+        </div>
+        <div class="panel">
+          <strong>{awaitingReview}</strong><span class="muted">Awaiting review</span>
+        </div>
+      </div>
+    )
+  }
   {
     listings.length === 0 && !error && (
       <section class="panel">
@@ -59,38 +91,60 @@ const directory = await getDirectoryEntries()
     )
   }
   {
-    listings.map((listing) => (
-      <section class="panel">
-        <div class="row">
-          <span class={`tag ${listing.status}`}>{listing.published ? 'Live listing' : 'Not published'} · {listing.status === 'pending' ? 'Changes in review' : listing.status}</span>
-          <a href={`/console/directory-submission/?id=${listing.id}`} class="link">Edit listing ↗</a>
-        </div>
-        <div class="listing-preview">
-          {listing.draft.image && <img src={directoryImageUrl(listing.draft.image)} alt={`${listing.draft.title} logo`} width="64" height="64" />}
-          <div>
-            <>
-              <h3>{listing.draft.title}</h3>
-              <p class="muted">
-                {listing.draft.category} {listing.draft.location && `· ${listing.draft.location}`}
-              </p>
-              <p class="muted">{listing.draft.description.slice(0, 200)}</p>
-            </>
+    listings.map((listing) => {
+      const chip = listingStatusChip(listing)
+      const publicId = listing.legacy_id || listing.id
+      return (
+        <section class="panel listing-card">
+          <div class="row">
+            <span class={`tag tag-${chip.tone}`}>{chip.label}</span>
           </div>
-        </div>
-        {listing.review_notes && <p class="notice">Reviewer: {listing.review_notes}</p>}
-        <div class="actions">
-          <a href={`/console/updates/?listing=${listing.id}`} class="button">Post an update</a>
-          <a href={`/console/affiliates/?listing=${listing.id}`} class="button secondary">
-            Share an affiliate programme
-          </a>
-          {listing.published && (
-            <a class="link" href={`/nomad_directory/#listing-${listing.legacy_id || listing.id}`}>
-              View published listing ↗
+          <div class="listing-preview">
+            {listing.draft.image && <img src={directoryImageUrl(listing.draft.image)} alt={`${listing.draft.title} logo`} width="64" height="64" />}
+            <div>
+              <>
+                <h3>{listing.draft.title}</h3>
+                <p class="muted">
+                  {listing.draft.category} {listing.draft.location && `· ${listing.draft.location}`}
+                </p>
+                <p class="muted">{listing.draft.description.slice(0, 200)}</p>
+              </>
+            </div>
+          </div>
+          {listing.review_notes && <p class="notice">Reviewer: {listing.review_notes}</p>}
+          <div class="listing-actions actions">
+            <a href={`/console/directory-submission/?id=${listing.id}`} class="button">
+              Edit listing
             </a>
-          )}
-        </div>
-      </section>
-    ))
+            {listing.published && (
+              <a class="link" href={`/nomad_directory/#listing-${publicId}`}>
+                View listing
+              </a>
+            )}
+            <div class="console-more" data-console-more>
+              <button
+                type="button"
+                class="console-more-trigger"
+                aria-expanded="false"
+                aria-haspopup="menu"
+                aria-controls={`more-menu-${listing.id}`}
+                id={`more-trigger-${listing.id}`}
+              >
+                More
+              </button>
+              <div class="console-more-menu" id={`more-menu-${listing.id}`} role="menu" aria-labelledby={`more-trigger-${listing.id}`} hidden>
+                <a role="menuitem" href={`/console/updates/?listing=${listing.id}`}>
+                  Post an update
+                </a>
+                <a role="menuitem" href={`/console/affiliates/?listing=${listing.id}`}>
+                  Share an affiliate programme
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      )
+    })
   }
   <section class="panel">
     <h3>Already in the directory?</h3><p class="muted">Claim your existing listing using its original contact email. We verify ownership before giving access.</p><form
@@ -101,3 +155,60 @@ const directory = await getDirectoryEntries()
     </form><p class="muted actions">Different contact email? <a href="mailto:hey@nomadgossip.com" class="link">Contact us to verify ownership</a>.</p>
   </section>
 </ConsoleLayout>
+
+<script>
+  const closeMenu = (root: HTMLElement) => {
+    const trigger = root.querySelector<HTMLButtonElement>('.console-more-trigger')!
+    const menu = root.querySelector<HTMLElement>('.console-more-menu')!
+    menu.hidden = true
+    trigger.setAttribute('aria-expanded', 'false')
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-console-more]').forEach((root) => {
+    const trigger = root.querySelector<HTMLButtonElement>('.console-more-trigger')!
+    const menu = root.querySelector<HTMLElement>('.console-more-menu')!
+
+    trigger.addEventListener('click', (event) => {
+      event.stopPropagation()
+      const open = menu.hidden
+      document.querySelectorAll<HTMLElement>('[data-console-more]').forEach((other) => {
+        if (other !== root) closeMenu(other)
+      })
+      menu.hidden = !open
+      trigger.setAttribute('aria-expanded', String(open))
+    })
+
+    menu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => closeMenu(root))
+    })
+
+    trigger.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeMenu(root)
+        trigger.focus()
+      } else if (event.key === 'ArrowDown' && menu.hidden) {
+        event.preventDefault()
+        menu.hidden = false
+        trigger.setAttribute('aria-expanded', 'true')
+        menu.querySelector<HTMLAnchorElement>('[role="menuitem"]')?.focus()
+      }
+    })
+
+    menu.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeMenu(root)
+        trigger.focus()
+      }
+    })
+  })
+
+  document.addEventListener('click', (event) => {
+  if ((event.target as Element).closest('[data-console-more]')) return
+    document.querySelectorAll<HTMLElement>('[data-console-more]').forEach(closeMenu)
+  })
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return
+    document.querySelectorAll<HTMLElement>('[data-console-more]').forEach(closeMenu)
+  })
+</script>

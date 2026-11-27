@@ -4,6 +4,7 @@
  * No production calls; fixture users and sample listing data only.
  *
  * Usage: node scripts/capture-console-screenshots.mjs --phase=before|after --out=pr-assets/pr-53
+ *        node scripts/capture-console-screenshots.mjs --set=listing-cards --phase=after --out=pr-assets/pr-54
  */
 import { createRequire } from 'node:module'
 import { createServer } from 'node:http'
@@ -21,13 +22,15 @@ const devVars = path.join(root, '.dev.vars')
 const phase = process.argv.includes('--phase=before') ? 'before' : 'after'
 const outArg = process.argv.find((a) => a.startsWith('--out='))
 const outDir = path.resolve(outArg?.slice(6) ?? path.join(root, 'pr-assets/pr-53'))
+const captureSet = process.argv.find((a) => a.startsWith('--set='))?.slice(6) ?? 'full'
+const indexPath = path.join(root, 'src/pages/console/index.astro')
 const base = 'http://127.0.0.1:3000'
 const OWNER = '00000000-0000-4000-8000-000000000001'
 const ANON = 'local-test-public-key'
 
 const logo = (file) => `/images/directory-logos/${file}`
 
-const listings = [
+const allListings = [
   {
     id: '10000000-0000-4000-8000-000000000001',
     owner_id: OWNER,
@@ -106,11 +109,11 @@ const listings = [
   },
 ]
 
-const posts = [
+const allPosts = [
   {
     id: '20000000-0000-4000-8000-000000000001',
     owner_id: OWNER,
-    listing_id: listings[0].id,
+    listing_id: allListings[0].id,
     kind: 'update',
     draft: { title: 'Winter rooftop dinners', body: 'Join weekly dinners with founders and travelers.', url: 'https://example.com/events/' },
     published: { title: 'Autumn open mic nights', body: 'Live music every Thursday.', url: 'https://example.com/music/' },
@@ -123,7 +126,7 @@ const posts = [
   {
     id: '20000000-0000-4000-8000-000000000002',
     owner_id: OWNER,
-    listing_id: listings[2].id,
+    listing_id: allListings[2].id,
     kind: 'update',
     draft: { title: 'New quiet room hours', body: 'Silent focus time is now 9am–1pm daily.', url: '' },
     published: null,
@@ -138,8 +141,8 @@ const posts = [
 const awards = [
   {
     id: '90000000-0000-4000-8000-000000000001',
-    listing_id: listings[0].legacy_id,
-    listing_title: listings[0].draft.title,
+    listing_id: allListings[0].legacy_id,
+    listing_title: allListings[0].draft.title,
     vote_count: 42,
     tied_winners: 1,
     kind: 'month',
@@ -169,6 +172,21 @@ function sessionToken() {
     Buffer.from('local-fixture-signature').toString('base64url'),
   ].join('.')
 }
+
+let fixtureListings = allListings
+let fixturePosts = allPosts
+
+function applyFixture(mode) {
+  if (mode === 'single') {
+    fixtureListings = [allListings[0]]
+    fixturePosts = allPosts.filter((post) => post.status !== 'pending')
+  } else {
+    fixtureListings = allListings
+    fixturePosts = allPosts
+  }
+}
+
+applyFixture('multi')
 
 function filterRows(rows, search) {
   for (const [key, op] of search) {
@@ -218,12 +236,12 @@ function createMock() {
         return
       }
       if (url.pathname === '/rest/v1/directory_managed_listings') {
-        const rows = filterRows(listings, url.searchParams)
+        const rows = filterRows(fixtureListings, url.searchParams)
         res.end(JSON.stringify(rows))
         return
       }
       if (url.pathname === '/rest/v1/directory_owner_posts') {
-        const rows = filterRows(posts, url.searchParams)
+        const rows = filterRows(fixturePosts, url.searchParams)
         res.end(JSON.stringify(rows))
         return
       }
@@ -284,12 +302,17 @@ async function login(context) {
   if (callback.status() !== 302) throw new Error(`Callback failed: ${callback.status()}`)
 }
 
-async function capture(page, name, route, width, height) {
+async function capture(page, name, route, width, height, hooks = {}) {
+  applyFixture(hooks.fixture ?? 'multi')
   await page.setViewportSize({ width, height })
   const response = await page.goto(`${base}${route}`, { waitUntil: 'networkidle' })
   if (!response || response.status() >= 400) throw new Error(`${route} returned ${response?.status()}`)
   await page.addStyleTag({ content: 'astro-dev-toolbar{display:none!important}' })
   await page.evaluate(() => document.fonts.ready)
+  if (hooks.openMore) {
+    await page.locator('.listing-card .console-more-trigger').first().click()
+    await page.waitForSelector('.listing-card .console-more-menu:not([hidden])')
+  }
   const out = path.join(outDir, `${phase}-${name}-${width}.png`)
   await page.screenshot({ path: out, fullPage: true })
   return out
@@ -307,13 +330,21 @@ const routes = [
 let dev
 let mock
 let savedCss
+let savedIndex
 let savedDevVars = false
 const files = []
 
 try {
   await mkdir(outDir, { recursive: true })
-  if (phase === 'before') {
-    const { execFileSync } = await import('node:child_process')
+  const { execFileSync } = await import('node:child_process')
+  if (phase === 'before' && captureSet === 'listing-cards') {
+    savedIndex = await readFile(indexPath, 'utf8')
+    await writeFile(
+      indexPath,
+      execFileSync('git', ['show', 'origin/main:src/pages/console/index.astro'], { cwd: root, encoding: 'utf8' }),
+    )
+  }
+  if (phase === 'before' && captureSet === 'full') {
     savedCss = await readFile(consoleCss, 'utf8')
     await writeFile(consoleCss, execFileSync('git', ['show', 'origin/main:src/styles/console.css'], { cwd: root, encoding: 'utf8' }))
   }
@@ -346,15 +377,30 @@ try {
 
   await login(context)
 
-  for (const [name, route] of routes) {
-    files.push(await capture(page, name, route, 1280, 1000))
-    files.push(await capture(page, `${name}-mobile`, route, 390, 1200))
+  if (captureSet === 'listing-cards') {
+    for (const [name, fixture] of [
+      ['listings-multi', 'multi'],
+      ['listings-single', 'single'],
+    ]) {
+      files.push(await capture(page, name, '/console/', 1280, 1000, { fixture }))
+      files.push(await capture(page, `${name}-mobile`, '/console/', 390, 1200, { fixture }))
+    }
+    if (phase === 'after') {
+      files.push(await capture(page, 'listings-more-open', '/console/', 1280, 1000, { fixture: 'multi', openMore: true }))
+      files.push(await capture(page, 'listings-more-open-mobile', '/console/', 390, 1200, { fixture: 'multi', openMore: true }))
+    }
+  } else {
+    for (const [name, route] of routes) {
+      files.push(await capture(page, name, route, 1280, 1000))
+      files.push(await capture(page, `${name}-mobile`, route, 390, 1200))
+    }
   }
 
   await browser.close()
 } finally {
   if (dev && !dev.killed) dev.kill('SIGTERM')
   if (mock) await new Promise((r) => mock.close(r))
+  if (savedIndex) await writeFile(indexPath, savedIndex)
   if (phase === 'before' && savedCss) await writeFile(consoleCss, savedCss)
   if (savedDevVars) await copyFile(`${devVars}.capture-bak`, devVars).then(() => unlink(`${devVars}.capture-bak`))
   else {
