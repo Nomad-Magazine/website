@@ -214,7 +214,7 @@ const seo: SEOProps = {
     <!-- Main layout -->
     <section class="pb-20">
       <div class="container mx-auto px-4 max-w-7xl">
-        <div class="flex flex-col lg:flex-row gap-8 items-start">
+        <div class="flex flex-col lg:flex-row gap-8 items-stretch lg:items-start">
 
           <!-- LEFT SIDEBAR -->
           <aside class="w-full lg:w-72 shrink-0 lg:sticky lg:top-6 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto" style="scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.15) transparent;" aria-label="Directory filters">
@@ -242,8 +242,10 @@ const seo: SEOProps = {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                   </svg>
                 </div>
-                <p class="text-xs text-gray-600 mt-1" id="search-count" aria-live="polite">{count} results</p>
+                <p class="text-xs text-gray-600 mt-1" id="search-count" aria-live="polite">{count} result{count !== 1 ? 's' : ''}</p>
               </div>
+
+              <div id="directory-filters-collapsible" class="space-y-6">
 
               <!-- Categories -->
               <div>
@@ -335,12 +337,38 @@ const seo: SEOProps = {
                 </div>
               </div>
 
+              </div>
+              <noscript>
+                <style>
+                  #mobile-filters-toggle { display: none !important; }
+                  #directory-filters-collapsible { display: block !important; }
+                </style>
+              </noscript>
+
             </div>
           </aside>
 
           <!-- RIGHT: Listings -->
-          <div class="flex-1 min-w-0">
+          <div class="w-full min-w-0 flex-1">
 
+            <button
+              type="button"
+              id="mobile-filters-toggle"
+              class="lg:hidden w-full flex items-center justify-center gap-2 px-4 py-3 mb-4 bg-white/10 hover:bg-white/15 border border-white/20 rounded-xl text-white text-sm font-semibold transition-all focus-visible:ring-2 focus-visible:ring-yellow-400"
+              aria-expanded="false"
+              aria-controls="directory-filters-collapsible">
+              <svg class="w-4 h-4 shrink-0 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
+              </svg>
+              <span id="mobile-filters-toggle-label">Filters</span>
+            </button>
+
+            <div
+              id="directory-filter-context"
+              class="hidden"
+              data-page-type={type}
+              aria-hidden="true"
+            ></div>
             <div id="directory-container" class="space-y-4">
               {pageEntries.map(entry => {
                 const record = pageRecords.find(r => String(r.id) === entry.id)
@@ -426,21 +454,77 @@ const seo: SEOProps = {
       });
     }
   });
+  const filterCtx = document.getElementById('directory-filter-context');
+  const pageType = filterCtx ? filterCtx.getAttribute('data-page-type') || '' : '';
   let activeCountry = '';
+  let activeCategory = '';
+
+  function activeFilterCount() {
+    return activeCountry ? 1 : 0;
+  }
+
+  function updateMobileFiltersToggleLabel() {
+    const label = document.getElementById('mobile-filters-toggle-label');
+    if (!label) return;
+    const n = activeFilterCount();
+    label.textContent = n > 0 ? 'Filters (' + n + ')' : 'Filters';
+  }
+
+  function isDesktopFiltersLayout() {
+    return window.matchMedia('(min-width: 1024px)').matches;
+  }
+
+  function setMobileFiltersExpanded(expanded) {
+    const panel = document.getElementById('directory-filters-collapsible');
+    const toggle = document.getElementById('mobile-filters-toggle');
+    if (!panel || !toggle) return;
+    if (isDesktopFiltersLayout()) {
+      panel.classList.remove('hidden');
+      toggle.setAttribute('aria-expanded', 'false');
+      return;
+    }
+    panel.classList.toggle('hidden', !expanded);
+    toggle.setAttribute('aria-expanded', String(expanded));
+  }
+
+  function normalizeQuery(raw) {
+    return String(raw || '').toLowerCase().trim();
+  }
+
+  function setUrlParam(url, key, value) {
+    if (value) url.searchParams.set(key, value);
+    else url.searchParams.delete(key);
+  }
+
+  function syncFilterUrl() {
+    const si = document.getElementById('search-input');
+    const url = new URL(window.location.href);
+    const qRaw = si ? si.value.trim() : '';
+    url.searchParams.delete('q');
+    url.searchParams.delete('country');
+    url.searchParams.delete('category');
+    setUrlParam(url, 'q', qRaw);
+    if (pageType === 'category') setUrlParam(url, 'country', activeCountry);
+    else if (pageType === 'country' || pageType === 'continent') setUrlParam(url, 'category', activeCategory);
+    history.replaceState(null, '', url.pathname + url.search + url.hash);
+  }
 
   window.clearSearch = function() {
     const si = document.getElementById('search-input');
-    if (si) { si.value = ''; renderCountryFilterList(); applyFilters('', activeCountry); }
+    if (si) { si.value = ''; renderCountryFilterListAndToggle(); applyFilters('', activeCountry, activeCategory); syncFilterUrl(); }
   };
 
-  function applyFilters(query, country) {
+  function applyFilters(query, country, category) {
+    const q = normalizeQuery(query);
     let visible = 0;
     cards.forEach(card => {
-      const search = card.getAttribute('data-search') || '';
+      const search = (card.getAttribute('data-search') || '').toLowerCase();
       const cardCountry = card.getAttribute('data-country') || '';
-      const matchQuery = !query || search.includes(query);
+      const cardCategory = card.getAttribute('data-category') || '';
+      const matchQuery = !q || search.includes(q);
       const matchCountry = !country || cardCountry === country;
-      const match = matchQuery && matchCountry;
+      const matchCategory = !category || cardCategory === category;
+      const match = matchQuery && matchCountry && matchCategory;
       card.style.display = match ? '' : 'none';
       if (match) visible++;
     });
@@ -462,7 +546,7 @@ const seo: SEOProps = {
     const list = document.getElementById('country-list');
     const section = document.getElementById('country-filter-section');
     if (!list) return;
-    const base = cards.filter(card => !query || (card.getAttribute('data-search') || '').includes(query));
+    const base = cards.filter(card => !query || (card.getAttribute('data-search') || '').toLowerCase().includes(query));
     const countryCounts = {};
     base.forEach(card => {
       const c = card.getAttribute('data-country');
@@ -485,7 +569,7 @@ const seo: SEOProps = {
     allBtn.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all ' +
       (!activeCountry ? 'bg-blue-500 text-white font-semibold' : 'text-gray-300 hover:text-white hover:bg-white/10');
     allBtn.innerHTML = '<span>All countries</span><span class="text-xs opacity-60">' + base.length + '</span>';
-    allBtn.addEventListener('click', () => { activeCountry = ''; renderCountryFilterList(); applyFilters(currentQuery(), ''); });
+    allBtn.addEventListener('click', () => { activeCountry = ''; renderCountryFilterListAndToggle(); applyFilters(currentQuery(), '', activeCategory); syncFilterUrl(); });
     list.appendChild(allBtn);
     sorted.forEach((country) => {
       const cnt = countryCounts[country] || 0;
@@ -499,24 +583,108 @@ const seo: SEOProps = {
       btn.disabled = disabled;
       btn.innerHTML = '<span>' + esc(country) + '</span><span class="text-xs opacity-60">' + cnt + '</span>';
       if (!disabled) {
-        btn.addEventListener('click', () => { activeCountry = country; renderCountryFilterList(); applyFilters(currentQuery(), country); });
+        btn.addEventListener('click', () => { activeCountry = country; renderCountryFilterListAndToggle(); applyFilters(currentQuery(), country, activeCategory); syncFilterUrl(); });
       }
       list.appendChild(btn);
     });
   }
 
-  renderCountryFilterList();
+  function renderCountryFilterListAndToggle() {
+    renderCountryFilterList();
+    updateMobileFiltersToggleLabel();
+  }
+
+  function allCardCategories() {
+    const names = new Set();
+    cards.forEach(card => {
+      const c = card.getAttribute('data-category');
+      if (c) names.add(c);
+    });
+    return names;
+  }
+
+  function resolveCountryParam(raw) {
+    const trimmed = String(raw || '').trim();
+    if (!trimmed) return '';
+    const lower = trimmed.toLowerCase();
+    for (const name of allCardCountries()) {
+      if (name.toLowerCase() === lower) return name;
+    }
+    return '';
+  }
+
+  function resolveCategoryParam(raw) {
+    const trimmed = String(raw || '').trim();
+    if (!trimmed) return '';
+    const lower = trimmed.toLowerCase();
+    for (const name of allCardCategories()) {
+      if (name.toLowerCase() === lower) return name;
+    }
+    return '';
+  }
+
+  function scrollToListingHash() {
+    const hash = location.hash;
+    if (!hash || hash.indexOf('#listing-') !== 0) return;
+    const el = document.getElementById(hash.slice(1));
+    if (!el || el.style.display === 'none') return;
+    el.scrollIntoView({ block: 'start' });
+  }
+
+  function initFiltersFromUrl() {
+    const params = new URLSearchParams(location.search);
+    const si = document.getElementById('search-input');
+    const q = params.get('q') || '';
+    if (si) si.value = q;
+    const resolvedCountry = pageType === 'category' ? resolveCountryParam(params.get('country') || '') : '';
+    if (resolvedCountry) activeCountry = resolvedCountry;
+    const resolvedCategory = (pageType === 'country' || pageType === 'continent')
+      ? resolveCategoryParam(params.get('category') || '')
+      : '';
+    if (resolvedCategory) activeCategory = resolvedCategory;
+    renderCountryFilterListAndToggle();
+    applyFilters(q, activeCountry, activeCategory);
+    scrollToListingHash();
+    syncFilterUrl();
+  }
 
   function currentQuery() {
     const si = document.getElementById('search-input');
-    return si ? si.value.toLowerCase().trim() : '';
+    return si ? normalizeQuery(si.value) : '';
+  }
+
+  let urlSyncTimer = null;
+  const URL_SYNC_DEBOUNCE_MS = 300;
+  function scheduleSyncFilterUrl() {
+    if (urlSyncTimer) clearTimeout(urlSyncTimer);
+    urlSyncTimer = setTimeout(function () {
+      urlSyncTimer = null;
+      syncFilterUrl();
+    }, URL_SYNC_DEBOUNCE_MS);
   }
 
   const si = document.getElementById('search-input');
   if (si) si.addEventListener('input', e => {
-    renderCountryFilterList();
-    applyFilters(e.target.value.toLowerCase().trim(), activeCountry);
+    renderCountryFilterListAndToggle();
+    applyFilters(e.target.value, activeCountry, activeCategory);
+    scheduleSyncFilterUrl();
   });
+
+  window.addEventListener('hashchange', scrollToListingHash);
+
+  const mobileFiltersToggle = document.getElementById('mobile-filters-toggle');
+  if (mobileFiltersToggle) {
+    mobileFiltersToggle.addEventListener('click', function () {
+      const panel = document.getElementById('directory-filters-collapsible');
+      if (!panel || isDesktopFiltersLayout()) return;
+      const expanded = mobileFiltersToggle.getAttribute('aria-expanded') !== 'true';
+      setMobileFiltersExpanded(expanded);
+    });
+  }
+  window.matchMedia('(min-width: 1024px)').addEventListener('change', function () {
+    setMobileFiltersExpanded(false);
+  });
+  setMobileFiltersExpanded(false);
 
   (function initCategoryNavToggle() {
     const toggle = document.getElementById('category-nav-toggle');
@@ -543,4 +711,6 @@ const seo: SEOProps = {
     voteNoticeUrl.searchParams.delete('vote_merge_count');
     history.replaceState(null, '', voteNoticeUrl.pathname + voteNoticeUrl.search + voteNoticeUrl.hash);
   }
+
+  initFiltersFromUrl();
 </script>

@@ -29,10 +29,11 @@ const searchBlob = `${entry.title} ${entry.description} ${entry.category} ${entr
   data-country={resolvedCountry || undefined}
   data-location={entry.location.toLowerCase()}
   data-link={openWebsiteOnCardClick && entry.website ? entry.website : undefined}
-  class="group rounded-2xl border border-white/10 bg-white/5 p-5 transition-all duration-300 hover:bg-white/10"
+  class="group w-full min-w-0 rounded-2xl border border-white/10 bg-white/5 p-4 transition-all duration-300 hover:bg-white/10 lg:p-5"
   style={openWebsiteOnCardClick && entry.website ? 'cursor:pointer' : undefined}
 >
-  <div class="flex items-start gap-4">
+  <div class:list={['flex w-full min-w-0 gap-4', votes !== undefined ? 'flex-col lg:flex-row lg:items-start' : 'items-start']}>
+    <div class="flex min-w-0 flex-1 items-start gap-4 w-full">
     <div class="shrink-0">
       <div class={directoryLogoBoxClass}>
         {
@@ -113,6 +114,11 @@ const searchBlob = `${entry.title} ${entry.description} ${entry.category} ${entr
         )
       }
     </div>
-    {votes !== undefined && <DirectoryVote id={entry.id} title={entry.title} count={votes} />}
+    </div>
+    {votes !== undefined && (
+      <div class="flex w-full shrink-0 justify-end lg:w-auto">
+        <DirectoryVote id={entry.id} title={entry.title} count={votes} />
+      </div>
+    )}
   </div>
 </article>
