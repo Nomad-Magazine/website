@@ -4,7 +4,7 @@ import { readPublicDirectory, type PublicUpdate } from '~/utils/directory-public
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import DirectoryEntryCard from '~/components/DirectoryEntryCard.astro'
 import { DIRECTORY_VOTING_PAGES } from '~/const/directoryVoting'
-import { getDirectoryEntries, getDirectoryCategories } from '~/utils/directory'
+import { getDirectoryEntries, getDirectoryCategories, directoryCategoryUrl } from '~/utils/directory'
 import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
 
 const [managedEntries, updates] = await Promise.all([
@@ -95,36 +95,36 @@ const seo: SEOProps = {
       <div class="container mx-auto px-4 max-w-5xl">
         <p class="text-center text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Browse by need</p>
         <div class="flex flex-wrap justify-center gap-2">
-          <button type="button" data-cat="Events" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+          <a href={directoryCategoryUrl('Events')} data-cat="Events" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
             <span aria-hidden="true">🗓</span> Events
-          </button>
-          <button type="button" data-cat="Coliving" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+          </a>
+          <a href={directoryCategoryUrl('Coliving')} data-cat="Coliving" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
             <span aria-hidden="true">🏠</span> Coliving
-          </button>
-          <button type="button" data-cat="Platform" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+          </a>
+          <a href={directoryCategoryUrl('Platform')} data-cat="Platform" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
             <span aria-hidden="true">🌐</span> Platforms
-          </button>
-          <button type="button" data-cat="App" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+          </a>
+          <a href={directoryCategoryUrl('App')} data-cat="App" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
             <span aria-hidden="true">📱</span> Apps
-          </button>
-          <button type="button" data-cat="Legal & Taxes" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+          </a>
+          <a href={directoryCategoryUrl('Legal & Taxes')} data-cat="Legal & Taxes" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
             <span aria-hidden="true">⚖️</span> Legal & Taxes
-          </button>
-          <button type="button" data-cat="Insurance" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+          </a>
+          <a href={directoryCategoryUrl('Insurance')} data-cat="Insurance" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
             <span aria-hidden="true">🛡</span> Insurance
-          </button>
-          <button type="button" data-cat="Community Platform" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+          </a>
+          <a href={directoryCategoryUrl('Community Platform')} data-cat="Community Platform" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
             <span aria-hidden="true">👥</span> Community
-          </button>
-          <button type="button" data-cat="Blog" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+          </a>
+          <a href={directoryCategoryUrl('Blog')} data-cat="Blog" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
             <span aria-hidden="true">✍️</span> Blogs
-          </button>
-          <button type="button" data-cat="eSim" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+          </a>
+          <a href={directoryCategoryUrl('eSim')} data-cat="eSim" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
             <span aria-hidden="true">📡</span> eSIM
-          </button>
-          <button type="button" data-cat="Coworking" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+          </a>
+          <a href={directoryCategoryUrl('Coworking')} data-cat="Coworking" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
             <span aria-hidden="true">💻</span> Coworking
-          </button>
+          </a>
         </div>
       </div>
     </section>
@@ -170,6 +170,16 @@ const seo: SEOProps = {
               <div>
                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Category</p>
                 <div id="category-list" class="space-y-1 max-h-96 overflow-y-auto pr-1" style="scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.2) transparent;">
+                  <button type="button" class="cat-btn active w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-all bg-yellow-400 text-black" data-cat="all">
+                    <span>All Categories</span>
+                    <span class="text-xs opacity-70 cat-count">{total}</span>
+                  </button>
+                  {categories.map(([cat, count]) => (
+                    <a href={directoryCategoryUrl(cat)} class="cat-btn w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-all" data-cat={cat}>
+                      <span>{cat}</span>
+                      <span class="text-xs text-gray-400 cat-count">{count}</span>
+                    </a>
+                  ))}
                 </div>
               </div>
 
@@ -421,7 +431,7 @@ const seo: SEOProps = {
     container.querySelectorAll('.inline-cat-btn').forEach(btn => {
       if (btn.dataset.bound) return;
       btn.dataset.bound = 'true';
-      btn.addEventListener('click', e => { e.stopPropagation(); selectCat(btn.dataset.cat); });
+      btn.addEventListener('click', e => { e.stopPropagation(); handleCategoryClick(e, btn.dataset.cat); });
     });
 
     container.querySelectorAll('.expand-btn').forEach(btn => {
@@ -486,6 +496,36 @@ const seo: SEOProps = {
     return names;
   }
 
+  function toSlug(str) {
+    return String(str || '').toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  }
+
+  function categoryHref(cat) {
+    return '/nomad_directory/' + toSlug(cat) + '/';
+  }
+
+  function filtersActive() {
+    return currentSearch !== '' || currentCountry !== '';
+  }
+
+  function handleCategoryClick(e, cat) {
+    if (!cat || cat === 'all') {
+      e.preventDefault();
+      selectCatInPlace('all');
+      return;
+    }
+    if (filtersActive()) {
+      e.preventDefault();
+      selectCatInPlace(cat);
+    }
+  }
+
+  function selectCatInPlace(cat) {
+    currentCat = cat && cat !== 'all' ? cat : 'all';
+    renderCategoryFilter();
+    applyFilters();
+  }
+
   function renderCategoryFilter() {
     const list = document.getElementById('category-list');
     if (!list) return;
@@ -505,21 +545,19 @@ const seo: SEOProps = {
     allBtn.type = 'button';
     allBtn.className = catBtnClass(currentCat === 'all');
     allBtn.dataset.cat = 'all';
-    allBtn.innerHTML = '<span>All Categories</span><span class="text-xs opacity-70">' + base.length + '</span>';
-    allBtn.addEventListener('click', () => selectCat('all'));
+    allBtn.innerHTML = '<span>All Categories</span><span class="text-xs opacity-70 cat-count">' + base.length + '</span>';
     list.appendChild(allBtn);
     sorted.forEach((cat) => {
       const cnt = counts.get(cat) || 0;
       if (!cnt && cat !== currentCat) return;
-      const btn = document.createElement('button');
-      btn.type = 'button';
       const disabled = cnt === 0 && cat !== currentCat;
-      btn.className = catBtnClass(currentCat === cat) + (disabled ? ' opacity-50' : '');
-      btn.dataset.cat = cat;
-      btn.disabled = disabled;
-      btn.innerHTML = '<span>' + esc(cat) + '</span><span class="text-xs ' + (currentCat === cat ? 'opacity-70' : 'text-gray-400') + '">' + cnt + '</span>';
-      if (!disabled) btn.addEventListener('click', () => selectCat(cat));
-      list.appendChild(btn);
+      const link = document.createElement('a');
+      link.href = categoryHref(cat);
+      link.className = catBtnClass(currentCat === cat) + (disabled ? ' opacity-50 pointer-events-none' : '');
+      link.dataset.cat = cat;
+      if (disabled) link.setAttribute('aria-disabled', 'true');
+      link.innerHTML = '<span>' + esc(cat) + '</span><span class="text-xs cat-count ' + (currentCat === cat ? 'opacity-70' : 'text-gray-400') + '">' + cnt + '</span>';
+      list.appendChild(link);
     });
   }
 
@@ -606,12 +644,6 @@ const seo: SEOProps = {
     updateActiveFilters();
   }
 
-  function selectCat(cat) {
-    currentCat = cat && cat !== 'all' ? cat : 'all';
-    renderCategoryFilter();
-    applyFilters();
-  }
-
   function updateActiveFilters() {
     const div = document.getElementById('active-filters');
     const clearBtn = document.getElementById('clear-filters');
@@ -650,12 +682,15 @@ const seo: SEOProps = {
     setTimeout(() => { n.style.animation='slideOut 0.3s ease-out'; setTimeout(()=>document.body.removeChild(n),300); }, 3500);
   }
 
-  window.quickFilter = function(cat) {
-    if (cat) selectCat(cat);
+  window.quickFilter = function(cat, e) {
+    if (!cat) return;
+    if (e) return handleCategoryClick(e, cat);
+    if (filtersActive()) selectCatInPlace(cat);
+    else window.location.href = categoryHref(cat);
   };
 
   window.clearSearch = function() { currentSearch=''; const si=document.getElementById('search-input'); if(si)si.value=''; applyFilters(); };
-  window.clearCat = function() { selectCat('all'); };
+  window.clearCat = function() { selectCatInPlace('all'); };
   window.clearCountry = function() { selectCountry(''); };
   window.shareOnTwitter = function() { window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent("The Nomad Directory - Because Google Doesn't Get Our Lifestyle 🌍") + '&url=' + encodeURIComponent('https://nomad-magazine.com/nomad_directory/') + '&via=NomadMagazine','_blank','width=550,height=420'); };
   window.shareOnLinkedIn = function() { window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent('https://nomad-magazine.com/nomad_directory/'),'_blank','width=550,height=550'); };
@@ -677,12 +712,23 @@ const seo: SEOProps = {
       applyFilters();
     });
 
-    document.querySelectorAll('.quick-btn[data-cat]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        selectCat(btn.dataset.cat);
-        document.getElementById('search-input')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      });
+    document.querySelectorAll('.quick-btn[data-cat]').forEach(link => {
+      link.addEventListener('click', (e) => handleCategoryClick(e, link.dataset.cat));
     });
+
+    const categoryList = document.getElementById('category-list');
+    if (categoryList) {
+      categoryList.addEventListener('click', (e) => {
+        const allBtn = e.target.closest('.cat-btn[data-cat="all"]');
+        if (allBtn) {
+          e.preventDefault();
+          selectCatInPlace('all');
+          return;
+        }
+        const catLink = e.target.closest('a.cat-btn[data-cat]');
+        if (catLink) handleCategoryClick(e, catLink.dataset.cat);
+      });
+    }
 
     const clearBtn = document.getElementById('clear-filters');
     if (clearBtn) clearBtn.addEventListener('click', () => {
