@@ -26,6 +26,16 @@ if (!route && managedRecords === null) {
 if (!route) return new Response('Directory page not found', {status:404})
 const { type, filterValue } = route
 const navCategories = getDirectoryCategories(getDirectoryEntriesFromRecords(records))
+const CATEGORY_SIDEBAR_PREVIEW = 10
+const categoryNav = navCategories as [string, number][]
+const collapsedVisibleCategories = new Set(
+  categoryNav.slice(0, CATEGORY_SIDEBAR_PREVIEW).map(([cat]) => cat),
+)
+if (type === 'category' && filterValue && !collapsedVisibleCategories.has(filterValue)) {
+  collapsedVisibleCategories.add(filterValue)
+}
+const showCategoryNavToggle = categoryNav.length > CATEGORY_SIDEBAR_PREVIEW
+const collapsedExtraCategoryCount = categoryNav.filter(([cat]) => !collapsedVisibleCategories.has(cat)).length
 
 const allActive = records.filter((r: any) => r.sf4ad525dd)
 
@@ -238,21 +248,43 @@ const seo: SEOProps = {
               <!-- Categories -->
               <div>
                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Browse Categories</p>
-                <div class="space-y-1 max-h-64 overflow-y-auto pr-1" style="scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.2) transparent;">
+                <div id="category-nav-list" class="space-y-1">
                   <a href="/nomad_directory/"
                     class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/10 transition-all">
                     <span>All Categories</span>
                     <span class="text-xs text-gray-600">{totalAll}</span>
                   </a>
-                  {(navCategories as [string, number][]).map(([cat, cnt]) => (
+                  {categoryNav.map(([cat, cnt]) => {
+                    const isCollapsedExtra = showCategoryNavToggle && !collapsedVisibleCategories.has(cat)
+                    return (
                     <a href={`/nomad_directory/${slugify(cat)}/`}
-                      class={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all ${cat === filterValue ? 'bg-yellow-400 text-black font-semibold' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
-                      aria-current={cat === filterValue ? 'page' : undefined}>
+                      class={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all ${isCollapsedExtra ? 'hidden' : ''} ${cat === filterValue && type === 'category' ? 'bg-yellow-400 text-black font-semibold' : 'text-gray-300 hover:text-white hover:bg-white/10'}`}
+                      data-category-collapsed-extra={isCollapsedExtra ? '' : undefined}
+                      aria-current={type === 'category' && cat === filterValue ? 'page' : undefined}>
                       <span>{cat}</span>
-                      <span class={`text-xs ${cat === filterValue ? 'opacity-70' : 'text-gray-500'}`}>{cnt}</span>
+                      <span class={`text-xs ${type === 'category' && cat === filterValue ? 'opacity-70' : 'text-gray-500'}`}>{cnt}</span>
                     </a>
-                  ))}
+                  )})}
                 </div>
+                {showCategoryNavToggle && (
+                  <button
+                    type="button"
+                    id="category-nav-toggle"
+                    class="mt-2 w-full text-left text-sm text-yellow-400 hover:text-yellow-300 transition-colors px-3 py-1.5 rounded-lg hover:bg-white/5 focus-visible:ring-2 focus-visible:ring-yellow-400"
+                    aria-expanded="false"
+                    aria-controls="category-nav-list"
+                    data-extra-count={collapsedExtraCategoryCount}>
+                    Show all ({collapsedExtraCategoryCount} more)
+                  </button>
+                )}
+                {showCategoryNavToggle && (
+                  <noscript>
+                    <style>
+                      #category-nav-list [data-category-collapsed-extra] { display: flex !important; }
+                      #category-nav-toggle { display: none !important; }
+                    </style>
+                  </noscript>
+                )}
               </div>
 
               <!-- Share -->
@@ -484,6 +516,25 @@ const seo: SEOProps = {
     renderCountryFilterList();
     applyFilters(e.target.value.toLowerCase().trim(), activeCountry);
   });
+
+  (function initCategoryNavToggle() {
+    const toggle = document.getElementById('category-nav-toggle');
+    if (!toggle) return;
+    const extraCount = toggle.getAttribute('data-extra-count') || '0';
+    const extras = document.querySelectorAll('#category-nav-list [data-category-collapsed-extra]');
+    toggle.addEventListener('click', () => {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      if (expanded) {
+        extras.forEach((el) => el.classList.add('hidden'));
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.textContent = 'Show all (' + extraCount + ' more)';
+      } else {
+        extras.forEach((el) => el.classList.remove('hidden'));
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.textContent = 'Show less';
+      }
+    });
+  })();
 
   const voteNoticeUrl = new URL(location.href);
   if (voteNoticeUrl.searchParams.has('vote_email_notice')) {
