@@ -95,35 +95,35 @@ const seo: SEOProps = {
       <div class="container mx-auto px-4 max-w-5xl">
         <p class="text-center text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Browse by need</p>
         <div class="flex flex-wrap justify-center gap-2">
-          <a href={directoryCategoryUrl('Events')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>🗓</span> Events
+          <a href={directoryCategoryUrl('Events')} data-cat="Events" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+            <span aria-hidden="true">🗓</span> Events
           </a>
-          <a href={directoryCategoryUrl('Coliving')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>🏠</span> Coliving
+          <a href={directoryCategoryUrl('Coliving')} data-cat="Coliving" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+            <span aria-hidden="true">🏠</span> Coliving
           </a>
-          <a href={directoryCategoryUrl('Platform')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>🌐</span> Platforms
+          <a href={directoryCategoryUrl('Platform')} data-cat="Platform" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+            <span aria-hidden="true">🌐</span> Platforms
           </a>
-          <a href={directoryCategoryUrl('App')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>📱</span> Apps
+          <a href={directoryCategoryUrl('App')} data-cat="App" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+            <span aria-hidden="true">📱</span> Apps
           </a>
-          <a href={directoryCategoryUrl('Legal & Taxes')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>⚖️</span> Legal & Taxes
+          <a href={directoryCategoryUrl('Legal & Taxes')} data-cat="Legal & Taxes" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+            <span aria-hidden="true">⚖️</span> Legal & Taxes
           </a>
-          <a href={directoryCategoryUrl('Insurance')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>🛡</span> Insurance
+          <a href={directoryCategoryUrl('Insurance')} data-cat="Insurance" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+            <span aria-hidden="true">🛡</span> Insurance
           </a>
-          <a href={directoryCategoryUrl('Community Platform')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>👥</span> Community
+          <a href={directoryCategoryUrl('Community Platform')} data-cat="Community Platform" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+            <span aria-hidden="true">👥</span> Community
           </a>
-          <a href={directoryCategoryUrl('Blog')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>✍️</span> Blogs
+          <a href={directoryCategoryUrl('Blog')} data-cat="Blog" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+            <span aria-hidden="true">✍️</span> Blogs
           </a>
-          <a href={directoryCategoryUrl('eSim')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>📡</span> eSIM
+          <a href={directoryCategoryUrl('eSim')} data-cat="eSim" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+            <span aria-hidden="true">📡</span> eSIM
           </a>
-          <a href={directoryCategoryUrl('Coworking')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>💻</span> Coworking
+          <a href={directoryCategoryUrl('Coworking')} data-cat="Coworking" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+            <span aria-hidden="true">💻</span> Coworking
           </a>
         </div>
       </div>
@@ -169,15 +169,15 @@ const seo: SEOProps = {
               <!-- Category filters -->
               <div>
                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Category</p>
-                <div class="space-y-1 max-h-96 overflow-y-auto pr-1" style="scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.2) transparent;">
-                  <button class="cat-btn active w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-all bg-yellow-400 text-black" data-cat="all">
+                <div id="category-list" class="space-y-1 max-h-96 overflow-y-auto pr-1" style="scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.2) transparent;">
+                  <button type="button" class="cat-btn active w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-all bg-yellow-400 text-black" data-cat="all" aria-pressed="true">
                     <span>All Categories</span>
-                    <span class="text-xs opacity-70">{total}</span>
+                    <span class="text-xs opacity-70 cat-count">{total}</span>
                   </button>
                   {categories.map(([cat, count]) => (
                     <a href={directoryCategoryUrl(cat)} class="cat-btn w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-all" data-cat={cat}>
                       <span>{cat}</span>
-                      <span class="text-xs text-gray-400">{count}</span>
+                      <span class="text-xs text-gray-400 cat-count">{count}</span>
                     </a>
                   ))}
                 </div>
@@ -431,7 +431,7 @@ const seo: SEOProps = {
     container.querySelectorAll('.inline-cat-btn').forEach(btn => {
       if (btn.dataset.bound) return;
       btn.dataset.bound = 'true';
-      btn.addEventListener('click', e => { e.stopPropagation(); selectCat(btn.dataset.cat); });
+      btn.addEventListener('click', e => { e.stopPropagation(); handleCategoryClick(e, btn.dataset.cat); });
     });
 
     container.querySelectorAll('.expand-btn').forEach(btn => {
@@ -463,11 +463,110 @@ const seo: SEOProps = {
     if (statLabel) statLabel.textContent = filtered.length === 1 ? 'result' : 'results';
   }
 
-  function itemsForCountryCounts() {
+  function itemsMatchingFilters(opts) {
+    const skipCat = opts && opts.skipCat;
+    const skipCountry = opts && opts.skipCountry;
+    const skipSearch = opts && opts.skipSearch;
     return allItems.filter(item => {
-      if (currentCat !== 'all' && item.category !== currentCat) return false;
-      if (currentSearch && !item.searchText.includes(currentSearch)) return false;
+      if (!skipCat && currentCat !== 'all' && item.category !== currentCat) return false;
+      if (!skipCountry && currentCountry && item.country !== currentCountry) return false;
+      if (!skipSearch && currentSearch && !item.searchText.includes(currentSearch)) return false;
       return true;
+    });
+  }
+
+  function itemsForCountryCounts() {
+    return itemsMatchingFilters({ skipCountry: true });
+  }
+
+  function itemsForCategoryCounts() {
+    return itemsMatchingFilters({ skipCat: true });
+  }
+
+  function catBtnClass(active) {
+    return 'cat-btn w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-all ' +
+      (active ? 'bg-yellow-400 text-black' : 'text-gray-300 hover:text-white hover:bg-white/10');
+  }
+
+  function allCategoryNames() {
+    const names = new Set();
+    for (const item of allItems) {
+      if (item.category) names.add(item.category);
+    }
+    return names;
+  }
+
+  function toSlug(str) {
+    return String(str || '').toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  }
+
+  function categoryHref(cat) {
+    return '/nomad_directory/' + toSlug(cat) + '/';
+  }
+
+  function filtersActive() {
+    return currentSearch !== '' || currentCountry !== '';
+  }
+
+  function isNonPrimaryClick(e) {
+    return !!(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || (typeof e.button === 'number' && e.button !== 0));
+  }
+
+  function handleCategoryClick(e, cat) {
+    if (isNonPrimaryClick(e)) return;
+    if (!cat || cat === 'all') {
+      e.preventDefault();
+      selectCatInPlace('all');
+      return;
+    }
+    if (filtersActive()) {
+      e.preventDefault();
+      if (currentCat === cat) selectCatInPlace('all');
+      else selectCatInPlace(cat);
+    }
+  }
+
+  function selectCatInPlace(cat) {
+    currentCat = cat && cat !== 'all' ? cat : 'all';
+    renderCategoryFilter();
+    applyFilters();
+  }
+
+  function renderCategoryFilter() {
+    const list = document.getElementById('category-list');
+    if (!list) return;
+    const base = itemsForCategoryCounts();
+    const counts = new Map();
+    for (const item of base) {
+      if (!item.category) continue;
+      counts.set(item.category, (counts.get(item.category) || 0) + 1);
+    }
+    const allNames = allCategoryNames();
+    const sorted = [...allNames].sort((a, b) => {
+      const diff = (counts.get(b) || 0) - (counts.get(a) || 0);
+      return diff !== 0 ? diff : a.localeCompare(b);
+    });
+    list.innerHTML = '';
+    const allBtn = document.createElement('button');
+    allBtn.type = 'button';
+    allBtn.className = catBtnClass(currentCat === 'all');
+    allBtn.dataset.cat = 'all';
+    allBtn.setAttribute('aria-pressed', currentCat === 'all' ? 'true' : 'false');
+    allBtn.innerHTML = '<span>All Categories</span><span class="text-xs opacity-70 cat-count">' + base.length + '</span>';
+    list.appendChild(allBtn);
+    sorted.forEach((cat) => {
+      const cnt = counts.get(cat) || 0;
+      if (!cnt && cat !== currentCat) return;
+      const disabled = cnt === 0 && cat !== currentCat;
+      const active = currentCat === cat;
+      const link = document.createElement('a');
+      link.href = categoryHref(cat);
+      link.className = catBtnClass(active) + (disabled ? ' opacity-50 pointer-events-none' : '');
+      link.dataset.cat = cat;
+      if (disabled) link.setAttribute('aria-disabled', 'true');
+      if (active) link.setAttribute('aria-current', 'true');
+      link.innerHTML = '<span>' + esc(cat) + '</span><span class="text-xs cat-count ' + (active ? 'opacity-70' : 'text-gray-400') + '">' + cnt + '</span>';
+      list.appendChild(link);
     });
   }
 
@@ -530,6 +629,7 @@ const seo: SEOProps = {
 
   function selectCountry(country) {
     currentCountry = country;
+    renderCategoryFilter();
     renderCountryFilter();
     applyFilters();
   }
@@ -546,32 +646,11 @@ const seo: SEOProps = {
     if (resetPage !== false) currentPage = 1;
     if (currentPage > pageCount()) currentPage = pageCount();
     renderGrid();
+    renderCategoryFilter();
     renderCountryFilter();
     document.dispatchEvent(new Event('directory:render'));
     syncPageUrl();
     updateActiveFilters();
-  }
-
-  function toSlug(str) {
-    return str.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-  }
-
-  function selectCat(cat) {
-    if (cat && cat !== 'all') {
-      window.location.href = '/nomad_directory/' + toSlug(cat) + '/';
-      return;
-    }
-    currentCat = 'all';
-    document.querySelectorAll('.cat-btn').forEach(btn => {
-      const active = btn.dataset.cat === 'all';
-      btn.classList.toggle('active', active);
-      btn.classList.toggle('bg-yellow-400', active);
-      btn.classList.toggle('text-black', active);
-      btn.classList.toggle('font-semibold', active);
-      btn.classList.toggle('text-gray-300', !active);
-      btn.classList.toggle('hover:bg-white/10', !active);
-    });
-    applyFilters();
   }
 
   function updateActiveFilters() {
@@ -612,14 +691,15 @@ const seo: SEOProps = {
     setTimeout(() => { n.style.animation='slideOut 0.3s ease-out'; setTimeout(()=>document.body.removeChild(n),300); }, 3500);
   }
 
-  window.quickFilter = function(cat) {
-    if (cat && cat !== 'all') {
-      window.location.href = '/nomad_directory/' + toSlug(cat) + '/';
-    }
+  window.quickFilter = function(cat, e) {
+    if (!cat) return;
+    if (e) return handleCategoryClick(e, cat);
+    if (filtersActive()) selectCatInPlace(cat);
+    else window.location.href = categoryHref(cat);
   };
 
   window.clearSearch = function() { currentSearch=''; const si=document.getElementById('search-input'); if(si)si.value=''; applyFilters(); };
-  window.clearCat = function() { selectCat('all'); };
+  window.clearCat = function() { selectCatInPlace('all'); };
   window.clearCountry = function() { selectCountry(''); };
   window.shareOnTwitter = function() { window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent("The Nomad Directory - Because Google Doesn't Get Our Lifestyle 🌍") + '&url=' + encodeURIComponent('https://nomad-magazine.com/nomad_directory/') + '&via=NomadMagazine','_blank','width=550,height=420'); };
   window.shareOnLinkedIn = function() { window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent('https://nomad-magazine.com/nomad_directory/'),'_blank','width=550,height=550'); };
@@ -634,17 +714,39 @@ const seo: SEOProps = {
 
   function init() {
     const si = document.getElementById('search-input');
-    if (si) si.addEventListener('input', e => { currentSearch = e.target.value.toLowerCase().trim(); renderCountryFilter(); applyFilters(); });
-
-    document.querySelectorAll('.cat-btn').forEach(btn => {
-      btn.addEventListener('click', () => selectCat(btn.dataset.cat));
+    if (si) si.addEventListener('input', e => {
+      currentSearch = e.target.value.toLowerCase().trim();
+      renderCategoryFilter();
+      renderCountryFilter();
+      applyFilters();
     });
+
+    document.querySelectorAll('.quick-btn[data-cat]').forEach(link => {
+      link.addEventListener('click', (e) => handleCategoryClick(e, link.dataset.cat));
+    });
+
+    const categoryList = document.getElementById('category-list');
+    if (categoryList) {
+      categoryList.addEventListener('click', (e) => {
+        const allBtn = e.target.closest('.cat-btn[data-cat="all"]');
+        if (allBtn) {
+          if (isNonPrimaryClick(e)) return;
+          e.preventDefault();
+          selectCatInPlace('all');
+          return;
+        }
+        const catLink = e.target.closest('a.cat-btn[data-cat]');
+        if (catLink) handleCategoryClick(e, catLink.dataset.cat);
+      });
+    }
 
     const clearBtn = document.getElementById('clear-filters');
     if (clearBtn) clearBtn.addEventListener('click', () => {
       currentSearch=''; currentCat='all'; currentCountry='';
       const si=document.getElementById('search-input'); if(si)si.value='';
-      selectCat('all');
+      renderCategoryFilter();
+      renderCountryFilter();
+      applyFilters();
     });
 
     const sortSel = document.getElementById('sort-select');
