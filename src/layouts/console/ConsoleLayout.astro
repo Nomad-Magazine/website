@@ -9,13 +9,22 @@ interface Props {
 const { title = 'Your directory', currentPage = '' } = Astro.props
 const supabase = createSupabaseServerClient(Astro.request, Astro.cookies)
 const { data: isAdmin } = await supabase.rpc('directory_is_admin')
-const nav = [
-  { href: '/console/', label: 'My listings', id: 'dashboard' },
-  { href: '/console/directory-submission/?new=1', label: 'Add a listing', id: 'directory' },
-  { href: '/console/updates/', label: 'Updates', id: 'updates' },
-  { href: '/console/affiliates/', label: 'Affiliate programmes', id: 'affiliates' },
-  { href: '/console/badges/', label: 'Your badges', id: 'badges' },
-]
+const nav = isAdmin
+  ? [
+      { href: '/console/', label: 'My listings', id: 'dashboard' },
+      { href: '/console/directory-submission/?new=1', label: 'Add a listing', id: 'directory' },
+      { href: '/console/updates/', label: 'Updates', id: 'updates' },
+      { href: '/console/affiliates/', label: 'Affiliate programmes', id: 'affiliates' },
+      { href: '/console/badges/', label: 'Your badges', id: 'badges' },
+      { href: '/console/boost/', label: 'Boost', id: 'boost' },
+      { href: '/console/partnerships/', label: 'Partnerships', id: 'partnerships' },
+    ]
+  : [
+      { href: '/console/', label: 'My listings', id: 'dashboard' },
+      { href: '/console/boost/', label: 'Boost', id: 'boost' },
+      { href: '/console/affiliates/', label: 'Affiliate programmes', id: 'affiliates' },
+      { href: '/console/partnerships/', label: 'Partnerships', id: 'partnerships' },
+    ]
 ---
 
 <!doctype html>

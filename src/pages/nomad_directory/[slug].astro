@@ -6,6 +6,8 @@ import { getPublishedDirectoryRecords, getDirectoryEntriesFromRecords, getDirect
 import { fetchReportRecords } from '~/utils/smartsuite'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import DirectoryEntryCard from '~/components/DirectoryEntryCard.astro'
+import DirectorySpotlightRow from '~/components/DirectorySpotlightRow.astro'
+import { buildSpotlightListings } from '~/utils/directory-spotlight'
 import { DIRECTORY_VOTING_PAGES, type DirectoryVotingSurface } from '~/const/directoryVoting'
 import { readPublicDirectory } from '~/utils/directory-public'
 import type { VoteCount } from '~/utils/directory-votes'
@@ -52,6 +54,9 @@ const pageRecords = allActive.filter((r: any) => {
 const count = pageRecords.length
 const isLocation = type === 'country' || type === 'continent'
 const pageEntries = getDirectoryEntriesFromRecords(pageRecords)
+const allDirectoryEntries = getDirectoryEntriesFromRecords(allActive)
+const recordsById = new Map(allActive.map((record) => [String(record.id), record as Record<string, unknown>]))
+const spotlightListings = buildSpotlightListings(allDirectoryEntries, recordsById)
 const showVotes = DIRECTORY_VOTING_PAGES[type as DirectoryVotingSurface] && voteRows !== null
 const voteEmailNotice = showVotes ? Astro.url.searchParams.get('vote_email_notice') : null
 const voteEmailCrossDeviceNotice = voteEmailNotice === 'cross_device'
@@ -214,6 +219,12 @@ const seo: SEOProps = {
     <!-- Main layout -->
     <section class="pb-20">
       <div class="container mx-auto px-4 max-w-7xl">
+        <DirectorySpotlightRow
+          listings={spotlightListings}
+          pageType={type as 'category' | 'country' | 'continent'}
+          filterValue={filterValue}
+        />
+
         <div class="flex flex-col lg:flex-row gap-8 items-stretch lg:items-start">
 
           <!-- LEFT SIDEBAR -->
