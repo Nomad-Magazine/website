@@ -1,6 +1,12 @@
 import type { APIRoute } from 'astro'
 import Stripe from 'stripe'
 import { getSecret } from 'astro:env/server'
+import {
+  syncDirectorySponsorshipCheckout,
+  syncDirectorySponsorshipSubscription,
+} from '~/utils/directory-sponsorship-stripe-sync'
+import { isDirectorySponsorshipMetadata } from '~/utils/directory-sponsorship'
+import { requireWorkerSecret } from '~/utils/directory-vote-secrets'
 
 export const prerender = false
 
@@ -75,28 +81,56 @@ export const POST: APIRoute = async ({ request }) => {
     
     switch (event.type) {
       // One-time purchases
-      case 'checkout.session.completed':
+      case 'checkout.session.completed': {
         console.log('💳 Handling checkout session completed')
-        await handleCheckoutSessionCompleted(event.data.object as Stripe.Checkout.Session, bentoSiteUuid, bentoPublishableKey, bentoSecretKey)
+        const session = event.data.object as Stripe.Checkout.Session
+        if (isDirectorySponsorshipMetadata(session.metadata)) {
+          requireWorkerSecret('SUPABASE_SERVICE_ROLE_KEY')
+          await syncDirectorySponsorshipCheckout(stripe, session)
+        } else {
+          await handleCheckoutSessionCompleted(session, bentoSiteUuid, bentoPublishableKey, bentoSecretKey)
+        }
         break
+      }
       case 'payment_intent.succeeded':
         console.log('💰 Handling payment intent succeeded')
         await handlePaymentIntentSucceeded(event.data.object as Stripe.PaymentIntent, bentoSiteUuid, bentoPublishableKey, bentoSecretKey)
         break
       
       // Subscription events
-      case 'customer.subscription.created':
+      case 'customer.subscription.created': {
         console.log('🔄 Handling subscription created')
-        await handleSubscriptionCreated(event.data.object as Stripe.Subscription, bentoSiteUuid, bentoPublishableKey, bentoSecretKey)
+        const subscription = event.data.object as Stripe.Subscription
+        if (isDirectorySponsorshipMetadata(subscription.metadata)) {
+          requireWorkerSecret('SUPABASE_SERVICE_ROLE_KEY')
+          await syncDirectorySponsorshipSubscription(subscription)
+        } else {
+          await handleSubscriptionCreated(subscription, bentoSiteUuid, bentoPublishableKey, bentoSecretKey)
+        }
         break
-      case 'customer.subscription.updated':
+      }
+      case 'customer.subscription.updated': {
         console.log('🔄 Handling subscription updated')
-        await handleSubscriptionUpdated(event.data.object as Stripe.Subscription, bentoSiteUuid, bentoPublishableKey, bentoSecretKey)
+        const subscription = event.data.object as Stripe.Subscription
+        if (isDirectorySponsorshipMetadata(subscription.metadata)) {
+          requireWorkerSecret('SUPABASE_SERVICE_ROLE_KEY')
+          await syncDirectorySponsorshipSubscription(subscription)
+        } else {
+          await handleSubscriptionUpdated(subscription, bentoSiteUuid, bentoPublishableKey, bentoSecretKey)
+        }
         break
-      case 'customer.subscription.deleted':
+      }
+      case 'customer.subscription.deleted': {
         console.log('❌ Handling subscription deleted')
-        await handleSubscriptionDeleted(event.data.object as Stripe.Subscription, bentoSiteUuid, bentoPublishableKey, bentoSecretKey)
+        const subscription = event.data.object as Stripe.Subscription
+        if (isDirectorySponsorshipMetadata(subscription.metadata)) {
+          requireWorkerSecret('SUPABASE_SERVICE_ROLE_KEY')
+          await syncDirectorySponsorshipSubscription(subscription)
+        } else {
+          await handleSubscriptionDeleted(subscription, bentoSiteUuid, bentoPublishableKey, bentoSecretKey)
+        }
         break
+      }
       case 'invoice.payment_succeeded':
         console.log('✅ Handling invoice payment succeeded')
         await handleInvoicePaymentSucceeded(event.data.object as Stripe.Invoice, bentoSiteUuid, bentoPublishableKey, bentoSecretKey)

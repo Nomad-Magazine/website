@@ -64,3 +64,61 @@ export function isSpotlightListingNew(addedAt: string, nowMs = Date.now()): bool
   if (Number.isNaN(created)) return false
   return nowMs - created <= SPOTLIGHT_NEW_DAYS * 24 * 60 * 60 * 1000
 }
+
+export type SpotlightPageType = 'all' | 'category' | 'country' | 'continent'
+
+function shuffle<T>(items: T[]): T[] {
+  const copy = [...items]
+  for (let i = copy.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[copy[i], copy[j]] = [copy[j], copy[i]]
+  }
+  return copy
+}
+
+export function selectSpotlightListings(
+  listings: SpotlightListing[],
+  pageType: SpotlightPageType,
+  filterValue: string,
+  sponsoredIds: ReadonlySet<string> = new Set(),
+  max = 4,
+  maxSponsored = 2,
+): SpotlightListing[] {
+  const pool =
+    pageType === 'all'
+      ? listings
+      : listings.filter((item) => {
+          if (!sponsoredIds.has(item.id)) return true
+          if (pageType === 'category') return item.category === filterValue
+          if (pageType === 'country') return item.country === filterValue
+          if (pageType === 'continent') return item.continent === filterValue
+          return true
+        })
+
+  const sponsored = pool.filter((item) => sponsoredIds.has(item.id))
+  let preferredSponsored = sponsored
+  if (pageType === 'category') preferredSponsored = sponsored.filter((item) => item.category === filterValue)
+  else if (pageType === 'country') preferredSponsored = sponsored.filter((item) => item.country === filterValue)
+  else if (pageType === 'continent') preferredSponsored = sponsored.filter((item) => item.continent === filterValue)
+
+  const sponsorPool =
+    pageType === 'all' ? (preferredSponsored.length ? preferredSponsored : sponsored) : preferredSponsored
+  const pickedSponsored = shuffle(sponsorPool).slice(0, maxSponsored)
+
+  const used = new Set(pickedSponsored.map((item) => item.id))
+
+  let preferred: SpotlightListing[] = pool.filter((item) => !used.has(item.id))
+  if (pageType === 'category') preferred = preferred.filter((item) => item.category === filterValue)
+  else if (pageType === 'country') preferred = preferred.filter((item) => item.country === filterValue)
+  else if (pageType === 'continent') preferred = preferred.filter((item) => item.continent === filterValue)
+
+  const freePicked = shuffle(preferred).slice(0, max - pickedSponsored.length)
+  for (const item of freePicked) used.add(item.id)
+
+  if (pickedSponsored.length + freePicked.length >= max) {
+    return [...pickedSponsored, ...freePicked].slice(0, max)
+  }
+
+  const fill = shuffle(pool.filter((item) => !used.has(item.id)))
+  return [...pickedSponsored, ...freePicked, ...fill].slice(0, max)
+}
