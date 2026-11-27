@@ -1,0 +1,166 @@
+---
+import { SPOTLIGHT_NEW_DAYS, type SpotlightListing } from '~/utils/directory-spotlight'
+
+interface Props {
+  listings: SpotlightListing[]
+  pageType: 'all' | 'category' | 'country' | 'continent'
+  filterValue?: string
+}
+
+const { listings, pageType, filterValue = '' } = Astro.props
+
+const json = JSON.stringify({ listings, pageType, filterValue, newDays: SPOTLIGHT_NEW_DAYS })
+const showSpotlight = listings.length >= 4
+---
+
+{showSpotlight && (
+<section
+  class="directory-spotlight mb-8"
+  aria-labelledby="directory-spotlight-heading"
+  data-directory-spotlight>
+  <div class="mb-3 flex flex-wrap items-end justify-between gap-2">
+    <div>
+      <p class="text-xs font-semibold uppercase tracking-[0.14em] text-yellow-400">Featured</p>
+      <h2 id="directory-spotlight-heading" class="text-xl font-bold text-white md:text-2xl">Spotlight on the directory</h2>
+    </div>
+    <a
+      href="/console/boost/"
+      class="text-sm text-gray-400 underline-offset-2 transition-colors hover:text-yellow-400 focus-visible:rounded focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:outline-none">
+      Get featured
+    </a>
+  </div>
+
+  <div class="relative min-h-[19.5rem] md:min-h-[38rem] lg:min-h-[19.5rem]">
+    <div
+      id="directory-spotlight-track"
+      class="directory-spotlight-track -mx-1 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-1 pl-1 pr-4 max-md:[scrollbar-width:none] max-md:[&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:grid-cols-2 md:gap-4 md:overflow-visible md:pb-0 md:pl-0 md:pr-0 md:snap-none lg:grid-cols-4"
+      role="list"
+      aria-busy="true"
+      aria-label="Featured directory listings">
+      {Array.from({ length: 4 }).map(() => (
+        <div
+          class="w-[min(82vw,17.5rem)] shrink-0 snap-start overflow-hidden rounded-2xl border border-white/10 bg-white/5 max-md:last:mr-1 md:w-auto md:shrink md:snap-none"
+          aria-hidden="true">
+          <div class="aspect-8/5 w-full bg-white/5"></div>
+          <div class="space-y-2 p-3">
+            <div class="h-4 w-2/3 rounded bg-white/10"></div>
+            <div class="h-3 w-full rounded bg-white/5"></div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <script id="directory-spotlight-data" type="application/json" set:html={json}></script>
+</section>
+)}
+
+<script>
+  import { isSpotlightListingNew, type SpotlightListing } from '~/utils/directory-spotlight'
+
+  type Payload = {
+    listings: SpotlightListing[]
+    pageType: 'all' | 'category' | 'country' | 'continent'
+    filterValue: string
+    newDays: number
+  }
+
+  function shuffle<T>(items: T[]): T[] {
+    const copy = [...items]
+    for (let i = copy.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[copy[i], copy[j]] = [copy[j], copy[i]]
+    }
+    return copy
+  }
+
+  function selectSpotlight(payload: Payload): SpotlightListing[] {
+    const { listings, pageType, filterValue } = payload
+    let preferred: SpotlightListing[] = listings
+    if (pageType === 'category') preferred = listings.filter((item) => item.category === filterValue)
+    else if (pageType === 'country') preferred = listings.filter((item) => item.country === filterValue)
+    else if (pageType === 'continent') preferred = listings.filter((item) => item.continent === filterValue)
+
+    const picked = shuffle(preferred).slice(0, 4)
+    if (picked.length >= 4) return picked
+
+    const used = new Set(picked.map((item) => item.id))
+    const fill = shuffle(listings.filter((item) => !used.has(item.id)))
+    return [...picked, ...fill].slice(0, 4)
+  }
+
+  function esc(value: string): string {
+    return value
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+  }
+
+  function listingHref(id: string): string {
+    return document.getElementById(`listing-${id}`)
+      ? `#listing-${id}`
+      : `/nomad_directory/#listing-${id}`
+  }
+
+  function renderCard(item: SpotlightListing): string {
+    const label = isSpotlightListingNew(item.addedAt) ? 'NEW' : 'FEATURED'
+    const labelClass =
+      label === 'NEW'
+        ? 'bg-emerald-500/90 text-black'
+        : 'bg-yellow-400/95 text-black'
+    const href = listingHref(item.id)
+    return `
+      <a
+        href="${esc(href)}"
+        role="listitem"
+        class="group flex w-[min(82vw,17.5rem)] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition-colors hover:border-yellow-400/40 hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:outline-none max-md:last:mr-1 md:w-auto md:min-w-0 md:shrink md:snap-none"
+        aria-label="${esc(`${item.title} — ${item.category}`)}">
+        <div class="relative aspect-8/5 w-full overflow-hidden bg-black/40">
+          <span class="absolute top-2 left-2 z-10 rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wide uppercase ${labelClass}">${label}</span>
+          <img
+            src="${esc(item.screenshot)}"
+            alt="${esc(`Website preview of ${item.title}`)}"
+            width="400"
+            height="250"
+            loading="lazy"
+            decoding="async"
+            class="h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.02]" />
+        </div>
+        <div class="flex min-h-[6.25rem] flex-1 flex-col gap-2 p-3">
+          <div class="flex items-start gap-2">
+            <div class="${esc(item.logoBoxClass)} h-10 w-10 shrink-0 rounded-lg">
+              <img
+                src="${esc(item.image)}"
+                alt=""
+                width="40"
+                height="40"
+                loading="lazy"
+                decoding="async"
+                class="${esc(item.logoImageClass)} h-full w-full"
+                aria-hidden="true" />
+            </div>
+            <div class="min-w-0 flex-1">
+              <h3 class="line-clamp-1 text-sm font-bold text-white group-hover:text-yellow-400">${esc(item.title)}</h3>
+              <span class="mt-1 inline-block rounded-full border border-yellow-400/30 bg-yellow-400/15 px-2 py-0.5 text-[10px] font-medium text-yellow-400">${esc(item.category)}</span>
+            </div>
+          </div>
+          <p class="line-clamp-2 text-xs leading-relaxed text-gray-300">${esc(item.description)}</p>
+        </div>
+      </a>`
+  }
+
+  const root = document.querySelector('[data-directory-spotlight]')
+  const dataEl = document.getElementById('directory-spotlight-data')
+  const track = document.getElementById('directory-spotlight-track')
+  if (root && dataEl && track) {
+    const payload = JSON.parse(dataEl.textContent || '{}') as Payload
+    if (!payload.listings?.length) {
+      root.remove()
+    } else {
+      const chosen = selectSpotlight(payload)
+      track.innerHTML = chosen.map((item) => renderCard(item)).join('')
+      track.setAttribute('aria-busy', 'false')
+    }
+  }
+</script>
