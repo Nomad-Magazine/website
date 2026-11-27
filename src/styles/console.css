@@ -1,15 +1,16 @@
 .owner-console {
-  background: #131513;
-  color: #f5f7f1;
+  background: #f7f7f5;
+  color: #1c1917;
   font-family: Arial, sans-serif;
+  font-weight: 400;
   min-height: 100vh;
 }
 .owner-console * {
   box-sizing: border-box;
 }
 .owner-console :is(a, button, input, select, textarea, summary):focus-visible {
-  outline: 3px solid #facc15;
-  outline-offset: 4px;
+  outline: 2px solid #1c1917;
+  outline-offset: 2px;
 }
 .console-shell {
   display: grid;
@@ -17,13 +18,14 @@
   min-height: 100vh;
 }
 .console-sidebar {
-  background: #1c2119;
-  border-right: 1px solid #3e4836;
+  background: #18181b;
+  border-right: 1px solid #27272a;
   padding: 28px 20px;
 }
 .console-brand {
   display: block;
   margin-bottom: 40px;
+  text-decoration: none;
 }
 .console-brand img {
   width: 150px;
@@ -33,41 +35,67 @@
 }
 .console-brand span {
   display: block;
-  color: #c4cdbb;
+  color: #a1a1aa;
   font-size: 13px;
+  font-weight: 400;
   margin-top: 8px;
 }
 .console-sidebar nav {
   display: grid;
-  gap: 8px;
+  gap: 4px;
 }
 .console-sidebar nav a {
-  padding: 12px;
+  padding: 10px 12px;
   border-radius: 8px;
-  color: #c4cdbb;
+  color: #d4d4d8;
+  font-weight: 400;
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+.console-sidebar nav a:hover {
+  background: #27272a;
+  color: #fafafa;
 }
 .console-sidebar nav a[aria-current] {
-  background: #facc15;
-  color: #151713;
-  font-weight: bold;
+  background: #27272a;
+  color: #fafafa;
+  font-weight: 500;
+  border-left-color: #ffd21f;
 }
 .console-sidebar .signout {
   margin-top: 36px;
 }
+.console-sidebar .button.secondary {
+  background: transparent;
+  color: #d4d4d8;
+  border-color: #3f3f46;
+  font-weight: 500;
+}
+.console-sidebar .button.secondary:hover {
+  background: #27272a;
+  color: #fafafa;
+}
 .console-main {
   min-width: 0;
+  background: #f7f7f5;
 }
 .console-topbar {
-  border-bottom: 1px solid #3e4836;
-  padding: 22px 36px;
+  background: #f7f7f5;
+  border-bottom: 1px solid #e7e5e4;
+  padding: 20px 36px;
   display: flex;
   gap: 20px;
   justify-content: space-between;
   align-items: center;
 }
 .console-topbar h1 {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
+  color: #1c1917;
+  margin: 0;
 }
 .console-content {
   max-width: 1200px;
@@ -75,32 +103,36 @@
   margin: auto;
 }
 .owner-console h2 {
-  font-size: 28px;
-  line-height: 1.2;
+  font-size: 26px;
+  line-height: 1.25;
   font-weight: 600;
   margin-bottom: 12px;
+  color: #1c1917;
 }
 .owner-console h3 {
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 10px;
+  color: #1c1917;
 }
 .owner-console .muted {
-  color: #bdc6b4;
+  color: #57534e;
 }
 .owner-console .eyebrow {
-  color: #facc15;
+  color: #78716c;
   font-size: 12px;
+  font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   margin-bottom: 12px;
 }
 .owner-console .panel {
-  background: #1d231a;
-  border: 1px solid #414c37;
+  background: #fff;
+  border: 1px solid #e7e5e4;
   border-radius: 12px;
   padding: 24px;
   margin-bottom: 24px;
+  box-shadow: 0 1px 2px rgb(28 25 23 / 4%);
 }
 .owner-console .row {
   display: flex;
@@ -120,39 +152,49 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #facc15;
-  border: 1px solid #facc15;
-  color: #121411;
+  background: #ffd21f;
+  border: 1px solid #e6bc00;
+  color: #1c1917;
   padding: 12px 18px;
-  border-radius: 7px;
+  border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
+  text-decoration: none;
 }
 .owner-console .button.secondary {
-  background: transparent;
-  color: #e9eee3;
-  border-color: #718060;
+  background: #fff;
+  color: #44403c;
+  border-color: #d6d3d1;
+  font-weight: 500;
+}
+.owner-console .button.secondary:hover {
+  background: #fafaf9;
 }
 .owner-console .link {
-  color: #facc15;
+  color: #1c1917;
   text-decoration: underline;
   text-underline-offset: 4px;
+  font-weight: 400;
 }
 .owner-console .tag {
   display: inline-block;
-  border: 1px solid #6c795d;
+  border: 1px solid #e7e5e4;
   border-radius: 6px;
-  color: #e0e8d7;
+  color: #57534e;
+  background: #fafaf9;
   padding: 4px 9px;
   font-size: 12px;
+  font-weight: 500;
 }
 .owner-console .tag.pending {
-  color: #facc15;
-  border-color: #8e7b23;
+  color: #a16207;
+  border-color: #fde68a;
+  background: #fffbeb;
 }
 .owner-console .tag.approved {
-  color: #b1ec9a;
-  border-color: #637e4e;
+  color: #166534;
+  border-color: #bbf7d0;
+  background: #f0fdf4;
 }
 .owner-console .grid {
   display: grid;
@@ -165,29 +207,45 @@
   gap: 16px;
   margin: 28px 0;
 }
+.owner-console .stats .panel {
+  margin-bottom: 0;
+}
 .owner-console .stats strong {
   display: block;
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 600;
   margin-bottom: 4px;
+  color: #1c1917;
+}
+.owner-console .stats .muted {
+  font-size: 13px;
 }
 .owner-console label {
   display: block;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   margin-bottom: 8px;
+  color: #44403c;
 }
 .owner-console input:not([type='hidden']),
 .owner-console textarea,
 .owner-console select {
   display: block;
   width: 100%;
-  background: #12170f;
-  border: 1px solid #6c795d;
-  border-radius: 7px;
-  color: #f5f7f1;
+  background: #fff;
+  border: 1px solid #d6d3d1;
+  border-radius: 8px;
+  color: #1c1917;
   padding: 12px;
   font-size: 16px;
+  font-weight: 400;
+}
+.owner-console input:not([type='hidden']):focus,
+.owner-console textarea:focus,
+.owner-console select:focus {
+  border-color: #a8a29e;
+  box-shadow: 0 0 0 3px rgb(28 25 23 / 8%);
+  outline: none;
 }
 .owner-console .field {
   margin-bottom: 20px;
@@ -197,15 +255,16 @@
 }
 .owner-console .notice {
   padding: 16px;
-  border: 1px solid #7d8c6e;
+  border: 1px solid #e7e5e4;
   border-radius: 8px;
   margin-bottom: 24px;
-  background: #26311f;
+  background: #fafaf9;
+  color: #44403c;
 }
 .owner-console .error {
-  border-color: #ce7f78;
-  color: #ffc3be;
-  background: #37221e;
+  border-color: #fecaca;
+  color: #991b1b;
+  background: #fef2f2;
 }
 .owner-console .listing-preview {
   display: flex;
@@ -218,15 +277,29 @@
   height: 64px;
   object-fit: contain;
   border-radius: 8px;
-  background: #0c0e0b;
+  background: #f5f5f4;
+  border: 1px solid #e7e5e4;
 }
 .owner-console .listing-preview p {
   overflow-wrap: anywhere;
 }
 .owner-console .history {
-  border-top: 1px solid #414c37;
+  border-top: 1px solid #e7e5e4;
   padding-top: 20px;
   margin-top: 20px;
+}
+.owner-console .award-embed label {
+  font-weight: 500;
+}
+.owner-console .award-embed .badge-code {
+  background: #fafaf9;
+  border: 1px solid #e7e5e4;
+  color: #1c1917;
+}
+.owner-console .award-embed .badge-copy {
+  font-weight: 600;
+  background: #ffd21f;
+  color: #1c1917;
 }
 @media (max-width: 800px) {
   .console-shell {
@@ -234,6 +307,7 @@
   }
   .console-sidebar {
     border-right: 0;
+    border-bottom: 1px solid #27272a;
     padding: 20px;
   }
   .console-brand {
@@ -245,7 +319,7 @@
     gap: 6px;
   }
   .console-sidebar nav a {
-    padding: 8px;
+    padding: 8px 10px;
     font-size: 14px;
   }
   .console-sidebar .signout {
@@ -261,13 +335,14 @@
     grid-template-columns: 1fr;
   }
   .owner-console .stats {
-    gap: 8px;
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
   .owner-console .stats .panel {
-    padding: 12px;
-    font-size: 13px;
+    padding: 16px;
+    font-size: 14px;
   }
   .owner-console h2 {
-    font-size: 26px;
+    font-size: 24px;
   }
 }
