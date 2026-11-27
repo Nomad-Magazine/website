@@ -270,6 +270,38 @@
   background: #f5f5f4;
   outline: none;
 }
+.owner-console .claim-disclosure {
+  margin-top: 8px;
+  border: 0;
+}
+.owner-console .claim-disclosure summary {
+  display: inline-block;
+  cursor: pointer;
+  font-size: 14px;
+  list-style: none;
+}
+.owner-console .claim-disclosure summary::-webkit-details-marker {
+  display: none;
+}
+.owner-console .claim-disclosure summary::before {
+  content: '▸ ';
+  color: #78716c;
+}
+.owner-console .claim-disclosure[open] summary::before {
+  content: '▾ ';
+}
+.owner-console .claim-disclosure-body {
+  margin-top: 16px;
+  max-width: 640px;
+}
+.owner-console .claim-panel {
+  margin-top: 8px;
+}
+.owner-console .claim-title-sm {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
 @media (max-width: 800px) {
   .owner-console .console-more {
     margin-left: 0;

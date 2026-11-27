@@ -125,43 +125,75 @@ const hasListings = listings.length > 0
                 View listing
               </a>
             )}
-            <div class="console-more" data-console-more>
-              <button
-                type="button"
-                class="console-more-trigger"
-                aria-expanded="false"
-                aria-haspopup="menu"
-                aria-controls={`more-menu-${listing.id}`}
-                id={`more-trigger-${listing.id}`}
-              >
-                More
-              </button>
-              <div class="console-more-menu" id={`more-menu-${listing.id}`} role="menu" aria-labelledby={`more-trigger-${listing.id}`} hidden>
-                {
-                  isAdmin && (
+            {
+              isAdmin ? (
+                <div class="console-more" data-console-more>
+                  <button
+                    type="button"
+                    class="console-more-trigger"
+                    aria-expanded="false"
+                    aria-haspopup="menu"
+                    aria-controls={`more-menu-${listing.id}`}
+                    id={`more-trigger-${listing.id}`}
+                  >
+                    More
+                  </button>
+                  <div
+                    class="console-more-menu"
+                    id={`more-menu-${listing.id}`}
+                    role="menu"
+                    aria-labelledby={`more-trigger-${listing.id}`}
+                    hidden
+                  >
                     <a role="menuitem" href={`/console/updates/?listing=${listing.id}`}>
                       Post an update
                     </a>
-                  )
-                }
-                <a role="menuitem" href={`/console/affiliates/?listing=${listing.id}`}>
+                    <a role="menuitem" href={`/console/affiliates/?listing=${listing.id}`}>
+                      Share an affiliate programme
+                    </a>
+                  </div>
+                </div>
+              ) : (
+                <a class="link" href={`/console/affiliates/?listing=${listing.id}`}>
                   Share an affiliate programme
                 </a>
-              </div>
-            </div>
+              )
+            }
           </div>
         </section>
       )
     })
   }
-  <section class="panel">
-    <h3>Already in the directory?</h3><p class="muted">Claim your existing listing using its original contact email. We verify ownership before giving access.</p><form
-      method="POST"
-      aria-label="Claim an existing listing"
-    >
-      <BusinessPicker entries={directory} name="legacy_id" /><button type="submit" class="button secondary">Verify and claim listing</button>
-    </form><p class="muted actions">Different contact email? <a href="mailto:hey@nomadgossip.com" class="link">Contact us to verify ownership</a>.</p>
-  </section>
+  {
+    hasListings ? (
+      <details class="claim-disclosure">
+        <summary class="muted">Already listed? Claim your business</summary>
+        <form method="POST" aria-label="Claim an existing listing" class="claim-disclosure-body">
+          <BusinessPicker entries={directory} name="legacy_id" />
+          <button type="submit" class="button secondary">
+            Verify and claim listing
+          </button>
+          <p class="muted">
+            Different contact email? <a href="mailto:hey@nomadgossip.com" class="link">Contact us to verify ownership</a>.
+          </p>
+        </form>
+      </details>
+    ) : (
+      <section class="panel claim-panel">
+        <h3 class="claim-title-sm">Already in the directory?</h3>
+        <p class="muted">Claim your existing listing using its original contact email. We verify ownership before giving access.</p>
+        <form method="POST" aria-label="Claim an existing listing">
+          <BusinessPicker entries={directory} name="legacy_id" />
+          <button type="submit" class="button secondary">
+            Verify and claim listing
+          </button>
+        </form>
+        <p class="muted actions">
+          Different contact email? <a href="mailto:hey@nomadgossip.com" class="link">Contact us to verify ownership</a>.
+        </p>
+      </section>
+    )
+  }
 </ConsoleLayout>
 
 <script>

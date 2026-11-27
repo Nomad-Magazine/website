@@ -24,6 +24,7 @@ const phase = process.argv.includes('--phase=before') ? 'before' : 'after'
 const outArg = process.argv.find((a) => a.startsWith('--out='))
 const outDir = path.resolve(outArg?.slice(6) ?? path.join(root, 'pr-assets/pr-53'))
 const captureSet = process.argv.find((a) => a.startsWith('--set='))?.slice(6) ?? 'full'
+const touchup = process.argv.includes('--touchup')
 const indexPath = path.join(root, 'src/pages/console/index.astro')
 const layoutPath = path.join(root, 'src/layouts/console/ConsoleLayout.astro')
 const consoleUiSets = new Set(['listing-cards', 'pr-54'])
@@ -183,6 +184,9 @@ function applyFixture(mode) {
   if (mode === 'single') {
     fixtureListings = [allListings[0]]
     fixturePosts = allPosts.filter((post) => post.status !== 'pending')
+  } else if (mode === 'empty') {
+    fixtureListings = []
+    fixturePosts = []
   } else {
     fixtureListings = allListings
     fixturePosts = allPosts
@@ -395,7 +399,18 @@ try {
 
   await login(context)
 
-  if (captureSet === 'listing-cards' || captureSet === 'pr-54') {
+  if (touchup && phase === 'after') {
+    for (const [name, fixture] of [
+      ['listings-multi', 'multi'],
+      ['listings-single', 'single'],
+      ['listings-empty', 'empty'],
+    ]) {
+      files.push(await capture(page, name, '/console/', 1280, 1000, { fixture, admin: false }))
+      files.push(await capture(page, `${name}-mobile`, '/console/', 390, 1200, { fixture, admin: false }))
+    }
+    files.push(await capture(page, 'listings-more-open', '/console/', 1280, 1000, { fixture: 'multi', openMore: true, admin: true }))
+    files.push(await capture(page, 'listings-more-open-mobile', '/console/', 390, 1200, { fixture: 'multi', openMore: true, admin: true }))
+  } else if (captureSet === 'listing-cards' || captureSet === 'pr-54') {
     if (captureSet === 'pr-54') {
       for (const [role, admin] of [
         ['owner', false],
