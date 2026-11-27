@@ -154,7 +154,7 @@
 .owner-console .button.secondary {
   background: #fff;
   color: #44403c;
-  border-color: #a8a29e;
+  border-color: #8c8680;
   font-weight: 500;
 }
 .owner-console .button.secondary:hover {
@@ -233,7 +233,7 @@
   display: block;
   width: 100%;
   background: #fff;
-  border: 1px solid #a8a29e;
+  border: 1px solid #8c8680;
   border-radius: 8px;
   color: #1c1917;
   padding: 12px;
