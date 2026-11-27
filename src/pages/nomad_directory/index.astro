@@ -320,8 +320,15 @@ const seo: SEOProps = {
   let currentCountry = '';
   let currentSearch = '';
   let currentSort = 'default';
+  let urlSyncTimer = null;
+  const URL_SYNC_DEBOUNCE_MS = 300;
 
   function esc(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
+  function setUrlParam(url, key, value) {
+    if (value) url.searchParams.set(key, value);
+    else url.searchParams.delete(key);
+  }
 
   function pageCount() {
     return Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
@@ -390,16 +397,36 @@ const seo: SEOProps = {
 
   function syncPageUrl() {
     const url = new URL(window.location.href);
-    if (currentPage <= 1) url.searchParams.delete('page');
-    else url.searchParams.set('page', String(currentPage));
-    history.replaceState(null, '', url);
+    const si = document.getElementById('search-input');
+    const qRaw = si ? si.value.trim() : '';
+    setUrlParam(url, 'q', qRaw);
+    setUrlParam(url, 'sort', currentSort === 'default' ? '' : currentSort);
+    setUrlParam(url, 'country', currentCountry);
+    setUrlParam(url, 'page', currentPage > 1 ? String(currentPage) : '');
+    history.replaceState(null, '', url.pathname + url.search + url.hash);
+  }
+
+  function scheduleSyncPageUrl() {
+    if (urlSyncTimer) clearTimeout(urlSyncTimer);
+    urlSyncTimer = setTimeout(function () {
+      urlSyncTimer = null;
+      syncPageUrl();
+    }, URL_SYNC_DEBOUNCE_MS);
+  }
+
+  function flushSyncPageUrl() {
+    if (urlSyncTimer) {
+      clearTimeout(urlSyncTimer);
+      urlSyncTimer = null;
+    }
+    syncPageUrl();
   }
 
   function goToPage(page, scroll) {
     const pages = pageCount();
     currentPage = Math.min(Math.max(1, page), pages);
     renderGrid();
-    syncPageUrl();
+    flushSyncPageUrl();
     if (!scroll) return;
     const container = document.getElementById('directory-container');
     if (!container) return;
@@ -634,7 +661,7 @@ const seo: SEOProps = {
     applyFilters();
   }
 
-  function applyFilters(resetPage) {
+  function applyFilters(resetPage, opts) {
     filtered = allItems.filter(item => {
       if (currentCat !== 'all' && item.category !== currentCat) return false;
       if (currentCountry && item.country !== currentCountry) return false;
@@ -649,7 +676,8 @@ const seo: SEOProps = {
     renderCategoryFilter();
     renderCountryFilter();
     document.dispatchEvent(new Event('directory:render'));
-    syncPageUrl();
+    if (opts && opts.debounceUrl) scheduleSyncPageUrl();
+    else flushSyncPageUrl();
     updateActiveFilters();
   }
 
@@ -705,7 +733,7 @@ const seo: SEOProps = {
   window.shareOnLinkedIn = function() { window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent('https://nomad-magazine.com/nomad_directory/'),'_blank','width=550,height=550'); };
   window.copyDirectoryUrl = function(btn) {
     if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText('https://nomad-magazine.com/nomad_directory/').then(() => {
+      navigator.clipboard.writeText(window.location.href).then(() => {
         showNotification('🔗 Link copied!', 'success');
         if (btn) { const o=btn.innerHTML; btn.innerHTML='<svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>'; setTimeout(()=>{btn.innerHTML=o;},2000); }
       });
@@ -718,7 +746,7 @@ const seo: SEOProps = {
       currentSearch = e.target.value.toLowerCase().trim();
       renderCategoryFilter();
       renderCountryFilter();
-      applyFilters();
+      applyFilters(undefined, { debounceUrl: true });
     });
 
     document.querySelectorAll('.quick-btn[data-cat]').forEach(link => {
@@ -752,10 +780,16 @@ const seo: SEOProps = {
     const sortSel = document.getElementById('sort-select');
     if (sortSel) sortSel.addEventListener('change', e => { currentSort = e.target.value; applyFilters(); });
 
-    const query = new URLSearchParams(location.search).get('q') || '';
+    const params = new URLSearchParams(location.search);
+    const query = params.get('q') || '';
     currentSearch = query.toLowerCase().trim();
     if (si) si.value = query;
-    const initial = parseInt(new URLSearchParams(window.location.search).get('page') || '1', 10);
+    const sortParam = params.get('sort') || 'default';
+    if (sortParam === 'az' || sortParam === 'za') currentSort = sortParam;
+    if (sortSel) sortSel.value = currentSort;
+    const countryParam = params.get('country') || '';
+    if (countryParam) currentCountry = countryParam;
+    const initial = parseInt(params.get('page') || '1', 10);
     if (initial > 1) currentPage = initial;
     applyFilters(false);
     function revealListing() {
