@@ -345,7 +345,6 @@ const seo: SEOProps = {
               id="directory-filter-context"
               class="hidden"
               data-page-type={type}
-              data-page-filter={filterValue}
               aria-hidden="true"
             ></div>
             <div id="directory-container" class="space-y-4">
@@ -438,16 +437,6 @@ const seo: SEOProps = {
   let activeCountry = '';
   let activeCategory = '';
 
-  function cardSearchText(card) {
-    const blob = card.getAttribute('data-search') || '';
-    if (blob) return blob.toLowerCase();
-    const title = card.getAttribute('data-title') || '';
-    const location = card.getAttribute('data-location') || '';
-    const country = card.getAttribute('data-country') || '';
-    const category = card.getAttribute('data-category') || '';
-    return (title + ' ' + location + ' ' + country + ' ' + category).toLowerCase();
-  }
-
   function normalizeQuery(raw) {
     return String(raw || '').toLowerCase().trim();
   }
@@ -461,6 +450,9 @@ const seo: SEOProps = {
     const si = document.getElementById('search-input');
     const url = new URL(window.location.href);
     const qRaw = si ? si.value.trim() : '';
+    url.searchParams.delete('q');
+    url.searchParams.delete('country');
+    url.searchParams.delete('category');
     setUrlParam(url, 'q', qRaw);
     if (pageType === 'category') setUrlParam(url, 'country', activeCountry);
     else if (pageType === 'country' || pageType === 'continent') setUrlParam(url, 'category', activeCategory);
@@ -476,7 +468,7 @@ const seo: SEOProps = {
     const q = normalizeQuery(query);
     let visible = 0;
     cards.forEach(card => {
-      const search = cardSearchText(card);
+      const search = (card.getAttribute('data-search') || '').toLowerCase();
       const cardCountry = card.getAttribute('data-country') || '';
       const cardCategory = card.getAttribute('data-category') || '';
       const matchQuery = !q || search.includes(q);
@@ -504,7 +496,7 @@ const seo: SEOProps = {
     const list = document.getElementById('country-list');
     const section = document.getElementById('country-filter-section');
     if (!list) return;
-    const base = cards.filter(card => !query || cardSearchText(card).includes(query));
+    const base = cards.filter(card => !query || (card.getAttribute('data-search') || '').toLowerCase().includes(query));
     const countryCounts = {};
     base.forEach(card => {
       const c = card.getAttribute('data-country');
@@ -598,6 +590,7 @@ const seo: SEOProps = {
     renderCountryFilterList();
     applyFilters(q, activeCountry, activeCategory);
     scrollToListingHash();
+    syncFilterUrl();
   }
 
   function currentQuery() {
