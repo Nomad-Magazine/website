@@ -11,7 +11,7 @@ const SITE_TIMEOUT_MS = 15_000
 const NETWORK_IDLE_MS = 5_000
 const SETTLE_MS = 2_500
 const CONCURRENCY = 3
-const CAPTURE_HARD_TIMEOUT_MS = SITE_TIMEOUT_MS + NETWORK_IDLE_MS + SETTLE_MS + 10_000
+const CAPTURE_HARD_TIMEOUT_MS = SITE_TIMEOUT_MS + NETWORK_IDLE_MS + SETTLE_MS + 12_000
 const WEBP_QUALITY = 72
 const MIN_WEBP_BYTES = 2_200
 const LOW_VARIANCE_FILE_BYTES = 6_000
@@ -24,15 +24,35 @@ const SUPABASE_ANON_KEY =
 const COOKIE_SELECTORS = [
   '#onetrust-accept-btn-handler',
   '#onetrust-banner-sdk #onetrust-accept-btn-handler',
+  '.onetrust-close-btn-handler',
   '#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll',
   '#CybotCookiebotDialogBodyButtonAccept',
   '#didomi-notice-agree-button',
   'button.didomi-components-button--color',
-  'button[aria-label*="Accept" i]',
-  'button[aria-label*="accept" i]',
+  '#iubenda-cs-accept-btn',
+  '.iubenda-cs-accept-btn',
+  '#usercentrics-root button[data-testid="uc-accept-all-button"]',
+  '[data-cookiefirst-action="accept"]',
+  '.cky-btn-accept',
+  '#cookieyes-EU-accept-all',
+  '.cookieyes-consent-accept',
+  '#borlabs-cookie-accept-all',
+  '.cmplz-accept',
+  '.brlbs-btn-accept-all',
+  '[aria-label*="Accept" i]',
+  '[aria-label*="accept" i]',
   'button:has-text("Accept all")',
   'button:has-text("Accept All")',
   'button:has-text("Accept cookies")',
+  'button:has-text("Alle akzeptieren")',
+  'button:has-text("Alle Cookies akzeptieren")',
+  'button:has-text("Akzeptieren")',
+  'button:has-text("Zustimmen")',
+  'button:has-text("Einverstanden")',
+  'button:has-text("Tout accepter")',
+  'button:has-text("Aceptar todo")',
+  'button:has-text("Aceptar todas")',
+  'button:has-text("Accetta tutti")',
   'button:has-text("I agree")',
   'button:has-text("Agree")',
   'button:has-text("Got it")',
@@ -49,6 +69,9 @@ const BOT_TEXT_SNIPPETS = [
   'just a moment',
   'verify you are human',
   'failed to verify your browser',
+  'confirm you\'re not a bot',
+  'confirm you are not a bot',
+  'account has been suspended',
   'access denied',
   'attention required',
   "can't access this",
@@ -56,9 +79,23 @@ const BOT_TEXT_SNIPPETS = [
   'enable cookies',
   'security check',
   'ddos protection',
+  'checking if the site connection is secure',
+  'cloudflare',
+  'turnstile',
+  'before you continue to youtube',
+  'unusual traffic',
+  'performed an action that violated',
+  'domain registration has expired',
+  'registration has expired',
+  'this domain has expired',
+  'weather preview',
+  'save $',
 ]
 
-const BOT_TITLE_SNIPPETS = ['403', '404', '503', 'access denied', 'attention required', 'error']
+const BOT_TITLE_SNIPPETS = ['403', '404', '503', 'access denied', 'attention required', 'error', 'suspended']
+
+const CONSENT_ACCEPT_PATTERN =
+  /^(accept all|accept cookies|allow all|alle akzeptieren|alle cookies|akzeptieren|zustimmen|einverstanden|tout accepter|aceptar todo|accetta tutti|agree|i agree|got it|ok|allow)$/i
 
 function websiteUrl(value) {
   if (!value) return ''
@@ -156,6 +193,46 @@ async function removeCapture(listingId, manifest) {
   delete manifest[listingId]
 }
 
+async function allFrameText(page) {
+  const parts = []
+  for (const frame of page.frames()) {
+    try {
+      const chunk = await frame.evaluate(() => {
+        const title = document.title || ''
+        const body = document.body?.innerText?.slice(0, 12_000) || ''
+        return `${title}\n${body}`
+      })
+      parts.push(chunk)
+    } catch {
+      /* cross-origin frame */
+    }
+  }
+  return parts.join('\n---\n').toLowerCase()
+}
+
+async function clickConsentInShadowDom(page) {
+  await page.evaluate((patternSource) => {
+    const pattern = new RegExp(patternSource, 'i')
+    const walk = (root) => {
+      const nodes = root.querySelectorAll('button, a, [role="button"], input[type="button"], input[type="submit"]')
+      for (const node of nodes) {
+        const text = (node.textContent || node.value || node.getAttribute('aria-label') || '').trim()
+        if (!text || text.length > 80) continue
+        if (pattern.test(text)) {
+          const rect = node.getBoundingClientRect()
+          if (rect.width > 0 && rect.height > 0) {
+            node.click()
+          }
+        }
+      }
+      for (const host of root.querySelectorAll('*')) {
+        if (host.shadowRoot) walk(host.shadowRoot)
+      }
+    }
+    walk(document)
+  }, CONSENT_ACCEPT_PATTERN.source)
+}
+
 async function dismissCookieBanners(page) {
   const surfaces = [page, ...page.frames().filter((frame) => frame !== page.mainFrame())]
   for (const surface of surfaces) {
@@ -164,23 +241,53 @@ async function dismissCookieBanners(page) {
         const button = surface.locator(selector).first()
         if (await button.isVisible({ timeout: 200 })) {
           await button.click({ timeout: 800, noWaitAfter: true })
-          await page.waitForTimeout(350)
-          return
+          await page.waitForTimeout(300)
         }
       } catch {
         /* try next */
       }
     }
   }
+  await clickConsentInShadowDom(page)
 }
 
-async function validateCapture(page, response, webp) {
-  const status = response?.status() ?? 0
-  if (status >= 400) return `http-${status}`
+async function consentOverlayStillVisible(page) {
+  return page.evaluate(() => {
+    const consentWords = /cookie|cookies|consent|gdpr|datenschutz|einwilligung|tracking preferences|cookie settings|cookie policy/i
+    const viewportArea = innerWidth * innerHeight
+    const minArea = viewportArea * 0.12
+    const candidates = document.querySelectorAll(
+      '#onetrust-banner-sdk, #CybotCookiebotDialog, .cc-window, #usercentrics-root, #iubenda-cs-banner, [id*="cookie"], [class*="cookie"], [id*="consent"], [class*="consent"]',
+    )
+    for (const el of candidates) {
+      const style = getComputedStyle(el)
+      if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') continue
+      const rect = el.getBoundingClientRect()
+      if (rect.width * rect.height >= minArea && consentWords.test(el.textContent || '')) return true
+    }
+    for (const el of document.body.querySelectorAll('*')) {
+      const style = getComputedStyle(el)
+      if (!['fixed', 'sticky'].includes(style.position)) continue
+      const rect = el.getBoundingClientRect()
+      if (rect.width * rect.height < minArea) continue
+      const text = (el.innerText || '').slice(0, 600)
+      if (consentWords.test(text)) return true
+    }
+    return false
+  })
+}
 
+async function runConsentFlow(page, timeLeft) {
+  await dismissCookieBanners(page)
+  await page.waitForTimeout(Math.min(700, timeLeft()))
+  await dismissCookieBanners(page)
+  await page.waitForTimeout(Math.min(500, timeLeft()))
+  await clickConsentInShadowDom(page)
+}
+
+async function detectPageBlockers(page) {
+  const combined = await allFrameText(page)
   const title = (await page.title().catch(() => '')).toLowerCase()
-  const bodyText = (await page.locator('body').innerText({ timeout: 2000 }).catch(() => '')).toLowerCase()
-  const combined = `${title}\n${bodyText}`
 
   for (const snippet of BOT_TITLE_SNIPPETS) {
     if (title.includes(snippet)) return `bot-title:${snippet}`
@@ -189,10 +296,96 @@ async function validateCapture(page, response, webp) {
     if (combined.includes(snippet)) return `bot-text:${snippet}`
   }
 
+  if (/account has been suspended|has been suspended/i.test(combined)) return 'account-suspended'
+
   const host = new URL(page.url()).hostname.toLowerCase()
   if (/instagram\.com|facebook\.com|fb\.com/.test(host) && /\b(log in|sign up|create (new )?account)\b/i.test(combined)) {
     return 'social-login-wall'
   }
+  if (/youtube\.com|youtu\.be/.test(host) && /confirm you.?re not a bot|not a bot/i.test(combined)) {
+    return 'youtube-bot-wall'
+  }
+
+  const domCheck = await page.evaluate(() => {
+    const text = (document.body?.innerText || '').toLowerCase()
+    const password = document.querySelector('input[type="password"]:not([hidden])')
+    const pwdRect = password?.getBoundingClientRect()
+    const pwdVisible = pwdRect && pwdRect.width > 40 && pwdRect.height > 10
+  const loginWords = /log in|sign in|sign-in|login|anmelden|connexion|iniciar sesión|accedi/i
+    if (pwdVisible && loginWords.test(text)) {
+      const main = document.querySelector('main, [role="main"], #content, .content, body')
+      const mainText = (main?.innerText || text).slice(0, 2500).toLowerCase()
+      if ((mainText.match(/password/g) || []).length > 0 && (mainText.match(/email|username|e-mail/gi) || []).length > 0) {
+        return 'login-wall'
+      }
+    }
+
+    const vw = innerWidth
+    const vh = innerHeight
+    const fullThreshold = vw * vh * 0.35
+    const modalWords = /newsletter|subscribe|sign up for|join our list|get updates|email address/i
+    for (const el of document.body.querySelectorAll('*')) {
+      const style = getComputedStyle(el)
+      if (!['fixed', 'absolute'].includes(style.position)) continue
+      const z = Number.parseInt(style.zIndex, 10)
+      if (!Number.isNaN(z) && z < 5) continue
+      const rect = el.getBoundingClientRect()
+      const area = rect.width * rect.height
+      if (area < fullThreshold) continue
+      if (modalWords.test(el.innerText || '') && rect.top < vh * 0.35) return 'newsletter-modal'
+    }
+
+    if (/cf-turnstile|challenges\.cloudflare\.com|turnstile/i.test(document.documentElement.innerHTML)) return 'turnstile-widget'
+
+    return null
+  })
+
+  if (domCheck) return domCheck
+  if (/turnstile|cf-challenge|hcaptcha-box|recaptcha/i.test(combined)) return 'bot-text:turnstile'
+
+  return null
+}
+
+async function webpOverlaySignals(webp) {
+  const file = sharp(webp)
+  const meta = await file.metadata()
+  const w = meta.width || VIEWPORT.width
+  const h = meta.height || VIEWPORT.height
+  const sample = async (top, height) => {
+    const topPx = Math.floor(h * top)
+    const heightPx = Math.max(1, Math.floor(h * height))
+    const { data, info } = await sharp(webp)
+      .extract({ left: 0, top: topPx, width: w, height: Math.min(heightPx, h - topPx) })
+      .raw()
+      .toBuffer({ resolveWithObject: true })
+    const channels = info.channels || 3
+    const sums = [0, 0, 0]
+    const count = data.length / channels
+    for (let i = 0; i < data.length; i += channels) {
+      sums[0] += data[i]
+      sums[1] += data[i + 1]
+      sums[2] += data[i + 2]
+    }
+    return sums.map((v) => v / count)
+  }
+  const dist = (a, b) => Math.sqrt((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2 + (a[2] - b[2]) ** 2)
+  const middle = await sample(0.38, 0.3)
+  const bottom = await sample(0.8, 0.18)
+  const top = await sample(0.02, 0.16)
+  const signals = []
+  if (dist(middle, bottom) > 44 && dist(middle, top) < 28) signals.push('bottom-bar')
+  const stats = await sharp(webp).stats()
+  const minStdev = Math.min(...stats.channels.map((c) => c.stdev))
+  if (dist(middle, bottom) > 48 && dist(middle, top) > 48 && minStdev < 35) signals.push('full-overlay')
+  return signals
+}
+
+async function validateCapture(page, response, webp) {
+  const status = response?.status() ?? 0
+  if (status >= 400) return `http-${status}`
+
+  const blocker = await detectPageBlockers(page)
+  if (blocker) return blocker
 
   if (webp.length < MIN_WEBP_BYTES) return 'tiny-file'
 
@@ -200,9 +393,15 @@ async function validateCapture(page, response, webp) {
   const minStdev = Math.min(...stats.channels.map((channel) => channel.stdev))
   if (webp.length < LOW_VARIANCE_FILE_BYTES && minStdev < LOW_VARIANCE_MIN_STDEV) return 'low-variance'
 
-  const head = bodyText.trim().slice(0, 160)
+  const head = (await page.locator('body').innerText({ timeout: 1500 }).catch(() => '')).trim().slice(0, 160).toLowerCase()
   if (/^(loading\.{0,3}\b|opening\b)/i.test(head)) return 'loading-shell'
   if (/loading\.{0,3}/i.test(head) && head.length < 200) return 'loading-shell'
+
+  if (await consentOverlayStillVisible(page)) return 'consent-wall'
+
+  const overlay = await webpOverlaySignals(webp)
+  if (overlay.includes('full-overlay')) return 'pixel-full-overlay'
+  if (overlay.includes('bottom-bar')) return 'pixel-consent-bar'
 
   return null
 }
@@ -254,24 +453,27 @@ async function captureOne(browser, listing, manifest, refresh, excluded) {
         } catch {
           /* bounded */
         }
-        await dismissCookieBanners(page)
+
+        const consentReason = await runConsentFlow(page, timeLeft)
+        if (consentReason) return { status: 'failed', rejectReason: consentReason }
+
         await page.waitForTimeout(Math.min(SETTLE_MS, timeLeft()))
-        await dismissCookieBanners(page)
+        await runConsentFlow(page, timeLeft)
+
         const loadingReason = await waitPastLoadingShell(page, timeLeft)
-        if (loadingReason) {
-          return { status: 'failed', rejectReason: loadingReason }
-        }
+        if (loadingReason) return { status: 'failed', rejectReason: loadingReason }
+
+        const preShotBlocker = await detectPageBlockers(page)
+        if (preShotBlocker) return { status: 'failed', rejectReason: preShotBlocker }
 
         const png = await page.screenshot({ type: 'png', animations: 'disabled', timeout: Math.min(6000, timeLeft()) })
         const webp = await sharp(png).resize(VIEWPORT.width, VIEWPORT.height, { fit: 'cover' }).webp({ quality: WEBP_QUALITY }).toBuffer()
 
         const rejectReason = await validateCapture(page, response, webp)
-        if (rejectReason) {
-          return { status: 'failed', rejectReason }
-        }
+        if (rejectReason) return { status: 'failed', rejectReason }
 
         const previous = await readExistingBytes(dest)
-        if (previous && previous.equals(webp)) {
+        if (!refresh && previous && previous.equals(webp)) {
           if (!manifest[listing.id]) {
             manifest[listing.id] = {
               file: relFile,
@@ -280,6 +482,9 @@ async function captureOne(browser, listing, manifest, refresh, excluded) {
             }
             return { status: 'ok' }
           }
+          return { status: 'unchanged' }
+        }
+        if (refresh && previous && previous.equals(webp) && manifest[listing.id]) {
           return { status: 'unchanged' }
         }
 
