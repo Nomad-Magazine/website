@@ -1,0 +1,50 @@
+name: Capture directory listing screenshots
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+  NODE_VERSION: '24'
+
+concurrency:
+  group: directory-screenshots-${{ github.ref }}
+  cancel-in-progress: false
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+  workflow_run:
+    workflows: ['Sync Directory from Smart suite']
+    types: [completed]
+    branches: [main]
+
+jobs:
+  capture:
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event_name == 'workflow_run' && 'main' || github.ref }}
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+      - name: Install dependencies
+        run: bun install
+      - name: Install Playwright Chromium
+        run: bunx playwright install chromium --with-deps
+      - name: Capture directory website screenshots
+        run: node scripts/capture-directory-screenshots.mjs --refresh
+      - name: Commit screenshot updates
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/images/directory-shots src/utils/directory-screenshots.json src/utils/directory-screenshots-exclusions.json
+          git diff --cached --quiet || git commit -m "chore: refresh nomad directory listing screenshots"
+          git push
