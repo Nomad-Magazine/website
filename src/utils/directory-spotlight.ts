@@ -9,7 +9,6 @@ export type SpotlightListing = {
   id: string
   title: string
   category: string
-  description: string
   image: string
   screenshot: string
   addedAt: string
@@ -24,12 +23,6 @@ export function getRecordAddedAt(record: Record<string, unknown> | undefined): s
   return typeof nested?.on === 'string' ? nested.on : ''
 }
 
-function oneLineDescription(raw: string, max = 120): string {
-  const text = raw.trim().replace(/\s+/g, ' ')
-  if (!text) return ''
-  return text.length > max ? `${text.slice(0, max - 1)}…` : text
-}
-
 export function buildSpotlightListings(
   entries: DirectoryEntry[],
   recordsById: Map<string, Record<string, unknown>>,
@@ -38,14 +31,11 @@ export function buildSpotlightListings(
   for (const entry of entries) {
     const screenshot = getListingScreenshot(entry.id)
     if (!screenshot || !entry.image?.trim()) continue
-    const description = oneLineDescription(entry.description)
-    if (!description) continue
     const country = entry.country || ''
     result.push({
       id: entry.id,
       title: entry.title,
       category: entry.category,
-      description,
       image: entry.image,
       screenshot,
       addedAt: getRecordAddedAt(recordsById.get(entry.id)),

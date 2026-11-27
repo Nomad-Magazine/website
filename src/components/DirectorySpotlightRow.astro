@@ -30,7 +30,7 @@ const showSpotlight = listings.length >= 4
     </a>
   </div>
 
-  <div class="relative min-h-[19.5rem] md:min-h-[38rem] lg:min-h-[19.5rem]">
+  <div class="relative min-h-[16.75rem] md:min-h-[30.5rem] lg:min-h-[16.75rem]">
     <div
       id="directory-spotlight-track"
       class="directory-spotlight-track -mx-1 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-1 pl-1 pr-4 max-md:[scrollbar-width:none] max-md:[&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:grid-cols-2 md:gap-4 md:overflow-visible md:pb-0 md:pl-0 md:pr-0 md:snap-none lg:grid-cols-4"
@@ -42,9 +42,10 @@ const showSpotlight = listings.length >= 4
           class="w-[min(82vw,17.5rem)] shrink-0 snap-start overflow-hidden rounded-2xl border border-white/10 bg-white/5 max-md:last:mr-1 md:w-auto md:shrink md:snap-none"
           aria-hidden="true">
           <div class="aspect-8/5 w-full bg-white/5"></div>
-          <div class="space-y-2 p-3">
-            <div class="h-4 w-2/3 rounded bg-white/10"></div>
-            <div class="h-3 w-full rounded bg-white/5"></div>
+          <div class="flex items-center gap-2 p-3">
+            <div class="h-7 w-7 shrink-0 rounded-md bg-white/10"></div>
+            <div class="h-3.5 min-w-0 flex-1 rounded bg-white/10"></div>
+            <div class="h-5 w-14 shrink-0 rounded-full bg-white/5"></div>
           </div>
         </div>
       ))}
@@ -127,25 +128,22 @@ const showSpotlight = listings.length >= 4
             decoding="async"
             class="h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.02]" />
         </div>
-        <div class="flex min-h-[6.25rem] flex-1 flex-col gap-2 p-3">
-          <div class="flex items-start gap-2">
-            <div class="${esc(item.logoBoxClass)} h-10 w-10 shrink-0 rounded-lg">
-              <img
-                src="${esc(item.image)}"
-                alt=""
-                width="40"
-                height="40"
-                loading="lazy"
-                decoding="async"
-                class="${esc(item.logoImageClass)} h-full w-full"
-                aria-hidden="true" />
-            </div>
-            <div class="min-w-0 flex-1">
-              <h3 class="line-clamp-1 text-sm font-bold text-white group-hover:text-yellow-400">${esc(item.title)}</h3>
-              <span class="mt-1 inline-block rounded-full border border-yellow-400/30 bg-yellow-400/15 px-2 py-0.5 text-[10px] font-medium text-yellow-400">${esc(item.category)}</span>
-            </div>
+        <div class="flex items-center gap-2 p-3">
+          <div class="${esc(item.logoBoxClass)} h-7 w-7 shrink-0 rounded-md">
+            <img
+              src="${esc(item.image)}"
+              alt=""
+              width="28"
+              height="28"
+              loading="lazy"
+              decoding="async"
+              class="${esc(item.logoImageClass)} h-full w-full"
+              aria-hidden="true" />
           </div>
-          <p class="line-clamp-2 text-xs leading-relaxed text-gray-300">${esc(item.description)}</p>
+          <div class="flex min-w-0 flex-1 flex-wrap items-center gap-x-2 gap-y-1">
+            <h3 class="min-w-0 truncate text-sm font-bold text-white group-hover:text-yellow-400">${esc(item.title)}</h3>
+            <span class="ml-auto shrink-0 rounded-full border border-yellow-400/30 bg-yellow-400/15 px-2 py-0.5 text-[10px] font-medium text-yellow-400">${esc(item.category)}</span>
+          </div>
         </div>
       </a>`
   }
