@@ -245,15 +245,6 @@ const seo: SEOProps = {
                 <p class="text-xs text-gray-600 mt-1" id="search-count" aria-live="polite">{count} results</p>
               </div>
 
-              {type === 'category' && (
-                <div id="country-filter-section">
-                  <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Filter by Country</p>
-                  <div id="country-list" class="space-y-1 max-h-40 md:max-h-64 overflow-y-auto pr-1" style="scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.2) transparent;">
-                    <!-- populated by JS -->
-                  </div>
-                </div>
-              )}
-
               <!-- Categories -->
               <div>
                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Browse Categories</p>
@@ -295,6 +286,15 @@ const seo: SEOProps = {
                   </noscript>
                 )}
               </div>
+
+              {type === 'category' && (
+                <div id="country-filter-section">
+                  <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Filter by Country</p>
+                  <div id="country-list" class="space-y-1 max-h-40 md:max-h-64 overflow-y-auto pr-1" style="scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.2) transparent;">
+                    <!-- populated by JS -->
+                  </div>
+                </div>
+              )}
 
               <!-- Share -->
               <div class="pt-2 border-t border-white/10">
