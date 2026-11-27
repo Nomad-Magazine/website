@@ -9,6 +9,8 @@ interface Props {
 const { title = 'Your directory', currentPage = '' } = Astro.props
 const supabase = createSupabaseServerClient(Astro.request, Astro.cookies)
 const { data: isAdmin } = await supabase.rpc('directory_is_admin')
+const { data: partnershipUnread } = await supabase.rpc('directory_owner_partnership_unread_count')
+const partnershipInboxCount = typeof partnershipUnread === 'number' ? partnershipUnread : 0
 const nav = isAdmin
   ? [
       { href: '/console/', label: 'My listings', id: 'dashboard' },
@@ -45,6 +47,9 @@ const nav = isAdmin
             nav.map((item) => (
               <a href={item.href} aria-current={currentPage === item.id ? 'page' : undefined}>
                 {item.label}
+                {item.id === 'partnerships' && partnershipInboxCount > 0 && (
+                  <span class="console-badge" aria-label={`${partnershipInboxCount} unread partnership requests`}>{partnershipInboxCount}</span>
+                )}
               </a>
             ))
           }{

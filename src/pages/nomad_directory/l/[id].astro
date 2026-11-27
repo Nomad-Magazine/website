@@ -1,0 +1,90 @@
+---
+export const prerender = false;
+
+import { getPublishedDirectoryRecords, getDirectoryEntriesFromRecords } from '~/utils/directory'
+import { fetchReportRecords } from '~/utils/smartsuite'
+import Layout, { type SEOProps } from '~/layouts/Layout.astro'
+import DirectoryPartnerOffer from '~/components/DirectoryPartnerOffer.astro'
+import DirectoryPartnershipRequest from '~/components/DirectoryPartnershipRequest.astro'
+import { directoryLogoBoxClass, directoryLogoImageClassFor, directoryLogoInitialClass } from '~/const/nomadDirectoryWhiteLogos'
+
+const listingId = String(Astro.params.id || '')
+const managedRecords = await getPublishedDirectoryRecords().catch(() => null)
+const { records: legacyRecords } = await fetchReportRecords('6857167d82358a0f5e038c3f')
+const records = managedRecords ?? legacyRecords
+const entries = getDirectoryEntriesFromRecords(records)
+const entry = entries.find((item) => item.id === listingId)
+if (!entry) return new Response('Listing not found', { status: 404 })
+
+const acceptsPartnership = entry.managedPublished
+
+Astro.response.headers.set('Cache-Control', 'public, max-age=0, must-revalidate')
+const canonical = `${Astro.site}nomad_directory/l/${listingId}/`
+const seo: SEOProps = {
+  title: `${entry.title} | Nomad Directory`,
+  description: entry.description.slice(0, 155),
+  canonical,
+  image: entry.image || `${Astro.site}images/Nomad-directory.webp`,
+  keywords: `${entry.title}, ${entry.category}, digital nomad directory`,
+  ldJSON: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: entry.title,
+    description: entry.description,
+    url: canonical,
+  },
+}
+---
+
+<Layout seo={seo}>
+  <div class="bg-hoverw min-h-screen text-white">
+    <section class="pt-16 pb-16">
+      <div class="container mx-auto max-w-3xl px-4">
+        <nav class="mb-8 text-sm text-gray-400" aria-label="Breadcrumb">
+          <a href="/nomad_directory/" class="text-yellow-400 hover:text-yellow-300">Nomad Directory</a>
+          <span aria-hidden="true"> / </span>
+          <a href={`/nomad_directory/${entry.category.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}/`} class="text-yellow-400 hover:text-yellow-300">
+            {entry.category}
+          </a>
+        </nav>
+        <article>
+          <div class="flex items-start gap-4">
+            <div class={directoryLogoBoxClass}>
+              {
+                entry.image ? (
+                  <img src={entry.image} alt={`${entry.title} logo`} class={directoryLogoImageClassFor(entry.title)} width="72" height="72" loading="eager" decoding="async" />
+                ) : (
+                  <span class={directoryLogoInitialClass} aria-hidden="true">{entry.title.charAt(0)}</span>
+                )
+              }
+            </div>
+            <div>
+              <h1 class="text-3xl font-bold text-white">{entry.title}</h1>
+              <p class="mt-2 text-sm text-gray-400">{entry.category}{entry.location && ` · ${entry.location}`}</p>
+            </div>
+          </div>
+          <p class="mt-6 text-base leading-relaxed text-gray-200">{entry.description}</p>
+          {
+            entry.offer && (
+              <div class="mt-6 rounded-r-lg border-l-4 border-yellow-400 bg-yellow-400/10 p-4">
+                <p class="mb-1 text-xs font-bold uppercase text-yellow-400">Member offer</p>
+                <p class="text-sm whitespace-pre-line text-gray-200">{entry.offer}</p>
+              </div>
+            )
+          }
+          {entry.partnerOffer && <DirectoryPartnerOffer offer={entry.partnerOffer} />}
+          {
+            entry.website && (
+              <p class="mt-6">
+                <a href={entry.website} target="_blank" rel="ugc noopener noreferrer" class="text-blue-300 underline hover:text-blue-200" aria-label={`Visit ${entry.title} (opens in new tab)`}>
+                  Visit website →
+                </a>
+              </p>
+            )
+          }
+          {acceptsPartnership && <DirectoryPartnershipRequest listingId={listingId} listingTitle={entry.title} />}
+        </article>
+      </div>
+    </section>
+  </div>
+</Layout>

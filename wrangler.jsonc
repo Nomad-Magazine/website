@@ -26,6 +26,11 @@
       "name": "DIRECTORY_VOTE_LIMITER",
       "namespace_id": "6101",
       "simple": { "limit": 20, "period": 60 }
+    },
+    {
+      "name": "DIRECTORY_PARTNERSHIP_LIMITER",
+      "namespace_id": "6102",
+      "simple": { "limit": 10, "period": 60 }
     }
   ],
   // Production deploy uses custom domain; no workers.dev fallback

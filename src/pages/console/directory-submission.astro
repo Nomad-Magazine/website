@@ -19,7 +19,7 @@ try {
     Astro.response.status = 404
     error = 'Listing not found or not owned by this account.'
   }
-  if (listing) values = listing.draft
+  if (listing) values = { ...emptyListing, ...listing.draft }
 } catch (err) {
   error = workspaceError(err)
 }
@@ -135,6 +135,31 @@ if (Astro.request.method === 'POST' && !error) {
                 <textarea id="special-offer" name="special_offer" maxlength="4000" rows="3">{values.special_offer}</textarea>
               </>
             </div>
+          </section>
+          <section class="panel">
+            <h3>Affiliate / partner offer (optional)</h3>
+            <p class="muted">Shown on your published listing page when approved. Links use sponsored rel attributes.</p>
+            <div class="field">
+              <label for="partner-offer-title">Offer title</label>
+              <input id="partner-offer-title" name="partner_offer_title" maxlength="120" value={values.partner_offer_title} />
+            </div>
+            <div class="field">
+              <label for="partner-offer-description">Offer description</label>
+              {/* prettier-ignore */}
+              <textarea id="partner-offer-description" name="partner_offer_description" maxlength="280" rows="3">{values.partner_offer_description}</textarea>
+            </div>
+            <div class="grid">
+              <div class="field">
+                <label for="partner-offer-url">Offer URL (HTTP or HTTPS)</label>
+                <input id="partner-offer-url" name="partner_offer_url" type="url" value={values.partner_offer_url} />
+              </div>
+              <div class="field">
+                <label for="partner-offer-code">Promo code (optional)</label>
+                <input id="partner-offer-code" name="partner_offer_code" maxlength="64" value={values.partner_offer_code} />
+              </div>
+            </div>
+          </section>
+          <section class="panel">
             <div class="field">
               <label for="logo">Business logo (optional)</label>
               <input id="logo" name="logo" type="file" accept="image/webp" aria-describedby="logo-help" />

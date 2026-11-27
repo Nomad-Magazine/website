@@ -1,6 +1,18 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 
-export type ListingPayload = { title: string; description: string; website: string; category: string; location: string; special_offer: string; image: string }
+export type ListingPayload = {
+  title: string
+  description: string
+  website: string
+  category: string
+  location: string
+  special_offer: string
+  image: string
+  partner_offer_title: string
+  partner_offer_description: string
+  partner_offer_url: string
+  partner_offer_code: string
+}
 export type WorkspaceListing = {
   id: string
   owner_id: string
@@ -23,7 +35,35 @@ export type WorkspacePost = {
   version: number
   updated_at: string
 }
-export const emptyListing: ListingPayload = { title: '', description: '', website: '', category: '', location: '', special_offer: '', image: '' }
+export const emptyListing: ListingPayload = {
+  title: '',
+  description: '',
+  website: '',
+  category: '',
+  location: '',
+  special_offer: '',
+  image: '',
+  partner_offer_title: '',
+  partner_offer_description: '',
+  partner_offer_url: '',
+  partner_offer_code: '',
+}
+
+export type PartnershipRequestRow = {
+  id: string
+  listing_id: string
+  public_listing_id: string
+  listing_title: string | null
+  requester_name: string
+  requester_email: string
+  requester_company: string
+  message: string
+  status: string
+  owner_reply: string
+  read_at: string | null
+  created_at: string
+  updated_at: string
+}
 export const textField = (form: FormData, key: string) => String(form.get(key) || '').trim()
 export function workspaceError(error: unknown): string {
   if (error && typeof error === 'object' && 'message' in error) return String(error.message)

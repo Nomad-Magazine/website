@@ -46,6 +46,10 @@ const allListings = [
       category: 'Coliving',
       location: 'Lisboa, Portugal',
       special_offer: '10% off the first month',
+      partner_offer_title: 'Nomad welcome rate',
+      partner_offer_description: 'Partners earn referral credit on every booking.',
+      partner_offer_url: 'https://example.com/harbor-partner/',
+      partner_offer_code: 'HARBOR10',
       image: logo('655f34669bac86d0f943d777.webp'),
     },
     published: {
@@ -55,6 +59,10 @@ const allListings = [
       category: 'Coliving',
       location: 'Lisboa, Portugal',
       special_offer: '10% off the first month',
+      partner_offer_title: 'Nomad welcome rate',
+      partner_offer_description: 'Partners earn referral credit on every booking.',
+      partner_offer_url: 'https://example.com/harbor-partner/',
+      partner_offer_code: 'HARBOR10',
       image: logo('655f34669bac86d0f943d777.webp'),
     },
     status: 'approved',
@@ -276,7 +284,40 @@ function createMock() {
         return
       }
       if (url.pathname === '/rest/v1/rpc/directory_public_listings') {
-        res.end('[]')
+        res.end(
+          JSON.stringify([
+            {
+              id: '655f34669bac86d0f943d777',
+              payload: allListings[0].published,
+            },
+          ]),
+        )
+        return
+      }
+      if (url.pathname === '/rest/v1/rpc/directory_owner_partnership_requests') {
+        res.end(
+          JSON.stringify([
+            {
+              id: '30000000-0000-4000-8000-000000000001',
+              listing_id: allListings[0].id,
+              public_listing_id: '655f34669bac86d0f943d777',
+              listing_title: 'Harbor Coliving Lisboa',
+              requester_name: 'Maya Chen',
+              requester_email: 'maya@example.com',
+              requester_company: 'Remote Weekends',
+              message: 'We run coliving retreats and would love to cross-promote.',
+              status: 'new',
+              owner_reply: '',
+              read_at: null,
+              created_at: '2026-11-26T14:00:00Z',
+              updated_at: '2026-11-26T14:00:00Z',
+            },
+          ]),
+        )
+        return
+      }
+      if (url.pathname === '/rest/v1/rpc/directory_owner_partnership_unread_count') {
+        res.end('1')
         return
       }
       if (url.pathname === '/rest/v1/rpc/directory_award_vote_spike_flags') {
@@ -319,7 +360,7 @@ async function capture(page, name, route, width, height, hooks = {}) {
   applyFixture(hooks.fixture ?? 'multi')
   setAdminRole(hooks.admin ?? false)
   await page.setViewportSize({ width, height })
-  const response = await page.goto(`${base}${route}`, { waitUntil: 'networkidle' })
+  const response = await page.goto(`${base}${route}`, { waitUntil: hooks.waitUntil || 'networkidle', timeout: hooks.timeout || 30000 })
   if (!response || response.status() >= 400) throw new Error(`${route} returned ${response?.status()}`)
   await page.addStyleTag({ content: 'astro-dev-toolbar{display:none!important}' })
   await page.evaluate(() => document.fonts.ready)
@@ -382,7 +423,7 @@ try {
   } catch {}
   await writeFile(devVars, `SUPABASE_URL=http://127.0.0.1:${mockPort}\nSUPABASE_ANON_KEY=${ANON}\n`)
 
-  dev = spawn('bun', ['run', 'dev', '--port', '3000', '--host', '127.0.0.1'], {
+  dev = spawn('npx', ['astro', 'dev', '--port', '3000', '--host', '127.0.0.1'], {
     cwd: root,
     env: { ...process.env, PATH: `${process.env.HOME}/.bun/bin:${process.env.PATH}` },
     stdio: ['ignore', 'pipe', 'pipe'],
@@ -410,6 +451,27 @@ try {
     }
     files.push(await capture(page, 'listings-more-open', '/console/', 1280, 1000, { fixture: 'multi', openMore: true, admin: true }))
     files.push(await capture(page, 'listings-more-open-mobile', '/console/', 390, 1200, { fixture: 'multi', openMore: true, admin: true }))
+  } else if (captureSet === 'partnership-offers') {
+    const listingId = '655f34669bac86d0f943d777'
+    const listingWait = { waitUntil: 'domcontentloaded', timeout: 60000 }
+    files.push(
+      await capture(page, 'listing-offer-1280', `/nomad_directory/l/${listingId}/`, 1280, 1200, listingWait),
+      await capture(page, 'listing-offer-390', `/nomad_directory/l/${listingId}/`, 390, 1400, listingWait),
+      await capture(page, 'console-offer-editor-1280', `/console/directory-submission/?id=${allListings[0].id}`, 1280, 1400),
+      await capture(page, 'console-offer-editor-390', `/console/directory-submission/?id=${allListings[0].id}`, 390, 1600),
+      await capture(page, 'console-partnership-inbox-1280', '/console/partnerships/', 1280, 1200),
+      await capture(page, 'console-partnership-inbox-390', '/console/partnerships/', 390, 1400),
+    )
+    const dialogPage = await context.newPage()
+  await dialogPage.setViewportSize({ width: 1280, height: 900 })
+    await login(context)
+    await dialogPage.goto(`${base}/nomad_directory/l/${listingId}/`, { waitUntil: 'domcontentloaded', timeout: 60000 })
+    await dialogPage.click('[data-partnership-open]')
+    await dialogPage.waitForTimeout(400)
+    const dialogShot = path.join(outDir, 'listing-partnership-form-1280.png')
+    await dialogPage.screenshot({ path: dialogShot, fullPage: false })
+    files.push(dialogShot)
+    await dialogPage.close()
   } else if (captureSet === 'listing-cards' || captureSet === 'pr-54') {
     if (captureSet === 'pr-54') {
       for (const [role, admin] of [

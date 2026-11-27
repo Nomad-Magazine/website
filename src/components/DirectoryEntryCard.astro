@@ -98,9 +98,15 @@ const searchBlob = `${entry.title} ${entry.description} ${entry.category} ${entr
           </div>
         ))
       }
-      {
-        entry.website && (
-          <div class="mt-2">
+      <div class="mt-2 flex flex-wrap items-center gap-3">
+        <a
+          href={`/nomad_directory/l/${entry.id}/`}
+          class="text-xs font-semibold text-yellow-400 hover:text-yellow-300"
+        >
+          Listing details →
+        </a>
+        {
+          entry.website && (
             <a
               href={entry.website}
               target="_blank"
@@ -108,11 +114,11 @@ const searchBlob = `${entry.title} ${entry.description} ${entry.category} ${entr
               aria-label={`Visit ${entry.title} (opens in new tab)`}
               class="text-xs text-blue-300 underline hover:text-blue-200"
             >
-              Visit {entry.title} →
+              Visit website →
             </a>
-          </div>
-        )
-      }
+          )
+        }
+      </div>
     </div>
     </div>
     {votes !== undefined && (
