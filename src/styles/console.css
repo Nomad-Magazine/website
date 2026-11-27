@@ -196,6 +196,11 @@
   border-color: #bbf7d0;
   background: #f0fdf4;
 }
+.owner-console .tag.tag-pending {
+  color: #a16207;
+  border-color: #fde68a;
+  background: #fffbeb;
+}
 .owner-console .tag.tag-live {
   color: #166534;
   border-color: #d9f99d;

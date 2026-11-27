@@ -5,6 +5,7 @@
  *
  * Usage: node scripts/capture-console-screenshots.mjs --phase=before|after --out=pr-assets/pr-53
  *        node scripts/capture-console-screenshots.mjs --set=listing-cards --phase=after --out=pr-assets/pr-54
+ *        node scripts/capture-console-screenshots.mjs --set=pr-54 --phase=after --out=pr-assets/pr-54
  */
 import { createRequire } from 'node:module'
 import { createServer } from 'node:http'
@@ -24,6 +25,8 @@ const outArg = process.argv.find((a) => a.startsWith('--out='))
 const outDir = path.resolve(outArg?.slice(6) ?? path.join(root, 'pr-assets/pr-53'))
 const captureSet = process.argv.find((a) => a.startsWith('--set='))?.slice(6) ?? 'full'
 const indexPath = path.join(root, 'src/pages/console/index.astro')
+const layoutPath = path.join(root, 'src/layouts/console/ConsoleLayout.astro')
+const consoleUiSets = new Set(['listing-cards', 'pr-54'])
 const base = 'http://127.0.0.1:3000'
 const OWNER = '00000000-0000-4000-8000-000000000001'
 const ANON = 'local-test-public-key'
@@ -188,6 +191,12 @@ function applyFixture(mode) {
 
 applyFixture('multi')
 
+let mockIsAdmin = false
+
+function setAdminRole(admin) {
+  mockIsAdmin = admin
+}
+
 function filterRows(rows, search) {
   for (const [key, op] of search) {
     if (key === 'order') continue
@@ -246,7 +255,7 @@ function createMock() {
         return
       }
       if (url.pathname === '/rest/v1/rpc/directory_is_admin') {
-        res.end('true')
+        res.end(mockIsAdmin ? 'true' : 'false')
         return
       }
       if (url.pathname === '/rest/v1/rpc/directory_public_awards') {
@@ -304,6 +313,7 @@ async function login(context) {
 
 async function capture(page, name, route, width, height, hooks = {}) {
   applyFixture(hooks.fixture ?? 'multi')
+  setAdminRole(hooks.admin ?? false)
   await page.setViewportSize({ width, height })
   const response = await page.goto(`${base}${route}`, { waitUntil: 'networkidle' })
   if (!response || response.status() >= 400) throw new Error(`${route} returned ${response?.status()}`)
@@ -331,18 +341,26 @@ let dev
 let mock
 let savedCss
 let savedIndex
+let savedLayout
 let savedDevVars = false
 const files = []
 
 try {
   await mkdir(outDir, { recursive: true })
   const { execFileSync } = await import('node:child_process')
-  if (phase === 'before' && captureSet === 'listing-cards') {
+  if (phase === 'before' && consoleUiSets.has(captureSet)) {
     savedIndex = await readFile(indexPath, 'utf8')
     await writeFile(
       indexPath,
       execFileSync('git', ['show', 'origin/main:src/pages/console/index.astro'], { cwd: root, encoding: 'utf8' }),
     )
+    if (captureSet === 'pr-54') {
+      savedLayout = await readFile(layoutPath, 'utf8')
+      await writeFile(
+        layoutPath,
+        execFileSync('git', ['show', 'origin/main:src/layouts/console/ConsoleLayout.astro'], { cwd: root, encoding: 'utf8' }),
+      )
+    }
   }
   if (phase === 'before' && captureSet === 'full') {
     savedCss = await readFile(consoleCss, 'utf8')
@@ -377,17 +395,35 @@ try {
 
   await login(context)
 
-  if (captureSet === 'listing-cards') {
+  if (captureSet === 'listing-cards' || captureSet === 'pr-54') {
+    if (captureSet === 'pr-54') {
+      for (const [role, admin] of [
+        ['owner', false],
+        ['admin', true],
+      ]) {
+        files.push(await capture(page, `sidebar-${role}`, '/console/', 1280, 1000, { admin, fixture: 'multi' }))
+        files.push(await capture(page, `sidebar-${role}-mobile`, '/console/', 390, 1200, { admin, fixture: 'multi' }))
+      }
+      if (phase === 'after') {
+        for (const [name, route] of [
+          ['boost', '/console/boost/'],
+          ['partnerships', '/console/partnerships/'],
+        ]) {
+          files.push(await capture(page, name, route, 1280, 1000))
+          files.push(await capture(page, `${name}-mobile`, route, 390, 1200))
+        }
+      }
+    }
     for (const [name, fixture] of [
       ['listings-multi', 'multi'],
       ['listings-single', 'single'],
     ]) {
-      files.push(await capture(page, name, '/console/', 1280, 1000, { fixture }))
-      files.push(await capture(page, `${name}-mobile`, '/console/', 390, 1200, { fixture }))
+      files.push(await capture(page, name, '/console/', 1280, 1000, { fixture, admin: false }))
+      files.push(await capture(page, `${name}-mobile`, '/console/', 390, 1200, { fixture, admin: false }))
     }
     if (phase === 'after') {
-      files.push(await capture(page, 'listings-more-open', '/console/', 1280, 1000, { fixture: 'multi', openMore: true }))
-      files.push(await capture(page, 'listings-more-open-mobile', '/console/', 390, 1200, { fixture: 'multi', openMore: true }))
+      files.push(await capture(page, 'listings-more-open', '/console/', 1280, 1000, { fixture: 'multi', openMore: true, admin: false }))
+      files.push(await capture(page, 'listings-more-open-mobile', '/console/', 390, 1200, { fixture: 'multi', openMore: true, admin: false }))
     }
   } else {
     for (const [name, route] of routes) {
@@ -401,6 +437,7 @@ try {
   if (dev && !dev.killed) dev.kill('SIGTERM')
   if (mock) await new Promise((r) => mock.close(r))
   if (savedIndex) await writeFile(indexPath, savedIndex)
+  if (savedLayout) await writeFile(layoutPath, savedLayout)
   if (phase === 'before' && savedCss) await writeFile(consoleCss, savedCss)
   if (savedDevVars) await copyFile(`${devVars}.capture-bak`, devVars).then(() => unlink(`${devVars}.capture-bak`))
   else {

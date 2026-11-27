@@ -21,10 +21,14 @@ try {
   error = workspaceError(err)
 }
 const directory = await getDirectoryEntries()
+const { data: isAdmin } = await supabase.rpc('directory_is_admin')
 
 function listingStatusChip(listing: WorkspaceListing) {
-  if (listing.review_notes?.trim() && listing.status === 'pending') {
+  if (listing.status === 'rejected' || (listing.status === 'pending' && listing.review_notes?.trim())) {
     return { label: 'Changes requested', tone: 'changes' }
+  }
+  if (listing.status === 'pending' && listing.published) {
+    return { label: 'Live · Update in review', tone: 'pending' }
   }
   if (listing.status === 'pending') return { label: 'In review', tone: 'pending' }
   if (listing.published && listing.status === 'approved') return { label: 'Live', tone: 'live' }
@@ -133,9 +137,13 @@ const hasListings = listings.length > 0
                 More
               </button>
               <div class="console-more-menu" id={`more-menu-${listing.id}`} role="menu" aria-labelledby={`more-trigger-${listing.id}`} hidden>
-                <a role="menuitem" href={`/console/updates/?listing=${listing.id}`}>
-                  Post an update
-                </a>
+                {
+                  isAdmin && (
+                    <a role="menuitem" href={`/console/updates/?listing=${listing.id}`}>
+                      Post an update
+                    </a>
+                  )
+                }
                 <a role="menuitem" href={`/console/affiliates/?listing=${listing.id}`}>
                   Share an affiliate programme
                 </a>
@@ -203,7 +211,7 @@ const hasListings = listings.length > 0
   })
 
   document.addEventListener('click', (event) => {
-  if ((event.target as Element).closest('[data-console-more]')) return
+    if ((event.target as Element).closest('[data-console-more]')) return
     document.querySelectorAll<HTMLElement>('[data-console-more]').forEach(closeMenu)
   })
 
