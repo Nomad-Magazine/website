@@ -15,7 +15,7 @@ const showSpotlight = listings.length >= 4
 
 {showSpotlight && (
 <section
-  class="directory-spotlight mb-6"
+  class="directory-spotlight mb-8"
   aria-labelledby="directory-spotlight-heading"
   data-directory-spotlight>
   <div class="mb-3 flex flex-wrap items-end justify-between gap-2">
@@ -30,16 +30,16 @@ const showSpotlight = listings.length >= 4
     </a>
   </div>
 
-  <div class="relative min-h-[19.5rem]">
+  <div class="relative min-h-[19.5rem] md:min-h-[38rem] lg:min-h-[19.5rem]">
     <div
       id="directory-spotlight-track"
-      class="directory-spotlight-track -mx-1 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-1 pl-1 pr-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      class="directory-spotlight-track -mx-1 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-1 pl-1 pr-4 max-md:[scrollbar-width:none] max-md:[&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:grid-cols-2 md:gap-4 md:overflow-visible md:pb-0 md:pl-0 md:pr-0 md:snap-none lg:grid-cols-4"
       role="list"
       aria-busy="true"
       aria-label="Featured directory listings">
       {Array.from({ length: 4 }).map(() => (
         <div
-          class="w-[min(82vw,17.5rem)] shrink-0 snap-start overflow-hidden rounded-2xl border border-white/10 bg-white/5"
+          class="w-[min(82vw,17.5rem)] shrink-0 snap-start overflow-hidden rounded-2xl border border-white/10 bg-white/5 max-md:last:mr-1 md:w-auto md:shrink md:snap-align-none"
           aria-hidden="true">
           <div class="aspect-8/5 w-full bg-white/5"></div>
           <div class="space-y-2 p-3">
@@ -108,7 +108,7 @@ const showSpotlight = listings.length >= 4
       <a
         href="${esc(href)}"
         role="listitem"
-        class="group flex w-[min(82vw,17.5rem)] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition-colors hover:border-yellow-400/40 hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:outline-none"
+        class="group flex w-[min(82vw,17.5rem)] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition-colors hover:border-yellow-400/40 hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:outline-none max-md:last:mr-1 md:w-auto md:min-w-0 md:shrink md:snap-align-none"
         aria-label="${esc(`${item.title} — ${item.category}`)}">
         <div class="relative aspect-8/5 w-full overflow-hidden bg-black/40">
           <span class="absolute top-2 left-2 z-10 rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wide uppercase ${labelClass}">${label}</span>
@@ -153,7 +153,7 @@ const showSpotlight = listings.length >= 4
       root.remove()
     } else {
       const chosen = selectSpotlight(payload)
-      track.innerHTML = chosen.map(renderCard).join('')
+      track.innerHTML = chosen.map((item) => renderCard(item)).join('')
       track.setAttribute('aria-busy', 'false')
     }
   }

@@ -96,6 +96,8 @@ const seo: SEOProps = {
     <!-- Main layout: left filters + right listings -->
     <section class="pb-20 pt-2">
       <div class="container mx-auto px-4 max-w-7xl">
+        <DirectorySpotlightRow listings={spotlightListings} pageType="all" />
+
         <!-- Stats + Sort bar (above both columns) -->
         <div class="flex items-center justify-between mb-4">
           <span class="text-sm text-gray-400" role="status" aria-live="polite"><span class="text-yellow-400 font-bold text-xl" id="stat-showing">{total}</span> <span id="stat-label">{total === 1 ? 'result' : 'results'}</span></span>
@@ -238,8 +240,6 @@ const seo: SEOProps = {
             <div id="active-filters" class="hidden flex-wrap gap-2 mb-4 items-center">
               <span class="text-xs text-gray-400">Filters:</span>
             </div>
-
-            <DirectorySpotlightRow listings={spotlightListings} pageType="all" />
 
             <!-- Cards -->
             <div id="directory-container" class="space-y-4">{entries.map(entry => <DirectoryEntryCard entry={entry} updates={updates.filter(update => update.listing_id === entry.id)} {...(showVotesOnMain ? { votes: 0 } : {})} />)}</div>

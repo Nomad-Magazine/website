@@ -219,6 +219,12 @@ const seo: SEOProps = {
     <!-- Main layout -->
     <section class="pb-20">
       <div class="container mx-auto px-4 max-w-7xl">
+        <DirectorySpotlightRow
+          listings={spotlightListings}
+          pageType={type as 'category' | 'country' | 'continent'}
+          filterValue={filterValue}
+        />
+
         <div class="flex flex-col lg:flex-row gap-8 items-stretch lg:items-start">
 
           <!-- LEFT SIDEBAR -->
@@ -374,12 +380,6 @@ const seo: SEOProps = {
               data-page-type={type}
               aria-hidden="true"
             ></div>
-
-            <DirectorySpotlightRow
-              listings={spotlightListings}
-              pageType={type as 'category' | 'country' | 'continent'}
-              filterValue={filterValue}
-            />
 
             <div id="directory-container" class="space-y-4">
               {pageEntries.map(entry => {
