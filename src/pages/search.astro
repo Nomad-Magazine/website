@@ -37,7 +37,7 @@ const seo: SEOProps = {
         Find articles, blog posts, guides, and pages across Nomad Magazine.
       </p>
       <div class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
-        <PagefindSearch id="site-search" query={initialQuery} className="pagefind-ui-custom" />
+        <PagefindSearch id="site-search" query={initialQuery} className="pagefind-ui-custom" uiOptions={{ showSubResults: true }} />
       </div>
     </div>
   </div>
@@ -62,3 +62,31 @@ const seo: SEOProps = {
     color: rgb(202 138 4);
   }
 </style>
+
+<script>
+  import { cleanSearchExcerptDom } from '~/utils/clean-search-excerpt'
+
+  function patchPagefindExcerpts() {
+    document.querySelectorAll('[data-pagefind-ui]').forEach((container) => {
+      if (container.getAttribute('data-pagefind-excerpt-patched') === 'true') return
+      container.setAttribute('data-pagefind-excerpt-patched', 'true')
+      const cleanExcerpts = () => {
+        container.querySelectorAll('.pagefind-ui__result-excerpt:not([data-excerpt-cleaned])').forEach((node) => {
+          if (!(node instanceof HTMLElement)) return
+          cleanSearchExcerptDom(node)
+          node.setAttribute('data-excerpt-cleaned', 'true')
+        })
+      }
+      const observer = new MutationObserver(() => cleanExcerpts())
+      observer.observe(container, { childList: true, subtree: true })
+      cleanExcerpts()
+    })
+  }
+
+  document.addEventListener('astro:page-load', patchPagefindExcerpts)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', patchPagefindExcerpts)
+  } else {
+    patchPagefindExcerpts()
+  }
+</script>

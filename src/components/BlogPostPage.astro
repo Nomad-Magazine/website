@@ -65,10 +65,10 @@ const seo: SEOProps = {
 ---
 
 <Layout seo={seo}>
-  <main>
+  <div class="relative z-0">
     {
       post.data.heroImage ? (
-        <section class="relative h-[560px]">
+        <section class="relative z-0 h-[560px]" data-pagefind-ignore="all">
           <img fetchpriority="high" src={post.data.heroImage} alt={post.data.heroImageAlt || post.data.title} class="absolute inset-0 h-full w-full object-cover" />
           <div class="absolute inset-0 bg-black/50" />
           <div class="relative mx-auto flex h-full max-w-4xl flex-col items-center justify-center px-8 text-center text-white">
@@ -93,7 +93,7 @@ const seo: SEOProps = {
 
     <div class="relative px-4 py-16">
       <div class="mx-auto flex max-w-7xl gap-12">
-        <aside class="hidden lg:block lg:w-48">
+        <aside class="hidden lg:block lg:w-48" data-pagefind-ignore="all">
           <div class="sticky top-8 space-y-6 text-sm">
             <div>
               <div class="mb-2 text-xs font-bold uppercase tracking-wider text-gray-500">Content</div>
@@ -127,13 +127,13 @@ const seo: SEOProps = {
         </aside>
 
         <div class="mx-auto w-full max-w-3xl flex-1">
-          <article class="prose prose-lg mx-auto max-w-none prose-headings:text-gray-900 prose-p:text-gray-900 prose-a:text-blue-600 prose-strong:text-gray-900 prose-li:text-gray-900 prose-em:text-gray-700">
+          <article class="prose prose-lg mx-auto max-w-none prose-headings:text-gray-900 prose-p:text-gray-900 prose-a:text-blue-600 prose-strong:text-gray-900 prose-li:text-gray-900 prose-em:text-gray-700" data-pagefind-body>
             <Content />
           </article>
 
           {
             finalRelatedPosts.length > 0 && (
-              <section class="mt-16 border-t border-gray-200 pt-12">
+              <section class="mt-16 border-t border-gray-200 pt-12" data-pagefind-ignore="all">
                 <h2 class="text-2xl font-semibold text-gray-900">Related Articles</h2>
                 <div class="mt-6 grid gap-6 sm:grid-cols-3">
                   {finalRelatedPosts.map((relatedPost: typeof post) => (
@@ -153,11 +153,11 @@ const seo: SEOProps = {
             )
           }
 
-          <div class="mt-16 grid gap-6 border-t border-gray-200 pt-12 sm:grid-cols-2">
+          <div class="mt-16 grid gap-6 border-t border-gray-200 pt-12 sm:grid-cols-2" data-pagefind-ignore="all">
             <SidebarMagazineDirectory />
           </div>
         </div>
       </div>
     </div>
-  </main>
+  </div>
 </Layout>
