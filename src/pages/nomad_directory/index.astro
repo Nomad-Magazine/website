@@ -610,6 +610,16 @@ const seo: SEOProps = {
     return names;
   }
 
+  function resolveCountryParam(raw) {
+    const trimmed = String(raw || '').trim();
+    if (!trimmed) return '';
+    const lower = trimmed.toLowerCase();
+    for (const name of allCountryNames()) {
+      if (name.toLowerCase() === lower) return name;
+    }
+    return '';
+  }
+
   function renderCountryFilter() {
     const list = document.getElementById('country-list');
     const section = document.getElementById('country-filter-section');
@@ -787,8 +797,8 @@ const seo: SEOProps = {
     const sortParam = params.get('sort') || 'default';
     if (sortParam === 'az' || sortParam === 'za') currentSort = sortParam;
     if (sortSel) sortSel.value = currentSort;
-    const countryParam = params.get('country') || '';
-    if (countryParam) currentCountry = countryParam;
+    const resolvedCountry = resolveCountryParam(params.get('country') || '');
+    if (resolvedCountry) currentCountry = resolvedCountry;
     const initial = parseInt(params.get('page') || '1', 10);
     if (initial > 1) currentPage = initial;
     applyFilters(false);
