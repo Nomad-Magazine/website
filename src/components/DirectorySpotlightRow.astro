@@ -39,7 +39,7 @@ const showSpotlight = listings.length >= 4
       aria-label="Featured directory listings">
       {Array.from({ length: 4 }).map(() => (
         <div
-          class="w-[min(82vw,17.5rem)] shrink-0 snap-start overflow-hidden rounded-2xl border border-white/10 bg-white/5 max-md:last:mr-1 md:w-auto md:shrink md:snap-align-none"
+          class="w-[min(82vw,17.5rem)] shrink-0 snap-start overflow-hidden rounded-2xl border border-white/10 bg-white/5 max-md:last:mr-1 md:w-auto md:shrink md:snap-none"
           aria-hidden="true">
           <div class="aspect-8/5 w-full bg-white/5"></div>
           <div class="space-y-2 p-3">
@@ -97,18 +97,24 @@ const showSpotlight = listings.length >= 4
       .replace(/"/g, '&quot;')
   }
 
+  function listingHref(id: string): string {
+    return document.getElementById(`listing-${id}`)
+      ? `#listing-${id}`
+      : `/nomad_directory/#listing-${id}`
+  }
+
   function renderCard(item: SpotlightListing): string {
     const label = isSpotlightListingNew(item.addedAt) ? 'NEW' : 'FEATURED'
     const labelClass =
       label === 'NEW'
         ? 'bg-emerald-500/90 text-black'
         : 'bg-yellow-400/95 text-black'
-    const href = `#listing-${item.id}`
+    const href = listingHref(item.id)
     return `
       <a
         href="${esc(href)}"
         role="listitem"
-        class="group flex w-[min(82vw,17.5rem)] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition-colors hover:border-yellow-400/40 hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:outline-none max-md:last:mr-1 md:w-auto md:min-w-0 md:shrink md:snap-align-none"
+        class="group flex w-[min(82vw,17.5rem)] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition-colors hover:border-yellow-400/40 hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:outline-none max-md:last:mr-1 md:w-auto md:min-w-0 md:shrink md:snap-none"
         aria-label="${esc(`${item.title} — ${item.category}`)}">
         <div class="relative aspect-8/5 w-full overflow-hidden bg-black/40">
           <span class="absolute top-2 left-2 z-10 rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wide uppercase ${labelClass}">${label}</span>
