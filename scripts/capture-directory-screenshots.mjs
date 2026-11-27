@@ -6,6 +6,7 @@ import sharp from 'sharp'
 const CACHE_PATH = 'src/utils/nomad_cache_table_6857167d82358a0f5e038c3f.json'
 const OUT_DIR = 'public/images/directory-shots'
 const MANIFEST_PATH = 'src/utils/directory-screenshots.json'
+const EXCLUSIONS_PATH = 'src/utils/directory-screenshots-exclusions.json'
 const VIEWPORT = { width: 800, height: 500 }
 const SITE_TIMEOUT_MS = 15_000
 const NETWORK_IDLE_MS = 5_000
@@ -166,6 +167,14 @@ async function loadManifest() {
   }
 }
 
+async function loadExclusions() {
+  try {
+    return JSON.parse(await readFile(EXCLUSIONS_PATH, 'utf8'))
+  } catch {
+    return {}
+  }
+}
+
 async function fileExists(filePath) {
   try {
     await access(filePath)
@@ -280,9 +289,20 @@ async function consentOverlayStillVisible(page) {
 async function runConsentFlow(page, timeLeft) {
   await dismissCookieBanners(page)
   await page.waitForTimeout(Math.min(700, timeLeft()))
-  await dismissCookieBanners(page)
-  await page.waitForTimeout(Math.min(500, timeLeft()))
-  await clickConsentInShadowDom(page)
+  if (await consentOverlayStillVisible(page)) {
+    await dismissCookieBanners(page)
+    await page.waitForTimeout(Math.min(800, timeLeft()))
+    await clickConsentInShadowDom(page)
+    await page.waitForTimeout(Math.min(400, timeLeft()))
+    if (await consentOverlayStillVisible(page)) return 'consent-wall'
+  } else {
+    await dismissCookieBanners(page)
+    await clickConsentInShadowDom(page)
+    await page.waitForTimeout(Math.min(300, timeLeft()))
+  }
+  const combined = await allFrameText(page)
+  if (/manage consent/i.test(combined)) return 'manage-consent-visible'
+  return null
 }
 
 async function detectPageBlockers(page) {
@@ -336,6 +356,28 @@ async function detectPageBlockers(page) {
     }
 
     if (/cf-turnstile|challenges\.cloudflare\.com|turnstile/i.test(document.documentElement.innerHTML)) return 'turnstile-widget'
+
+    const overlayAreaMin = vw * vh * 0.25
+    for (const el of document.body.querySelectorAll('*')) {
+      const style = getComputedStyle(el)
+      if (!['fixed', 'absolute'].includes(style.position)) continue
+      if (style.display === 'none' || style.visibility === 'hidden') continue
+      const opacity = Number.parseFloat(style.opacity)
+      if (!Number.isNaN(opacity) && opacity < 0.08) continue
+      const rect = el.getBoundingClientRect()
+      const area = rect.width * rect.height
+      if (area < overlayAreaMin) continue
+      const role = el.getAttribute('role')
+      const z = Number.parseInt(style.zIndex, 10)
+      const dialogLike = role === 'dialog' || role === 'alertdialog'
+      const centered =
+        rect.width >= vw * 0.45 &&
+        rect.height >= vh * 0.35 &&
+        rect.left <= vw * 0.3 &&
+        rect.right >= vw * 0.7
+      const highStack = !Number.isNaN(z) && z >= 50
+      if (dialogLike || centered || highStack) return 'viewport-overlay'
+    }
 
     return null
   })
@@ -424,9 +466,15 @@ function withHardTimeout(promise, ms, label) {
   ])
 }
 
-async function captureOne(browser, listing, manifest, refresh, excluded) {
+async function captureOne(browser, listing, manifest, exclusions, refresh, excluded) {
   const relFile = `/images/directory-shots/${listing.id}.webp`
   const dest = path.join(OUT_DIR, `${listing.id}.webp`)
+  const retryExcluded = process.argv.includes('--retry-excluded')
+
+  if (exclusions[listing.id] && !retryExcluded) {
+    await removeCapture(listing.id, manifest)
+    return { status: 'skipped-excluded' }
+  }
 
   if (!refresh && (await fileExists(dest)) && manifest[listing.id]?.file === relFile) {
     return { status: 'skipped' }
@@ -458,7 +506,8 @@ async function captureOne(browser, listing, manifest, refresh, excluded) {
         if (consentReason) return { status: 'failed', rejectReason: consentReason }
 
         await page.waitForTimeout(Math.min(SETTLE_MS, timeLeft()))
-        await runConsentFlow(page, timeLeft)
+        const consentReason2 = await runConsentFlow(page, timeLeft)
+        if (consentReason2) return { status: 'failed', rejectReason: consentReason2 }
 
         const loadingReason = await waitPastLoadingShell(page, timeLeft)
         if (loadingReason) return { status: 'failed', rejectReason: loadingReason }
@@ -489,6 +538,7 @@ async function captureOne(browser, listing, manifest, refresh, excluded) {
         }
 
         await writeFile(dest, webp)
+        delete exclusions[listing.id]
         manifest[listing.id] = {
           file: relFile,
           capturedAt: new Date().toISOString(),
@@ -502,6 +552,7 @@ async function captureOne(browser, listing, manifest, refresh, excluded) {
 
     if (captured.status === 'failed' && captured.rejectReason) {
       await removeCapture(listing.id, manifest)
+      exclusions[listing.id] = { reason: captured.rejectReason, excludedAt: new Date().toISOString() }
       excluded[listing.id] = captured.rejectReason
       console.warn(`Rejected ${listing.id} (${listing.title}): ${captured.rejectReason}`)
       return { status: 'failed' }
@@ -510,7 +561,9 @@ async function captureOne(browser, listing, manifest, refresh, excluded) {
   } catch (error) {
     await removeCapture(listing.id, manifest)
     const message = error instanceof Error ? error.message : String(error)
-    excluded[listing.id] = `error:${message.split('\n')[0].slice(0, 120)}`
+    const reason = `error:${message.split('\n')[0].slice(0, 120)}`
+    exclusions[listing.id] = { reason, excludedAt: new Date().toISOString() }
+    excluded[listing.id] = reason
     console.warn(`Screenshot failed for ${listing.id} (${listing.title}): ${message.split('\n')[0]}`)
     return { status: 'failed' }
   } finally {
@@ -518,11 +571,11 @@ async function captureOne(browser, listing, manifest, refresh, excluded) {
   }
 }
 
-async function runPool(browser, queue, manifest, refresh, stats, excluded) {
+async function runPool(browser, queue, manifest, exclusions, refresh, stats, excluded) {
   for (;;) {
     const listing = queue.pop()
     if (!listing) return
-    const result = await captureOne(browser, listing, manifest, refresh, excluded)
+    const result = await captureOne(browser, listing, manifest, exclusions, refresh, excluded)
     stats[result.status] = (stats[result.status] || 0) + 1
     if (stats.ok && stats.ok % 25 === 0) {
       console.log(`Progress: ${stats.ok} saved, ${stats.failed || 0} failed, ${stats.unchanged || 0} unchanged`)
@@ -535,14 +588,17 @@ async function main() {
   await mkdir(OUT_DIR, { recursive: true })
   const listings = await loadListings()
   const manifest = await loadManifest()
-  const stats = { ok: 0, failed: 0, skipped: 0, unchanged: 0 }
+  const exclusions = await loadExclusions()
+  const stats = { ok: 0, failed: 0, skipped: 0, unchanged: 0, 'skipped-excluded': 0 }
   const excluded = {}
   const queue = [...listings]
 
   console.log(`Capturing ${listings.length} directory websites (concurrency ${CONCURRENCY}, timeout ${SITE_TIMEOUT_MS}ms)`)
   const browser = await chromium.launch({ headless: true })
   try {
-    await Promise.all(Array.from({ length: CONCURRENCY }, () => runPool(browser, queue, manifest, refresh, stats, excluded)))
+    await Promise.all(
+      Array.from({ length: CONCURRENCY }, () => runPool(browser, queue, manifest, exclusions, refresh, stats, excluded)),
+    )
   } finally {
     await browser.close()
   }
@@ -557,9 +613,10 @@ async function main() {
   }
 
   await writeFile(MANIFEST_PATH, `${JSON.stringify(manifest, null, 2)}\n`)
+  await writeFile(EXCLUSIONS_PATH, `${JSON.stringify(exclusions, null, 2)}\n`)
   const good = Object.keys(manifest).length
   console.log(
-    `Done: ${stats.ok || 0} saved, ${stats.unchanged || 0} unchanged, ${stats.failed || 0} failed, ${stats.skipped || 0} skipped, manifest ${good} good`,
+    `Done: ${stats.ok || 0} saved, ${stats.unchanged || 0} unchanged, ${stats.failed || 0} failed, ${stats.skipped || 0} skipped, ${stats['skipped-excluded'] || 0} skipped-excluded, manifest ${good} good, exclusions ${Object.keys(exclusions).length}`,
   )
   if (Object.keys(excluded).length) {
     console.log('Excluded by reason:', JSON.stringify(excluded, null, 2))
