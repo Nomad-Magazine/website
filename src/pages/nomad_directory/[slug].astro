@@ -287,6 +287,15 @@ const seo: SEOProps = {
                 )}
               </div>
 
+              {type === 'category' && (
+                <div id="country-filter-section">
+                  <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Filter by Country</p>
+                  <div id="country-list" class="space-y-1 max-h-40 md:max-h-64 overflow-y-auto pr-1" style="scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.2) transparent;">
+                    <!-- populated by JS -->
+                  </div>
+                </div>
+              )}
+
               <!-- Share -->
               <div class="pt-2 border-t border-white/10">
                 <p class="text-xs text-gray-500 mb-2">Share this directory</p>
@@ -323,14 +332,6 @@ const seo: SEOProps = {
                     <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                     Newsletter
                   </a>
-                </div>
-              </div>
-
-              <!-- Country Filter -->
-              <div id="country-filter-section">
-                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Filter by Country</p>
-                <div id="country-list" class="space-y-1 max-h-40 md:max-h-64 overflow-y-auto pr-1" style="scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.2) transparent;">
-                  <!-- populated by JS -->
                 </div>
               </div>
 
