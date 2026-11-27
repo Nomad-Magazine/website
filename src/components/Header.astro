@@ -19,13 +19,13 @@ const navLinks = [
 ]
 ---
 
-<header class="relative z-120 bg-white">
+<header class="relative z-[120] bg-white" data-pagefind-ignore="all">
   <div class="mx-auto max-w-7xl px-4">
     <div class="flex items-center justify-between py-8">
       <!-- Logo and Navigation -->
       <div class="flex items-center space-x-10">
         <a href="/" aria-label="Nomad Magazine Home" class="text-4xl font-black tracking-tighter text-gray-900">
-          <img decoding="async" loading="lazy" src="/logo.svg" alt="Nomad Magazine" class="h-6" />
+          <img decoding="async" loading="eager" fetchpriority="high" src="/logo.svg" alt="Nomad Magazine" class="h-6 w-auto" width="81" height="22" />
         </a>
         <nav class="hidden space-x-10 lg:flex">
           <div class="relative">
