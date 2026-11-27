@@ -4,7 +4,7 @@ import { readPublicDirectory, type PublicUpdate } from '~/utils/directory-public
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import DirectoryEntryCard from '~/components/DirectoryEntryCard.astro'
 import { DIRECTORY_VOTING_PAGES } from '~/const/directoryVoting'
-import { getDirectoryEntries, getDirectoryCategories, directoryCategoryUrl } from '~/utils/directory'
+import { getDirectoryEntries, getDirectoryCategories } from '~/utils/directory'
 import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
 
 const [managedEntries, updates] = await Promise.all([
@@ -95,36 +95,36 @@ const seo: SEOProps = {
       <div class="container mx-auto px-4 max-w-5xl">
         <p class="text-center text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Browse by need</p>
         <div class="flex flex-wrap justify-center gap-2">
-          <a href={directoryCategoryUrl('Events')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>🗓</span> Events
-          </a>
-          <a href={directoryCategoryUrl('Coliving')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>🏠</span> Coliving
-          </a>
-          <a href={directoryCategoryUrl('Platform')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>🌐</span> Platforms
-          </a>
-          <a href={directoryCategoryUrl('App')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>📱</span> Apps
-          </a>
-          <a href={directoryCategoryUrl('Legal & Taxes')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>⚖️</span> Legal & Taxes
-          </a>
-          <a href={directoryCategoryUrl('Insurance')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>🛡</span> Insurance
-          </a>
-          <a href={directoryCategoryUrl('Community Platform')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>👥</span> Community
-          </a>
-          <a href={directoryCategoryUrl('Blog')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>✍️</span> Blogs
-          </a>
-          <a href={directoryCategoryUrl('eSim')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>📡</span> eSIM
-          </a>
-          <a href={directoryCategoryUrl('Coworking')} class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
-            <span>💻</span> Coworking
-          </a>
+          <button type="button" data-cat="Events" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+            <span aria-hidden="true">🗓</span> Events
+          </button>
+          <button type="button" data-cat="Coliving" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+            <span aria-hidden="true">🏠</span> Coliving
+          </button>
+          <button type="button" data-cat="Platform" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+            <span aria-hidden="true">🌐</span> Platforms
+          </button>
+          <button type="button" data-cat="App" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+            <span aria-hidden="true">📱</span> Apps
+          </button>
+          <button type="button" data-cat="Legal & Taxes" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+            <span aria-hidden="true">⚖️</span> Legal & Taxes
+          </button>
+          <button type="button" data-cat="Insurance" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+            <span aria-hidden="true">🛡</span> Insurance
+          </button>
+          <button type="button" data-cat="Community Platform" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+            <span aria-hidden="true">👥</span> Community
+          </button>
+          <button type="button" data-cat="Blog" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+            <span aria-hidden="true">✍️</span> Blogs
+          </button>
+          <button type="button" data-cat="eSim" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+            <span aria-hidden="true">📡</span> eSIM
+          </button>
+          <button type="button" data-cat="Coworking" class="quick-btn flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-yellow-400/15 border border-white/10 hover:border-yellow-400/40 rounded-xl text-sm text-gray-300 hover:text-yellow-400 transition-all duration-200">
+            <span aria-hidden="true">💻</span> Coworking
+          </button>
         </div>
       </div>
     </section>
@@ -169,17 +169,7 @@ const seo: SEOProps = {
               <!-- Category filters -->
               <div>
                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Category</p>
-                <div class="space-y-1 max-h-96 overflow-y-auto pr-1" style="scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.2) transparent;">
-                  <button class="cat-btn active w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-all bg-yellow-400 text-black" data-cat="all">
-                    <span>All Categories</span>
-                    <span class="text-xs opacity-70">{total}</span>
-                  </button>
-                  {categories.map(([cat, count]) => (
-                    <a href={directoryCategoryUrl(cat)} class="cat-btn w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-all" data-cat={cat}>
-                      <span>{cat}</span>
-                      <span class="text-xs text-gray-400">{count}</span>
-                    </a>
-                  ))}
+                <div id="category-list" class="space-y-1 max-h-96 overflow-y-auto pr-1" style="scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.2) transparent;">
                 </div>
               </div>
 
@@ -463,11 +453,73 @@ const seo: SEOProps = {
     if (statLabel) statLabel.textContent = filtered.length === 1 ? 'result' : 'results';
   }
 
-  function itemsForCountryCounts() {
+  function itemsMatchingFilters(opts) {
+    const skipCat = opts && opts.skipCat;
+    const skipCountry = opts && opts.skipCountry;
+    const skipSearch = opts && opts.skipSearch;
     return allItems.filter(item => {
-      if (currentCat !== 'all' && item.category !== currentCat) return false;
-      if (currentSearch && !item.searchText.includes(currentSearch)) return false;
+      if (!skipCat && currentCat !== 'all' && item.category !== currentCat) return false;
+      if (!skipCountry && currentCountry && item.country !== currentCountry) return false;
+      if (!skipSearch && currentSearch && !item.searchText.includes(currentSearch)) return false;
       return true;
+    });
+  }
+
+  function itemsForCountryCounts() {
+    return itemsMatchingFilters({ skipCountry: true });
+  }
+
+  function itemsForCategoryCounts() {
+    return itemsMatchingFilters({ skipCat: true });
+  }
+
+  function catBtnClass(active) {
+    return 'cat-btn w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-all ' +
+      (active ? 'bg-yellow-400 text-black' : 'text-gray-300 hover:text-white hover:bg-white/10');
+  }
+
+  function allCategoryNames() {
+    const names = new Set();
+    for (const item of allItems) {
+      if (item.category) names.add(item.category);
+    }
+    return names;
+  }
+
+  function renderCategoryFilter() {
+    const list = document.getElementById('category-list');
+    if (!list) return;
+    const base = itemsForCategoryCounts();
+    const counts = new Map();
+    for (const item of base) {
+      if (!item.category) continue;
+      counts.set(item.category, (counts.get(item.category) || 0) + 1);
+    }
+    const allNames = allCategoryNames();
+    const sorted = [...allNames].sort((a, b) => {
+      const diff = (counts.get(b) || 0) - (counts.get(a) || 0);
+      return diff !== 0 ? diff : a.localeCompare(b);
+    });
+    list.innerHTML = '';
+    const allBtn = document.createElement('button');
+    allBtn.type = 'button';
+    allBtn.className = catBtnClass(currentCat === 'all');
+    allBtn.dataset.cat = 'all';
+    allBtn.innerHTML = '<span>All Categories</span><span class="text-xs opacity-70">' + base.length + '</span>';
+    allBtn.addEventListener('click', () => selectCat('all'));
+    list.appendChild(allBtn);
+    sorted.forEach((cat) => {
+      const cnt = counts.get(cat) || 0;
+      if (!cnt && cat !== currentCat) return;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      const disabled = cnt === 0 && cat !== currentCat;
+      btn.className = catBtnClass(currentCat === cat) + (disabled ? ' opacity-50' : '');
+      btn.dataset.cat = cat;
+      btn.disabled = disabled;
+      btn.innerHTML = '<span>' + esc(cat) + '</span><span class="text-xs ' + (currentCat === cat ? 'opacity-70' : 'text-gray-400') + '">' + cnt + '</span>';
+      if (!disabled) btn.addEventListener('click', () => selectCat(cat));
+      list.appendChild(btn);
     });
   }
 
@@ -530,6 +582,7 @@ const seo: SEOProps = {
 
   function selectCountry(country) {
     currentCountry = country;
+    renderCategoryFilter();
     renderCountryFilter();
     applyFilters();
   }
@@ -546,31 +599,16 @@ const seo: SEOProps = {
     if (resetPage !== false) currentPage = 1;
     if (currentPage > pageCount()) currentPage = pageCount();
     renderGrid();
+    renderCategoryFilter();
     renderCountryFilter();
     document.dispatchEvent(new Event('directory:render'));
     syncPageUrl();
     updateActiveFilters();
   }
 
-  function toSlug(str) {
-    return str.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-  }
-
   function selectCat(cat) {
-    if (cat && cat !== 'all') {
-      window.location.href = '/nomad_directory/' + toSlug(cat) + '/';
-      return;
-    }
-    currentCat = 'all';
-    document.querySelectorAll('.cat-btn').forEach(btn => {
-      const active = btn.dataset.cat === 'all';
-      btn.classList.toggle('active', active);
-      btn.classList.toggle('bg-yellow-400', active);
-      btn.classList.toggle('text-black', active);
-      btn.classList.toggle('font-semibold', active);
-      btn.classList.toggle('text-gray-300', !active);
-      btn.classList.toggle('hover:bg-white/10', !active);
-    });
+    currentCat = cat && cat !== 'all' ? cat : 'all';
+    renderCategoryFilter();
     applyFilters();
   }
 
@@ -613,9 +651,7 @@ const seo: SEOProps = {
   }
 
   window.quickFilter = function(cat) {
-    if (cat && cat !== 'all') {
-      window.location.href = '/nomad_directory/' + toSlug(cat) + '/';
-    }
+    if (cat) selectCat(cat);
   };
 
   window.clearSearch = function() { currentSearch=''; const si=document.getElementById('search-input'); if(si)si.value=''; applyFilters(); };
@@ -634,17 +670,27 @@ const seo: SEOProps = {
 
   function init() {
     const si = document.getElementById('search-input');
-    if (si) si.addEventListener('input', e => { currentSearch = e.target.value.toLowerCase().trim(); renderCountryFilter(); applyFilters(); });
+    if (si) si.addEventListener('input', e => {
+      currentSearch = e.target.value.toLowerCase().trim();
+      renderCategoryFilter();
+      renderCountryFilter();
+      applyFilters();
+    });
 
-    document.querySelectorAll('.cat-btn').forEach(btn => {
-      btn.addEventListener('click', () => selectCat(btn.dataset.cat));
+    document.querySelectorAll('.quick-btn[data-cat]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectCat(btn.dataset.cat);
+        document.getElementById('search-input')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
     });
 
     const clearBtn = document.getElementById('clear-filters');
     if (clearBtn) clearBtn.addEventListener('click', () => {
       currentSearch=''; currentCat='all'; currentCountry='';
       const si=document.getElementById('search-input'); if(si)si.value='';
-      selectCat('all');
+      renderCategoryFilter();
+      renderCountryFilter();
+      applyFilters();
     });
 
     const sortSel = document.getElementById('sort-select');
