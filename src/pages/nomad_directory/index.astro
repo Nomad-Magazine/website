@@ -170,7 +170,7 @@ const seo: SEOProps = {
               <div>
                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Category</p>
                 <div id="category-list" class="space-y-1 max-h-96 overflow-y-auto pr-1" style="scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.2) transparent;">
-                  <button type="button" class="cat-btn active w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-all bg-yellow-400 text-black" data-cat="all">
+                  <button type="button" class="cat-btn active w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-all bg-yellow-400 text-black" data-cat="all" aria-pressed="true">
                     <span>All Categories</span>
                     <span class="text-xs opacity-70 cat-count">{total}</span>
                   </button>
@@ -508,7 +508,12 @@ const seo: SEOProps = {
     return currentSearch !== '' || currentCountry !== '';
   }
 
+  function isNonPrimaryClick(e) {
+    return !!(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || (typeof e.button === 'number' && e.button !== 0));
+  }
+
   function handleCategoryClick(e, cat) {
+    if (isNonPrimaryClick(e)) return;
     if (!cat || cat === 'all') {
       e.preventDefault();
       selectCatInPlace('all');
@@ -516,7 +521,8 @@ const seo: SEOProps = {
     }
     if (filtersActive()) {
       e.preventDefault();
-      selectCatInPlace(cat);
+      if (currentCat === cat) selectCatInPlace('all');
+      else selectCatInPlace(cat);
     }
   }
 
@@ -545,18 +551,21 @@ const seo: SEOProps = {
     allBtn.type = 'button';
     allBtn.className = catBtnClass(currentCat === 'all');
     allBtn.dataset.cat = 'all';
+    allBtn.setAttribute('aria-pressed', currentCat === 'all' ? 'true' : 'false');
     allBtn.innerHTML = '<span>All Categories</span><span class="text-xs opacity-70 cat-count">' + base.length + '</span>';
     list.appendChild(allBtn);
     sorted.forEach((cat) => {
       const cnt = counts.get(cat) || 0;
       if (!cnt && cat !== currentCat) return;
       const disabled = cnt === 0 && cat !== currentCat;
+      const active = currentCat === cat;
       const link = document.createElement('a');
       link.href = categoryHref(cat);
-      link.className = catBtnClass(currentCat === cat) + (disabled ? ' opacity-50 pointer-events-none' : '');
+      link.className = catBtnClass(active) + (disabled ? ' opacity-50 pointer-events-none' : '');
       link.dataset.cat = cat;
       if (disabled) link.setAttribute('aria-disabled', 'true');
-      link.innerHTML = '<span>' + esc(cat) + '</span><span class="text-xs cat-count ' + (currentCat === cat ? 'opacity-70' : 'text-gray-400') + '">' + cnt + '</span>';
+      if (active) link.setAttribute('aria-current', 'true');
+      link.innerHTML = '<span>' + esc(cat) + '</span><span class="text-xs cat-count ' + (active ? 'opacity-70' : 'text-gray-400') + '">' + cnt + '</span>';
       list.appendChild(link);
     });
   }
@@ -721,6 +730,7 @@ const seo: SEOProps = {
       categoryList.addEventListener('click', (e) => {
         const allBtn = e.target.closest('.cat-btn[data-cat="all"]');
         if (allBtn) {
+          if (isNonPrimaryClick(e)) return;
           e.preventDefault();
           selectCatInPlace('all');
           return;
