@@ -2,6 +2,7 @@ import { readPublicDirectory, directoryImageUrl } from './directory-public'
 import type { ListingPayload } from './directory-workspace'
 import { fetchReportRecords } from './smartsuite'
 import { directoryLogoUrlOverrides } from '../const/nomadDirectoryWhiteLogos'
+import { extractCountry } from './directory-routes.mjs'
 
 import logoFiles from './directory-logo-files.json'
 
@@ -15,6 +16,8 @@ export interface DirectoryEntry {
   offer: string
   website: string
   image: string
+  location: string
+  country: string
 }
 
 function websiteUrl(value: string): string {
@@ -63,6 +66,7 @@ export function getDirectoryEntriesFromRecords(records: any[]): DirectoryEntry[]
     .filter((record) => record.sf4ad525dd && record.title)
     .map((record) => {
       const localLogo = `/images/directory-logos/${record.id}.webp`
+      const location = String(record.sed1a49986 || '')
       return {
         id: String(record.id),
         title: String(record.title),
@@ -71,6 +75,8 @@ export function getDirectoryEntriesFromRecords(records: any[]): DirectoryEntry[]
         offer: String(record.s5576966ee || ''),
         website: websiteUrl(record.link || record.sb788c266b?.[0] || ''),
         image: record.managedImage ? record.image : directoryLogoUrlOverrides[record.title] || (localLogos.has(`${record.id}.webp`) ? localLogo : ''),
+        location,
+        country: extractCountry(location),
       }
     })
 }
