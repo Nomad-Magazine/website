@@ -277,6 +277,14 @@ const seo: SEOProps = {
                     Show all ({collapsedExtraCategoryCount} more)
                   </button>
                 )}
+                {showCategoryNavToggle && (
+                  <noscript>
+                    <style>
+                      #category-nav-list [data-category-collapsed-extra] { display: flex !important; }
+                      #category-nav-toggle { display: none !important; }
+                    </style>
+                  </noscript>
+                )}
               </div>
 
               <!-- Share -->
