@@ -1,5 +1,5 @@
 import { readPublicDirectory, directoryImageUrl } from './directory-public'
-import { partnerOfferFromPayload, type PartnerOffer } from './directory-partnership'
+import { partnerOfferFromPayload, type PartnerOffer } from './directory-partnership-validate'
 import type { ListingPayload } from './directory-workspace'
 import { fetchReportRecords } from './smartsuite'
 import { directoryLogoUrlOverrides } from '../const/nomadDirectoryWhiteLogos'

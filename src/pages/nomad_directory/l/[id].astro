@@ -1,7 +1,7 @@
 ---
 export const prerender = false;
 
-import { getPublishedDirectoryRecords, getDirectoryEntriesFromRecords } from '~/utils/directory'
+import { getPublishedDirectoryRecords, getDirectoryEntriesFromRecords, directoryCategoryUrl } from '~/utils/directory'
 import { fetchReportRecords } from '~/utils/smartsuite'
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import DirectoryPartnerOffer from '~/components/DirectoryPartnerOffer.astro'
@@ -17,6 +17,7 @@ const entry = entries.find((item) => item.id === listingId)
 if (!entry) return new Response('Listing not found', { status: 404 })
 
 const acceptsPartnership = entry.managedPublished
+const categoryHref = directoryCategoryUrl(entry.category)
 
 Astro.response.headers.set('Cache-Control', 'public, max-age=0, must-revalidate')
 const canonical = `${Astro.site}nomad_directory/l/${listingId}/`
@@ -26,6 +27,7 @@ const seo: SEOProps = {
   canonical,
   image: entry.image || `${Astro.site}images/Nomad-directory.webp`,
   keywords: `${entry.title}, ${entry.category}, digital nomad directory`,
+  noIndex: true,
   ldJSON: {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
@@ -37,17 +39,17 @@ const seo: SEOProps = {
 ---
 
 <Layout seo={seo}>
-  <div class="bg-hoverw min-h-screen text-white">
-    <section class="pt-16 pb-16">
+  <div class="bg-hoverw text-white">
+    <section class="py-12 md:py-16">
       <div class="container mx-auto max-w-3xl px-4">
         <nav class="mb-8 text-sm text-gray-400" aria-label="Breadcrumb">
           <a href="/nomad_directory/" class="text-yellow-400 hover:text-yellow-300">Nomad Directory</a>
           <span aria-hidden="true"> / </span>
-          <a href={`/nomad_directory/${entry.category.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}/`} class="text-yellow-400 hover:text-yellow-300">
+          <a href={categoryHref} class="text-yellow-400 hover:text-yellow-300">
             {entry.category}
           </a>
         </nav>
-        <article>
+        <article id="listing-detail-panel">
           <div class="flex items-start gap-4">
             <div class={directoryLogoBoxClass}>
               {

@@ -20,6 +20,15 @@ create index directory_partnership_unread on public.directory_partnership_reques
 
 alter table public.directory_partnership_requests enable row level security;
 revoke all on public.directory_partnership_requests from anon, authenticated;
+grant select on public.directory_partnership_requests to authenticated;
+create policy "Owners and admins read partnership requests" on public.directory_partnership_requests for select to authenticated
+using (
+  exists(
+    select 1 from public.directory_managed_listings l
+    where l.id = listing_id and l.owner_id = (select auth.uid())
+  )
+  or (select public.directory_is_admin())
+);
 
 create or replace function public.directory_clean_payload(p_kind text, p_payload jsonb) returns jsonb
 language plpgsql immutable set search_path = '' as $$
@@ -121,7 +130,7 @@ language sql stable security definer set search_path = '' as $$
     r.requester_company, r.message, r.status, r.owner_reply, r.read_at, r.created_at, r.updated_at
   from public.directory_partnership_requests r
   join public.directory_managed_listings l on l.id = r.listing_id
-  where l.owner_id = (select auth.uid())
+  where (l.owner_id = (select auth.uid()) or (select public.directory_is_admin()))
     and (p_listing_id is null or r.listing_id = p_listing_id)
   order by r.created_at desc;
 $$;
@@ -145,7 +154,6 @@ begin
   if auth.uid() is null then raise exception 'Sign in first'; end if;
   if p_status not in ('read','accepted','declined') then raise exception 'Invalid status'; end if;
   if length(p_reply) > 2000 then raise exception 'Reply too long'; end if;
-  if p_status in ('accepted','declined') and length(trim(p_reply)) < 2 then raise exception 'Add a short reply'; end if;
   update public.directory_partnership_requests r set
     status = p_status,
     owner_reply = case when p_status in ('accepted','declined') then trim(p_reply) else owner_reply end,

@@ -48,7 +48,7 @@ try {
 <ConsoleLayout title="Partnership requests" currentPage="partnerships">
   <p class="eyebrow">Inbox</p>
   <h2>Partnership requests</h2>
-  <p class="muted">Requests from your listing pages arrive here. Accept or decline with a short reply.</p>
+  <p class="muted">Requests from your listing pages arrive here. Use the requester’s email to reply from your own inbox. Notes stay private in the console.</p>
   {error && <p class="notice error" role="alert">{error}</p>}
   {saved && <p class="notice" role="status">Saved.</p>}
   {
@@ -80,11 +80,11 @@ try {
             {request.listing_title} · <time datetime={request.created_at}>{new Date(request.created_at).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })}</time>
           </p>
           <p>
-            <a href={`mailto:${request.requester_email}`} class="link">{request.requester_email}</a>
+            <a href={`mailto:${request.requester_email}`} class="link" aria-label={`Email ${request.requester_name} at ${request.requester_email}`}>{request.requester_email}</a>
             {request.requester_company && ` · ${request.requester_company}`}
           </p>
           <p class="mt-3 whitespace-pre-line">{request.message}</p>
-          {request.owner_reply && <p class="notice mt-3">Your reply: {request.owner_reply}</p>}
+          {request.owner_reply && <p class="notice mt-3">Private note: {request.owner_reply}</p>}
           {
             request.status === 'new' && (
               <form method="POST" class="actions mt-4" aria-label={`Respond to ${request.requester_name}`}>
@@ -98,12 +98,12 @@ try {
           }
           {
             request.status !== 'accepted' && request.status !== 'declined' && (
-              <form method="POST" class="actions mt-4" aria-label={`Reply to ${request.requester_name}`}>
+              <form method="POST" class="actions mt-4" aria-label={`Respond to ${request.requester_name}`}>
                 <input type="hidden" name="request_id" value={request.id} />
                 <input type="hidden" name="listing_id" value={request.listing_id} />
                 <div class="field">
-                  <label for={`reply-${request.id}`}>Reply to requester</label>
-                  <textarea id={`reply-${request.id}`} name="reply" required minlength="2" maxlength="2000" rows="3" />
+                  <label for={`reply-${request.id}`}>Private note (console only)</label>
+                  <textarea id={`reply-${request.id}`} name="reply" maxlength="2000" rows="3" placeholder="Optional note for your records" />
                 </div>
                 <button class="button" type="submit" name="action" value="accepted">
                   Accept partnership
