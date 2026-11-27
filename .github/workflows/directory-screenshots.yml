@@ -8,9 +8,6 @@ concurrency:
   group: directory-screenshots-${{ github.ref }}
   cancel-in-progress: false
 
-permissions:
-  contents: write
-
 on:
   schedule:
     - cron: '0 6 * * 1'
@@ -25,6 +22,8 @@ jobs:
     if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 90
+    permissions:
+      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -47,5 +46,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add public/images/directory-shots src/utils/directory-screenshots.json
-          git diff --cached --quiet || git commit -m "chore: refresh nomad directory listing screenshots [ci skip]"
+          git diff --cached --quiet || git commit -m "chore: refresh nomad directory listing screenshots"
           git push
