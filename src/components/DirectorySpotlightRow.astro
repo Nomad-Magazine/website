@@ -56,7 +56,7 @@ const showSpotlight = listings.length >= 4
 )}
 
 <script>
-  import { isSpotlightListingNew, type SpotlightListing } from '~/utils/directory-spotlight'
+  import { isSpotlightListingNew, selectSpotlightListings, type SpotlightListing } from '~/utils/directory-spotlight'
 
   type Payload = {
     listings: SpotlightListing[]
@@ -65,28 +65,15 @@ const showSpotlight = listings.length >= 4
     newDays: number
   }
 
-  function shuffle<T>(items: T[]): T[] {
-    const copy = [...items]
-    for (let i = copy.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1))
-      ;[copy[i], copy[j]] = [copy[j], copy[i]]
+  async function loadSponsoredIds(): Promise<Set<string>> {
+    try {
+      const response = await fetch('/api/directory-active-sponsors/', { credentials: 'same-origin' })
+      if (!response.ok) return new Set()
+      const data = (await response.json()) as { listing_ids?: string[] }
+      return new Set((data.listing_ids ?? []).filter(Boolean))
+    } catch {
+      return new Set()
     }
-    return copy
-  }
-
-  function selectSpotlight(payload: Payload): SpotlightListing[] {
-    const { listings, pageType, filterValue } = payload
-    let preferred: SpotlightListing[] = listings
-    if (pageType === 'category') preferred = listings.filter((item) => item.category === filterValue)
-    else if (pageType === 'country') preferred = listings.filter((item) => item.country === filterValue)
-    else if (pageType === 'continent') preferred = listings.filter((item) => item.continent === filterValue)
-
-    const picked = shuffle(preferred).slice(0, 4)
-    if (picked.length >= 4) return picked
-
-    const used = new Set(picked.map((item) => item.id))
-    const fill = shuffle(listings.filter((item) => !used.has(item.id)))
-    return [...picked, ...fill].slice(0, 4)
   }
 
   function esc(value: string): string {
@@ -103,10 +90,11 @@ const showSpotlight = listings.length >= 4
       : `/nomad_directory/#listing-${id}`
   }
 
-  function renderCard(item: SpotlightListing): string {
-    const label = isSpotlightListingNew(item.addedAt) ? 'NEW' : 'FEATURED'
-    const labelClass =
-      label === 'NEW'
+  function renderCard(item: SpotlightListing, sponsored: boolean): string {
+    const label = sponsored ? 'SPONSORED' : isSpotlightListingNew(item.addedAt) ? 'NEW' : 'FEATURED'
+    const labelClass = sponsored
+      ? 'bg-orange-500/95 text-white ring-1 ring-white/30'
+      : label === 'NEW'
         ? 'bg-emerald-500/90 text-black'
         : 'bg-yellow-400/95 text-black'
     const href = listingHref(item.id)
@@ -158,9 +146,13 @@ const showSpotlight = listings.length >= 4
     if (!payload.listings?.length) {
       root.remove()
     } else {
-      const chosen = selectSpotlight(payload)
-      track.innerHTML = chosen.map((item) => renderCard(item)).join('')
-      track.setAttribute('aria-busy', 'false')
+      void loadSponsoredIds().then((sponsoredIds) => {
+        const chosen = selectSpotlightListings(payload.listings, payload.pageType, payload.filterValue, sponsoredIds)
+        track.innerHTML = chosen
+          .map((item) => renderCard(item, sponsoredIds.has(item.id)))
+          .join('')
+        track.setAttribute('aria-busy', 'false')
+      })
     }
   }
 </script>

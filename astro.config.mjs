@@ -134,6 +134,8 @@ export default defineConfig({
       OPENAI_API_KEY: envField.string({ context: 'server', access: 'secret', optional: true }),
       STRIPE_SECRET_KEY: envField.string({ context: 'server', access: 'secret', optional: true }),
       STRIPE_WEBHOOK_SECRET: envField.string({ context: 'server', access: 'secret', optional: true }),
+      STRIPE_PRICE_MONTHLY: envField.string({ context: 'server', access: 'secret', optional: true }),
+      STRIPE_PRICE_YEARLY: envField.string({ context: 'server', access: 'secret', optional: true }),
       BENTO_SITE_UUID: envField.string({ context: 'server', access: 'secret', optional: true }),
       BENTO_PUBLISHABLE_KEY: envField.string({ context: 'server', access: 'secret', optional: true }),
       BENTO_SECRET_KEY: envField.string({ context: 'server', access: 'secret', optional: true }),

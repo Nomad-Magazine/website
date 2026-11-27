@@ -1,0 +1,54 @@
+---
+import ConsoleLayout from '~/layouts/console/ConsoleLayout.astro'
+import { createSupabaseServerClient } from '~/utils/supabase-server'
+import { workspaceError } from '~/utils/directory-workspace'
+import { isSponsorshipActive, type DirectorySponsorship } from '~/utils/directory-sponsorship'
+
+type Row = DirectorySponsorship & { listing_title: string }
+
+const supabase = createSupabaseServerClient(Astro.request, Astro.cookies)
+const { data: isAdmin } = await supabase.rpc('directory_is_admin')
+if (!isAdmin) return Astro.redirect('/console/', 303)
+
+let rows: Row[] = []
+let error = ''
+
+try {
+  const { data: sponsorships, error: sponsorshipError } = await supabase.from('directory_sponsorships').select('*').order('updated_at', { ascending: false })
+  if (sponsorshipError) throw sponsorshipError
+  const { data: listings, error: listingsError } = await supabase.from('directory_managed_listings').select('id,published,legacy_id')
+  if (listingsError) throw listingsError
+  const titles = new Map<string, string>()
+  for (const listing of listings ?? []) {
+    const payload = listing.published as { title?: string } | null
+    titles.set(listing.id, payload?.title || listing.legacy_id || listing.id)
+  }
+  rows = (sponsorships ?? []).map((row: DirectorySponsorship) => ({
+    ...row,
+    listing_title: titles.get(row.listing_id) || row.listing_id,
+  }))
+} catch (err) {
+  error = workspaceError(err)
+}
+
+const formatDate = (value: string) =>
+  new Date(value).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' })
+---
+
+<ConsoleLayout title="Sponsorships" currentPage="sponsorships">
+  <h2>Directory sponsorships</h2>
+  <p class="muted">Stripe-backed Spotlight placements. Active means status is active or trialing and the period end is still in the future.</p>
+  {error && <p role="alert" class="notice error">{error}</p>}
+  {!error && !rows.length && <section class="panel"><p class="muted">No sponsorships yet.</p></section>}
+  {rows.map((row) => (
+    <section class="panel">
+      <div class="row">
+        <div>
+          <h3>{row.listing_title}</h3>
+          <p class="muted">{row.plan === 'yearly' ? 'Yearly' : 'Monthly'} · period ends {formatDate(row.current_period_end)}</p>
+        </div>
+        <span class={`tag ${isSponsorshipActive(row) ? 'approved' : 'pending'}`}>{isSponsorshipActive(row) ? 'Active' : row.status}</span>
+      </div>
+    </section>
+  ))}
+</ConsoleLayout>

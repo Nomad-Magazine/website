@@ -177,8 +177,23 @@ function sessionToken() {
   ].join('.')
 }
 
+const sponsorshipActive = [
+  {
+    listing_id: allListings[0].id,
+    user_id: OWNER,
+    stripe_customer_id: 'cus_fixture',
+    stripe_subscription_id: 'sub_fixture_active',
+    status: 'active',
+    current_period_end: '2027-06-01T00:00:00Z',
+    plan: 'monthly',
+    created_at: '2026-11-01T10:00:00Z',
+    updated_at: '2026-11-01T10:00:00Z',
+  },
+]
+
 let fixtureListings = allListings
 let fixturePosts = allPosts
+let fixtureSponsorships = []
 
 function applyFixture(mode) {
   if (mode === 'single') {
@@ -199,6 +214,10 @@ let mockIsAdmin = false
 
 function setAdminRole(admin) {
   mockIsAdmin = admin
+}
+
+function setSponsorshipFixture(mode) {
+  fixtureSponsorships = mode === 'active' ? sponsorshipActive : []
 }
 
 function filterRows(rows, search) {
@@ -275,6 +294,11 @@ function createMock() {
         res.end(JSON.stringify(awards))
         return
       }
+      if (url.pathname === '/rest/v1/directory_sponsorships') {
+        const rows = filterRows(fixtureSponsorships, url.searchParams)
+        res.end(JSON.stringify(rows))
+        return
+      }
       if (url.pathname === '/rest/v1/rpc/directory_public_listings') {
         res.end('[]')
         return
@@ -318,6 +342,7 @@ async function login(context) {
 async function capture(page, name, route, width, height, hooks = {}) {
   applyFixture(hooks.fixture ?? 'multi')
   setAdminRole(hooks.admin ?? false)
+  setSponsorshipFixture(hooks.sponsorship ?? 'inactive')
   await page.setViewportSize({ width, height })
   const response = await page.goto(`${base}${route}`, { waitUntil: 'networkidle' })
   if (!response || response.status() >= 400) throw new Error(`${route} returned ${response?.status()}`)
@@ -439,6 +464,21 @@ try {
     if (phase === 'after') {
       files.push(await capture(page, 'listings-more-open', '/console/', 1280, 1000, { fixture: 'multi', openMore: true, admin: false }))
       files.push(await capture(page, 'listings-more-open-mobile', '/console/', 390, 1200, { fixture: 'multi', openMore: true, admin: false }))
+    }
+  } else if (captureSet === 'pr-sponsorship') {
+    for (const state of ['inactive', 'active']) {
+      for (const [width, mobile] of [
+        [1280, false],
+        [390, true],
+      ]) {
+        const name = mobile ? `boost-${state}-mobile` : `boost-${state}`
+        files.push(
+          await capture(page, name, '/console/boost/', width, mobile ? 1400 : 1100, {
+            fixture: 'single',
+            sponsorship: state,
+          }),
+        )
+      }
     }
   } else {
     for (const [name, route] of routes) {

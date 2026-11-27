@@ -211,6 +211,51 @@
   border-color: #e7e5e4;
   background: #fafaf9;
 }
+.owner-console .boost-price-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  margin-bottom: 12px;
+}
+.owner-console .boost-price {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 4px 0 0;
+}
+.owner-console .boost-price span {
+  font-size: 28px;
+}
+.owner-console .boost-save {
+  font-size: 13px;
+  margin-top: 4px;
+}
+.owner-console .boost-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-top: 16px;
+}
+.owner-console .boost-plan-toggle {
+  display: inline-flex;
+  border: 1px solid #e7e5e4;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.owner-console .boost-plan-option {
+  border: 0;
+  background: #fff;
+  color: #57534e;
+  font: inherit;
+  font-size: 14px;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+.owner-console .boost-plan-option[aria-pressed='true'] {
+  background: #ffd21f;
+  color: #1c1917;
+  font-weight: 600;
+}
 .owner-console .tag.tag-changes {
   color: #9a3412;
   border-color: #fed7aa;

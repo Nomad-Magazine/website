@@ -1,11 +1,162 @@
 ---
 import ConsoleLayout from '~/layouts/console/ConsoleLayout.astro'
+import { createSupabaseServerClient } from '~/utils/supabase-server'
+import { loadWorkspace, workspaceError, type WorkspaceListing } from '~/utils/directory-workspace'
+import { isSponsorshipActive, type DirectorySponsorship } from '~/utils/directory-sponsorship'
+
+const supabase = createSupabaseServerClient(Astro.request, Astro.cookies)
+let listings: WorkspaceListing[] = []
+let sponsorships = new Map<string, DirectorySponsorship>()
+let error = ''
+
+try {
+  const workspace = await loadWorkspace(supabase)
+  listings = workspace.listings.filter((listing) => listing.published && listing.status === 'approved')
+  const { data, error: sponsorshipError } = await supabase.from('directory_sponsorships').select('*')
+  if (sponsorshipError) throw sponsorshipError
+  for (const row of (data ?? []) as DirectorySponsorship[]) {
+    sponsorships.set(row.listing_id, row)
+  }
+} catch (err) {
+  error = workspaceError(err)
+}
+
+const formatDate = (value: string) =>
+  new Date(value).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' })
 ---
 
 <ConsoleLayout title="Boost" currentPage="boost">
-  <p class="eyebrow">Get seen first</p>
-  <h2>Featured placement, coming soon.</h2>
-  <section class="panel">
-    <p class="muted">Paid options to feature your listing at the top of the directory, coming soon.</p>
+  <p class="eyebrow">Sponsored spotlight</p>
+  <h2>Get guaranteed directory visibility.</h2>
+  <p class="muted">
+    Sponsored listings appear in the Spotlight row on the main directory and on matching category and country pages,
+    clearly labelled <strong>SPONSORED</strong> for EU ad transparency. Up to two sponsored cards show per row;
+    eligible listings still need a website screenshot to appear.
+  </p>
+
+  <section class="panel boost-pricing" aria-label="Sponsorship pricing">
+    <div class="boost-price-grid">
+      <div>
+        <p class="muted">Monthly</p>
+        <p class="boost-price"><span>€19</span> / month</p>
+      </div>
+      <div>
+        <p class="muted">Yearly</p>
+        <p class="boost-price"><span>€190</span> / year</p>
+        <p class="boost-save muted">Save 2 months</p>
+      </div>
+    </div>
+    <p class="muted">Secure subscription checkout via Stripe. Cancel or change billing any time from here.</p>
   </section>
+
+  {error && <p role="alert" class="notice error">{error}</p>}
+  {Astro.url.searchParams.get('success') === '1' && (
+    <p role="status" class="notice">Payment received. Your sponsorship activates after Stripe confirms the subscription (usually within a minute).</p>
+  )}
+  {Astro.url.searchParams.get('canceled') === '1' && (
+    <p role="status" class="notice">Checkout canceled. Your listing was not charged.</p>
+  )}
+
+  {!error && !listings.length && (
+    <section class="panel">
+      <h3>Publish a listing first</h3>
+      <p class="muted">Sponsorship is available for approved, live listings you own.</p>
+      <a href="/console/directory-submission/?new=1" class="button">Add a listing</a>
+    </section>
+  )}
+
+  {!error &&
+    listings.map((listing) => {
+      const sponsorship = sponsorships.get(listing.id)
+      const active = sponsorship ? isSponsorshipActive(sponsorship) : false
+      const title = listing.published?.title || listing.draft.title
+      return (
+        <section class="panel boost-listing" data-listing-id={listing.id}>
+          <div class="row">
+            <div>
+              <h3>{title}</h3>
+              <p class="muted">{listing.published?.category} · {listing.published?.location}</p>
+            </div>
+            <span class={`tag ${active ? 'approved' : 'pending'}`}>{active ? 'Sponsored · active' : 'Not sponsored'}</span>
+          </div>
+
+          {active && sponsorship && (
+            <p class="muted">
+              {sponsorship.plan === 'yearly' ? 'Yearly' : 'Monthly'} plan · renews {formatDate(sponsorship.current_period_end)}
+            </p>
+          )}
+
+          <div class="boost-actions">
+            {!active && (
+              <>
+                <div class="boost-plan-toggle" role="group" aria-label={`Billing period for ${title}`}>
+                  <button type="button" class="boost-plan-option" data-plan="monthly" aria-pressed="true">Monthly</button>
+                  <button type="button" class="boost-plan-option" data-plan="yearly" aria-pressed="false">Yearly</button>
+                </div>
+                <button type="button" class="button boost-checkout" data-listing-id={listing.id}>
+                  Sponsor {title}
+                </button>
+              </>
+            )}
+            {active && (
+              <button type="button" class="button secondary boost-portal">Manage billing</button>
+            )}
+          </div>
+        </section>
+      )
+    })}
 </ConsoleLayout>
+
+<script>
+  const panels = document.querySelectorAll<HTMLElement>('.boost-listing')
+
+  function currentPlan(panel: HTMLElement): 'monthly' | 'yearly' {
+    const pressed = panel.querySelector<HTMLButtonElement>('.boost-plan-option[aria-pressed="true"]')
+    return pressed?.dataset.plan === 'yearly' ? 'yearly' : 'monthly'
+  }
+
+  panels.forEach((panel) => {
+    panel.querySelectorAll<HTMLButtonElement>('.boost-plan-option').forEach((button) => {
+      button.addEventListener('click', () => {
+        panel.querySelectorAll<HTMLButtonElement>('.boost-plan-option').forEach((peer) => {
+          peer.setAttribute('aria-pressed', peer === button ? 'true' : 'false')
+        })
+      })
+    })
+
+    panel.querySelector<HTMLButtonElement>('.boost-checkout')?.addEventListener('click', async () => {
+      const listingId = panel.dataset.listingId
+      if (!listingId) return
+      const plan = currentPlan(panel)
+      const button = panel.querySelector<HTMLButtonElement>('.boost-checkout')
+      if (button) button.disabled = true
+      try {
+        const response = await fetch('/api/directory-sponsorship-checkout/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ listing_id: listingId, plan }),
+        })
+        const data = (await response.json()) as { url?: string; error?: string }
+        if (!response.ok || !data.url) throw new Error(data.error || 'Checkout failed')
+        window.location.href = data.url
+      } catch (err) {
+        alert(err instanceof Error ? err.message : 'Checkout failed')
+        if (button) button.disabled = false
+      }
+    })
+
+    panel.querySelector<HTMLButtonElement>('.boost-portal')?.addEventListener('click', async () => {
+      const button = panel.querySelector<HTMLButtonElement>('.boost-portal')
+      if (button) button.disabled = true
+      try {
+        const response = await fetch('/api/directory-sponsorship-portal/', { method: 'POST' })
+        const data = (await response.json()) as { url?: string; error?: string }
+        if (!response.ok || !data.url) throw new Error(data.error || 'Billing portal unavailable')
+        window.location.href = data.url
+      } catch (err) {
+        alert(err instanceof Error ? err.message : 'Billing portal unavailable')
+        if (button) button.disabled = false
+      }
+    })
+  })
+</script>
