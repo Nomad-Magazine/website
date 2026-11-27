@@ -149,7 +149,7 @@ const seo: SEOProps = {
         <div class="flex flex-col lg:flex-row gap-8 items-start">
 
           <!-- LEFT SIDEBAR: Filters -->
-          <aside class="order-1 w-full lg:w-72 shrink-0 lg:sticky lg:top-6" aria-label="Directory filters">
+          <aside class="w-full lg:w-72 shrink-0 lg:sticky lg:top-6" aria-label="Directory filters">
             <div class="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-6">
 
               <!-- Search -->
@@ -166,7 +166,7 @@ const seo: SEOProps = {
                 </div>
               </div>
 
-              <div id="directory-filters-collapsible" class="hidden lg:block space-y-6">
+              <div id="directory-filters-collapsible" class="space-y-6">
 
               <!-- Category filters -->
               <div>
@@ -246,11 +246,17 @@ const seo: SEOProps = {
               </div>
 
               </div>
+              <noscript>
+                <style>
+                  #mobile-filters-toggle { display: none !important; }
+                  #directory-filters-collapsible { display: block !important; }
+                </style>
+              </noscript>
             </div>
           </aside>
 
           <!-- RIGHT: Listings -->
-          <div class="flex-1 min-w-0 order-2 lg:order-none">
+          <div class="flex-1 min-w-0">
 
             <button
               type="button"
@@ -731,12 +737,10 @@ const seo: SEOProps = {
     if (!panel || !toggle) return;
     if (isDesktopFiltersLayout()) {
       panel.classList.remove('hidden');
-      panel.classList.add('lg:block');
       toggle.setAttribute('aria-expanded', 'false');
       return;
     }
     panel.classList.toggle('hidden', !expanded);
-    panel.classList.toggle('block', expanded);
     toggle.setAttribute('aria-expanded', String(expanded));
   }
 
