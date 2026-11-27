@@ -4,16 +4,22 @@ import { readPublicDirectory, type PublicUpdate } from '~/utils/directory-public
 import Layout, { type SEOProps } from '~/layouts/Layout.astro'
 import DirectoryEntryCard from '~/components/DirectoryEntryCard.astro'
 import { DIRECTORY_VOTING_PAGES } from '~/const/directoryVoting'
-import { getDirectoryEntries, getDirectoryCategories, directoryCategoryUrl } from '~/utils/directory'
+import { getDirectoryEntriesFromRecords, getDirectoryCategories, directoryCategoryUrl, getPublishedDirectoryRecords } from '~/utils/directory'
+import { fetchReportRecords } from '~/utils/smartsuite'
+import { buildSpotlightListings } from '~/utils/directory-spotlight'
+import DirectorySpotlightRow from '~/components/DirectorySpotlightRow.astro'
 import MaterialSymbolsElectricBolt from '~icons/material-symbols/electric-bolt'
 
-const [managedEntries, updates] = await Promise.all([
-  getDirectoryEntries(true).catch(() => null),
+const [managedRecords, updates] = await Promise.all([
+  getPublishedDirectoryRecords().catch(() => null),
   readPublicDirectory<PublicUpdate>('directory_public_updates').catch(() => []),
 ])
-const entries = managedEntries ?? await getDirectoryEntries()
+const records = managedRecords ?? (await fetchReportRecords('6857167d82358a0f5e038c3f')).records
+const entries = getDirectoryEntriesFromRecords(records)
+const recordsById = new Map(records.map((record) => [String(record.id), record as Record<string, unknown>]))
+const spotlightListings = buildSpotlightListings(entries, recordsById)
 const showVotesOnMain = DIRECTORY_VOTING_PAGES.main
-if (managedEntries === null && !entries.length) {
+if (managedRecords === null && !entries.length) {
   Astro.response.status = 503
   Astro.response.headers.set('Retry-After', '60')
 }
@@ -232,6 +238,8 @@ const seo: SEOProps = {
             <div id="active-filters" class="hidden flex-wrap gap-2 mb-4 items-center">
               <span class="text-xs text-gray-400">Filters:</span>
             </div>
+
+            <DirectorySpotlightRow listings={spotlightListings} pageType="all" />
 
             <!-- Cards -->
             <div id="directory-container" class="space-y-4">{entries.map(entry => <DirectoryEntryCard entry={entry} updates={updates.filter(update => update.listing_id === entry.id)} {...(showVotesOnMain ? { votes: 0 } : {})} />)}</div>
