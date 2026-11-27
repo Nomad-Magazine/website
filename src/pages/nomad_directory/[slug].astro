@@ -214,7 +214,7 @@ const seo: SEOProps = {
     <!-- Main layout -->
     <section class="pb-20">
       <div class="container mx-auto px-4 max-w-7xl">
-        <div class="flex flex-col lg:flex-row gap-8 items-start">
+        <div class="flex flex-col lg:flex-row gap-8 items-stretch lg:items-start">
 
           <!-- LEFT SIDEBAR -->
           <aside class="w-full lg:w-72 shrink-0 lg:sticky lg:top-6 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto" style="scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.15) transparent;" aria-label="Directory filters">
@@ -244,6 +244,8 @@ const seo: SEOProps = {
                 </div>
                 <p class="text-xs text-gray-600 mt-1" id="search-count" aria-live="polite">{count} result{count !== 1 ? 's' : ''}</p>
               </div>
+
+              <div id="directory-filters-collapsible" class="space-y-6">
 
               <!-- Categories -->
               <div>
@@ -335,11 +337,31 @@ const seo: SEOProps = {
                 </div>
               </div>
 
+              </div>
+              <noscript>
+                <style>
+                  #mobile-filters-toggle { display: none !important; }
+                  #directory-filters-collapsible { display: block !important; }
+                </style>
+              </noscript>
+
             </div>
           </aside>
 
           <!-- RIGHT: Listings -->
-          <div class="flex-1 min-w-0">
+          <div class="w-full min-w-0 flex-1">
+
+            <button
+              type="button"
+              id="mobile-filters-toggle"
+              class="lg:hidden w-full flex items-center justify-center gap-2 px-4 py-3 mb-4 bg-white/10 hover:bg-white/15 border border-white/20 rounded-xl text-white text-sm font-semibold transition-all focus-visible:ring-2 focus-visible:ring-yellow-400"
+              aria-expanded="false"
+              aria-controls="directory-filters-collapsible">
+              <svg class="w-4 h-4 shrink-0 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
+              </svg>
+              <span id="mobile-filters-toggle-label">Filters</span>
+            </button>
 
             <div
               id="directory-filter-context"
@@ -437,6 +459,34 @@ const seo: SEOProps = {
   let activeCountry = '';
   let activeCategory = '';
 
+  function activeFilterCount() {
+    return activeCountry ? 1 : 0;
+  }
+
+  function updateMobileFiltersToggleLabel() {
+    const label = document.getElementById('mobile-filters-toggle-label');
+    if (!label) return;
+    const n = activeFilterCount();
+    label.textContent = n > 0 ? 'Filters (' + n + ')' : 'Filters';
+  }
+
+  function isDesktopFiltersLayout() {
+    return window.matchMedia('(min-width: 1024px)').matches;
+  }
+
+  function setMobileFiltersExpanded(expanded) {
+    const panel = document.getElementById('directory-filters-collapsible');
+    const toggle = document.getElementById('mobile-filters-toggle');
+    if (!panel || !toggle) return;
+    if (isDesktopFiltersLayout()) {
+      panel.classList.remove('hidden');
+      toggle.setAttribute('aria-expanded', 'false');
+      return;
+    }
+    panel.classList.toggle('hidden', !expanded);
+    toggle.setAttribute('aria-expanded', String(expanded));
+  }
+
   function normalizeQuery(raw) {
     return String(raw || '').toLowerCase().trim();
   }
@@ -461,7 +511,7 @@ const seo: SEOProps = {
 
   window.clearSearch = function() {
     const si = document.getElementById('search-input');
-    if (si) { si.value = ''; renderCountryFilterList(); applyFilters('', activeCountry, activeCategory); syncFilterUrl(); }
+    if (si) { si.value = ''; renderCountryFilterListAndToggle(); applyFilters('', activeCountry, activeCategory); syncFilterUrl(); }
   };
 
   function applyFilters(query, country, category) {
@@ -519,7 +569,7 @@ const seo: SEOProps = {
     allBtn.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all ' +
       (!activeCountry ? 'bg-blue-500 text-white font-semibold' : 'text-gray-300 hover:text-white hover:bg-white/10');
     allBtn.innerHTML = '<span>All countries</span><span class="text-xs opacity-60">' + base.length + '</span>';
-    allBtn.addEventListener('click', () => { activeCountry = ''; renderCountryFilterList(); applyFilters(currentQuery(), '', activeCategory); syncFilterUrl(); });
+    allBtn.addEventListener('click', () => { activeCountry = ''; renderCountryFilterListAndToggle(); applyFilters(currentQuery(), '', activeCategory); syncFilterUrl(); });
     list.appendChild(allBtn);
     sorted.forEach((country) => {
       const cnt = countryCounts[country] || 0;
@@ -533,10 +583,15 @@ const seo: SEOProps = {
       btn.disabled = disabled;
       btn.innerHTML = '<span>' + esc(country) + '</span><span class="text-xs opacity-60">' + cnt + '</span>';
       if (!disabled) {
-        btn.addEventListener('click', () => { activeCountry = country; renderCountryFilterList(); applyFilters(currentQuery(), country, activeCategory); syncFilterUrl(); });
+        btn.addEventListener('click', () => { activeCountry = country; renderCountryFilterListAndToggle(); applyFilters(currentQuery(), country, activeCategory); syncFilterUrl(); });
       }
       list.appendChild(btn);
     });
+  }
+
+  function renderCountryFilterListAndToggle() {
+    renderCountryFilterList();
+    updateMobileFiltersToggleLabel();
   }
 
   function allCardCategories() {
@@ -587,7 +642,7 @@ const seo: SEOProps = {
       ? resolveCategoryParam(params.get('category') || '')
       : '';
     if (resolvedCategory) activeCategory = resolvedCategory;
-    renderCountryFilterList();
+    renderCountryFilterListAndToggle();
     applyFilters(q, activeCountry, activeCategory);
     scrollToListingHash();
     syncFilterUrl();
@@ -610,12 +665,26 @@ const seo: SEOProps = {
 
   const si = document.getElementById('search-input');
   if (si) si.addEventListener('input', e => {
-    renderCountryFilterList();
+    renderCountryFilterListAndToggle();
     applyFilters(e.target.value, activeCountry, activeCategory);
     scheduleSyncFilterUrl();
   });
 
   window.addEventListener('hashchange', scrollToListingHash);
+
+  const mobileFiltersToggle = document.getElementById('mobile-filters-toggle');
+  if (mobileFiltersToggle) {
+    mobileFiltersToggle.addEventListener('click', function () {
+      const panel = document.getElementById('directory-filters-collapsible');
+      if (!panel || isDesktopFiltersLayout()) return;
+      const expanded = mobileFiltersToggle.getAttribute('aria-expanded') !== 'true';
+      setMobileFiltersExpanded(expanded);
+    });
+  }
+  window.matchMedia('(min-width: 1024px)').addEventListener('change', function () {
+    setMobileFiltersExpanded(false);
+  });
+  setMobileFiltersExpanded(false);
 
   (function initCategoryNavToggle() {
     const toggle = document.getElementById('category-nav-toggle');

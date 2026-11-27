@@ -146,7 +146,7 @@ const seo: SEOProps = {
           </div>
         </div>
 
-        <div class="flex flex-col lg:flex-row gap-8 items-start">
+        <div class="flex flex-col lg:flex-row gap-8 items-stretch lg:items-start">
 
           <!-- LEFT SIDEBAR: Filters -->
           <aside class="w-full lg:w-72 shrink-0 lg:sticky lg:top-6" aria-label="Directory filters">
@@ -165,6 +165,8 @@ const seo: SEOProps = {
                   </svg>
                 </div>
               </div>
+
+              <div id="directory-filters-collapsible" class="space-y-6">
 
               <!-- Category filters -->
               <div>
@@ -242,11 +244,31 @@ const seo: SEOProps = {
                   </a>
                 </div>
               </div>
+
+              </div>
+              <noscript>
+                <style>
+                  #mobile-filters-toggle { display: none !important; }
+                  #directory-filters-collapsible { display: block !important; }
+                </style>
+              </noscript>
             </div>
           </aside>
 
           <!-- RIGHT: Listings -->
-          <div class="flex-1 min-w-0">
+          <div class="w-full min-w-0 flex-1">
+
+            <button
+              type="button"
+              id="mobile-filters-toggle"
+              class="lg:hidden w-full flex items-center justify-center gap-2 px-4 py-3 mb-4 bg-white/10 hover:bg-white/15 border border-white/20 rounded-xl text-white text-sm font-semibold transition-all focus-visible:ring-2 focus-visible:ring-yellow-400"
+              aria-expanded="false"
+              aria-controls="directory-filters-collapsible">
+              <svg class="w-4 h-4 shrink-0 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
+              </svg>
+              <span id="mobile-filters-toggle-label">Filters</span>
+            </button>
 
             <!-- Active filters bar -->
             <div id="active-filters" class="hidden flex-wrap gap-2 mb-4 items-center">
@@ -691,6 +713,37 @@ const seo: SEOProps = {
     updateActiveFilters();
   }
 
+  function activeFilterCount() {
+    let n = 0;
+    if (currentCat !== 'all') n++;
+    if (currentCountry) n++;
+    return n;
+  }
+
+  function updateMobileFiltersToggleLabel() {
+    const label = document.getElementById('mobile-filters-toggle-label');
+    if (!label) return;
+    const n = activeFilterCount();
+    label.textContent = n > 0 ? 'Filters (' + n + ')' : 'Filters';
+  }
+
+  function isDesktopFiltersLayout() {
+    return window.matchMedia('(min-width: 1024px)').matches;
+  }
+
+  function setMobileFiltersExpanded(expanded) {
+    const panel = document.getElementById('directory-filters-collapsible');
+    const toggle = document.getElementById('mobile-filters-toggle');
+    if (!panel || !toggle) return;
+    if (isDesktopFiltersLayout()) {
+      panel.classList.remove('hidden');
+      toggle.setAttribute('aria-expanded', 'false');
+      return;
+    }
+    panel.classList.toggle('hidden', !expanded);
+    toggle.setAttribute('aria-expanded', String(expanded));
+  }
+
   function updateActiveFilters() {
     const div = document.getElementById('active-filters');
     const clearBtn = document.getElementById('clear-filters');
@@ -699,6 +752,7 @@ const seo: SEOProps = {
     div.classList.toggle('hidden', !has);
     div.classList.toggle('flex', has);
     if (clearBtn) clearBtn.classList.toggle('hidden', !has);
+    updateMobileFiltersToggleLabel();
 
     Array.from(div.querySelectorAll('.filter-tag')).forEach(t => t.remove());
     if (currentSearch) {
@@ -789,6 +843,20 @@ const seo: SEOProps = {
 
     const sortSel = document.getElementById('sort-select');
     if (sortSel) sortSel.addEventListener('change', e => { currentSort = e.target.value; applyFilters(); });
+
+    const mobileFiltersToggle = document.getElementById('mobile-filters-toggle');
+    if (mobileFiltersToggle) {
+      mobileFiltersToggle.addEventListener('click', function () {
+        const panel = document.getElementById('directory-filters-collapsible');
+        if (!panel || isDesktopFiltersLayout()) return;
+        const expanded = mobileFiltersToggle.getAttribute('aria-expanded') !== 'true';
+        setMobileFiltersExpanded(expanded);
+      });
+    }
+    window.matchMedia('(min-width: 1024px)').addEventListener('change', function () {
+      setMobileFiltersExpanded(false);
+    });
+    setMobileFiltersExpanded(false);
 
     const params = new URLSearchParams(location.search);
     const query = params.get('q') || '';
