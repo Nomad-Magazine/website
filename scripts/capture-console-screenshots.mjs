@@ -6,6 +6,8 @@
  * Usage: node scripts/capture-console-screenshots.mjs --phase=before|after --out=pr-assets/pr-53
  *        node scripts/capture-console-screenshots.mjs --set=listing-cards --phase=after --out=pr-assets/pr-54
  *        node scripts/capture-console-screenshots.mjs --set=pr-54 --phase=after --out=pr-assets/pr-54
+ *        node scripts/capture-console-screenshots.mjs --set=auto-claim --phase=before --out=pr-assets/pr-56
+ *        node scripts/capture-console-screenshots.mjs --set=auto-claim --phase=after --out=pr-assets/pr-56
  */
 import { createRequire } from 'node:module'
 import { createServer } from 'node:http'
@@ -27,12 +29,41 @@ const captureSet = process.argv.find((a) => a.startsWith('--set='))?.slice(6) ??
 const touchup = process.argv.includes('--touchup')
 const indexPath = path.join(root, 'src/pages/console/index.astro')
 const layoutPath = path.join(root, 'src/layouts/console/ConsoleLayout.astro')
-const consoleUiSets = new Set(['listing-cards', 'pr-54'])
+const consoleUiSets = new Set(['listing-cards', 'pr-54', 'auto-claim'])
 const base = 'http://127.0.0.1:3000'
 const OWNER = '00000000-0000-4000-8000-000000000001'
 const ANON = 'local-test-public-key'
 
 const logo = (file) => `/images/directory-logos/${file}`
+
+const autoClaimListing = {
+  id: '10000000-0000-4000-8000-0000000010',
+  owner_id: OWNER,
+  legacy_id: 'screenshot-auto-claim-legacy',
+  draft: {
+    title: 'Harbor Desk Coliving',
+    description: 'A friendly coliving space for remote workers with quiet desks, weekly community meals and strong Wi‑Fi.',
+    website: 'https://example.com/harbor-desk/',
+    category: 'Coliving',
+    location: 'Lisbon, Portugal',
+    special_offer: 'One free community dinner for new guests.',
+    image: logo('655f34669bac86d0f943d777.webp'),
+  },
+  published: {
+    title: 'Harbor Desk Coliving',
+    description: 'A friendly coliving space for remote workers with quiet desks, weekly community meals and strong Wi‑Fi.',
+    website: 'https://example.com/harbor-desk/',
+    category: 'Coliving',
+    location: 'Lisbon, Portugal',
+    special_offer: 'One free community dinner for new guests.',
+    image: logo('655f34669bac86d0f943d777.webp'),
+  },
+  status: 'approved',
+  review_notes: '',
+  version: 1,
+  updated_at: '2026-11-27T10:00:00Z',
+  created_at: '2026-11-27T10:00:00Z',
+}
 
 const allListings = [
   {
@@ -179,14 +210,20 @@ function sessionToken() {
 
 let fixtureListings = allListings
 let fixturePosts = allPosts
+let autoClaimLinked = false
 
 function applyFixture(mode) {
-  if (mode === 'single') {
+  if (mode === 'auto-claim') {
+    fixtureListings = [autoClaimListing]
+    fixturePosts = []
+    autoClaimLinked = true
+  } else if (mode === 'single') {
     fixtureListings = [allListings[0]]
     fixturePosts = allPosts.filter((post) => post.status !== 'pending')
   } else if (mode === 'empty') {
     fixtureListings = []
     fixturePosts = []
+    autoClaimLinked = false
   } else {
     fixtureListings = allListings
     fixturePosts = allPosts
@@ -283,6 +320,27 @@ function createMock() {
         res.end('[]')
         return
       }
+      if (url.pathname === '/rest/v1/rpc/directory_auto_claim_listings') {
+        if (phase === 'after' && !autoClaimLinked) {
+          applyFixture('auto-claim')
+          res.end(
+            JSON.stringify([
+              {
+                listing_id: autoClaimListing.id,
+                title: autoClaimListing.draft.title,
+              },
+            ]),
+          )
+          return
+        }
+        res.end('[]')
+        return
+      }
+      if (url.pathname === '/rest/v1/rpc/directory_claim_listing') {
+        res.statusCode = 400
+        res.end(JSON.stringify({ message: 'Manual claim fixture only' }))
+        return
+      }
       res.statusCode = 404
       res.end(JSON.stringify({ message: `Unhandled mock route ${req.method} ${url.pathname}` }))
     } catch (error) {
@@ -323,6 +381,10 @@ async function capture(page, name, route, width, height, hooks = {}) {
   if (!response || response.status() >= 400) throw new Error(`${route} returned ${response?.status()}`)
   await page.addStyleTag({ content: 'astro-dev-toolbar{display:none!important}' })
   await page.evaluate(() => document.fonts.ready)
+  if (captureSet === 'auto-claim' && phase === 'after') {
+    const text = await page.locator('body').textContent()
+    if (!text.includes('We found your listing')) throw new Error('Expected auto-claim notice on /console/')
+  }
   if (hooks.openMore) {
     await page.locator('.listing-card .console-more-trigger').first().click()
     await page.waitForSelector('.listing-card .console-more-menu:not([hidden])')
@@ -354,10 +416,7 @@ try {
   const { execFileSync } = await import('node:child_process')
   if (phase === 'before' && consoleUiSets.has(captureSet)) {
     savedIndex = await readFile(indexPath, 'utf8')
-    await writeFile(
-      indexPath,
-      execFileSync('git', ['show', 'origin/main:src/pages/console/index.astro'], { cwd: root, encoding: 'utf8' }),
-    )
+    await writeFile(indexPath, execFileSync('git', ['show', 'origin/main:src/pages/console/index.astro'], { cwd: root, encoding: 'utf8' }))
     if (captureSet === 'pr-54') {
       savedLayout = await readFile(layoutPath, 'utf8')
       await writeFile(
@@ -410,6 +469,10 @@ try {
     }
     files.push(await capture(page, 'listings-more-open', '/console/', 1280, 1000, { fixture: 'multi', openMore: true, admin: true }))
     files.push(await capture(page, 'listings-more-open-mobile', '/console/', 390, 1200, { fixture: 'multi', openMore: true, admin: true }))
+  } else if (captureSet === 'auto-claim') {
+    applyFixture('empty')
+    files.push(await capture(page, 'desktop', '/console/', 1280, 900, { fixture: 'empty' }))
+    files.push(await capture(page, 'mobile', '/console/', 390, 1200, { fixture: 'empty' }))
   } else if (captureSet === 'listing-cards' || captureSet === 'pr-54') {
     if (captureSet === 'pr-54') {
       for (const [role, admin] of [
