@@ -157,7 +157,7 @@ const seo: SEOProps = {
                 <label for="search-input" class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Search</label>
                 <div class="relative">
                   <input type="text" id="search-input"
-                    placeholder="Name, description..."
+                    placeholder="Name, location, category..."
                     aria-label="Search the directory"
                     class="w-full px-4 py-2.5 pl-10 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-500 focus-visible:ring-2 focus-visible:ring-yellow-400 focus:border-yellow-400 transition-all text-sm" />
                   <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -180,6 +180,13 @@ const seo: SEOProps = {
                       <span class="text-xs text-gray-400">{count}</span>
                     </a>
                   ))}
+                </div>
+              </div>
+
+              <!-- Country filters -->
+              <div id="country-filter-section" class="hidden">
+                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Country</p>
+                <div id="country-list" class="space-y-1 max-h-40 md:max-h-64 overflow-y-auto pr-1" style="scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.2) transparent;">
                 </div>
               </div>
 
@@ -299,11 +306,18 @@ const seo: SEOProps = {
 <script is:inline>
   const ITEMS_PER_PAGE = 20;
   const originalCards = Array.from(document.querySelectorAll('[data-entry]'));
-  const allItems = originalCards.map(card => ({id:card.id,title:card.dataset.title,category:card.dataset.category,description:card.dataset.search}));
+  const allItems = originalCards.map(card => ({
+    id: card.id,
+    title: card.dataset.title || '',
+    category: card.dataset.category || '',
+    country: card.dataset.country || '',
+    searchText: (card.dataset.search || '').toLowerCase(),
+  }));
   const cardById = new Map(originalCards.map(card => [card.id,card]));
   let filtered = [];
   let currentPage = 1;
   let currentCat = 'all';
+  let currentCountry = '';
   let currentSearch = '';
   let currentSort = 'default';
 
@@ -449,13 +463,82 @@ const seo: SEOProps = {
     if (statLabel) statLabel.textContent = filtered.length === 1 ? 'result' : 'results';
   }
 
+  function itemsForCountryCounts() {
+    return allItems.filter(item => {
+      if (currentCat !== 'all' && item.category !== currentCat) return false;
+      if (currentSearch && !item.searchText.includes(currentSearch)) return false;
+      return true;
+    });
+  }
+
+  function countryBtnClass(active) {
+    return 'country-btn w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-all ' +
+      (active ? 'bg-yellow-400 text-black' : 'text-gray-300 hover:text-white hover:bg-white/10');
+  }
+
+  function allCountryNames() {
+    const names = new Set();
+    for (const item of allItems) {
+      if (item.country) names.add(item.country);
+    }
+    return names;
+  }
+
+  function renderCountryFilter() {
+    const list = document.getElementById('country-list');
+    const section = document.getElementById('country-filter-section');
+    if (!list) return;
+    const base = itemsForCountryCounts();
+    const counts = new Map();
+    for (const item of base) {
+      if (!item.country) continue;
+      counts.set(item.country, (counts.get(item.country) || 0) + 1);
+    }
+    const allNames = allCountryNames();
+    if (allNames.size === 0) {
+      if (section) section.classList.add('hidden');
+      list.innerHTML = '';
+      return;
+    }
+    if (section) section.classList.remove('hidden');
+    const sorted = [...allNames].sort((a, b) => {
+      const diff = (counts.get(b) || 0) - (counts.get(a) || 0);
+      return diff !== 0 ? diff : a.localeCompare(b);
+    });
+    list.innerHTML = '';
+    const allBtn = document.createElement('button');
+    allBtn.type = 'button';
+    allBtn.className = countryBtnClass(!currentCountry);
+    allBtn.dataset.country = '';
+    allBtn.innerHTML = '<span>All countries</span><span class="text-xs opacity-70">' + base.length + '</span>';
+    allBtn.addEventListener('click', () => selectCountry(''));
+    list.appendChild(allBtn);
+    sorted.forEach((country) => {
+      const cnt = counts.get(country) || 0;
+      if (!cnt && country !== currentCountry) return;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      const disabled = cnt === 0 && country !== currentCountry;
+      btn.className = countryBtnClass(currentCountry === country) + (disabled ? ' opacity-50' : '');
+      btn.dataset.country = country;
+      btn.disabled = disabled;
+      btn.innerHTML = '<span>' + esc(country) + '</span><span class="text-xs ' + (currentCountry === country ? 'opacity-70' : 'text-gray-400') + '">' + cnt + '</span>';
+      if (!disabled) btn.addEventListener('click', () => selectCountry(country));
+      list.appendChild(btn);
+    });
+  }
+
+  function selectCountry(country) {
+    currentCountry = country;
+    renderCountryFilter();
+    applyFilters();
+  }
+
   function applyFilters(resetPage) {
     filtered = allItems.filter(item => {
       if (currentCat !== 'all' && item.category !== currentCat) return false;
-      if (currentSearch) {
-        const t = (item.title + ' ' + item.description + ' ' + item.category).toLowerCase();
-        if (!t.includes(currentSearch)) return false;
-      }
+      if (currentCountry && item.country !== currentCountry) return false;
+      if (currentSearch && !item.searchText.includes(currentSearch)) return false;
       return true;
     });
     if (currentSort === 'az') filtered.sort((a, b) => a.title.localeCompare(b.title));
@@ -463,6 +546,7 @@ const seo: SEOProps = {
     if (resetPage !== false) currentPage = 1;
     if (currentPage > pageCount()) currentPage = pageCount();
     renderGrid();
+    renderCountryFilter();
     document.dispatchEvent(new Event('directory:render'));
     syncPageUrl();
     updateActiveFilters();
@@ -494,7 +578,7 @@ const seo: SEOProps = {
     const div = document.getElementById('active-filters');
     const clearBtn = document.getElementById('clear-filters');
     if (!div) return;
-    const has = currentCat !== 'all' || currentSearch !== '';
+    const has = currentCat !== 'all' || currentCountry !== '' || currentSearch !== '';
     div.classList.toggle('hidden', !has);
     div.classList.toggle('flex', has);
     if (clearBtn) clearBtn.classList.toggle('hidden', !has);
@@ -510,6 +594,12 @@ const seo: SEOProps = {
       const tag = document.createElement('span');
       tag.className = 'filter-tag bg-blue-400/20 text-blue-400 px-2.5 py-1 rounded-full text-xs flex items-center gap-1';
       tag.innerHTML = esc(currentCat) + ' <button onclick="clearCat()" aria-label="Remove">&times;</button>';
+      div.appendChild(tag);
+    }
+    if (currentCountry) {
+      const tag = document.createElement('span');
+      tag.className = 'filter-tag bg-blue-600/20 text-blue-300 px-2.5 py-1 rounded-full text-xs flex items-center gap-1';
+      tag.innerHTML = esc(currentCountry) + ' <button onclick="clearCountry()" aria-label="Remove">&times;</button>';
       div.appendChild(tag);
     }
   }
@@ -530,6 +620,7 @@ const seo: SEOProps = {
 
   window.clearSearch = function() { currentSearch=''; const si=document.getElementById('search-input'); if(si)si.value=''; applyFilters(); };
   window.clearCat = function() { selectCat('all'); };
+  window.clearCountry = function() { selectCountry(''); };
   window.shareOnTwitter = function() { window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent("The Nomad Directory - Because Google Doesn't Get Our Lifestyle 🌍") + '&url=' + encodeURIComponent('https://nomad-magazine.com/nomad_directory/') + '&via=NomadMagazine','_blank','width=550,height=420'); };
   window.shareOnLinkedIn = function() { window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent('https://nomad-magazine.com/nomad_directory/'),'_blank','width=550,height=550'); };
   window.copyDirectoryUrl = function(btn) {
@@ -543,7 +634,7 @@ const seo: SEOProps = {
 
   function init() {
     const si = document.getElementById('search-input');
-    if (si) si.addEventListener('input', e => { currentSearch = e.target.value.toLowerCase().trim(); applyFilters(); });
+    if (si) si.addEventListener('input', e => { currentSearch = e.target.value.toLowerCase().trim(); renderCountryFilter(); applyFilters(); });
 
     document.querySelectorAll('.cat-btn').forEach(btn => {
       btn.addEventListener('click', () => selectCat(btn.dataset.cat));
@@ -551,7 +642,7 @@ const seo: SEOProps = {
 
     const clearBtn = document.getElementById('clear-filters');
     if (clearBtn) clearBtn.addEventListener('click', () => {
-      currentSearch=''; currentCat='all';
+      currentSearch=''; currentCat='all'; currentCountry='';
       const si=document.getElementById('search-input'); if(si)si.value='';
       selectCat('all');
     });
@@ -568,7 +659,7 @@ const seo: SEOProps = {
     function revealListing() {
       const index=allItems.findIndex(item => '#'+item.id === location.hash);
       if (index < 0) return;
-      currentSearch='';currentCat='all';currentSort='default';if(si)si.value='';
+      currentSearch='';currentCat='all';currentCountry='';currentSort='default';if(si)si.value='';
       currentPage=Math.floor(index/ITEMS_PER_PAGE)+1;applyFilters(false);
       cardById.get(allItems[index].id).scrollIntoView({block:'start'});
     }
