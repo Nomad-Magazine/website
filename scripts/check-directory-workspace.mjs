@@ -47,6 +47,23 @@ for (const table of ['directory_admins', 'directory_legacy_claims', 'directory_m
 denied(await other.from('directory_legacy_claims').select('*'))
 denied(await anon.rpc('directory_claim_listing', { p_legacy_id: claim }))
 denied(await other.rpc('directory_claim_listing', { p_legacy_id: claim }))
+const autoLegacy = 'workspace-auto-claim-legacy'
+const autoPayload = { ...payload, title: 'Harbor Desk Coliving' }
+ok(await service.from('directory_legacy_claims').upsert({ legacy_id: autoLegacy, contact_email: users.owner.user.email, payload: autoPayload, published: true }))
+const autoRows = ok(await owner.rpc('directory_auto_claim_listings'))
+assert.equal(autoRows.length, 1)
+assert.equal(autoRows[0].title, 'Harbor Desk Coliving')
+assert.equal(ok(await owner.rpc('directory_auto_claim_listings')).length, 0)
+const unconfirmedEmail = `directory-unconfirmed-${crypto.randomUUID().slice(0, 8)}@example.test`
+const unconfirmedUser = ok(await service.auth.admin.createUser({ email: unconfirmedEmail, password, email_confirm: false })).user
+const unconfirmed = make()
+ok(await unconfirmed.auth.signInWithPassword({ email: unconfirmedEmail, password }))
+denied(await unconfirmed.rpc('directory_auto_claim_listings'))
+ok(await service.auth.admin.deleteUser(unconfirmedUser.id))
+const otherLegacy = 'workspace-auto-claim-blocked'
+ok(await service.from('directory_legacy_claims').upsert({ legacy_id: otherLegacy, contact_email: users.owner.user.email, payload: { ...autoPayload, title: 'Blocked Listing' }, published: false }))
+ok(await service.from('directory_managed_listings').insert({ owner_id: users.other.user.id, legacy_id: otherLegacy, draft: autoPayload, status: 'draft' }))
+assert.equal(ok(await owner.rpc('directory_auto_claim_listings')).length, 0)
 const id = ok(await owner.rpc('directory_claim_listing', { p_legacy_id: claim }))
 assert.equal(ok(await owner.rpc('directory_claim_listing', { p_legacy_id: claim })), id)
 assert.equal(ok(await other.from('directory_managed_listings').select('*')).length, 0)
