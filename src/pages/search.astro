@@ -64,21 +64,22 @@ const seo: SEOProps = {
 </style>
 
 <script>
-  import { cleanSearchExcerpt } from '~/utils/clean-search-excerpt'
+  import { cleanSearchExcerptDom } from '~/utils/clean-search-excerpt'
 
   function patchPagefindExcerpts() {
-  document.querySelectorAll('[data-pagefind-ui]').forEach((container) => {
+    document.querySelectorAll('[data-pagefind-ui]').forEach((container) => {
       if (container.getAttribute('data-pagefind-excerpt-patched') === 'true') return
       container.setAttribute('data-pagefind-excerpt-patched', 'true')
-      // PagefindUI is already created by the Search component; observe result updates
-      const observer = new MutationObserver(() => {
-        container.querySelectorAll('.pagefind-ui__result-excerpt').forEach((node) => {
-          const el = node as HTMLElement
-          const cleaned = cleanSearchExcerpt(el.textContent ?? '')
-          if (cleaned && cleaned !== el.textContent?.trim()) el.textContent = cleaned
+      const cleanExcerpts = () => {
+        container.querySelectorAll('.pagefind-ui__result-excerpt:not([data-excerpt-cleaned])').forEach((node) => {
+          if (!(node instanceof HTMLElement)) return
+          cleanSearchExcerptDom(node)
+          node.setAttribute('data-excerpt-cleaned', 'true')
         })
-      })
+      }
+      const observer = new MutationObserver(() => cleanExcerpts())
       observer.observe(container, { childList: true, subtree: true })
+      cleanExcerpts()
     })
   }
 
