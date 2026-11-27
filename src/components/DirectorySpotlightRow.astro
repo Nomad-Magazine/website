@@ -105,7 +105,7 @@ const showSpotlight = listings.length >= 4
         class="group flex w-[min(82vw,17.5rem)] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition-colors hover:border-yellow-400/40 hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:outline-none max-md:last:mr-1 md:w-auto md:min-w-0 md:shrink md:snap-none"
         aria-label="${esc(`${item.title} — ${item.category}`)}">
         <div class="relative aspect-8/5 w-full overflow-hidden bg-black/40">
-          <span class="absolute top-2 left-2 z-10 rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wide uppercase ${labelClass}">${label}</span>
+          <span class="absolute top-2 left-2 z-10 whitespace-nowrap rounded-full px-2 py-0.5 text-[10px] font-bold tracking-tight uppercase ${labelClass}">${label}</span>
           <img
             src="${esc(item.screenshot)}"
             alt="${esc(`Website preview of ${item.title}`)}"

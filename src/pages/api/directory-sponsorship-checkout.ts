@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro'
 import Stripe from 'stripe'
 import { getSecret } from 'astro:env/server'
 import { createSupabaseServerClient } from '~/utils/supabase-server'
-import { SPONSORSHIP_PRODUCT_TYPE } from '~/utils/directory-sponsorship'
+import { hasBlockingSponsorship, SPONSORSHIP_PRODUCT_TYPE } from '~/utils/directory-sponsorship'
 
 export const prerender = false
 
@@ -46,6 +46,24 @@ export const POST: APIRoute = async ({ request, cookies, url }) => {
   if (listingError || !listing || listing.owner_id !== user.id) return json({ error: 'Listing unavailable.' }, 403)
   if (!listing.published || listing.status !== 'approved') return json({ error: 'Only published listings can be sponsored.' }, 400)
 
+  const { data: existingSponsorship } = await supabase
+    .from('directory_sponsorships')
+    .select('status, current_period_end')
+    .eq('listing_id', listingId)
+    .maybeSingle()
+  if (hasBlockingSponsorship(existingSponsorship)) {
+    return json({ error: 'This listing already has an active sponsorship subscription.' }, 409)
+  }
+
+  const { data: priorBilling } = await supabase
+    .from('directory_sponsorships')
+    .select('stripe_customer_id')
+    .eq('user_id', user.id)
+    .not('stripe_customer_id', 'is', null)
+    .order('updated_at', { ascending: false })
+    .limit(1)
+    .maybeSingle()
+
   const stripe = new Stripe(stripeSecretKey, { apiVersion: '2026-02-25.clover' })
   const priceId = plan === 'yearly' ? yearlyPrice : monthlyPrice
   const site = url.origin
@@ -56,6 +74,11 @@ export const POST: APIRoute = async ({ request, cookies, url }) => {
     success_url: `${site}/console/boost/?success=1`,
     cancel_url: `${site}/console/boost/?canceled=1`,
     client_reference_id: listingId,
+    ...(priorBilling?.stripe_customer_id
+      ? { customer: priorBilling.stripe_customer_id }
+      : user.email
+        ? { customer_email: user.email }
+        : {}),
     metadata: {
       product_type: SPONSORSHIP_PRODUCT_TYPE,
       listing_id: listingId,

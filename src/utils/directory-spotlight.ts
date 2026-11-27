@@ -84,19 +84,30 @@ export function selectSpotlightListings(
   max = 4,
   maxSponsored = 2,
 ): SpotlightListing[] {
-  const sponsored = listings.filter((item) => sponsoredIds.has(item.id))
+  const pool =
+    pageType === 'all'
+      ? listings
+      : listings.filter((item) => {
+          if (!sponsoredIds.has(item.id)) return true
+          if (pageType === 'category') return item.category === filterValue
+          if (pageType === 'country') return item.country === filterValue
+          if (pageType === 'continent') return item.continent === filterValue
+          return true
+        })
+
+  const sponsored = pool.filter((item) => sponsoredIds.has(item.id))
   let preferredSponsored = sponsored
   if (pageType === 'category') preferredSponsored = sponsored.filter((item) => item.category === filterValue)
   else if (pageType === 'country') preferredSponsored = sponsored.filter((item) => item.country === filterValue)
   else if (pageType === 'continent') preferredSponsored = sponsored.filter((item) => item.continent === filterValue)
 
-  const pickedSponsored = shuffle(
-    preferredSponsored.length ? preferredSponsored : sponsored,
-  ).slice(0, maxSponsored)
+  const sponsorPool =
+    pageType === 'all' ? (preferredSponsored.length ? preferredSponsored : sponsored) : preferredSponsored
+  const pickedSponsored = shuffle(sponsorPool).slice(0, maxSponsored)
 
   const used = new Set(pickedSponsored.map((item) => item.id))
 
-  let preferred: SpotlightListing[] = listings.filter((item) => !used.has(item.id))
+  let preferred: SpotlightListing[] = pool.filter((item) => !used.has(item.id))
   if (pageType === 'category') preferred = preferred.filter((item) => item.category === filterValue)
   else if (pageType === 'country') preferred = preferred.filter((item) => item.country === filterValue)
   else if (pageType === 'continent') preferred = preferred.filter((item) => item.continent === filterValue)
@@ -108,6 +119,6 @@ export function selectSpotlightListings(
     return [...pickedSponsored, ...freePicked].slice(0, max)
   }
 
-  const fill = shuffle(listings.filter((item) => !used.has(item.id)))
+  const fill = shuffle(pool.filter((item) => !used.has(item.id)))
   return [...pickedSponsored, ...freePicked, ...fill].slice(0, max)
 }

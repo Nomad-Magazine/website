@@ -1,6 +1,6 @@
 import type Stripe from 'stripe'
 import { serviceClient } from './directory-vote-cast'
-import { sponsorshipPlanFromPrice, type SponsorshipPlan } from './directory-sponsorship'
+import { sponsorshipPlanFromPrice, subscriptionPeriodEndUnix, type SponsorshipPlan } from './directory-sponsorship'
 
 export async function upsertDirectorySponsorship(options: {
   listingId: string
@@ -9,8 +9,7 @@ export async function upsertDirectorySponsorship(options: {
   subscription: Stripe.Subscription
   plan: SponsorshipPlan
 }) {
-  const periodUnix = (options.subscription as Stripe.Subscription & { current_period_end?: number }).current_period_end
-  const periodEnd = periodUnix ? new Date(periodUnix * 1000).toISOString() : new Date(0).toISOString()
+  const periodEnd = new Date(subscriptionPeriodEndUnix(options.subscription) * 1000).toISOString()
   const { error } = await serviceClient().from('directory_sponsorships').upsert(
     {
       listing_id: options.listingId,

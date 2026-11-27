@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Capture /nomad_directory/ spotlight with fixture sponsored ids (production preview).
- * Usage: node scripts/capture-sponsorship-spotlight-screenshots.mjs --out=pr-assets/pr-56
+ * Usage: node scripts/capture-sponsorship-spotlight-screenshots.mjs --out=pr-assets/pr-57
  */
 import { createRequire } from 'node:module'
 import { spawn } from 'node:child_process'
@@ -14,7 +14,7 @@ const { chromium } = require('playwright')
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const outArg = process.argv.find((a) => a.startsWith('--out='))
-const outDir = path.resolve(outArg?.slice(6) ?? path.join(root, 'pr-assets/pr-56'))
+const outDir = path.resolve(outArg?.slice(6) ?? path.join(root, 'pr-assets/pr-57'))
 const base = 'http://127.0.0.1:4321'
 const sponsorIds = ['655f3e03b70314e077fe8f5a', '6565f68ed4c2f8e720cdede3']
 
