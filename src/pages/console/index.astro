@@ -8,12 +8,22 @@ import { getDirectoryEntries } from '~/utils/directory'
 const supabase = createSupabaseServerClient(Astro.request, Astro.cookies)
 let listings: WorkspaceListing[] = [],
   posts: WorkspacePost[] = [],
+  autoLinked: { listing_id: string; title: string }[] = [],
   error = ''
 if (Astro.request.method === 'POST') {
   const form = await Astro.request.formData()
   const result = await supabase.rpc('directory_claim_listing', { p_legacy_id: String(form.get('legacy_id') || '') })
   if (result.error) error = workspaceError(result.error)
   else return Astro.redirect(`/console/directory-submission/?id=${result.data}&claimed=1`, 303)
+} else {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (user?.email_confirmed_at) {
+    const auto = await supabase.rpc('directory_auto_claim_listings')
+    if (auto.error) error = error || workspaceError(auto.error)
+    else if (auto.data?.length) autoLinked = auto.data as typeof autoLinked
+  }
 }
 try {
   ;({ listings, posts } = await loadWorkspace(supabase))
@@ -37,6 +47,13 @@ const directory = await getDirectoryEntries()
         {error}
       </p>
     )
+  }
+  {
+    autoLinked.map((row) => (
+      <p role="status" class="notice">
+        We found your listing: {row.title}
+      </p>
+    ))
   }
   <div class="stats">
     <div class="panel"><strong>{listings.length}</strong><span class="muted">Your listings</span></div><div class="panel">
