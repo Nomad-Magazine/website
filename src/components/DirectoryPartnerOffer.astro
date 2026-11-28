@@ -1,0 +1,29 @@
+---
+import type { PartnerOffer } from '~/utils/directory-partnership-validate'
+
+interface Props {
+  offer: PartnerOffer
+}
+
+const { offer } = Astro.props
+---
+
+<section class="mt-6 rounded-2xl border border-yellow-400/30 bg-yellow-400/10 p-5" aria-labelledby="partner-offer-heading">
+  <p id="partner-offer-heading" class="mb-2 text-xs font-bold uppercase text-yellow-400">Affiliate offer</p>
+  <h2 class="text-lg font-bold text-white">{offer.title}</h2>
+  {offer.description && <p class="mt-2 text-sm leading-relaxed text-gray-200">{offer.description}</p>}
+  {offer.code && (
+    <p class="mt-3 text-sm text-gray-300">
+      Promo code: <span class="font-mono font-semibold text-yellow-300">{offer.code}</span>
+    </p>
+  )}
+  <a
+    href={offer.url}
+    target="_blank"
+    rel="sponsored noopener noreferrer"
+    class="mt-4 inline-flex items-center gap-2 rounded-lg bg-yellow-400 px-4 py-2 text-sm font-bold text-black transition-colors hover:bg-yellow-300 focus-visible:ring-2 focus-visible:ring-yellow-400"
+    aria-label={`Open affiliate offer for ${offer.title} (opens in new tab)`}
+  >
+    View offer →
+  </a>
+</section>

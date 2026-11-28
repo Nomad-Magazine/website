@@ -33,6 +33,19 @@
   object-fit: contain;
   filter: invert(1);
 }
+.console-badge {
+  display: inline-flex;
+  min-width: 1.25rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #facc15;
+  color: #18181b;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 2px 6px;
+}
 .console-brand span {
   display: block;
   color: #a1a1aa;
@@ -45,6 +58,10 @@
   gap: 4px;
 }
 .console-sidebar nav a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
   padding: 10px 12px;
   border-radius: 8px;
   color: #d4d4d8;

@@ -28,6 +28,7 @@ const touchup = process.argv.includes('--touchup')
 const indexPath = path.join(root, 'src/pages/console/index.astro')
 const layoutPath = path.join(root, 'src/layouts/console/ConsoleLayout.astro')
 const consoleUiSets = new Set(['listing-cards', 'pr-54'])
+let partnershipOfferMocks = false
 const base = 'http://127.0.0.1:3000'
 const OWNER = '00000000-0000-4000-8000-000000000001'
 const ANON = 'local-test-public-key'
@@ -276,7 +277,56 @@ function createMock() {
         return
       }
       if (url.pathname === '/rest/v1/rpc/directory_public_listings') {
+        if (partnershipOfferMocks) {
+          res.end(
+            JSON.stringify([
+              {
+                id: '655f34669bac86d0f943d777',
+                payload: {
+                  title: 'Harbor Coliving Lisboa',
+                  description: 'Bright rooms and shared workspace for remote workers exploring Portugal.',
+                  website: 'https://example.com/harbor-coliving/',
+                  category: 'Coliving',
+                  location: 'Lisboa, Portugal',
+                  special_offer: '10% off the first month',
+                  partner_offer_title: 'Nomad welcome rate',
+                  partner_offer_description: 'Partners earn referral credit on every booking.',
+                  partner_offer_url: 'https://example.com/harbor-partner/',
+                  partner_offer_code: 'HARBOR10',
+                  image: '/images/directory-logos/655f34669bac86d0f943d777.webp',
+                },
+              },
+            ]),
+          )
+          return
+        }
         res.end('[]')
+        return
+      }
+      if (partnershipOfferMocks && url.pathname === '/rest/v1/rpc/directory_owner_partnership_requests') {
+        res.end(
+          JSON.stringify([
+            {
+              id: '30000000-0000-4000-8000-000000000001',
+              listing_id: '10000000-0000-4000-8000-000000000001',
+              public_listing_id: '655f34669bac86d0f943d777',
+              listing_title: 'Harbor Coliving Lisboa',
+              requester_name: 'Maya Chen',
+              requester_email: 'maya@example.com',
+              requester_company: 'Remote Weekends',
+              message: 'We run coliving retreats and would love to cross-promote.',
+              status: 'new',
+              owner_reply: '',
+              read_at: null,
+              created_at: '2026-11-26T14:00:00Z',
+              updated_at: '2026-11-26T14:00:00Z',
+            },
+          ]),
+        )
+        return
+      }
+      if (partnershipOfferMocks && url.pathname === '/rest/v1/rpc/directory_owner_partnership_unread_count') {
+        res.end('1')
         return
       }
       if (url.pathname === '/rest/v1/rpc/directory_award_vote_spike_flags') {
@@ -371,6 +421,7 @@ try {
     await writeFile(consoleCss, execFileSync('git', ['show', 'origin/main:src/styles/console.css'], { cwd: root, encoding: 'utf8' }))
   }
 
+  if (captureSet === 'partnership-offers') partnershipOfferMocks = true
   mock = createMock()
   await new Promise((resolve) => mock.listen(0, '127.0.0.1', resolve))
   const mockPort = mock.address().port
@@ -440,6 +491,14 @@ try {
       files.push(await capture(page, 'listings-more-open', '/console/', 1280, 1000, { fixture: 'multi', openMore: true, admin: false }))
       files.push(await capture(page, 'listings-more-open-mobile', '/console/', 390, 1200, { fixture: 'multi', openMore: true, admin: false }))
     }
+  } else if (captureSet === 'partnership-offers') {
+    const partnershipListingUuid = '10000000-0000-4000-8000-000000000001'
+    files.push(
+      await capture(page, 'console-offer-editor', `/console/directory-submission/?id=${partnershipListingUuid}`, 1280, 1400),
+      await capture(page, 'console-offer-editor-mobile', `/console/directory-submission/?id=${partnershipListingUuid}`, 390, 1600),
+      await capture(page, 'console-partnership-inbox', '/console/partnerships/', 1280, 1200),
+      await capture(page, 'console-partnership-inbox-mobile', '/console/partnerships/', 390, 1400),
+    )
   } else {
     for (const [name, route] of routes) {
       files.push(await capture(page, name, route, 1280, 1000))

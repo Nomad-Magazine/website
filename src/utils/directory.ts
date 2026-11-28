@@ -1,4 +1,5 @@
 import { readPublicDirectory, directoryImageUrl } from './directory-public'
+import { partnerOfferFromPayload, type PartnerOffer } from './directory-partnership-validate'
 import type { ListingPayload } from './directory-workspace'
 import { fetchReportRecords } from './smartsuite'
 import { directoryLogoUrlOverrides } from '../const/nomadDirectoryWhiteLogos'
@@ -14,10 +15,12 @@ export interface DirectoryEntry {
   category: string
   description: string
   offer: string
+  partnerOffer: PartnerOffer | null
   website: string
   image: string
   location: string
   country: string
+  managedPublished: boolean
 }
 
 function websiteUrl(value: string): string {
@@ -50,6 +53,8 @@ export async function getPublishedDirectoryRecords() {
       sed1a49986: payload.location,
       image: directoryImageUrl(payload.image),
       managedImage: true,
+      managedPublished: true,
+      partnerOfferPayload: payload,
     }
     if (index >= 0) merged[index] = record
     else merged.unshift(record)
@@ -67,16 +72,21 @@ export function getDirectoryEntriesFromRecords(records: any[]): DirectoryEntry[]
     .map((record) => {
       const localLogo = `/images/directory-logos/${record.id}.webp`
       const location = String(record.sed1a49986 || '')
+      const partnerOffer = record.partnerOfferPayload
+        ? partnerOfferFromPayload(record.partnerOfferPayload as Record<string, string>)
+        : null
       return {
         id: String(record.id),
         title: String(record.title),
         category: String(record.sb685ab800?.label || 'Other'),
         description: String(record.scea90e502 || ''),
         offer: String(record.s5576966ee || ''),
+        partnerOffer,
         website: websiteUrl(record.link || record.sb788c266b?.[0] || ''),
         image: record.managedImage ? record.image : directoryLogoUrlOverrides[record.title] || (localLogos.has(`${record.id}.webp`) ? localLogo : ''),
         location,
         country: extractCountry(location),
+        managedPublished: Boolean(record.managedPublished),
       }
     })
 }

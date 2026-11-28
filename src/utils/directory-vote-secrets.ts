@@ -17,3 +17,7 @@ export function requireWorkerSecret(name: 'TURNSTILE_SECRET_KEY' | 'DIRECTORY_IP
 export function workerVoteLimiter(): VoteLimiter | undefined {
   return (env as unknown as { DIRECTORY_VOTE_LIMITER?: VoteLimiter }).DIRECTORY_VOTE_LIMITER
 }
+
+export function workerPartnershipLimiter(): VoteLimiter | undefined {
+  return (env as unknown as { DIRECTORY_PARTNERSHIP_LIMITER?: VoteLimiter }).DIRECTORY_PARTNERSHIP_LIMITER
+}
