@@ -50,6 +50,54 @@ const fixtureListing = {
   created_at: '2026-10-01T10:00:00Z',
 }
 
+const fixturePosts = [
+  {
+    id: '20000000-0000-4000-8000-000000000001',
+    owner_id: OWNER,
+    listing_id: listingUuid,
+    kind: 'update',
+    draft: { title: 'Winter rooftop dinners', body: 'Join weekly dinners.', url: 'https://example.com/events/' },
+    published: { title: 'Autumn open mic nights', body: 'Live music every Thursday.', url: 'https://example.com/music/' },
+    status: 'approved',
+    review_notes: '',
+    version: 2,
+    updated_at: '2026-11-10T10:00:00Z',
+    created_at: '2026-10-15T10:00:00Z',
+  },
+]
+
+const fixtureUser = {
+  id: OWNER,
+  email: 'owner@example.com',
+  aud: 'authenticated',
+  role: 'authenticated',
+  email_confirmed_at: new Date().toISOString(),
+  app_metadata: {},
+  user_metadata: {},
+  created_at: new Date().toISOString(),
+}
+
+const TURNSTILE_CAPTURE_SITEKEY = '1x00000000000000000000AA'
+
+function sessionToken() {
+  const now = Math.floor(Date.now() / 1000)
+  return [
+    Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64url'),
+    Buffer.from(JSON.stringify({ sub: OWNER, aud: 'authenticated', role: 'authenticated', iat: now, exp: now + 7200 })).toString('base64url'),
+    Buffer.from('local-fixture-signature').toString('base64url'),
+  ].join('.')
+}
+
+function filterRows(rows, search) {
+  for (const [key, op] of search) {
+    if (key === 'order') continue
+    if (key === 'select') continue
+    const m = op.match(/^eq\.(.+)$/)
+    if (m) return rows.filter((row) => String(row[key]) === m[1])
+  }
+  return rows
+}
+
 let mockIsAdmin = false
 let partnershipExtras = false
 
@@ -67,15 +115,30 @@ function createMock() {
       return
     }
     if (url.pathname === '/auth/v1/token') {
-      res.end(JSON.stringify({ access_token: 't', refresh_token: 'r', expires_in: 7200, token_type: 'bearer', user: { id: OWNER, email: 'owner@example.com' } }))
+      const token = sessionToken()
+      res.end(
+        JSON.stringify({
+          access_token: token,
+          refresh_token: 'local-refresh',
+          expires_in: 7200,
+          token_type: 'bearer',
+          user: fixtureUser,
+        }),
+      )
       return
     }
     if (url.pathname === '/auth/v1/user') {
-      res.end(JSON.stringify({ id: OWNER, email: 'owner@example.com' }))
+      res.end(JSON.stringify(fixtureUser))
       return
     }
     if (url.pathname === '/rest/v1/directory_managed_listings') {
-      res.end(JSON.stringify([fixtureListing]))
+      const rows = filterRows([fixtureListing], url.searchParams)
+      res.end(JSON.stringify(rows))
+      return
+    }
+    if (url.pathname === '/rest/v1/directory_owner_posts') {
+      const rows = filterRows(fixturePosts, url.searchParams)
+      res.end(JSON.stringify(rows))
       return
     }
     if (url.pathname === '/rest/v1/rpc/directory_is_admin') {
@@ -110,6 +173,10 @@ function createMock() {
       res.end('1')
       return
     }
+    if (url.pathname === '/rest/v1/rpc/directory_award_vote_spike_flags') {
+      res.end('[]')
+      return
+    }
     if (url.pathname.startsWith('/rest/v1/rpc/')) {
       res.end('[]')
       return
@@ -117,6 +184,44 @@ function createMock() {
     res.statusCode = 404
     res.end('{}')
   })
+}
+
+async function shotConsoleOfferEditor(page, name, width, height) {
+  const route = `/console/directory-submission/?id=${listingUuid}`
+  await page.setViewportSize({ width, height })
+  const response = await page.goto(`${base}${route}`, { waitUntil: 'domcontentloaded', timeout: 120000 })
+  if (!response || response.status() >= 400) throw new Error(`${route} → ${response?.status()}`)
+  await hideToolbar(page)
+  await page.locator('#partner-offer-title').waitFor({ state: 'visible', timeout: 90000 })
+  await page.waitForFunction(() => {
+    const el = document.querySelector('#partner-offer-title')
+    return el instanceof HTMLInputElement && el.value.trim().length > 0
+  }, undefined, { timeout: 90000 })
+  const file = path.join(outDir, name)
+  await page.locator('section.panel').filter({ has: page.locator('#partner-offer-title') }).first().screenshot({ path: file })
+  return file
+}
+
+async function capturePartnershipDialog(page) {
+  await page.goto(`${base}/nomad_directory/l/${listingId}/`, { waitUntil: 'domcontentloaded', timeout: 120000 })
+  await hideToolbar(page)
+  await page.click('[data-partnership-open]')
+  await page.waitForSelector('.partnership-dialog[open]', { timeout: 10000 })
+  await page.evaluate((testKey) => {
+    const mount = document.querySelector('.partnership-dialog[open] .cf-turnstile')
+    if (!mount || !window.turnstile) return
+    mount.innerHTML = ''
+    mount.setAttribute('data-sitekey', testKey)
+    window.turnstile.render(mount, { sitekey: testKey, theme: 'dark' })
+  }, TURNSTILE_CAPTURE_SITEKEY)
+  await page.waitForSelector('.partnership-dialog[open] input[name="cf-turnstile-response"]', { state: 'attached', timeout: 15000 })
+  await page.waitForFunction(() => {
+    const input = document.querySelector('.partnership-dialog[open] input[name="cf-turnstile-response"]')
+    return input instanceof HTMLInputElement && input.value.length > 0
+  }, { timeout: 15000 })
+  const file = path.join(outDir, 'after-listing-partnership-form-1280.png')
+  await page.locator('.partnership-dialog[open]').screenshot({ path: file })
+  return file
 }
 
 async function waitForServer(url, attempts = 120) {
@@ -164,7 +269,8 @@ async function login(context) {
     maxRedirects: 0,
   })
   if (response.status() >= 400) throw new Error(`Login failed: ${response.status()}`)
-  await context.request.get(`${base}/auth/callback/?code=fixture-console-capture`, { maxRedirects: 0 })
+  const callback = await context.request.get(`${base}/auth/callback/?code=fixture-console-capture`, { maxRedirects: 0 })
+  if (callback.status() !== 302) throw new Error(`Callback failed: ${callback.status()}`)
 }
 
 async function buildAndPreview(mockPort) {
@@ -212,7 +318,7 @@ try {
   const page = await context.newPage()
   const sampleCard = '#listing-6b098148150e7b2f4c791752'
   files.push(await shotLocator(page, 'before-directory-main-1280.png', `/nomad_directory/#${sampleCard.slice(1)}`, 1280, 900, sampleCard))
-  files.push(await shotLocator(page, 'before-directory-coliving-390.png', '/nomad_directory/esim/', 390, 900, sampleCard))
+  files.push(await shotLocator(page, 'before-directory-esim-390.png', '/nomad_directory/esim/', 390, 900, sampleCard))
   await browser.close()
   preview.kill('SIGTERM')
 
@@ -222,22 +328,15 @@ try {
   const ctx2 = await browser2.newContext()
   const page2 = await ctx2.newPage()
   files.push(await shotLocator(page2, 'after-directory-main-1280.png', `/nomad_directory/#${sampleCard.slice(1)}`, 1280, 900, sampleCard))
-  files.push(await shotLocator(page2, 'after-directory-coliving-390.png', '/nomad_directory/esim/', 390, 900, sampleCard))
+  files.push(await shotLocator(page2, 'after-directory-esim-390.png', '/nomad_directory/esim/', 390, 900, sampleCard))
   files.push(await shotLocator(page2, 'after-listing-detail-1280.png', `/nomad_directory/l/${listingId}/`, 1280, 900, '#listing-detail-panel'))
   files.push(await shotLocator(page2, 'after-listing-detail-390.png', `/nomad_directory/l/${listingId}/`, 390, 1200, '#listing-detail-panel'))
-  await page2.goto(`${base}/nomad_directory/l/${listingId}/`, { waitUntil: 'domcontentloaded', timeout: 120000 })
-  await hideToolbar(page2)
-  await page2.click('[data-partnership-open]')
-  await page2.waitForSelector('.partnership-dialog[open]', { timeout: 10000 })
-  await new Promise((r) => setTimeout(r, 5000))
-  const formPath = path.join(outDir, 'after-listing-partnership-form-1280.png')
-  await page2.locator('.partnership-dialog[open]').screenshot({ path: formPath })
-  files.push(formPath)
+  files.push(await capturePartnershipDialog(page2))
 
   await login(ctx2)
   const page3 = await ctx2.newPage()
-  files.push(await shotViewport(page3, 'after-console-offer-editor-1280.png', `/console/directory-submission/?id=${listingUuid}`, 1280, 1400))
-  files.push(await shotViewport(page3, 'after-console-offer-editor-390.png', `/console/directory-submission/?id=${listingUuid}`, 390, 1600))
+  files.push(await shotConsoleOfferEditor(page3, 'after-console-offer-editor-1280.png', 1280, 1400))
+  files.push(await shotConsoleOfferEditor(page3, 'after-console-offer-editor-390.png', 390, 1600))
   files.push(await shotViewport(page3, 'after-console-partnership-inbox-1280.png', '/console/partnerships/', 1280, 1200))
   files.push(await shotViewport(page3, 'after-console-partnership-inbox-390.png', '/console/partnerships/', 390, 1400))
   await browser2.close()
